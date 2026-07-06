@@ -38,8 +38,9 @@ These are non-negotiable and enforced in CI where noted.
 ## 1. The IR (intermediate representation)
 
 The generator's IR extractor reads the committed `openapi.json` (schemas, operationId,
-name, description, pricing ceiling) and, when run live, the `/v1/apis` catalog (per-item
-pricing detail). It emits a single `ir.json` file: a deterministic, sorted array of SKU
+name, description, pricing ceiling) and the committed `catalog.json` (a snapshot of the
+PUBLIC, no-auth `GET /catalog` endpoint: category, per-item pricing detail). The fetch
+step refreshes both snapshots together. It emits a single `ir.json` file: a deterministic, sorted array of SKU
 entries plus a version/meta header. The emitters (TS and Python) read ONLY `ir.json` -
 never `openapi.json` directly.
 
@@ -104,10 +105,12 @@ Notes:
 - `priceUsd` is derived from `openapi.json` `x-payment-info.price`:
   fixed mode -> `Number(price.amount)`; dynamic mode -> `Number(price.max)`.
 - `baseUsd`: dynamic mode -> `Number(price.min)`; fixed mode -> `null`.
-- `perItemUsd` / `perItemUnit` come from the live catalog (`/v1/apis`
-  `perItemCredits * 0.00001`, `perItemUnit`). In snapshot-only extraction they are `null`.
-  Emitters MUST tolerate `null` (fall back to "result" for the unit, and omit the
-  per-item clause from the doc comment).
+- `perItemUsd` / `perItemUnit` and `category` come from the committed `catalog.json`
+  snapshot (public `GET /catalog`: `perItemCredits * 0.00001`, `perItemUnit`, `category`
+  per slug). The conversion happens INSIDE the extractor; the credits value never reaches
+  the IR or any emitted file. When a slug is missing from `catalog.json` they are `null`
+  (category "") and emitters MUST tolerate that (fall back to "result" for the unit, and
+  omit the per-item clause from the doc comment).
 - `outputTypeName` names the type of the `data` payload (the non-null branch). The full
   envelope type is `Output<AmazonReviewsData>` in TS.
 
@@ -336,6 +339,8 @@ export interface RunResult<T> {
   costUsd: number;
   /** Number of result rows returned (present on per-result SKUs). */
   items?: number;
+  /** Optional server nudge when a large result was returned untrimmed. */
+  hint?: string;
 }
 
 /** Discriminated union on `found`. When found is false, data is null. */
