@@ -12,7 +12,7 @@ from typing import Any
 import httpx
 from pydantic import BaseModel, ConfigDict
 
-from anyapi import RunResult, unwrap
+from getanyapi import RunResult, unwrap
 from conftest import json_response, make_sync_client, run_envelope
 
 

@@ -91,7 +91,7 @@ jobs:
           git config user.email "support@getanyapi.com"
           # Stage the refreshed snapshots, regenerated tree, and both bumped manifests.
           git add openapi.json catalog.json generator/ir.json generator/fixtures.json \
-            packages/typescript/src/generated packages/python/src/anyapi/platforms \
+            packages/typescript/src/generated packages/python/src/getanyapi/platforms \
             packages/typescript/package.json packages/python/pyproject.toml
           if git diff --cached --quiet; then
             echo "Classifier reported a bump but the tree is clean; aborting (no-op guard)."

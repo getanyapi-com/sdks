@@ -2,11 +2,11 @@
 
 Generated per-platform namespaces attach lazily. On first access,
 ``__getattr__(name)`` looks the name up in the generated registry
-``anyapi.platforms.REGISTRY`` and imports the platform module, instantiating its
+``getanyapi.platforms.REGISTRY`` and imports the platform module, instantiating its
 sync ``Namespace`` class bound to this client.
 
 Namespace-attachment contract (target for the py-emitter):
-    ``anyapi.platforms.__init__`` exposes a module-level dict named ``REGISTRY``
+    ``getanyapi.platforms.__init__`` exposes a module-level dict named ``REGISTRY``
     mapping the client attribute name (the snake_case platform, e.g. "amazon")
     to a 3-tuple ``(module_suffix, sync_class_name, async_class_name)``:
 
@@ -15,12 +15,12 @@ Namespace-attachment contract (target for the py-emitter):
             ...
         }
 
-    Each generated module ``anyapi.platforms.<module_suffix>`` defines both the
+    Each generated module ``getanyapi.platforms.<module_suffix>`` defines both the
     sync class ``<sync_class_name>`` and the async class ``<async_class_name>``.
     Each namespace class has ``__init__(self, client)`` storing the client, and
     per-SKU methods that call ``client._run(slug, input, options)`` (sync) or
     ``client._arun(...)`` (async), plus ``iter_*`` methods returning a
-    ``Paginator``/``AsyncPaginator`` via ``anyapi._pagination.paginate`` /
+    ``Paginator``/``AsyncPaginator`` via ``getanyapi._pagination.paginate`` /
     ``apaginate``. The sync client instantiates the sync class; the async client
     instantiates the async class. Both look the attribute up by the SAME key in
     the SAME registry, so one generated table drives both clients.
@@ -61,7 +61,7 @@ _DEFAULT_BASE_URL = "https://api.getanyapi.com"
 def lookup_namespace(name: str) -> tuple[str, str, str] | None:
     """Look ``name`` up in the generated platform registry (typed accessor)."""
     try:
-        module = importlib.import_module("anyapi.platforms")
+        module = importlib.import_module("getanyapi.platforms")
     except ImportError:
         return None
     registry: dict[str, tuple[str, str, str]] = getattr(module, "REGISTRY", {})
@@ -115,7 +115,7 @@ class AnyAPI:
         if entry is None:
             raise AttributeError(name)
         module_suffix, sync_class, _async_class = entry
-        module = importlib.import_module(f"anyapi.platforms.{module_suffix}")
+        module = importlib.import_module(f"getanyapi.platforms.{module_suffix}")
         namespace = getattr(module, sync_class)(self)
         if cache is not None:
             cache[name] = namespace

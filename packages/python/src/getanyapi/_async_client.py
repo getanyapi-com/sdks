@@ -1,8 +1,8 @@
 """Async AsyncAnyAPI client (SPEC 3.1).
 
-Mirrors :class:`anyapi.AnyAPI` with ``async def`` methods, ``aclose``, and an
+Mirrors :class:`getanyapi.AnyAPI` with ``async def`` methods, ``aclose``, and an
 async context manager. Generated async namespaces attach lazily via
-``__getattr__`` using the same ``anyapi.platforms.REGISTRY`` table as the sync
+``__getattr__`` using the same ``getanyapi.platforms.REGISTRY`` table as the sync
 client (see ``_client`` module docstring for the full contract); the async
 client instantiates the registry's async class.
 """
@@ -80,7 +80,7 @@ class AsyncAnyAPI:
         if entry is None:
             raise AttributeError(name)
         module_suffix, _sync_class, async_class = entry
-        module = importlib.import_module(f"anyapi.platforms.{module_suffix}")
+        module = importlib.import_module(f"getanyapi.platforms.{module_suffix}")
         namespace = getattr(module, async_class)(self)
         if cache is not None:
             cache[name] = namespace

@@ -1,4 +1,4 @@
-"""Public data models and typed dicts for the anyapi SDK (SPEC 3.3, 3.7).
+"""Public data models and typed dicts for the getanyapi SDK (SPEC 3.3, 3.7).
 
 Output models use pydantic v2. The run envelope is discriminated on ``found``:
 ``OutputFound[T]`` carries the data payload, ``OutputNotFound`` carries None.
@@ -155,7 +155,7 @@ class RequestOptions(TypedDict, total=False):
 
 
 class AgentSignupResult(BaseModel):
-    """Result of :func:`anyapi.agent_signup` (SPEC 3.7)."""
+    """Result of :func:`getanyapi.agent_signup` (SPEC 3.7)."""
 
     model_config = ConfigDict(populate_by_name=True)
 

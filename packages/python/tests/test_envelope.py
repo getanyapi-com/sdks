@@ -6,8 +6,8 @@ from typing import Any
 
 import pytest
 
-from anyapi import NotFoundError, RunResult, unwrap
-from anyapi.types import OutputFound, OutputNotFound
+from getanyapi import NotFoundError, RunResult, unwrap
+from getanyapi.types import OutputFound, OutputNotFound
 
 
 def test_found_envelope_parses_with_alias_and_extra() -> None:

@@ -1,7 +1,7 @@
 // AnyAPI SDK - Python emitter (py-emitter agent).
 //
 // Reads ir.json-shaped data (see ir.schema.json / ir.sample.json, SPEC.md section 1)
-// and emits Python source into packages/python/src/anyapi/platforms/.
+// and emits Python source into packages/python/src/getanyapi/platforms/.
 //
 // Public entry point: emitPython(ir, outDir) -> FileMap ({ relativePath: content }).
 // Shared helpers are self-contained in this file (no imports from emit-ts.ts).
@@ -688,7 +688,7 @@ function emitRegistry(platformNames: string[], byPlatform: Map<string, SkuEntry[
   lines.push("");
   lines.push("Maps a client attribute name to (module name, sync class, async class). The");
   lines.push("sync/async clients read this via __getattr__ to attach namespaces on first use,");
-  lines.push("so `import anyapi` stays fast (SPEC 3.1).");
+  lines.push("so `import getanyapi` stays fast (SPEC 3.1).");
   lines.push('"""');
   lines.push("");
   lines.push("from __future__ import annotations");

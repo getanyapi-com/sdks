@@ -6,7 +6,7 @@ pay per request in real US dollars.
 
 - **TypeScript:** [`@getanyapi/sdk`](packages/typescript) (npm) - zero runtime deps, ESM + CJS,
   Node 18+ and edge runtimes.
-- **Python:** [`anyapi`](packages/python) (PyPI) - httpx + pydantic v2, Python 3.10+, sync
+- **Python:** [`getanyapi`](packages/python) (PyPI) - httpx + pydantic v2, Python 3.10+, sync
   and async clients.
 
 Both packages are generated from the platform's own `/openapi.json` (222 SKUs), so they
@@ -27,7 +27,7 @@ if (res.output.found) console.log(res.output.data, res.costUsd);
 Python:
 
 ```python
-from anyapi import AnyAPI
+from getanyapi import AnyAPI
 
 client = AnyAPI()  # reads ANYAPI_API_KEY from the environment
 res = client.google.search(query="best coffee maker")
@@ -72,8 +72,8 @@ detail. The essentials:
   the two generated SDK trees. `ir.json` and `fixtures.json` are committed.
 - `packages/typescript/` - the `@getanyapi/sdk` package. Handwritten runtime in `src/core/`;
   emitted namespaces, sku-map, and client in `src/generated/`.
-- `packages/python/` - the `anyapi` package. Handwritten runtime in `src/anyapi/` (`_*.py`
-  + `types.py`); emitted namespaces in `src/anyapi/platforms/`.
+- `packages/python/` - the `getanyapi` package. Handwritten runtime in `src/getanyapi/` (`_*.py`
+  + `types.py`); emitted namespaces in `src/getanyapi/platforms/`.
 
 ## How generation works
 
@@ -130,7 +130,7 @@ Releases are automated from the live catalog. Two workflows drive it:
 - `.github/workflows/release.yml` (publish) runs on a `v*` tag push and on manual dispatch
   (`tag` input). `verify` re-runs the full gate suite and asserts the tag matches both
   manifests; then `publish-npm` publishes `@getanyapi/sdk` with `--provenance`, `publish-pypi`
-  publishes `anyapi` via PyPI trusted publishing (OIDC, `pypi` environment), and
+  publishes `getanyapi` via PyPI trusted publishing (OIDC, `pypi` environment), and
   `github-release` cuts the Release.
 
 ### Cutting the first release (manual v0.1.0)
@@ -156,7 +156,7 @@ configured, `publish-pypi` fails with a clear "trusted publisher not configured"
 - For a project that does not exist yet, add a **pending publisher** at
   <https://pypi.org/manage/account/publishing/>; for an existing project use its
   Settings -> Publishing page. Fill in:
-  - PyPI Project Name: `anyapi`
+  - PyPI Project Name: `getanyapi`
   - Owner: `getanyapi-com`
   - Repository name: `sdks`
   - Workflow name: `release.yml`

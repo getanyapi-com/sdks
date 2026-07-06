@@ -34,10 +34,10 @@ type Command = "fetch" | "ir" | "fixtures" | "emit-ts" | "emit-py" | "all";
 // The two committed generated trees. The emitters return FileMaps rooted at these dirs;
 // the CLI writes them here and prunes any stale file under them not in the fresh FileMap.
 const TS_OUT_ROOT = join(repoRoot, "packages/typescript/src/generated");
-const PY_OUT_ROOT = join(repoRoot, "packages/python/src/anyapi");
+const PY_OUT_ROOT = join(repoRoot, "packages/python/src/getanyapi");
 
 // TS generated subtree = everything under generated/. Python = platforms/ only (the rest
-// of src/anyapi is handwritten runtime).
+// of src/getanyapi is handwritten runtime).
 const TS_SUBDIRS = ["."];
 const PY_SUBDIRS = ["platforms"];
 

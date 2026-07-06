@@ -1,17 +1,17 @@
-# anyapi
+# getanyapi
 
 Official typed Python SDK for [AnyAPI](https://getanyapi.com): any API, one wallet, USD, no
 subscriptions. Reach hundreds of scraping and data APIs through one interface and one key; pay
 per request in real US dollars. httpx + pydantic v2, Python 3.10+, sync and async clients.
 
 ```bash
-pip install anyapi
+pip install getanyapi
 ```
 
 ## Quickstart
 
 ```python
-from anyapi import AnyAPI
+from getanyapi import AnyAPI
 
 client = AnyAPI()  # reads ANYAPI_API_KEY from the environment
 res = client.reddit.search(query="mechanical keyboard")
@@ -23,7 +23,7 @@ print("charged", res.cost_usd, "USD")
 Async:
 
 ```python
-from anyapi import AsyncAnyAPI
+from getanyapi import AsyncAnyAPI
 
 async with AsyncAnyAPI() as client:
     res = await client.google.search(query="best coffee maker")
@@ -43,7 +43,7 @@ A successful call always returns. For most SKUs the payload is wrapped in a `fou
 `unwrap` to get the data or raise `ResultNotFoundError` when empty:
 
 ```python
-from anyapi import unwrap, ResultNotFoundError
+from getanyapi import unwrap, ResultNotFoundError
 
 res = client.amazon.reviews(product="B07FZ8S74R")
 try:
@@ -108,7 +108,7 @@ failures, with jittered exponential backoff honoring `Retry-After`. Default `max
 Bootstrap a key with no account (for autonomous agents):
 
 ```python
-from anyapi import agent_signup, AnyAPI
+from getanyapi import agent_signup, AnyAPI
 
 result = agent_signup(label="my-agent")
 client = AnyAPI(api_key=result.secret)

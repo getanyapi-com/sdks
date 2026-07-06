@@ -1,4 +1,4 @@
-"""Shared test fixtures and a mock-transport harness for the anyapi SDK.
+"""Shared test fixtures and a mock-transport harness for the getanyapi SDK.
 
 Every test injects an ``httpx.MockTransport`` via ``http_client=`` so no real
 network call happens. ``Recorder`` captures the requests the client made so
@@ -36,7 +36,7 @@ def make_sync_client(
     responder: Callable[[httpx.Request], httpx.Response],
     **kwargs: Any,
 ) -> tuple[Any, Recorder]:
-    from anyapi import AnyAPI
+    from getanyapi import AnyAPI
 
     recorder = Recorder(responder)
     transport = httpx.MockTransport(recorder)
@@ -52,7 +52,7 @@ def make_async_client(
     responder: Callable[[httpx.Request], httpx.Response],
     **kwargs: Any,
 ) -> tuple[Any, Recorder]:
-    from anyapi import AsyncAnyAPI
+    from getanyapi import AsyncAnyAPI
 
     recorder = Recorder(responder)
     transport = httpx.MockTransport(recorder)

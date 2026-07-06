@@ -3,7 +3,7 @@
 
 Maps a client attribute name to (module name, sync class, async class). The
 sync/async clients read this via __getattr__ to attach namespaces on first use,
-so `import anyapi` stays fast (SPEC 3.1).
+so `import getanyapi` stays fast (SPEC 3.1).
 """
 
 from __future__ import annotations

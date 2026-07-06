@@ -359,8 +359,8 @@ describe("Python syntax smoke (py_compile)", () => {
       return;
     }
     const files = emitDeterministic(SAMPLE_IR);
-    const dir = mkdtempSync(join(tmpdir(), "anyapi-pyc-"));
-    const pkg = join(dir, "anyapi");
+    const dir = mkdtempSync(join(tmpdir(), "getanyapi-pyc-"));
+    const pkg = join(dir, "getanyapi");
     mkdirSync(join(pkg, "platforms"), { recursive: true });
     // Stub the handwritten runtime modules the generated code imports so relative
     // imports resolve (we only prove SYNTAX + import resolution, not runtime behavior).

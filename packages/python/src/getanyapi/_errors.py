@@ -1,4 +1,4 @@
-"""Error hierarchy for the anyapi SDK (SPEC 3.6).
+"""Error hierarchy for the getanyapi SDK (SPEC 3.6).
 
 Every failed call raises a subclass of :class:`AnyAPIError`. The HTTP status to
 class mapping is frozen:
@@ -66,7 +66,7 @@ class NotFoundError(AnyAPIError):
 
 
 class ResultNotFoundError(NotFoundError):
-    """Raised by :func:`anyapi.unwrap` when a found-data result had ``found: false``.
+    """Raised by :func:`getanyapi.unwrap` when a found-data result had ``found: false``.
 
     A subclass of :class:`NotFoundError` so ``except NotFoundError`` still catches
     it; catch ``ResultNotFoundError`` specifically to handle only empty results

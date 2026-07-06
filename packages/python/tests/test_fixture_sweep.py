@@ -12,7 +12,7 @@ import httpx
 import pytest
 from pydantic import BaseModel
 
-from anyapi import NotFoundError, RunResult
+from getanyapi import NotFoundError, RunResult
 from conftest import json_response, make_async_client, make_sync_client
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]

@@ -7,7 +7,7 @@ import json
 import httpx
 import pytest
 
-from anyapi import NotFoundError, agent_signup
+from getanyapi import NotFoundError, agent_signup
 from conftest import json_response, make_async_client, make_sync_client
 
 
@@ -108,7 +108,7 @@ def test_agent_signup_maps_result(monkeypatch: pytest.MonkeyPatch) -> None:
         )
 
     transport = httpx.MockTransport(handler)
-    import anyapi._client as client_mod
+    import getanyapi._client as client_mod
 
     real_client = httpx.Client
 

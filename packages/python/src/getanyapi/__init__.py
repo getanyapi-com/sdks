@@ -1,7 +1,7 @@
-"""anyapi - official typed Python SDK for AnyAPI.
+"""getanyapi - official typed Python SDK for AnyAPI.
 
-    from anyapi import AnyAPI, AsyncAnyAPI, agent_signup, unwrap
-    from anyapi import AnyAPIError, NotFoundError, RateLimitedError  # etc.
+    from getanyapi import AnyAPI, AsyncAnyAPI, agent_signup, unwrap
+    from getanyapi import AnyAPIError, NotFoundError, RateLimitedError  # etc.
 
 Sync and async clients share generated per-platform namespaces (attached lazily)
 through a single transport seam. Output models are pydantic v2; open provider

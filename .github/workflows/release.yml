@@ -1,6 +1,6 @@
 name: release
 
-# Publish @getanyapi/sdk (npm) and anyapi (PyPI) for a version tag.
+# Publish @getanyapi/sdk (npm) and getanyapi (PyPI) for a version tag.
 #
 # Triggers:
 #   - push tag v*: a human-pushed tag (the first manual v0.1.0), or any future manual tag.
@@ -123,7 +123,7 @@ jobs:
         run: npm publish --access public --provenance
 
   publish-pypi:
-    name: publish anyapi (PyPI, trusted publishing)
+    name: publish getanyapi (PyPI, trusted publishing)
     needs: verify
     runs-on: ubuntu-latest
     environment: pypi

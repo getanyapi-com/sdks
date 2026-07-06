@@ -7,7 +7,7 @@ import json
 import httpx
 import pytest
 
-from anyapi import ConnectionError, RateLimitedError, TimeoutError
+from getanyapi import ConnectionError, RateLimitedError, TimeoutError
 from conftest import (
     json_response,
     make_async_client,
@@ -58,7 +58,7 @@ def test_no_query_params_when_unset() -> None:
 
 
 def test_retry_on_429_then_succeeds(monkeypatch: pytest.MonkeyPatch) -> None:
-    import anyapi._transport as transport
+    import getanyapi._transport as transport
 
     slept: list[float] = []
     monkeypatch.setattr(transport, "sleep", lambda s: slept.append(s))
@@ -79,7 +79,7 @@ def test_retry_on_429_then_succeeds(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_retry_exhausted_raises(monkeypatch: pytest.MonkeyPatch) -> None:
-    import anyapi._transport as transport
+    import getanyapi._transport as transport
 
     monkeypatch.setattr(transport, "sleep", lambda _s: None)
 
@@ -93,14 +93,14 @@ def test_retry_exhausted_raises(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_no_retry_on_400(monkeypatch: pytest.MonkeyPatch) -> None:
-    import anyapi._transport as transport
+    import getanyapi._transport as transport
 
     monkeypatch.setattr(transport, "sleep", lambda _s: None)
 
     def respond(_req: httpx.Request) -> httpx.Response:
         return json_response(400, {"error": "bad"})
 
-    from anyapi import BadRequestError
+    from getanyapi import BadRequestError
 
     client, rec = make_sync_client(respond, max_retries=2)
     with pytest.raises(BadRequestError):
@@ -109,7 +109,7 @@ def test_no_retry_on_400(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_retry_after_header_honored(monkeypatch: pytest.MonkeyPatch) -> None:
-    import anyapi._transport as transport
+    import getanyapi._transport as transport
 
     slept: list[float] = []
     monkeypatch.setattr(transport, "sleep", lambda s: slept.append(s))
@@ -132,7 +132,7 @@ def test_retry_after_header_honored(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_retry_after_capped_at_max_delay(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    import anyapi._transport as transport
+    import getanyapi._transport as transport
 
     slept: list[float] = []
     monkeypatch.setattr(transport, "sleep", lambda s: slept.append(s))
@@ -164,7 +164,7 @@ def test_timeout_not_retried() -> None:
 
 
 def test_connection_error_retried(monkeypatch: pytest.MonkeyPatch) -> None:
-    import anyapi._transport as transport
+    import getanyapi._transport as transport
 
     monkeypatch.setattr(transport, "sleep", lambda _s: None)
 
@@ -181,7 +181,7 @@ def test_connection_error_retried(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_per_request_max_retries_override(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    import anyapi._transport as transport
+    import getanyapi._transport as transport
 
     monkeypatch.setattr(transport, "sleep", lambda _s: None)
 

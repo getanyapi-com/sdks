@@ -6,7 +6,7 @@ import json
 
 import httpx
 
-from anyapi._pagination import apaginate, paginate
+from getanyapi._pagination import apaginate, paginate
 from conftest import (
     json_response,
     make_async_client,

@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 import pytest
 
-from anyapi import AnyAPI, AnyAPIError, AsyncAnyAPI
+from getanyapi import AnyAPI, AnyAPIError, AsyncAnyAPI
 from conftest import (
     json_response,
     make_async_client,
@@ -84,10 +84,10 @@ def test_namespace_attachment_via_registry(
     import sys
     import types
 
-    import anyapi.platforms as platforms
+    import getanyapi.platforms as platforms
 
     # Build a fake generated platform module with sync+async namespaces.
-    mod = types.ModuleType("anyapi.platforms.demo")
+    mod = types.ModuleType("getanyapi.platforms.demo")
 
     class DemoNamespace:
         def __init__(self, client: object) -> None:
@@ -105,7 +105,7 @@ def test_namespace_attachment_via_registry(
 
     mod.DemoNamespace = DemoNamespace  # type: ignore[attr-defined]
     mod.AsyncDemoNamespace = AsyncDemoNamespace  # type: ignore[attr-defined]
-    sys.modules["anyapi.platforms.demo"] = mod
+    sys.modules["getanyapi.platforms.demo"] = mod
     monkeypatch.setitem(
         platforms.REGISTRY,
         "demo",
@@ -122,4 +122,4 @@ def test_namespace_attachment_via_registry(
     assert client.demo is ns
     result = ns.ping()
     assert result.output.data == {"pong": True}
-    sys.modules.pop("anyapi.platforms.demo", None)
+    sys.modules.pop("getanyapi.platforms.demo", None)

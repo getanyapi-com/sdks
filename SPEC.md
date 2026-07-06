@@ -6,7 +6,7 @@ wins. Nothing here changes without re-freezing.
 
 AnyAPI (getanyapi.com) is a unified API marketplace: 222 SKUs, each a
 `POST /v1/run/{slug}` with normalized JSON Schema 2020-12 input/output pairs. This repo
-generates official typed SDKs: `@getanyapi/sdk` (npm) and `anyapi` (PyPI), generated from
+generates official typed SDKs: `@getanyapi/sdk` (npm) and `getanyapi` (PyPI), generated from
 the platform's own `/openapi.json`.
 
 ## 0. Hard rules (apply to EVERYTHING in this repo)
@@ -547,11 +547,11 @@ export interface AgentSignupResult {
 - Honor a `Retry-After` response header on 429 when present (seconds or HTTP-date); use it
   as the delay instead of the computed backoff, capped at `maxDelay`.
 
-## 3. Python runtime API (`anyapi`) - FROZEN signatures
+## 3. Python runtime API (`getanyapi`) - FROZEN signatures
 
 Mirrors the TS surface. Sync `AnyAPI` and async `AsyncAnyAPI` share generated namespaces
 through a transport protocol. TypedDict inputs (PEP 692 `Unpack`), pydantic v2 output
-models. `from anyapi import AnyAPI`.
+models. `from getanyapi import AnyAPI`.
 
 ### 3.1 Client construction
 
@@ -713,7 +713,7 @@ class InsufficientBalanceError(AnyAPIError): ... # 402
 class NotFoundError(AnyAPIError): ...            # 404
 class RateLimitedError(AnyAPIError): ...         # 429
 class UpstreamError(AnyAPIError): ...            # 502
-class ConnectionError(AnyAPIError): ...          # status 0 (network); name shadows builtin intentionally, exported from anyapi
+class ConnectionError(AnyAPIError): ...          # status 0 (network); name shadows builtin intentionally, exported from getanyapi
 class TimeoutError(AnyAPIError): ...             # status 0 (timeout); shadows builtin intentionally
 ```
 
@@ -797,8 +797,8 @@ map the tests import); each language's test harness returns it from its mocked t
 ## 5. Files that carry the generated header
 
 Everything under `packages/typescript/src/generated/` and
-`packages/python/src/anyapi/platforms/` plus `generator/ir.json` (when produced) and any
-fixtures map. Handwritten: `packages/*/src/core/*` (TS), `packages/python/src/anyapi/_*.py`
+`packages/python/src/getanyapi/platforms/` plus `generator/ir.json` (when produced) and any
+fixtures map. Handwritten: `packages/*/src/core/*` (TS), `packages/python/src/getanyapi/_*.py`
 and `types.py`. Handwritten files must NOT carry the generated header.
 
 ## 6. Directory contract (what each Phase 1 agent owns)
@@ -812,9 +812,9 @@ packages/typescript/  # ts-runtime + ts-emitter agents
   src/core/           # HANDWRITTEN client, errors, pagination, account, types
   src/generated/      # emitted: client namespaces, sku-map, platforms/*
 packages/python/      # py-runtime + py-emitter agents
-  src/anyapi/         # HANDWRITTEN _client, _async_client, _transport, _errors,
+  src/getanyapi/      # HANDWRITTEN _client, _async_client, _transport, _errors,
                       #   _pagination, _account, types.py
-  src/anyapi/platforms/  # emitted, lazy-imported via __getattr__
+  src/getanyapi/platforms/  # emitted, lazy-imported via __getattr__
 ```
 
 ## 7. Versions / tooling (FROZEN baseline)
@@ -822,7 +822,7 @@ packages/python/      # py-runtime + py-emitter agents
 - TypeScript: `strict: true`, target ES2022, module ESNext, `moduleResolution: Bundler`.
   Build with tsup to ESM + CJS + `.d.ts`. Package name `@getanyapi/sdk`, zero runtime deps.
 - Python: `requires-python >=3.10`, hatchling build, deps `httpx`, `pydantic>=2.5`,
-  `typing_extensions>=4.7`. Package name `anyapi`. Typed (`py.typed`). Gates: `pyright`
+  `typing_extensions>=4.7`. Package name `getanyapi`. Typed (`py.typed`). Gates: `pyright`
   + `mypy --strict`.
 - Node engines: `>=18` (global fetch). ESM + CJS dual export map.
 

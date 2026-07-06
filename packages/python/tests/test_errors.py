@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 import pytest
 
-from anyapi import (
+from getanyapi import (
     AnyAPIError,
     AuthenticationError,
     BadRequestError,

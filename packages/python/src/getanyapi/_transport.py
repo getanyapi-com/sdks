@@ -1,6 +1,6 @@
 """Shared wire and retry engine for the sync and async clients (SPEC 2.2, 2.8).
 
-Both :class:`anyapi.AnyAPI` and :class:`anyapi.AsyncAnyAPI` route every SKU run
+Both :class:`getanyapi.AnyAPI` and :class:`getanyapi.AsyncAnyAPI` route every SKU run
 through here. The wire contract is frozen:
 
     POST {base_url}/v1/run/{slug}
