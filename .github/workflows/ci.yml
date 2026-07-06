@@ -17,6 +17,8 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: install pinned ruff (generated-Python formatting is part of byte determinism)
+        run: pip install ruff==0.15.20
       - name: generator typecheck + vitest (gen-ir + emit-ts + emit-py suites)
         run: pnpm --filter @anyapi/generator run check
       - name: regen drift (ir.json + fixtures.json + both generated trees byte-identical)
