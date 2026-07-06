@@ -24,6 +24,7 @@ __all__ = [
     "AuthenticationError",
     "InsufficientBalanceError",
     "NotFoundError",
+    "ResultNotFoundError",
     "RateLimitedError",
     "UpstreamError",
     "ConnectionError",
@@ -62,6 +63,15 @@ class InsufficientBalanceError(AnyAPIError):
 
 class NotFoundError(AnyAPIError):
     """HTTP 404: the slug or resource does not exist."""
+
+
+class ResultNotFoundError(NotFoundError):
+    """Raised by :func:`anyapi.unwrap` when a found-data result had ``found: false``.
+
+    A subclass of :class:`NotFoundError` so ``except NotFoundError`` still catches
+    it; catch ``ResultNotFoundError`` specifically to handle only empty results
+    (not HTTP 404s). See SPEC 2.3 erratum.
+    """
 
 
 class RateLimitedError(AnyAPIError):

@@ -37,7 +37,8 @@ from .types import RequestOptions, RunResult
 
 __all__ = [
     "build_request",
-    "parse_response",
+    "parse_raw",
+    "validate_run_result",
     "compute_delay",
     "RetryState",
     "error_message",
@@ -117,33 +118,56 @@ def error_message(body: object, status: int) -> str:
     return _fallback_message(status)
 
 
-def parse_response(response: httpx.Response) -> RunResult[Any]:
-    """Parse a completed HTTP response into a RunResult, or raise (SPEC 2.2/3.6).
+def parse_raw(response: httpx.Response) -> dict[str, Any]:
+    """Return the parsed JSON dict on 200, or raise the mapped error otherwise.
 
-    On 200 the JSON body is validated into ``RunResult[Any]``. On any other
-    status the ``{error}`` body is read (falling back to a generic message) and
-    the mapped error is raised.
+    The raw-dict seam (SPEC N2): generated methods validate this dict directly
+    into their concrete ``RunResult[XData]`` / ``BareRunResult[XData]`` model, so
+    there is no model_validate(model_dump(...)) double-parse. The bare-vs-found
+    envelope choice is the caller's (the generated code knows its SKU's shape).
     """
     request_id = response.headers.get(_REQUEST_ID_HEADER)
     if response.status_code == 200:
         try:
-            return RunResult[Any].model_validate(response.json())
-        except (ValidationError, ValueError) as exc:
+            body = response.json()
+        except ValueError as exc:
             raise AnyAPIError(
                 f"could not parse run response: {exc}",
                 status=200,
                 request_id=request_id,
             ) from exc
+        if not isinstance(body, dict):
+            raise AnyAPIError(
+                "run response was not a JSON object",
+                status=200,
+                request_id=request_id,
+            )
+        return cast("dict[str, Any]", body)
 
-    body: object = None
+    err_body: object = None
     try:
-        body = response.json()
+        err_body = response.json()
     except ValueError:
-        body = None
-    message = error_message(body, response.status_code)
+        err_body = None
+    message = error_message(err_body, response.status_code)
     raise error_for_status(
         response.status_code, message, request_id=request_id
     )
+
+
+def validate_run_result(raw: dict[str, Any]) -> RunResult[Any]:
+    """Validate a raw run dict into a generic ``RunResult[Any]`` (found-data).
+
+    Used by the generic ``client.run(slug, ...)`` helper. Bare SKUs are best
+    reached through their typed namespace method (which validates into a
+    ``BareRunResult``); the generic path assumes the found-data envelope.
+    """
+    try:
+        return RunResult[Any].model_validate(raw)
+    except ValidationError as exc:
+        raise AnyAPIError(
+            f"could not parse run response: {exc}", status=200
+        ) from exc
 
 
 def _retry_after_seconds(response: httpx.Response) -> float | None:

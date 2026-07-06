@@ -15,13 +15,14 @@ from typing import Any, Generic, Literal, TypeVar
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import TypedDict
 
-from ._errors import NotFoundError
+from ._errors import ResultNotFoundError
 
 __all__ = [
     "OutputFound",
     "OutputNotFound",
     "Output",
     "RunResult",
+    "BareRunResult",
     "unwrap",
     "Balance",
     "AccountProfile",
@@ -70,15 +71,40 @@ class RunResult(BaseModel, Generic[T]):
     hint: str | None = None
 
 
-def unwrap(result: RunResult[T]) -> T:
-    """Return the data payload when found, else raise :class:`NotFoundError`.
+class BareRunResult(BaseModel, Generic[T]):
+    """The run envelope for a BARE SKU (SPEC 1.2 erratum).
 
-    Narrows ``Output[T]`` to ``T``.
+    A handful of SKUs (e.g. reddit.search) return their data object directly as
+    ``output`` with no ``{found, data}`` wrapper: ``output`` IS the data payload.
+    There is no not-found branch to discriminate, so ``unwrap`` returns
+    ``output`` directly and never raises.
     """
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    output: T
+    provider: Literal["AnyAPI"]
+    cost_usd: float = Field(alias="costUsd")
+    items: int | None = None
+    hint: str | None = None
+
+
+def unwrap(result: RunResult[T] | BareRunResult[T]) -> T:
+    """Return the data payload when found, else raise :class:`ResultNotFoundError`.
+
+    For a found-data ``RunResult`` this narrows ``Output[T]`` to ``T`` and raises
+    when ``found`` is false. For a ``BareRunResult`` the output IS the data, so it
+    is returned directly and this never raises.
+
+    Catching ``NotFoundError`` catches both an HTTP 404 and an empty found-data
+    result; catch ``ResultNotFoundError`` to handle only empty results.
+    """
+    if isinstance(result, BareRunResult):
+        return result.output
     output = result.output
     if isinstance(output, OutputFound):
         return output.data
-    raise NotFoundError("no matching result was found", status=404)
+    raise ResultNotFoundError("no matching result was found", status=404)
 
 
 class Balance(BaseModel):
@@ -139,5 +165,6 @@ class AgentSignupResult(BaseModel):
     claim_url: str = Field(alias="claimUrl")
 
 
-# Convenience alias used by the transport for untyped generic runs.
+# Convenience aliases used by the transport for untyped generic runs.
 AnyRunResult = RunResult[Any]
+AnyBareRunResult = BareRunResult[Any]

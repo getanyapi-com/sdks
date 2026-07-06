@@ -106,10 +106,9 @@ def _page_with_item(
     page = copy.deepcopy(fixture)
     data = page["output"]["data"]
     data[items_field] = [item]
-    if next_cursor is None:
-        data.pop("nextCursor", None)
-    else:
-        data["nextCursor"] = next_cursor
+    # Real wire always includes nextCursor (empty string when there are no more pages);
+    # the data model requires it, so end the walk with "" rather than deleting the key.
+    data["nextCursor"] = "" if next_cursor is None else next_cursor
     page["items"] = 1
     return page
 
@@ -127,7 +126,11 @@ def test_generated_sku_fixture_sweep(slug: str) -> None:
     client, _ = make_sync_client(respond)
     result, used_generic = _dispatch_sync(client, sku)
 
-    assert result.output.found is True
+    if sku["output"]["envelope"] == "bare":
+        # Bare SKU: output IS the data model directly (no found/data wrapper).
+        assert not hasattr(result.output, "found")
+    else:
+        assert result.output.found is True
     assert result.provider == "AnyAPI"
     assert result.cost_usd > 0
     expects_extra = _has_passthrough_extra(fixture)
@@ -190,6 +193,48 @@ def test_generated_iterator_walks_two_fixture_pages() -> None:
     iterator = getattr(namespace, sku["pyIterMethod"])(**sku["example"])
     seen = list(iterator)
 
-    assert [item["id"] for item in seen] == ["page-1", "page-2"]
+    # B3: yielded items are validated pydantic models - assert ATTRIBUTE access, not
+    # dict subscription (a dict would AttributeError here).
+    assert [item.id for item in seen] == ["page-1", "page-2"]
     assert len(rec.requests) == 2
+
+
+def test_bare_paginated_iterator_yields_item_models() -> None:
+    # B1 + B3: reddit.search is a BARE paginated SKU (output IS the data). Its iterator
+    # walks output.posts / output.nextCursor directly and yields validated post models.
+    sku = _sku("reddit.search")
+    assert sku["output"]["envelope"] == "bare"
+    items_field = sku["pagination"]["itemsField"]
+    assert items_field == "posts"
+    fixture = _fixture(sku["slug"])
+    base_post = fixture["output"][items_field][0]
+
+    def bare_page(post_id: str, next_cursor: str) -> dict[str, Any]:
+        page = copy.deepcopy(fixture)
+        page["output"][items_field] = [{**base_post, "id": post_id}]
+        page["output"]["nextCursor"] = next_cursor
+        return page
+
+    pages = [bare_page("p1", "c1"), bare_page("p2", "")]
+    state = {"i": 0}
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        body = pages[state["i"]]
+        state["i"] += 1
+        return json_response(200, body)
+
+    client, rec = make_sync_client(respond)
+    namespace = getattr(client, sku["pyNamespace"])
+    iterator = getattr(namespace, sku["pyIterMethod"])(**sku["example"])
+    seen = list(iterator)
+
+    assert [post.id for post in seen] == ["p1", "p2"]
+    assert len(rec.requests) == 2
+
+    # And the plain method returns a BareRunResult whose output IS the data model.
+    client2, _ = make_sync_client(lambda _r: json_response(200, fixture))
+    ns2 = getattr(client2, sku["pyNamespace"])
+    res = getattr(ns2, sku["pyMethod"])(**sku["example"])
+    assert not hasattr(res.output, "found")
+    assert isinstance(res.output.posts, list)
     assert json.loads(rec.requests[1].content)["cursor"] == "c1"

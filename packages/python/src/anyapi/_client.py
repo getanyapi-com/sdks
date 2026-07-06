@@ -42,7 +42,7 @@ from ._transport import (
     RetryState,
     build_request,
     is_retryable_error,
-    parse_response,
+    parse_raw,
 )
 from .types import (
     AccountProfile,
@@ -123,13 +123,18 @@ class AnyAPI:
 
     # -- transport seam ---------------------------------------------------
 
-    def _run(
+    def _run_raw(
         self,
         slug: str,
         input: dict[str, Any],
         options: RequestOptions | None = None,
-    ) -> RunResult[Any]:
-        """Execute one SKU run with retries (the seam generated code calls)."""
+    ) -> dict[str, Any]:
+        """Execute one SKU run with retries, returning the raw JSON dict.
+
+        The raw seam generated methods call (SPEC N2): the generated code
+        validates this dict into its concrete ``RunResult[XData]`` /
+        ``BareRunResult[XData]`` model, so there is no double-parse.
+        """
         timeout = self._timeout
         max_retries = self._max_retries
         if options:
@@ -152,7 +157,7 @@ class AnyAPI:
             response: httpx.Response | None = None
             try:
                 response = self._http.send(request)
-                return parse_response(response)
+                return parse_raw(response)
             except AnyAPIError as exc:
                 if is_retryable_error(exc) and retry.can_retry:
                     _transport.sleep(retry.next_delay(response))
@@ -169,6 +174,16 @@ class AnyAPI:
                 raise ConnectionError(
                     str(exc) or "connection failed", status=0
                 ) from exc
+
+    def _run(
+        self,
+        slug: str,
+        input: dict[str, Any],
+        options: RequestOptions | None = None,
+    ) -> RunResult[Any]:
+        """Execute one SKU run and parse the generic found-data envelope."""
+        raw = self._run_raw(slug, input, options)
+        return _transport.validate_run_result(raw)
 
     def run(
         self,
@@ -253,6 +268,7 @@ def agent_signup(
         parsed = response.json()
     except ValueError:
         parsed = None
-    if response.status_code not in (200, 201):
+    # The gateway returns 200 for agent signup; accept 200 only (SPEC S7).
+    if response.status_code != 200:
         raise _account.map_error(response.status_code, parsed, request_id)
     return _account.parse_signup(parsed)

@@ -21,6 +21,7 @@ from ._errors import (
     InsufficientBalanceError,
     NotFoundError,
     RateLimitedError,
+    ResultNotFoundError,
     TimeoutError,
     UpstreamError,
 )
@@ -29,6 +30,7 @@ from .types import (
     AccountProfile,
     AgentSignupResult,
     Balance,
+    BareRunResult,
     CatalogEntry,
     Output,
     OutputFound,
@@ -48,6 +50,7 @@ __all__ = [
     "unwrap",
     # result + data models
     "RunResult",
+    "BareRunResult",
     "Output",
     "OutputFound",
     "OutputNotFound",
@@ -65,6 +68,7 @@ __all__ = [
     "AuthenticationError",
     "InsufficientBalanceError",
     "NotFoundError",
+    "ResultNotFoundError",
     "RateLimitedError",
     "UpstreamError",
     "ConnectionError",

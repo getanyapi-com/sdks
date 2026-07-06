@@ -17,13 +17,14 @@ from typing import Any
 import httpx
 
 from . import _account
+from . import _transport
 from ._client import lookup_namespace
 from ._errors import AnyAPIError, ConnectionError, TimeoutError
 from ._transport import (
     RetryState,
     build_request,
     is_retryable_error,
-    parse_response,
+    parse_raw,
 )
 from .types import (
     AccountProfile,
@@ -87,13 +88,18 @@ class AsyncAnyAPI:
 
     # -- transport seam ---------------------------------------------------
 
-    async def _arun(
+    async def _arun_raw(
         self,
         slug: str,
         input: dict[str, Any],
         options: RequestOptions | None = None,
-    ) -> RunResult[Any]:
-        """Execute one SKU run with retries (the seam generated code calls)."""
+    ) -> dict[str, Any]:
+        """Execute one SKU run with retries, returning the raw JSON dict.
+
+        The raw seam generated methods call (SPEC N2): the generated code
+        validates this dict into its concrete ``RunResult[XData]`` /
+        ``BareRunResult[XData]`` model, so there is no double-parse.
+        """
         timeout = self._timeout
         max_retries = self._max_retries
         if options:
@@ -116,7 +122,7 @@ class AsyncAnyAPI:
             response: httpx.Response | None = None
             try:
                 response = await self._http.send(request)
-                return parse_response(response)
+                return parse_raw(response)
             except AnyAPIError as exc:
                 if is_retryable_error(exc) and retry.can_retry:
                     await asyncio.sleep(retry.next_delay(response))
@@ -133,6 +139,16 @@ class AsyncAnyAPI:
                 raise ConnectionError(
                     str(exc) or "connection failed", status=0
                 ) from exc
+
+    async def _arun(
+        self,
+        slug: str,
+        input: dict[str, Any],
+        options: RequestOptions | None = None,
+    ) -> RunResult[Any]:
+        """Execute one SKU run and parse the generic found-data envelope."""
+        raw = await self._arun_raw(slug, input, options)
+        return _transport.validate_run_result(raw)
 
     async def run(
         self,
