@@ -38,13 +38,12 @@ describe("run: success envelope", () => {
     expect(res.hint).toBe("use fields to trim");
   });
 
-  it("omits Authorization when no key is available", async () => {
+  it("throws immediately when no key and no ANYAPI_API_KEY (S6)", () => {
     delete process.env["ANYAPI_API_KEY"];
-    const { fetch, calls } = mockFetch([{ body: foundEnvelope({}) }]);
-    const client = new AnyAPI({ fetch });
-    await client.run("x.y", {});
-    const headers = calls[0]!.init.headers as Record<string, string>;
-    expect(headers["Authorization"]).toBeUndefined();
+    const { fetch } = mockFetch([{ body: foundEnvelope({}) }]);
+    expect(() => new AnyAPI({ fetch })).toThrow(
+      "no API key: pass apiKey or set ANYAPI_API_KEY",
+    );
   });
 
   it("reads ANYAPI_API_KEY from env when apiKey omitted", async () => {

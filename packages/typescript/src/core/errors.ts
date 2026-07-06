@@ -30,6 +30,13 @@ export class AuthenticationError extends AnyAPIError {}
 export class InsufficientBalanceError extends AnyAPIError {}
 /** HTTP 404. */
 export class NotFoundError extends AnyAPIError {}
+/**
+ * Thrown by {@link unwrap} when a found-data result carried `found: false` (the upstream
+ * had no matching result). A subclass of NotFoundError so `catch (NotFoundError)` still
+ * catches it; catch ResultNotFoundError specifically to handle only empty results (not
+ * HTTP 404s). See SPEC 2.3 erratum.
+ */
+export class ResultNotFoundError extends NotFoundError {}
 /** HTTP 429. */
 export class RateLimitedError extends AnyAPIError {}
 /** HTTP 502. */

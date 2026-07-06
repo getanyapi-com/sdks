@@ -1,11 +1,12 @@
 {
-  "name": "@anyapi/sdk",
+  "name": "@getanyapi/sdk",
   "version": "0.0.0",
   "description": "Official typed TypeScript SDK for AnyAPI: any API, one wallet, USD, no subscriptions.",
   "type": "module",
   "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -24,7 +25,8 @@
     "build": "tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "check": "tsc --noEmit && vitest run && tsup"
+    "consumer-typecheck": "node scripts/consumer-typecheck.mjs",
+    "check": "tsc --noEmit && vitest run && tsup && node scripts/consumer-typecheck.mjs"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -44,6 +46,9 @@
     "type": "git",
     "url": "git+https://github.com/getanyapi-com/sdks.git",
     "directory": "packages/typescript"
+  },
+  "bugs": {
+    "url": "https://github.com/getanyapi-com/sdks/issues"
   },
   "license": "MIT",
   "publishConfig": {

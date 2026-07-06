@@ -4,11 +4,12 @@
 // See SPEC.md section 2.
 
 export { AnyAPI } from "./client.js";
-export type { ClientCore, SkuMap } from "./client.js";
+export type { ClientCore } from "./client.js";
 
 export { unwrap } from "./types.js";
 export type {
   RunResult,
+  BareRunResult,
   Output,
   RequestOptions,
   ClientOptions,
@@ -30,6 +31,7 @@ export {
   AuthenticationError,
   InsufficientBalanceError,
   NotFoundError,
+  ResultNotFoundError,
   RateLimitedError,
   UpstreamError,
   ConnectionError,

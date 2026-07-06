@@ -1,4 +1,4 @@
-// Public barrel for @anyapi/sdk. Named exports only (SPEC 0.4).
+// Public barrel for @getanyapi/sdk. Named exports only (SPEC 0.4).
 //
 // The generated barrel (src/generated/index.ts) is the composed surface: it exports the
 // generated AnyAPI (the base client with every platform namespace attached), the augmented

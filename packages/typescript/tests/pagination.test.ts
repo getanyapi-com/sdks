@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { ClientCore } from "../src/index.js";
 import { paginate } from "../src/index.js";
-import type { RequestOptions, RunResult } from "../src/index.js";
+import type { BareRunResult, RequestOptions, RunResult } from "../src/index.js";
 
 interface PageData {
   ads: Array<{ id: number }>;
@@ -37,7 +37,7 @@ function page(ads: number[], nextCursor: string | null): RunResult<PageData> {
 describe("paginate: multi-page walk", () => {
   it("flattens items across pages and injects the cursor from page 2", async () => {
     const { core, seen } = scriptedCore([page([1, 2], "c1"), page([3, 4], null)]);
-    const it = paginate<{ id: number }, PageData>(core, "facebook.ads_search", { q: "x" }, "ads");
+    const it = paginate<{ id: number }, RunResult<PageData>>(core, "facebook.ads_search", { q: "x" }, "ads", false);
     const ids: number[] = [];
     for await (const item of it) {
       ids.push(item.id);
@@ -51,7 +51,7 @@ describe("paginate: multi-page walk", () => {
   it("stops on an empty-string nextCursor", async () => {
     const { core, seen } = scriptedCore([page([1], ""), page([9], null)]);
     const ids: number[] = [];
-    for await (const item of paginate<{ id: number }, PageData>(core, "s.a", {}, "ads")) {
+    for await (const item of paginate<{ id: number }, RunResult<PageData>>(core, "s.a", {}, "ads", false)) {
       ids.push(item.id);
     }
     expect(ids).toEqual([1]);
@@ -66,7 +66,7 @@ describe("paginate: multi-page walk", () => {
     };
     const { core } = scriptedCore([notFound]);
     const ids: number[] = [];
-    for await (const item of paginate<{ id: number }, PageData>(core, "s.a", {}, "ads")) {
+    for await (const item of paginate<{ id: number }, RunResult<PageData>>(core, "s.a", {}, "ads", false)) {
       ids.push(item.id);
     }
     expect(ids).toEqual([]);
@@ -75,11 +75,12 @@ describe("paginate: multi-page walk", () => {
   it("caps total items at maxItems mid-page and does not send max_items to the wire", async () => {
     const { core, seen } = scriptedCore([page([1, 2, 3], "c1"), page([4, 5], null)]);
     const ids: number[] = [];
-    for await (const item of paginate<{ id: number }, PageData>(
+    for await (const item of paginate<{ id: number }, RunResult<PageData>>(
       core,
       "s.a",
       {},
       "ads",
+      false,
       { maxItems: 2, fields: ["id"] },
     )) {
       ids.push(item.id);
@@ -96,9 +97,48 @@ describe("paginate: .pages()", () => {
   it("yields whole RunResults with costUsd", async () => {
     const { core } = scriptedCore([page([1], "c1"), page([2], null)]);
     const costs: number[] = [];
-    for await (const p of paginate<{ id: number }, PageData>(core, "s.a", {}, "ads").pages()) {
+    for await (const p of paginate<{ id: number }, RunResult<PageData>>(core, "s.a", {}, "ads", false).pages()) {
       costs.push(p.costUsd);
     }
     expect(costs).toEqual([0.002, 0.002]);
+  });
+});
+
+describe("paginate: bare envelope", () => {
+  // A bare SKU (e.g. reddit.search): output IS the data object, no found/data wrapper.
+  function barePage(
+    posts: number[],
+    nextCursor: string | null,
+  ): BareRunResult<PageData> {
+    return {
+      output: { ads: posts.map((id) => ({ id })), nextCursor },
+      provider: "AnyAPI",
+      costUsd: 0.003,
+    };
+  }
+  function bareCore(pages: Array<BareRunResult<PageData>>): ClientCore {
+    let i = 0;
+    return {
+      async run<T>(_slug: string, _input: unknown, _options?: RequestOptions) {
+        const p = pages[Math.min(i, pages.length - 1)];
+        i += 1;
+        return p as unknown as RunResult<T>;
+      },
+    };
+  }
+
+  it("walks bare pages reading output directly (no found/data)", async () => {
+    const core = bareCore([barePage([1, 2], "c1"), barePage([3], null)]);
+    const ids: number[] = [];
+    for await (const item of paginate<{ id: number }, BareRunResult<PageData>>(
+      core,
+      "reddit.search",
+      { query: "x" },
+      "ads",
+      true,
+    )) {
+      ids.push(item.id);
+    }
+    expect(ids).toEqual([1, 2, 3]);
   });
 });

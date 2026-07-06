@@ -37,8 +37,10 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: tsc strict + vitest (incl per-SKU fixture sweep) + tsup build
-        run: pnpm --filter @anyapi/sdk run check
+      - name: tsc strict + vitest (incl per-SKU fixture sweep) + tsup build + consumer-artifact typecheck
+        run: pnpm --filter @getanyapi/sdk run check
+      - name: consumer-artifact typecheck (packed dist typing gate, B2)
+        run: pnpm --filter @getanyapi/sdk run consumer-typecheck
 
   python:
     name: python (pyright + mypy --strict + pytest)

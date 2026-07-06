@@ -1,4 +1,4 @@
-// Handwritten runtime core: shared types for @anyapi/sdk.
+// Handwritten runtime core: shared types for @getanyapi/sdk.
 // See SPEC.md sections 2.1, 2.3, 2.7. Named exports only; zero runtime deps.
 
 /**
@@ -25,15 +25,50 @@ export type Output<T> =
   | { found: false; data: null };
 
 /**
- * Return the data payload when found, or throw NotFoundError when the upstream had no
- * matching entity. Narrows Output<T> to T.
+ * The run envelope for a BARE SKU (SPEC 1.2 erratum). A handful of SKUs return their data
+ * object directly as `output`, with no `{ found, data }` wrapper (e.g. reddit.search's
+ * `output` IS `{ posts, nextCursor }`). Their result types `output` as the data payload
+ * directly; there is no not-found branch to discriminate.
  */
-export function unwrap<T>(result: RunResult<T>): T {
-  if (result.output.found) {
-    return result.output.data;
+export interface BareRunResult<T> {
+  /** The data payload directly (no found/data wrapper). */
+  output: T;
+  /** Always the literal "AnyAPI". Upstream providers are never named. */
+  provider: "AnyAPI";
+  /** Amount charged in USD for this call. */
+  costUsd: number;
+  /** Number of result rows returned (present on per-result SKUs). */
+  items?: number;
+  /** Optional server nudge when a large result was returned untrimmed. */
+  hint?: string;
+}
+
+/**
+ * Return the data payload when found, or throw ResultNotFoundError when the upstream had no
+ * matching entity. Narrows Output<T> to T.
+ *
+ * Two overloads: a found-data RunResult may be empty (throws when found is false); a bare
+ * result always carries its data (returns output directly, never throws).
+ */
+export function unwrap<T>(result: BareRunResult<T>): T;
+export function unwrap<T>(result: RunResult<T>): T;
+export function unwrap<T>(result: RunResult<T> | BareRunResult<T>): T {
+  const output = (result as { output: unknown }).output;
+  // Found-data envelope: an object carrying a boolean `found` discriminator.
+  if (
+    output !== null &&
+    typeof output === "object" &&
+    "found" in (output as Record<string, unknown>)
+  ) {
+    const env = output as { found: boolean; data: T };
+    if (env.found) {
+      return env.data;
+    }
+    // Imported lazily-shaped through the errors module to keep this file dependency-light.
+    throw new ResultNotFoundError("no matching result was found", 404);
   }
-  // Imported lazily-shaped through the errors module to keep this file dependency-light.
-  throw new NotFoundError("no matching result was found", 404);
+  // Bare result: output IS the data payload.
+  return output as T;
 }
 
 /**
@@ -129,4 +164,4 @@ export interface AgentSignupResult {
   claimUrl: string;
 }
 
-import { NotFoundError } from "./errors.js";
+import { ResultNotFoundError } from "./errors.js";

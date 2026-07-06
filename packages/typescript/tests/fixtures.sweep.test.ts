@@ -14,6 +14,7 @@ interface SkuEntry {
   tsMethod: string;
   tsIterMethod: string | null;
   example: Record<string, unknown>;
+  output: { envelope: "found-data" | "bare" };
   pagination: {
     paginated: boolean;
     itemsField: string | null;
@@ -25,10 +26,8 @@ interface IrFile {
 }
 
 interface FixtureEnvelope {
-  output: {
-    found: boolean;
-    data: unknown;
-  };
+  // found-data: output = { found, data }. bare: output IS the data object directly.
+  output: { found: boolean; data: unknown } | Record<string, unknown>;
   provider: string;
   costUsd: number;
   items?: number;
@@ -147,12 +146,61 @@ describe("generated SKU fixture sweep", () => {
 
     const result = await methodFor(client, sku)(sku.example);
 
-    expect(result.output.found).toBe(true);
+    if (sku.output.envelope === "bare") {
+      // Bare SKU: output IS the data object directly (no found/data wrapper).
+      expect(result.output).toBeTypeOf("object");
+      expect((result.output as Record<string, unknown>)["found"]).toBeUndefined();
+    } else {
+      expect((result.output as { found: boolean }).found).toBe(true);
+    }
     expect(result.provider).toBe("AnyAPI");
     expect(result.costUsd).toBeGreaterThan(0);
     if (hasPassthroughExtra(fixture)) {
       expect(hasPassthroughExtra(result)).toBe(true);
     }
+  });
+});
+
+// Bare SKUs (SPEC 1.2 erratum): output is typed as the data payload directly. Prove typed
+// attribute access and (for the paginated one) iteration work end to end through the typed
+// surface, so a bare successful call never crashes or reads as not-found.
+describe("bare-envelope SKU typed surface", () => {
+  it("reddit.search: attribute access on output + typed iteration", async () => {
+    const fixture = mustFixture("reddit.search");
+    const post = { status: 200 as const, body: fixture };
+    const client = new AnyAPI({
+      apiKey: "k",
+      fetch: mockFetch([post, post]).fetch,
+      maxRetries: 0,
+    });
+    const res = await client.reddit.search({ query: "k" });
+    // output IS the data object: posts[] and nextCursor read directly (no .data).
+    expect(Array.isArray(res.output.posts)).toBe(true);
+    expect(res.output.posts[0]!.title).toBe("sample");
+    expect(typeof res.output.nextCursor).toBe("string");
+
+    // The fixture's single page has a non-empty nextCursor "sample"; the second mocked page
+    // repeats it, so cap the walk with maxItems to prove item iteration yields typed posts.
+    const seen: string[] = [];
+    for await (const item of client.reddit.iterSearch(
+      { query: "k" },
+      { maxItems: 1 },
+    )) {
+      seen.push(item.title);
+    }
+    expect(seen).toEqual(["sample"]);
+  });
+
+  it("reddit.post_comments: attribute access on bare output", async () => {
+    const fixture = mustFixture("reddit.post_comments");
+    const client = new AnyAPI({
+      apiKey: "k",
+      fetch: mockFetch([{ status: 200, body: fixture }]).fetch,
+      maxRetries: 0,
+    });
+    const res = await client.reddit.postComments({ url: "https://reddit.com/r/x/comments/1" });
+    expect(Array.isArray(res.output.comments)).toBe(true);
+    expect(res.output.comments[0]!.body).toBe("sample");
   });
 });
 

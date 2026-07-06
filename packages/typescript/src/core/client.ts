@@ -31,20 +31,12 @@ const RETRY_BASE_DELAY_MS = 500;
 const RETRY_MAX_DELAY_MS = 8_000;
 
 /**
- * The single network seam that generated per-SKU methods call. See SPEC 2.2.
+ * The single network seam that generated per-SKU methods call. See SPEC 2.2. The generated
+ * platform methods hand it a slug + input and cast the RunResult to their concrete data
+ * type (found-data) or to a BareRunResult (bare SKUs); the seam itself stays untyped.
  */
 export interface ClientCore {
   run<T>(slug: string, input: unknown, options?: RequestOptions): Promise<RunResult<T>>;
-}
-
-/**
- * SkuMap is the generated slug -> { input; data } lookup used by the typed generic
- * `run`. Handwritten core seeds it with a permissive index so `run` typechecks before
- * generation; the generated barrel augments this interface with concrete slugs via
- * declaration merging.
- */
-export interface SkuMap {
-  [slug: string]: { input: unknown; data: unknown };
 }
 
 /**
@@ -220,6 +212,12 @@ export class AnyAPI implements ClientCore {
 
   constructor(options: ClientOptions = {}) {
     this.apiKey = options.apiKey ?? envApiKey();
+    if (!this.apiKey) {
+      throw new AnyAPIError(
+        "no API key: pass apiKey or set ANYAPI_API_KEY",
+        0,
+      );
+    }
     this.baseUrl = options.baseUrl ?? DEFAULT_BASE_URL;
     const resolvedFetch = options.fetch ?? globalThis.fetch;
     if (typeof resolvedFetch !== "function") {
@@ -233,14 +231,16 @@ export class AnyAPI implements ClientCore {
     this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   }
 
-  /** Generic typed run for any SKU by slug. See SPEC 2.1. */
-  run<K extends keyof SkuMap>(
-    slug: K,
-    input: SkuMap[K]["input"],
+  /**
+   * Generic run for any SKU by slug (the untyped network seam + the string fallback). The
+   * generated `AnyAPI` subclass adds typed literal-slug overloads on top (SPEC 2.1); this
+   * base signature is the fallback that returns RunResult<unknown> for an unknown slug.
+   */
+  run<T = unknown>(
+    slug: string,
+    input: unknown,
     options?: RequestOptions,
-  ): Promise<RunResult<SkuMap[K]["data"]>>;
-  run<T>(slug: string, input: unknown, options?: RequestOptions): Promise<RunResult<T>>;
-  run<T>(slug: string, input: unknown, options?: RequestOptions): Promise<RunResult<T>> {
+  ): Promise<RunResult<T>> {
     return this.request<RunResult<T>>("POST", buildUrl(this.baseUrl, slug, options), {
       body: JSON.stringify(input ?? {}),
       timeoutMs: options?.timeoutMs ?? this.timeoutMs,

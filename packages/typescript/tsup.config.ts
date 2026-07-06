@@ -1,6 +1,6 @@
 import { defineConfig } from "tsup";
 
-// Builds @anyapi/sdk to ESM + CJS + .d.ts with zero runtime dependencies.
+// Builds @getanyapi/sdk to ESM + CJS + .d.ts with zero runtime dependencies.
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm", "cjs"],
