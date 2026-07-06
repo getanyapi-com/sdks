@@ -36,14 +36,13 @@ from typing import Any
 
 import httpx
 
-from . import _account
+from . import _account, _transport
 from ._errors import AnyAPIError, ConnectionError, TimeoutError
 from ._transport import (
     RetryState,
     build_request,
     is_retryable_error,
     parse_response,
-    sleep,
 )
 from .types import (
     AccountProfile,
@@ -156,7 +155,7 @@ class AnyAPI:
                 return parse_response(response)
             except AnyAPIError as exc:
                 if is_retryable_error(exc) and retry.can_retry:
-                    sleep(retry.next_delay(response))
+                    _transport.sleep(retry.next_delay(response))
                     continue
                 raise
             except httpx.TimeoutException as exc:
@@ -165,7 +164,7 @@ class AnyAPI:
                 ) from exc
             except httpx.HTTPError as exc:
                 if retry.can_retry:
-                    sleep(retry.next_delay(None))
+                    _transport.sleep(retry.next_delay(None))
                     continue
                 raise ConnectionError(
                     str(exc) or "connection failed", status=0
