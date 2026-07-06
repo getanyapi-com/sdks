@@ -108,6 +108,63 @@ pip install -e "packages/python[dev]"
 cd packages/python && pyright && mypy && pytest
 ```
 
+## Releasing
+
+Releases are automated from the live catalog. Two workflows drive it:
+
+- `.github/workflows/regen.yml` (auto-bump) runs on a `repository_dispatch` of type
+  `sdk-refresh` (the AnyAPI monorepo fires this after each gateway deploy), a nightly cron
+  fallback, and manual dispatch. It fetches the live `openapi.json` + `catalog.json`,
+  regenerates the whole tree, and classifies the IR diff:
+  - a new SKU, a new input/output field, a new enum member, or a new platform -> **minor**;
+  - a removed SKU, field, or enum member -> **patch**, but the commit body WARNS loudly
+    (removals are deferred to a scheduled major, never auto-bumped to major here);
+  - pricing, descriptions, pagination flips, doc-only churn -> **patch**;
+  - no SKU-surface change (snapshot metadata only) -> **none** (no commit, loop-safe).
+
+  On a non-`none` bump it applies the version to BOTH `packages/typescript/package.json` and
+  `packages/python/pyproject.toml` in lockstep, commits the regenerated tree, tags `v<X.Y.Z>`,
+  pushes, and dispatches `release.yml`. The change summary (the classifier output) is the
+  commit body and becomes the GitHub Release notes.
+
+- `.github/workflows/release.yml` (publish) runs on a `v*` tag push and on manual dispatch
+  (`tag` input). `verify` re-runs the full gate suite and asserts the tag matches both
+  manifests; then `publish-npm` publishes `@getanyapi/sdk` with `--provenance`, `publish-pypi`
+  publishes `anyapi` via PyPI trusted publishing (OIDC, `pypi` environment), and
+  `github-release` cuts the Release.
+
+### Cutting the first release (manual v0.1.0)
+
+The version starts at `0.0.0`; the first publish is manual because there is no prior tag.
+
+1. Bump both manifests in lockstep and commit on `main`:
+   `pnpm --filter @anyapi/generator run version:apply 0.1.0` (edits both files), then commit.
+2. Create and push the tag: `git tag v0.1.0 && git push origin v0.1.0`. The tag push
+   triggers `release.yml` (a human-pushed tag fires the `push` trigger, unlike a
+   bot-pushed one). Or dispatch it: `gh workflow run release.yml -f tag=v0.1.0`.
+3. `verify` runs the full gate and the version match, then npm and PyPI publish in parallel.
+
+The npm publish works immediately (the `NPM_TOKEN` secret is set on the repo). The PyPI
+publish requires the trusted publisher to exist first (see next).
+
+### One-time PyPI trusted-publishing setup
+
+Trusted publishing has no API token; it authorizes this repo's workflow via OIDC. Until it is
+configured, `publish-pypi` fails with a clear "trusted publisher not configured" message
+(that is expected, and we do NOT fall back to a token). Configure it once on PyPI:
+
+- For a project that does not exist yet, add a **pending publisher** at
+  <https://pypi.org/manage/account/publishing/>; for an existing project use its
+  Settings -> Publishing page. Fill in:
+  - PyPI Project Name: `anyapi`
+  - Owner: `getanyapi-com`
+  - Repository name: `sdks`
+  - Workflow name: `release.yml`
+  - Environment name: `pypi`
+
+  These must match `release.yml` exactly (the `publish-pypi` job runs in `environment: pypi`).
+  Re-run the failed `publish-pypi` job (or the whole release) once the publisher is saved.
+
 ## Rules (non-negotiable)
 
 - Prices are always USD. Credits (an internal unit) never appear in the SDK.
