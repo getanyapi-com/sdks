@@ -1,0 +1,298 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`emitPython - sample IR golden > full file map matches golden snapshot 1`] = `
+{
+  "platforms/__init__.py": "# Generated - do not edit. Regenerate with: pnpm generate
+"""Lazy namespace registry.
+
+Maps a client attribute name to (module name, sync class, async class). The
+sync/async clients read this via __getattr__ to attach namespaces on first use,
+so \`import anyapi\` stays fast (SPEC 3.1).
+"""
+
+from __future__ import annotations
+
+REGISTRY: dict[str, tuple[str, str, str]] = {
+    "amazon": ("amazon", "AmazonNamespace", "AsyncAmazonNamespace"),
+    "facebook": ("facebook", "FacebookNamespace", "AsyncFacebookNamespace"),
+    "threads": ("threads", "ThreadsNamespace", "AsyncThreadsNamespace"),
+}
+
+__all__ = ["REGISTRY"]
+",
+  "platforms/amazon.py": "# Generated - do not edit. Regenerate with: pnpm generate
+"""Generated namespace module for the amazon platform."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Literal
+
+from pydantic import BaseModel, ConfigDict, Field
+from typing_extensions import NotRequired, Required, TypedDict, Unpack
+
+from .._account import RequestOptions
+from .._pagination import RunResult
+
+if TYPE_CHECKING:
+    from .._async_client import AsyncAnyAPI
+    from .._client import AnyAPI
+
+
+class AmazonReviewsInput(TypedDict, total=False):
+    """Input for Amazon Reviews."""
+
+    limit: NotRequired[int]
+    """Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less. Range: 1 to 50."""
+    product: Required[str]
+    """Amazon product ASIN or full product URL (e.g. B07CMS5Q6P)."""
+    sort: NotRequired[Literal["helpful", "recent"]]
+    """Review sort order: most helpful first or most recent first (e.g. recent). Default: helpful."""
+    region: NotRequired[Literal["amazon.com", "amazon.ca", "amazon.de", "amazon.fr", "amazon.co.uk", "amazon.it", "amazon.es", "amazon.com.au", "amazon.co.jp", "amazon.com.br", "amazon.com.mx", "amazon.nl", "amazon.ie", "amazon.se", "amazon.com.tr", "amazon.ae", "amazon.sg", "amazon.sa", "amazon.pl", "amazon.com.be", "amazon.eg", "amazon.in"]]
+    """Amazon marketplace domain the product ASIN belongs to (e.g. amazon.co.uk). Default: amazon.com."""
+
+class AmazonReviewsData(BaseModel):
+    items: list[AmazonReviewsItem] = Field(description="Customer review records: star rating, title, review text, date, reviewer, and verified-purchase status.")
+
+class AmazonReviewsItem(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    rating: float
+    text: str = Field(description="Populated whenever the provider returns data.")
+
+class AmazonNamespace:
+    """Typed methods for this platform. Attached lazily to the client."""
+
+    def __init__(self, client: "AnyAPI") -> None:
+        self._client = client
+
+    def reviews(self, *, options: RequestOptions | None = None, **input: Unpack[AmazonReviewsInput]) -> RunResult[AmazonReviewsData]:
+        """Amazon Reviews
+
+        Pull up to 50 customer reviews for any Amazon product by ASIN or URL -
+        rating, title, text, date, and verified-purchase badge - at a flat
+        per-request USD price.
+
+        Price: $0.01625 per request.
+
+        Example:
+            res = client.amazon.reviews(product="B07FZ8S74R", limit=3)
+        """
+        raw = self._client._run("amazon.reviews", dict(input), options)
+        return RunResult[AmazonReviewsData].model_validate(raw.model_dump(by_alias=True))
+
+class AsyncAmazonNamespace:
+    """Typed methods for this platform. Attached lazily to the client."""
+
+    def __init__(self, client: "AsyncAnyAPI") -> None:
+        self._client = client
+
+    async def reviews(self, *, options: RequestOptions | None = None, **input: Unpack[AmazonReviewsInput]) -> RunResult[AmazonReviewsData]:
+        """Amazon Reviews
+
+        Pull up to 50 customer reviews for any Amazon product by ASIN or URL -
+        rating, title, text, date, and verified-purchase badge - at a flat
+        per-request USD price.
+
+        Price: $0.01625 per request.
+
+        Example:
+            res = client.amazon.reviews(product="B07FZ8S74R", limit=3)
+        """
+        raw = await self._client._run("amazon.reviews", dict(input), options)
+        return RunResult[AmazonReviewsData].model_validate(raw.model_dump(by_alias=True))
+",
+  "platforms/facebook.py": "# Generated - do not edit. Regenerate with: pnpm generate
+"""Generated namespace module for the facebook platform."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Literal
+
+from pydantic import BaseModel, ConfigDict, Field
+from typing_extensions import NotRequired, Required, TypedDict, Unpack
+
+from .._account import RequestOptions
+from .._pagination import (
+    AsyncPaginator,
+    Paginator,
+    RunResult,
+    apaginate,
+    paginate,
+)
+
+if TYPE_CHECKING:
+    from .._async_client import AsyncAnyAPI
+    from .._client import AnyAPI
+
+
+class FacebookAdsSearchInput(TypedDict, total=False):
+    """Input for Facebook Ads Search."""
+
+    query: Required[str]
+    """Keyword to search the Meta Ad Library for (e.g. "protein powder")."""
+    country: NotRequired[str]
+    """Two-letter country code to scope results. Omit for all countries."""
+    status: NotRequired[Literal["ALL", "ACTIVE", "INACTIVE"]]
+    """Ad status filter. Default: ACTIVE."""
+    mediaType: NotRequired[Literal["ALL", "IMAGE", "VIDEO", "MEME", "IMAGE_AND_MEME", "NONE"]]
+    """Creative media type filter."""
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor."""
+
+class FacebookAdsSearchData(BaseModel):
+    totalResults: int
+    nextCursor: str
+    ads: list[FacebookAdsSearchAd]
+
+class FacebookAdsSearchAd(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    id: str = Field(description="Ad Library archive ID. Populated whenever the provider returns data.")
+    pageId: str = Field(description="Populated whenever the provider returns data.")
+    pageName: str = Field(description="Populated whenever the provider returns data.")
+    active: bool
+    startDate: int = Field(description="Epoch seconds. Populated whenever the provider returns data.")
+    endDate: int = Field(description="Epoch seconds.")
+    text: str = Field(description="Ad body text. Populated whenever the provider returns data.")
+    title: str = Field(description="Populated whenever the provider returns data.")
+    ctaText: str = Field(description="Populated whenever the provider returns data.")
+    ctaType: str = Field(description="Populated whenever the provider returns data.")
+    linkUrl: str = Field(description="Populated whenever the provider returns data.")
+    displayFormat: str = Field(description="Populated whenever the provider returns data.")
+    platforms: list[str] = Field(description="Populated whenever the provider returns data.")
+    adCount: int = Field(description="Number of ads in this campaign (collation count).")
+
+class FacebookNamespace:
+    """Typed methods for this platform. Attached lazily to the client."""
+
+    def __init__(self, client: "AnyAPI") -> None:
+        self._client = client
+
+    def ads_search(self, *, options: RequestOptions | None = None, **input: Unpack[FacebookAdsSearchInput]) -> RunResult[FacebookAdsSearchData]:
+        """Facebook Ads Search
+
+        Search the Meta Ad Library by keyword and country, paging through active or
+        inactive ads with an opaque cursor.
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.facebook.ads_search(query="nike", country="US")
+        """
+        raw = self._client._run("facebook.ads_search", dict(input), options)
+        return RunResult[FacebookAdsSearchData].model_validate(raw.model_dump(by_alias=True))
+
+    def iter_ads_search(self, *, options: RequestOptions | None = None, **input: Unpack[FacebookAdsSearchInput]) -> Paginator[FacebookAdsSearchAd, FacebookAdsSearchData]:
+        """Iterate Facebook Ads Search results, following pagination cursors.
+
+        Yields flattened items from the \`ads\` field of each page. Use
+        \`.pages()\` on the returned paginator to walk whole \`RunResult\` pages.
+        """
+        return paginate(self._client, "facebook.ads_search", dict(input), "ads", options=options)
+
+class AsyncFacebookNamespace:
+    """Typed methods for this platform. Attached lazily to the client."""
+
+    def __init__(self, client: "AsyncAnyAPI") -> None:
+        self._client = client
+
+    async def ads_search(self, *, options: RequestOptions | None = None, **input: Unpack[FacebookAdsSearchInput]) -> RunResult[FacebookAdsSearchData]:
+        """Facebook Ads Search
+
+        Search the Meta Ad Library by keyword and country, paging through active or
+        inactive ads with an opaque cursor.
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.facebook.ads_search(query="nike", country="US")
+        """
+        raw = await self._client._run("facebook.ads_search", dict(input), options)
+        return RunResult[FacebookAdsSearchData].model_validate(raw.model_dump(by_alias=True))
+
+    def iter_ads_search(self, *, options: RequestOptions | None = None, **input: Unpack[FacebookAdsSearchInput]) -> AsyncPaginator[FacebookAdsSearchAd, FacebookAdsSearchData]:
+        """Iterate Facebook Ads Search results, following pagination cursors.
+
+        Yields flattened items from the \`ads\` field of each page. Use
+        \`.pages()\` on the returned paginator to walk whole \`RunResult\` pages.
+        """
+        return apaginate(self._client, "facebook.ads_search", dict(input), "ads", options=options)
+",
+  "platforms/threads.py": "# Generated - do not edit. Regenerate with: pnpm generate
+"""Generated namespace module for the threads platform."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Literal
+
+from pydantic import BaseModel, ConfigDict, Field
+from typing_extensions import NotRequired, Required, TypedDict, Unpack
+
+from .._account import RequestOptions
+from .._pagination import RunResult
+
+if TYPE_CHECKING:
+    from .._async_client import AsyncAnyAPI
+    from .._client import AnyAPI
+
+
+class ThreadsProfileInput(TypedDict, total=False):
+    """Input for Threads Profile."""
+
+    username: Required[str]
+    """The Threads username to look up, without the @ prefix (e.g. zuck)."""
+
+class ThreadsProfileData(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    id: str = Field(description="Populated whenever the provider returns data.")
+    username: str = Field(description="Populated whenever the provider returns data.")
+    fullName: str = Field(description="Populated whenever the provider returns data.")
+    biography: str = Field(description="Populated whenever the provider returns data.")
+    followerCount: int
+    isVerified: bool
+    isPrivate: bool
+    profilePicUrl: str = Field(description="Populated whenever the provider returns data.")
+
+class ThreadsNamespace:
+    """Typed methods for this platform. Attached lazily to the client."""
+
+    def __init__(self, client: "AnyAPI") -> None:
+        self._client = client
+
+    def profile(self, *, options: RequestOptions | None = None, **input: Unpack[ThreadsProfileInput]) -> RunResult[ThreadsProfileData]:
+        """Threads Profile
+
+        Look up a Threads profile by username: id, name, bio, follower count, and
+        verification and privacy flags.
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.threads.profile(username="zuck")
+        """
+        raw = self._client._run("threads.profile", dict(input), options)
+        return RunResult[ThreadsProfileData].model_validate(raw.model_dump(by_alias=True))
+
+class AsyncThreadsNamespace:
+    """Typed methods for this platform. Attached lazily to the client."""
+
+    def __init__(self, client: "AsyncAnyAPI") -> None:
+        self._client = client
+
+    async def profile(self, *, options: RequestOptions | None = None, **input: Unpack[ThreadsProfileInput]) -> RunResult[ThreadsProfileData]:
+        """Threads Profile
+
+        Look up a Threads profile by username: id, name, bio, follower count, and
+        verification and privacy flags.
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.threads.profile(username="zuck")
+        """
+        raw = await self._client._run("threads.profile", dict(input), options)
+        return RunResult[ThreadsProfileData].model_validate(raw.model_dump(by_alias=True))
+",
+}
+`;
