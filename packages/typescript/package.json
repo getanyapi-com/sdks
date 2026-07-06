@@ -1,0 +1,45 @@
+{
+  "name": "@anyapi/sdk",
+  "version": "0.0.0",
+  "description": "Official typed TypeScript SDK for AnyAPI: any API, one wallet, USD, no subscriptions.",
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "tsc --noEmit && vitest run && tsup"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "keywords": ["anyapi", "api", "scraping", "sdk", "typescript"],
+  "homepage": "https://getanyapi.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getanyapi-com/sdks.git",
+    "directory": "packages/typescript"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

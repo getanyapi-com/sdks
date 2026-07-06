@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+*.tsbuildinfo
+
+# python
+__pycache__/
+*.egg-info/
+.venv/
+venv/
+.mypy_cache/
+.pyright/
+.pytest_cache/
+.ruff_cache/
+build/
+
+# generator intermediate (regenerated; ir.sample.json is committed, ir.json is not)
+generator/ir.json
+
+# os / editor
+.DS_Store
+*.log
+.idea/
+.vscode/
