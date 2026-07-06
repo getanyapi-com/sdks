@@ -27,8 +27,7 @@ function versionOf(cmd: string, args: string[]): string | null {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],
     });
-    const m = out.match(/(\d+\.\d+\.\d+)/);
-    return m ? m[1] : null;
+    return out.match(/(\d+\.\d+\.\d+)/)?.[1] ?? null;
   } catch {
     return null;
   }
