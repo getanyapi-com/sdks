@@ -13,9 +13,27 @@ const PY_RESERVED = new Set<string>([
   "with", "yield",
 ]);
 
+// Hard keywords only (keyword.kwlist): these can NEVER be a bare class-body attribute
+// name, so a TypedDict with such a key MUST use the functional TypedDict("Name", {...})
+// form. The soft keywords match/case/type are excluded here: they are legal class-body
+// attribute names in Python, and mypy rejects the functional form for them anyway
+// (it parses a soft-keyword-named functional key as a syntax error). SPEC 1.5.
+const PY_HARD_KEYWORDS = new Set<string>(
+  [...PY_RESERVED].filter((k) => !["match", "case", "type"].includes(k)),
+);
+
 /** Trailing-underscore escape for a Python keyword/soft-keyword (SPEC 1.5). */
 export function escapePyKeyword(name: string): string {
   return PY_RESERVED.has(name) ? name + "_" : name;
+}
+
+/**
+ * Whether `key` forces the functional TypedDict form: it is either not a valid identifier
+ * (dots, hyphens, leading digit) or a HARD Python keyword (soft keywords are fine as
+ * class-body attribute names). SPEC 1.5.
+ */
+export function needsFunctionalTypedDict(key: string): boolean {
+  return !isValidPyIdentifier(key) || PY_HARD_KEYWORDS.has(key);
 }
 
 /** Whether `s` is a bare valid Python identifier (used to decide the functional TypedDict form). */

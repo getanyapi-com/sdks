@@ -4,9 +4,7 @@ exports[`emitTypescript golden output > emits the full file map for the 3-SKU sa
 {
   "client.ts": "// Generated - do not edit. Regenerate with: pnpm generate
 
-import { AnyAPI as AnyAPIBase } from "../core/client.js";
-
-import type { ClientCore } from "../core/types.js";
+import { AnyAPI as AnyAPIBase } from "../core/index.js";
 
 import { AmazonNamespace } from "./platforms/amazon.js";
 import { FacebookNamespace } from "./platforms/facebook.js";
@@ -95,7 +93,7 @@ import type {
   ClientCore,
   RequestOptions,
   RunResult,
-} from "../../core/types.js";
+} from "../../core/index.js";
 
 /**
  * Input for Amazon Reviews (amazon.reviews).
@@ -197,8 +195,8 @@ import type {
   Paginator,
   RequestOptions,
   RunResult,
-} from "../../core/types.js";
-import { paginate } from "../../core/pagination.js";
+} from "../../core/index.js";
+import { paginate } from "../../core/index.js";
 
 /**
  * Input for Facebook Ads Search (facebook.ads_search).
@@ -335,7 +333,7 @@ export class FacebookNamespace {
     return paginate<FacebookAdsSearchAd, FacebookAdsSearchData>(
       this._core,
       "facebook.ads_search",
-      input,
+      input as unknown as Record<string, unknown>,
       "ads",
       options,
     );
@@ -348,7 +346,7 @@ import type {
   ClientCore,
   RequestOptions,
   RunResult,
-} from "../../core/types.js";
+} from "../../core/index.js";
 
 /**
  * Input for Threads Profile (threads.profile).
@@ -433,15 +431,23 @@ import type {
 /**
  * Maps every SKU slug literal to its input and data payload types. Powers the generic
  * \`client.run(slug, input)\` overload so the compiler infers the right shapes by slug.
+ *
+ * Emitted as a module augmentation of the handwritten core \`SkuMap\` (declaration
+ * merging): the core interface carries a permissive string index (unknown slugs resolve
+ * to RunResult<unknown>) and this file adds every concrete slug literal on top.
  */
-export interface SkuMap {
-  "amazon.reviews": { input: AmazonReviewsInput; data: AmazonReviewsData };
-  "facebook.ads_search": {
-    input: FacebookAdsSearchInput;
-    data: FacebookAdsSearchData;
-  };
-  "threads.profile": { input: ThreadsProfileInput; data: ThreadsProfileData };
+declare module "../core/client.js" {
+  interface SkuMap {
+    "amazon.reviews": { input: AmazonReviewsInput; data: AmazonReviewsData };
+    "facebook.ads_search": {
+      input: FacebookAdsSearchInput;
+      data: FacebookAdsSearchData;
+    };
+    "threads.profile": { input: ThreadsProfileInput; data: ThreadsProfileData };
+  }
 }
+
+export type { SkuMap } from "../core/index.js";
 ",
 }
 `;

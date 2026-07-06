@@ -25,13 +25,12 @@ __all__ = ["REGISTRY"]
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from .._account import RequestOptions
-from .._pagination import RunResult
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -77,7 +76,9 @@ class AmazonNamespace:
         Example:
             res = client.amazon.reviews(product="B07FZ8S74R", limit=3)
         """
-        raw = self._client._run("amazon.reviews", dict(input), options)
+        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+            "amazon.reviews", dict(input), options
+        )
         return RunResult[AmazonReviewsData].model_validate(raw.model_dump(by_alias=True))
 
 class AsyncAmazonNamespace:
@@ -98,7 +99,9 @@ class AsyncAmazonNamespace:
         Example:
             res = client.amazon.reviews(product="B07FZ8S74R", limit=3)
         """
-        raw = await self._client._run("amazon.reviews", dict(input), options)
+        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+            "amazon.reviews", dict(input), options
+        )
         return RunResult[AmazonReviewsData].model_validate(raw.model_dump(by_alias=True))
 ",
   "platforms/facebook.py": "# Generated - do not edit. Regenerate with: pnpm generate
@@ -106,16 +109,15 @@ class AsyncAmazonNamespace:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from .._account import RequestOptions
+from ..types import RequestOptions, RunResult
 from .._pagination import (
     AsyncPaginator,
     Paginator,
-    RunResult,
     apaginate,
     paginate,
 )
@@ -179,7 +181,9 @@ class FacebookNamespace:
         Example:
             res = client.facebook.ads_search(query="nike", country="US")
         """
-        raw = self._client._run("facebook.ads_search", dict(input), options)
+        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+            "facebook.ads_search", dict(input), options
+        )
         return RunResult[FacebookAdsSearchData].model_validate(raw.model_dump(by_alias=True))
 
     def iter_ads_search(self, *, options: RequestOptions | None = None, **input: Unpack[FacebookAdsSearchInput]) -> Paginator[FacebookAdsSearchAd, FacebookAdsSearchData]:
@@ -207,7 +211,9 @@ class AsyncFacebookNamespace:
         Example:
             res = client.facebook.ads_search(query="nike", country="US")
         """
-        raw = await self._client._run("facebook.ads_search", dict(input), options)
+        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+            "facebook.ads_search", dict(input), options
+        )
         return RunResult[FacebookAdsSearchData].model_validate(raw.model_dump(by_alias=True))
 
     def iter_ads_search(self, *, options: RequestOptions | None = None, **input: Unpack[FacebookAdsSearchInput]) -> AsyncPaginator[FacebookAdsSearchAd, FacebookAdsSearchData]:
@@ -223,13 +229,12 @@ class AsyncFacebookNamespace:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing_extensions import NotRequired, Required, TypedDict, Unpack
+from typing_extensions import Required, TypedDict, Unpack
 
-from .._account import RequestOptions
-from .._pagination import RunResult
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -271,7 +276,9 @@ class ThreadsNamespace:
         Example:
             res = client.threads.profile(username="zuck")
         """
-        raw = self._client._run("threads.profile", dict(input), options)
+        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+            "threads.profile", dict(input), options
+        )
         return RunResult[ThreadsProfileData].model_validate(raw.model_dump(by_alias=True))
 
 class AsyncThreadsNamespace:
@@ -291,7 +298,9 @@ class AsyncThreadsNamespace:
         Example:
             res = client.threads.profile(username="zuck")
         """
-        raw = await self._client._run("threads.profile", dict(input), options)
+        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+            "threads.profile", dict(input), options
+        )
         return RunResult[ThreadsProfileData].model_validate(raw.model_dump(by_alias=True))
 ",
 }

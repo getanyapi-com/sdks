@@ -144,7 +144,9 @@ export function priceLine(pricing: {
   perItemUnit: string | null;
 }): string {
   const { priceUsd, baseUsd, perItemUsd, perItemUnit } = pricing;
-  if (perItemUsd !== null) {
+  // Treat perItemUsd 0 like null: the extractor emits 0 (not null) when catalog
+  // perItemCredits is 0, and we never want a "plus $0 per result" doc line (SPEC 1.2).
+  if (perItemUsd !== null && perItemUsd > 0) {
     const base = baseUsd ?? priceUsd;
     const unit = perItemUnit ?? "result";
     return `Price: $${formatUsd(base)} per request plus $${formatUsd(

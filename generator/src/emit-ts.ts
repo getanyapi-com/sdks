@@ -398,7 +398,7 @@ function emitIterator(sku: SkuEntry): string {
     `    return paginate<${itemType}, ${sku.outputTypeName}>(\n` +
     `      this._core,\n` +
     `      ${doubleQuote(sku.slug)},\n` +
-    `      input,\n` +
+    `      input as unknown as Record<string, unknown>,\n` +
     `      ${doubleQuote(itemsField)},\n` +
     `      options,\n` +
     `    );\n` +
@@ -456,10 +456,12 @@ function coreImportBlock(imports: CoreImports): string {
   if (imports.paginator) typeNames.push("Paginator");
   typeNames.sort();
 
+  // Everything comes from the handwritten core barrel (../../core/index.js) so the emitted
+  // import path never has to track which core file owns which symbol.
   const lines: string[] = [];
-  lines.push(`import type { ${typeNames.join(", ")} } from "../../core/types.js";`);
+  lines.push(`import type { ${typeNames.join(", ")} } from "../../core/index.js";`);
   if (imports.paginate) {
-    lines.push(`import { paginate } from "../../core/pagination.js";`);
+    lines.push(`import { paginate } from "../../core/index.js";`);
   }
   return lines.join("\n");
 }
@@ -522,12 +524,18 @@ function emitSkuMap(skus: SkuEntry[]): string {
   const doc = docComment([
     "Maps every SKU slug literal to its input and data payload types. Powers the generic",
     "`client.run(slug, input)` overload so the compiler infers the right shapes by slug.",
+    "",
+    "Emitted as a module augmentation of the handwritten core `SkuMap` (declaration",
+    "merging): the core interface carries a permissive string index (unknown slugs resolve",
+    "to RunResult<unknown>) and this file adds every concrete slug literal on top.",
   ]);
 
   return [
     GENERATED_HEADER_TS.trimEnd(),
     importLines.join("\n"),
-    `${doc}export interface SkuMap {\n${entries}\n}`,
+    `${doc}declare module "../core/client.js" {\n  interface SkuMap {\n${entries}\n  }\n}`,
+    // Re-export the augmented core SkuMap so this file has a value/type binding to name.
+    `export type { SkuMap } from "../core/index.js";`,
   ].join("\n\n");
 }
 
@@ -575,8 +583,7 @@ function emitClient(skus: SkuEntry[]): string {
 
   return [
     GENERATED_HEADER_TS.trimEnd(),
-    `import { AnyAPI as AnyAPIBase } from "../core/client.js";`,
-    `import type { ClientCore } from "../core/types.js";`,
+    `import { AnyAPI as AnyAPIBase } from "../core/index.js";`,
     nsImports.join("\n"),
     body,
   ].join("\n\n");

@@ -211,6 +211,13 @@ export class AnyAPI implements ClientCore {
   private readonly maxRetries: number;
   private readonly timeoutMs: number;
 
+  /**
+   * The network seam the generated per-platform namespaces target. The base client IS a
+   * ClientCore (it implements `run`), so the generated subclass hands `this._core` to each
+   * namespace constructor. Kept protected so it is not part of the public surface.
+   */
+  protected readonly _core: ClientCore = this;
+
   constructor(options: ClientOptions = {}) {
     this.apiKey = options.apiKey ?? envApiKey();
     this.baseUrl = options.baseUrl ?? DEFAULT_BASE_URL;

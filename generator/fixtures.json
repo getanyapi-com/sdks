@@ -1,0 +1,4434 @@
+{
+  "_generated": "Generated - do not edit. Regenerate with: pnpm generate",
+  "ahrefs.backlinks": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "urlFrom": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "ahrefs.keyword_ideas": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "sourceKeyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "ahrefs.keywords": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "ahrefs.overview": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "airbnb.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "alibaba.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "amazon.asins": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "asin": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "amazon.bestsellers": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "asin": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "amazon.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "asin": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "amazon.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "rating": 1.5,
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "amazon.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "asin": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "appstore.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "rating": 1.5,
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "bluesky.post": {
+    "output": {
+      "found": true,
+      "data": {
+        "text": "sample",
+        "authorHandle": "sample",
+        "likes": 1,
+        "replies": 1,
+        "reposts": 1,
+        "createdAt": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "bluesky.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "displayName": "sample",
+        "description": "sample",
+        "followers": 1,
+        "following": 1,
+        "postsCount": 1,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "bluesky.user_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "text": "sample",
+            "authorHandle": "sample",
+            "likes": 1,
+            "replies": 1,
+            "reposts": 1,
+            "createdAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "booking.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "coinmarketcap.listings": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "symbol": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "congress.trades": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "symbol": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "dexscreener.tokens": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "symbol": "sample",
+            "price": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "ebay.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "ebay.sold_listings": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "email.find": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "email": "sample",
+            "status": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "email.verify": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "email": "sample",
+            "status": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.ad_details": {
+    "output": {
+      "found": true,
+      "data": {
+        "adArchiveId": "sample",
+        "pageId": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.ad_transcript": {
+    "output": {
+      "found": true,
+      "data": {
+        "adId": "sample",
+        "url": "sample",
+        "transcript": "sample",
+        "transcriptAvailable": true,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.ads_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "totalResults": 1,
+        "nextCursor": "sample",
+        "ads": [
+          {
+            "id": "sample",
+            "pageId": "sample",
+            "pageName": "sample",
+            "active": true,
+            "startDate": 1,
+            "endDate": 1,
+            "text": "sample",
+            "title": "sample",
+            "ctaText": "sample",
+            "ctaType": "sample",
+            "linkUrl": "sample",
+            "displayFormat": "sample",
+            "platforms": [
+              "sample"
+            ],
+            "adCount": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.comment_replies": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "hasNextPage": true,
+        "replies": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "createdAt": "sample",
+            "replyCount": 1,
+            "reactionCount": 1,
+            "authorName": "sample",
+            "authorId": "sample",
+            "authorProfilePicture": "sample",
+            "feedbackId": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.company_ads": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "ads": [
+          {
+            "id": "sample",
+            "pageId": "sample",
+            "pageName": "sample",
+            "active": true,
+            "startDate": 1,
+            "endDate": 1,
+            "currency": "sample",
+            "text": "sample",
+            "displayFormat": "sample",
+            "platforms": [
+              "sample"
+            ],
+            "adCount": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.event_details": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "url": "sample",
+        "name": "sample",
+        "description": "sample",
+        "dayTimeSentence": "sample",
+        "startTime": "sample",
+        "endTime": "sample",
+        "locationName": "sample",
+        "city": "sample",
+        "interestedCount": 1,
+        "goingCount": 1,
+        "coverPhotoUrl": "sample",
+        "isOnline": true,
+        "isCanceled": true,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.events": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "events": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "url": "sample",
+            "dayTimeSentence": "sample",
+            "startTimestamp": 1,
+            "isOnline": true,
+            "placeName": "sample",
+            "interestedCount": 1,
+            "goingCount": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.events_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "events": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "url": "sample",
+            "dayTimeSentence": "sample",
+            "startTimestamp": 1,
+            "placeName": "sample",
+            "priceRangeText": "sample",
+            "coverImage": "sample",
+            "interestedCount": 1,
+            "goingCount": 1,
+            "isOnline": true,
+            "isPast": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.followers": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.group_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "posts": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "url": "sample",
+            "permalink": "sample",
+            "publishTime": 1,
+            "reactionCount": 1,
+            "commentCount": 1,
+            "authorName": "sample",
+            "authorId": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.marketplace": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "hasNextPage": true,
+        "listings": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "priceFormatted": "sample",
+            "priceAmount": 1.5,
+            "locationName": "sample",
+            "photoUrl": "sample",
+            "isSold": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.marketplace_item": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "url": "sample",
+        "title": "sample",
+        "description": "sample",
+        "creationTime": "sample",
+        "locationText": "sample",
+        "priceFormatted": "sample",
+        "priceAmount": 1.5,
+        "currency": "sample",
+        "categoryId": "sample",
+        "isSold": true,
+        "isLive": true,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.marketplace_location_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "locations": [
+          {
+            "name": "sample",
+            "subtitle": "sample",
+            "pageId": "sample",
+            "city": "sample",
+            "postalCode": "sample",
+            "latitude": 1.5,
+            "longitude": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.page_contact": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.photos": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "nextPageId": "sample",
+        "photos": [
+          {
+            "id": "sample",
+            "photoId": "sample",
+            "caption": "sample",
+            "url": "sample",
+            "thumbnail": "sample",
+            "imageUrl": "sample",
+            "imageWidth": 1,
+            "imageHeight": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.post": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "text": "sample",
+        "likes": 1,
+        "comments": 1,
+        "shares": 1,
+        "views": 1,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.post_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "author": "sample",
+            "reactions": 1,
+            "replies": 1,
+            "createdAt": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.post_transcript": {
+    "output": {
+      "found": true,
+      "data": {
+        "transcript": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "category": "sample",
+        "likes": 1,
+        "followers": 1,
+        "about": "sample",
+        "avatarUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.profile_events": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "hasNextPage": true,
+        "totalCount": 1,
+        "events": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "url": "sample",
+            "dayTimeSentence": "sample",
+            "startTimestamp": 1,
+            "placeName": "sample",
+            "city": "sample",
+            "creatorName": "sample",
+            "isOnline": true,
+            "isPast": true,
+            "isCanceled": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.profile_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "url": "sample",
+            "author": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.profile_reels": {
+    "output": {
+      "found": true,
+      "data": {
+        "reels": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "caption": "sample",
+            "views": 1,
+            "thumbnail": "sample",
+            "createdAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.search_companies": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "pageId": "sample",
+            "name": "sample",
+            "category": "sample",
+            "imageUrl": "sample",
+            "likes": 1,
+            "verification": "sample",
+            "country": "sample",
+            "entityType": "sample",
+            "igUsername": "sample",
+            "igFollowers": 1,
+            "pageAlias": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.search_pages": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "facebook.search_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "fiverr.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "gigId": "sample",
+            "title": "sample",
+            "gigUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.repository": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "fullName": "sample",
+        "url": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.trending_developers": {
+    "output": {
+      "found": true,
+      "data": {
+        "since": "sample",
+        "language": "sample",
+        "developers": [
+          {
+            "rank": 1,
+            "username": "sample",
+            "name": "sample",
+            "url": "sample",
+            "avatarUrl": "sample",
+            "popularRepo": "sample",
+            "popularRepoUrl": "sample",
+            "popularRepoDescription": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.trending_repositories": {
+    "output": {
+      "found": true,
+      "data": {
+        "repos": [
+          {
+            "rank": 1,
+            "fullName": "sample",
+            "url": "sample",
+            "description": "sample",
+            "language": "sample",
+            "stars": 1,
+            "forks": 1,
+            "starsToday": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.user": {
+    "output": {
+      "found": true,
+      "data": {
+        "login": "sample",
+        "name": "sample",
+        "bio": "sample",
+        "avatarUrl": "sample",
+        "publicRepos": 1,
+        "followers": 1,
+        "following": 1,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.user_activity": {
+    "output": {
+      "found": true,
+      "data": {
+        "username": "sample",
+        "year": 1,
+        "month": "sample",
+        "noActivity": true,
+        "nextCursor": "sample",
+        "activity": [
+          {
+            "summary": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.user_contributions": {
+    "output": {
+      "found": true,
+      "data": {
+        "username": "sample",
+        "year": 1,
+        "total": 1,
+        "days": [
+          {
+            "date": "sample",
+            "count": 1,
+            "intensity": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.user_followers": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "followers": [
+          {
+            "id": 1,
+            "login": "sample",
+            "type": "sample",
+            "avatarUrl": "sample",
+            "url": "sample",
+            "siteAdmin": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.user_following": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "following": [
+          {
+            "id": 1,
+            "login": "sample",
+            "type": "sample",
+            "avatarUrl": "sample",
+            "url": "sample",
+            "siteAdmin": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.user_pull_requests": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "hasMore": true,
+        "pullRequests": [
+          {
+            "title": "sample",
+            "repo": "sample",
+            "state": "sample",
+            "createdAt": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "github.user_repositories": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": 1,
+        "hasMore": true,
+        "repos": [
+          {
+            "name": "sample",
+            "fullName": "sample",
+            "description": "sample",
+            "url": "sample",
+            "language": "sample",
+            "stars": 1,
+            "forks": 1,
+            "fork": true,
+            "archived": true,
+            "updatedAt": "sample",
+            "pushedAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "glassdoor.jobs": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google.images": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google.news": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "query": "sample",
+        "results": [
+          {
+            "title": "sample",
+            "link": "sample",
+            "snippet": "sample",
+            "position": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google_ads.ad_details": {
+    "output": {
+      "found": true,
+      "data": {
+        "advertiserId": "sample",
+        "creativeId": "sample",
+        "format": "sample",
+        "firstShown": "sample",
+        "lastShown": "sample",
+        "impressionsMin": 1,
+        "impressionsMax": 1,
+        "variations": [
+          {
+            "headline": "sample",
+            "description": "sample",
+            "allText": "sample",
+            "destinationUrl": "sample",
+            "imageUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google_ads.advertiser_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "advertisers": [
+          {
+            "name": "sample",
+            "advertiserId": "sample",
+            "region": "sample",
+            "adsEstimate": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google_ads.company_ads": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "adsEstimate": 1,
+        "ads": [
+          {
+            "advertiserId": "sample",
+            "creativeId": "sample",
+            "advertiserName": "sample",
+            "format": "sample",
+            "adUrl": "sample",
+            "imageUrl": "sample",
+            "firstShown": "sample",
+            "lastShown": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google_ads.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google_finance.quote": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "symbol": "sample",
+            "price": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google_shopping.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "hackernews.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "username": "sample",
+        "bio": "sample",
+        "karma": 1,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "hackernews.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "results": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "url": "sample",
+            "author": "sample",
+            "points": 1,
+            "comments": 1,
+            "publishedAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "hackernews.story": {
+    "output": {
+      "found": true,
+      "data": {
+        "title": "sample",
+        "url": "sample",
+        "author": "sample",
+        "points": 1,
+        "comments": 1,
+        "publishedAt": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "hackernews.story_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "parentId": "sample",
+            "author": "sample",
+            "text": "sample",
+            "publishedAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "indeed.jobs": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "jobId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.audio_reels": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "hasMore": true,
+        "reels": [
+          {
+            "id": "sample",
+            "code": "sample",
+            "likes": 1,
+            "comments": 1,
+            "plays": 1,
+            "handle": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.basic_profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "userId": "sample",
+        "handle": "sample",
+        "displayName": "sample",
+        "followers": 1,
+        "following": 1,
+        "bio": "sample",
+        "verified": true,
+        "private": true,
+        "externalUrl": "sample",
+        "avatarUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.embed": {
+    "output": {
+      "found": true,
+      "data": {
+        "html": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.followers": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "handle": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.following": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "handle": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.hashtag_analytics": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.highlight_detail": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "title": "sample",
+        "mediaCount": 1,
+        "createdAt": 1,
+        "ownerHandle": "sample",
+        "coverUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.media_transcript": {
+    "output": {
+      "found": true,
+      "data": {
+        "transcripts": [
+          {
+            "id": "sample",
+            "shortcode": "sample",
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.post": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "shortcode": "sample",
+        "type": "sample",
+        "owner": "sample",
+        "likes": 1,
+        "displayUrl": "sample",
+        "videoUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.post_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "author": "sample",
+            "verified": true,
+            "likes": 1,
+            "createdAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "displayName": "sample",
+        "followers": 1,
+        "following": 1,
+        "posts": 1,
+        "bio": "sample",
+        "verified": true,
+        "avatarUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.reel_transcript": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.reels_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "reels": [
+          {
+            "shortcode": "sample",
+            "url": "sample",
+            "caption": "sample",
+            "thumbnail": "sample",
+            "views": 1,
+            "plays": 1,
+            "likes": 1,
+            "comments": 1,
+            "durationSeconds": 1.5,
+            "takenAt": "sample",
+            "username": "sample",
+            "followers": 1,
+            "verified": true,
+            "paidPartnership": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "handle": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.search_hashtag": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "shortcode": "sample",
+            "type": "sample",
+            "url": "sample",
+            "caption": "sample",
+            "displayUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.search_profiles": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "profiles": [
+          {
+            "id": "sample",
+            "handle": "sample",
+            "displayName": "sample",
+            "bio": "sample",
+            "followers": 1,
+            "following": 1,
+            "posts": 1,
+            "verified": true,
+            "private": true,
+            "avatarUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.stories_full": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.stories_thin": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.trending_reels": {
+    "output": {
+      "found": true,
+      "data": {
+        "reels": [
+          {
+            "id": "sample",
+            "shortcode": "sample",
+            "url": "sample",
+            "caption": "sample",
+            "likes": 1,
+            "comments": 1,
+            "plays": 1,
+            "handle": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.user_highlights": {
+    "output": {
+      "found": true,
+      "data": {
+        "highlights": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "coverUrl": "sample",
+            "ownerHandle": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.user_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "caption": "sample",
+            "likes": 1,
+            "comments": 1,
+            "createdAt": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "instagram.user_reels": {
+    "output": {
+      "found": true,
+      "data": {
+        "reels": [
+          {
+            "id": "sample",
+            "shortcode": "sample",
+            "caption": "sample",
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "takenAt": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.ad": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "advertiser": "sample",
+        "advertiserLinkedinPage": "sample",
+        "headline": "sample",
+        "description": "sample",
+        "adType": "sample",
+        "cta": "sample",
+        "destinationUrl": "sample",
+        "image": "sample",
+        "startDate": "sample",
+        "endDate": "sample",
+        "totalImpressions": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.ads": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.ads_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "totalAds": 1,
+        "ads": [
+          {
+            "id": "sample",
+            "advertiser": "sample",
+            "advertiserLinkedinPage": "sample",
+            "headline": "sample",
+            "description": "sample",
+            "adType": "sample",
+            "cta": "sample",
+            "destinationUrl": "sample",
+            "startDate": "sample",
+            "endDate": "sample",
+            "totalImpressions": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.company": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "description": "sample",
+        "employeeCount": 1,
+        "industry": "sample",
+        "website": "sample",
+        "tagline": "sample",
+        "logoUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.company_employees": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.company_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "text": "sample",
+            "publishedAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.email": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "name": "sample",
+            "email": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.jobs": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.post": {
+    "output": {
+      "found": true,
+      "data": {
+        "url": "sample",
+        "title": "sample",
+        "text": "sample",
+        "author": "sample",
+        "likes": 1,
+        "comments": 1,
+        "publishedAt": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.post_transcript": {
+    "output": {
+      "found": true,
+      "data": {
+        "url": "sample",
+        "transcript": "sample",
+        "transcriptNotAvailable": true,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "location": "sample",
+        "followers": 1,
+        "about": "sample",
+        "avatarUrl": "sample",
+        "experience": [
+          {
+            "company": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "education": [
+          {
+            "school": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "recentPosts": [
+          {
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "articles": [
+          {
+            "headline": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.search_companies": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.search_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "url": "sample",
+            "text": "sample",
+            "publishedAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.search_profiles": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "maps.contacts": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "maps.place": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "maps.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "reviewId": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "maps.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "pandaexpress.locations": {
+    "output": {
+      "found": true,
+      "data": {
+        "restaurants": [
+          {
+            "id": 1,
+            "name": "sample",
+            "address": "sample",
+            "city": "sample",
+            "state": "sample",
+            "zip": "sample",
+            "phone": "sample",
+            "latitude": 1.5,
+            "longitude": 1.5,
+            "distanceMiles": 1.5,
+            "canPickup": true,
+            "canDeliver": true,
+            "isOpen": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "pandaexpress.menu": {
+    "output": {
+      "found": true,
+      "data": {
+        "categories": [
+          {
+            "name": "sample",
+            "items": [
+              {
+                "name": "sample",
+                "description": "sample",
+                "priceUsd": 1.5,
+                "calories": 1,
+                "_extra": "passthrough"
+              }
+            ],
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "pandaexpress.nutrition": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "name": "sample",
+            "servingSizeOz": 1.5,
+            "calories": 1.5,
+            "totalFatG": 1.5,
+            "saturatedFatG": 1.5,
+            "transFatG": 1.5,
+            "cholesterolMg": 1.5,
+            "sodiumMg": 1.5,
+            "totalCarbG": 1.5,
+            "dietaryFiberG": 1.5,
+            "sugarsG": 1.5,
+            "proteinG": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "person.skip_trace": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "pinterest.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "playstore.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "rating": 1.5,
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "polymarket.markets": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "realtor.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "reddit.post_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "author": "sample",
+            "body": "sample",
+            "url": "sample",
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "reddit.post_transcript": {
+    "output": {
+      "found": true,
+      "data": {
+        "postId": "sample",
+        "language": "sample",
+        "transcript": "sample",
+        "transcriptNotAvailable": true,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "reddit.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "author": "sample",
+            "score": 1,
+            "numComments": 1,
+            "url": "sample",
+            "permalink": "sample",
+            "createdUtc": 1.5,
+            "subreddit": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "reddit.subreddit_details": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "weeklyActiveUsers": 1,
+        "description": "sample",
+        "advertiserCategory": "sample",
+        "iconUrl": "sample",
+        "createdAt": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "reddit.subreddit_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "author": "sample",
+            "score": 1,
+            "numComments": 1,
+            "url": "sample",
+            "permalink": "sample",
+            "createdUtc": 1.5,
+            "subreddit": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "reddit.subreddit_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "posts": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "author": "sample",
+            "url": "sample",
+            "permalink": "sample",
+            "score": 1,
+            "numComments": 1,
+            "createdUtc": 1.5,
+            "subreddit": "sample",
+            "nsfw": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "redfin.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "rednote.note": {
+    "output": {
+      "found": true,
+      "data": {
+        "noteId": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "rednote.note_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "commentId": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "rednote.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "userId": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "rednote.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "notes": [
+          {
+            "noteId": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "rednote.search_users": {
+    "output": {
+      "found": true,
+      "data": {
+        "users": [
+          {
+            "userId": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "rednote.user_notes": {
+    "output": {
+      "found": true,
+      "data": {
+        "notes": [
+          {
+            "noteId": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "sec.filings": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "accessionNumber": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "semrush.keywords": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "semrush.overview": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "snapchat.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "social.finder": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "social": "sample",
+            "socialProfileUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "spotify.album": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "type": "sample",
+        "label": "sample",
+        "popularity": 1,
+        "releaseDate": "sample",
+        "uri": "sample",
+        "tracks": [
+          {
+            "name": "sample",
+            "playcount": 1,
+            "durationMs": 1,
+            "uri": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "spotify.artist": {
+    "output": {
+      "found": true,
+      "data": {
+        "albums": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "type": "sample",
+            "year": 1,
+            "trackCount": 1,
+            "uri": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "topTracks": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "playcount": 1,
+            "uri": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "spotify.play_count": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "spotify.podcast": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "description": "sample",
+        "publisher": "sample",
+        "averageRating": 1.5,
+        "totalRatings": 1,
+        "uri": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "spotify.podcast_episodes": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "totalCount": 1,
+        "episodes": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "description": "sample",
+            "durationMs": 1,
+            "releaseDate": "sample",
+            "uri": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "spotify.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "tracks": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "uri": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "albums": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "year": 1,
+            "uri": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "artists": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "verified": true,
+            "uri": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "podcasts": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "publisher": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "spotify.track": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "playcount": 1,
+        "popularity": 1,
+        "durationMs": 1,
+        "trackNumber": 1,
+        "uri": "sample",
+        "shareUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "substack.posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "threads.post": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "code": "sample",
+        "text": "sample",
+        "username": "sample",
+        "fullName": "sample",
+        "likeCount": 1,
+        "replyCount": 1,
+        "repostCount": 1,
+        "quoteCount": 1,
+        "takenAt": 1,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "threads.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "username": "sample",
+        "fullName": "sample",
+        "biography": "sample",
+        "followerCount": 1,
+        "isVerified": true,
+        "isPrivate": true,
+        "profilePicUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "threads.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "code": "sample",
+            "text": "sample",
+            "username": "sample",
+            "fullName": "sample",
+            "likeCount": 1,
+            "replyCount": 1,
+            "repostCount": 1,
+            "takenAt": 1,
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "threads.search_users": {
+    "output": {
+      "found": true,
+      "data": {
+        "users": [
+          {
+            "id": "sample",
+            "username": "sample",
+            "fullName": "sample",
+            "isVerified": true,
+            "profilePicUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "threads.user_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "code": "sample",
+            "url": "sample",
+            "text": "sample",
+            "username": "sample",
+            "likeCount": 1,
+            "replyCount": 1,
+            "repostCount": 1,
+            "quoteCount": 1,
+            "takenAt": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.ad_library_ad": {
+    "output": {
+      "found": true,
+      "data": {
+        "adId": "sample",
+        "adTitle": "sample",
+        "brandName": "sample",
+        "cost": 1.5,
+        "ctr": 1.5,
+        "likes": 1,
+        "comments": 1,
+        "shares": 1,
+        "industry": "sample",
+        "objective": "sample",
+        "landingPage": "sample",
+        "videoUrl": "sample",
+        "coverUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.ad_library_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "hasMore": true,
+        "total": 1,
+        "ads": [
+          {
+            "adId": "sample",
+            "adTitle": "sample",
+            "brandName": "sample",
+            "cost": 1.5,
+            "ctr": 1.5,
+            "likes": 1,
+            "industry": "sample",
+            "objective": "sample",
+            "videoUrl": "sample",
+            "coverUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.audience_demographics": {
+    "output": {
+      "found": true,
+      "data": {
+        "audienceLocations": [
+          {
+            "country": "sample",
+            "countryCode": "sample",
+            "count": 1,
+            "percentage": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.comment_replies": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "author": "sample",
+            "likes": 1,
+            "createdAt": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.followers": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "total": 1,
+        "followers": [
+          {
+            "userId": "sample",
+            "username": "sample",
+            "nickname": "sample",
+            "region": "sample",
+            "followerCount": 1,
+            "followingCount": 1,
+            "avatarUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.following": {
+    "output": {
+      "found": true,
+      "data": {
+        "following": [
+          {
+            "id": "sample",
+            "handle": "sample",
+            "displayName": "sample",
+            "followers": 1,
+            "videos": 1,
+            "region": "sample",
+            "bio": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.hashtag_videos": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.live": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "displayName": "sample",
+        "roomId": "sample",
+        "title": "sample",
+        "coverUrl": "sample",
+        "startTime": 1,
+        "status": 1,
+        "viewers": 1,
+        "enterCount": 1,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "displayName": "sample",
+        "followers": 1,
+        "following": 1,
+        "likes": 1,
+        "videos": 1,
+        "bio": "sample",
+        "verified": true,
+        "avatarUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.profile_region": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "profileUrl": "sample",
+        "region": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.profile_videos": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "caption": "sample",
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "createdAt": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.search_hashtag": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "caption": "sample",
+            "author": "sample",
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "shares": 1,
+            "createdAt": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.search_keyword": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "caption": "sample",
+            "region": "sample",
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "shares": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.search_top": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "caption": "sample",
+            "contentType": "sample",
+            "url": "sample",
+            "author": "sample",
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "shares": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.search_users": {
+    "output": {
+      "found": true,
+      "data": {
+        "users": [
+          {
+            "handle": "sample",
+            "nickname": "sample",
+            "userId": "sample",
+            "followers": 1,
+            "following": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.song": {
+    "output": {
+      "found": true,
+      "data": {
+        "songId": "sample",
+        "title": "sample",
+        "author": "sample",
+        "album": "sample",
+        "duration": 1,
+        "isOriginal": true,
+        "videoCount": 1,
+        "coverUrl": "sample",
+        "shareUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.song_videos": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "hasMore": 1,
+        "videos": [
+          {
+            "videoId": "sample",
+            "description": "sample",
+            "authorHandle": "sample",
+            "authorName": "sample",
+            "createTime": 1,
+            "playCount": 1,
+            "likeCount": 1,
+            "commentCount": 1,
+            "shareCount": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.trending_feed": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "caption": "sample",
+            "url": "sample",
+            "region": "sample",
+            "author": "sample",
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "shares": 1,
+            "createdAt": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.video": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "caption": "sample",
+        "region": "sample",
+        "views": 1,
+        "likes": 1,
+        "comments": 1,
+        "shares": 1,
+        "saves": 1,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.video_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "author": "sample",
+            "likes": 1,
+            "replies": 1,
+            "createdAt": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok.video_transcript": {
+    "output": {
+      "found": true,
+      "data": {
+        "transcript": "sample",
+        "language": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok_shop.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "productId": "sample",
+        "title": "sample",
+        "price": "sample",
+        "originalPrice": "sample",
+        "currency": "sample",
+        "soldCount": 1,
+        "rating": 1.5,
+        "reviewCount": 1,
+        "sellerName": "sample",
+        "sellerLocation": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok_shop.product_reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "totalReviews": 1,
+        "rating": 1.5,
+        "hasMore": true,
+        "reviews": [
+          {
+            "id": "sample",
+            "rating": 1.5,
+            "text": "sample",
+            "reviewerName": "sample",
+            "country": "sample",
+            "sku": "sample",
+            "verifiedPurchase": true,
+            "createdAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok_shop.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok_shop.shop_products": {
+    "output": {
+      "found": true,
+      "data": {
+        "shopName": "sample",
+        "shopRating": 1.5,
+        "soldCount": 1,
+        "productCount": 1,
+        "hasMore": true,
+        "nextCursor": "sample",
+        "products": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "price": 1.5,
+            "originalPrice": 1.5,
+            "currency": "sample",
+            "rating": 1.5,
+            "reviewCount": 1,
+            "soldCount": 1,
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tiktok_shop.user_showcase": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "products": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "price": "sample",
+            "originalPrice": "sample",
+            "currency": "sample",
+            "rating": 1.5,
+            "reviewCount": 1,
+            "soldCount": 1,
+            "imageUrl": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tripadvisor.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "rating": 1.5,
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "tripadvisor.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "rating": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "trustpilot.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "rating": 1.5,
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "truthsocial.post": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "text": "sample",
+        "username": "sample",
+        "displayName": "sample",
+        "likes": 1,
+        "comments": 1,
+        "shares": 1,
+        "publishedAt": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "truthsocial.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "username": "sample",
+        "displayName": "sample",
+        "bio": "sample",
+        "avatarUrl": "sample",
+        "url": "sample",
+        "verified": true,
+        "private": true,
+        "followers": 1,
+        "following": 1,
+        "postsCount": 1,
+        "joinedAt": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "truthsocial.user_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "text": "sample",
+            "likes": 1,
+            "comments": 1,
+            "shares": 1,
+            "publishedAt": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.community": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "description": "sample",
+        "memberCount": 1,
+        "joinPolicy": "sample",
+        "createdAt": 1.5,
+        "creatorHandle": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.community_tweets": {
+    "output": {
+      "found": true,
+      "data": {
+        "tweets": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "createdAt": "sample",
+            "favoriteCount": 1,
+            "replyCount": 1,
+            "retweetCount": 1,
+            "quoteCount": 1,
+            "authorHandle": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.followers": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "username": "sample",
+            "name": "sample",
+            "bio": "sample",
+            "followers": 1,
+            "following": 1,
+            "verified": true,
+            "location": "sample",
+            "avatarUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.following": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "username": "sample",
+            "name": "sample",
+            "bio": "sample",
+            "followers": 1,
+            "following": 1,
+            "verified": true,
+            "location": "sample",
+            "avatarUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "displayName": "sample",
+        "followers": 1,
+        "following": 1,
+        "tweets": 1,
+        "bio": "sample",
+        "verified": true,
+        "avatarUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.replies": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.tweet": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "text": "sample",
+        "authorId": "sample",
+        "likes": 1,
+        "retweets": 1,
+        "replies": 1,
+        "quotes": 1,
+        "bookmarks": 1,
+        "views": 1,
+        "createdAt": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.tweet_transcript": {
+    "output": {
+      "found": true,
+      "data": {
+        "transcript": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.user_tweets": {
+    "output": {
+      "found": true,
+      "data": {
+        "tweets": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "text": "sample",
+            "createdAt": "sample",
+            "likes": 1,
+            "retweets": 1,
+            "replies": 1,
+            "views": 1,
+            "bookmarks": 1,
+            "isPinned": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "upwork.jobs": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "jobId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "walmart.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "web.crawl": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "domain": "sample",
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "web.map": {
+    "output": {
+      "found": true,
+      "data": {
+        "results": [
+          {
+            "url": "sample",
+            "title": "sample",
+            "description": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "web.scrape": {
+    "output": {
+      "found": true,
+      "data": {
+        "url": "sample",
+        "title": "sample",
+        "description": "sample",
+        "markdown": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "web.screenshot": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "whatsapp.validate": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "phone": "sample",
+            "status": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "yahoo_finance.quote": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "price": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "yelp.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "alias": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.channel": {
+    "output": {
+      "found": true,
+      "data": {
+        "channelId": "sample",
+        "title": "sample",
+        "subscribers": 1,
+        "videos": 1,
+        "views": 1,
+        "description": "sample",
+        "avatarUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.channel_community_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "content": "sample",
+            "image": "sample",
+            "likeCount": 1,
+            "publishedTime": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.channel_lives": {
+    "output": {
+      "found": true,
+      "data": {
+        "lives": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "views": 1,
+            "lengthText": "sample",
+            "publishedTime": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.channel_playlists": {
+    "output": {
+      "found": true,
+      "data": {
+        "playlists": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "playlistUrl": "sample",
+            "videoCount": 1,
+            "thumbnail": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.channel_shorts": {
+    "output": {
+      "found": true,
+      "data": {
+        "shorts": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "views": 1,
+            "likes": 1,
+            "duration": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.channel_videos": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "views": 1,
+            "lengthText": "sample",
+            "publishedTime": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.comment_replies": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "content": "sample",
+            "authorName": "sample",
+            "likes": 1,
+            "publishedTime": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.community_post": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "content": "sample",
+        "publishedTime": "sample",
+        "channelTitle": "sample",
+        "channelHandle": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.playlist": {
+    "output": {
+      "found": true,
+      "data": {
+        "title": "sample",
+        "owner": "sample",
+        "totalVideos": 1,
+        "videos": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "url": "sample",
+            "thumbnail": "sample",
+            "lengthText": "sample",
+            "lengthSeconds": 1,
+            "channel": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "channel": "sample",
+            "views": 1,
+            "lengthText": "sample",
+            "publishedTime": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.search_hashtag": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "channelTitle": "sample",
+            "views": 1,
+            "lengthText": "sample",
+            "publishedTime": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.trending_shorts": {
+    "output": {
+      "found": true,
+      "data": {
+        "shorts": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "channelTitle": "sample",
+            "views": 1,
+            "likes": 1,
+            "duration": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.video": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "title": "sample",
+        "channel": "sample",
+        "views": 1,
+        "likes": 1,
+        "comments": 1,
+        "durationMs": 1,
+        "publishedAt": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.video_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "author": "sample",
+            "likes": 1,
+            "replies": 1,
+            "publishedTime": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.video_sponsors": {
+    "output": {
+      "found": true,
+      "data": {
+        "videoId": "sample",
+        "title": "sample",
+        "isPaidPromotion": true,
+        "detectionStatus": "sample",
+        "suspectedSponsors": [
+          {
+            "name": "sample",
+            "website": "sample",
+            "confidence": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "youtube.video_transcript": {
+    "output": {
+      "found": true,
+      "data": {
+        "transcript": "sample",
+        "language": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "zillow.property": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "price": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "zillow.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "zpid": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  }
+}

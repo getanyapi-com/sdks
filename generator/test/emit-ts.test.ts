@@ -325,6 +325,11 @@ export function paginate<Item, Data>(
 
 const STUB_CLIENT = `// stub core AnyAPI base (SPEC 2.1)
 import type { ClientCore, ClientOptions } from "./types.js";
+// The generated sku-map.ts augments this interface (declaration merging). The base carries
+// a permissive string index so unknown slugs resolve to RunResult<unknown>.
+export interface SkuMap {
+  [slug: string]: { input: unknown; data: unknown };
+}
 export class AnyAPI {
   protected readonly _core: ClientCore;
   constructor(_options?: ClientOptions) {
@@ -335,6 +340,8 @@ export class AnyAPI {
 
 const STUB_CORE_INDEX = `// stub core barrel
 export { AnyAPI } from "./client.js";
+export type { SkuMap } from "./client.js";
+export { paginate } from "./pagination.js";
 export * from "./types.js";
 export declare function agentSignup(options?: import("./types.js").AgentSignupOptions): Promise<import("./types.js").AgentSignupResult>;
 export declare function unwrap<T>(result: import("./types.js").RunResult<T>): T;

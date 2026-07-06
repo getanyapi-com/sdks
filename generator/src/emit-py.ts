@@ -28,6 +28,7 @@ import {
   GENERATED_HEADER_PY,
   escapePyKeyword,
   isValidPyIdentifier,
+  needsFunctionalTypedDict,
   pascalCase,
   pyStringLiteral,
   singularize,
@@ -110,28 +111,68 @@ function emitPlatformModule(platform: string, skus: SkuEntry[]): string {
 
   const paginated = skus.some((s) => s.pyIterMethod);
 
+  // Assemble the module BODY first (input TypedDicts, output models, both namespace
+  // classes), then derive the import header from what the body actually references so
+  // pyright strict never flags an unused import.
+  const bodyParts: string[] = [];
+  bodyParts.push(inputBlocks.join("\n\n"));
+  bodyParts.push("");
+  bodyParts.push(ctx.models.join("\n\n"));
+  bodyParts.push("");
+  bodyParts.push(emitNamespaceClass(syncClass, "AnyAPI", syncMethods));
+  bodyParts.push("");
+  bodyParts.push(emitNamespaceClass(asyncClass, "AsyncAnyAPI", asyncMethods));
+  bodyParts.push("");
+  const body = bodyParts.join("\n");
+
+  const uses = (symbol: string): boolean =>
+    new RegExp(`\\b${symbol}\\b`).test(body);
+
   const parts: string[] = [];
   parts.push(GENERATED_HEADER_PY);
   parts.push('"""Generated namespace module for the ' + platform + ' platform."""');
   parts.push("");
   parts.push("from __future__ import annotations");
   parts.push("");
-  parts.push("from typing import TYPE_CHECKING, Any, Literal");
+
+  // typing imports (only what the body uses; TYPE_CHECKING is always needed below).
+  const typingNames = ["TYPE_CHECKING"];
+  if (uses("Any")) typingNames.push("Any");
+  if (uses("Literal")) typingNames.push("Literal");
+  typingNames.sort();
+  parts.push(`from typing import ${typingNames.join(", ")}`);
   parts.push("");
-  parts.push("from pydantic import BaseModel, ConfigDict, Field");
-  parts.push("from typing_extensions import NotRequired, Required, TypedDict, Unpack");
+
+  // pydantic imports (only what the body uses).
+  const pydanticNames: string[] = [];
+  if (uses("BaseModel")) pydanticNames.push("BaseModel");
+  if (uses("ConfigDict")) pydanticNames.push("ConfigDict");
+  if (uses("Field")) pydanticNames.push("Field");
+  if (pydanticNames.length > 0) {
+    parts.push(`from pydantic import ${pydanticNames.join(", ")}`);
+  }
+
+  // typing_extensions imports (Required/NotRequired/Unpack always used by inputs; TypedDict too).
+  const teNames: string[] = [];
+  if (uses("NotRequired")) teNames.push("NotRequired");
+  if (uses("Required")) teNames.push("Required");
+  if (uses("TypedDict")) teNames.push("TypedDict");
+  if (uses("Unpack")) teNames.push("Unpack");
+  if (teNames.length > 0) {
+    parts.push(`from typing_extensions import ${teNames.join(", ")}`);
+  }
   parts.push("");
-  parts.push("from .._account import RequestOptions");
+
+  // RunResult and RequestOptions live in ..types; the paginators/helpers in .._pagination
+  // (the real py-runtime layout). See SPEC.md sections 3.3, 3.5, 3.7.
+  parts.push("from ..types import RequestOptions, RunResult");
   if (paginated) {
     parts.push("from .._pagination import (");
     parts.push("    AsyncPaginator,");
     parts.push("    Paginator,");
-    parts.push("    RunResult,");
     parts.push("    apaginate,");
     parts.push("    paginate,");
     parts.push(")");
-  } else {
-    parts.push("from .._pagination import RunResult");
   }
   parts.push("");
   parts.push("if TYPE_CHECKING:");
@@ -139,22 +180,7 @@ function emitPlatformModule(platform: string, skus: SkuEntry[]): string {
   parts.push("    from .._client import AnyAPI");
   parts.push("");
   parts.push("");
-
-  // Input TypedDicts
-  parts.push(inputBlocks.join("\n\n"));
-  parts.push("");
-
-  // Output models (nested first, then roots keep their forward refs resolvable via
-  // `from __future__ import annotations`; order does not matter for runtime).
-  parts.push(ctx.models.join("\n\n"));
-  parts.push("");
-
-  // Sync namespace class
-  parts.push(emitNamespaceClass(syncClass, "AnyAPI", syncMethods));
-  parts.push("");
-  // Async namespace class
-  parts.push(emitNamespaceClass(asyncClass, "AsyncAnyAPI", asyncMethods));
-  parts.push("");
+  parts.push(body);
 
   void outputRootModels;
   return normalizeTrailing(parts.join("\n"));
@@ -195,10 +221,10 @@ function emitInputTypedDict(sku: SkuEntry): string {
   const keys = Object.keys(props);
   const requiredSet = new Set(input.required ?? []);
 
-  // Detect whether any field name collides with a Python keyword/reserved word, which
-  // forces the functional TypedDict("Name", {...}) form (class-body keys cannot be
-  // keywords). SPEC 1.5.
-  const needsFunctional = keys.some((k) => escapePyKeyword(k) !== k || !isValidPyIdentifier(k));
+  // Detect whether any field name forces the functional TypedDict("Name", {...}) form:
+  // an invalid identifier or a HARD keyword (soft keywords match/case/type are legal
+  // class-body attribute names, and mypy rejects them in the functional form). SPEC 1.5.
+  const needsFunctional = keys.some((k) => needsFunctionalTypedDict(k));
 
   const fieldEntries = keys.map((k) => {
     const node = props[k]!;
@@ -464,7 +490,8 @@ function itemModelName(prefix: string, propKey: string): string {
 function emitMethod(sku: SkuEntry, async: boolean): string {
   const method = escapePyKeyword(sku.pyMethod);
   const kw = async ? "async def" : "def";
-  const awaitKw = async ? "await " : "";
+  // Sync namespaces call client._run; async namespaces call client._arun (SPEC 3.2).
+  const runSeam = async ? "await self._client._arun" : "self._client._run";
   const ret = `RunResult[${sku.outputTypeName}]`;
 
   const lines: string[] = [];
@@ -472,7 +499,13 @@ function emitMethod(sku: SkuEntry, async: boolean): string {
     `    ${kw} ${method}(self, *, options: RequestOptions | None = None, **input: Unpack[${sku.inputTypeName}]) -> ${ret}:`,
   );
   lines.push(...methodDocstring(sku, method).map((l) => "        " + l));
-  lines.push(`        raw = ${awaitKw}self._client._run(${pyStringLiteral(sku.slug)}, dict(input), options)`);
+  // The run seam (_run/_arun) is protected on the client; the generated namespace is a
+  // trusted collaborator, so suppress the private-usage diagnostic (matches _pagination.py).
+  lines.push(
+    `        raw = ${runSeam}(  # pyright: ignore[reportPrivateUsage]`,
+  );
+  lines.push(`            ${pyStringLiteral(sku.slug)}, dict(input), options`);
+  lines.push(`        )`);
   lines.push(
     `        return ${ret}.model_validate(raw.model_dump(by_alias=True))`,
   );
@@ -548,7 +581,9 @@ function methodDocstring(sku: SkuEntry, method: string): string[] {
 /** "Price: $X per request." or per-item form when perItemUsd is non-null (SPEC 3.4). */
 function priceLine(sku: SkuEntry): string {
   const p = sku.pricing;
-  if (p.perItemUsd != null) {
+  // Treat perItemUsd 0 like null (the extractor emits 0, not null, when catalog
+  // perItemCredits is 0); never emit a "$0 per result" line (SPEC 1.2).
+  if (p.perItemUsd != null && p.perItemUsd > 0) {
     const unit = p.perItemUnit ?? "result";
     return `Price: $${fmtUsd(p.perItemUsd)} per ${unit}.`;
   }

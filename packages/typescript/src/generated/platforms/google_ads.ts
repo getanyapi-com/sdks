@@ -1,0 +1,327 @@
+// Generated - do not edit. Regenerate with: pnpm generate
+
+import type {
+  ClientCore,
+  Paginator,
+  RequestOptions,
+  RunResult,
+} from "../../core/index.js";
+import { paginate } from "../../core/index.js";
+
+/**
+ * Input for Google Ads Ad Details (google_ads.ad_details).
+ */
+export interface GoogleAdsAdDetailsInput {
+  /**
+   * Google Ads Transparency Center creative URL (e.g. "https://adstransparency.google.com/advertiser/AR.../creative/CR...").
+   */
+  url: string;
+}
+
+export interface GoogleAdsAdDetailsVariation {
+  allText: string;
+  description: string;
+  destinationUrl: string;
+  headline: string;
+  imageUrl: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Ads Ad Details (google_ads.ad_details).
+ */
+export interface GoogleAdsAdDetailsData {
+  /**
+   * Populated whenever the provider returns data.
+   */
+  advertiserId: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  creativeId: string;
+  /**
+   * ISO 8601 date.
+   */
+  firstShown: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  format: string;
+  impressionsMax: number;
+  impressionsMin: number;
+  /**
+   * ISO 8601 date.
+   */
+  lastShown: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  variations: GoogleAdsAdDetailsVariation[];
+}
+
+/**
+ * Input for Google Ads Advertiser Search (google_ads.advertiser_search).
+ */
+export interface GoogleAdsAdvertiserSearchInput {
+  /**
+   * Advertiser name or keyword to search for (e.g. "lululemon").
+   */
+  query: string;
+  /**
+   * Two-letter country code to scope results (e.g. "AU", "CA"). Defaults to US.
+   */
+  region?: string;
+}
+
+export interface GoogleAdsAdvertiserSearchAdvertiser {
+  /**
+   * Estimated number of ads for this advertiser/region.
+   */
+  adsEstimate: number;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  advertiserId: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  name: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  region: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Ads Advertiser Search (google_ads.advertiser_search).
+ */
+export interface GoogleAdsAdvertiserSearchData {
+  /**
+   * Populated whenever the provider returns data.
+   */
+  advertisers: GoogleAdsAdvertiserSearchAdvertiser[];
+}
+
+/**
+ * Input for Google Ads Company Ads (google_ads.company_ads).
+ */
+export interface GoogleAdsCompanyAdsInput {
+  /**
+   * Advertiser ID. Provide either domain or advertiserId.
+   */
+  advertiserId?: string;
+  /**
+   * Opaque pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Company domain (e.g. "lululemon.com"). Provide either domain or advertiserId.
+   */
+  domain?: string;
+  /**
+   * Ad format filter.
+   * One of: text, image, video.
+   */
+  format?: "text" | "image" | "video";
+  /**
+   * Platform filter.
+   * One of: google_maps, google_play, google_search, google_shopping, youtube.
+   */
+  platform?:
+    | "google_maps"
+    | "google_play"
+    | "google_search"
+    | "google_shopping"
+    | "youtube";
+  /**
+   * Two-letter country code to scope results (e.g. "US", "AU").
+   */
+  region?: string;
+  /**
+   * Search topic. "political" requires a region.
+   * One of: all, political.
+   */
+  topic?: "all" | "political";
+}
+
+export interface GoogleAdsCompanyAdsAd {
+  /**
+   * Populated whenever the provider returns data.
+   */
+  adUrl: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  advertiserId: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  advertiserName: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  creativeId: string;
+  /**
+   * ISO 8601 date.
+   */
+  firstShown: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  format: string;
+  imageUrl: string;
+  /**
+   * ISO 8601 date.
+   */
+  lastShown: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Ads Company Ads (google_ads.company_ads).
+ */
+export interface GoogleAdsCompanyAdsData {
+  /**
+   * Populated whenever the provider returns data.
+   */
+  ads: GoogleAdsCompanyAdsAd[];
+  /**
+   * Estimated total number of ads.
+   */
+  adsEstimate: number;
+  nextCursor: string;
+}
+
+/**
+ * Input for Google Ads Transparency (google_ads.search).
+ */
+export interface GoogleAdsSearchInput {
+  /**
+   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Range: minimum 1, maximum 20.
+   */
+  limit?: number;
+  /**
+   * A Google Ads Transparency Center URL for a selected advertiser or domain (e.g. https://adstransparency.google.com/advertiser/AR01614014350098432001?region=US).
+   */
+  url: string;
+}
+
+export interface GoogleAdsSearchItem {
+  /**
+   * Populated whenever the provider returns data.
+   */
+  id: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Ads Transparency (google_ads.search).
+ */
+export interface GoogleAdsSearchData {
+  /**
+   * Ad records from the Transparency Center: advertiser, ad format, creative details, preview URL, and first/last shown dates.
+   * Populated whenever the provider returns data.
+   */
+  items: GoogleAdsSearchItem[];
+}
+
+/**
+ * Typed methods for the google_ads platform. Attached to the AnyAPI client as
+ * `client.googleAds`.
+ */
+export class GoogleAdsNamespace {
+  constructor(private readonly _core: ClientCore) {}
+
+  /**
+   * Google Ads Ad Details
+   *
+   * Look up a single Google Ads Transparency Center creative by URL and get its format, run dates, impression range, regions, and creative variations as clean JSON, billed per request in USD.
+   *
+   * Price: $0.002 per request.
+   *
+   * @example
+   * const res = await client.googleAds.adDetails({"url":"https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217"});
+   */
+  adDetails(
+    input: GoogleAdsAdDetailsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleAdsAdDetailsData>> {
+    return this._core.run("google_ads.ad_details", input, options);
+  }
+
+  /**
+   * Google Ads Advertiser Search
+   *
+   * Search the Google Ads Transparency Center for advertisers by keyword and get matching advertiser IDs, regions, and estimated ad counts as clean JSON, billed per request in USD.
+   *
+   * Price: $0.002 per request.
+   *
+   * @example
+   * const res = await client.googleAds.advertiserSearch({"query":"lululemon"});
+   */
+  advertiserSearch(
+    input: GoogleAdsAdvertiserSearchInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleAdsAdvertiserSearchData>> {
+    return this._core.run("google_ads.advertiser_search", input, options);
+  }
+
+  /**
+   * Google Ads Company Ads
+   *
+   * List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID - creative ID, format, ad URL, and first/last shown dates - with cursor pagination, billed per request in USD.
+   *
+   * Price: $0.002 per request.
+   *
+   * @example
+   * const res = await client.googleAds.companyAds({"domain":"lululemon.com"});
+   */
+  companyAds(
+    input: GoogleAdsCompanyAdsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleAdsCompanyAdsData>> {
+    return this._core.run("google_ads.company_ads", input, options);
+  }
+
+  /**
+   * Iterate every result of Google Ads Company Ads across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * RunResult pages instead (each carries its own costUsd).
+   */
+  iterCompanyAds(
+    input: GoogleAdsCompanyAdsInput,
+    options?: RequestOptions,
+  ): Paginator<GoogleAdsCompanyAdsAd, GoogleAdsCompanyAdsData> {
+    return paginate<GoogleAdsCompanyAdsAd, GoogleAdsCompanyAdsData>(
+      this._core,
+      "google_ads.company_ads",
+      input as unknown as Record<string, unknown>,
+      "ads",
+      options,
+    );
+  }
+
+  /**
+   * Google Ads Transparency
+   *
+   * Pull the ads an advertiser is currently running from the Google Ads Transparency Center - creative details, formats, and run dates - as clean JSON, billed per request in USD.
+   *
+   * Price: $0.00005 per request plus $0.0013 per result.
+   *
+   * @example
+   * const res = await client.googleAds.search({"limit":3,"url":"https://adstransparency.google.com/?region=US&domain=nike.com"});
+   */
+  search(
+    input: GoogleAdsSearchInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleAdsSearchData>> {
+    return this._core.run("google_ads.search", input, options);
+  }
+}
