@@ -39,20 +39,45 @@ if res.output.found:
 
 - `SPEC.md` - the frozen contract (IR shape, naming rules, runtime signatures). Read this
   before touching anything.
-- `openapi.json` - committed snapshot of the live gateway spec (the generator input).
-- `generator/` - internal codegen (not published): snapshot -> `ir.json` -> emitted sources.
-- `packages/typescript/` - the `@anyapi/sdk` package.
-- `packages/python/` - the `anyapi` package.
+- `openapi.json` + `catalog.json` - committed snapshots of the live gateway (the generator
+  inputs: schemas/pricing ceiling from openapi, category/per-item pricing from catalog).
+  Both are verbatim upstream artifacts and the only files exempt from the dash guard.
+- `generator/` - internal codegen (not published). It reads the two snapshots, emits a
+  deterministic `ir.json` (the normalized intermediate the emitters consume), a
+  `fixtures.json` (one synthetic run-response per SKU, used by the integration tests), and
+  the two generated SDK trees. `ir.json` and `fixtures.json` are committed.
+- `packages/typescript/` - the `@anyapi/sdk` package. Handwritten runtime in `src/core/`;
+  emitted namespaces, sku-map, and client in `src/generated/`.
+- `packages/python/` - the `anyapi` package. Handwritten runtime in `src/anyapi/` (`_*.py`
+  + `types.py`); emitted namespaces in `src/anyapi/platforms/`.
+
+## How generation works
+
+```
+openapi.json + catalog.json   (committed upstream snapshots)
+        |  generator/src/ir.ts        (extractor: envelope crack, naming, USD pricing,
+        v                              dash normalization, pagination detection)
+     ir.json                          (deterministic, sorted, committed)
+        |  emit-ts.ts / emit-py.ts / fixtures.ts
+        v
+  packages/*/src/generated/**   +   generator/fixtures.json
+```
+
+The emitters read ONLY `ir.json`, never the raw OpenAPI. `pnpm generate` runs the whole
+pipeline; `pnpm generate:check` regenerates in memory and byte-compares against the
+committed output (the CI drift gate). Two runs on the same snapshots are byte-identical.
+To refresh from the live gateway: `pnpm --filter @anyapi/generator fetch` then
+`pnpm generate`.
 
 ## Development
 
 ```bash
 pnpm install
-pnpm generate      # snapshot -> ir.json -> emitted TS + Python sources
-pnpm check         # typecheck + tests + build across packages
+pnpm generate      # snapshots -> ir.json -> fixtures.json + both generated trees
+pnpm check         # dash guard + drift check + tsc/vitest/tsup (TS) across packages
 ```
 
-Python side:
+Python side (its gates run in CI separately from `pnpm check`):
 
 ```bash
 pip install -e "packages/python[dev]"
