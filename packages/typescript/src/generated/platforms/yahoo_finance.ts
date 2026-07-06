@@ -18,7 +18,7 @@ export interface YahooFinanceQuoteInput {
 
 export interface YahooFinanceQuoteItem {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   name?: string;
   price: number;
@@ -31,7 +31,6 @@ export interface YahooFinanceQuoteItem {
 export interface YahooFinanceQuoteData {
   /**
    * Quote records for the ticker: current price, market cap, volume, day range, and key financial stats.
-   * Populated whenever the provider returns data.
    */
   items: YahooFinanceQuoteItem[];
 }
@@ -51,7 +50,7 @@ export class YahooFinanceNamespace {
    * Price: $0.00005 per request plus $0.0009 per result.
    *
    * @example
-   * const res = await client.yahooFinance.quote({"ticker":"AAPL"});
+   * const res = await client.yahooFinance.quote({ ticker: "AAPL" });
    */
   quote(
     input: YahooFinanceQuoteInput,

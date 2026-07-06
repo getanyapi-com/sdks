@@ -22,9 +22,6 @@ export interface HackernewsProfileInput {
 export interface HackernewsProfileData {
   bio: string;
   karma: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   [extra: string]: unknown;
 }
@@ -44,23 +41,11 @@ export interface HackernewsSearchInput {
 }
 
 export interface HackernewsSearchResult {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   points: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   url: string;
   [extra: string]: unknown;
@@ -70,9 +55,6 @@ export interface HackernewsSearchResult {
  * The `data` payload of Hacker News Search (hackernews.search).
  */
 export interface HackernewsSearchData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   results: HackernewsSearchResult[];
 }
 
@@ -90,19 +72,10 @@ export interface HackernewsStoryInput {
  * The `data` payload of Hacker News Story (hackernews.story).
  */
 export interface HackernewsStoryData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
   comments: number;
   points: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   url: string;
   [extra: string]: unknown;
@@ -119,18 +92,9 @@ export interface HackernewsStoryCommentsInput {
 }
 
 export interface HackernewsStoryCommentsComment {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   parentId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedAt: string;
   text: string;
   [extra: string]: unknown;
@@ -140,9 +104,6 @@ export interface HackernewsStoryCommentsComment {
  * The `data` payload of Hacker News Story Comments (hackernews.story_comments).
  */
 export interface HackernewsStoryCommentsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   comments: HackernewsStoryCommentsComment[];
 }
 
@@ -161,7 +122,7 @@ export class HackernewsNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.hackernews.profile({"handle":"pg"});
+   * const res = await client.hackernews.profile({ handle: "pg" });
    */
   profile(
     input: HackernewsProfileInput,
@@ -178,7 +139,7 @@ export class HackernewsNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.hackernews.search({"query":"ai"});
+   * const res = await client.hackernews.search({ query: "ai" });
    */
   search(
     input: HackernewsSearchInput,
@@ -195,7 +156,7 @@ export class HackernewsNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.hackernews.story({"id":"47340079"});
+   * const res = await client.hackernews.story({ id: "47340079" });
    */
   story(
     input: HackernewsStoryInput,
@@ -212,7 +173,7 @@ export class HackernewsNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.hackernews.storyComments({"id":"47340079"});
+   * const res = await client.hackernews.storyComments({ id: "47340079" });
    */
   storyComments(
     input: HackernewsStoryCommentsInput,

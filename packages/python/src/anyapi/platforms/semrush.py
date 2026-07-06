@@ -37,18 +37,18 @@ class SemrushOverviewInput(TypedDict, total=False):
 
 class SemrushKeywordsData(BaseModel):
     items: list[SemrushKeywordsItem] = Field(
-        description="Keyword-research records: search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords for the researched term. Populated whenever the provider returns data."
+        description="Keyword-research records: search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords for the researched term."
     )
 
 
 class SemrushKeywordsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     competition: float | None = Field(
         default=None, description="Paid-search competition density, 0 to 1."
     )
-    cpcUsd: float | None = Field(
-        default=None, description="Average cost per click in USD."
+    cpc_usd: float | None = Field(
+        default=None, alias="cpcUsd", description="Average cost per click in USD."
     )
     database: str | None = Field(
         default=None,
@@ -56,78 +56,90 @@ class SemrushKeywordsItem(BaseModel):
     )
     intents: list[str] | None = Field(
         default=None,
-        description="Search-intent labels for the keyword (e.g. commercial, informational). Populated whenever the provider returns data.",
+        description="Search-intent labels for the keyword (e.g. commercial, informational). Present whenever the upstream returns this record.",
     )
-    keyword: str = Field(
-        description="The researched search term. Populated whenever the provider returns data."
-    )
-    keywordDifficulty: int | None = Field(
-        default=None, description="Semrush Keyword Difficulty, 0 to 100."
-    )
-    organicResultsCount: int | None = Field(
+    keyword: str = Field(description="The researched search term.")
+    keyword_difficulty: int | None = Field(
         default=None,
+        alias="keywordDifficulty",
+        description="Semrush Keyword Difficulty, 0 to 100.",
+    )
+    organic_results_count: int | None = Field(
+        default=None,
+        alias="organicResultsCount",
         description="Number of organic results Google returns for the keyword.",
     )
     questions: list[SemrushKeywordsQuestion] | None = Field(
         default=None,
-        description="Question-phrased keyword variations with their own volume and difficulty. Populated whenever the provider returns data.",
+        description="Question-phrased keyword variations with their own volume and difficulty. Present whenever the upstream returns this record.",
     )
-    referringDomainsMedian: int | None = Field(
+    referring_domains_median: int | None = Field(
         default=None,
+        alias="referringDomainsMedian",
         description="Median number of referring domains across the ranking pages.",
     )
-    relatedKeywords: list[SemrushKeywordsRelatedKeyword] | None = Field(
+    related_keywords: list[SemrushKeywordsRelatedKeyword] | None = Field(
         default=None,
-        description="Related keyword suggestions with their own volume and difficulty. Populated whenever the provider returns data.",
+        alias="relatedKeywords",
+        description="Related keyword suggestions with their own volume and difficulty. Present whenever the upstream returns this record.",
     )
-    searchVolume: int | None = Field(
+    search_volume: int | None = Field(
         default=None,
+        alias="searchVolume",
         description="Average monthly search volume in the selected database.",
     )
 
 
 class SemrushKeywordsQuestion(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     keyword: str = Field(description="The question keyword.")
-    keywordDifficulty: int | None = Field(
+    keyword_difficulty: int | None = Field(
         default=None,
+        alias="keywordDifficulty",
         description="Semrush Keyword Difficulty for the question keyword, 0 to 100.",
     )
-    searchVolume: int | None = Field(
+    search_volume: int | None = Field(
         default=None,
+        alias="searchVolume",
         description="Average monthly search volume for the question keyword.",
     )
 
 
 class SemrushKeywordsRelatedKeyword(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     keyword: str = Field(description="The related keyword.")
-    keywordDifficulty: int | None = Field(
+    keyword_difficulty: int | None = Field(
         default=None,
+        alias="keywordDifficulty",
         description="Semrush Keyword Difficulty for the related keyword, 0 to 100.",
     )
-    searchVolume: int | None = Field(
+    search_volume: int | None = Field(
         default=None,
+        alias="searchVolume",
         description="Average monthly search volume for the related keyword.",
     )
 
 
 class SemrushOverviewData(BaseModel):
     items: list[SemrushOverviewItem] = Field(
-        description="Domain overview records: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords. Populated whenever the provider returns data."
+        description="Domain overview records: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords."
     )
 
 
 class SemrushOverviewItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    aiVisibility: int | None = Field(
-        default=None, description="Semrush AI visibility metric for the domain."
+    ai_visibility: int | None = Field(
+        default=None,
+        alias="aiVisibility",
+        description="Semrush AI visibility metric for the domain.",
     )
-    authorityScore: int | None = Field(
-        default=None, description="Semrush Authority Score, 0-100."
+    authority_score: int | None = Field(
+        default=None,
+        alias="authorityScore",
+        description="Semrush Authority Score, 0-100.",
     )
     backlinks: int | None = Field(
         default=None, description="Total number of backlinks pointing at the domain."
@@ -136,79 +148,106 @@ class SemrushOverviewItem(BaseModel):
         default=None,
         description="Two-letter Semrush regional database the metrics are scoped to.",
     )
-    domain: str = Field(
-        description="The analyzed domain. Populated whenever the provider returns data."
-    )
-    followBacklinks: int | None = Field(
-        default=None, description="Number of dofollow backlinks."
-    )
-    mozDomainAuthority: int | None = Field(
+    domain: str = Field(description="The analyzed domain.")
+    follow_backlinks: int | None = Field(
         default=None,
+        alias="followBacklinks",
+        description="Number of dofollow backlinks.",
+    )
+    moz_domain_authority: int | None = Field(
+        default=None,
+        alias="mozDomainAuthority",
         description="Moz Domain Authority, 0-100 (only when includeMoz is true).",
     )
-    mozSpamScore: str | None = Field(
+    moz_spam_score: str | None = Field(
         default=None,
+        alias="mozSpamScore",
         description="Moz Spam Score as a percentage string (only when includeMoz is true).",
     )
-    nofollowBacklinks: int | None = Field(
-        default=None, description="Number of nofollow backlinks."
-    )
-    organicKeywords: int | None = Field(
-        default=None, description="Number of keywords the domain ranks for organically."
-    )
-    organicTraffic: int | None = Field(
-        default=None, description="Estimated monthly organic search traffic."
-    )
-    organicTrafficCostUsd: float | None = Field(
-        default=None, description="Estimated USD value of the organic traffic."
-    )
-    paidKeywords: int | None = Field(
-        default=None, description="Number of keywords the domain bids on."
-    )
-    paidTraffic: int | None = Field(
-        default=None, description="Estimated monthly paid search traffic."
-    )
-    paidTrafficCostUsd: float | None = Field(
-        default=None, description="Estimated USD value of the paid traffic."
-    )
-    referringDomains: int | None = Field(
-        default=None, description="Number of unique domains linking to the domain."
-    )
-    topCountry: str | None = Field(
+    nofollow_backlinks: int | None = Field(
         default=None,
+        alias="nofollowBacklinks",
+        description="Number of nofollow backlinks.",
+    )
+    organic_keywords: int | None = Field(
+        default=None,
+        alias="organicKeywords",
+        description="Number of keywords the domain ranks for organically.",
+    )
+    organic_traffic: int | None = Field(
+        default=None,
+        alias="organicTraffic",
+        description="Estimated monthly organic search traffic.",
+    )
+    organic_traffic_cost_usd: float | None = Field(
+        default=None,
+        alias="organicTrafficCostUsd",
+        description="Estimated USD value of the organic traffic.",
+    )
+    paid_keywords: int | None = Field(
+        default=None,
+        alias="paidKeywords",
+        description="Number of keywords the domain bids on.",
+    )
+    paid_traffic: int | None = Field(
+        default=None,
+        alias="paidTraffic",
+        description="Estimated monthly paid search traffic.",
+    )
+    paid_traffic_cost_usd: float | None = Field(
+        default=None,
+        alias="paidTrafficCostUsd",
+        description="Estimated USD value of the paid traffic.",
+    )
+    referring_domains: int | None = Field(
+        default=None,
+        alias="referringDomains",
+        description="Number of unique domains linking to the domain.",
+    )
+    top_country: str | None = Field(
+        default=None,
+        alias="topCountry",
         description="Two-letter code of the country sending the most traffic.",
     )
-    topCountryTraffic: int | None = Field(
-        default=None, description="Estimated monthly traffic from the top country."
-    )
-    topKeywords: list[SemrushOverviewTopKeyword] | None = Field(
+    top_country_traffic: int | None = Field(
         default=None,
-        description="The domain's top organic keywords with position, volume, and value. Populated whenever the provider returns data.",
+        alias="topCountryTraffic",
+        description="Estimated monthly traffic from the top country.",
     )
-    totalTraffic: int | None = Field(
+    top_keywords: list[SemrushOverviewTopKeyword] | None = Field(
         default=None,
+        alias="topKeywords",
+        description="The domain's top organic keywords with position, volume, and value. Present whenever the upstream returns this record.",
+    )
+    total_traffic: int | None = Field(
+        default=None,
+        alias="totalTraffic",
         description="Estimated total monthly traffic across organic and paid.",
     )
 
 
 class SemrushOverviewTopKeyword(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    cpcUsd: float | None = Field(
-        default=None, description="Average cost per click in USD."
+    cpc_usd: float | None = Field(
+        default=None, alias="cpcUsd", description="Average cost per click in USD."
     )
     intents: list[str] | None = Field(
         default=None, description="Search intents associated with the keyword."
     )
     keyword: str = Field(description="The organic keyword.")
-    keywordDifficulty: int | None = Field(
-        default=None, description="Semrush Keyword Difficulty, 0-100."
+    keyword_difficulty: int | None = Field(
+        default=None,
+        alias="keywordDifficulty",
+        description="Semrush Keyword Difficulty, 0-100.",
     )
     position: int | None = Field(
         default=None, description="Current SERP position for this keyword."
     )
-    searchVolume: int | None = Field(
-        default=None, description="Monthly search volume for this keyword."
+    search_volume: int | None = Field(
+        default=None,
+        alias="searchVolume",
+        description="Monthly search volume for this keyword.",
     )
     traffic: int | None = Field(
         default=None,
@@ -240,12 +279,10 @@ class SemrushNamespace:
         Example:
             res = client.semrush.keywords(database="us", keyword="best running shoes")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "semrush.keywords", dict(input), options
         )
-        return RunResult[SemrushKeywordsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SemrushKeywordsData].model_validate(raw)
 
     def overview(
         self,
@@ -264,12 +301,10 @@ class SemrushNamespace:
         Example:
             res = client.semrush.overview(database="us", domain="ahrefs.com")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "semrush.overview", dict(input), options
         )
-        return RunResult[SemrushOverviewData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SemrushOverviewData].model_validate(raw)
 
 
 class AsyncSemrushNamespace:
@@ -295,12 +330,10 @@ class AsyncSemrushNamespace:
         Example:
             res = client.semrush.keywords(database="us", keyword="best running shoes")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "semrush.keywords", dict(input), options
         )
-        return RunResult[SemrushKeywordsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SemrushKeywordsData].model_validate(raw)
 
     async def overview(
         self,
@@ -319,9 +352,7 @@ class AsyncSemrushNamespace:
         Example:
             res = client.semrush.overview(database="us", domain="ahrefs.com")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "semrush.overview", dict(input), options
         )
-        return RunResult[SemrushOverviewData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SemrushOverviewData].model_validate(raw)

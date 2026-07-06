@@ -31,21 +31,12 @@ export interface GoogleAdsAdDetailsVariation {
  * The `data` payload of Google Ads Ad Details (google_ads.ad_details).
  */
 export interface GoogleAdsAdDetailsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   advertiserId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   creativeId: string;
   /**
    * ISO 8601 date.
    */
   firstShown: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   format: string;
   impressionsMax: number;
   impressionsMin: number;
@@ -53,9 +44,6 @@ export interface GoogleAdsAdDetailsData {
    * ISO 8601 date.
    */
   lastShown: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   variations: GoogleAdsAdDetailsVariation[];
 }
 
@@ -78,17 +66,8 @@ export interface GoogleAdsAdvertiserSearchAdvertiser {
    * Estimated number of ads for this advertiser/region.
    */
   adsEstimate: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   advertiserId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   region: string;
   [extra: string]: unknown;
 }
@@ -97,9 +76,6 @@ export interface GoogleAdsAdvertiserSearchAdvertiser {
  * The `data` payload of Google Ads Advertiser Search (google_ads.advertiser_search).
  */
 export interface GoogleAdsAdvertiserSearchData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   advertisers: GoogleAdsAdvertiserSearchAdvertiser[];
 }
 
@@ -146,29 +122,14 @@ export interface GoogleAdsCompanyAdsInput {
 }
 
 export interface GoogleAdsCompanyAdsAd {
-  /**
-   * Populated whenever the provider returns data.
-   */
   adUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   advertiserId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   advertiserName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   creativeId: string;
   /**
    * ISO 8601 date.
    */
   firstShown: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   format: string;
   imageUrl: string;
   /**
@@ -182,9 +143,6 @@ export interface GoogleAdsCompanyAdsAd {
  * The `data` payload of Google Ads Company Ads (google_ads.company_ads).
  */
 export interface GoogleAdsCompanyAdsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   ads: GoogleAdsCompanyAdsAd[];
   /**
    * Estimated total number of ads.
@@ -209,13 +167,7 @@ export interface GoogleAdsSearchInput {
 }
 
 export interface GoogleAdsSearchItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -226,7 +178,6 @@ export interface GoogleAdsSearchItem {
 export interface GoogleAdsSearchData {
   /**
    * Ad records from the Transparency Center: advertiser, ad format, creative details, preview URL, and first/last shown dates.
-   * Populated whenever the provider returns data.
    */
   items: GoogleAdsSearchItem[];
 }
@@ -246,7 +197,7 @@ export class GoogleAdsNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.googleAds.adDetails({"url":"https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217"});
+   * const res = await client.googleAds.adDetails({ url: "https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217" });
    */
   adDetails(
     input: GoogleAdsAdDetailsInput,
@@ -263,7 +214,7 @@ export class GoogleAdsNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.googleAds.advertiserSearch({"query":"lululemon"});
+   * const res = await client.googleAds.advertiserSearch({ query: "lululemon" });
    */
   advertiserSearch(
     input: GoogleAdsAdvertiserSearchInput,
@@ -280,7 +231,7 @@ export class GoogleAdsNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.googleAds.companyAds({"domain":"lululemon.com"});
+   * const res = await client.googleAds.companyAds({ domain: "lululemon.com" });
    */
   companyAds(
     input: GoogleAdsCompanyAdsInput,
@@ -293,17 +244,18 @@ export class GoogleAdsNamespace {
    * Iterate every result of Google Ads Company Ads across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterCompanyAds(
     input: GoogleAdsCompanyAdsInput,
     options?: RequestOptions,
-  ): Paginator<GoogleAdsCompanyAdsAd, GoogleAdsCompanyAdsData> {
-    return paginate<GoogleAdsCompanyAdsAd, GoogleAdsCompanyAdsData>(
+  ): Paginator<GoogleAdsCompanyAdsAd, RunResult<GoogleAdsCompanyAdsData>> {
+    return paginate<GoogleAdsCompanyAdsAd, RunResult<GoogleAdsCompanyAdsData>>(
       this._core,
       "google_ads.company_ads",
       input as unknown as Record<string, unknown>,
       "ads",
+      false,
       options,
     );
   }
@@ -316,7 +268,7 @@ export class GoogleAdsNamespace {
    * Price: $0.00005 per request plus $0.0013 per result.
    *
    * @example
-   * const res = await client.googleAds.search({"limit":3,"url":"https://adstransparency.google.com/?region=US&domain=nike.com"});
+   * const res = await client.googleAds.search({ url: "https://adstransparency.google.com/?region=US&domain=nike.com", limit: 3 });
    */
   search(
     input: GoogleAdsSearchInput,

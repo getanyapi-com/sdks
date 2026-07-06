@@ -37,13 +37,7 @@ export interface GoogleShoppingSearchInput {
 }
 
 export interface GoogleShoppingSearchItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -54,7 +48,6 @@ export interface GoogleShoppingSearchItem {
 export interface GoogleShoppingSearchData {
   /**
    * Matching product offers: title, price, store name, rating, shipping info, and product link.
-   * Populated whenever the provider returns data.
    */
   items: GoogleShoppingSearchItem[];
 }
@@ -74,7 +67,7 @@ export class GoogleShoppingNamespace {
    * Price: $0.01625 per request.
    *
    * @example
-   * const res = await client.googleShopping.search({"limit":10,"query":"airpods"});
+   * const res = await client.googleShopping.search({ query: "airpods", limit: 10 });
    */
   search(
     input: GoogleShoppingSearchInput,

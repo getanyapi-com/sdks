@@ -91,85 +91,86 @@ class AmazonSearchInput(TypedDict, total=False):
 
 class AmazonAsinsData(BaseModel):
     items: list[AmazonAsinsItem] = Field(
-        description="Product records: ASIN, title, brand, price, ratings, images, and attributes. Populated whenever the provider returns data."
+        description="Product records: ASIN, title, brand, price, ratings, images, and attributes."
     )
 
 
 class AmazonAsinsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    asin: str = Field(
-        description="Amazon Standard Identification Number. Populated whenever the provider returns data."
-    )
+    asin: str = Field(description="Amazon Standard Identification Number.")
     brand: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     condition: str | None = None
     currency: str | None = None
     image: str | None = Field(
         default=None,
-        description="Primary product image URL. Populated whenever the provider returns data.",
+        description="Primary product image URL. Present whenever the upstream returns this record.",
     )
-    inStock: bool | None = None
+    in_stock: bool | None = Field(default=None, alias="inStock")
     price: float | None = Field(
         default=None, description="Buy-box price; 0 when no offer is available."
     )
     rating: float | None = Field(default=None, description="Average star rating, 0-5.")
-    reviewsCount: int | None = None
-    sellerName: str | None = None
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    reviews_count: int | None = Field(default=None, alias="reviewsCount")
+    seller_name: str | None = Field(default=None, alias="sellerName")
+    title: str
+    url: str
 
 
 class AmazonBestsellersData(BaseModel):
     items: list[AmazonBestsellersItem] = Field(
-        description="Best-seller product records: category rank, title, price, rating, thumbnail, and product URL. Populated whenever the provider returns data."
+        description="Best-seller product records: category rank, title, price, rating, thumbnail, and product URL."
     )
 
 
 class AmazonBestsellersItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    asin: str = Field(description="Populated whenever the provider returns data.")
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    asin: str
+    title: str
+    url: str
 
 
 class AmazonProductData(BaseModel):
     items: list[AmazonProductItem] = Field(
-        description="Product detail records: title, url, asin, brand, price amount (when in stock), images, rating, review count, and (passed through) variant details and attributes. Populated whenever the provider returns data."
+        description="Product detail records: title, url, asin, brand, price amount (when in stock), images, rating, review count, and (passed through) variant details and attributes."
     )
 
 
 class AmazonProductItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    asin: str = Field(description="Populated whenever the provider returns data.")
+    asin: str
     brand: str | None = Field(
         default=None,
-        description="Manufacturer or brand name. Populated whenever the provider returns data.",
+        description="Manufacturer or brand name. Present whenever the upstream returns this record.",
     )
     images: list[str] | None = Field(
         default=None,
-        description="High-resolution product image URLs. Populated whenever the provider returns data.",
+        description="High-resolution product image URLs. Present whenever the upstream returns this record.",
     )
-    priceAmount: float | None = Field(
+    price_amount: float | None = Field(
         default=None,
+        alias="priceAmount",
         description="Current price as a numeric amount. Absent when the listing has no buyable price (out of stock).",
     )
     rating: float | None = Field(
         default=None, description="Average customer star rating, 0 to 5."
     )
-    reviewCount: int | None = Field(
-        default=None, description="Total number of customer reviews."
+    review_count: int | None = Field(
+        default=None,
+        alias="reviewCount",
+        description="Total number of customer reviews.",
     )
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    title: str
+    url: str
 
 
 class AmazonReviewsData(BaseModel):
     items: list[AmazonReviewsItem] = Field(
-        description="Customer review records: star rating, title, review text, date, reviewer, and verified-purchase status. Populated whenever the provider returns data."
+        description="Customer review records: star rating, title, review text, date, reviewer, and verified-purchase status."
     )
 
 
@@ -177,34 +178,36 @@ class AmazonReviewsItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     rating: float
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
 
 
 class AmazonSearchData(BaseModel):
     items: list[AmazonSearchItem] = Field(
-        description="Search result product records: title, ASIN, price amount, currency, rating, review count, and thumbnail. Populated whenever the provider returns data."
+        description="Search result product records: title, ASIN, price amount, currency, rating, review count, and thumbnail."
     )
 
 
 class AmazonSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    asin: str = Field(description="Populated whenever the provider returns data.")
+    asin: str
     currency: str | None = Field(
         default=None, description="Currency symbol or code for the price."
     )
-    priceAmount: float | None = Field(
-        default=None, description="Current price as a numeric amount."
+    price_amount: float | None = Field(
+        default=None,
+        alias="priceAmount",
+        description="Current price as a numeric amount.",
     )
     rating: float | None = Field(default=None, description="Average star rating.")
-    reviewCount: int | None = Field(
-        default=None, description="Number of customer reviews."
+    review_count: int | None = Field(
+        default=None, alias="reviewCount", description="Number of customer reviews."
     )
     thumbnail: str | None = Field(
         default=None,
-        description="Product thumbnail image URL. Populated whenever the provider returns data.",
+        description="Product thumbnail image URL. Present whenever the upstream returns this record.",
     )
-    title: str = Field(description="Populated whenever the provider returns data.")
+    title: str
 
 
 class AmazonNamespace:
@@ -230,10 +233,10 @@ class AmazonNamespace:
         Example:
             res = client.amazon.asins(asins=["B09G9FPHY6"], limit=3)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.asins", dict(input), options
         )
-        return RunResult[AmazonAsinsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[AmazonAsinsData].model_validate(raw)
 
     def bestsellers(
         self,
@@ -251,12 +254,10 @@ class AmazonNamespace:
         Example:
             res = client.amazon.bestsellers(limit=3, url="https://www.amazon.com/gp/bestsellers/electronics")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.bestsellers", dict(input), options
         )
-        return RunResult[AmazonBestsellersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AmazonBestsellersData].model_validate(raw)
 
     def product(
         self,
@@ -270,17 +271,15 @@ class AmazonNamespace:
         images, ratings, review count, variants, and attributes) from a product URL,
         with transparent per-request USD pricing.
 
-        Price: $0.0081 per result.
+        Price: $0.001 per request plus $0.0081 per result.
 
         Example:
             res = client.amazon.product(url="https://www.amazon.com/dp/B00NTCH52W")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.product", dict(input), options
         )
-        return RunResult[AmazonProductData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AmazonProductData].model_validate(raw)
 
     def reviews(
         self,
@@ -299,12 +298,10 @@ class AmazonNamespace:
         Example:
             res = client.amazon.reviews(limit=3, product="B07FZ8S74R")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.reviews", dict(input), options
         )
-        return RunResult[AmazonReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AmazonReviewsData].model_validate(raw)
 
     def search(
         self,
@@ -323,10 +320,10 @@ class AmazonNamespace:
         Example:
             res = client.amazon.search(limit=3, url="https://www.amazon.com/s?k=laptop")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.search", dict(input), options
         )
-        return RunResult[AmazonSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[AmazonSearchData].model_validate(raw)
 
 
 class AsyncAmazonNamespace:
@@ -352,10 +349,10 @@ class AsyncAmazonNamespace:
         Example:
             res = client.amazon.asins(asins=["B09G9FPHY6"], limit=3)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.asins", dict(input), options
         )
-        return RunResult[AmazonAsinsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[AmazonAsinsData].model_validate(raw)
 
     async def bestsellers(
         self,
@@ -373,12 +370,10 @@ class AsyncAmazonNamespace:
         Example:
             res = client.amazon.bestsellers(limit=3, url="https://www.amazon.com/gp/bestsellers/electronics")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.bestsellers", dict(input), options
         )
-        return RunResult[AmazonBestsellersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AmazonBestsellersData].model_validate(raw)
 
     async def product(
         self,
@@ -392,17 +387,15 @@ class AsyncAmazonNamespace:
         images, ratings, review count, variants, and attributes) from a product URL,
         with transparent per-request USD pricing.
 
-        Price: $0.0081 per result.
+        Price: $0.001 per request plus $0.0081 per result.
 
         Example:
             res = client.amazon.product(url="https://www.amazon.com/dp/B00NTCH52W")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.product", dict(input), options
         )
-        return RunResult[AmazonProductData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AmazonProductData].model_validate(raw)
 
     async def reviews(
         self,
@@ -421,12 +414,10 @@ class AsyncAmazonNamespace:
         Example:
             res = client.amazon.reviews(limit=3, product="B07FZ8S74R")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.reviews", dict(input), options
         )
-        return RunResult[AmazonReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AmazonReviewsData].model_validate(raw)
 
     async def search(
         self,
@@ -445,7 +436,7 @@ class AsyncAmazonNamespace:
         Example:
             res = client.amazon.search(limit=3, url="https://www.amazon.com/s?k=laptop")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.search", dict(input), options
         )
-        return RunResult[AmazonSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[AmazonSearchData].model_validate(raw)

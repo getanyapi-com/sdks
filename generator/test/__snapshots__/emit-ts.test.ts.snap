@@ -6,6 +6,10 @@ exports[`emitTypescript golden output > emits the full file map for the 3-SKU sa
 
 import { AnyAPI as AnyAPIBase } from "../core/index.js";
 
+import type { RequestOptions, RunResult } from "../core/index.js";
+
+import type { SkuMap } from "./sku-map.js";
+
 import { AmazonNamespace } from "./platforms/amazon.js";
 import { FacebookNamespace } from "./platforms/facebook.js";
 import { ThreadsNamespace } from "./platforms/threads.js";
@@ -14,10 +18,32 @@ import { ThreadsNamespace } from "./platforms/threads.js";
  * The AnyAPI client. Extends the handwritten core base (run/balance/me/catalog/
  * describe) and attaches every platform namespace as a lazily instantiated getter.
  *
- * import { AnyAPI } from "@anyapi/sdk";
+ * import { AnyAPI } from "@getanyapi/sdk";
  */
 export class AnyAPI extends AnyAPIBase {
   private readonly _namespaces: Record<string, unknown> = {};
+
+  /**
+   * Generic typed run for any SKU by slug. A known slug literal infers its input and
+   * result type from the SkuMap; any other string returns RunResult<unknown>.
+   */
+  run<K extends keyof SkuMap>(
+    slug: K,
+    input: SkuMap[K]["input"],
+    options?: RequestOptions,
+  ): Promise<SkuMap[K]["result"]>;
+  run<S extends string, T = unknown>(
+    slug: S extends keyof SkuMap ? never : S,
+    input: unknown,
+    options?: RequestOptions,
+  ): Promise<RunResult<T>>;
+  run(
+    slug: string,
+    input: unknown,
+    options?: RequestOptions,
+  ): Promise<RunResult<unknown>> {
+    return super.run(slug, input, options);
+  }
 
   /**
    * Typed methods for the amazon platform.
@@ -68,6 +94,7 @@ export {
   AuthenticationError,
   InsufficientBalanceError,
   NotFoundError,
+  ResultNotFoundError,
   RateLimitedError,
   UpstreamError,
   ConnectionError,
@@ -77,6 +104,7 @@ export {
 export type {
   ClientOptions,
   RunResult,
+  BareRunResult,
   Output,
   RequestOptions,
   Paginator,
@@ -146,9 +174,6 @@ export interface AmazonReviewsInput {
 
 export interface AmazonReviewsItem {
   rating: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -178,7 +203,7 @@ export class AmazonNamespace {
    * Price: $0.01625 per request.
    *
    * @example
-   * const res = await client.amazon.reviews({"product":"B07FZ8S74R","limit":3});
+   * const res = await client.amazon.reviews({ product: "B07FZ8S74R", limit: 3 });
    */
   reviews(
     input: AmazonReviewsInput,
@@ -230,21 +255,13 @@ export interface FacebookAdsSearchInput {
 export interface FacebookAdsSearchAd {
   /**
    * Ad Library archive ID.
-   * Populated whenever the provider returns data.
    */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pageId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pageName: string;
   active: boolean;
   /**
    * Epoch seconds.
-   * Populated whenever the provider returns data.
    */
   startDate: number;
   /**
@@ -253,32 +270,13 @@ export interface FacebookAdsSearchAd {
   endDate: number;
   /**
    * Ad body text.
-   * Populated whenever the provider returns data.
    */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   ctaText: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   ctaType: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   linkUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayFormat: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   platforms: string[];
   /**
    * Number of ads in this campaign (collation count).
@@ -311,7 +309,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.adsSearch({"query":"nike","country":"US"});
+   * const res = await client.facebook.adsSearch({ query: "nike", country: "US" });
    */
   adsSearch(
     input: FacebookAdsSearchInput,
@@ -324,17 +322,18 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Ads Search across pages.
    *
    * Yields items directly; call \`.pages()\` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterAdsSearch(
     input: FacebookAdsSearchInput,
     options?: RequestOptions,
-  ): Paginator<FacebookAdsSearchAd, FacebookAdsSearchData> {
-    return paginate<FacebookAdsSearchAd, FacebookAdsSearchData>(
+  ): Paginator<FacebookAdsSearchAd, RunResult<FacebookAdsSearchData>> {
+    return paginate<FacebookAdsSearchAd, RunResult<FacebookAdsSearchData>>(
       this._core,
       "facebook.ads_search",
       input as unknown as Record<string, unknown>,
       "ads",
+      false,
       options,
     );
   }
@@ -362,28 +361,13 @@ export interface ThreadsProfileInput {
  * The \`data\` payload of Threads Profile (threads.profile).
  */
 export interface ThreadsProfileData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   fullName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   biography: string;
   followerCount: number;
   isVerified: boolean;
   isPrivate: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   profilePicUrl: string;
   [extra: string]: unknown;
 }
@@ -403,7 +387,7 @@ export class ThreadsNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.threads.profile({"username":"zuck"});
+   * const res = await client.threads.profile({ username: "zuck" });
    */
   profile(
     input: ThreadsProfileInput,
@@ -414,6 +398,8 @@ export class ThreadsNamespace {
 }
 ",
   "sku-map.ts": "// Generated - do not edit. Regenerate with: pnpm generate
+
+import type { BareRunResult, RunResult } from "../core/index.js";
 
 import type {
   AmazonReviewsData,
@@ -429,25 +415,28 @@ import type {
 } from "./platforms/threads.js";
 
 /**
- * Maps every SKU slug literal to its input and data payload types. Powers the generic
- * \`client.run(slug, input)\` overload so the compiler infers the right shapes by slug.
- *
- * Emitted as a module augmentation of the handwritten core \`SkuMap\` (declaration
- * merging): the core interface carries a permissive string index (unknown slugs resolve
- * to RunResult<unknown>) and this file adds every concrete slug literal on top.
+ * Maps every SKU slug literal to its input, data payload, and run-result types. The
+ * generated \`client.run(slug, input)\` overload reads this map so the compiler infers the
+ * right shapes by slug. \`result\` is BareRunResult<Data> for bare SKUs (output IS the
+ * data) and RunResult<Data> for found-data SKUs (the discriminated envelope).
  */
-declare module "../core/client.js" {
-  interface SkuMap {
-    "amazon.reviews": { input: AmazonReviewsInput; data: AmazonReviewsData };
-    "facebook.ads_search": {
-      input: FacebookAdsSearchInput;
-      data: FacebookAdsSearchData;
-    };
-    "threads.profile": { input: ThreadsProfileInput; data: ThreadsProfileData };
-  }
+export interface SkuMap {
+  "amazon.reviews": {
+    input: AmazonReviewsInput;
+    data: AmazonReviewsData;
+    result: RunResult<AmazonReviewsData>;
+  };
+  "facebook.ads_search": {
+    input: FacebookAdsSearchInput;
+    data: FacebookAdsSearchData;
+    result: RunResult<FacebookAdsSearchData>;
+  };
+  "threads.profile": {
+    input: ThreadsProfileInput;
+    data: ThreadsProfileData;
+    result: RunResult<ThreadsProfileData>;
+  };
 }
-
-export type { SkuMap } from "../core/index.js";
 ",
 }
 `;

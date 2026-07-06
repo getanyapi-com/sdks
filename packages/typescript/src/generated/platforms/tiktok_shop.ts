@@ -26,33 +26,15 @@ export interface TiktokShopProductInput {
  * The `data` payload of TikTok Shop Product (tiktok_shop.product).
  */
 export interface TiktokShopProductData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   currency: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   originalPrice: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   price: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   productId: string;
   rating: number;
   reviewCount: number;
   sellerLocation: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   sellerName: string;
   soldCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   [extra: string]: unknown;
 }
@@ -81,26 +63,15 @@ export interface TiktokShopProductReviewsReview {
   country: string;
   /**
    * Review time as epoch milliseconds.
-   * Populated whenever the provider returns data.
    */
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   rating: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   reviewerName: string;
   /**
    * Variant bought, e.g. "Color: Black".
-   * Populated whenever the provider returns data.
    */
   sku: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   verifiedPurchase: boolean;
   [extra: string]: unknown;
@@ -115,9 +86,6 @@ export interface TiktokShopProductReviewsData {
    * Overall product score (1-5).
    */
   rating: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   reviews: TiktokShopProductReviewsReview[];
   totalReviews: number;
 }
@@ -173,7 +141,6 @@ export interface TiktokShopSearchItem {
   price?: number;
   /**
    * TikTok Shop product id.
-   * Populated whenever the provider returns data.
    */
   productId: string;
   /**
@@ -190,12 +157,11 @@ export interface TiktokShopSearchItem {
   soldCount?: number;
   /**
    * Product title.
-   * Populated whenever the provider returns data.
    */
   title: string;
   /**
    * Canonical product detail page URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   url?: string;
   [extra: string]: unknown;
@@ -207,7 +173,6 @@ export interface TiktokShopSearchItem {
 export interface TiktokShopSearchData {
   /**
    * Product records matching the search query: id, title, price, sales count, rating, seller, and product URL.
-   * Populated whenever the provider returns data.
    */
   items: TiktokShopSearchItem[];
 }
@@ -240,20 +205,11 @@ export interface TiktokShopShopProductsProduct {
   currency: string;
   originalPrice: number;
   price: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   productId: string;
   rating: number;
   reviewCount: number;
   soldCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -265,13 +221,7 @@ export interface TiktokShopShopProductsData {
   hasMore: boolean;
   nextCursor: string;
   productCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   products: TiktokShopShopProductsProduct[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   shopName: string;
   shopRating: number;
   soldCount: number;
@@ -297,26 +247,14 @@ export interface TiktokShopUserShowcaseInput {
 
 export interface TiktokShopUserShowcaseProduct {
   currency: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   imageUrl: string;
   originalPrice: string;
   price: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   productId: string;
   rating: number;
   reviewCount: number;
   soldCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -326,9 +264,6 @@ export interface TiktokShopUserShowcaseProduct {
  */
 export interface TiktokShopUserShowcaseData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   products: TiktokShopUserShowcaseProduct[];
 }
 
@@ -347,7 +282,7 @@ export class TiktokShopNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktokShop.product({"url":"https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799"});
+   * const res = await client.tiktokShop.product({ url: "https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799" });
    */
   product(
     input: TiktokShopProductInput,
@@ -364,7 +299,7 @@ export class TiktokShopNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktokShop.productReviews({"url":"https://www.tiktok.com/shop/pdp/cat-nail-clipper-by-potaroma-adjustable-sizes-built-in-file-safe-for-kittens-cats/1731578642912612516"});
+   * const res = await client.tiktokShop.productReviews({ url: "https://www.tiktok.com/shop/pdp/cat-nail-clipper-by-potaroma-adjustable-sizes-built-in-file-safe-for-kittens-cats/1731578642912612516" });
    */
   productReviews(
     input: TiktokShopProductReviewsInput,
@@ -381,7 +316,7 @@ export class TiktokShopNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktokShop.search({"limit":3,"query":"phone case"});
+   * const res = await client.tiktokShop.search({ query: "phone case", limit: 3 });
    */
   search(
     input: TiktokShopSearchInput,
@@ -398,7 +333,7 @@ export class TiktokShopNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktokShop.shopProducts({"url":"https://www.tiktok.com/shop/store/goli-nutrition/7495794203056835079"});
+   * const res = await client.tiktokShop.shopProducts({ url: "https://www.tiktok.com/shop/store/goli-nutrition/7495794203056835079" });
    */
   shopProducts(
     input: TiktokShopShopProductsInput,
@@ -411,17 +346,24 @@ export class TiktokShopNamespace {
    * Iterate every result of TikTok Shop Store Products across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterShopProducts(
     input: TiktokShopShopProductsInput,
     options?: RequestOptions,
-  ): Paginator<TiktokShopShopProductsProduct, TiktokShopShopProductsData> {
-    return paginate<TiktokShopShopProductsProduct, TiktokShopShopProductsData>(
+  ): Paginator<
+    TiktokShopShopProductsProduct,
+    RunResult<TiktokShopShopProductsData>
+  > {
+    return paginate<
+      TiktokShopShopProductsProduct,
+      RunResult<TiktokShopShopProductsData>
+    >(
       this._core,
       "tiktok_shop.shop_products",
       input as unknown as Record<string, unknown>,
       "products",
+      false,
       options,
     );
   }
@@ -434,7 +376,7 @@ export class TiktokShopNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktokShop.userShowcase({"handle":"mrtiktokreviews"});
+   * const res = await client.tiktokShop.userShowcase({ handle: "mrtiktokreviews" });
    */
   userShowcase(
     input: TiktokShopUserShowcaseInput,
@@ -447,17 +389,24 @@ export class TiktokShopNamespace {
    * Iterate every result of TikTok Shop User Showcase across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterUserShowcase(
     input: TiktokShopUserShowcaseInput,
     options?: RequestOptions,
-  ): Paginator<TiktokShopUserShowcaseProduct, TiktokShopUserShowcaseData> {
-    return paginate<TiktokShopUserShowcaseProduct, TiktokShopUserShowcaseData>(
+  ): Paginator<
+    TiktokShopUserShowcaseProduct,
+    RunResult<TiktokShopUserShowcaseData>
+  > {
+    return paginate<
+      TiktokShopUserShowcaseProduct,
+      RunResult<TiktokShopUserShowcaseData>
+    >(
       this._core,
       "tiktok_shop.user_showcase",
       input as unknown as Record<string, unknown>,
       "products",
+      false,
       options,
     );
   }

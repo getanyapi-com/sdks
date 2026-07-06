@@ -56,63 +56,67 @@ class EbaySoldListingsInput(TypedDict, total=False):
 
 class EbaySearchData(BaseModel):
     items: list[EbaySearchItem] = Field(
-        description="Listing records: title, price, condition, shipping cost, seller info, image, and item URL. Populated whenever the provider returns data."
+        description="Listing records: title, price, condition, shipping cost, seller info, image, and item URL."
     )
 
 
 class EbaySearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     condition: str | None = None
     image: str | None = Field(
         default=None,
-        description="Primary listing image URL. Populated whenever the provider returns data.",
+        description="Primary listing image URL. Present whenever the upstream returns this record.",
     )
-    itemId: str = Field(
-        description="eBay item identifier. Populated whenever the provider returns data."
-    )
-    listingType: str | None = Field(
-        default=None, description="Auction, FixedPrice, etc."
+    item_id: str = Field(alias="itemId", description="eBay item identifier.")
+    listing_type: str | None = Field(
+        default=None, alias="listingType", description="Auction, FixedPrice, etc."
     )
     price: float | None = Field(default=None, description="Listing price.")
-    sellerFeedbackPercent: float | None = Field(
-        default=None, description="Seller positive-feedback percentage."
+    seller_feedback_percent: float | None = Field(
+        default=None,
+        alias="sellerFeedbackPercent",
+        description="Seller positive-feedback percentage.",
     )
-    sellerName: str | None = None
-    shippingCost: str | None = Field(
-        default=None, description="Shipping cost or free-delivery label."
+    seller_name: str | None = Field(default=None, alias="sellerName")
+    shipping_cost: str | None = Field(
+        default=None,
+        alias="shippingCost",
+        description="Shipping cost or free-delivery label.",
     )
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    title: str
+    url: str
 
 
 class EbaySoldListingsData(BaseModel):
     items: list[EbaySoldListingsItem] = Field(
-        description="Sold listing records: title, sold price, sale date, condition, shipping, and item URL. Populated whenever the provider returns data."
+        description="Sold listing records: title, sold price, sale date, condition, shipping, and item URL."
     )
 
 
 class EbaySoldListingsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     condition: str | None = None
-    endedAt: str | None = Field(default=None, description="Sale date (ISO 8601).")
+    ended_at: str | None = Field(
+        default=None, alias="endedAt", description="Sale date (ISO 8601)."
+    )
     image: str | None = Field(
         default=None,
-        description="Primary listing image URL. Populated whenever the provider returns data.",
+        description="Primary listing image URL. Present whenever the upstream returns this record.",
     )
-    itemId: str = Field(
-        description="eBay item identifier. Populated whenever the provider returns data."
+    item_id: str = Field(alias="itemId", description="eBay item identifier.")
+    listing_type: str | None = Field(default=None, alias="listingType")
+    seller_username: str | None = Field(default=None, alias="sellerUsername")
+    sold_currency: str | None = Field(default=None, alias="soldCurrency")
+    sold_price: float | None = Field(
+        default=None, alias="soldPrice", description="Final sold price."
     )
-    listingType: str | None = None
-    sellerUsername: str | None = None
-    soldCurrency: str | None = None
-    soldPrice: float | None = Field(default=None, description="Final sold price.")
-    title: str = Field(description="Populated whenever the provider returns data.")
-    totalPrice: float | None = Field(
-        default=None, description="Sold price plus shipping."
+    title: str
+    total_price: float | None = Field(
+        default=None, alias="totalPrice", description="Sold price plus shipping."
     )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class EbayNamespace:
@@ -130,15 +134,15 @@ class EbayNamespace:
         shipping, seller, and sold count in one normalized response. You are billed
         per result returned.
 
-        Price: $0.00234 per result.
+        Price: $0.001 per request plus $0.00234 per result.
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.search", dict(input), options
         )
-        return RunResult[EbaySearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[EbaySearchData].model_validate(raw)
 
     def sold_listings(
         self,
@@ -152,17 +156,15 @@ class EbayNamespace:
         date, condition, and item details - ideal for pricing research, at a flat
         per-request USD price.
 
-        Price: $0.004 per result.
+        Price: $0.00005 per request plus $0.004 per result.
 
         Example:
             res = client.ebay.sold_listings(limit=3, query="nintendo switch")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.sold_listings", dict(input), options
         )
-        return RunResult[EbaySoldListingsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[EbaySoldListingsData].model_validate(raw)
 
 
 class AsyncEbayNamespace:
@@ -180,15 +182,15 @@ class AsyncEbayNamespace:
         shipping, seller, and sold count in one normalized response. You are billed
         per result returned.
 
-        Price: $0.00234 per result.
+        Price: $0.001 per request plus $0.00234 per result.
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.search", dict(input), options
         )
-        return RunResult[EbaySearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[EbaySearchData].model_validate(raw)
 
     async def sold_listings(
         self,
@@ -202,14 +204,12 @@ class AsyncEbayNamespace:
         date, condition, and item details - ideal for pricing research, at a flat
         per-request USD price.
 
-        Price: $0.004 per result.
+        Price: $0.00005 per request plus $0.004 per result.
 
         Example:
             res = client.ebay.sold_listings(limit=3, query="nintendo switch")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.sold_listings", dict(input), options
         )
-        return RunResult[EbaySoldListingsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[EbaySoldListingsData].model_validate(raw)

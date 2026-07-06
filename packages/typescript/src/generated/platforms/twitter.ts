@@ -23,26 +23,11 @@ export interface TwitterCommunityInput {
  */
 export interface TwitterCommunityData {
   createdAt: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   creatorHandle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   joinPolicy: string;
   memberCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   [extra: string]: unknown;
 }
@@ -58,25 +43,13 @@ export interface TwitterCommunityTweetsInput {
 }
 
 export interface TwitterCommunityTweetsTweet {
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorHandle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
   favoriteCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   quoteCount: number;
   replyCount: number;
   retweetCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -85,9 +58,6 @@ export interface TwitterCommunityTweetsTweet {
  * The `data` payload of Twitter Community Tweets (twitter.community_tweets).
  */
 export interface TwitterCommunityTweetsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   tweets: TwitterCommunityTweetsTweet[];
 }
 
@@ -110,7 +80,6 @@ export interface TwitterFollowersInput {
 export interface TwitterFollowersItem {
   /**
    * URL of the account's profile image (may be empty).
-   * Populated whenever the provider returns data.
    */
   avatarUrl: string;
   /**
@@ -131,12 +100,10 @@ export interface TwitterFollowersItem {
   location: string;
   /**
    * The account's display name.
-   * Populated whenever the provider returns data.
    */
   name: string;
   /**
    * The account's @ handle, without the @ prefix.
-   * Populated whenever the provider returns data.
    */
   username: string;
   /**
@@ -152,7 +119,6 @@ export interface TwitterFollowersItem {
 export interface TwitterFollowersData {
   /**
    * Follower records, normalized to a compact shape.
-   * Populated whenever the provider returns data.
    */
   items: TwitterFollowersItem[];
 }
@@ -176,7 +142,6 @@ export interface TwitterFollowingInput {
 export interface TwitterFollowingItem {
   /**
    * URL of the account's profile image (may be empty).
-   * Populated whenever the provider returns data.
    */
   avatarUrl: string;
   /**
@@ -197,12 +162,10 @@ export interface TwitterFollowingItem {
   location: string;
   /**
    * The account's display name.
-   * Populated whenever the provider returns data.
    */
   name: string;
   /**
    * The account's @ handle, without the @ prefix.
-   * Populated whenever the provider returns data.
    */
   username: string;
   /**
@@ -218,7 +181,6 @@ export interface TwitterFollowingItem {
 export interface TwitterFollowingData {
   /**
    * Followed-account records, normalized to a compact shape.
-   * Populated whenever the provider returns data.
    */
   items: TwitterFollowingItem[];
 }
@@ -237,23 +199,11 @@ export interface TwitterProfileInput {
  * The `data` payload of Twitter Profile (twitter.profile).
  */
 export interface TwitterProfileData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   bio: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
   followers: number;
   following: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
   tweets: number;
   verified: boolean;
@@ -277,16 +227,10 @@ export interface TwitterRepliesInput {
 
 export interface TwitterRepliesItem {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   id?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -297,7 +241,6 @@ export interface TwitterRepliesItem {
 export interface TwitterRepliesData {
   /**
    * Reply records: reply text, author profile, timestamp, and engagement metrics.
-   * Populated whenever the provider returns data.
    */
   items: TwitterRepliesItem[];
 }
@@ -328,11 +271,11 @@ export interface TwitterSearchInput {
 
 export interface TwitterSearchItem {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorName?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorUsername?: string;
   authorVerified?: boolean;
@@ -340,12 +283,9 @@ export interface TwitterSearchItem {
   conversationId?: string;
   /**
    * Tweet creation time.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   createdAt?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   isReply?: boolean;
   lang?: string;
@@ -353,13 +293,7 @@ export interface TwitterSearchItem {
   quoteCount?: number;
   replyCount?: number;
   retweetCount?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   viewCount?: number;
   [extra: string]: unknown;
@@ -371,7 +305,6 @@ export interface TwitterSearchItem {
 export interface TwitterSearchData {
   /**
    * Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views).
-   * Populated whenever the provider returns data.
    */
   items: TwitterSearchItem[];
 }
@@ -390,26 +323,14 @@ export interface TwitterTweetInput {
  * The `data` payload of Twitter Tweet (twitter.tweet).
  */
 export interface TwitterTweetData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorId: string;
   bookmarks: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
   quotes: number;
   replies: number;
   retweets: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   views: number;
   [extra: string]: unknown;
@@ -459,13 +380,7 @@ export interface TwitterUserTweetsInput {
 
 export interface TwitterUserTweetsTweet {
   bookmarks: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   isPinned: boolean;
   isReply?: boolean;
@@ -474,13 +389,7 @@ export interface TwitterUserTweetsTweet {
   quotes?: number;
   replies: number;
   retweets: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -494,9 +403,6 @@ export interface TwitterUserTweetsData {
    * Opaque cursor for the next page of tweets, or null when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   tweets: TwitterUserTweetsTweet[];
 }
 
@@ -515,7 +421,7 @@ export class TwitterNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.twitter.community({"url":"https://x.com/i/communities/1926186499399139650"});
+   * const res = await client.twitter.community({ url: "https://x.com/i/communities/1926186499399139650" });
    */
   community(
     input: TwitterCommunityInput,
@@ -532,7 +438,7 @@ export class TwitterNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.twitter.communityTweets({"url":"https://x.com/i/communities/1926186499399139650"});
+   * const res = await client.twitter.communityTweets({ url: "https://x.com/i/communities/1926186499399139650" });
    */
   communityTweets(
     input: TwitterCommunityTweetsInput,
@@ -546,10 +452,10 @@ export class TwitterNamespace {
    *
    * Fetch the follower list of any public X (Twitter) account by username - up to 100,000 follower records per request with transparent per-result USD pricing.
    *
-   * Price: $0 per request plus $0.00015 per result.
+   * Price: $0.00015 per result.
    *
    * @example
-   * const res = await client.twitter.followers({"limit":200,"username":"nasa"});
+   * const res = await client.twitter.followers({ username: "nasa", limit: 200 });
    */
   followers(
     input: TwitterFollowersInput,
@@ -563,10 +469,10 @@ export class TwitterNamespace {
    *
    * List the accounts a public X (Twitter) account follows by username - up to 100,000 records per request with transparent per-result USD pricing.
    *
-   * Price: $0 per request plus $0.00015 per result.
+   * Price: $0.00015 per result.
    *
    * @example
-   * const res = await client.twitter.following({"limit":200,"username":"nasa"});
+   * const res = await client.twitter.following({ username: "nasa", limit: 200 });
    */
   following(
     input: TwitterFollowingInput,
@@ -583,7 +489,7 @@ export class TwitterNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.twitter.profile({"handle":"nasa"});
+   * const res = await client.twitter.profile({ handle: "nasa" });
    */
   profile(
     input: TwitterProfileInput,
@@ -600,7 +506,7 @@ export class TwitterNamespace {
    * Price: $0.0025 per request plus $0.00025 per result.
    *
    * @example
-   * const res = await client.twitter.replies({"limit":3,"url":"https://x.com/jack/status/20"});
+   * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20", limit: 3 });
    */
   replies(
     input: TwitterRepliesInput,
@@ -617,7 +523,7 @@ export class TwitterNamespace {
    * Price: $0.004 per request plus $0.0002 per result.
    *
    * @example
-   * const res = await client.twitter.search({"query":"openai"});
+   * const res = await client.twitter.search({ query: "openai" });
    */
   search(
     input: TwitterSearchInput,
@@ -634,7 +540,7 @@ export class TwitterNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.twitter.tweet({"url":"https://x.com/SpaceX/status/1732824684683784516"});
+   * const res = await client.twitter.tweet({ url: "https://x.com/SpaceX/status/1732824684683784516" });
    */
   tweet(
     input: TwitterTweetInput,
@@ -651,7 +557,7 @@ export class TwitterNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.twitter.tweetTranscript({"url":"https://x.com/TheoVon/status/1916982720317821050"});
+   * const res = await client.twitter.tweetTranscript({ url: "https://x.com/TheoVon/status/1916982720317821050" });
    */
   tweetTranscript(
     input: TwitterTweetTranscriptInput,
@@ -668,7 +574,7 @@ export class TwitterNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.twitter.userTweets({"handle":"levelsio","limit":20});
+   * const res = await client.twitter.userTweets({ handle: "levelsio", limit: 20 });
    */
   userTweets(
     input: TwitterUserTweetsInput,
@@ -681,17 +587,18 @@ export class TwitterNamespace {
    * Iterate every result of Twitter User Tweets across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterUserTweets(
     input: TwitterUserTweetsInput,
     options?: RequestOptions,
-  ): Paginator<TwitterUserTweetsTweet, TwitterUserTweetsData> {
-    return paginate<TwitterUserTweetsTweet, TwitterUserTweetsData>(
+  ): Paginator<TwitterUserTweetsTweet, RunResult<TwitterUserTweetsData>> {
+    return paginate<TwitterUserTweetsTweet, RunResult<TwitterUserTweetsData>>(
       this._core,
       "twitter.user_tweets",
       input as unknown as Record<string, unknown>,
       "tweets",
+      false,
       options,
     );
   }

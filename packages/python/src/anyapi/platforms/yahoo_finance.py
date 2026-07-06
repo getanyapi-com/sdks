@@ -24,7 +24,7 @@ class YahooFinanceQuoteInput(TypedDict, total=False):
 
 class YahooFinanceQuoteData(BaseModel):
     items: list[YahooFinanceQuoteItem] = Field(
-        description="Quote records for the ticker: current price, market cap, volume, day range, and key financial stats. Populated whenever the provider returns data."
+        description="Quote records for the ticker: current price, market cap, volume, day range, and key financial stats."
     )
 
 
@@ -32,7 +32,7 @@ class YahooFinanceQuoteItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     name: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     price: float
 
@@ -55,17 +55,15 @@ class YahooFinanceNamespace:
         price, market cap, volume, and key stats - as normalized JSON with
         transparent per-request USD pricing.
 
-        Price: $0.0009 per result.
+        Price: $0.00005 per request plus $0.0009 per result.
 
         Example:
             res = client.yahoo_finance.quote(ticker="AAPL")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "yahoo_finance.quote", dict(input), options
         )
-        return RunResult[YahooFinanceQuoteData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[YahooFinanceQuoteData].model_validate(raw)
 
 
 class AsyncYahooFinanceNamespace:
@@ -86,14 +84,12 @@ class AsyncYahooFinanceNamespace:
         price, market cap, volume, and key stats - as normalized JSON with
         transparent per-request USD pricing.
 
-        Price: $0.0009 per result.
+        Price: $0.00005 per request plus $0.0009 per result.
 
         Example:
             res = client.yahoo_finance.quote(ticker="AAPL")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "yahoo_finance.quote", dict(input), options
         )
-        return RunResult[YahooFinanceQuoteData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[YahooFinanceQuoteData].model_validate(raw)

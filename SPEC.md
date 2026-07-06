@@ -6,7 +6,7 @@ wins. Nothing here changes without re-freezing.
 
 AnyAPI (getanyapi.com) is a unified API marketplace: 222 SKUs, each a
 `POST /v1/run/{slug}` with normalized JSON Schema 2020-12 input/output pairs. This repo
-generates official typed SDKs: `@anyapi/sdk` (npm) and `anyapi` (PyPI), generated from
+generates official typed SDKs: `@getanyapi/sdk` (npm) and `anyapi` (PyPI), generated from
 the platform's own `/openapi.json`.
 
 ## 0. Hard rules (apply to EVERYTHING in this repo)
@@ -32,7 +32,7 @@ These are non-negotiable and enforced in CI where noted.
    comment reading exactly (language-appropriate comment syntax):
    `Generated - do not edit. Regenerate with: pnpm generate`
    Handwritten core files do NOT carry this header.
-6. **Zero runtime dependencies in TypeScript.** The published `@anyapi/sdk` depends on
+6. **Zero runtime dependencies in TypeScript.** The published `@getanyapi/sdk` depends on
    nothing at runtime (global `fetch`). Python depends only on `httpx` and `pydantic>=2.5`.
 
 ## 1. The IR (intermediate representation)
@@ -89,7 +89,7 @@ byte-identical). Enum arrays preserve the schema's declared order (NOT re-sorted
   "example": { "product": "B07FZ8S74R", "limit": 3 },  // input example, or null
   "input": { /* SchemaNode - the input object schema */ },
   "output": {
-    "envelope": "found-data",          // always this literal in v1
+    "envelope": "found-data",          // "found-data" or "bare" (v1 erratum, see 1.2 note)
     "data": { /* SchemaNode - the schema of `data` when found:true (the non-null oneOf branch) */ }
   },
   "pagination": {
@@ -113,6 +113,20 @@ Notes:
   omit the per-item clause from the doc comment).
 - `outputTypeName` names the type of the `data` payload (the non-null branch). The full
   envelope type is `Output<AmazonReviewsData>` in TS.
+
+**(v1 erratum) Bare envelope.** Not every output is a found/data wrapper. A SKU whose 200
+`output` schema does NOT require both `found` and `data` (verified: `reddit.search`,
+`reddit.subreddit_posts`, `reddit.post_comments`) returns its data object DIRECTLY as
+`output`. For these the extractor sets `output.envelope = "bare"` and `output.data` is the
+bare object itself. Runtimes type the run result so `output` IS the data (TS `BareRunResult<T>`
+/ Python `BareRunResult[T]`); `unwrap` returns `output` directly and never throws for bare
+results. Fixtures for bare SKUs put the synthesized data at `output` (no found/data wrapper).
+Found-data SKUs are unchanged.
+
+**(v1 erratum) IR `warnings`.** The top-level IR may carry a `warnings[]` array (each
+`{kind, slug, message}`, sorted). The extractor emits a `dead-cursor` warning (and logs a
+WARNING block) for a SKU that accepts a `cursor` input but whose surface cannot page it (no
+string-cursor + `nextCursor` pair). The emitted surface is unchanged; the list is diffable.
 
 ### 1.3 `SchemaNode` (the normalized schema subset)
 
@@ -183,9 +197,10 @@ normalized, so they never re-parse raw JSON Schema.
    `model_config = ConfigDict(extra="allow")` (Python). Closed objects get neither.
 6. **`x-anyapi-must-populate`.** On an object property, the parent object's
    `mustPopulate` array lists the annotated keys. On an array node, `mustPopulate` is a
-   boolean. Emitters render a doc line for annotated fields:
-   `Populated whenever the provider returns data.` No type change (the field is still
-   typed as its declared type; it is not made non-optional by this annotation).
+   boolean. Emitters render a doc line for annotated fields. **(v1 erratum, N1)** The line
+   reads `Present whenever the upstream returns this record.` and is emitted ONLY on
+   OPTIONAL fields (a required field is always present, so the note adds nothing). No type
+   change (the field is still typed as its declared type; not made non-optional).
 7. **`x-anyapi-domain`** and any other `x-anyapi-*` extension: ignored for typing. Not
    carried into the IR (they do not affect the SDK surface).
 8. **`format`** is carried on string nodes (`format: string | null`) for documentation
@@ -253,10 +268,10 @@ the extractor MUST fail the build with a clear error naming both slugs. There is
 silent renaming. (Verified: zero collisions in the current 222-SKU catalog.) A collision
 is a catalog-authoring problem to fix upstream, not something the SDK papers over.
 
-## 2. TypeScript runtime API (`@anyapi/sdk`) - FROZEN signatures
+## 2. TypeScript runtime API (`@getanyapi/sdk`) - FROZEN signatures
 
 All snippets are `.d.ts`-shaped declarations. Handwritten in `src/core/`; the generated
-per-platform namespaces attach to the client. `import { AnyAPI } from "@anyapi/sdk"`.
+per-platform namespaces attach to the client. `import { AnyAPI } from "@getanyapi/sdk"`.
 
 ### 2.1 Client construction
 
@@ -355,8 +370,19 @@ export type Output<T> =
 export declare function unwrap<T>(result: RunResult<T>): T;
 ```
 
-`unwrap` throws `NotFoundError` (message: "no matching result was found") when
-`result.output.found === false`.
+`unwrap` throws `ResultNotFoundError` (message: "no matching result was found") when
+`result.output.found === false`. **(v1 erratum)** `ResultNotFoundError extends NotFoundError`,
+so `catch (NotFoundError)` still catches an empty-result unwrap AND an HTTP 404; catch
+`ResultNotFoundError` to handle only empty results. `unwrap` also has a `BareRunResult<T>`
+overload that returns `output` directly and never throws.
+
+**(v1 erratum) SkuMap + typed run.** The generated `SkuMap` is a CONCRETE interface (not a
+module augmentation, which does not survive `.d.ts` bundling) mapping each slug to
+`{ input; data; result }`, where `result` is `RunResult<Data>` or `BareRunResult<Data>` per
+envelope. The generated `AnyAPI` subclass declares the typed `run` overloads reading this map;
+core keeps only the untyped `run` seam. A consumer-artifact typecheck gate (packs the package
+and runs `tsc` over consumer code) guards that typed access compiles, bad input errors, and an
+unknown slug falls back to `RunResult<unknown>`.
 
 ### 2.4 Generated per-SKU method signature (target for the TS emitter)
 
@@ -620,6 +646,15 @@ and `alias="costUsd"` (snake_case attribute, camelCase wire). Output data models
 `model_config = ConfigDict(extra="allow")` so open provider records round-trip unknown
 fields; `.model_extra` exposes them.
 
+**(v1 erratum) snake_case output attributes.** Generated pydantic OUTPUT models emit
+snake_case attribute names with a wire `Field(alias="wireKey")` and `populate_by_name=True`
+whenever the two differ (`item.reviews_count` reads wire `reviewsCount`);
+`model_dump(by_alias=True)` reproduces the wire shape. INPUT TypedDicts keep the wire keys
+verbatim (they are sent as-is) - an intentional asymmetry noted in the READMEs. Generation
+hard-fails if two wire keys snake_case to the same attribute within one model. A `BareRunResult[T]`
+pydantic model mirrors `RunResult[T]` for bare SKUs (SPEC 1.2 erratum); `ResultNotFoundError`
+subclasses `NotFoundError` as in TS.
+
 ### 3.4 Generated per-SKU method (target for the Python emitter)
 
 ```python
@@ -785,7 +820,7 @@ packages/python/      # py-runtime + py-emitter agents
 ## 7. Versions / tooling (FROZEN baseline)
 
 - TypeScript: `strict: true`, target ES2022, module ESNext, `moduleResolution: Bundler`.
-  Build with tsup to ESM + CJS + `.d.ts`. Package name `@anyapi/sdk`, zero runtime deps.
+  Build with tsup to ESM + CJS + `.d.ts`. Package name `@getanyapi/sdk`, zero runtime deps.
 - Python: `requires-python >=3.10`, hatchling build, deps `httpx`, `pydantic>=2.5`,
   `typing_extensions>=4.7`. Package name `anyapi`. Typed (`py.typed`). Gates: `pyright`
   + `mypy --strict`.
@@ -800,6 +835,9 @@ operator/seller endpoints, OAuth. Not modeled in the SDK surface.
 
 - Regen drift: `pnpm generate --check` must be a no-op (byte-identical) on a clean tree.
 - `tsc --noEmit` strict passes over generated + core TS for all 222 SKUs.
+- Consumer-artifact typecheck (v1 erratum): the packed `@getanyapi/sdk` dist type-checks in a
+  throwaway consumer project (typed slug access compiles, bad input errors, unknown slug ->
+  `RunResult<unknown>`). Guards that the concrete `SkuMap` survives `.d.ts` bundling.
 - `pyright` + `mypy --strict` pass over generated + core Python.
 - Dash guard: a grep over all tracked files EXCEPT `openapi.json` finds no U+2014 / U+2013.
 - Fixture integration suites pass in both languages.

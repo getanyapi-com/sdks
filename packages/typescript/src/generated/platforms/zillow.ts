@@ -19,12 +19,9 @@ export interface ZillowPropertyInput {
 export interface ZillowPropertyItem {
   price: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   title?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -35,7 +32,6 @@ export interface ZillowPropertyItem {
 export interface ZillowPropertyData {
   /**
    * Matching property records: full listing details including price, address, facts and features, photos, and price/tax history.
-   * Populated whenever the provider returns data.
    */
   items: ZillowPropertyItem[];
 }
@@ -81,7 +77,7 @@ export interface ZillowSearchItem {
   daysOnZillow?: number;
   /**
    * URL of the primary listing photo.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   latitude?: number;
@@ -116,12 +112,11 @@ export interface ZillowSearchItem {
   status?: string;
   /**
    * Street address of the property.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   streetAddress?: string;
   /**
    * Absolute Zillow listing URL.
-   * Populated whenever the provider returns data.
    */
   url: string;
   yearBuilt?: number;
@@ -132,7 +127,6 @@ export interface ZillowSearchItem {
   zipcode?: string;
   /**
    * Zillow property id (zpid).
-   * Populated whenever the provider returns data.
    */
   zpid: string;
   [extra: string]: unknown;
@@ -144,7 +138,6 @@ export interface ZillowSearchItem {
 export interface ZillowSearchData {
   /**
    * Property listing records matching the search: address, price, beds, baths, living area, property type, status, Zestimate, and coordinates.
-   * Populated whenever the provider returns data.
    */
   items: ZillowSearchItem[];
 }
@@ -161,10 +154,10 @@ export class ZillowNamespace {
    *
    * Fetch full details for a single Zillow property listing by URL - price, facts and features, photos, and price/tax history - with transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.0024 per result.
+   * Price: $0.0024 per result.
    *
    * @example
-   * const res = await client.zillow.property({"url":"https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/"});
+   * const res = await client.zillow.property({ url: "https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/" });
    */
   property(
     input: ZillowPropertyInput,
@@ -181,7 +174,7 @@ export class ZillowNamespace {
    * Price: $0.0005 per request plus $0.003 per result.
    *
    * @example
-   * const res = await client.zillow.search({"limit":3,"location":"Austin, TX","operation":"buy"});
+   * const res = await client.zillow.search({ location: "Austin, TX", limit: 3, operation: "buy" });
    */
   search(
     input: ZillowSearchInput,

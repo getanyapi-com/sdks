@@ -28,7 +28,7 @@ class AppstoreReviewsInput(TypedDict, total=False):
 
 class AppstoreReviewsData(BaseModel):
     items: list[AppstoreReviewsItem] = Field(
-        description="Review records: star rating, review title and text, reviewer nickname, app version, and review date. Populated whenever the provider returns data."
+        description="Review records: star rating, review title and text, reviewer nickname, app version, and review date."
     )
 
 
@@ -36,7 +36,7 @@ class AppstoreReviewsItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     rating: float
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
 
 
 class AppstoreNamespace:
@@ -61,12 +61,10 @@ class AppstoreNamespace:
         Example:
             res = client.appstore.reviews(appId="389801252", country="us", limit=3)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "appstore.reviews", dict(input), options
         )
-        return RunResult[AppstoreReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AppstoreReviewsData].model_validate(raw)
 
 
 class AsyncAppstoreNamespace:
@@ -91,9 +89,7 @@ class AsyncAppstoreNamespace:
         Example:
             res = client.appstore.reviews(appId="389801252", country="us", limit=3)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "appstore.reviews", dict(input), options
         )
-        return RunResult[AppstoreReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AppstoreReviewsData].model_validate(raw)

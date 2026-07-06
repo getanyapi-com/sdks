@@ -21,27 +21,12 @@ export interface TruthsocialPostInput {
  */
 export interface TruthsocialPostData {
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedAt: string;
   shares: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   [extra: string]: unknown;
 }
@@ -60,37 +45,16 @@ export interface TruthsocialProfileInput {
  * The `data` payload of Truth Social Profile (truthsocial.profile).
  */
 export interface TruthsocialProfileData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   bio: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
   followers: number;
   following: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   joinedAt: string;
   postsCount: number;
   private: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   verified: boolean;
   [extra: string]: unknown;
@@ -108,23 +72,11 @@ export interface TruthsocialUserPostsInput {
 
 export interface TruthsocialUserPostsPost {
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedAt: string;
   shares: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -133,9 +85,6 @@ export interface TruthsocialUserPostsPost {
  * The `data` payload of Truth Social User Posts (truthsocial.user_posts).
  */
 export interface TruthsocialUserPostsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: TruthsocialUserPostsPost[];
 }
 
@@ -154,7 +103,7 @@ export class TruthsocialNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.truthsocial.post({"url":"https://truthsocial.com/@realDonaldTrump/posts/116824551176646175"});
+   * const res = await client.truthsocial.post({ url: "https://truthsocial.com/@realDonaldTrump/posts/116824551176646175" });
    */
   post(
     input: TruthsocialPostInput,
@@ -171,7 +120,7 @@ export class TruthsocialNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.truthsocial.profile({"handle":"realDonaldTrump"});
+   * const res = await client.truthsocial.profile({ handle: "realDonaldTrump" });
    */
   profile(
     input: TruthsocialProfileInput,
@@ -188,7 +137,7 @@ export class TruthsocialNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.truthsocial.userPosts({"handle":"realDonaldTrump"});
+   * const res = await client.truthsocial.userPosts({ handle: "realDonaldTrump" });
    */
   userPosts(
     input: TruthsocialUserPostsInput,

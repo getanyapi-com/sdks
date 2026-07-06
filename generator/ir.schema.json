@@ -11,6 +11,19 @@
     "generatedFrom": { "type": "string" },
     "openapiVersion": { "type": "string" },
     "baseUrl": { "type": "string" },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "slug", "message"],
+        "properties": {
+          "kind": { "type": "string" },
+          "slug": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    },
     "skus": {
       "type": "array",
       "items": { "$ref": "#/$defs/skuEntry" }
@@ -50,7 +63,7 @@
           "additionalProperties": false,
           "required": ["envelope", "data"],
           "properties": {
-            "envelope": { "type": "string", "const": "found-data" },
+            "envelope": { "type": "string", "enum": ["found-data", "bare"] },
             "data": { "$ref": "#/$defs/schemaNode" }
           }
         },

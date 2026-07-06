@@ -44,12 +44,12 @@ export interface BookingSearchItem {
   currency?: string;
   /**
    * Booking.com hotel identifier.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   id?: string;
   /**
    * Primary hotel photo URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   latitude?: number;
@@ -58,9 +58,6 @@ export interface BookingSearchItem {
    */
   location?: string;
   longitude?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   /**
    * Total stay price in the requested currency.
@@ -80,9 +77,6 @@ export interface BookingSearchItem {
    * Star rating class (1-5).
    */
   stars?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -93,7 +87,6 @@ export interface BookingSearchItem {
 export interface BookingSearchData {
   /**
    * Hotel result records: name, price, review score, star rating, address, and location.
-   * Populated whenever the provider returns data.
    */
   items: BookingSearchItem[];
 }
@@ -113,7 +106,7 @@ export class BookingNamespace {
    * Price: $0.002 per request plus $0.0045 per result.
    *
    * @example
-   * const res = await client.booking.search({"checkIn":"2026-09-01","checkOut":"2026-09-03","limit":3,"query":"New York"});
+   * const res = await client.booking.search({ query: "New York", checkIn: "2026-09-01", checkOut: "2026-09-03", limit: 3 });
    */
   search(
     input: BookingSearchInput,

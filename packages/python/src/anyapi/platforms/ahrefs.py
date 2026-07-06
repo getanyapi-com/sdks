@@ -53,42 +53,46 @@ class AhrefsOverviewInput(TypedDict, total=False):
 
 class AhrefsBacklinksData(BaseModel):
     items: list[AhrefsBacklinksItem] = Field(
-        description="Referring pages that link to the domain or URL. Populated whenever the provider returns data."
+        description="Referring pages that link to the domain or URL."
     )
 
 
 class AhrefsBacklinksItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     anchor: str | None = Field(default=None, description="Anchor text of the link.")
-    contextAfter: str | None = Field(
+    context_after: str | None = Field(
         default=None,
+        alias="contextAfter",
         description="Text immediately after the anchor on the referring page.",
     )
-    contextBefore: str | None = Field(
+    context_before: str | None = Field(
         default=None,
+        alias="contextBefore",
         description="Text immediately before the anchor on the referring page.",
     )
-    domainRating: float | None = Field(
-        default=None, description="Ahrefs Domain Rating (0-100) of the linking domain."
+    domain_rating: float | None = Field(
+        default=None,
+        alias="domainRating",
+        description="Ahrefs Domain Rating (0-100) of the linking domain.",
     )
     title: str | None = Field(default=None, description="Title of the referring page.")
-    urlFrom: str = Field(
-        description="URL of the referring page that contains the link. Populated whenever the provider returns data."
+    url_from: str = Field(
+        alias="urlFrom", description="URL of the referring page that contains the link."
     )
-    urlTo: str | None = Field(
-        default=None, description="Target URL the link points to."
+    url_to: str | None = Field(
+        default=None, alias="urlTo", description="Target URL the link points to."
     )
 
 
 class AhrefsKeywordIdeasData(BaseModel):
     items: list[AhrefsKeywordIdeasItem] = Field(
-        description="Keyword-idea records: the seed keyword and its related keyword suggestions, each with an Ahrefs difficulty and search-volume bucket. Populated whenever the provider returns data."
+        description="Keyword-idea records: the seed keyword and its related keyword suggestions, each with an Ahrefs difficulty and search-volume bucket."
     )
 
 
 class AhrefsKeywordIdeasItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     country: str | None = Field(
         default=None,
@@ -96,29 +100,31 @@ class AhrefsKeywordIdeasItem(BaseModel):
     )
     ideas: list[AhrefsKeywordIdeasIdea] | None = Field(
         default=None,
-        description="Related keyword suggestions for the seed term. Populated whenever the provider returns data.",
+        description="Related keyword suggestions for the seed term. Present whenever the upstream returns this record.",
     )
-    searchEngine: str | None = Field(
+    search_engine: str | None = Field(
         default=None,
+        alias="searchEngine",
         description="Search engine the suggestions are drawn from (e.g. Google).",
     )
-    sourceKeyword: str = Field(
-        description="The seed keyword the suggestions were expanded from. Populated whenever the provider returns data."
+    source_keyword: str = Field(
+        alias="sourceKeyword",
+        description="The seed keyword the suggestions were expanded from.",
     )
 
 
 class AhrefsKeywordIdeasIdea(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     difficulty: str | None = Field(
         default=None,
         description="Relative Ahrefs difficulty bucket (a letter such as E, M, or H), not an exact number.",
     )
-    keyword: str = Field(
-        description="The suggested related keyword. Populated whenever the provider returns data."
-    )
-    updatedAt: str | None = Field(
-        default=None, description="Timestamp the suggestion metrics were last updated."
+    keyword: str = Field(description="The suggested related keyword.")
+    updated_at: str | None = Field(
+        default=None,
+        alias="updatedAt",
+        description="Timestamp the suggestion metrics were last updated.",
     )
     volume: str | None = Field(
         default=None,
@@ -128,12 +134,12 @@ class AhrefsKeywordIdeasIdea(BaseModel):
 
 class AhrefsKeywordsData(BaseModel):
     items: list[AhrefsKeywordsItem] = Field(
-        description="Keyword-difficulty records: the difficulty score and the referring-domain gap needed to rank in the top 10. Populated whenever the provider returns data."
+        description="Keyword-difficulty records: the difficulty score and the referring-domain gap needed to rank in the top 10."
     )
 
 
 class AhrefsKeywordsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     country: str | None = Field(
         default=None, description="Two-letter country code the metrics are scoped to."
@@ -141,45 +147,49 @@ class AhrefsKeywordsItem(BaseModel):
     difficulty: int | None = Field(
         default=None, description="Ahrefs Keyword Difficulty, 0-100."
     )
-    keyword: str = Field(description="Populated whenever the provider returns data.")
-    referringDomainsToRank: int | None = Field(
+    keyword: str
+    referring_domains_to_rank: int | None = Field(
         default=None,
+        alias="referringDomainsToRank",
         description="Estimated number of referring domains a page needs to rank in the top 10 for this keyword.",
     )
 
 
 class AhrefsOverviewData(BaseModel):
     items: list[AhrefsOverviewItem] = Field(
-        description="Domain authority records: the requested domain plus its Domain Rating, total backlinks, and referring-domain counts. Populated whenever the provider returns data."
+        description="Domain authority records: the requested domain plus its Domain Rating, total backlinks, and referring-domain counts."
     )
 
 
 class AhrefsOverviewItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     backlinks: int | None = Field(
         default=None, description="Total number of backlinks pointing to the domain."
     )
-    dofollowBacklinksPct: int | None = Field(
-        default=None, description="Percentage (0-100) of backlinks that are dofollow."
-    )
-    dofollowReferringDomainsPct: int | None = Field(
+    dofollow_backlinks_pct: int | None = Field(
         default=None,
+        alias="dofollowBacklinksPct",
+        description="Percentage (0-100) of backlinks that are dofollow.",
+    )
+    dofollow_referring_domains_pct: int | None = Field(
+        default=None,
+        alias="dofollowReferringDomainsPct",
         description="Percentage (0-100) of referring domains that provide a dofollow link.",
     )
-    domain: str = Field(
-        description="The domain or URL the metrics are scoped to. Populated whenever the provider returns data."
-    )
-    domainRating: float | None = Field(
+    domain: str = Field(description="The domain or URL the metrics are scoped to.")
+    domain_rating: float | None = Field(
         default=None,
+        alias="domainRating",
         description="Ahrefs Domain Rating, 0-100, measuring backlink-profile strength.",
     )
     mode: str | None = Field(
         default=None,
         description="Analysis scope used: subdomains (whole domain) or exact (the given URL only).",
     )
-    referringDomains: int | None = Field(
+    referring_domains: int | None = Field(
         default=None,
+        alias="referringDomains",
         description="Number of unique referring domains linking to the domain.",
     )
 
@@ -207,12 +217,10 @@ class AhrefsNamespace:
         Example:
             res = client.ahrefs.backlinks(mode="exact", url="ahrefs.com")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.backlinks", dict(input), options
         )
-        return RunResult[AhrefsBacklinksData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AhrefsBacklinksData].model_validate(raw)
 
     def keyword_ideas(
         self,
@@ -225,17 +233,15 @@ class AhrefsNamespace:
         Get related keyword suggestions for any seed term, each with an Ahrefs
         difficulty and search-volume bucket. Transparent per-request USD pricing.
 
-        Price: $0.018 per result.
+        Price: $0.0015 per request plus $0.018 per result.
 
         Example:
             res = client.ahrefs.keyword_ideas(country="us", keyword="coffee")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.keyword_ideas", dict(input), options
         )
-        return RunResult[AhrefsKeywordIdeasData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AhrefsKeywordIdeasData].model_validate(raw)
 
     def keywords(
         self,
@@ -250,17 +256,15 @@ class AhrefsNamespace:
         rank in the top 10 - as normalized JSON with transparent per-request USD
         pricing.
 
-        Price: $0.018 per result.
+        Price: $0.0015 per request plus $0.018 per result.
 
         Example:
             res = client.ahrefs.keywords(country="us", keyword="seo tools")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.keywords", dict(input), options
         )
-        return RunResult[AhrefsKeywordsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AhrefsKeywordsData].model_validate(raw)
 
     def overview(
         self,
@@ -274,17 +278,15 @@ class AhrefsNamespace:
         backlinks, and referring domains - as normalized JSON with transparent
         per-request USD pricing.
 
-        Price: $0.018 per result.
+        Price: $0.0015 per request plus $0.018 per result.
 
         Example:
             res = client.ahrefs.overview(mode="subdomains", url="ahrefs.com")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.overview", dict(input), options
         )
-        return RunResult[AhrefsOverviewData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AhrefsOverviewData].model_validate(raw)
 
 
 class AsyncAhrefsNamespace:
@@ -310,12 +312,10 @@ class AsyncAhrefsNamespace:
         Example:
             res = client.ahrefs.backlinks(mode="exact", url="ahrefs.com")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.backlinks", dict(input), options
         )
-        return RunResult[AhrefsBacklinksData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AhrefsBacklinksData].model_validate(raw)
 
     async def keyword_ideas(
         self,
@@ -328,17 +328,15 @@ class AsyncAhrefsNamespace:
         Get related keyword suggestions for any seed term, each with an Ahrefs
         difficulty and search-volume bucket. Transparent per-request USD pricing.
 
-        Price: $0.018 per result.
+        Price: $0.0015 per request plus $0.018 per result.
 
         Example:
             res = client.ahrefs.keyword_ideas(country="us", keyword="coffee")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.keyword_ideas", dict(input), options
         )
-        return RunResult[AhrefsKeywordIdeasData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AhrefsKeywordIdeasData].model_validate(raw)
 
     async def keywords(
         self,
@@ -353,17 +351,15 @@ class AsyncAhrefsNamespace:
         rank in the top 10 - as normalized JSON with transparent per-request USD
         pricing.
 
-        Price: $0.018 per result.
+        Price: $0.0015 per request plus $0.018 per result.
 
         Example:
             res = client.ahrefs.keywords(country="us", keyword="seo tools")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.keywords", dict(input), options
         )
-        return RunResult[AhrefsKeywordsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AhrefsKeywordsData].model_validate(raw)
 
     async def overview(
         self,
@@ -377,14 +373,12 @@ class AsyncAhrefsNamespace:
         backlinks, and referring domains - as normalized JSON with transparent
         per-request USD pricing.
 
-        Price: $0.018 per result.
+        Price: $0.0015 per request plus $0.018 per result.
 
         Example:
             res = client.ahrefs.overview(mode="subdomains", url="ahrefs.com")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.overview", dict(input), options
         )
-        return RunResult[AhrefsOverviewData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AhrefsOverviewData].model_validate(raw)

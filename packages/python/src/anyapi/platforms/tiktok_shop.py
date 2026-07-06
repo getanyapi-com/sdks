@@ -95,127 +95,123 @@ class TiktokShopUserShowcaseInput(TypedDict, total=False):
 
 
 class TiktokShopProductData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    currency: str = Field(description="Populated whenever the provider returns data.")
-    originalPrice: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    price: str = Field(description="Populated whenever the provider returns data.")
-    productId: str = Field(description="Populated whenever the provider returns data.")
+    currency: str
+    original_price: str = Field(alias="originalPrice")
+    price: str
+    product_id: str = Field(alias="productId")
     rating: float
-    reviewCount: int
-    sellerLocation: str
-    sellerName: str = Field(description="Populated whenever the provider returns data.")
-    soldCount: int
-    title: str = Field(description="Populated whenever the provider returns data.")
+    review_count: int = Field(alias="reviewCount")
+    seller_location: str = Field(alias="sellerLocation")
+    seller_name: str = Field(alias="sellerName")
+    sold_count: int = Field(alias="soldCount")
+    title: str
 
 
 class TiktokShopProductReviewsData(BaseModel):
-    hasMore: bool
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_more: bool = Field(alias="hasMore")
     rating: float = Field(description="Overall product score (1-5).")
-    reviews: list[TiktokShopProductReviewsReview] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    totalReviews: int
+    reviews: list[TiktokShopProductReviewsReview]
+    total_reviews: int = Field(alias="totalReviews")
 
 
 class TiktokShopProductReviewsReview(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     country: str
-    createdAt: str = Field(
-        description="Review time as epoch milliseconds. Populated whenever the provider returns data."
+    created_at: str = Field(
+        alias="createdAt", description="Review time as epoch milliseconds."
     )
-    id: str = Field(description="Populated whenever the provider returns data.")
+    id: str
     rating: float
-    reviewerName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    sku: str = Field(
-        description='Variant bought, e.g. "Color: Black". Populated whenever the provider returns data.'
-    )
-    text: str = Field(description="Populated whenever the provider returns data.")
-    verifiedPurchase: bool
+    reviewer_name: str = Field(alias="reviewerName")
+    sku: str = Field(description='Variant bought, e.g. "Color: Black".')
+    text: str
+    verified_purchase: bool = Field(alias="verifiedPurchase")
 
 
 class TiktokShopSearchData(BaseModel):
     items: list[TiktokShopSearchItem] = Field(
-        description="Product records matching the search query: id, title, price, sales count, rating, seller, and product URL. Populated whenever the provider returns data."
+        description="Product records matching the search query: id, title, price, sales count, rating, seller, and product URL."
     )
 
 
 class TiktokShopSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     currency: str | None = Field(
         default=None, description="ISO currency name, e.g. USD."
     )
-    originalPrice: float | None = Field(
-        default=None, description="Pre-discount list price (0 when not on sale)."
+    original_price: float | None = Field(
+        default=None,
+        alias="originalPrice",
+        description="Pre-discount list price (0 when not on sale).",
     )
     price: float | None = Field(default=None, description="Current sale price.")
-    productId: str = Field(
-        description="TikTok Shop product id. Populated whenever the provider returns data."
-    )
+    product_id: str = Field(alias="productId", description="TikTok Shop product id.")
     rating: float | None = Field(default=None, description="Average review score.")
-    shopName: str | None = Field(default=None, description="Seller shop name.")
-    soldCount: int | None = Field(default=None, description="Units sold.")
-    title: str = Field(
-        description="Product title. Populated whenever the provider returns data."
+    shop_name: str | None = Field(
+        default=None, alias="shopName", description="Seller shop name."
     )
+    sold_count: int | None = Field(
+        default=None, alias="soldCount", description="Units sold."
+    )
+    title: str = Field(description="Product title.")
     url: str | None = Field(
         default=None,
-        description="Canonical product detail page URL. Populated whenever the provider returns data.",
+        description="Canonical product detail page URL. Present whenever the upstream returns this record.",
     )
 
 
 class TiktokShopShopProductsData(BaseModel):
-    hasMore: bool
-    nextCursor: str
-    productCount: int
-    products: list[TiktokShopShopProductsProduct] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    shopName: str = Field(description="Populated whenever the provider returns data.")
-    shopRating: float
-    soldCount: int
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_more: bool = Field(alias="hasMore")
+    next_cursor: str = Field(alias="nextCursor")
+    product_count: int = Field(alias="productCount")
+    products: list[TiktokShopShopProductsProduct]
+    shop_name: str = Field(alias="shopName")
+    shop_rating: float = Field(alias="shopRating")
+    sold_count: int = Field(alias="soldCount")
 
 
 class TiktokShopShopProductsProduct(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     currency: str
-    originalPrice: float
+    original_price: float = Field(alias="originalPrice")
     price: float
-    productId: str = Field(description="Populated whenever the provider returns data.")
+    product_id: str = Field(alias="productId")
     rating: float
-    reviewCount: int
-    soldCount: int
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    review_count: int = Field(alias="reviewCount")
+    sold_count: int = Field(alias="soldCount")
+    title: str
+    url: str
 
 
 class TiktokShopUserShowcaseData(BaseModel):
-    nextCursor: str
-    products: list[TiktokShopUserShowcaseProduct] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(alias="nextCursor")
+    products: list[TiktokShopUserShowcaseProduct]
 
 
 class TiktokShopUserShowcaseProduct(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     currency: str
-    imageUrl: str = Field(description="Populated whenever the provider returns data.")
-    originalPrice: str
+    image_url: str = Field(alias="imageUrl")
+    original_price: str = Field(alias="originalPrice")
     price: str
-    productId: str = Field(description="Populated whenever the provider returns data.")
+    product_id: str = Field(alias="productId")
     rating: float
-    reviewCount: int
-    soldCount: int
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    review_count: int = Field(alias="reviewCount")
+    sold_count: int = Field(alias="soldCount")
+    title: str
+    url: str
 
 
 class TiktokShopNamespace:
@@ -240,12 +236,10 @@ class TiktokShopNamespace:
         Example:
             res = client.tiktok_shop.product(url="https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.product", dict(input), options
         )
-        return RunResult[TiktokShopProductData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopProductData].model_validate(raw)
 
     def product_reviews(
         self,
@@ -264,12 +258,10 @@ class TiktokShopNamespace:
         Example:
             res = client.tiktok_shop.product_reviews(url="https://www.tiktok.com/shop/pdp/cat-nail-clipper-by-potaroma-adjustable-sizes-built-in-file-safe-for-kittens-cats/1731578642912612516")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.product_reviews", dict(input), options
         )
-        return RunResult[TiktokShopProductReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopProductReviewsData].model_validate(raw)
 
     def search(
         self,
@@ -287,12 +279,10 @@ class TiktokShopNamespace:
         Example:
             res = client.tiktok_shop.search(limit=3, query="phone case")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.search", dict(input), options
         )
-        return RunResult[TiktokShopSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopSearchData].model_validate(raw)
 
     def shop_products(
         self,
@@ -311,12 +301,10 @@ class TiktokShopNamespace:
         Example:
             res = client.tiktok_shop.shop_products(url="https://www.tiktok.com/shop/store/goli-nutrition/7495794203056835079")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.shop_products", dict(input), options
         )
-        return RunResult[TiktokShopShopProductsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopShopProductsData].model_validate(raw)
 
     def iter_shop_products(
         self,
@@ -326,14 +314,18 @@ class TiktokShopNamespace:
     ) -> Paginator[TiktokShopShopProductsProduct, TiktokShopShopProductsData]:
         """Iterate TikTok Shop Store Products results, following pagination cursors.
 
-        Yields flattened items from the `products` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokShopShopProductsProduct` items from the `products` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "tiktok_shop.shop_products",
             dict(input),
             "products",
+            item_model=TiktokShopShopProductsProduct,
+            data_model=TiktokShopShopProductsData,
+            bare=False,
             options=options,
         )
 
@@ -354,12 +346,10 @@ class TiktokShopNamespace:
         Example:
             res = client.tiktok_shop.user_showcase(handle="mrtiktokreviews")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.user_showcase", dict(input), options
         )
-        return RunResult[TiktokShopUserShowcaseData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopUserShowcaseData].model_validate(raw)
 
     def iter_user_showcase(
         self,
@@ -369,14 +359,18 @@ class TiktokShopNamespace:
     ) -> Paginator[TiktokShopUserShowcaseProduct, TiktokShopUserShowcaseData]:
         """Iterate TikTok Shop User Showcase results, following pagination cursors.
 
-        Yields flattened items from the `products` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokShopUserShowcaseProduct` items from the `products` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "tiktok_shop.user_showcase",
             dict(input),
             "products",
+            item_model=TiktokShopUserShowcaseProduct,
+            data_model=TiktokShopUserShowcaseData,
+            bare=False,
             options=options,
         )
 
@@ -403,12 +397,10 @@ class AsyncTiktokShopNamespace:
         Example:
             res = client.tiktok_shop.product(url="https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.product", dict(input), options
         )
-        return RunResult[TiktokShopProductData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopProductData].model_validate(raw)
 
     async def product_reviews(
         self,
@@ -427,12 +419,10 @@ class AsyncTiktokShopNamespace:
         Example:
             res = client.tiktok_shop.product_reviews(url="https://www.tiktok.com/shop/pdp/cat-nail-clipper-by-potaroma-adjustable-sizes-built-in-file-safe-for-kittens-cats/1731578642912612516")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.product_reviews", dict(input), options
         )
-        return RunResult[TiktokShopProductReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopProductReviewsData].model_validate(raw)
 
     async def search(
         self,
@@ -450,12 +440,10 @@ class AsyncTiktokShopNamespace:
         Example:
             res = client.tiktok_shop.search(limit=3, query="phone case")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.search", dict(input), options
         )
-        return RunResult[TiktokShopSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopSearchData].model_validate(raw)
 
     async def shop_products(
         self,
@@ -474,12 +462,10 @@ class AsyncTiktokShopNamespace:
         Example:
             res = client.tiktok_shop.shop_products(url="https://www.tiktok.com/shop/store/goli-nutrition/7495794203056835079")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.shop_products", dict(input), options
         )
-        return RunResult[TiktokShopShopProductsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopShopProductsData].model_validate(raw)
 
     def iter_shop_products(
         self,
@@ -489,14 +475,18 @@ class AsyncTiktokShopNamespace:
     ) -> AsyncPaginator[TiktokShopShopProductsProduct, TiktokShopShopProductsData]:
         """Iterate TikTok Shop Store Products results, following pagination cursors.
 
-        Yields flattened items from the `products` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokShopShopProductsProduct` items from the `products` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "tiktok_shop.shop_products",
             dict(input),
             "products",
+            item_model=TiktokShopShopProductsProduct,
+            data_model=TiktokShopShopProductsData,
+            bare=False,
             options=options,
         )
 
@@ -517,12 +507,10 @@ class AsyncTiktokShopNamespace:
         Example:
             res = client.tiktok_shop.user_showcase(handle="mrtiktokreviews")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok_shop.user_showcase", dict(input), options
         )
-        return RunResult[TiktokShopUserShowcaseData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokShopUserShowcaseData].model_validate(raw)
 
     def iter_user_showcase(
         self,
@@ -532,13 +520,17 @@ class AsyncTiktokShopNamespace:
     ) -> AsyncPaginator[TiktokShopUserShowcaseProduct, TiktokShopUserShowcaseData]:
         """Iterate TikTok Shop User Showcase results, following pagination cursors.
 
-        Yields flattened items from the `products` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokShopUserShowcaseProduct` items from the `products` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "tiktok_shop.user_showcase",
             dict(input),
             "products",
+            item_model=TiktokShopUserShowcaseProduct,
+            data_model=TiktokShopUserShowcaseData,
+            bare=False,
             options=options,
         )

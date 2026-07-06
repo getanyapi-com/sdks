@@ -25,13 +25,7 @@ export interface InstagramAudioReelsInput {
 export interface InstagramAudioReelsReel {
   code: string;
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
   plays: number;
@@ -44,9 +38,6 @@ export interface InstagramAudioReelsReel {
 export interface InstagramAudioReelsData {
   hasMore: boolean;
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   reels: InstagramAudioReelsReel[];
 }
 
@@ -64,26 +55,14 @@ export interface InstagramBasicProfileInput {
  * The `data` payload of Instagram Basic Profile (instagram.basic_profile).
  */
 export interface InstagramBasicProfileData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
   bio: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
   externalUrl: string;
   followers: number;
   following: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
   private: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   userId: string;
   verified: boolean;
   [extra: string]: unknown;
@@ -103,9 +82,6 @@ export interface InstagramEmbedInput {
  * The `data` payload of Instagram Profile Embed (instagram.embed).
  */
 export interface InstagramEmbedData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   html: string;
   [extra: string]: unknown;
 }
@@ -136,16 +112,10 @@ export interface InstagramFollowersInput {
 export interface InstagramFollowersItem {
   /**
    * Follower's display name (may be empty).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   fullName?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   /**
    * Whether the follower's account is private.
@@ -153,7 +123,7 @@ export interface InstagramFollowersItem {
   private?: boolean;
   /**
    * URL of the follower's profile picture.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   profilePicUrl?: string;
   /**
@@ -169,7 +139,6 @@ export interface InstagramFollowersItem {
 export interface InstagramFollowersData {
   /**
    * Follower records: id, handle, full name, profile picture URL, and verification/privacy flags.
-   * Populated whenever the provider returns data.
    */
   items: InstagramFollowersItem[];
   /**
@@ -204,16 +173,10 @@ export interface InstagramFollowingInput {
 export interface InstagramFollowingItem {
   /**
    * Account display name.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   fullName?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   /**
    * Whether the account is private.
@@ -221,7 +184,7 @@ export interface InstagramFollowingItem {
   private?: boolean;
   /**
    * URL of the account's profile picture.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   profilePicUrl?: string;
   /**
@@ -237,7 +200,6 @@ export interface InstagramFollowingItem {
 export interface InstagramFollowingData {
   /**
    * Followed-account records: numeric id, handle, full name, profile picture URL, and verified/private flags.
-   * Populated whenever the provider returns data.
    */
   items: InstagramFollowingItem[];
   /**
@@ -264,12 +226,11 @@ export interface InstagramHashtagAnalyticsInput {
 export interface InstagramHashtagAnalyticsItem {
   difficulty?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   id?: string;
   /**
    * Hashtag (without #).
-   * Populated whenever the provider returns data.
    */
   name: string;
   /**
@@ -278,12 +239,9 @@ export interface InstagramHashtagAnalyticsItem {
   postsCount?: number;
   /**
    * Human-formatted post count (e.g. 793.54 M).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   postsFormatted?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -294,7 +252,6 @@ export interface InstagramHashtagAnalyticsItem {
 export interface InstagramHashtagAnalyticsData {
   /**
    * Hashtag analytics records: hashtag name, total post count, and related hashtag suggestions.
-   * Populated whenever the provider returns data.
    */
   items: InstagramHashtagAnalyticsItem[];
 }
@@ -313,23 +270,11 @@ export interface InstagramHighlightDetailInput {
  * The `data` payload of Instagram Highlight Detail (instagram.highlight_detail).
  */
 export interface InstagramHighlightDetailData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   coverUrl: string;
   createdAt: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   mediaCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   ownerHandle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   [extra: string]: unknown;
 }
@@ -345,17 +290,8 @@ export interface InstagramMediaTranscriptInput {
 }
 
 export interface InstagramMediaTranscriptTranscript {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   shortcode: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -364,9 +300,6 @@ export interface InstagramMediaTranscriptTranscript {
  * The `data` payload of Instagram Media Transcript (instagram.media_transcript).
  */
 export interface InstagramMediaTranscriptData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   transcripts: InstagramMediaTranscriptTranscript[];
 }
 
@@ -384,18 +317,9 @@ export interface InstagramPostInput {
  * The `data` payload of Instagram Post (instagram.post).
  */
 export interface InstagramPostData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   owner: string;
   shortcode: string;
   type: string;
@@ -418,22 +342,10 @@ export interface InstagramPostCommentsInput {
 }
 
 export interface InstagramPostCommentsComment {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   verified: boolean;
   [extra: string]: unknown;
@@ -443,9 +355,6 @@ export interface InstagramPostCommentsComment {
  * The `data` payload of Instagram Post Comments (instagram.post_comments).
  */
 export interface InstagramPostCommentsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   comments: InstagramPostCommentsComment[];
 }
 
@@ -463,23 +372,11 @@ export interface InstagramProfileInput {
  * The `data` payload of Instagram Profile (instagram.profile).
  */
 export interface InstagramProfileData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   bio: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
   followers: number;
   following: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
   posts: number;
   verified: boolean;
@@ -513,7 +410,6 @@ export interface InstagramReelTranscriptItem {
 export interface InstagramReelTranscriptData {
   /**
    * Transcript records: full transcript text, timed segments, detected language, and source video metadata.
-   * Populated whenever the provider returns data.
    */
   items: InstagramReelTranscriptItem[];
 }
@@ -541,9 +437,6 @@ export interface InstagramReelsSearchInput {
 }
 
 export interface InstagramReelsSearchReel {
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
   comments: number;
   durationSeconds: number;
@@ -551,22 +444,10 @@ export interface InstagramReelsSearchReel {
   likes: number;
   paidPartnership: boolean;
   plays: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   shortcode: string;
   takenAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   thumbnail: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   verified: boolean;
   views: number;
@@ -577,9 +458,6 @@ export interface InstagramReelsSearchReel {
  * The `data` payload of Instagram Reels Search (instagram.reels_search).
  */
 export interface InstagramReelsSearchData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   reels: InstagramReelsSearchReel[];
 }
 
@@ -605,13 +483,7 @@ export interface InstagramSearchInput {
 }
 
 export interface InstagramSearchItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -622,7 +494,6 @@ export interface InstagramSearchItem {
 export interface InstagramSearchData {
   /**
    * Matching search results: user profiles, hashtags, or places with names, follower/post counts, and profile links.
-   * Populated whenever the provider returns data.
    */
   items: InstagramSearchItem[];
 }
@@ -647,22 +518,10 @@ export interface InstagramSearchHashtagInput {
 
 export interface InstagramSearchHashtagPost {
   caption: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   shortcode: string;
   type: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -671,9 +530,6 @@ export interface InstagramSearchHashtagPost {
  * The `data` payload of Instagram Hashtag Search (instagram.search_hashtag).
  */
 export interface InstagramSearchHashtagData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: InstagramSearchHashtagPost[];
 }
 
@@ -692,27 +548,12 @@ export interface InstagramSearchProfilesInput {
 }
 
 export interface InstagramSearchProfilesProfile {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   bio: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
   followers: number;
   following: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   posts: number;
   private: boolean;
@@ -725,9 +566,6 @@ export interface InstagramSearchProfilesProfile {
  */
 export interface InstagramSearchProfilesData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   profiles: InstagramSearchProfilesProfile[];
 }
 
@@ -776,7 +614,7 @@ export interface InstagramStoriesFullItem {
   postedAt?: number;
   /**
    * Owner username.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   username?: string;
   /**
@@ -796,7 +634,6 @@ export interface InstagramStoriesFullItem {
 export interface InstagramStoriesFullData {
   /**
    * Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption.
-   * Populated whenever the provider returns data.
    */
   items: InstagramStoriesFullItem[];
 }
@@ -814,17 +651,16 @@ export interface InstagramStoriesThinInput {
 export interface InstagramStoriesThinItem {
   /**
    * Story identifier.
-   * Populated whenever the provider returns data.
    */
   id: string;
   /**
    * Direct URL to the story image or video.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   mediaUrl?: string;
   /**
    * Public link to the story.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   permalink?: string;
   /**
@@ -833,7 +669,7 @@ export interface InstagramStoriesThinItem {
   postedAt?: number;
   /**
    * Owner username.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   username?: string;
   [extra: string]: unknown;
@@ -845,7 +681,6 @@ export interface InstagramStoriesThinItem {
 export interface InstagramStoriesThinData {
   /**
    * The account's currently live stories, each with its media URL, owner, posting time, and permalink.
-   * Populated whenever the provider returns data.
    */
   items: InstagramStoriesThinItem[];
 }
@@ -858,23 +693,11 @@ export interface InstagramTrendingReelsInput {}
 export interface InstagramTrendingReelsReel {
   caption: string;
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
   plays: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   shortcode: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -883,9 +706,6 @@ export interface InstagramTrendingReelsReel {
  * The `data` payload of Instagram Trending Reels (instagram.trending_reels).
  */
 export interface InstagramTrendingReelsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   reels: InstagramTrendingReelsReel[];
 }
 
@@ -904,21 +724,9 @@ export interface InstagramUserHighlightsInput {
 }
 
 export interface InstagramUserHighlightsHighlight {
-  /**
-   * Populated whenever the provider returns data.
-   */
   coverUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   ownerHandle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   [extra: string]: unknown;
 }
@@ -927,9 +735,6 @@ export interface InstagramUserHighlightsHighlight {
  * The `data` payload of Instagram User Highlights (instagram.user_highlights).
  */
 export interface InstagramUserHighlightsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   highlights: InstagramUserHighlightsHighlight[];
 }
 
@@ -948,20 +753,11 @@ export interface InstagramUserPostsInput {
 }
 
 export interface InstagramUserPostsPost {
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
   comments: number;
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -971,9 +767,6 @@ export interface InstagramUserPostsPost {
  */
 export interface InstagramUserPostsData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: InstagramUserPostsPost[];
 }
 
@@ -996,19 +789,10 @@ export interface InstagramUserReelsInput {
 }
 
 export interface InstagramUserReelsReel {
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   shortcode: string;
   takenAt: number;
   views: number;
@@ -1020,9 +804,6 @@ export interface InstagramUserReelsReel {
  */
 export interface InstagramUserReelsData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   reels: InstagramUserReelsReel[];
 }
 
@@ -1041,7 +822,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.audioReels({"audioId":"1392969992841787"});
+   * const res = await client.instagram.audioReels({ audioId: "1392969992841787" });
    */
   audioReels(
     input: InstagramAudioReelsInput,
@@ -1054,17 +835,21 @@ export class InstagramNamespace {
    * Iterate every result of Instagram Reels by Audio across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterAudioReels(
     input: InstagramAudioReelsInput,
     options?: RequestOptions,
-  ): Paginator<InstagramAudioReelsReel, InstagramAudioReelsData> {
-    return paginate<InstagramAudioReelsReel, InstagramAudioReelsData>(
+  ): Paginator<InstagramAudioReelsReel, RunResult<InstagramAudioReelsData>> {
+    return paginate<
+      InstagramAudioReelsReel,
+      RunResult<InstagramAudioReelsData>
+    >(
       this._core,
       "instagram.audio_reels",
       input as unknown as Record<string, unknown>,
       "reels",
+      false,
       options,
     );
   }
@@ -1077,7 +862,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.basicProfile({"userId":"314216"});
+   * const res = await client.instagram.basicProfile({ userId: "314216" });
    */
   basicProfile(
     input: InstagramBasicProfileInput,
@@ -1094,7 +879,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.embed({"handle":"nasa"});
+   * const res = await client.instagram.embed({ handle: "nasa" });
    */
   embed(
     input: InstagramEmbedInput,
@@ -1111,7 +896,7 @@ export class InstagramNamespace {
    * Price: $0.01625 per request.
    *
    * @example
-   * const res = await client.instagram.followers({"limit":50,"username":"nasa"});
+   * const res = await client.instagram.followers({ username: "nasa", limit: 50 });
    */
   followers(
     input: InstagramFollowersInput,
@@ -1124,17 +909,18 @@ export class InstagramNamespace {
    * Iterate every result of Instagram Followers across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterFollowers(
     input: InstagramFollowersInput,
     options?: RequestOptions,
-  ): Paginator<InstagramFollowersItem, InstagramFollowersData> {
-    return paginate<InstagramFollowersItem, InstagramFollowersData>(
+  ): Paginator<InstagramFollowersItem, RunResult<InstagramFollowersData>> {
+    return paginate<InstagramFollowersItem, RunResult<InstagramFollowersData>>(
       this._core,
       "instagram.followers",
       input as unknown as Record<string, unknown>,
       "items",
+      false,
       options,
     );
   }
@@ -1147,7 +933,7 @@ export class InstagramNamespace {
    * Price: $0.01625 per request.
    *
    * @example
-   * const res = await client.instagram.following({"limit":50,"username":"nasa"});
+   * const res = await client.instagram.following({ username: "nasa", limit: 50 });
    */
   following(
     input: InstagramFollowingInput,
@@ -1160,17 +946,18 @@ export class InstagramNamespace {
    * Iterate every result of Instagram Following across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterFollowing(
     input: InstagramFollowingInput,
     options?: RequestOptions,
-  ): Paginator<InstagramFollowingItem, InstagramFollowingData> {
-    return paginate<InstagramFollowingItem, InstagramFollowingData>(
+  ): Paginator<InstagramFollowingItem, RunResult<InstagramFollowingData>> {
+    return paginate<InstagramFollowingItem, RunResult<InstagramFollowingData>>(
       this._core,
       "instagram.following",
       input as unknown as Record<string, unknown>,
       "items",
+      false,
       options,
     );
   }
@@ -1183,7 +970,7 @@ export class InstagramNamespace {
    * Price: $0.001 per request plus $0.0017 per result.
    *
    * @example
-   * const res = await client.instagram.hashtagAnalytics({"hashtag":"travel","limit":5});
+   * const res = await client.instagram.hashtagAnalytics({ hashtag: "travel", limit: 5 });
    */
   hashtagAnalytics(
     input: InstagramHashtagAnalyticsInput,
@@ -1200,7 +987,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.highlightDetail({"id":"18201653992314974"});
+   * const res = await client.instagram.highlightDetail({ id: "18201653992314974" });
    */
   highlightDetail(
     input: InstagramHighlightDetailInput,
@@ -1217,7 +1004,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.mediaTranscript({"url":"https://www.instagram.com/reel/DHsD6HGqJhp/"});
+   * const res = await client.instagram.mediaTranscript({ url: "https://www.instagram.com/reel/DHsD6HGqJhp/" });
    */
   mediaTranscript(
     input: InstagramMediaTranscriptInput,
@@ -1234,7 +1021,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.post({"url":"https://www.instagram.com/reel/DWzrfE2kaY8/"});
+   * const res = await client.instagram.post({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
    */
   post(
     input: InstagramPostInput,
@@ -1251,7 +1038,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.postComments({"url":"https://www.instagram.com/reel/DWzrfE2kaY8/"});
+   * const res = await client.instagram.postComments({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
    */
   postComments(
     input: InstagramPostCommentsInput,
@@ -1268,7 +1055,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.profile({"handle":"nasa"});
+   * const res = await client.instagram.profile({ handle: "nasa" });
    */
   profile(
     input: InstagramProfileInput,
@@ -1285,7 +1072,7 @@ export class InstagramNamespace {
    * Price: $0.005 per request plus $0.02 per result.
    *
    * @example
-   * const res = await client.instagram.reelTranscript({"url":"https://www.instagram.com/reel/DWzrfE2kaY8/","wordTimestamps":false});
+   * const res = await client.instagram.reelTranscript({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps: false });
    */
   reelTranscript(
     input: InstagramReelTranscriptInput,
@@ -1302,7 +1089,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.reelsSearch({"query":"travel"});
+   * const res = await client.instagram.reelsSearch({ query: "travel" });
    */
   reelsSearch(
     input: InstagramReelsSearchInput,
@@ -1319,7 +1106,7 @@ export class InstagramNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.instagram.search({"query":"nasa"});
+   * const res = await client.instagram.search({ query: "nasa" });
    */
   search(
     input: InstagramSearchInput,
@@ -1336,7 +1123,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.searchHashtag({"hashtag":"travel"});
+   * const res = await client.instagram.searchHashtag({ hashtag: "travel" });
    */
   searchHashtag(
     input: InstagramSearchHashtagInput,
@@ -1353,7 +1140,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.searchProfiles({"query":"coffee roaster"});
+   * const res = await client.instagram.searchProfiles({ query: "coffee roaster" });
    */
   searchProfiles(
     input: InstagramSearchProfilesInput,
@@ -1366,20 +1153,24 @@ export class InstagramNamespace {
    * Iterate every result of Instagram Profile Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterSearchProfiles(
     input: InstagramSearchProfilesInput,
     options?: RequestOptions,
-  ): Paginator<InstagramSearchProfilesProfile, InstagramSearchProfilesData> {
+  ): Paginator<
+    InstagramSearchProfilesProfile,
+    RunResult<InstagramSearchProfilesData>
+  > {
     return paginate<
       InstagramSearchProfilesProfile,
-      InstagramSearchProfilesData
+      RunResult<InstagramSearchProfilesData>
     >(
       this._core,
       "instagram.search_profiles",
       input as unknown as Record<string, unknown>,
       "profiles",
+      false,
       options,
     );
   }
@@ -1392,7 +1183,7 @@ export class InstagramNamespace {
    * Price: $0.099 per request plus $0.003 per username.
    *
    * @example
-   * const res = await client.instagram.storiesFull({"usernames":["natgeo"]});
+   * const res = await client.instagram.storiesFull({ usernames: ["natgeo"] });
    */
   storiesFull(
     input: InstagramStoriesFullInput,
@@ -1409,7 +1200,7 @@ export class InstagramNamespace {
    * Price: $0.01625 per request.
    *
    * @example
-   * const res = await client.instagram.storiesThin({"username":"natgeo"});
+   * const res = await client.instagram.storiesThin({ username: "natgeo" });
    */
   storiesThin(
     input: InstagramStoriesThinInput,
@@ -1443,7 +1234,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.userHighlights({"handle":"nasa"});
+   * const res = await client.instagram.userHighlights({ handle: "nasa" });
    */
   userHighlights(
     input: InstagramUserHighlightsInput,
@@ -1460,7 +1251,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.userPosts({"handle":"nasa"});
+   * const res = await client.instagram.userPosts({ handle: "nasa" });
    */
   userPosts(
     input: InstagramUserPostsInput,
@@ -1473,17 +1264,18 @@ export class InstagramNamespace {
    * Iterate every result of Instagram User Posts across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterUserPosts(
     input: InstagramUserPostsInput,
     options?: RequestOptions,
-  ): Paginator<InstagramUserPostsPost, InstagramUserPostsData> {
-    return paginate<InstagramUserPostsPost, InstagramUserPostsData>(
+  ): Paginator<InstagramUserPostsPost, RunResult<InstagramUserPostsData>> {
+    return paginate<InstagramUserPostsPost, RunResult<InstagramUserPostsData>>(
       this._core,
       "instagram.user_posts",
       input as unknown as Record<string, unknown>,
       "posts",
+      false,
       options,
     );
   }
@@ -1496,7 +1288,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.userReels({"handle":"nasa"});
+   * const res = await client.instagram.userReels({ handle: "nasa" });
    */
   userReels(
     input: InstagramUserReelsInput,
@@ -1509,17 +1301,18 @@ export class InstagramNamespace {
    * Iterate every result of Instagram User Reels across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterUserReels(
     input: InstagramUserReelsInput,
     options?: RequestOptions,
-  ): Paginator<InstagramUserReelsReel, InstagramUserReelsData> {
-    return paginate<InstagramUserReelsReel, InstagramUserReelsData>(
+  ): Paginator<InstagramUserReelsReel, RunResult<InstagramUserReelsData>> {
+    return paginate<InstagramUserReelsReel, RunResult<InstagramUserReelsData>>(
       this._core,
       "instagram.user_reels",
       input as unknown as Record<string, unknown>,
       "reels",
+      false,
       options,
     );
   }

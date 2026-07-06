@@ -36,12 +36,11 @@ export interface SemrushKeywordsItem {
   database?: string;
   /**
    * Search-intent labels for the keyword (e.g. commercial, informational).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   intents?: string[];
   /**
    * The researched search term.
-   * Populated whenever the provider returns data.
    */
   keyword: string;
   /**
@@ -54,7 +53,7 @@ export interface SemrushKeywordsItem {
   organicResultsCount?: number;
   /**
    * Question-phrased keyword variations with their own volume and difficulty.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   questions?: SemrushKeywordsQuestion[];
   /**
@@ -63,7 +62,7 @@ export interface SemrushKeywordsItem {
   referringDomainsMedian?: number;
   /**
    * Related keyword suggestions with their own volume and difficulty.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   relatedKeywords?: SemrushKeywordsRelatedKeyword[];
   /**
@@ -111,7 +110,6 @@ export interface SemrushKeywordsRelatedKeyword {
 export interface SemrushKeywordsData {
   /**
    * Keyword-research records: search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords for the researched term.
-   * Populated whenever the provider returns data.
    */
   items: SemrushKeywordsItem[];
 }
@@ -155,7 +153,6 @@ export interface SemrushOverviewItem {
   database?: string;
   /**
    * The analyzed domain.
-   * Populated whenever the provider returns data.
    */
   domain: string;
   /**
@@ -212,7 +209,7 @@ export interface SemrushOverviewItem {
   topCountryTraffic?: number;
   /**
    * The domain's top organic keywords with position, volume, and value.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   topKeywords?: SemrushOverviewTopKeyword[];
   /**
@@ -264,7 +261,6 @@ export interface SemrushOverviewTopKeyword {
 export interface SemrushOverviewData {
   /**
    * Domain overview records: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.
-   * Populated whenever the provider returns data.
    */
   items: SemrushOverviewItem[];
 }
@@ -281,10 +277,10 @@ export class SemrushNamespace {
    *
    * Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords. Transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.015 per result.
+   * Price: $0.015 per result.
    *
    * @example
-   * const res = await client.semrush.keywords({"database":"us","keyword":"best running shoes"});
+   * const res = await client.semrush.keywords({ keyword: "best running shoes", database: "us" });
    */
   keywords(
     input: SemrushKeywordsInput,
@@ -298,10 +294,10 @@ export class SemrushNamespace {
    *
    * a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords. Transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.015 per result.
+   * Price: $0.015 per result.
    *
    * @example
-   * const res = await client.semrush.overview({"database":"us","domain":"ahrefs.com"});
+   * const res = await client.semrush.overview({ domain: "ahrefs.com", database: "us" });
    */
   overview(
     input: SemrushOverviewInput,

@@ -20,34 +20,16 @@ export interface LinkedinAdInput {
  * The `data` payload of LinkedIn Ad Details (linkedin.ad).
  */
 export interface LinkedinAdData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   adType: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   advertiser: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   advertiserLinkedinPage: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   cta: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
   destinationUrl: string;
   /**
    * ISO 8601 date.
    */
   endDate: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   headline: string;
   id: string;
   image: string;
@@ -75,17 +57,11 @@ export interface LinkedinAdsInput {
 }
 
 export interface LinkedinAdsItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   text?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -96,7 +72,6 @@ export interface LinkedinAdsItem {
 export interface LinkedinAdsData {
   /**
    * Ad records: advertiser name, ad creative text, format, and ad library URL.
-   * Populated whenever the provider returns data.
    */
   items: LinkedinAdsItem[];
 }
@@ -136,13 +111,7 @@ export interface LinkedinAdsSearchInput {
 }
 
 export interface LinkedinAdsSearchAd {
-  /**
-   * Populated whenever the provider returns data.
-   */
   adType: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   advertiser: string;
   advertiserLinkedinPage: string;
   cta: string;
@@ -150,9 +119,6 @@ export interface LinkedinAdsSearchAd {
   destinationUrl: string;
   endDate: string;
   headline: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   startDate: string;
   totalImpressions: string;
@@ -163,9 +129,6 @@ export interface LinkedinAdsSearchAd {
  * The `data` payload of LinkedIn Ad Search (linkedin.ads_search).
  */
 export interface LinkedinAdsSearchData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   ads: LinkedinAdsSearchAd[];
   nextCursor: string;
   totalAds: number;
@@ -185,27 +148,12 @@ export interface LinkedinCompanyInput {
  * The `data` payload of LinkedIn Company (linkedin.company).
  */
 export interface LinkedinCompanyData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
   employeeCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   industry: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   logoUrl: string;
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   tagline: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   website: string;
   [extra: string]: unknown;
 }
@@ -234,7 +182,7 @@ export interface LinkedinCompanyEmployeesInput {
  */
 export interface LinkedinCompanyEmployeesItem {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   handle?: string;
   /**
@@ -246,12 +194,9 @@ export interface LinkedinCompanyEmployeesItem {
    */
   locationText?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   name?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -262,7 +207,6 @@ export interface LinkedinCompanyEmployeesItem {
 export interface LinkedinCompanyEmployeesData {
   /**
    * Employee records: name, job title, location text, and LinkedIn profile URL.
-   * Populated whenever the provider returns data.
    */
   items: LinkedinCompanyEmployeesItem[];
 }
@@ -283,21 +227,9 @@ export interface LinkedinCompanyPostsInput {
 }
 
 export interface LinkedinCompanyPostsPost {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -306,9 +238,6 @@ export interface LinkedinCompanyPostsPost {
  * The `data` payload of LinkedIn Company Posts (linkedin.company_posts).
  */
 export interface LinkedinCompanyPostsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: LinkedinCompanyPostsPost[];
 }
 
@@ -329,17 +258,15 @@ export interface LinkedinEmailItem {
   company?: string;
   /**
    * Discovered work email address.
-   * Populated whenever the provider returns data.
    */
   email: string;
   /**
    * Canonical LinkedIn profile URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   linkedinUrl?: string;
   /**
    * Full name on the LinkedIn profile.
-   * Populated whenever the provider returns data.
    */
   name: string;
   /**
@@ -355,7 +282,6 @@ export interface LinkedinEmailItem {
 export interface LinkedinEmailData {
   /**
    * Email lookup records: the discovered work email for a LinkedIn profile, with the person's name, profile URL, title, and company.
-   * Populated whenever the provider returns data.
    */
   items: LinkedinEmailItem[];
 }
@@ -382,7 +308,7 @@ export interface LinkedinJobsInput {
 export interface LinkedinJobsItem {
   /**
    * Hiring company name.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   company?: string;
   /**
@@ -391,25 +317,21 @@ export interface LinkedinJobsItem {
   description?: string;
   /**
    * Job location (city, region).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   location?: string;
   /**
    * When the job was posted, as an ISO 8601 timestamp.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   postedAt?: string;
   /**
    * Seniority / experience level (e.g. Entry level, Mid-Senior, Not Applicable).
    */
   seniority?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   /**
    * Canonical LinkedIn job listing URL.
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -421,7 +343,6 @@ export interface LinkedinJobsItem {
 export interface LinkedinJobsData {
   /**
    * Job records: title and listing URL, plus (when present) company, location, posting date, description, and seniority.
-   * Populated whenever the provider returns data.
    */
   items: LinkedinJobsItem[];
 }
@@ -440,24 +361,12 @@ export interface LinkedinPostInput {
  * The `data` payload of LinkedIn Post (linkedin.post).
  */
 export interface LinkedinPostData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
   comments: number;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -476,9 +385,6 @@ export interface LinkedinPostTranscriptInput {
  * The `data` payload of LinkedIn Post Transcript (linkedin.post_transcript).
  */
 export interface LinkedinPostTranscriptData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   transcript: string;
   transcriptNotAvailable: boolean;
   url: string;
@@ -532,25 +438,13 @@ export interface LinkedinProfileRecentPost {
  */
 export interface LinkedinProfileData {
   about: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   articles: LinkedinProfileArticle[];
   avatarUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   education: LinkedinProfileEducation[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   experience: LinkedinProfileExperience[];
   followers: number;
   location: string;
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   recentPosts: LinkedinProfileRecentPost[];
   [extra: string]: unknown;
 }
@@ -576,9 +470,6 @@ export interface LinkedinSearchCompaniesInput {
 
 export interface LinkedinSearchCompaniesItem {
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   url: string;
   [extra: string]: unknown;
@@ -590,7 +481,6 @@ export interface LinkedinSearchCompaniesItem {
 export interface LinkedinSearchCompaniesData {
   /**
    * Matching company records: name, LinkedIn URL, industry, location, headcount range, and description.
-   * Populated whenever the provider returns data.
    */
   items: LinkedinSearchCompaniesItem[];
 }
@@ -616,17 +506,8 @@ export interface LinkedinSearchPostsInput {
 }
 
 export interface LinkedinSearchPostsPost {
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -635,9 +516,6 @@ export interface LinkedinSearchPostsPost {
  * The `data` payload of LinkedIn Post Search (linkedin.search_posts).
  */
 export interface LinkedinSearchPostsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: LinkedinSearchPostsPost[];
 }
 
@@ -683,12 +561,12 @@ export interface LinkedinSearchProfilesItem {
   firstName?: string;
   /**
    * Public profile identifier (the vanity slug in the URL).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   handle?: string;
   /**
    * Profile headline (the tagline under the name).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   headline?: string;
   /**
@@ -705,7 +583,6 @@ export interface LinkedinSearchProfilesItem {
   location?: unknown;
   /**
    * Canonical LinkedIn profile URL.
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -717,7 +594,6 @@ export interface LinkedinSearchProfilesItem {
 export interface LinkedinSearchProfilesData {
   /**
    * Matched profile records. Each carries the profile URL, handle, and id. Depending on the match, records may also include first/last name, headline, location, current position, work experience, and education, plus upstream extras (about, skills, languages, certifications, connections, profile picture, and more) that pass through.
-   * Populated whenever the provider returns data.
    */
   items: LinkedinSearchProfilesItem[];
 }
@@ -737,7 +613,7 @@ export class LinkedinNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.linkedin.ad({"url":"https://www.linkedin.com/ad-library/detail/1487405616"});
+   * const res = await client.linkedin.ad({ url: "https://www.linkedin.com/ad-library/detail/1487405616" });
    */
   ad(
     input: LinkedinAdInput,
@@ -754,7 +630,7 @@ export class LinkedinNamespace {
    * Price: $0.00005 per request plus $0.0015 per result.
    *
    * @example
-   * const res = await client.linkedin.ads({"limit":3,"url":"https://www.linkedin.com/company/stripe"});
+   * const res = await client.linkedin.ads({ url: "https://www.linkedin.com/company/stripe", limit: 3 });
    */
   ads(
     input: LinkedinAdsInput,
@@ -771,7 +647,7 @@ export class LinkedinNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.linkedin.adsSearch({"company":"microsoft"});
+   * const res = await client.linkedin.adsSearch({ company: "microsoft" });
    */
   adsSearch(
     input: LinkedinAdsSearchInput,
@@ -788,7 +664,7 @@ export class LinkedinNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.linkedin.company({"url":"https://www.linkedin.com/company/stripe"});
+   * const res = await client.linkedin.company({ url: "https://www.linkedin.com/company/stripe" });
    */
   company(
     input: LinkedinCompanyInput,
@@ -802,10 +678,10 @@ export class LinkedinNamespace {
    *
    * List the employees of a LinkedIn company by name or company URL, with optional job-title filtering and transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.01 per result.
+   * Price: $0.01 per result.
    *
    * @example
-   * const res = await client.linkedin.companyEmployees({"company":"stripe","limit":3});
+   * const res = await client.linkedin.companyEmployees({ company: "stripe", limit: 3 });
    */
   companyEmployees(
     input: LinkedinCompanyEmployeesInput,
@@ -822,7 +698,7 @@ export class LinkedinNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.linkedin.companyPosts({"url":"https://www.linkedin.com/company/stripe"});
+   * const res = await client.linkedin.companyPosts({ url: "https://www.linkedin.com/company/stripe" });
    */
   companyPosts(
     input: LinkedinCompanyPostsInput,
@@ -836,10 +712,10 @@ export class LinkedinNamespace {
    *
    * Find the verified work email behind a LinkedIn profile URL or ID, with transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.0007 per result.
+   * Price: $0.0007 per result.
    *
    * @example
-   * const res = await client.linkedin.email({"profileUrl":"https://www.linkedin.com/in/satyanadella"});
+   * const res = await client.linkedin.email({ profileUrl: "https://www.linkedin.com/in/satyanadella" });
    */
   email(
     input: LinkedinEmailInput,
@@ -856,7 +732,7 @@ export class LinkedinNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.linkedin.jobs({"limit":3,"location":"San Francisco","query":"software engineer"});
+   * const res = await client.linkedin.jobs({ query: "software engineer", limit: 3, location: "San Francisco" });
    */
   jobs(
     input: LinkedinJobsInput,
@@ -873,7 +749,7 @@ export class LinkedinNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.linkedin.post({"url":"https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs"});
+   * const res = await client.linkedin.post({ url: "https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs" });
    */
   post(
     input: LinkedinPostInput,
@@ -890,7 +766,7 @@ export class LinkedinNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.linkedin.postTranscript({"url":"https://www.linkedin.com/posts/artificial-analysis_gemini-35-flash-is-a-step-forward-for-google-activity-7465082408409870337-4Pm-"});
+   * const res = await client.linkedin.postTranscript({ url: "https://www.linkedin.com/posts/artificial-analysis_gemini-35-flash-is-a-step-forward-for-google-activity-7465082408409870337-4Pm-" });
    */
   postTranscript(
     input: LinkedinPostTranscriptInput,
@@ -907,7 +783,7 @@ export class LinkedinNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.linkedin.profile({"url":"https://www.linkedin.com/in/williamhgates"});
+   * const res = await client.linkedin.profile({ url: "https://www.linkedin.com/in/williamhgates" });
    */
   profile(
     input: LinkedinProfileInput,
@@ -924,7 +800,7 @@ export class LinkedinNamespace {
    * Price: $0.001 per request plus $0.004 per result.
    *
    * @example
-   * const res = await client.linkedin.searchCompanies({"limit":3,"query":"fintech"});
+   * const res = await client.linkedin.searchCompanies({ query: "fintech", limit: 3 });
    */
   searchCompanies(
     input: LinkedinSearchCompaniesInput,
@@ -941,7 +817,7 @@ export class LinkedinNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.linkedin.searchPosts({"datePosted":"last-week","query":"hiring"});
+   * const res = await client.linkedin.searchPosts({ query: "hiring", datePosted: "last-week" });
    */
   searchPosts(
     input: LinkedinSearchPostsInput,
@@ -958,7 +834,7 @@ export class LinkedinNamespace {
    * Price: $0.0325 per request.
    *
    * @example
-   * const res = await client.linkedin.searchProfiles({"limit":3,"query":"recruiter"});
+   * const res = await client.linkedin.searchProfiles({ query: "recruiter", limit: 3 });
    */
   searchProfiles(
     input: LinkedinSearchProfilesInput,

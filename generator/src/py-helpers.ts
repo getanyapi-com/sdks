@@ -60,6 +60,27 @@ export function titleCase(part: string): string {
   return part.charAt(0).toUpperCase() + part.slice(1);
 }
 
+/**
+ * snake_case a wire output field name for a Pythonic pydantic attribute (SPEC S3). Handles
+ * camelCase (`reviewsCount` -> `reviews_count`), PascalCase, acronym runs (`URL` -> `url`,
+ * `htmlURL` -> `html_url`), and existing snake_case (returned unchanged). Digits attach to
+ * the preceding run. The result is lower_snake_case; a leading digit gets an underscore
+ * prefix, and a Python keyword collision gets a trailing underscore (via escapePyKeyword).
+ */
+export function snakeCaseField(wire: string): string {
+  // Insert an underscore at lower->Upper and Upper->Upper+lower (acronym) boundaries.
+  let s = wire
+    .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1_$2");
+  // Any run of non-alphanumeric becomes a single underscore.
+  s = s.replace(/[^A-Za-z0-9]+/g, "_");
+  s = s.replace(/_+/g, "_").replace(/^_+|_+$/g, "");
+  s = s.toLowerCase();
+  if (s.length === 0) s = "field";
+  if (/^[0-9]/.test(s)) s = "_" + s;
+  return escapePyKeyword(s);
+}
+
 /** Naive singularization: strip a single trailing "s" (SPEC item-model naming). */
 export function singularize(word: string): string {
   if (word.length > 1 && word.endsWith("s")) return word.slice(0, -1);

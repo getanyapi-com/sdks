@@ -3,6 +3,63 @@
   "generatedFrom": "openapi.json snapshot",
   "openapiVersion": "1.0.0",
   "baseUrl": "https://api.getanyapi.com",
+  "warnings": [
+    {
+      "kind": "dead-cursor",
+      "slug": "facebook.profile_posts",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "facebook.profile_reels",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "github.user_repositories",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "instagram.post_comments",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "instagram.search_hashtag",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "linkedin.search_posts",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "reddit.post_comments",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "tiktok.following",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "tiktok.search_hashtag",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "tiktok.search_keyword",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "youtube.search",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    }
+  ],
   "skus": [
     {
       "slug": "ahrefs.backlinks",
@@ -17429,7 +17486,7 @@
         "open": false
       },
       "output": {
-        "envelope": "found-data",
+        "envelope": "bare",
         "data": {
           "kind": "object",
           "properties": {
@@ -17680,7 +17737,7 @@
         "open": false
       },
       "output": {
-        "envelope": "found-data",
+        "envelope": "bare",
         "data": {
           "kind": "object",
           "properties": {
@@ -17999,7 +18056,7 @@
         "open": false
       },
       "output": {
-        "envelope": "found-data",
+        "envelope": "bare",
         "data": {
           "kind": "object",
           "properties": {

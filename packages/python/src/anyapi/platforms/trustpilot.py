@@ -32,27 +32,26 @@ class TrustpilotReviewsInput(TypedDict, total=False):
 
 class TrustpilotReviewsData(BaseModel):
     items: list[TrustpilotReviewsItem] = Field(
-        description="Review records: star rating, review title and text, date, reviewer name and country, and company reply when present. Populated whenever the provider returns data."
+        description="Review records: star rating, review title and text, date, reviewer name and country, and company reply when present."
     )
 
 
 class TrustpilotReviewsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    publishedAt: str | None = Field(
+    published_at: str | None = Field(
         default=None,
-        description="Publish date (ISO 8601). Populated whenever the provider returns data.",
+        alias="publishedAt",
+        description="Publish date (ISO 8601). Present whenever the upstream returns this record.",
     )
     rating: float = Field(description="Star rating (1-5).")
-    text: str = Field(
-        description="Review body text. Populated whenever the provider returns data."
-    )
+    text: str = Field(description="Review body text.")
     title: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     url: str | None = Field(
         default=None,
-        description="Canonical review URL. Populated whenever the provider returns data.",
+        description="Canonical review URL. Present whenever the upstream returns this record.",
     )
     verified: bool | None = Field(
         default=None, description="Whether the reviewer is verified."
@@ -81,12 +80,10 @@ class TrustpilotNamespace:
         Example:
             res = client.trustpilot.reviews(company="stripe.com", limit=3)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "trustpilot.reviews", dict(input), options
         )
-        return RunResult[TrustpilotReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TrustpilotReviewsData].model_validate(raw)
 
 
 class AsyncTrustpilotNamespace:
@@ -111,9 +108,7 @@ class AsyncTrustpilotNamespace:
         Example:
             res = client.trustpilot.reviews(company="stripe.com", limit=3)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "trustpilot.reviews", dict(input), options
         )
-        return RunResult[TrustpilotReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TrustpilotReviewsData].model_validate(raw)

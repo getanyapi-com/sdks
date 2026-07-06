@@ -24,45 +24,36 @@ export interface GithubRepositoryInput {
 export interface GithubRepositoryData {
   archived?: boolean;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   createdAt?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   defaultBranch?: string;
   description?: string;
   fork?: boolean;
   forks?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   fullName: string;
   homepage?: string;
   language?: string;
   license?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   openIssues?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   owner?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   pushedAt?: string;
   stars?: number;
   topics?: string[];
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   updatedAt?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   watchers?: number;
   [extra: string]: unknown;
@@ -83,22 +74,13 @@ export interface GithubTrendingDevelopersInput {
 }
 
 export interface GithubTrendingDevelopersDeveloper {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
   name: string;
   popularRepo: string;
   popularRepoDescription: string;
   popularRepoUrl: string;
   rank: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   [extra: string]: unknown;
 }
@@ -107,14 +89,8 @@ export interface GithubTrendingDevelopersDeveloper {
  * The `data` payload of GitHub Trending Developers (github.trending_developers).
  */
 export interface GithubTrendingDevelopersData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   developers: GithubTrendingDevelopersDeveloper[];
   language: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   since: string;
 }
 
@@ -137,17 +113,11 @@ export interface GithubTrendingRepositoriesInput {
 export interface GithubTrendingRepositoriesRepo {
   description: string;
   forks: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   fullName: string;
   language: string;
   rank: number;
   stars: number;
   starsToday: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -156,9 +126,6 @@ export interface GithubTrendingRepositoriesRepo {
  * The `data` payload of GitHub Trending Repositories (github.trending_repositories).
  */
 export interface GithubTrendingRepositoriesData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   repos: GithubTrendingRepositoriesRepo[];
 }
 
@@ -176,27 +143,18 @@ export interface GithubUserInput {
  * The `data` payload of GitHub User (github.user).
  */
 export interface GithubUserData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
   bio: string;
   blog?: string;
   company?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   createdAt?: string;
   followers: number;
   following: number;
   location?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   login: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   publicGists?: number;
   publicRepos: number;
@@ -227,9 +185,6 @@ export interface GithubUserActivityInput {
 }
 
 export interface GithubUserActivityActivity {
-  /**
-   * Populated whenever the provider returns data.
-   */
   summary: string;
   [extra: string]: unknown;
 }
@@ -238,19 +193,10 @@ export interface GithubUserActivityActivity {
  * The `data` payload of GitHub User Activity (github.user_activity).
  */
 export interface GithubUserActivityData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   activity: GithubUserActivityActivity[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   month: string;
   nextCursor: string;
   noActivity: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   year: number;
 }
@@ -273,7 +219,6 @@ export interface GithubUserContributionsDay {
   count: number;
   /**
    * YYYY-MM-DD.
-   * Populated whenever the provider returns data.
    */
   date: string;
   /**
@@ -287,14 +232,8 @@ export interface GithubUserContributionsDay {
  * The `data` payload of GitHub User Contributions (github.user_contributions).
  */
 export interface GithubUserContributionsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   days: GithubUserContributionsDay[];
   total: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   year: number;
 }
@@ -314,23 +253,11 @@ export interface GithubUserFollowersInput {
 }
 
 export interface GithubUserFollowersFollower {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
   id: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   login: string;
   siteAdmin: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   type: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -339,9 +266,6 @@ export interface GithubUserFollowersFollower {
  * The `data` payload of GitHub User Followers (github.user_followers).
  */
 export interface GithubUserFollowersData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   followers: GithubUserFollowersFollower[];
   nextCursor: string;
 }
@@ -361,23 +285,11 @@ export interface GithubUserFollowingInput {
 }
 
 export interface GithubUserFollowingFollowing {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
   id: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   login: string;
   siteAdmin: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   type: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -386,9 +298,6 @@ export interface GithubUserFollowingFollowing {
  * The `data` payload of GitHub User Following (github.user_following).
  */
 export interface GithubUserFollowingData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   following: GithubUserFollowingFollowing[];
   nextCursor: string;
 }
@@ -416,25 +325,10 @@ export interface GithubUserPullRequestsInput {
 }
 
 export interface GithubUserPullRequestsPullRequest {
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   repo: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   state: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -445,9 +339,6 @@ export interface GithubUserPullRequestsPullRequest {
 export interface GithubUserPullRequestsData {
   hasMore: boolean;
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pullRequests: GithubUserPullRequestsPullRequest[];
 }
 
@@ -478,21 +369,12 @@ export interface GithubUserRepositoriesRepo {
   description: string;
   fork: boolean;
   forks: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   fullName: string;
   language: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   pushedAt: string;
   stars: number;
   updatedAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -503,9 +385,6 @@ export interface GithubUserRepositoriesRepo {
 export interface GithubUserRepositoriesData {
   hasMore: boolean;
   nextCursor: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   repos: GithubUserRepositoriesRepo[];
 }
 
@@ -524,7 +403,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.repository({"url":"https://github.com/facebook/react"});
+   * const res = await client.github.repository({ url: "https://github.com/facebook/react" });
    */
   repository(
     input: GithubRepositoryInput,
@@ -541,7 +420,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.trendingDevelopers({"language":"go","since":"weekly"});
+   * const res = await client.github.trendingDevelopers({ language: "go", since: "weekly" });
    */
   trendingDevelopers(
     input: GithubTrendingDevelopersInput,
@@ -558,7 +437,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.trendingRepositories({"language":"python","since":"daily"});
+   * const res = await client.github.trendingRepositories({ language: "python", since: "daily" });
    */
   trendingRepositories(
     input: GithubTrendingRepositoriesInput,
@@ -575,7 +454,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.user({"handle":"torvalds"});
+   * const res = await client.github.user({ handle: "torvalds" });
    */
   user(
     input: GithubUserInput,
@@ -592,7 +471,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.userActivity({"handle":"kentcdodds"});
+   * const res = await client.github.userActivity({ handle: "kentcdodds" });
    */
   userActivity(
     input: GithubUserActivityInput,
@@ -605,17 +484,21 @@ export class GithubNamespace {
    * Iterate every result of GitHub User Activity across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterUserActivity(
     input: GithubUserActivityInput,
     options?: RequestOptions,
-  ): Paginator<GithubUserActivityActivity, GithubUserActivityData> {
-    return paginate<GithubUserActivityActivity, GithubUserActivityData>(
+  ): Paginator<GithubUserActivityActivity, RunResult<GithubUserActivityData>> {
+    return paginate<
+      GithubUserActivityActivity,
+      RunResult<GithubUserActivityData>
+    >(
       this._core,
       "github.user_activity",
       input as unknown as Record<string, unknown>,
       "activity",
+      false,
       options,
     );
   }
@@ -628,7 +511,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.userContributions({"handle":"torvalds","year":2024});
+   * const res = await client.github.userContributions({ handle: "torvalds", year: 2024 });
    */
   userContributions(
     input: GithubUserContributionsInput,
@@ -645,7 +528,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.userFollowers({"handle":"torvalds"});
+   * const res = await client.github.userFollowers({ handle: "torvalds" });
    */
   userFollowers(
     input: GithubUserFollowersInput,
@@ -658,17 +541,24 @@ export class GithubNamespace {
    * Iterate every result of GitHub User Followers across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterUserFollowers(
     input: GithubUserFollowersInput,
     options?: RequestOptions,
-  ): Paginator<GithubUserFollowersFollower, GithubUserFollowersData> {
-    return paginate<GithubUserFollowersFollower, GithubUserFollowersData>(
+  ): Paginator<
+    GithubUserFollowersFollower,
+    RunResult<GithubUserFollowersData>
+  > {
+    return paginate<
+      GithubUserFollowersFollower,
+      RunResult<GithubUserFollowersData>
+    >(
       this._core,
       "github.user_followers",
       input as unknown as Record<string, unknown>,
       "followers",
+      false,
       options,
     );
   }
@@ -681,7 +571,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.userFollowing({"handle":"kentcdodds"});
+   * const res = await client.github.userFollowing({ handle: "kentcdodds" });
    */
   userFollowing(
     input: GithubUserFollowingInput,
@@ -694,17 +584,24 @@ export class GithubNamespace {
    * Iterate every result of GitHub User Following across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterUserFollowing(
     input: GithubUserFollowingInput,
     options?: RequestOptions,
-  ): Paginator<GithubUserFollowingFollowing, GithubUserFollowingData> {
-    return paginate<GithubUserFollowingFollowing, GithubUserFollowingData>(
+  ): Paginator<
+    GithubUserFollowingFollowing,
+    RunResult<GithubUserFollowingData>
+  > {
+    return paginate<
+      GithubUserFollowingFollowing,
+      RunResult<GithubUserFollowingData>
+    >(
       this._core,
       "github.user_following",
       input as unknown as Record<string, unknown>,
       "following",
+      false,
       options,
     );
   }
@@ -717,7 +614,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.userPullRequests({"handle":"torvalds"});
+   * const res = await client.github.userPullRequests({ handle: "torvalds" });
    */
   userPullRequests(
     input: GithubUserPullRequestsInput,
@@ -730,20 +627,24 @@ export class GithubNamespace {
    * Iterate every result of GitHub User Pull Requests across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterUserPullRequests(
     input: GithubUserPullRequestsInput,
     options?: RequestOptions,
-  ): Paginator<GithubUserPullRequestsPullRequest, GithubUserPullRequestsData> {
+  ): Paginator<
+    GithubUserPullRequestsPullRequest,
+    RunResult<GithubUserPullRequestsData>
+  > {
     return paginate<
       GithubUserPullRequestsPullRequest,
-      GithubUserPullRequestsData
+      RunResult<GithubUserPullRequestsData>
     >(
       this._core,
       "github.user_pull_requests",
       input as unknown as Record<string, unknown>,
       "pullRequests",
+      false,
       options,
     );
   }
@@ -756,7 +657,7 @@ export class GithubNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.github.userRepositories({"handle":"torvalds"});
+   * const res = await client.github.userRepositories({ handle: "torvalds" });
    */
   userRepositories(
     input: GithubUserRepositoriesInput,

@@ -104,14 +104,16 @@ describe("pricing doc lines", () => {
     expect(files["platforms/amazon.py"]).toContain("Price: $0.01625 per request.");
   });
 
-  it("per-item price -> per-unit form", () => {
+  it("per-item price with a base fee -> base-plus-per-unit form", () => {
     const files = emitDeterministic(
       ir([sku({ slug: "google.search", pricing: { priceUsd: 0.05, baseUsd: 0.01, perItemUsd: 0.0025, perItemUnit: "result" } })]),
     );
-    expect(files["platforms/google.py"]).toContain("Price: $0.0025 per result.");
+    expect(files["platforms/google.py"]).toContain(
+      "Price: $0.01 per request plus $0.0025 per result.",
+    );
   });
 
-  it("per-item with null unit falls back to 'result'", () => {
+  it("per-item with null base + null unit -> per-unit only, unit falls back to 'result'", () => {
     const files = emitDeterministic(
       ir([sku({ slug: "google.search", pricing: { priceUsd: 0.05, baseUsd: null, perItemUsd: 0.003, perItemUnit: null } })]),
     );
@@ -145,35 +147,60 @@ describe("open vs closed records (extra='allow')", () => {
   const files = emitDeterministic(SAMPLE_IR);
 
   it("open item record gets extra='allow'", () => {
+    // Item records have snake_case aliases too, so extra + populate_by_name both appear.
     expect(files["platforms/amazon.py"]).toContain(
-      'class AmazonReviewsItem(BaseModel):\n    model_config = ConfigDict(extra="allow")',
+      'class AmazonReviewsItem(BaseModel):\n    model_config = ConfigDict(extra="allow"',
     );
   });
 
-  it("closed data wrapper has no extra='allow'", () => {
+  it("closed data wrapper has no extra='allow' (but keeps populate_by_name for aliases)", () => {
     const fb = files["platforms/facebook.py"]!;
-    // FacebookAdsSearchData is closed (open:false) -> no model_config line right after class.
-    expect(fb).toMatch(/class FacebookAdsSearchData\(BaseModel\):\n    totalResults: int/);
+    // FacebookAdsSearchData is closed (open:false) -> no extra="allow"; snake_case aliases
+    // still require populate_by_name.
+    expect(fb).toMatch(
+      /class FacebookAdsSearchData\(BaseModel\):\n    model_config = ConfigDict\(populate_by_name=True\)/,
+    );
+    expect(fb).not.toMatch(
+      /class FacebookAdsSearchData\(BaseModel\):\n    model_config = ConfigDict\(extra="allow"/,
+    );
   });
 
   it("open root data model gets extra='allow'", () => {
     expect(files["platforms/threads.py"]).toContain(
-      'class ThreadsProfileData(BaseModel):\n    model_config = ConfigDict(extra="allow")',
+      'class ThreadsProfileData(BaseModel):\n    model_config = ConfigDict(extra="allow"',
     );
   });
 });
 
-describe("must-populate doc line", () => {
-  const files = emitDeterministic(SAMPLE_IR);
-  it("appends the fixed phrase to annotated fields", () => {
-    expect(files["platforms/facebook.py"]).toContain(
-      "Populated whenever the provider returns data.",
-    );
+describe("must-populate doc line (N1)", () => {
+  // N1: the note is emitted only on OPTIONAL annotated fields, with the reworded phrase.
+  // Data object has a must-populate `bio` (optional) and a must-populate `id` (required).
+  const files = emitDeterministic(
+    ir([
+      sku({
+        slug: "person.card",
+        outputTypeName: "PersonCardData",
+        output: {
+          envelope: "found-data",
+          data: obj(
+            { id: str(), bio: str() },
+            ["id"], // id required, bio optional
+            false,
+            ["id", "bio"], // both annotated must-populate
+          ),
+        },
+      }),
+    ]),
+  );
+  const model = files["platforms/person.py"]!;
+
+  it("appends the reworded phrase to an annotated OPTIONAL field", () => {
+    const line = model.split("\n").find((l) => l.trimStart().startsWith("bio:"))!;
+    expect(line).toContain("Present whenever the upstream returns this record.");
   });
-  it("does not append it to non-annotated fields (adCount)", () => {
-    const fb = files["platforms/facebook.py"]!;
-    const line = fb.split("\n").find((l) => l.trimStart().startsWith("adCount:"))!;
-    expect(line).not.toContain("Populated whenever");
+  it("does not append it to an annotated REQUIRED field", () => {
+    const line = model.split("\n").find((l) => l.trimStart().startsWith("id:"))!;
+    expect(line).not.toContain("Present whenever");
   });
 });
 

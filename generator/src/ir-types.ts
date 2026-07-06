@@ -3,11 +3,18 @@
 // this module only declares the shape emitters READ, so emit-ts.ts and its tests are
 // typed against the frozen contract. It imports nothing and has no runtime code.
 
+export interface IrWarning {
+  kind: string;
+  slug: string;
+  message: string;
+}
+
 export interface IR {
   version: number;
   generatedFrom?: string;
   openapiVersion: string;
   baseUrl: string;
+  warnings?: IrWarning[];
   skus: SkuEntry[];
 }
 
@@ -44,7 +51,7 @@ export interface SkuEntry {
   outputTypeName: string;
   example: unknown;
   input: SchemaNode;
-  output: { envelope: "found-data"; data: SchemaNode };
+  output: { envelope: "found-data" | "bare"; data: SchemaNode };
   pagination: Pagination;
 }
 

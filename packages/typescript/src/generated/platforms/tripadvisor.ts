@@ -28,7 +28,7 @@ export interface TripadvisorReviewsInput {
 export interface TripadvisorReviewsItem {
   /**
    * Publish date.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   publishedAt?: string;
   /**
@@ -37,16 +37,15 @@ export interface TripadvisorReviewsItem {
   rating: number;
   /**
    * Review body text.
-   * Populated whenever the provider returns data.
    */
   text: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
    * Canonical review URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   url?: string;
   [extra: string]: unknown;
@@ -58,7 +57,6 @@ export interface TripadvisorReviewsItem {
 export interface TripadvisorReviewsData {
   /**
    * Review records for the place: rating, title, review text, publish date, trip type, and reviewer details.
-   * Populated whenever the provider returns data.
    */
   items: TripadvisorReviewsItem[];
 }
@@ -85,13 +83,7 @@ export interface TripadvisorSearchInput {
 
 export interface TripadvisorSearchItem {
   rating: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -102,7 +94,6 @@ export interface TripadvisorSearchItem {
 export interface TripadvisorSearchData {
   /**
    * Matching place records: name, type (hotel/restaurant/attraction), rating, review count, address, contact details, and pricing.
-   * Populated whenever the provider returns data.
    */
   items: TripadvisorSearchItem[];
 }
@@ -122,7 +113,7 @@ export class TripadvisorNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.tripadvisor.reviews({"limit":3,"url":"https://www.tripadvisor.com/Hotel_Review-g60763-d93450-Reviews-The_Plaza-New_York_City_New_York.html"});
+   * const res = await client.tripadvisor.reviews({ url: "https://www.tripadvisor.com/Hotel_Review-g60763-d93450-Reviews-The_Plaza-New_York_City_New_York.html", limit: 3 });
    */
   reviews(
     input: TripadvisorReviewsInput,
@@ -139,7 +130,7 @@ export class TripadvisorNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.tripadvisor.search({"limit":3,"query":"Paris"});
+   * const res = await client.tripadvisor.search({ query: "Paris", limit: 3 });
    */
   search(
     input: TripadvisorSearchInput,

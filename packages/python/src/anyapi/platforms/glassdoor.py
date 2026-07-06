@@ -26,15 +26,15 @@ class GlassdoorJobsInput(TypedDict, total=False):
 
 class GlassdoorJobsData(BaseModel):
     items: list[GlassdoorJobsItem] = Field(
-        description="Job listing records: title, employer, location, salary estimate, rating, and posting details. Populated whenever the provider returns data."
+        description="Job listing records: title, employer, location, salary estimate, rating, and posting details."
     )
 
 
 class GlassdoorJobsItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    title: str
+    url: str
 
 
 class GlassdoorNamespace:
@@ -54,17 +54,15 @@ class GlassdoorNamespace:
         Fetch job listings from any Glassdoor company or job search page URL - up to
         20 normalized job records per request at a flat USD price.
 
-        Price: $0.00475 per result.
+        Price: $0.005 per request plus $0.00475 per result.
 
         Example:
             res = client.glassdoor.jobs(limit=3, url="https://www.glassdoor.com/Job/software-engineer-jobs-SRCH_KO0,17.htm")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "glassdoor.jobs", dict(input), options
         )
-        return RunResult[GlassdoorJobsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GlassdoorJobsData].model_validate(raw)
 
 
 class AsyncGlassdoorNamespace:
@@ -84,14 +82,12 @@ class AsyncGlassdoorNamespace:
         Fetch job listings from any Glassdoor company or job search page URL - up to
         20 normalized job records per request at a flat USD price.
 
-        Price: $0.00475 per result.
+        Price: $0.005 per request plus $0.00475 per result.
 
         Example:
             res = client.glassdoor.jobs(limit=3, url="https://www.glassdoor.com/Job/software-engineer-jobs-SRCH_KO0,17.htm")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "glassdoor.jobs", dict(input), options
         )
-        return RunResult[GlassdoorJobsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GlassdoorJobsData].model_validate(raw)

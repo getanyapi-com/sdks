@@ -23,15 +23,16 @@
 
 import type { IR, SchemaNode, ObjectNode, SkuEntry } from "./py-ir.js";
 import { DASH_RE, isObjectNode, isArrayNode } from "./py-ir.js";
+import { priceLine as sharedPriceLine } from "./emit-shared.js";
 import { formatPy } from "./py-format.js";
 import {
   GENERATED_HEADER_PY,
   escapePyKeyword,
-  isValidPyIdentifier,
   needsFunctionalTypedDict,
   pascalCase,
   pyStringLiteral,
   singularize,
+  snakeCaseField,
   titleCase,
 } from "./py-helpers.js";
 
@@ -163,9 +164,13 @@ function emitPlatformModule(platform: string, skus: SkuEntry[]): string {
   }
   parts.push("");
 
-  // RunResult and RequestOptions live in ..types; the paginators/helpers in .._pagination
-  // (the real py-runtime layout). See SPEC.md sections 3.3, 3.5, 3.7.
-  parts.push("from ..types import RequestOptions, RunResult");
+  // RunResult / BareRunResult and RequestOptions live in ..types; the paginators/helpers
+  // in .._pagination (the real py-runtime layout). See SPEC.md sections 3.3, 3.5, 3.7.
+  const typeImports = ["RequestOptions"];
+  if (uses("BareRunResult")) typeImports.push("BareRunResult");
+  if (uses("RunResult")) typeImports.push("RunResult");
+  typeImports.sort();
+  parts.push(`from ..types import ${typeImports.join(", ")}`);
   if (paginated) {
     parts.push("from .._pagination import (");
     parts.push("    AsyncPaginator,");
@@ -316,7 +321,7 @@ function fieldDocComment(node: SchemaNode, mustPopulate = false): string {
   const def = (node as { default?: unknown }).default;
   if (def !== null && def !== undefined) bits.push(`Default: ${def}.`);
 
-  if (mustPopulate) bits.push("Populated whenever the provider returns data.");
+  if (mustPopulate) bits.push("Present whenever the upstream returns this record.");
 
   return bits.join(" ");
 }
@@ -367,6 +372,12 @@ function emitObjectModel(
   const fieldLines: string[] = [];
   const nested: Array<() => void> = [];
 
+  // S3: output attributes are snake_case with a wire alias when the two differ. Guard
+  // against a snake_case collision within one model (two wire keys mapping to the same
+  // Python attribute) - hard-fail naming the SKU + both keys so we never silently drop one.
+  const attrByField = new Map<string, string>();
+  let anyAlias = false;
+
   for (const key of keys) {
     const child = props[key]!;
     const { type, register } = pyOutputType(child, prefix, key, ctx, sku);
@@ -374,11 +385,21 @@ function emitObjectModel(
 
     const required = requiredSet.has(key);
     const optional = !required;
-    // Field description via Field(description=...) - CONSISTENT single style across all fields.
-    const desc = fieldDocComment(child, mustPop.has(key));
+    // N1: the must-populate note is emitted only on OPTIONAL fields (a required field is
+    // always present, so the note adds nothing); reworded per SPEC N1.
+    const desc = fieldDocComment(child, optional && mustPop.has(key));
 
-    const attrName = escapePyKeyword(key);
-    const alias = attrName !== key || !isValidPyIdentifier(key) ? key : null;
+    const attrName = snakeCaseField(key);
+    const prior = attrByField.get(attrName);
+    if (prior !== undefined && prior !== key) {
+      throw new Error(
+        `Python output field collision in ${sku.slug} model ${modelName}: wire keys ` +
+          `"${prior}" and "${key}" both snake_case to "${attrName}"`,
+      );
+    }
+    attrByField.set(attrName, key);
+    const alias = attrName !== key ? key : null;
+    if (alias) anyAlias = true;
 
     const fieldArgs: string[] = [];
     if (alias) fieldArgs.push(`alias=${pyStringLiteral(alias)}`);
@@ -403,10 +424,9 @@ function emitObjectModel(
   const lines: string[] = [];
   lines.push(`class ${modelName}(BaseModel):`);
   // Open records round-trip unknown fields; alias population requires populate_by_name.
-  const hasAlias = keys.some((k) => escapePyKeyword(k) !== k || !isValidPyIdentifier(k));
   const configBits: string[] = [];
   if (node.open) configBits.push('extra="allow"');
-  if (hasAlias) configBits.push("populate_by_name=True");
+  if (anyAlias) configBits.push("populate_by_name=True");
   if (configBits.length > 0) {
     lines.push(`    model_config = ConfigDict(${configBits.join(", ")})`);
     lines.push("");
@@ -490,25 +510,27 @@ function itemModelName(prefix: string, propKey: string): string {
 function emitMethod(sku: SkuEntry, async: boolean): string {
   const method = escapePyKeyword(sku.pyMethod);
   const kw = async ? "async def" : "def";
-  // Sync namespaces call client._run; async namespaces call client._arun (SPEC 3.2).
-  const runSeam = async ? "await self._client._arun" : "self._client._run";
-  const ret = `RunResult[${sku.outputTypeName}]`;
+  // Sync namespaces call client._run_raw; async namespaces call client._arun_raw (SPEC N2).
+  // The raw seam returns the parsed JSON dict; we validate it ONCE into the typed model.
+  const runSeam = async ? "await self._client._arun_raw" : "self._client._run_raw";
+  const bare = sku.output.envelope === "bare";
+  const ret = bare
+    ? `BareRunResult[${sku.outputTypeName}]`
+    : `RunResult[${sku.outputTypeName}]`;
 
   const lines: string[] = [];
   lines.push(
     `    ${kw} ${method}(self, *, options: RequestOptions | None = None, **input: Unpack[${sku.inputTypeName}]) -> ${ret}:`,
   );
   lines.push(...methodDocstring(sku, method).map((l) => "        " + l));
-  // The run seam (_run/_arun) is protected on the client; the generated namespace is a
-  // trusted collaborator, so suppress the private-usage diagnostic (matches _pagination.py).
+  // The run seam (_run_raw/_arun_raw) is protected on the client; the generated namespace
+  // is a trusted collaborator, so suppress the private-usage diagnostic.
   lines.push(
     `        raw = ${runSeam}(  # pyright: ignore[reportPrivateUsage]`,
   );
   lines.push(`            ${pyStringLiteral(sku.slug)}, dict(input), options`);
   lines.push(`        )`);
-  lines.push(
-    `        return ${ret}.model_validate(raw.model_dump(by_alias=True))`,
-  );
+  lines.push(`        return ${ret}.model_validate(raw)`);
 
   const parts = [lines.join("\n")];
 
@@ -526,26 +548,43 @@ function emitIterMethod(sku: SkuEntry, async: boolean): string {
   const helper = async ? "apaginate" : "paginate";
   const itemsField = sku.pagination.itemsField!;
   const itemType = paginatorItemType(sku, itemsField);
+  const bare = sku.output.envelope === "bare";
+  // The pydantic model class passed to the paginator for per-item validation (B3); None
+  // for a scalar item array (no model to validate into).
+  const itemModelArg = paginatorItemModel(sku, itemsField);
 
   const lines: string[] = [];
   lines.push(
     `    ${kw} ${iterName}(self, *, options: RequestOptions | None = None, **input: Unpack[${sku.inputTypeName}]) -> ${paginatorType}[${itemType}, ${sku.outputTypeName}]:`,
   );
+  const pageWord = bare ? "BareRunResult" : "RunResult";
   const doc = [
     `"""Iterate ${dashNorm(sku.name)} results, following pagination cursors.`,
     "",
-    `Yields flattened items from the \`${itemsField}\` field of each page. Use`,
-    `\`.pages()\` on the returned paginator to walk whole \`RunResult\` pages.`,
+    `Yields validated \`${itemType}\` items from the \`${itemsField}\` field of`,
+    `each page. Use \`.pages()\` on the returned paginator to walk whole`,
+    `\`${pageWord}\` pages.`,
     `"""`,
   ];
   lines.push(...doc.map((l) => "        " + l));
   lines.push(
-    `        return ${helper}(self._client, ${pyStringLiteral(sku.slug)}, dict(input), ${pyStringLiteral(itemsField)}, options=options)`,
+    `        return ${helper}(`,
   );
+  lines.push(
+    `            self._client,`,
+  );
+  lines.push(`            ${pyStringLiteral(sku.slug)},`);
+  lines.push(`            dict(input),`);
+  lines.push(`            ${pyStringLiteral(itemsField)},`);
+  lines.push(`            item_model=${itemModelArg},`);
+  lines.push(`            data_model=${sku.outputTypeName},`);
+  lines.push(`            bare=${bare ? "True" : "False"},`);
+  lines.push(`            options=options,`);
+  lines.push(`        )`);
   return lines.join("\n");
 }
 
-/** The pydantic item type yielded by a paginator (the item model, else Any). */
+/** The pydantic item type yielded by a paginator (the item model, else the scalar type). */
 function paginatorItemType(sku: SkuEntry, itemsField: string): string {
   const data = sku.output.data;
   if (!isObjectNode(data)) return "Any";
@@ -558,6 +597,18 @@ function paginatorItemType(sku: SkuEntry, itemsField: string): string {
   return pyInputType(arr.items);
 }
 
+/** The item model class arg for the paginator: the model name, or None for scalar items. */
+function paginatorItemModel(sku: SkuEntry, itemsField: string): string {
+  const data = sku.output.data;
+  if (!isObjectNode(data)) return "None";
+  const arr = data.properties?.[itemsField];
+  if (!arr || !isArrayNode(arr)) return "None";
+  if (isObjectNode(arr.items)) {
+    return itemModelName(pascalCase(sku.operationId), itemsField);
+  }
+  return "None";
+}
+
 function methodDocstring(sku: SkuEntry, method: string): string[] {
   const lines: string[] = [];
   lines.push(`"""${dashNorm(sku.name)}`);
@@ -567,7 +618,7 @@ function methodDocstring(sku: SkuEntry, method: string): string[] {
     for (const wrapped of wrapText(desc, 76)) lines.push(wrapped);
   }
   lines.push("");
-  lines.push(priceLine(sku));
+  lines.push(sharedPriceLine(sku.pricing));
   const ex = exampleLine(sku, method);
   if (ex) {
     lines.push("");
@@ -576,18 +627,6 @@ function methodDocstring(sku: SkuEntry, method: string): string[] {
   }
   lines.push(`"""`);
   return lines;
-}
-
-/** "Price: $X per request." or per-item form when perItemUsd is non-null (SPEC 3.4). */
-function priceLine(sku: SkuEntry): string {
-  const p = sku.pricing;
-  // Treat perItemUsd 0 like null (the extractor emits 0, not null, when catalog
-  // perItemCredits is 0); never emit a "$0 per result" line (SPEC 1.2).
-  if (p.perItemUsd != null && p.perItemUsd > 0) {
-    const unit = p.perItemUnit ?? "result";
-    return `Price: $${fmtUsd(p.perItemUsd)} per ${unit}.`;
-  }
-  return `Price: $${fmtUsd(p.priceUsd)} per request.`;
 }
 
 /** Example: block rendered as client.<ns>.<method>(k=v, ...) from SkuEntry.example. */
@@ -616,15 +655,6 @@ function pyReprValue(v: unknown): string {
     return `{${inner}}`;
   }
   return "None";
-}
-
-function fmtUsd(n: number): string {
-  // Trim trailing zeros but keep at least the raw significant digits (no credits, USD only).
-  let s = String(n);
-  if (s.includes("e") || s.includes("E")) {
-    s = n.toFixed(8).replace(/0+$/, "").replace(/\.$/, "");
-  }
-  return s;
 }
 
 /** Word-wrap a paragraph for docstrings, preserving whole words. */

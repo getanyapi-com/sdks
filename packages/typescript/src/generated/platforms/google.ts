@@ -22,13 +22,7 @@ export interface GoogleImagesInput {
 }
 
 export interface GoogleImagesItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -39,7 +33,6 @@ export interface GoogleImagesItem {
 export interface GoogleImagesData {
   /**
    * Image result records: image URL, dimensions, title, and the source page it appears on.
-   * Populated whenever the provider returns data.
    */
   items: GoogleImagesItem[];
 }
@@ -72,7 +65,7 @@ export interface GoogleNewsInput {
 export interface GoogleNewsItem {
   /**
    * Publish time.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   publishedAt?: string;
   /**
@@ -81,16 +74,12 @@ export interface GoogleNewsItem {
   snippet?: string;
   /**
    * Publisher name.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   source?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   /**
    * Article link.
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -102,7 +91,6 @@ export interface GoogleNewsItem {
 export interface GoogleNewsData {
   /**
    * Article records: headline, source name, article link, and publish time.
-   * Populated whenever the provider returns data.
    */
   items: GoogleNewsItem[];
 }
@@ -123,18 +111,9 @@ export interface GoogleSearchInput {
 }
 
 export interface GoogleSearchResult {
-  /**
-   * Populated whenever the provider returns data.
-   */
   link: string;
   position: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   snippet: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   [extra: string]: unknown;
 }
@@ -144,9 +123,6 @@ export interface GoogleSearchResult {
  */
 export interface GoogleSearchData {
   query: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   results: GoogleSearchResult[];
 }
 
@@ -165,7 +141,7 @@ export class GoogleNamespace {
    * Price: $0.00005 per request plus $0.0024 per result.
    *
    * @example
-   * const res = await client.google.images({"limit":5,"query":"golden retriever"});
+   * const res = await client.google.images({ query: "golden retriever", limit: 5 });
    */
   images(
     input: GoogleImagesInput,
@@ -182,7 +158,7 @@ export class GoogleNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.google.news({"limit":5,"query":"openai"});
+   * const res = await client.google.news({ query: "openai", limit: 5 });
    */
   news(
     input: GoogleNewsInput,
@@ -199,7 +175,7 @@ export class GoogleNamespace {
    * Price: $0.00099 per request.
    *
    * @example
-   * const res = await client.google.search({"query":"best coffee maker"});
+   * const res = await client.google.search({ query: "best coffee maker" });
    */
   search(
     input: GoogleSearchInput,

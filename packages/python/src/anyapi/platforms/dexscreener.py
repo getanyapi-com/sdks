@@ -32,7 +32,7 @@ class DexscreenerTokensInput(TypedDict, total=False):
 
 class DexscreenerTokensData(BaseModel):
     items: list[DexscreenerTokensItem] = Field(
-        description="Token listing records: token name and symbol, pair, price, liquidity, volume, transaction counts, and price change. Populated whenever the provider returns data."
+        description="Token listing records: token name and symbol, pair, price, liquidity, volume, transaction counts, and price change."
     )
 
 
@@ -40,10 +40,10 @@ class DexscreenerTokensItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     name: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     price: float
-    symbol: str = Field(description="Populated whenever the provider returns data.")
+    symbol: str
 
 
 class DexscreenerNamespace:
@@ -64,17 +64,15 @@ class DexscreenerNamespace:
         volume, transactions, and market cap - sorted how you want, as normalized
         JSON with transparent per-request USD pricing.
 
-        Price: $0.0015 per result.
+        Price: $0.02 per request plus $0.0015 per result.
 
         Example:
             res = client.dexscreener.tokens(chain="solana", limit=5)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "dexscreener.tokens", dict(input), options
         )
-        return RunResult[DexscreenerTokensData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[DexscreenerTokensData].model_validate(raw)
 
 
 class AsyncDexscreenerNamespace:
@@ -95,14 +93,12 @@ class AsyncDexscreenerNamespace:
         volume, transactions, and market cap - sorted how you want, as normalized
         JSON with transparent per-request USD pricing.
 
-        Price: $0.0015 per result.
+        Price: $0.02 per request plus $0.0015 per result.
 
         Example:
             res = client.dexscreener.tokens(chain="solana", limit=5)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "dexscreener.tokens", dict(input), options
         )
-        return RunResult[DexscreenerTokensData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[DexscreenerTokensData].model_validate(raw)

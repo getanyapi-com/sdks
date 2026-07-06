@@ -31,13 +31,7 @@ export interface MapsContactsInput {
 }
 
 export interface MapsContactsItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -48,7 +42,6 @@ export interface MapsContactsItem {
 export interface MapsContactsData {
   /**
    * Business records: name, address, rating, plus enriched contact details such as emails, phone numbers, and social profiles.
-   * Populated whenever the provider returns data.
    */
   items: MapsContactsItem[];
 }
@@ -75,12 +68,12 @@ export interface MapsPlaceInput {
 export interface MapsPlaceItem {
   /**
    * Full formatted street address.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   address?: string;
   /**
    * Primary Google Maps category (e.g. Coffee shop).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   category?: string;
   city?: string;
@@ -97,16 +90,15 @@ export interface MapsPlaceItem {
    */
   image?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   latitude?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   longitude?: number;
   /**
    * Business or place name.
-   * Populated whenever the provider returns data.
    */
   name: string;
   neighborhood?: string;
@@ -120,7 +112,7 @@ export interface MapsPlaceItem {
   phone?: string;
   /**
    * Google Maps place id.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   placeId?: string;
   /**
@@ -150,7 +142,6 @@ export interface MapsPlaceItem {
   street?: string;
   /**
    * Google Maps URL for the place.
-   * Populated whenever the provider returns data.
    */
   url: string;
   /**
@@ -170,7 +161,6 @@ export interface MapsPlaceHour {
 export interface MapsPlaceData {
   /**
    * The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched).
-   * Populated whenever the provider returns data.
    */
   items: MapsPlaceItem[];
 }
@@ -204,7 +194,7 @@ export interface MapsReviewsInput {
 export interface MapsReviewsItem {
   /**
    * Reviewer display name.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   author?: string;
   /**
@@ -229,7 +219,7 @@ export interface MapsReviewsItem {
   ownerResponseAt?: string;
   /**
    * Google Maps place id the review belongs to.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   placeId?: string;
   /**
@@ -238,7 +228,7 @@ export interface MapsReviewsItem {
   publishedAgo?: string;
   /**
    * ISO 8601 timestamp the review was published.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   publishedAt?: string;
   /**
@@ -247,7 +237,6 @@ export interface MapsReviewsItem {
   rating?: number;
   /**
    * Stable Google review id.
-   * Populated whenever the provider returns data.
    */
   reviewId: string;
   reviewerId?: string;
@@ -261,7 +250,7 @@ export interface MapsReviewsItem {
   text?: string;
   /**
    * Direct URL to the review on Google Maps.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   url?: string;
   [extra: string]: unknown;
@@ -273,7 +262,6 @@ export interface MapsReviewsItem {
 export interface MapsReviewsData {
   /**
    * Review records: reviewer, star rating, review text (empty when the reviewer left only a rating), publish date, likes, and owner response where present.
-   * Populated whenever the provider returns data.
    */
   items: MapsReviewsItem[];
 }
@@ -303,13 +291,7 @@ export interface MapsSearchInput {
 }
 
 export interface MapsSearchItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -320,7 +302,6 @@ export interface MapsSearchItem {
 export interface MapsSearchData {
   /**
    * Place records: name, category, address, coordinates, rating, review count, and contact basics.
-   * Populated whenever the provider returns data.
    */
   items: MapsSearchItem[];
 }
@@ -340,7 +321,7 @@ export class MapsNamespace {
    * Price: $0.00005 per request plus $0.003 per result.
    *
    * @example
-   * const res = await client.maps.contacts({"limit":3,"location":"Austin, TX","query":"coffee shop"});
+   * const res = await client.maps.contacts({ location: "Austin, TX", query: "coffee shop", limit: 3 });
    */
   contacts(
     input: MapsContactsInput,
@@ -357,7 +338,7 @@ export class MapsNamespace {
    * Price: $0.003 per request plus $0.005 per result.
    *
    * @example
-   * const res = await client.maps.place({"location":"San Francisco, CA","query":"Blue Bottle Coffee"});
+   * const res = await client.maps.place({ query: "Blue Bottle Coffee", location: "San Francisco, CA" });
    */
   place(
     input: MapsPlaceInput,
@@ -374,7 +355,7 @@ export class MapsNamespace {
    * Price: $0.00005 per request plus $0.0004 per result.
    *
    * @example
-   * const res = await client.maps.reviews({"limit":3,"placeId":"ChIJN1t_tDeuEmsRUsoyG83frY4"});
+   * const res = await client.maps.reviews({ placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4", limit: 3 });
    */
   reviews(
     input: MapsReviewsInput,
@@ -391,7 +372,7 @@ export class MapsNamespace {
    * Price: $0.00005 per request plus $0.003 per result.
    *
    * @example
-   * const res = await client.maps.search({"limit":3,"location":"Austin, TX","query":"coffee"});
+   * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3 });
    */
   search(
     input: MapsSearchInput,

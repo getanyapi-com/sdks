@@ -36,13 +36,10 @@ export interface DexscreenerTokensInput {
 
 export interface DexscreenerTokensItem {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   name?: string;
   price: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   symbol: string;
   [extra: string]: unknown;
 }
@@ -53,7 +50,6 @@ export interface DexscreenerTokensItem {
 export interface DexscreenerTokensData {
   /**
    * Token listing records: token name and symbol, pair, price, liquidity, volume, transaction counts, and price change.
-   * Populated whenever the provider returns data.
    */
   items: DexscreenerTokensItem[];
 }
@@ -73,7 +69,7 @@ export class DexscreenerNamespace {
    * Price: $0.02 per request plus $0.0015 per result.
    *
    * @example
-   * const res = await client.dexscreener.tokens({"chain":"solana","limit":5});
+   * const res = await client.dexscreener.tokens({ chain: "solana", limit: 5 });
    */
   tokens(
     input: DexscreenerTokensInput,

@@ -39,16 +39,16 @@ class PolymarketMarketsInput(TypedDict, total=False):
 
 class PolymarketMarketsData(BaseModel):
     items: list[PolymarketMarketsItem] = Field(
-        description="Prediction-market records: market question, outcomes with current prices, volume, liquidity, and end date. Populated whenever the provider returns data."
+        description="Prediction-market records: market question, outcomes with current prices, volume, liquidity, and end date."
     )
 
 
 class PolymarketMarketsItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str = Field(description="Populated whenever the provider returns data.")
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    id: str
+    title: str
+    url: str
 
 
 class PolymarketNamespace:
@@ -69,17 +69,15 @@ class PolymarketNamespace:
         liquidity, and end dates - by keyword or sorted by activity, as normalized
         JSON billed per request in USD.
 
-        Price: $0.0006 per result.
+        Price: $0.105 per request plus $0.0006 per result.
 
         Example:
             res = client.polymarket.markets(limit=10, query="election")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "polymarket.markets", dict(input), options
         )
-        return RunResult[PolymarketMarketsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[PolymarketMarketsData].model_validate(raw)
 
 
 class AsyncPolymarketNamespace:
@@ -100,14 +98,12 @@ class AsyncPolymarketNamespace:
         liquidity, and end dates - by keyword or sorted by activity, as normalized
         JSON billed per request in USD.
 
-        Price: $0.0006 per result.
+        Price: $0.105 per request plus $0.0006 per result.
 
         Example:
             res = client.polymarket.markets(limit=10, query="election")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "polymarket.markets", dict(input), options
         )
-        return RunResult[PolymarketMarketsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[PolymarketMarketsData].model_validate(raw)

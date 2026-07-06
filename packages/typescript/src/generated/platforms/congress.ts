@@ -38,17 +38,11 @@ export interface CongressTradesInput {
 }
 
 export interface CongressTradesItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   name?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   symbol: string;
   [extra: string]: unknown;
 }
@@ -59,7 +53,6 @@ export interface CongressTradesItem {
 export interface CongressTradesData {
   /**
    * Disclosure records: member name and chamber, stock ticker, transaction type, amount range, and transaction/report dates.
-   * Populated whenever the provider returns data.
    */
   items: CongressTradesItem[];
 }
@@ -79,7 +72,7 @@ export class CongressNamespace {
    * Price: $0.001 per request plus $0.0019 per result.
    *
    * @example
-   * const res = await client.congress.trades({"limit":5});
+   * const res = await client.congress.trades({ limit: 5 });
    */
   trades(
     input: CongressTradesInput,

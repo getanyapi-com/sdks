@@ -37,59 +37,49 @@ class TruthsocialUserPostsInput(TypedDict, total=False):
 
 
 class TruthsocialPostData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     comments: int
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    id: str = Field(description="Populated whenever the provider returns data.")
+    display_name: str = Field(alias="displayName")
+    id: str
     likes: int
-    publishedAt: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    published_at: str = Field(alias="publishedAt")
     shares: int
-    text: str = Field(description="Populated whenever the provider returns data.")
-    username: str = Field(description="Populated whenever the provider returns data.")
+    text: str
+    username: str
 
 
 class TruthsocialProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
-    bio: str = Field(description="Populated whenever the provider returns data.")
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    avatar_url: str = Field(alias="avatarUrl")
+    bio: str
+    display_name: str = Field(alias="displayName")
     followers: int
     following: int
-    id: str = Field(description="Populated whenever the provider returns data.")
-    joinedAt: str = Field(description="Populated whenever the provider returns data.")
-    postsCount: int
+    id: str
+    joined_at: str = Field(alias="joinedAt")
+    posts_count: int = Field(alias="postsCount")
     private: bool
-    url: str = Field(description="Populated whenever the provider returns data.")
-    username: str = Field(description="Populated whenever the provider returns data.")
+    url: str
+    username: str
     verified: bool
 
 
 class TruthsocialUserPostsData(BaseModel):
-    posts: list[TruthsocialUserPostsPost] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    posts: list[TruthsocialUserPostsPost]
 
 
 class TruthsocialUserPostsPost(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     comments: int
-    id: str = Field(description="Populated whenever the provider returns data.")
+    id: str
     likes: int
-    publishedAt: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    published_at: str = Field(alias="publishedAt")
     shares: int
-    text: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    text: str
+    url: str
 
 
 class TruthsocialNamespace:
@@ -114,12 +104,10 @@ class TruthsocialNamespace:
         Example:
             res = client.truthsocial.post(url="https://truthsocial.com/@realDonaldTrump/posts/116824551176646175")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "truthsocial.post", dict(input), options
         )
-        return RunResult[TruthsocialPostData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TruthsocialPostData].model_validate(raw)
 
     def profile(
         self,
@@ -138,12 +126,10 @@ class TruthsocialNamespace:
         Example:
             res = client.truthsocial.profile(handle="realDonaldTrump")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "truthsocial.profile", dict(input), options
         )
-        return RunResult[TruthsocialProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TruthsocialProfileData].model_validate(raw)
 
     def user_posts(
         self,
@@ -162,12 +148,10 @@ class TruthsocialNamespace:
         Example:
             res = client.truthsocial.user_posts(handle="realDonaldTrump")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "truthsocial.user_posts", dict(input), options
         )
-        return RunResult[TruthsocialUserPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TruthsocialUserPostsData].model_validate(raw)
 
 
 class AsyncTruthsocialNamespace:
@@ -192,12 +176,10 @@ class AsyncTruthsocialNamespace:
         Example:
             res = client.truthsocial.post(url="https://truthsocial.com/@realDonaldTrump/posts/116824551176646175")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "truthsocial.post", dict(input), options
         )
-        return RunResult[TruthsocialPostData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TruthsocialPostData].model_validate(raw)
 
     async def profile(
         self,
@@ -216,12 +198,10 @@ class AsyncTruthsocialNamespace:
         Example:
             res = client.truthsocial.profile(handle="realDonaldTrump")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "truthsocial.profile", dict(input), options
         )
-        return RunResult[TruthsocialProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TruthsocialProfileData].model_validate(raw)
 
     async def user_posts(
         self,
@@ -240,9 +220,7 @@ class AsyncTruthsocialNamespace:
         Example:
             res = client.truthsocial.user_posts(handle="realDonaldTrump")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "truthsocial.user_posts", dict(input), options
         )
-        return RunResult[TruthsocialUserPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TruthsocialUserPostsData].model_validate(raw)

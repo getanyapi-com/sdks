@@ -2,6 +2,10 @@
 
 import { AnyAPI as AnyAPIBase } from "../core/index.js";
 
+import type { RequestOptions, RunResult } from "../core/index.js";
+
+import type { SkuMap } from "./sku-map.js";
+
 import { AhrefsNamespace } from "./platforms/ahrefs.js";
 import { AirbnbNamespace } from "./platforms/airbnb.js";
 import { AlibabaNamespace } from "./platforms/alibaba.js";
@@ -62,10 +66,32 @@ import { ZillowNamespace } from "./platforms/zillow.js";
  * The AnyAPI client. Extends the handwritten core base (run/balance/me/catalog/
  * describe) and attaches every platform namespace as a lazily instantiated getter.
  *
- * import { AnyAPI } from "@anyapi/sdk";
+ * import { AnyAPI } from "@getanyapi/sdk";
  */
 export class AnyAPI extends AnyAPIBase {
   private readonly _namespaces: Record<string, unknown> = {};
+
+  /**
+   * Generic typed run for any SKU by slug. A known slug literal infers its input and
+   * result type from the SkuMap; any other string returns RunResult<unknown>.
+   */
+  run<K extends keyof SkuMap>(
+    slug: K,
+    input: SkuMap[K]["input"],
+    options?: RequestOptions,
+  ): Promise<SkuMap[K]["result"]>;
+  run<S extends string, T = unknown>(
+    slug: S extends keyof SkuMap ? never : S,
+    input: unknown,
+    options?: RequestOptions,
+  ): Promise<RunResult<T>>;
+  run(
+    slug: string,
+    input: unknown,
+    options?: RequestOptions,
+  ): Promise<RunResult<unknown>> {
+    return super.run(slug, input, options);
+  }
 
   /**
    * Typed methods for the ahrefs platform.

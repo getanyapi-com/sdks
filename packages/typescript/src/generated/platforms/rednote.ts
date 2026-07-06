@@ -23,59 +23,56 @@ export interface RednoteNoteInput {
  */
 export interface RednoteNoteData {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorImage?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorNickname?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorRedId?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorUserId?: string;
   collectCount?: number;
   commentCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   createdAt?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   language?: string;
   likeCount?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   noteId: string;
   shareCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   type?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   updatedAt?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   url?: string;
   [extra: string]: unknown;
@@ -96,42 +93,39 @@ export interface RednoteNoteCommentsInput {
 }
 
 export interface RednoteNoteCommentsComment {
-  /**
-   * Populated whenever the provider returns data.
-   */
   commentId: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   createdAt?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   ipLocation?: string;
   likeCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   nickname?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   noteId?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   redId?: string;
   replyCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   text?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   userId?: string;
   [extra: string]: unknown;
@@ -141,9 +135,6 @@ export interface RednoteNoteCommentsComment {
  * The `data` payload of RedNote (Xiaohongshu) Note Comments (rednote.note_comments).
  */
 export interface RednoteNoteCommentsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   comments: RednoteNoteCommentsComment[];
   nextCursor: string;
   [extra: string]: unknown;
@@ -165,37 +156,34 @@ export interface RednoteProfileInput {
 export interface RednoteProfileData {
   collectedCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   description?: string;
   followers?: number;
   following?: number;
   gender?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   likedCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   location?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   nickname?: string;
   postedNotes?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   redId?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   shareUrl?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   userId: string;
   verified?: boolean;
   verifyType?: number;
@@ -224,48 +212,45 @@ export interface RednoteSearchInput {
 
 export interface RednoteSearchNote {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorImage?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorNickname?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorRedId?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorUserId?: string;
   collectCount?: number;
   commentCount?: number;
   createdAt?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   likeCount?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   noteId: string;
   shareCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   type?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   xsecToken?: string;
   [extra: string]: unknown;
@@ -276,9 +261,6 @@ export interface RednoteSearchNote {
  */
 export interface RednoteSearchData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   notes: RednoteSearchNote[];
   [extra: string]: unknown;
 }
@@ -299,32 +281,29 @@ export interface RednoteSearchUsersInput {
 
 export interface RednoteSearchUsersUser {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   link?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   name?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   redId?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   subtitle?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   userId: string;
   verified?: boolean;
   verifyType?: number;
@@ -336,9 +315,6 @@ export interface RednoteSearchUsersUser {
  */
 export interface RednoteSearchUsersData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   users: RednoteSearchUsersUser[];
   [extra: string]: unknown;
 }
@@ -359,40 +335,37 @@ export interface RednoteUserNotesInput {
 
 export interface RednoteUserNotesNote {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorImage?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorNickname?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorUserId?: string;
   collectCount?: number;
   commentCount?: number;
   createdAt?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   likeCount?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   noteId: string;
   shareCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   type?: string;
   [extra: string]: unknown;
@@ -403,9 +376,6 @@ export interface RednoteUserNotesNote {
  */
 export interface RednoteUserNotesData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   notes: RednoteUserNotesNote[];
   [extra: string]: unknown;
 }
@@ -425,7 +395,7 @@ export class RednoteNamespace {
    * Price: $0.01 per request.
    *
    * @example
-   * const res = await client.rednote.note({"noteId":"66f2a24f000000002c02cf57"});
+   * const res = await client.rednote.note({ noteId: "66f2a24f000000002c02cf57" });
    */
   note(
     input: RednoteNoteInput,
@@ -442,7 +412,7 @@ export class RednoteNamespace {
    * Price: $0.01 per request.
    *
    * @example
-   * const res = await client.rednote.noteComments({"noteId":"68dd422c0000000203019829"});
+   * const res = await client.rednote.noteComments({ noteId: "68dd422c0000000203019829" });
    */
   noteComments(
     input: RednoteNoteCommentsInput,
@@ -455,17 +425,21 @@ export class RednoteNamespace {
    * Iterate every result of RedNote (Xiaohongshu) Note Comments across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterNoteComments(
     input: RednoteNoteCommentsInput,
     options?: RequestOptions,
-  ): Paginator<RednoteNoteCommentsComment, RednoteNoteCommentsData> {
-    return paginate<RednoteNoteCommentsComment, RednoteNoteCommentsData>(
+  ): Paginator<RednoteNoteCommentsComment, RunResult<RednoteNoteCommentsData>> {
+    return paginate<
+      RednoteNoteCommentsComment,
+      RunResult<RednoteNoteCommentsData>
+    >(
       this._core,
       "rednote.note_comments",
       input as unknown as Record<string, unknown>,
       "comments",
+      false,
       options,
     );
   }
@@ -478,7 +452,7 @@ export class RednoteNamespace {
    * Price: $0.01 per request.
    *
    * @example
-   * const res = await client.rednote.profile({"userId":"56b0a4491c07df6365277af7"});
+   * const res = await client.rednote.profile({ userId: "56b0a4491c07df6365277af7" });
    */
   profile(
     input: RednoteProfileInput,
@@ -495,7 +469,7 @@ export class RednoteNamespace {
    * Price: $0.01 per request.
    *
    * @example
-   * const res = await client.rednote.search({"query":"coffee","sort":"general"});
+   * const res = await client.rednote.search({ query: "coffee", sort: "general" });
    */
   search(
     input: RednoteSearchInput,
@@ -508,17 +482,18 @@ export class RednoteNamespace {
    * Iterate every result of RedNote (Xiaohongshu) Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterSearch(
     input: RednoteSearchInput,
     options?: RequestOptions,
-  ): Paginator<RednoteSearchNote, RednoteSearchData> {
-    return paginate<RednoteSearchNote, RednoteSearchData>(
+  ): Paginator<RednoteSearchNote, RunResult<RednoteSearchData>> {
+    return paginate<RednoteSearchNote, RunResult<RednoteSearchData>>(
       this._core,
       "rednote.search",
       input as unknown as Record<string, unknown>,
       "notes",
+      false,
       options,
     );
   }
@@ -531,7 +506,7 @@ export class RednoteNamespace {
    * Price: $0.01 per request.
    *
    * @example
-   * const res = await client.rednote.searchUsers({"query":"coffee"});
+   * const res = await client.rednote.searchUsers({ query: "coffee" });
    */
   searchUsers(
     input: RednoteSearchUsersInput,
@@ -544,17 +519,18 @@ export class RednoteNamespace {
    * Iterate every result of RedNote (Xiaohongshu) User Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterSearchUsers(
     input: RednoteSearchUsersInput,
     options?: RequestOptions,
-  ): Paginator<RednoteSearchUsersUser, RednoteSearchUsersData> {
-    return paginate<RednoteSearchUsersUser, RednoteSearchUsersData>(
+  ): Paginator<RednoteSearchUsersUser, RunResult<RednoteSearchUsersData>> {
+    return paginate<RednoteSearchUsersUser, RunResult<RednoteSearchUsersData>>(
       this._core,
       "rednote.search_users",
       input as unknown as Record<string, unknown>,
       "users",
+      false,
       options,
     );
   }
@@ -567,7 +543,7 @@ export class RednoteNamespace {
    * Price: $0.01 per request.
    *
    * @example
-   * const res = await client.rednote.userNotes({"userId":"56b0a4491c07df6365277af7"});
+   * const res = await client.rednote.userNotes({ userId: "56b0a4491c07df6365277af7" });
    */
   userNotes(
     input: RednoteUserNotesInput,
@@ -580,17 +556,18 @@ export class RednoteNamespace {
    * Iterate every result of RedNote (Xiaohongshu) User Notes across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterUserNotes(
     input: RednoteUserNotesInput,
     options?: RequestOptions,
-  ): Paginator<RednoteUserNotesNote, RednoteUserNotesData> {
-    return paginate<RednoteUserNotesNote, RednoteUserNotesData>(
+  ): Paginator<RednoteUserNotesNote, RunResult<RednoteUserNotesData>> {
+    return paginate<RednoteUserNotesNote, RunResult<RednoteUserNotesData>>(
       this._core,
       "rednote.user_notes",
       input as unknown as Record<string, unknown>,
       "notes",
+      false,
       options,
     );
   }

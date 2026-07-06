@@ -26,15 +26,15 @@ class AlibabaSearchInput(TypedDict, total=False):
 
 class AlibabaSearchData(BaseModel):
     items: list[AlibabaSearchItem] = Field(
-        description="Matching Alibaba wholesale listings: title, price range, minimum order quantity, supplier name, and listing URL. Populated whenever the provider returns data."
+        description="Matching Alibaba wholesale listings: title, price range, minimum order quantity, supplier name, and listing URL."
     )
 
 
 class AlibabaSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    title: str
+    url: str
 
 
 class AlibabaNamespace:
@@ -60,12 +60,10 @@ class AlibabaNamespace:
         Example:
             res = client.alibaba.search(limit=3, query="bluetooth speaker")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "alibaba.search", dict(input), options
         )
-        return RunResult[AlibabaSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AlibabaSearchData].model_validate(raw)
 
 
 class AsyncAlibabaNamespace:
@@ -91,9 +89,7 @@ class AsyncAlibabaNamespace:
         Example:
             res = client.alibaba.search(limit=3, query="bluetooth speaker")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "alibaba.search", dict(input), options
         )
-        return RunResult[AlibabaSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[AlibabaSearchData].model_validate(raw)

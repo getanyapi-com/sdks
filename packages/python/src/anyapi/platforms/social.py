@@ -28,22 +28,24 @@ class SocialFinderInput(TypedDict, total=False):
 
 class SocialFinderData(BaseModel):
     items: list[SocialFinderItem] = Field(
-        description="Profile match records: the queried profile name, the social network, and the matching profile URL when one was found. Populated whenever the provider returns data."
+        description="Profile match records: the queried profile name, the social network, and the matching profile URL when one was found."
     )
 
 
 class SocialFinderItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    inputProfileName: str | None = Field(
+    input_profile_name: str | None = Field(
         default=None,
-        description="The name that was searched for. Populated whenever the provider returns data.",
+        alias="inputProfileName",
+        description="The name that was searched for. Present whenever the upstream returns this record.",
     )
     social: str = Field(
-        description="The social network checked (e.g. discord, facebook, github). Populated whenever the provider returns data."
+        description="The social network checked (e.g. discord, facebook, github)."
     )
-    socialProfileUrl: str = Field(
-        description="URL of the matching profile, or null when no account was found on that network."
+    social_profile_url: str = Field(
+        alias="socialProfileUrl",
+        description="URL of the matching profile, or null when no account was found on that network.",
     )
 
 
@@ -64,15 +66,15 @@ class SocialNamespace:
         Find a person's or brand's profiles across major social networks from a
         single name, returned as normalized JSON with flat per-request USD pricing.
 
-        Price: $0.002 per result.
+        Price: $0.001 per request plus $0.002 per result.
 
         Example:
             res = client.social.finder(limit=3, name="Elon Musk")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "social.finder", dict(input), options
         )
-        return RunResult[SocialFinderData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[SocialFinderData].model_validate(raw)
 
 
 class AsyncSocialNamespace:
@@ -92,12 +94,12 @@ class AsyncSocialNamespace:
         Find a person's or brand's profiles across major social networks from a
         single name, returned as normalized JSON with flat per-request USD pricing.
 
-        Price: $0.002 per result.
+        Price: $0.001 per request plus $0.002 per result.
 
         Example:
             res = client.social.finder(limit=3, name="Elon Musk")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "social.finder", dict(input), options
         )
-        return RunResult[SocialFinderData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[SocialFinderData].model_validate(raw)

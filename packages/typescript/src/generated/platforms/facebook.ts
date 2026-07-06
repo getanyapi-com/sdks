@@ -32,12 +32,11 @@ export interface FacebookAdDetailsData {
   active?: boolean;
   /**
    * Ad Library archive ID (stable identity).
-   * Populated whenever the provider returns data.
    */
   adArchiveId: string;
   /**
    * Call-to-action label.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   ctaText?: string;
   /**
@@ -46,7 +45,7 @@ export interface FacebookAdDetailsData {
   currency?: string;
   /**
    * Ad creative format.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   displayFormat?: string;
   /**
@@ -55,37 +54,36 @@ export interface FacebookAdDetailsData {
   endDate?: number;
   /**
    * Creative destination URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   linkUrl?: string;
   /**
    * Advertiser page ID (stable identity).
-   * Populated whenever the provider returns data.
    */
   pageId: string;
   /**
    * Advertiser page name.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   pageName?: string;
   /**
    * Publisher platforms the ad runs on.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   platforms?: string[];
   /**
    * Run start, epoch seconds.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   startDate?: number;
   /**
    * Ad body text.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   text?: string;
   /**
    * Creative title.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   title?: string;
   [extra: string]: unknown;
@@ -109,18 +107,12 @@ export interface FacebookAdTranscriptInput {
  * The `data` payload of Facebook Ad Transcript (facebook.ad_transcript).
  */
 export interface FacebookAdTranscriptData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   adId: string;
   /**
    * Transcribed ad audio text.
    */
   transcript: string;
   transcriptAvailable: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -160,17 +152,8 @@ export interface FacebookAdsSearchAd {
    * Number of ads in this campaign (collation count).
    */
   adCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   ctaText: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   ctaType: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayFormat: string;
   /**
    * Epoch seconds.
@@ -178,38 +161,20 @@ export interface FacebookAdsSearchAd {
   endDate: number;
   /**
    * Ad Library archive ID.
-   * Populated whenever the provider returns data.
    */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   linkUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pageId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pageName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   platforms: string[];
   /**
    * Epoch seconds.
-   * Populated whenever the provider returns data.
    */
   startDate: number;
   /**
    * Ad body text.
-   * Populated whenever the provider returns data.
    */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   [extra: string]: unknown;
 }
@@ -242,33 +207,15 @@ export interface FacebookCommentRepliesInput {
 }
 
 export interface FacebookCommentRepliesReplie {
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorName: string;
   authorProfilePicture: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
   expansionToken?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   feedbackId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   reactionCount: number;
   replyCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -279,9 +226,6 @@ export interface FacebookCommentRepliesReplie {
 export interface FacebookCommentRepliesData {
   hasNextPage: boolean;
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   replies: FacebookCommentRepliesReplie[];
 }
 
@@ -324,9 +268,6 @@ export interface FacebookCompanyAdsAd {
    */
   adCount: number;
   currency: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayFormat: string;
   /**
    * Epoch seconds.
@@ -334,29 +275,17 @@ export interface FacebookCompanyAdsAd {
   endDate: number;
   /**
    * Ad Library archive ID.
-   * Populated whenever the provider returns data.
    */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pageId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pageName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   platforms: string[];
   /**
    * Epoch seconds.
-   * Populated whenever the provider returns data.
    */
   startDate: number;
   /**
    * Ad body text.
-   * Populated whenever the provider returns data.
    */
   text: string;
   [extra: string]: unknown;
@@ -388,43 +317,19 @@ export interface FacebookEventDetailsInput {
  * The `data` payload of Facebook Event Details (facebook.event_details).
  */
 export interface FacebookEventDetailsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   city: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   coverPhotoUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   dayTimeSentence: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
   endTime: string;
   goingCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   interestedCount: number;
   isCanceled: boolean;
   isOnline: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   locationName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   startTime: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -449,32 +354,14 @@ export interface FacebookEventsInput {
 }
 
 export interface FacebookEventsEvent {
-  /**
-   * Populated whenever the provider returns data.
-   */
   dayTimeSentence: string;
   goingCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   interestedCount: number;
   isOnline: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   placeName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   startTimestamp: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -502,38 +389,17 @@ export interface FacebookEventsSearchInput {
 }
 
 export interface FacebookEventsSearchEvent {
-  /**
-   * Populated whenever the provider returns data.
-   */
   coverImage: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   dayTimeSentence: string;
   goingCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   interestedCount: number;
   isOnline: boolean;
   isPast: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   placeName: string;
   priceRangeText: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   startTimestamp: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -567,17 +433,11 @@ export interface FacebookFollowersInput {
 }
 
 export interface FacebookFollowersItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   name?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -588,7 +448,6 @@ export interface FacebookFollowersItem {
 export interface FacebookFollowersData {
   /**
    * Follower or following records: profile name, profile URL, and picture for each account.
-   * Populated whenever the provider returns data.
    */
   items: FacebookFollowersItem[];
 }
@@ -617,32 +476,14 @@ export interface FacebookGroupPostsInput {
 }
 
 export interface FacebookGroupPostsPost {
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorName: string;
   commentCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   permalink: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishTime: number;
   reactionCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -652,9 +493,6 @@ export interface FacebookGroupPostsPost {
  */
 export interface FacebookGroupPostsData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: FacebookGroupPostsPost[];
 }
 
@@ -691,34 +529,13 @@ export interface FacebookMarketplaceInput {
 }
 
 export interface FacebookMarketplaceListing {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   isSold: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   locationName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   photoUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   priceAmount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   priceFormatted: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -750,47 +567,17 @@ export interface FacebookMarketplaceItemInput {
  * The `data` payload of Facebook Marketplace Item (facebook.marketplace_item).
  */
 export interface FacebookMarketplaceItemData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   categoryId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   creationTime: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   currency: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   isLive: boolean;
   isSold: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   locationText: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   priceAmount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   priceFormatted: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -806,33 +593,12 @@ export interface FacebookMarketplaceLocationSearchInput {
 }
 
 export interface FacebookMarketplaceLocationSearchLocation {
-  /**
-   * Populated whenever the provider returns data.
-   */
   city: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   latitude: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   longitude: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pageId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   postalCode: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   subtitle: string;
   [extra: string]: unknown;
 }
@@ -862,18 +628,12 @@ export interface FacebookPageContactInput {
 export interface FacebookPageContactItem {
   address?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   category?: string;
   email?: string;
   phone?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   website?: string;
   [extra: string]: unknown;
@@ -885,7 +645,6 @@ export interface FacebookPageContactItem {
 export interface FacebookPageContactData {
   /**
    * Page contact records: page name, email, phone, website, physical address, and category.
-   * Populated whenever the provider returns data.
    */
   items: FacebookPageContactItem[];
 }
@@ -905,31 +664,13 @@ export interface FacebookPhotosInput {
 }
 
 export interface FacebookPhotosPhoto {
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   imageHeight: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   imageUrl: string;
   imageWidth: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   photoId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   thumbnail: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -940,9 +681,6 @@ export interface FacebookPhotosPhoto {
 export interface FacebookPhotosData {
   nextCursor: string;
   nextPageId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   photos: FacebookPhotosPhoto[];
 }
 
@@ -961,15 +699,9 @@ export interface FacebookPostInput {
  */
 export interface FacebookPostData {
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
   shares: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   views: number;
   [extra: string]: unknown;
@@ -994,23 +726,11 @@ export interface FacebookPostCommentsInput {
 }
 
 export interface FacebookPostCommentsComment {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   reactions: number;
   replies: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -1019,9 +739,6 @@ export interface FacebookPostCommentsComment {
  * The `data` payload of Facebook Post Comments (facebook.post_comments).
  */
 export interface FacebookPostCommentsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   comments: FacebookPostCommentsComment[];
   nextCursor: string;
 }
@@ -1063,19 +780,10 @@ export interface FacebookProfileInput {
  */
 export interface FacebookProfileData {
   about: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   category: string;
   followers: number;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   [extra: string]: unknown;
 }
@@ -1096,27 +804,15 @@ export interface FacebookProfileEventsInput {
 
 export interface FacebookProfileEventsEvent {
   city: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   creatorName: string;
   dayTimeSentence: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   isCanceled: boolean;
   isOnline: boolean;
   isPast: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   placeName: string;
   startTimestamp: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -1125,9 +821,6 @@ export interface FacebookProfileEventsEvent {
  * The `data` payload of Facebook Page Events (facebook.profile_events).
  */
 export interface FacebookProfileEventsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   events: FacebookProfileEventsEvent[];
   hasNextPage: boolean;
   nextCursor: string;
@@ -1153,21 +846,9 @@ export interface FacebookProfilePostsInput {
 }
 
 export interface FacebookProfilePostsPost {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -1176,9 +857,6 @@ export interface FacebookProfilePostsPost {
  * The `data` payload of Facebook Profile Posts (facebook.profile_posts).
  */
 export interface FacebookProfilePostsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: FacebookProfilePostsPost[];
 }
 
@@ -1197,25 +875,10 @@ export interface FacebookProfileReelsInput {
 }
 
 export interface FacebookProfileReelsReel {
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   thumbnail: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -1225,9 +888,6 @@ export interface FacebookProfileReelsReel {
  * The `data` payload of Facebook Profile Reels (facebook.profile_reels).
  */
 export interface FacebookProfileReelsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   reels: FacebookProfileReelsReel[];
 }
 
@@ -1242,43 +902,16 @@ export interface FacebookSearchCompaniesInput {
 }
 
 export interface FacebookSearchCompaniesCompanie {
-  /**
-   * Populated whenever the provider returns data.
-   */
   category: string;
   country: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   entityType: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   igFollowers: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   igUsername: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   imageUrl: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pageAlias: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   pageId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   verification: string;
   [extra: string]: unknown;
 }
@@ -1310,13 +943,7 @@ export interface FacebookSearchPagesInput {
 }
 
 export interface FacebookSearchPagesItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -1327,7 +954,6 @@ export interface FacebookSearchPagesItem {
 export interface FacebookSearchPagesData {
   /**
    * Page profile records: page name, category, follower/like counts, contact details, and page URL.
-   * Populated whenever the provider returns data.
    */
   items: FacebookSearchPagesItem[];
 }
@@ -1352,13 +978,7 @@ export interface FacebookSearchPostsInput {
 }
 
 export interface FacebookSearchPostsItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -1369,7 +989,6 @@ export interface FacebookSearchPostsItem {
 export interface FacebookSearchPostsData {
   /**
    * Post records: post text, author, timestamp, engagement counts (reactions, comments, shares), and post URL.
-   * Populated whenever the provider returns data.
    */
   items: FacebookSearchPostsItem[];
 }
@@ -1389,7 +1008,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.adDetails({"id":"1869276447125570"});
+   * const res = await client.facebook.adDetails({ id: "1869276447125570" });
    */
   adDetails(
     input: FacebookAdDetailsInput,
@@ -1406,7 +1025,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.adTranscript({"id":"931919822778200"});
+   * const res = await client.facebook.adTranscript({ id: "931919822778200" });
    */
   adTranscript(
     input: FacebookAdTranscriptInput,
@@ -1423,7 +1042,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.adsSearch({"country":"US","query":"nike"});
+   * const res = await client.facebook.adsSearch({ query: "nike", country: "US" });
    */
   adsSearch(
     input: FacebookAdsSearchInput,
@@ -1436,17 +1055,18 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Ad Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterAdsSearch(
     input: FacebookAdsSearchInput,
     options?: RequestOptions,
-  ): Paginator<FacebookAdsSearchAd, FacebookAdsSearchData> {
-    return paginate<FacebookAdsSearchAd, FacebookAdsSearchData>(
+  ): Paginator<FacebookAdsSearchAd, RunResult<FacebookAdsSearchData>> {
+    return paginate<FacebookAdsSearchAd, RunResult<FacebookAdsSearchData>>(
       this._core,
       "facebook.ads_search",
       input as unknown as Record<string, unknown>,
       "ads",
+      false,
       options,
     );
   }
@@ -1459,7 +1079,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.commentReplies({"expansionToken":"MjoxNzgzMjI4OTY4OgF_o5zrjDnpemv4bwPtpsShXutqvKIw2bKs2YuJksL1Ak8n8YG-_KPSQGkIks5oW6wdRfhb_cRv9q5OX0NHjFJwEupYNZi9pcMV-FYLWLp47u-eusMkZFOMwbkISsTln7gtSvQrOzlffyavOTIL85PECYzGfunU2IAEkd13CIikxu06Mw10UJ1ShcFAmz8175R1uJfYy_iOixWZukqfrWhUfVOXApXznxx7qXvUxPwct76qe6p7-nVWQrPC_SZc2xh9Z8ggL3WMjgTzSq4oWFSsyZuuVsyVVjSgdjRQiDqtJSeEUlSjTr6vOnKsvKV-GpnBRaeA0BCaNRhqpB4xDZoduBuO5ZYrFvWLJdJLryDhCPI2Ss-Z33cEM2Vz7pLf1wJzE7TuizXPwICSn1DA_Prca-BItTbOUjAjfiySap1LXYkGuuDC2ziUdiEsmE5XhevMP8XtF_2WQlMNcGbXMEQyAWDUawtPAxXgMeRrCO9YGSweFQ4OZumoIlSGa3Vfjy-euUOHT1IAsNbV2A8rAq4HJNU3jCXQTn0vfW9xvbVQhL-53Mhw2YPjhlvUj6QpnGA25N8","feedbackId":"ZmVlZGJhY2s6MTM5MzQ2MTExNTQ4MTkyN18yMDgyNjUzMjQ1ODA5Mzg2"});
+   * const res = await client.facebook.commentReplies({ expansionToken: "MjoxNzgzMjI4OTY4OgF_o5zrjDnpemv4bwPtpsShXutqvKIw2bKs2YuJksL1Ak8n8YG-_KPSQGkIks5oW6wdRfhb_cRv9q5OX0NHjFJwEupYNZi9pcMV-FYLWLp47u-eusMkZFOMwbkISsTln7gtSvQrOzlffyavOTIL85PECYzGfunU2IAEkd13CIikxu06Mw10UJ1ShcFAmz8175R1uJfYy_iOixWZukqfrWhUfVOXApXznxx7qXvUxPwct76qe6p7-nVWQrPC_SZc2xh9Z8ggL3WMjgTzSq4oWFSsyZuuVsyVVjSgdjRQiDqtJSeEUlSjTr6vOnKsvKV-GpnBRaeA0BCaNRhqpB4xDZoduBuO5ZYrFvWLJdJLryDhCPI2Ss-Z33cEM2Vz7pLf1wJzE7TuizXPwICSn1DA_Prca-BItTbOUjAjfiySap1LXYkGuuDC2ziUdiEsmE5XhevMP8XtF_2WQlMNcGbXMEQyAWDUawtPAxXgMeRrCO9YGSweFQ4OZumoIlSGa3Vfjy-euUOHT1IAsNbV2A8rAq4HJNU3jCXQTn0vfW9xvbVQhL-53Mhw2YPjhlvUj6QpnGA25N8", feedbackId: "ZmVlZGJhY2s6MTM5MzQ2MTExNTQ4MTkyN18yMDgyNjUzMjQ1ODA5Mzg2" });
    */
   commentReplies(
     input: FacebookCommentRepliesInput,
@@ -1472,17 +1092,24 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Comment Replies across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterCommentReplies(
     input: FacebookCommentRepliesInput,
     options?: RequestOptions,
-  ): Paginator<FacebookCommentRepliesReplie, FacebookCommentRepliesData> {
-    return paginate<FacebookCommentRepliesReplie, FacebookCommentRepliesData>(
+  ): Paginator<
+    FacebookCommentRepliesReplie,
+    RunResult<FacebookCommentRepliesData>
+  > {
+    return paginate<
+      FacebookCommentRepliesReplie,
+      RunResult<FacebookCommentRepliesData>
+    >(
       this._core,
       "facebook.comment_replies",
       input as unknown as Record<string, unknown>,
       "replies",
+      false,
       options,
     );
   }
@@ -1495,7 +1122,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.companyAds({"companyName":"nike"});
+   * const res = await client.facebook.companyAds({ companyName: "nike" });
    */
   companyAds(
     input: FacebookCompanyAdsInput,
@@ -1508,17 +1135,18 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Company Ads across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterCompanyAds(
     input: FacebookCompanyAdsInput,
     options?: RequestOptions,
-  ): Paginator<FacebookCompanyAdsAd, FacebookCompanyAdsData> {
-    return paginate<FacebookCompanyAdsAd, FacebookCompanyAdsData>(
+  ): Paginator<FacebookCompanyAdsAd, RunResult<FacebookCompanyAdsData>> {
+    return paginate<FacebookCompanyAdsAd, RunResult<FacebookCompanyAdsData>>(
       this._core,
       "facebook.company_ads",
       input as unknown as Record<string, unknown>,
       "ads",
+      false,
       options,
     );
   }
@@ -1531,7 +1159,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.eventDetails({"id":"4045709448982422"});
+   * const res = await client.facebook.eventDetails({ id: "4045709448982422" });
    */
   eventDetails(
     input: FacebookEventDetailsInput,
@@ -1548,7 +1176,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.events({"url":"https://www.facebook.com/events/explore/saint-petersburg-florida/111326725552547"});
+   * const res = await client.facebook.events({ url: "https://www.facebook.com/events/explore/saint-petersburg-florida/111326725552547" });
    */
   events(
     input: FacebookEventsInput,
@@ -1561,17 +1189,18 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Events across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterEvents(
     input: FacebookEventsInput,
     options?: RequestOptions,
-  ): Paginator<FacebookEventsEvent, FacebookEventsData> {
-    return paginate<FacebookEventsEvent, FacebookEventsData>(
+  ): Paginator<FacebookEventsEvent, RunResult<FacebookEventsData>> {
+    return paginate<FacebookEventsEvent, RunResult<FacebookEventsData>>(
       this._core,
       "facebook.events",
       input as unknown as Record<string, unknown>,
       "events",
+      false,
       options,
     );
   }
@@ -1584,7 +1213,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.eventsSearch({"query":"music festival"});
+   * const res = await client.facebook.eventsSearch({ query: "music festival" });
    */
   eventsSearch(
     input: FacebookEventsSearchInput,
@@ -1597,17 +1226,21 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Events Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterEventsSearch(
     input: FacebookEventsSearchInput,
     options?: RequestOptions,
-  ): Paginator<FacebookEventsSearchEvent, FacebookEventsSearchData> {
-    return paginate<FacebookEventsSearchEvent, FacebookEventsSearchData>(
+  ): Paginator<FacebookEventsSearchEvent, RunResult<FacebookEventsSearchData>> {
+    return paginate<
+      FacebookEventsSearchEvent,
+      RunResult<FacebookEventsSearchData>
+    >(
       this._core,
       "facebook.events_search",
       input as unknown as Record<string, unknown>,
       "events",
+      false,
       options,
     );
   }
@@ -1617,10 +1250,10 @@ export class FacebookNamespace {
    *
    * List the public followers - or accounts followed - of any Facebook page or profile URL as normalized JSON records, priced per request in USD.
    *
-   * Price: $0 per request plus $0.006 per result.
+   * Price: $0.006 per result.
    *
    * @example
-   * const res = await client.facebook.followers({"limit":3,"url":"https://www.facebook.com/nike"});
+   * const res = await client.facebook.followers({ url: "https://www.facebook.com/nike", limit: 3 });
    */
   followers(
     input: FacebookFollowersInput,
@@ -1637,7 +1270,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.groupPosts({"url":"https://www.facebook.com/groups/1270525996445602/"});
+   * const res = await client.facebook.groupPosts({ url: "https://www.facebook.com/groups/1270525996445602/" });
    */
   groupPosts(
     input: FacebookGroupPostsInput,
@@ -1650,17 +1283,18 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Group Posts across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterGroupPosts(
     input: FacebookGroupPostsInput,
     options?: RequestOptions,
-  ): Paginator<FacebookGroupPostsPost, FacebookGroupPostsData> {
-    return paginate<FacebookGroupPostsPost, FacebookGroupPostsData>(
+  ): Paginator<FacebookGroupPostsPost, RunResult<FacebookGroupPostsData>> {
+    return paginate<FacebookGroupPostsPost, RunResult<FacebookGroupPostsData>>(
       this._core,
       "facebook.group_posts",
       input as unknown as Record<string, unknown>,
       "posts",
+      false,
       options,
     );
   }
@@ -1673,7 +1307,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.marketplace({"lat":"30.2677","lng":"-97.7475","query":"bike"});
+   * const res = await client.facebook.marketplace({ lat: "30.2677", lng: "-97.7475", query: "bike" });
    */
   marketplace(
     input: FacebookMarketplaceInput,
@@ -1686,17 +1320,21 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Marketplace across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterMarketplace(
     input: FacebookMarketplaceInput,
     options?: RequestOptions,
-  ): Paginator<FacebookMarketplaceListing, FacebookMarketplaceData> {
-    return paginate<FacebookMarketplaceListing, FacebookMarketplaceData>(
+  ): Paginator<FacebookMarketplaceListing, RunResult<FacebookMarketplaceData>> {
+    return paginate<
+      FacebookMarketplaceListing,
+      RunResult<FacebookMarketplaceData>
+    >(
       this._core,
       "facebook.marketplace",
       input as unknown as Record<string, unknown>,
       "listings",
+      false,
       options,
     );
   }
@@ -1709,7 +1347,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.marketplaceItem({"url":"https://www.facebook.com/marketplace/item/1656586118821988/"});
+   * const res = await client.facebook.marketplaceItem({ url: "https://www.facebook.com/marketplace/item/1656586118821988/" });
    */
   marketplaceItem(
     input: FacebookMarketplaceItemInput,
@@ -1726,7 +1364,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.marketplaceLocationSearch({"query":"Austin"});
+   * const res = await client.facebook.marketplaceLocationSearch({ query: "Austin" });
    */
   marketplaceLocationSearch(
     input: FacebookMarketplaceLocationSearchInput,
@@ -1747,7 +1385,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.pageContact({"page":"https://www.facebook.com/joesstonecrab"});
+   * const res = await client.facebook.pageContact({ page: "https://www.facebook.com/joesstonecrab" });
    */
   pageContact(
     input: FacebookPageContactInput,
@@ -1764,7 +1402,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.photos({"url":"https://www.facebook.com/Spurs"});
+   * const res = await client.facebook.photos({ url: "https://www.facebook.com/Spurs" });
    */
   photos(
     input: FacebookPhotosInput,
@@ -1777,17 +1415,18 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Page Photos across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterPhotos(
     input: FacebookPhotosInput,
     options?: RequestOptions,
-  ): Paginator<FacebookPhotosPhoto, FacebookPhotosData> {
-    return paginate<FacebookPhotosPhoto, FacebookPhotosData>(
+  ): Paginator<FacebookPhotosPhoto, RunResult<FacebookPhotosData>> {
+    return paginate<FacebookPhotosPhoto, RunResult<FacebookPhotosData>>(
       this._core,
       "facebook.photos",
       input as unknown as Record<string, unknown>,
       "photos",
+      false,
       options,
     );
   }
@@ -1800,7 +1439,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.post({"url":"https://www.facebook.com/reel/2166091230582141/"});
+   * const res = await client.facebook.post({ url: "https://www.facebook.com/reel/2166091230582141/" });
    */
   post(
     input: FacebookPostInput,
@@ -1817,7 +1456,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.postComments({"url":"https://www.facebook.com/reel/2166091230582141/"});
+   * const res = await client.facebook.postComments({ url: "https://www.facebook.com/reel/2166091230582141/" });
    */
   postComments(
     input: FacebookPostCommentsInput,
@@ -1830,17 +1469,24 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Post Comments across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterPostComments(
     input: FacebookPostCommentsInput,
     options?: RequestOptions,
-  ): Paginator<FacebookPostCommentsComment, FacebookPostCommentsData> {
-    return paginate<FacebookPostCommentsComment, FacebookPostCommentsData>(
+  ): Paginator<
+    FacebookPostCommentsComment,
+    RunResult<FacebookPostCommentsData>
+  > {
+    return paginate<
+      FacebookPostCommentsComment,
+      RunResult<FacebookPostCommentsData>
+    >(
       this._core,
       "facebook.post_comments",
       input as unknown as Record<string, unknown>,
       "comments",
+      false,
       options,
     );
   }
@@ -1853,7 +1499,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.postTranscript({"url":"https://www.facebook.com/reel/2166091230582141/"});
+   * const res = await client.facebook.postTranscript({ url: "https://www.facebook.com/reel/2166091230582141/" });
    */
   postTranscript(
     input: FacebookPostTranscriptInput,
@@ -1870,7 +1516,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.profile({"url":"https://www.facebook.com/nike"});
+   * const res = await client.facebook.profile({ url: "https://www.facebook.com/nike" });
    */
   profile(
     input: FacebookProfileInput,
@@ -1887,7 +1533,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.profileEvents({"url":"https://www.facebook.com/brickyardoldtown"});
+   * const res = await client.facebook.profileEvents({ url: "https://www.facebook.com/brickyardoldtown" });
    */
   profileEvents(
     input: FacebookProfileEventsInput,
@@ -1900,17 +1546,24 @@ export class FacebookNamespace {
    * Iterate every result of Facebook Page Events across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterProfileEvents(
     input: FacebookProfileEventsInput,
     options?: RequestOptions,
-  ): Paginator<FacebookProfileEventsEvent, FacebookProfileEventsData> {
-    return paginate<FacebookProfileEventsEvent, FacebookProfileEventsData>(
+  ): Paginator<
+    FacebookProfileEventsEvent,
+    RunResult<FacebookProfileEventsData>
+  > {
+    return paginate<
+      FacebookProfileEventsEvent,
+      RunResult<FacebookProfileEventsData>
+    >(
       this._core,
       "facebook.profile_events",
       input as unknown as Record<string, unknown>,
       "events",
+      false,
       options,
     );
   }
@@ -1923,7 +1576,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.profilePosts({"url":"https://www.facebook.com/nike"});
+   * const res = await client.facebook.profilePosts({ url: "https://www.facebook.com/nike" });
    */
   profilePosts(
     input: FacebookProfilePostsInput,
@@ -1940,7 +1593,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.profileReels({"url":"https://www.facebook.com/nike"});
+   * const res = await client.facebook.profileReels({ url: "https://www.facebook.com/nike" });
    */
   profileReels(
     input: FacebookProfileReelsInput,
@@ -1957,7 +1610,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.searchCompanies({"query":"nike"});
+   * const res = await client.facebook.searchCompanies({ query: "nike" });
    */
   searchCompanies(
     input: FacebookSearchCompaniesInput,
@@ -1974,7 +1627,7 @@ export class FacebookNamespace {
    * Price: $0.001 per request plus $0.011 per result.
    *
    * @example
-   * const res = await client.facebook.searchPages({"limit":3,"query":"nike"});
+   * const res = await client.facebook.searchPages({ query: "nike", limit: 3 });
    */
   searchPages(
     input: FacebookSearchPagesInput,
@@ -1988,10 +1641,10 @@ export class FacebookNamespace {
    *
    * Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement) with transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.003 per result.
+   * Price: $0.003 per result.
    *
    * @example
-   * const res = await client.facebook.searchPosts({"limit":3,"query":"nike"});
+   * const res = await client.facebook.searchPosts({ query: "nike", limit: 3 });
    */
   searchPosts(
     input: FacebookSearchPostsInput,

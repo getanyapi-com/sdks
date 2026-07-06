@@ -56,7 +56,7 @@ class AmazonReviewsItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     rating: float
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
 
 class AmazonNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -76,10 +76,10 @@ class AmazonNamespace:
         Example:
             res = client.amazon.reviews(product="B07FZ8S74R", limit=3)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.reviews", dict(input), options
         )
-        return RunResult[AmazonReviewsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[AmazonReviewsData].model_validate(raw)
 
 class AsyncAmazonNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -99,10 +99,10 @@ class AsyncAmazonNamespace:
         Example:
             res = client.amazon.reviews(product="B07FZ8S74R", limit=3)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.reviews", dict(input), options
         )
-        return RunResult[AmazonReviewsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[AmazonReviewsData].model_validate(raw)
 ",
   "platforms/facebook.py": "# Generated - do not edit. Regenerate with: pnpm generate
 """Generated namespace module for the facebook platform."""
@@ -142,27 +142,29 @@ class FacebookAdsSearchInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's nextCursor."""
 
 class FacebookAdsSearchData(BaseModel):
-    totalResults: int
-    nextCursor: str
+    model_config = ConfigDict(populate_by_name=True)
+
+    total_results: int = Field(alias="totalResults")
+    next_cursor: str = Field(alias="nextCursor")
     ads: list[FacebookAdsSearchAd]
 
 class FacebookAdsSearchAd(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str = Field(description="Ad Library archive ID. Populated whenever the provider returns data.")
-    pageId: str = Field(description="Populated whenever the provider returns data.")
-    pageName: str = Field(description="Populated whenever the provider returns data.")
+    id: str = Field(description="Ad Library archive ID.")
+    page_id: str = Field(alias="pageId")
+    page_name: str = Field(alias="pageName")
     active: bool
-    startDate: int = Field(description="Epoch seconds. Populated whenever the provider returns data.")
-    endDate: int = Field(description="Epoch seconds.")
-    text: str = Field(description="Ad body text. Populated whenever the provider returns data.")
-    title: str = Field(description="Populated whenever the provider returns data.")
-    ctaText: str = Field(description="Populated whenever the provider returns data.")
-    ctaType: str = Field(description="Populated whenever the provider returns data.")
-    linkUrl: str = Field(description="Populated whenever the provider returns data.")
-    displayFormat: str = Field(description="Populated whenever the provider returns data.")
-    platforms: list[str] = Field(description="Populated whenever the provider returns data.")
-    adCount: int = Field(description="Number of ads in this campaign (collation count).")
+    start_date: int = Field(alias="startDate", description="Epoch seconds.")
+    end_date: int = Field(alias="endDate", description="Epoch seconds.")
+    text: str = Field(description="Ad body text.")
+    title: str
+    cta_text: str = Field(alias="ctaText")
+    cta_type: str = Field(alias="ctaType")
+    link_url: str = Field(alias="linkUrl")
+    display_format: str = Field(alias="displayFormat")
+    platforms: list[str]
+    ad_count: int = Field(alias="adCount", description="Number of ads in this campaign (collation count).")
 
 class FacebookNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -181,18 +183,28 @@ class FacebookNamespace:
         Example:
             res = client.facebook.ads_search(query="nike", country="US")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ads_search", dict(input), options
         )
-        return RunResult[FacebookAdsSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[FacebookAdsSearchData].model_validate(raw)
 
     def iter_ads_search(self, *, options: RequestOptions | None = None, **input: Unpack[FacebookAdsSearchInput]) -> Paginator[FacebookAdsSearchAd, FacebookAdsSearchData]:
         """Iterate Facebook Ads Search results, following pagination cursors.
 
-        Yields flattened items from the \`ads\` field of each page. Use
-        \`.pages()\` on the returned paginator to walk whole \`RunResult\` pages.
+        Yields validated \`FacebookAdsSearchAd\` items from the \`ads\` field of
+        each page. Use \`.pages()\` on the returned paginator to walk whole
+        \`RunResult\` pages.
         """
-        return paginate(self._client, "facebook.ads_search", dict(input), "ads", options=options)
+        return paginate(
+            self._client,
+            "facebook.ads_search",
+            dict(input),
+            "ads",
+            item_model=FacebookAdsSearchAd,
+            data_model=FacebookAdsSearchData,
+            bare=False,
+            options=options,
+        )
 
 class AsyncFacebookNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -211,18 +223,28 @@ class AsyncFacebookNamespace:
         Example:
             res = client.facebook.ads_search(query="nike", country="US")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ads_search", dict(input), options
         )
-        return RunResult[FacebookAdsSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[FacebookAdsSearchData].model_validate(raw)
 
     def iter_ads_search(self, *, options: RequestOptions | None = None, **input: Unpack[FacebookAdsSearchInput]) -> AsyncPaginator[FacebookAdsSearchAd, FacebookAdsSearchData]:
         """Iterate Facebook Ads Search results, following pagination cursors.
 
-        Yields flattened items from the \`ads\` field of each page. Use
-        \`.pages()\` on the returned paginator to walk whole \`RunResult\` pages.
+        Yields validated \`FacebookAdsSearchAd\` items from the \`ads\` field of
+        each page. Use \`.pages()\` on the returned paginator to walk whole
+        \`RunResult\` pages.
         """
-        return apaginate(self._client, "facebook.ads_search", dict(input), "ads", options=options)
+        return apaginate(
+            self._client,
+            "facebook.ads_search",
+            dict(input),
+            "ads",
+            item_model=FacebookAdsSearchAd,
+            data_model=FacebookAdsSearchData,
+            bare=False,
+            options=options,
+        )
 ",
   "platforms/threads.py": "# Generated - do not edit. Regenerate with: pnpm generate
 """Generated namespace module for the threads platform."""
@@ -248,16 +270,16 @@ class ThreadsProfileInput(TypedDict, total=False):
     """The Threads username to look up, without the @ prefix (e.g. zuck)."""
 
 class ThreadsProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str = Field(description="Populated whenever the provider returns data.")
-    username: str = Field(description="Populated whenever the provider returns data.")
-    fullName: str = Field(description="Populated whenever the provider returns data.")
-    biography: str = Field(description="Populated whenever the provider returns data.")
-    followerCount: int
-    isVerified: bool
-    isPrivate: bool
-    profilePicUrl: str = Field(description="Populated whenever the provider returns data.")
+    id: str
+    username: str
+    full_name: str = Field(alias="fullName")
+    biography: str
+    follower_count: int = Field(alias="followerCount")
+    is_verified: bool = Field(alias="isVerified")
+    is_private: bool = Field(alias="isPrivate")
+    profile_pic_url: str = Field(alias="profilePicUrl")
 
 class ThreadsNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -276,10 +298,10 @@ class ThreadsNamespace:
         Example:
             res = client.threads.profile(username="zuck")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.profile", dict(input), options
         )
-        return RunResult[ThreadsProfileData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[ThreadsProfileData].model_validate(raw)
 
 class AsyncThreadsNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -298,10 +320,10 @@ class AsyncThreadsNamespace:
         Example:
             res = client.threads.profile(username="zuck")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.profile", dict(input), options
         )
-        return RunResult[ThreadsProfileData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[ThreadsProfileData].model_validate(raw)
 ",
 }
 `;

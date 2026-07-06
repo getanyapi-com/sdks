@@ -30,30 +30,23 @@ export interface CoinmarketcapListingsItem {
   high24h?: number;
   /**
    * CoinMarketCap identifier.
-   * Populated whenever the provider returns data.
    */
   id: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   lastUpdated?: string;
   low24h?: number;
   marketCap?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   /**
    * Latest price in the primary quote currency (USD).
    */
   price?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   slug?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   symbol: string;
   totalSupply?: number;
   /**
@@ -69,7 +62,6 @@ export interface CoinmarketcapListingsItem {
 export interface CoinmarketcapListingsData {
   /**
    * Cryptocurrency listing records: rank, name, symbol, price, market cap, trading volume, and 24h price change.
-   * Populated whenever the provider returns data.
    */
   items: CoinmarketcapListingsItem[];
 }
@@ -86,10 +78,10 @@ export class CoinmarketcapNamespace {
    *
    * Get the current top cryptocurrencies from CoinMarketCap - rank, price, market cap, volume, and 24h change - as normalized JSON with transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.0018 per result.
+   * Price: $0.0018 per result.
    *
    * @example
-   * const res = await client.coinmarketcap.listings({"limit":5});
+   * const res = await client.coinmarketcap.listings({ limit: 5 });
    */
   listings(
     input: CoinmarketcapListingsInput,

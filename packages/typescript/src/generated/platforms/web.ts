@@ -22,13 +22,7 @@ export interface WebCrawlInput {
 }
 
 export interface WebCrawlItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   domain: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -39,7 +33,6 @@ export interface WebCrawlItem {
 export interface WebCrawlData {
   /**
    * Crawled page records: URL, page title, and extracted text content for each page.
-   * Populated whenever the provider returns data.
    */
   items: WebCrawlItem[];
 }
@@ -67,9 +60,6 @@ export interface WebMapInput {
 export interface WebMapResult {
   description: string;
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -78,9 +68,6 @@ export interface WebMapResult {
  * The `data` payload of Web Map (web.map).
  */
 export interface WebMapData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   results: WebMapResult[];
 }
 
@@ -100,14 +87,8 @@ export interface WebScrapeInput {
  */
 export interface WebScrapeData {
   description: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   markdown: string;
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -129,12 +110,9 @@ export interface WebScreenshotInput {
 
 export interface WebScreenshotItem {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -145,7 +123,6 @@ export interface WebScreenshotItem {
 export interface WebScreenshotData {
   /**
    * Screenshot records: the requested page URL and a link to the captured image.
-   * Populated whenever the provider returns data.
    */
   items: WebScreenshotItem[];
 }
@@ -165,7 +142,7 @@ export class WebNamespace {
    * Price: $0.0015 per request plus $0.003 per result.
    *
    * @example
-   * const res = await client.web.crawl({"limit":3,"url":"https://example.com"});
+   * const res = await client.web.crawl({ url: "https://example.com", limit: 3 });
    */
   crawl(
     input: WebCrawlInput,
@@ -182,7 +159,7 @@ export class WebNamespace {
    * Price: $0.0009 per request.
    *
    * @example
-   * const res = await client.web.map({"url":"https://example.com"});
+   * const res = await client.web.map({ url: "https://example.com" });
    */
   map(
     input: WebMapInput,
@@ -199,7 +176,7 @@ export class WebNamespace {
    * Price: $0.0009 per request.
    *
    * @example
-   * const res = await client.web.scrape({"url":"https://example.com"});
+   * const res = await client.web.scrape({ url: "https://example.com" });
    */
   scrape(
     input: WebScrapeInput,
@@ -213,10 +190,10 @@ export class WebNamespace {
    *
    * Capture a real-browser screenshot of any web page URL, with transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.00158 per result.
+   * Price: $0.00158 per result.
    *
    * @example
-   * const res = await client.web.screenshot({"url":"https://example.com"});
+   * const res = await client.web.screenshot({ url: "https://example.com" });
    */
   screenshot(
     input: WebScreenshotInput,

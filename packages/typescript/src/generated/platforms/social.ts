@@ -28,12 +28,11 @@ export interface SocialFinderInput {
 export interface SocialFinderItem {
   /**
    * The name that was searched for.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   inputProfileName?: string;
   /**
    * The social network checked (e.g. discord, facebook, github).
-   * Populated whenever the provider returns data.
    */
   social: string;
   /**
@@ -49,7 +48,6 @@ export interface SocialFinderItem {
 export interface SocialFinderData {
   /**
    * Profile match records: the queried profile name, the social network, and the matching profile URL when one was found.
-   * Populated whenever the provider returns data.
    */
   items: SocialFinderItem[];
 }
@@ -69,7 +67,7 @@ export class SocialNamespace {
    * Price: $0.001 per request plus $0.002 per result.
    *
    * @example
-   * const res = await client.social.finder({"limit":3,"name":"Elon Musk"});
+   * const res = await client.social.finder({ name: "Elon Musk", limit: 3 });
    */
   finder(
     input: SocialFinderInput,

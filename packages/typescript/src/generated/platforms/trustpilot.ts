@@ -38,7 +38,7 @@ export interface TrustpilotReviewsInput {
 export interface TrustpilotReviewsItem {
   /**
    * Publish date (ISO 8601).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   publishedAt?: string;
   /**
@@ -47,16 +47,15 @@ export interface TrustpilotReviewsItem {
   rating: number;
   /**
    * Review body text.
-   * Populated whenever the provider returns data.
    */
   text: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
    * Canonical review URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   url?: string;
   /**
@@ -72,7 +71,6 @@ export interface TrustpilotReviewsItem {
 export interface TrustpilotReviewsData {
   /**
    * Review records: star rating, review title and text, date, reviewer name and country, and company reply when present.
-   * Populated whenever the provider returns data.
    */
   items: TrustpilotReviewsItem[];
 }
@@ -92,7 +90,7 @@ export class TrustpilotNamespace {
    * Price: $0.01625 per request.
    *
    * @example
-   * const res = await client.trustpilot.reviews({"company":"stripe.com","limit":3});
+   * const res = await client.trustpilot.reviews({ company: "stripe.com", limit: 3 });
    */
   reviews(
     input: TrustpilotReviewsInput,

@@ -28,7 +28,7 @@ class YelpSearchInput(TypedDict, total=False):
 
 class YelpSearchData(BaseModel):
     items: list[YelpSearchItem] = Field(
-        description="Business listing records: name, categories, rating, review count, address, and core business info. Populated whenever the provider returns data."
+        description="Business listing records: name, categories, rating, review count, address, and core business info."
     )
 
 
@@ -40,9 +40,7 @@ class YelpSearchItem(BaseModel):
     )
     address2: str | None = Field(default=None, description="Secondary address line.")
     address3: str | None = Field(default=None, description="Tertiary address line.")
-    alias: str = Field(
-        description="URL slug for the business. Populated whenever the provider returns data."
-    )
+    alias: str = Field(description="URL slug for the business.")
     avg_rating: float | None = Field(
         default=None, description="Rounded average star rating."
     )
@@ -54,9 +52,7 @@ class YelpSearchItem(BaseModel):
     dialable_phone: str | None = Field(
         default=None, description="Dialable phone number."
     )
-    id: str = Field(
-        description="Stable Yelp business identifier. Populated whenever the provider returns data."
-    )
+    id: str = Field(description="Stable Yelp business identifier.")
     is_closed: bool | None = Field(
         default=None, description="Whether the business is permanently closed."
     )
@@ -72,9 +68,7 @@ class YelpSearchItem(BaseModel):
     longitude: float | None = Field(
         default=None, description="Longitude of the business."
     )
-    name: str = Field(
-        description="Business display name. Populated whenever the provider returns data."
-    )
+    name: str = Field(description="Business display name.")
     neighborhoods: list[str] | None = Field(
         default=None, description="Neighborhood labels for the location."
     )
@@ -82,7 +76,7 @@ class YelpSearchItem(BaseModel):
     photo_count: int | None = Field(default=None, description="Total photo count.")
     photo_url: str | None = Field(
         default=None,
-        description="Primary photo URL. Populated whenever the provider returns data.",
+        description="Primary photo URL. Present whenever the upstream returns this record.",
     )
     price: int | None = Field(default=None, description="Numeric price tier.")
     review_count: int | None = Field(default=None, description="Number of reviews.")
@@ -111,15 +105,15 @@ class YelpNamespace:
         Search Yelp for businesses by keyword and location: up to 20 listings with
         ratings, categories, and core business info per flat-priced request.
 
-        Price: $0.00075 per result.
+        Price: $0.04 per request plus $0.00075 per result.
 
         Example:
             res = client.yelp.search(limit=5, location="Chicago, IL", query="pizza")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "yelp.search", dict(input), options
         )
-        return RunResult[YelpSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[YelpSearchData].model_validate(raw)
 
 
 class AsyncYelpNamespace:
@@ -136,12 +130,12 @@ class AsyncYelpNamespace:
         Search Yelp for businesses by keyword and location: up to 20 listings with
         ratings, categories, and core business info per flat-priced request.
 
-        Price: $0.00075 per result.
+        Price: $0.04 per request plus $0.00075 per result.
 
         Example:
             res = client.yelp.search(limit=5, location="Chicago, IL", query="pizza")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "yelp.search", dict(input), options
         )
-        return RunResult[YelpSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[YelpSearchData].model_validate(raw)

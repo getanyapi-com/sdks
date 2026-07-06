@@ -23,9 +23,6 @@ export interface RedfinSearchInput {
 
 export interface RedfinSearchItem {
   title?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -36,7 +33,6 @@ export interface RedfinSearchItem {
 export interface RedfinSearchData {
   /**
    * Home listing records: address, price, beds, baths, square footage, and listing status.
-   * Populated whenever the provider returns data.
    */
   items: RedfinSearchItem[];
 }
@@ -56,7 +52,7 @@ export class RedfinNamespace {
    * Price: $0.0027 per request plus $0.00043 per result.
    *
    * @example
-   * const res = await client.redfin.search({"limit":3,"url":"https://www.redfin.com/city/30818/TX/Austin"});
+   * const res = await client.redfin.search({ url: "https://www.redfin.com/city/30818/TX/Austin", limit: 3 });
    */
   search(
     input: RedfinSearchInput,

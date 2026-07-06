@@ -22,13 +22,7 @@ export interface GlassdoorJobsInput {
 }
 
 export interface GlassdoorJobsItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -39,7 +33,6 @@ export interface GlassdoorJobsItem {
 export interface GlassdoorJobsData {
   /**
    * Job listing records: title, employer, location, salary estimate, rating, and posting details.
-   * Populated whenever the provider returns data.
    */
   items: GlassdoorJobsItem[];
 }
@@ -59,7 +52,7 @@ export class GlassdoorNamespace {
    * Price: $0.005 per request plus $0.00475 per result.
    *
    * @example
-   * const res = await client.glassdoor.jobs({"limit":3,"url":"https://www.glassdoor.com/Job/software-engineer-jobs-SRCH_KO0,17.htm"});
+   * const res = await client.glassdoor.jobs({ url: "https://www.glassdoor.com/Job/software-engineer-jobs-SRCH_KO0,17.htm", limit: 3 });
    */
   jobs(
     input: GlassdoorJobsInput,

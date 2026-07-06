@@ -45,7 +45,6 @@ export interface AhrefsBacklinksItem {
   title?: string;
   /**
    * URL of the referring page that contains the link.
-   * Populated whenever the provider returns data.
    */
   urlFrom: string;
   /**
@@ -61,7 +60,6 @@ export interface AhrefsBacklinksItem {
 export interface AhrefsBacklinksData {
   /**
    * Referring pages that link to the domain or URL.
-   * Populated whenever the provider returns data.
    */
   items: AhrefsBacklinksItem[];
 }
@@ -88,7 +86,7 @@ export interface AhrefsKeywordIdeasItem {
   country?: string;
   /**
    * Related keyword suggestions for the seed term.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   ideas?: AhrefsKeywordIdeasIdea[];
   /**
@@ -97,7 +95,6 @@ export interface AhrefsKeywordIdeasItem {
   searchEngine?: string;
   /**
    * The seed keyword the suggestions were expanded from.
-   * Populated whenever the provider returns data.
    */
   sourceKeyword: string;
   [extra: string]: unknown;
@@ -110,7 +107,6 @@ export interface AhrefsKeywordIdeasIdea {
   difficulty?: string;
   /**
    * The suggested related keyword.
-   * Populated whenever the provider returns data.
    */
   keyword: string;
   /**
@@ -130,7 +126,6 @@ export interface AhrefsKeywordIdeasIdea {
 export interface AhrefsKeywordIdeasData {
   /**
    * Keyword-idea records: the seed keyword and its related keyword suggestions, each with an Ahrefs difficulty and search-volume bucket.
-   * Populated whenever the provider returns data.
    */
   items: AhrefsKeywordIdeasItem[];
 }
@@ -159,9 +154,6 @@ export interface AhrefsKeywordsItem {
    * Ahrefs Keyword Difficulty, 0-100.
    */
   difficulty?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   keyword: string;
   /**
    * Estimated number of referring domains a page needs to rank in the top 10 for this keyword.
@@ -176,7 +168,6 @@ export interface AhrefsKeywordsItem {
 export interface AhrefsKeywordsData {
   /**
    * Keyword-difficulty records: the difficulty score and the referring-domain gap needed to rank in the top 10.
-   * Populated whenever the provider returns data.
    */
   items: AhrefsKeywordsItem[];
 }
@@ -212,7 +203,6 @@ export interface AhrefsOverviewItem {
   dofollowReferringDomainsPct?: number;
   /**
    * The domain or URL the metrics are scoped to.
-   * Populated whenever the provider returns data.
    */
   domain: string;
   /**
@@ -236,7 +226,6 @@ export interface AhrefsOverviewItem {
 export interface AhrefsOverviewData {
   /**
    * Domain authority records: the requested domain plus its Domain Rating, total backlinks, and referring-domain counts.
-   * Populated whenever the provider returns data.
    */
   items: AhrefsOverviewItem[];
 }
@@ -256,7 +245,7 @@ export class AhrefsNamespace {
    * Price: $0.0195 per request.
    *
    * @example
-   * const res = await client.ahrefs.backlinks({"mode":"exact","url":"ahrefs.com"});
+   * const res = await client.ahrefs.backlinks({ url: "ahrefs.com", mode: "exact" });
    */
   backlinks(
     input: AhrefsBacklinksInput,
@@ -273,7 +262,7 @@ export class AhrefsNamespace {
    * Price: $0.0015 per request plus $0.018 per result.
    *
    * @example
-   * const res = await client.ahrefs.keywordIdeas({"country":"us","keyword":"coffee"});
+   * const res = await client.ahrefs.keywordIdeas({ keyword: "coffee", country: "us" });
    */
   keywordIdeas(
     input: AhrefsKeywordIdeasInput,
@@ -290,7 +279,7 @@ export class AhrefsNamespace {
    * Price: $0.0015 per request plus $0.018 per result.
    *
    * @example
-   * const res = await client.ahrefs.keywords({"country":"us","keyword":"seo tools"});
+   * const res = await client.ahrefs.keywords({ keyword: "seo tools", country: "us" });
    */
   keywords(
     input: AhrefsKeywordsInput,
@@ -307,7 +296,7 @@ export class AhrefsNamespace {
    * Price: $0.0015 per request plus $0.018 per result.
    *
    * @example
-   * const res = await client.ahrefs.overview({"mode":"subdomains","url":"ahrefs.com"});
+   * const res = await client.ahrefs.overview({ url: "ahrefs.com", mode: "subdomains" });
    */
   overview(
     input: AhrefsOverviewInput,

@@ -47,7 +47,7 @@ export class WhatsappNamespace {
    * Price: $0.0035 per request plus $0.001 per result.
    *
    * @example
-   * const res = await client.whatsapp.validate({"phone":"+14155552671"});
+   * const res = await client.whatsapp.validate({ phone: "+14155552671" });
    */
   validate(
     input: WhatsappValidateInput,

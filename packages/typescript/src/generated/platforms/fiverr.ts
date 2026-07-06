@@ -28,12 +28,10 @@ export interface FiverrSearchItem {
   duration?: number;
   /**
    * Stable Fiverr gig identifier.
-   * Populated whenever the provider returns data.
    */
   gigId: string;
   /**
    * Canonical Fiverr URL for the gig.
-   * Populated whenever the provider returns data.
    */
   gigUrl: string;
   /**
@@ -74,7 +72,6 @@ export interface FiverrSearchItem {
   sellerUrl?: string;
   /**
    * Gig headline.
-   * Populated whenever the provider returns data.
    */
   title: string;
   [extra: string]: unknown;
@@ -86,7 +83,6 @@ export interface FiverrSearchItem {
 export interface FiverrSearchData {
   /**
    * Gig records from the search or category URL. Operators may return additional fields beyond those documented here.
-   * Populated whenever the provider returns data.
    */
   items: FiverrSearchItem[];
 }
@@ -103,10 +99,10 @@ export class FiverrNamespace {
    *
    * Extract Fiverr gig listings from any search or category URL - titles, sellers, ratings, and pricing as structured JSON with transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.0015 per result.
+   * Price: $0.0015 per result.
    *
    * @example
-   * const res = await client.fiverr.search({"limit":3,"url":"https://www.fiverr.com/search/gigs?query=logo%20design"});
+   * const res = await client.fiverr.search({ url: "https://www.fiverr.com/search/gigs?query=logo%20design", limit: 3 });
    */
   search(
     input: FiverrSearchInput,

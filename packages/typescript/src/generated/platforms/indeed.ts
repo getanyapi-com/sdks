@@ -33,7 +33,7 @@ export interface IndeedJobsInput {
 export interface IndeedJobsItem {
   city?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   company?: string;
   country?: string;
@@ -48,7 +48,6 @@ export interface IndeedJobsItem {
   expired?: boolean;
   /**
    * Indeed job key.
-   * Populated whenever the provider returns data.
    */
   jobId: string;
   postalCode?: string;
@@ -60,13 +59,9 @@ export interface IndeedJobsItem {
    */
   salaryUnit?: string;
   state?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   /**
    * Indeed job posting URL.
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -78,7 +73,6 @@ export interface IndeedJobsItem {
 export interface IndeedJobsData {
   /**
    * Job listing records: title, employer, location, salary when available, job type, posting date, and description.
-   * Populated whenever the provider returns data.
    */
   items: IndeedJobsItem[];
 }
@@ -98,7 +92,7 @@ export class IndeedNamespace {
    * Price: $0.0008 per request plus $0.00008 per result.
    *
    * @example
-   * const res = await client.indeed.jobs({"limit":3,"location":"Austin, TX","query":"data analyst"});
+   * const res = await client.indeed.jobs({ query: "data analyst", limit: 3, location: "Austin, TX" });
    */
   jobs(
     input: IndeedJobsInput,

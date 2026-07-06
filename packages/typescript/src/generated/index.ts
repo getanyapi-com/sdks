@@ -71,6 +71,7 @@ export {
   AuthenticationError,
   InsufficientBalanceError,
   NotFoundError,
+  ResultNotFoundError,
   RateLimitedError,
   UpstreamError,
   ConnectionError,
@@ -80,6 +81,7 @@ export {
 export type {
   ClientOptions,
   RunResult,
+  BareRunResult,
   Output,
   RequestOptions,
   Paginator,

@@ -22,39 +22,18 @@ export interface TiktokAdLibraryAdInput {
  * The `data` payload of TikTok Ad Library Ad (tiktok.ad_library_ad).
  */
 export interface TiktokAdLibraryAdData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   adId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   adTitle: string;
   brandName: string;
   comments: number;
   cost: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   coverUrl: string;
   ctr: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   industry: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   landingPage: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   objective: string;
   shares: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   videoUrl: string;
   [extra: string]: unknown;
 }
@@ -90,33 +69,15 @@ export interface TiktokAdLibrarySearchInput {
 }
 
 export interface TiktokAdLibrarySearchAd {
-  /**
-   * Populated whenever the provider returns data.
-   */
   adId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   adTitle: string;
   brandName: string;
   cost: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   coverUrl: string;
   ctr: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   industry: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   objective: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   videoUrl: string;
   [extra: string]: unknown;
 }
@@ -125,9 +86,6 @@ export interface TiktokAdLibrarySearchAd {
  * The `data` payload of TikTok Ad Library Search (tiktok.ad_library_search).
  */
 export interface TiktokAdLibrarySearchData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   ads: TiktokAdLibrarySearchAd[];
   hasMore: boolean;
   nextCursor: string;
@@ -146,17 +104,8 @@ export interface TiktokAudienceDemographicsInput {
 
 export interface TiktokAudienceDemographicsAudienceLocation {
   count: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   country: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   countryCode: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   percentage: string;
   [extra: string]: unknown;
 }
@@ -187,19 +136,10 @@ export interface TiktokCommentRepliesInput {
 }
 
 export interface TiktokCommentRepliesComment {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
   createdAt: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -230,21 +170,9 @@ export interface TiktokFollowersFollower {
   avatarUrl: string;
   followerCount: number;
   followingCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   nickname: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   region: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   userId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   [extra: string]: unknown;
 }
@@ -274,22 +202,10 @@ export interface TiktokFollowingInput {
 
 export interface TiktokFollowingFollowing {
   bio: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
   followers: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   region: string;
   videos: number;
   [extra: string]: unknown;
@@ -318,17 +234,8 @@ export interface TiktokHashtagVideosInput {
 }
 
 export interface TiktokHashtagVideosItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -339,7 +246,6 @@ export interface TiktokHashtagVideosItem {
 export interface TiktokHashtagVideosData {
   /**
    * Video records: creator, caption, hashtags, play/like/share/comment counts, and video URL.
-   * Populated whenever the provider returns data.
    */
   items: TiktokHashtagVideosItem[];
 }
@@ -358,28 +264,13 @@ export interface TiktokLiveInput {
  * The `data` payload of TikTok Live (tiktok.live).
  */
 export interface TiktokLiveData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   coverUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
   enterCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   roomId: string;
   startTime: number;
   status: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   viewers: number;
   [extra: string]: unknown;
@@ -399,23 +290,11 @@ export interface TiktokProfileInput {
  * The `data` payload of TikTok Profile (tiktok.profile).
  */
 export interface TiktokProfileData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   avatarUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   bio: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
   followers: number;
   following: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
   likes: number;
   verified: boolean;
@@ -437,17 +316,8 @@ export interface TiktokProfileRegionInput {
  * The `data` payload of TikTok Profile Region (tiktok.profile_region).
  */
 export interface TiktokProfileRegionData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   profileUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   region: string;
   [extra: string]: unknown;
 }
@@ -467,23 +337,11 @@ export interface TiktokProfileVideosInput {
 }
 
 export interface TiktokProfileVideosVideo {
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -512,19 +370,10 @@ export interface TiktokSearchHashtagInput {
 }
 
 export interface TiktokSearchHashtagVideo {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
   comments: number;
   createdAt: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
   shares: number;
@@ -536,9 +385,6 @@ export interface TiktokSearchHashtagVideo {
  * The `data` payload of TikTok Hashtag Search (tiktok.search_hashtag).
  */
 export interface TiktokSearchHashtagData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   videos: TiktokSearchHashtagVideo[];
 }
 
@@ -565,14 +411,8 @@ export interface TiktokSearchKeywordInput {
 }
 
 export interface TiktokSearchKeywordVideo {
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
   region: string;
@@ -585,9 +425,6 @@ export interface TiktokSearchKeywordVideo {
  * The `data` payload of TikTok Keyword Search (tiktok.search_keyword).
  */
 export interface TiktokSearchKeywordData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   videos: TiktokSearchKeywordVideo[];
 }
 
@@ -618,25 +455,13 @@ export interface TiktokSearchTopInput {
 }
 
 export interface TiktokSearchTopItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
   comments: number;
   contentType: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
   shares: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -646,9 +471,6 @@ export interface TiktokSearchTopItem {
  * The `data` payload of TikTok Top Search (tiktok.search_top).
  */
 export interface TiktokSearchTopData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   items: TiktokSearchTopItem[];
   nextCursor: string;
 }
@@ -670,17 +492,8 @@ export interface TiktokSearchUsersInput {
 export interface TiktokSearchUsersUser {
   followers: number;
   following: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   nickname: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   userId: string;
   [extra: string]: unknown;
 }
@@ -690,9 +503,6 @@ export interface TiktokSearchUsersUser {
  */
 export interface TiktokSearchUsersData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   users: TiktokSearchUsersUser[];
 }
 
@@ -710,34 +520,13 @@ export interface TiktokSongInput {
  * The `data` payload of TikTok Song (tiktok.song).
  */
 export interface TiktokSongData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   album: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   coverUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   duration: number;
   isOriginal: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   shareUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   songId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   videoCount: number;
   [extra: string]: unknown;
@@ -758,13 +547,7 @@ export interface TiktokSongVideosInput {
 }
 
 export interface TiktokSongVideosVideo {
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorHandle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorName: string;
   commentCount: number;
   createTime: number;
@@ -772,9 +555,6 @@ export interface TiktokSongVideosVideo {
   likeCount: number;
   playCount: number;
   shareCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   videoId: string;
   [extra: string]: unknown;
 }
@@ -785,9 +565,6 @@ export interface TiktokSongVideosVideo {
 export interface TiktokSongVideosData {
   hasMore: number;
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   videos: TiktokSongVideosVideo[];
 }
 
@@ -806,29 +583,14 @@ export interface TiktokTrendingFeedInput {
 }
 
 export interface TiktokTrendingFeedVideo {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
   caption: string;
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   region: string;
   shares: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -838,9 +600,6 @@ export interface TiktokTrendingFeedVideo {
  * The `data` payload of TikTok Trending Feed (tiktok.trending_feed).
  */
 export interface TiktokTrendingFeedData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   videos: TiktokTrendingFeedVideo[];
 }
 
@@ -858,14 +617,8 @@ export interface TiktokVideoInput {
  * The `data` payload of TikTok Video (tiktok.video).
  */
 export interface TiktokVideoData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   caption: string;
   comments: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
   region: string;
@@ -890,20 +643,11 @@ export interface TiktokVideoCommentsInput {
 }
 
 export interface TiktokVideoCommentsComment {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
   createdAt: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
   replies: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -931,9 +675,6 @@ export interface TiktokVideoTranscriptInput {
  */
 export interface TiktokVideoTranscriptData {
   language: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   transcript: string;
   [extra: string]: unknown;
 }
@@ -953,7 +694,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.adLibraryAd({"adId":"7648493525660270600"});
+   * const res = await client.tiktok.adLibraryAd({ adId: "7648493525660270600" });
    */
   adLibraryAd(
     input: TiktokAdLibraryAdInput,
@@ -970,7 +711,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.adLibrarySearch({"query":"spotify"});
+   * const res = await client.tiktok.adLibrarySearch({ query: "spotify" });
    */
   adLibrarySearch(
     input: TiktokAdLibrarySearchInput,
@@ -983,17 +724,21 @@ export class TiktokNamespace {
    * Iterate every result of TikTok Ad Library Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterAdLibrarySearch(
     input: TiktokAdLibrarySearchInput,
     options?: RequestOptions,
-  ): Paginator<TiktokAdLibrarySearchAd, TiktokAdLibrarySearchData> {
-    return paginate<TiktokAdLibrarySearchAd, TiktokAdLibrarySearchData>(
+  ): Paginator<TiktokAdLibrarySearchAd, RunResult<TiktokAdLibrarySearchData>> {
+    return paginate<
+      TiktokAdLibrarySearchAd,
+      RunResult<TiktokAdLibrarySearchData>
+    >(
       this._core,
       "tiktok.ad_library_search",
       input as unknown as Record<string, unknown>,
       "ads",
+      false,
       options,
     );
   }
@@ -1006,7 +751,7 @@ export class TiktokNamespace {
    * Price: $0.01625 per request.
    *
    * @example
-   * const res = await client.tiktok.audienceDemographics({"handle":"shakira"});
+   * const res = await client.tiktok.audienceDemographics({ handle: "shakira" });
    */
   audienceDemographics(
     input: TiktokAudienceDemographicsInput,
@@ -1023,7 +768,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.commentReplies({"commentId":"7623828115408274207","url":"https://www.tiktok.com/@stoolpresidente/video/7623818255903329566"});
+   * const res = await client.tiktok.commentReplies({ commentId: "7623828115408274207", url: "https://www.tiktok.com/@stoolpresidente/video/7623818255903329566" });
    */
   commentReplies(
     input: TiktokCommentRepliesInput,
@@ -1036,17 +781,24 @@ export class TiktokNamespace {
    * Iterate every result of TikTok Comment Replies across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterCommentReplies(
     input: TiktokCommentRepliesInput,
     options?: RequestOptions,
-  ): Paginator<TiktokCommentRepliesComment, TiktokCommentRepliesData> {
-    return paginate<TiktokCommentRepliesComment, TiktokCommentRepliesData>(
+  ): Paginator<
+    TiktokCommentRepliesComment,
+    RunResult<TiktokCommentRepliesData>
+  > {
+    return paginate<
+      TiktokCommentRepliesComment,
+      RunResult<TiktokCommentRepliesData>
+    >(
       this._core,
       "tiktok.comment_replies",
       input as unknown as Record<string, unknown>,
       "comments",
+      false,
       options,
     );
   }
@@ -1059,7 +811,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.followers({"handle":"stoolpresidente"});
+   * const res = await client.tiktok.followers({ handle: "stoolpresidente" });
    */
   followers(
     input: TiktokFollowersInput,
@@ -1072,17 +824,18 @@ export class TiktokNamespace {
    * Iterate every result of TikTok Followers across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterFollowers(
     input: TiktokFollowersInput,
     options?: RequestOptions,
-  ): Paginator<TiktokFollowersFollower, TiktokFollowersData> {
-    return paginate<TiktokFollowersFollower, TiktokFollowersData>(
+  ): Paginator<TiktokFollowersFollower, RunResult<TiktokFollowersData>> {
+    return paginate<TiktokFollowersFollower, RunResult<TiktokFollowersData>>(
       this._core,
       "tiktok.followers",
       input as unknown as Record<string, unknown>,
       "followers",
+      false,
       options,
     );
   }
@@ -1095,7 +848,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.following({"handle":"stoolpresidente"});
+   * const res = await client.tiktok.following({ handle: "stoolpresidente" });
    */
   following(
     input: TiktokFollowingInput,
@@ -1112,7 +865,7 @@ export class TiktokNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.tiktok.hashtagVideos({"hashtag":"cooking","limit":3});
+   * const res = await client.tiktok.hashtagVideos({ hashtag: "cooking", limit: 3 });
    */
   hashtagVideos(
     input: TiktokHashtagVideosInput,
@@ -1129,7 +882,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.live({"handle":"thejustalex"});
+   * const res = await client.tiktok.live({ handle: "thejustalex" });
    */
   live(
     input: TiktokLiveInput,
@@ -1146,7 +899,7 @@ export class TiktokNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.tiktok.profile({"handle":"zachking"});
+   * const res = await client.tiktok.profile({ handle: "zachking" });
    */
   profile(
     input: TiktokProfileInput,
@@ -1163,7 +916,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.profileRegion({"handle":"stoolpresidente"});
+   * const res = await client.tiktok.profileRegion({ handle: "stoolpresidente" });
    */
   profileRegion(
     input: TiktokProfileRegionInput,
@@ -1180,7 +933,7 @@ export class TiktokNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.tiktok.profileVideos({"handle":"zachking"});
+   * const res = await client.tiktok.profileVideos({ handle: "zachking" });
    */
   profileVideos(
     input: TiktokProfileVideosInput,
@@ -1193,17 +946,21 @@ export class TiktokNamespace {
    * Iterate every result of TikTok Profile Videos across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterProfileVideos(
     input: TiktokProfileVideosInput,
     options?: RequestOptions,
-  ): Paginator<TiktokProfileVideosVideo, TiktokProfileVideosData> {
-    return paginate<TiktokProfileVideosVideo, TiktokProfileVideosData>(
+  ): Paginator<TiktokProfileVideosVideo, RunResult<TiktokProfileVideosData>> {
+    return paginate<
+      TiktokProfileVideosVideo,
+      RunResult<TiktokProfileVideosData>
+    >(
       this._core,
       "tiktok.profile_videos",
       input as unknown as Record<string, unknown>,
       "videos",
+      false,
       options,
     );
   }
@@ -1216,7 +973,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.searchHashtag({"query":"recipe"});
+   * const res = await client.tiktok.searchHashtag({ query: "recipe" });
    */
   searchHashtag(
     input: TiktokSearchHashtagInput,
@@ -1233,7 +990,7 @@ export class TiktokNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.tiktok.searchKeyword({"query":"cooking"});
+   * const res = await client.tiktok.searchKeyword({ query: "cooking" });
    */
   searchKeyword(
     input: TiktokSearchKeywordInput,
@@ -1250,7 +1007,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.searchTop({"query":"funny"});
+   * const res = await client.tiktok.searchTop({ query: "funny" });
    */
   searchTop(
     input: TiktokSearchTopInput,
@@ -1263,17 +1020,18 @@ export class TiktokNamespace {
    * Iterate every result of TikTok Top Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterSearchTop(
     input: TiktokSearchTopInput,
     options?: RequestOptions,
-  ): Paginator<TiktokSearchTopItem, TiktokSearchTopData> {
-    return paginate<TiktokSearchTopItem, TiktokSearchTopData>(
+  ): Paginator<TiktokSearchTopItem, RunResult<TiktokSearchTopData>> {
+    return paginate<TiktokSearchTopItem, RunResult<TiktokSearchTopData>>(
       this._core,
       "tiktok.search_top",
       input as unknown as Record<string, unknown>,
       "items",
+      false,
       options,
     );
   }
@@ -1286,7 +1044,7 @@ export class TiktokNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.tiktok.searchUsers({"query":"chef"});
+   * const res = await client.tiktok.searchUsers({ query: "chef" });
    */
   searchUsers(
     input: TiktokSearchUsersInput,
@@ -1299,17 +1057,18 @@ export class TiktokNamespace {
    * Iterate every result of TikTok User Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterSearchUsers(
     input: TiktokSearchUsersInput,
     options?: RequestOptions,
-  ): Paginator<TiktokSearchUsersUser, TiktokSearchUsersData> {
-    return paginate<TiktokSearchUsersUser, TiktokSearchUsersData>(
+  ): Paginator<TiktokSearchUsersUser, RunResult<TiktokSearchUsersData>> {
+    return paginate<TiktokSearchUsersUser, RunResult<TiktokSearchUsersData>>(
       this._core,
       "tiktok.search_users",
       input as unknown as Record<string, unknown>,
       "users",
+      false,
       options,
     );
   }
@@ -1322,7 +1081,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.song({"clipId":"7439295283975702544"});
+   * const res = await client.tiktok.song({ clipId: "7439295283975702544" });
    */
   song(
     input: TiktokSongInput,
@@ -1339,7 +1098,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.songVideos({"clipId":"7439295283975702544"});
+   * const res = await client.tiktok.songVideos({ clipId: "7439295283975702544" });
    */
   songVideos(
     input: TiktokSongVideosInput,
@@ -1352,17 +1111,18 @@ export class TiktokNamespace {
    * Iterate every result of TikTok Song Videos across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterSongVideos(
     input: TiktokSongVideosInput,
     options?: RequestOptions,
-  ): Paginator<TiktokSongVideosVideo, TiktokSongVideosData> {
-    return paginate<TiktokSongVideosVideo, TiktokSongVideosData>(
+  ): Paginator<TiktokSongVideosVideo, RunResult<TiktokSongVideosData>> {
+    return paginate<TiktokSongVideosVideo, RunResult<TiktokSongVideosData>>(
       this._core,
       "tiktok.song_videos",
       input as unknown as Record<string, unknown>,
       "videos",
+      false,
       options,
     );
   }
@@ -1375,7 +1135,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.trendingFeed({"region":"US"});
+   * const res = await client.tiktok.trendingFeed({ region: "US" });
    */
   trendingFeed(
     input: TiktokTrendingFeedInput,
@@ -1392,7 +1152,7 @@ export class TiktokNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.tiktok.video({"url":"https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m"});
+   * const res = await client.tiktok.video({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m" });
    */
   video(
     input: TiktokVideoInput,
@@ -1409,7 +1169,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.videoComments({"url":"https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m"});
+   * const res = await client.tiktok.videoComments({ url: "https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m" });
    */
   videoComments(
     input: TiktokVideoCommentsInput,
@@ -1422,17 +1182,21 @@ export class TiktokNamespace {
    * Iterate every result of TikTok Video Comments across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterVideoComments(
     input: TiktokVideoCommentsInput,
     options?: RequestOptions,
-  ): Paginator<TiktokVideoCommentsComment, TiktokVideoCommentsData> {
-    return paginate<TiktokVideoCommentsComment, TiktokVideoCommentsData>(
+  ): Paginator<TiktokVideoCommentsComment, RunResult<TiktokVideoCommentsData>> {
+    return paginate<
+      TiktokVideoCommentsComment,
+      RunResult<TiktokVideoCommentsData>
+    >(
       this._core,
       "tiktok.video_comments",
       input as unknown as Record<string, unknown>,
       "comments",
+      false,
       options,
     );
   }
@@ -1445,7 +1209,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.videoTranscript({"url":"https://www.tiktok.com/@washingtonpost/video/7609177768793787679"});
+   * const res = await client.tiktok.videoTranscript({ url: "https://www.tiktok.com/@washingtonpost/video/7609177768793787679" });
    */
   videoTranscript(
     input: TiktokVideoTranscriptInput,

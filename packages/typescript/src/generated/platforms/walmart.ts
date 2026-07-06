@@ -17,13 +17,7 @@ export interface WalmartProductInput {
 }
 
 export interface WalmartProductItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -34,7 +28,6 @@ export interface WalmartProductItem {
 export interface WalmartProductData {
   /**
    * Product detail records: title, price, availability, rating, review count, images, and specifications.
-   * Populated whenever the provider returns data.
    */
   items: WalmartProductItem[];
 }
@@ -51,10 +44,10 @@ export class WalmartNamespace {
    *
    * Fetch a Walmart product page by URL and get full product details - title, price, availability, ratings, images, and specs - in one normalized, flat-priced response.
    *
-   * Price: $0 per request plus $0.00368 per result.
+   * Price: $0.00368 per result.
    *
    * @example
-   * const res = await client.walmart.product({"url":"https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121"});
+   * const res = await client.walmart.product({ url: "https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121" });
    */
   product(
     input: WalmartProductInput,

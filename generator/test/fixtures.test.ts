@@ -24,9 +24,24 @@ describe("synthetic fixtures (SPEC 4)", () => {
     for (const [slug, f] of Object.entries(fixtures)) {
       expect(f.provider, slug).toBe("AnyAPI");
       expect(f.costUsd, slug).toBeGreaterThan(0);
-      expect(f.output.found, slug).toBe(true);
+      const envelope = bySlug.get(slug)!.output.envelope;
+      const output = f.output as Record<string, unknown>;
+      if (envelope === "bare") {
+        // Bare SKUs: output IS the data object (no found/data wrapper).
+        expect(output["found"], slug).toBeUndefined();
+        expect(typeof output, slug).toBe("object");
+      } else {
+        expect(output["found"], slug).toBe(true);
+      }
       expect(f.items, slug).toBe(1);
     }
+  });
+
+  it("emits bare fixtures with output = data directly (no found/data wrapper)", () => {
+    const bare = fx("reddit.search").output as Record<string, unknown>;
+    expect(bare["found"]).toBeUndefined();
+    expect(Array.isArray(bare["posts"])).toBe(true);
+    expect(typeof bare["nextCursor"]).toBe("string");
   });
 
   it("populates required fields and omits optional fields", () => {

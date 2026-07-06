@@ -32,44 +32,53 @@ class SubstackPostsInput(TypedDict, total=False):
 
 class SubstackPostsData(BaseModel):
     items: list[SubstackPostsItem] = Field(
-        description="Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested. Populated whenever the provider returns data."
+        description="Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested."
     )
 
 
 class SubstackPostsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorHandle: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="Present whenever the upstream returns this record.",
     )
-    authorName: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Present whenever the upstream returns this record.",
     )
-    commentCount: int | None = None
+    comment_count: int | None = Field(default=None, alias="commentCount")
     description: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     image: str | None = Field(
         default=None,
-        description="Cover image URL. Populated whenever the provider returns data.",
+        description="Cover image URL. Present whenever the upstream returns this record.",
     )
-    isPaid: bool | None = None
-    postId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
-    )
-    postType: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
-    )
-    publishedAt: str | None = Field(
+    is_paid: bool | None = Field(default=None, alias="isPaid")
+    post_id: str | None = Field(
         default=None,
-        description="ISO 8601 publish date. Populated whenever the provider returns data.",
+        alias="postId",
+        description="Present whenever the upstream returns this record.",
     )
-    reactionCount: int | None = None
+    post_type: str | None = Field(
+        default=None,
+        alias="postType",
+        description="Present whenever the upstream returns this record.",
+    )
+    published_at: str | None = Field(
+        default=None,
+        alias="publishedAt",
+        description="ISO 8601 publish date. Present whenever the upstream returns this record.",
+    )
+    reaction_count: int | None = Field(default=None, alias="reactionCount")
     subtitle: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    title: str
+    url: str
     wordcount: int | None = None
 
 
@@ -92,17 +101,15 @@ class SubstackNamespace:
         publish date, paywall status, word count, engagement (reactions, comments,
         restacks), author profile, and full article HTML. Priced per post returned.
 
-        Price: $0.00156 per result.
+        Price: $0.005 per request plus $0.00156 per result.
 
         Example:
             res = client.substack.posts(limit=3, url="https://www.astralcodexten.com")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "substack.posts", dict(input), options
         )
-        return RunResult[SubstackPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SubstackPostsData].model_validate(raw)
 
 
 class AsyncSubstackNamespace:
@@ -124,14 +131,12 @@ class AsyncSubstackNamespace:
         publish date, paywall status, word count, engagement (reactions, comments,
         restacks), author profile, and full article HTML. Priced per post returned.
 
-        Price: $0.00156 per result.
+        Price: $0.005 per request plus $0.00156 per result.
 
         Example:
             res = client.substack.posts(limit=3, url="https://www.astralcodexten.com")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "substack.posts", dict(input), options
         )
-        return RunResult[SubstackPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SubstackPostsData].model_validate(raw)

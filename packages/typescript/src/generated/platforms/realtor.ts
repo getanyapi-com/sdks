@@ -37,12 +37,9 @@ export interface RealtorSearchInput {
 export interface RealtorSearchItem {
   price?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   title?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -53,7 +50,6 @@ export interface RealtorSearchItem {
 export interface RealtorSearchData {
   /**
    * Property listing records: address, price, beds, baths, square footage, status, and listing metadata.
-   * Populated whenever the provider returns data.
    */
   items: RealtorSearchItem[];
 }
@@ -73,7 +69,7 @@ export class RealtorNamespace {
    * Price: $0.005 per request plus $0.0015 per result.
    *
    * @example
-   * const res = await client.realtor.search({"limit":3,"location":"Austin, TX"});
+   * const res = await client.realtor.search({ location: "Austin, TX", limit: 3 });
    */
   search(
     input: RealtorSearchInput,

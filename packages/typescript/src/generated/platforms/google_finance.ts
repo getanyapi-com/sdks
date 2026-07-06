@@ -43,7 +43,7 @@ export interface GoogleFinanceQuoteItem {
   changePercent?: number;
   /**
    * ISO currency the quote is priced in (e.g. USD).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   currency?: string;
   /**
@@ -56,7 +56,7 @@ export interface GoogleFinanceQuoteItem {
   dayLow?: number;
   /**
    * Exchange the instrument trades on (e.g. NasdaqGS).
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   exchange?: string;
   /**
@@ -77,7 +77,7 @@ export interface GoogleFinanceQuoteItem {
   marketState?: string;
   /**
    * Instrument or company name.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   name?: string;
   /**
@@ -94,7 +94,6 @@ export interface GoogleFinanceQuoteItem {
   price: number;
   /**
    * Resolved ticker symbol for the quote.
-   * Populated whenever the provider returns data.
    */
   symbol: string;
   /**
@@ -114,7 +113,6 @@ export interface GoogleFinanceQuoteItem {
 export interface GoogleFinanceQuoteData {
   /**
    * The quote for the requested symbol: name, current price, day change (absolute and percent), quote currency, exchange and market state, plus intraday and reference figures. Up to one element (empty when the symbol did not resolve).
-   * Populated whenever the provider returns data.
    */
   items: GoogleFinanceQuoteItem[];
 }
@@ -134,7 +132,7 @@ export class GoogleFinanceNamespace {
    * Price: $0.0005 per request plus $0.0015 per result.
    *
    * @example
-   * const res = await client.googleFinance.quote({"symbol":"AAPL:NASDAQ"});
+   * const res = await client.googleFinance.quote({ symbol: "AAPL:NASDAQ" });
    */
   quote(
     input: GoogleFinanceQuoteInput,

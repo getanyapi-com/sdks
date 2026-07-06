@@ -113,7 +113,7 @@ describe("naming edge cases", () => {
     const files = await emitRelative(loadSampleIr());
     expect(files["platforms/facebook.ts"]).toContain("iterAdsSearch(");
     expect(files["platforms/facebook.ts"]).toContain(
-      "Paginator<FacebookAdsSearchAd, FacebookAdsSearchData>",
+      "Paginator<FacebookAdsSearchAd, RunResult<FacebookAdsSearchData>>",
     );
   });
 
@@ -181,10 +181,16 @@ describe("doc-comment pricing lines", () => {
     ).toBe("Price: $0.01 per request plus $0.002 per result.");
   });
 
-  it("per-item pricing with null baseUsd falls back to priceUsd for the base", () => {
+  it("per-item pricing with null baseUsd renders per-unit only (no $0 base clause, S1)", () => {
     expect(
       priceLine({ priceUsd: 0.03, baseUsd: null, perItemUsd: 0.002, perItemUnit: "result" }),
-    ).toBe("Price: $0.03 per request plus $0.002 per result.");
+    ).toBe("Price: $0.002 per result.");
+  });
+
+  it("formats a sub-1e-6 price as a fixed decimal, never exponential (S1)", () => {
+    expect(
+      priceLine({ priceUsd: 0.0000005, baseUsd: null, perItemUsd: null, perItemUnit: null }),
+    ).toBe("Price: $0.0000005 per request.");
   });
 
   it("emits the price line in the method doc comment", async () => {
@@ -194,10 +200,11 @@ describe("doc-comment pricing lines", () => {
 });
 
 describe("example emission", () => {
-  it("emits an @example call with JSON-stringified input (double quotes)", async () => {
+  it("emits an @example call as an idiomatic TS object literal (S4)", async () => {
     const files = await emitRelative(loadSampleIr());
+    // Unquoted identifier keys, space after colon, required fields (product) first.
     expect(files["platforms/amazon.ts"]).toContain(
-      'const res = await client.amazon.reviews({"product":"B07FZ8S74R","limit":3});',
+      'const res = await client.amazon.reviews({ product: "B07FZ8S74R", limit: 3 });',
     );
   });
 
@@ -233,11 +240,11 @@ describe("sku-map + client", () => {
     // Collapse whitespace so prettier line-wrapping does not break the assertion.
     const map = files["sku-map.ts"]!.replace(/\s+/g, " ");
     expect(map).toContain(
-      '"amazon.reviews": { input: AmazonReviewsInput; data: AmazonReviewsData };',
+      '"amazon.reviews": { input: AmazonReviewsInput; data: AmazonReviewsData; result: RunResult<AmazonReviewsData>; };',
     );
-    // The facebook entry wraps across lines under prettier; assert the key and both refs.
+    // The facebook entry wraps across lines under prettier; assert the key and all refs.
     expect(map).toMatch(
-      /"facebook\.ads_search": \{ input: FacebookAdsSearchInput; data: FacebookAdsSearchData;? \};/,
+      /"facebook\.ads_search": \{ input: FacebookAdsSearchInput; data: FacebookAdsSearchData; result: RunResult<FacebookAdsSearchData>;? \};/,
     );
   });
 
@@ -281,8 +288,11 @@ export interface RequestOptions {
   signal?: AbortSignal;
   maxRetries?: number;
 }
-export interface Paginator<Item, Data> extends AsyncIterable<Item> {
-  pages(): AsyncIterable<RunResult<Data>>;
+export interface BareRunResult<T> {
+  output: T; provider: "AnyAPI"; costUsd: number; items?: number; hint?: string;
+}
+export interface Paginator<Item, Page> extends AsyncIterable<Item> {
+  pages(): AsyncIterable<Page>;
 }
 export interface ClientCore {
   run<T>(slug: string, input: unknown, options?: RequestOptions): Promise<RunResult<T>>;
@@ -311,36 +321,34 @@ export interface AgentSignupResult {
 `;
 
 const STUB_PAGINATION = `// stub pagination helper (SPEC 2.5)
-import type { ClientCore, Paginator, RequestOptions } from "./types.js";
-export function paginate<Item, Data>(
+import type { BareRunResult, ClientCore, Paginator, RequestOptions, RunResult } from "./types.js";
+export function paginate<Item, Page extends RunResult<unknown> | BareRunResult<unknown>>(
   _core: ClientCore,
   _slug: string,
   _input: unknown,
   _itemsField: string,
+  _bare: boolean,
   _options?: RequestOptions,
-): Paginator<Item, Data> {
+): Paginator<Item, Page> {
   throw new Error("stub");
 }
 `;
 
 const STUB_CLIENT = `// stub core AnyAPI base (SPEC 2.1)
-import type { ClientCore, ClientOptions } from "./types.js";
-// The generated sku-map.ts augments this interface (declaration merging). The base carries
-// a permissive string index so unknown slugs resolve to RunResult<unknown>.
-export interface SkuMap {
-  [slug: string]: { input: unknown; data: unknown };
-}
+import type { ClientCore, ClientOptions, RequestOptions, RunResult } from "./types.js";
 export class AnyAPI {
   protected readonly _core: ClientCore;
   constructor(_options?: ClientOptions) {
     this._core = { run: () => Promise.reject(new Error("stub")) };
+  }
+  run<T = unknown>(_slug: string, _input: unknown, _options?: RequestOptions): Promise<RunResult<T>> {
+    return Promise.reject(new Error("stub"));
   }
 }
 `;
 
 const STUB_CORE_INDEX = `// stub core barrel
 export { AnyAPI } from "./client.js";
-export type { SkuMap } from "./client.js";
 export { paginate } from "./pagination.js";
 export * from "./types.js";
 export declare function agentSignup(options?: import("./types.js").AgentSignupOptions): Promise<import("./types.js").AgentSignupResult>;
@@ -350,6 +358,7 @@ export declare class BadRequestError extends AnyAPIError {}
 export declare class AuthenticationError extends AnyAPIError {}
 export declare class InsufficientBalanceError extends AnyAPIError {}
 export declare class NotFoundError extends AnyAPIError {}
+export declare class ResultNotFoundError extends NotFoundError {}
 export declare class RateLimitedError extends AnyAPIError {}
 export declare class UpstreamError extends AnyAPIError {}
 export declare class ConnectionError extends AnyAPIError {}

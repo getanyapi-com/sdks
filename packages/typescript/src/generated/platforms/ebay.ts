@@ -35,12 +35,11 @@ export interface EbaySearchItem {
   condition?: string;
   /**
    * Primary listing image URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
    * eBay item identifier.
-   * Populated whenever the provider returns data.
    */
   itemId: string;
   /**
@@ -60,13 +59,7 @@ export interface EbaySearchItem {
    * Shipping cost or free-delivery label.
    */
   shippingCost?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -77,7 +70,6 @@ export interface EbaySearchItem {
 export interface EbaySearchData {
   /**
    * Listing records: title, price, condition, shipping cost, seller info, image, and item URL.
-   * Populated whenever the provider returns data.
    */
   items: EbaySearchItem[];
 }
@@ -130,12 +122,11 @@ export interface EbaySoldListingsItem {
   endedAt?: string;
   /**
    * Primary listing image URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
    * eBay item identifier.
-   * Populated whenever the provider returns data.
    */
   itemId: string;
   listingType?: string;
@@ -145,17 +136,11 @@ export interface EbaySoldListingsItem {
    * Final sold price.
    */
   soldPrice?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   /**
    * Sold price plus shipping.
    */
   totalPrice?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -166,7 +151,6 @@ export interface EbaySoldListingsItem {
 export interface EbaySoldListingsData {
   /**
    * Sold listing records: title, sold price, sale date, condition, shipping, and item URL.
-   * Populated whenever the provider returns data.
    */
   items: EbaySoldListingsItem[];
 }
@@ -186,7 +170,7 @@ export class EbayNamespace {
    * Price: $0.001 per request plus $0.00234 per result.
    *
    * @example
-   * const res = await client.ebay.search({"limit":3,"query":"nintendo switch"});
+   * const res = await client.ebay.search({ query: "nintendo switch", limit: 3 });
    */
   search(
     input: EbaySearchInput,
@@ -203,7 +187,7 @@ export class EbayNamespace {
    * Price: $0.00005 per request plus $0.004 per result.
    *
    * @example
-   * const res = await client.ebay.soldListings({"limit":3,"query":"nintendo switch"});
+   * const res = await client.ebay.soldListings({ query: "nintendo switch", limit: 3 });
    */
   soldListings(
     input: EbaySoldListingsInput,

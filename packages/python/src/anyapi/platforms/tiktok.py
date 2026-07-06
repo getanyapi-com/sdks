@@ -215,95 +215,99 @@ class TiktokVideoTranscriptInput(TypedDict, total=False):
 
 
 class TiktokAdLibraryAdData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    adId: str = Field(description="Populated whenever the provider returns data.")
-    adTitle: str = Field(description="Populated whenever the provider returns data.")
-    brandName: str
+    ad_id: str = Field(alias="adId")
+    ad_title: str = Field(alias="adTitle")
+    brand_name: str = Field(alias="brandName")
     comments: int
     cost: float
-    coverUrl: str = Field(description="Populated whenever the provider returns data.")
+    cover_url: str = Field(alias="coverUrl")
     ctr: float
-    industry: str = Field(description="Populated whenever the provider returns data.")
-    landingPage: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    industry: str
+    landing_page: str = Field(alias="landingPage")
     likes: int
-    objective: str = Field(description="Populated whenever the provider returns data.")
+    objective: str
     shares: int
-    videoUrl: str = Field(description="Populated whenever the provider returns data.")
+    video_url: str = Field(alias="videoUrl")
 
 
 class TiktokAdLibrarySearchData(BaseModel):
-    ads: list[TiktokAdLibrarySearchAd] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    hasMore: bool
-    nextCursor: str
+    model_config = ConfigDict(populate_by_name=True)
+
+    ads: list[TiktokAdLibrarySearchAd]
+    has_more: bool = Field(alias="hasMore")
+    next_cursor: str = Field(alias="nextCursor")
     total: int
 
 
 class TiktokAdLibrarySearchAd(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    adId: str = Field(description="Populated whenever the provider returns data.")
-    adTitle: str = Field(description="Populated whenever the provider returns data.")
-    brandName: str
+    ad_id: str = Field(alias="adId")
+    ad_title: str = Field(alias="adTitle")
+    brand_name: str = Field(alias="brandName")
     cost: float
-    coverUrl: str = Field(description="Populated whenever the provider returns data.")
+    cover_url: str = Field(alias="coverUrl")
     ctr: float
-    industry: str = Field(description="Populated whenever the provider returns data.")
+    industry: str
     likes: int
-    objective: str = Field(description="Populated whenever the provider returns data.")
-    videoUrl: str = Field(description="Populated whenever the provider returns data.")
+    objective: str
+    video_url: str = Field(alias="videoUrl")
 
 
 class TiktokAudienceDemographicsData(BaseModel):
-    audienceLocations: list[TiktokAudienceDemographicsAudienceLocation]
+    model_config = ConfigDict(populate_by_name=True)
+
+    audience_locations: list[TiktokAudienceDemographicsAudienceLocation] = Field(
+        alias="audienceLocations"
+    )
 
 
 class TiktokAudienceDemographicsAudienceLocation(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     count: int
-    country: str = Field(description="Populated whenever the provider returns data.")
-    countryCode: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    percentage: str = Field(description="Populated whenever the provider returns data.")
+    country: str
+    country_code: str = Field(alias="countryCode")
+    percentage: str
 
 
 class TiktokCommentRepliesData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     comments: list[TiktokCommentRepliesComment]
-    nextCursor: str
+    next_cursor: str = Field(alias="nextCursor")
 
 
 class TiktokCommentRepliesComment(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
-    createdAt: int
-    id: str = Field(description="Populated whenever the provider returns data.")
+    author: str
+    created_at: int = Field(alias="createdAt")
+    id: str
     likes: int
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
 
 
 class TiktokFollowersData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     followers: list[TiktokFollowersFollower]
-    nextCursor: str
+    next_cursor: str = Field(alias="nextCursor")
     total: int
 
 
 class TiktokFollowersFollower(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str
-    followerCount: int
-    followingCount: int
-    nickname: str = Field(description="Populated whenever the provider returns data.")
-    region: str = Field(description="Populated whenever the provider returns data.")
-    userId: str = Field(description="Populated whenever the provider returns data.")
-    username: str = Field(description="Populated whenever the provider returns data.")
+    avatar_url: str = Field(alias="avatarUrl")
+    follower_count: int = Field(alias="followerCount")
+    following_count: int = Field(alias="followingCount")
+    nickname: str
+    region: str
+    user_id: str = Field(alias="userId")
+    username: str
 
 
 class TiktokFollowingData(BaseModel):
@@ -311,121 +315,113 @@ class TiktokFollowingData(BaseModel):
 
 
 class TiktokFollowingFollowing(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     bio: str
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    display_name: str = Field(alias="displayName")
     followers: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    region: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
+    id: str
+    region: str
     videos: int
 
 
 class TiktokHashtagVideosData(BaseModel):
     items: list[TiktokHashtagVideosItem] = Field(
-        description="Video records: creator, caption, hashtags, play/like/share/comment counts, and video URL. Populated whenever the provider returns data."
+        description="Video records: creator, caption, hashtags, play/like/share/comment counts, and video URL."
     )
 
 
 class TiktokHashtagVideosItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str = Field(description="Populated whenever the provider returns data.")
-    text: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    id: str
+    text: str
+    url: str
 
 
 class TiktokLiveData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    coverUrl: str = Field(description="Populated whenever the provider returns data.")
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    enterCount: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    roomId: str = Field(description="Populated whenever the provider returns data.")
-    startTime: int
+    cover_url: str = Field(alias="coverUrl")
+    display_name: str = Field(alias="displayName")
+    enter_count: int = Field(alias="enterCount")
+    handle: str
+    room_id: str = Field(alias="roomId")
+    start_time: int = Field(alias="startTime")
     status: int
-    title: str = Field(description="Populated whenever the provider returns data.")
+    title: str
     viewers: int
 
 
 class TiktokProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
-    bio: str = Field(description="Populated whenever the provider returns data.")
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    avatar_url: str = Field(alias="avatarUrl")
+    bio: str
+    display_name: str = Field(alias="displayName")
     followers: int
     following: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
     likes: int
     verified: bool
     videos: int
 
 
 class TiktokProfileRegionData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    profileUrl: str = Field(description="Populated whenever the provider returns data.")
-    region: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
+    profile_url: str = Field(alias="profileUrl")
+    region: str
 
 
 class TiktokProfileVideosData(BaseModel):
-    nextCursor: str
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(alias="nextCursor")
     videos: list[TiktokProfileVideosVideo]
 
 
 class TiktokProfileVideosVideo(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str = Field(description="Populated whenever the provider returns data.")
+    caption: str
     comments: int
-    createdAt: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    created_at: str = Field(alias="createdAt")
+    id: str
     likes: int
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
     views: int
 
 
 class TiktokSearchHashtagData(BaseModel):
-    videos: list[TiktokSearchHashtagVideo] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    videos: list[TiktokSearchHashtagVideo]
 
 
 class TiktokSearchHashtagVideo(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
-    caption: str = Field(description="Populated whenever the provider returns data.")
+    author: str
+    caption: str
     comments: int
-    createdAt: int
-    id: str = Field(description="Populated whenever the provider returns data.")
+    created_at: int = Field(alias="createdAt")
+    id: str
     likes: int
     shares: int
     views: int
 
 
 class TiktokSearchKeywordData(BaseModel):
-    videos: list[TiktokSearchKeywordVideo] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    videos: list[TiktokSearchKeywordVideo]
 
 
 class TiktokSearchKeywordVideo(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    caption: str = Field(description="Populated whenever the provider returns data.")
+    caption: str
     comments: int
-    id: str = Field(description="Populated whenever the provider returns data.")
+    id: str
     likes: int
     region: str
     shares: int
@@ -433,108 +429,104 @@ class TiktokSearchKeywordVideo(BaseModel):
 
 
 class TiktokSearchTopData(BaseModel):
-    items: list[TiktokSearchTopItem] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    nextCursor: str
+    model_config = ConfigDict(populate_by_name=True)
+
+    items: list[TiktokSearchTopItem]
+    next_cursor: str = Field(alias="nextCursor")
 
 
 class TiktokSearchTopItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
-    caption: str = Field(description="Populated whenever the provider returns data.")
+    author: str
+    caption: str
     comments: int
-    contentType: str
-    id: str = Field(description="Populated whenever the provider returns data.")
+    content_type: str = Field(alias="contentType")
+    id: str
     likes: int
     shares: int
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
     views: int
 
 
 class TiktokSearchUsersData(BaseModel):
-    nextCursor: str
-    users: list[TiktokSearchUsersUser] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(alias="nextCursor")
+    users: list[TiktokSearchUsersUser]
 
 
 class TiktokSearchUsersUser(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     followers: int
     following: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    nickname: str = Field(description="Populated whenever the provider returns data.")
-    userId: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
+    nickname: str
+    user_id: str = Field(alias="userId")
 
 
 class TiktokSongData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    album: str = Field(description="Populated whenever the provider returns data.")
-    author: str = Field(description="Populated whenever the provider returns data.")
-    coverUrl: str = Field(description="Populated whenever the provider returns data.")
-    duration: int = Field(description="Populated whenever the provider returns data.")
-    isOriginal: bool
-    shareUrl: str = Field(description="Populated whenever the provider returns data.")
-    songId: str = Field(description="Populated whenever the provider returns data.")
-    title: str = Field(description="Populated whenever the provider returns data.")
-    videoCount: int
+    album: str
+    author: str
+    cover_url: str = Field(alias="coverUrl")
+    duration: int
+    is_original: bool = Field(alias="isOriginal")
+    share_url: str = Field(alias="shareUrl")
+    song_id: str = Field(alias="songId")
+    title: str
+    video_count: int = Field(alias="videoCount")
 
 
 class TiktokSongVideosData(BaseModel):
-    hasMore: int
-    nextCursor: str
-    videos: list[TiktokSongVideosVideo] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_more: int = Field(alias="hasMore")
+    next_cursor: str = Field(alias="nextCursor")
+    videos: list[TiktokSongVideosVideo]
 
 
 class TiktokSongVideosVideo(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorHandle: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    authorName: str = Field(description="Populated whenever the provider returns data.")
-    commentCount: int
-    createTime: int
+    author_handle: str = Field(alias="authorHandle")
+    author_name: str = Field(alias="authorName")
+    comment_count: int = Field(alias="commentCount")
+    create_time: int = Field(alias="createTime")
     description: str
-    likeCount: int
-    playCount: int
-    shareCount: int
-    videoId: str = Field(description="Populated whenever the provider returns data.")
+    like_count: int = Field(alias="likeCount")
+    play_count: int = Field(alias="playCount")
+    share_count: int = Field(alias="shareCount")
+    video_id: str = Field(alias="videoId")
 
 
 class TiktokTrendingFeedData(BaseModel):
-    videos: list[TiktokTrendingFeedVideo] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    videos: list[TiktokTrendingFeedVideo]
 
 
 class TiktokTrendingFeedVideo(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
+    author: str
     caption: str
     comments: int
-    createdAt: int = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    created_at: int = Field(alias="createdAt")
+    id: str
     likes: int
-    region: str = Field(description="Populated whenever the provider returns data.")
+    region: str
     shares: int
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
     views: int
 
 
 class TiktokVideoData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    caption: str = Field(description="Populated whenever the provider returns data.")
+    caption: str
     comments: int
-    id: str = Field(description="Populated whenever the provider returns data.")
+    id: str
     likes: int
     region: str
     saves: int
@@ -543,26 +535,28 @@ class TiktokVideoData(BaseModel):
 
 
 class TiktokVideoCommentsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     comments: list[TiktokVideoCommentsComment]
-    nextCursor: str
+    next_cursor: str = Field(alias="nextCursor")
 
 
 class TiktokVideoCommentsComment(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
-    createdAt: int
-    id: str = Field(description="Populated whenever the provider returns data.")
+    author: str
+    created_at: int = Field(alias="createdAt")
+    id: str
     likes: int
     replies: int
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
 
 
 class TiktokVideoTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     language: str
-    transcript: str = Field(description="Populated whenever the provider returns data.")
+    transcript: str
 
 
 class TiktokNamespace:
@@ -588,12 +582,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.ad_library_ad(adId="7648493525660270600")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.ad_library_ad", dict(input), options
         )
-        return RunResult[TiktokAdLibraryAdData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokAdLibraryAdData].model_validate(raw)
 
     def ad_library_search(
         self,
@@ -612,12 +604,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.ad_library_search(query="spotify")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.ad_library_search", dict(input), options
         )
-        return RunResult[TiktokAdLibrarySearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokAdLibrarySearchData].model_validate(raw)
 
     def iter_ad_library_search(
         self,
@@ -627,14 +617,18 @@ class TiktokNamespace:
     ) -> Paginator[TiktokAdLibrarySearchAd, TiktokAdLibrarySearchData]:
         """Iterate TikTok Ad Library Search results, following pagination cursors.
 
-        Yields flattened items from the `ads` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokAdLibrarySearchAd` items from the `ads` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "tiktok.ad_library_search",
             dict(input),
             "ads",
+            item_model=TiktokAdLibrarySearchAd,
+            data_model=TiktokAdLibrarySearchData,
+            bare=False,
             options=options,
         )
 
@@ -654,12 +648,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.audience_demographics(handle="shakira")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.audience_demographics", dict(input), options
         )
-        return RunResult[TiktokAudienceDemographicsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokAudienceDemographicsData].model_validate(raw)
 
     def comment_replies(
         self,
@@ -677,12 +669,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.comment_replies(commentId="7623828115408274207", url="https://www.tiktok.com/@stoolpresidente/video/7623818255903329566")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.comment_replies", dict(input), options
         )
-        return RunResult[TiktokCommentRepliesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokCommentRepliesData].model_validate(raw)
 
     def iter_comment_replies(
         self,
@@ -692,14 +682,18 @@ class TiktokNamespace:
     ) -> Paginator[TiktokCommentRepliesComment, TiktokCommentRepliesData]:
         """Iterate TikTok Comment Replies results, following pagination cursors.
 
-        Yields flattened items from the `comments` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokCommentRepliesComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "tiktok.comment_replies",
             dict(input),
             "comments",
+            item_model=TiktokCommentRepliesComment,
+            data_model=TiktokCommentRepliesData,
+            bare=False,
             options=options,
         )
 
@@ -719,12 +713,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.followers(handle="stoolpresidente")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.followers", dict(input), options
         )
-        return RunResult[TiktokFollowersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokFollowersData].model_validate(raw)
 
     def iter_followers(
         self,
@@ -734,11 +726,19 @@ class TiktokNamespace:
     ) -> Paginator[TiktokFollowersFollower, TiktokFollowersData]:
         """Iterate TikTok Followers results, following pagination cursors.
 
-        Yields flattened items from the `followers` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokFollowersFollower` items from the `followers` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "tiktok.followers", dict(input), "followers", options=options
+            self._client,
+            "tiktok.followers",
+            dict(input),
+            "followers",
+            item_model=TiktokFollowersFollower,
+            data_model=TiktokFollowersData,
+            bare=False,
+            options=options,
         )
 
     def following(
@@ -757,12 +757,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.following(handle="stoolpresidente")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.following", dict(input), options
         )
-        return RunResult[TiktokFollowingData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokFollowingData].model_validate(raw)
 
     def hashtag_videos(
         self,
@@ -780,12 +778,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.hashtag_videos", dict(input), options
         )
-        return RunResult[TiktokHashtagVideosData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokHashtagVideosData].model_validate(raw)
 
     def live(
         self, *, options: RequestOptions | None = None, **input: Unpack[TiktokLiveInput]
@@ -800,10 +796,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.live(handle="thejustalex")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.live", dict(input), options
         )
-        return RunResult[TiktokLiveData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[TiktokLiveData].model_validate(raw)
 
     def profile(
         self,
@@ -822,12 +818,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.profile(handle="zachking")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.profile", dict(input), options
         )
-        return RunResult[TiktokProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokProfileData].model_validate(raw)
 
     def profile_region(
         self,
@@ -845,12 +839,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.profile_region(handle="stoolpresidente")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.profile_region", dict(input), options
         )
-        return RunResult[TiktokProfileRegionData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokProfileRegionData].model_validate(raw)
 
     def profile_videos(
         self,
@@ -868,12 +860,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.profile_videos", dict(input), options
         )
-        return RunResult[TiktokProfileVideosData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokProfileVideosData].model_validate(raw)
 
     def iter_profile_videos(
         self,
@@ -883,14 +873,18 @@ class TiktokNamespace:
     ) -> Paginator[TiktokProfileVideosVideo, TiktokProfileVideosData]:
         """Iterate TikTok Profile Videos results, following pagination cursors.
 
-        Yields flattened items from the `videos` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokProfileVideosVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "tiktok.profile_videos",
             dict(input),
             "videos",
+            item_model=TiktokProfileVideosVideo,
+            data_model=TiktokProfileVideosData,
+            bare=False,
             options=options,
         )
 
@@ -911,12 +905,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.search_hashtag(query="recipe")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_hashtag", dict(input), options
         )
-        return RunResult[TiktokSearchHashtagData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSearchHashtagData].model_validate(raw)
 
     def search_keyword(
         self,
@@ -935,12 +927,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.search_keyword(query="cooking")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_keyword", dict(input), options
         )
-        return RunResult[TiktokSearchKeywordData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSearchKeywordData].model_validate(raw)
 
     def search_top(
         self,
@@ -958,12 +948,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.search_top(query="funny")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_top", dict(input), options
         )
-        return RunResult[TiktokSearchTopData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSearchTopData].model_validate(raw)
 
     def iter_search_top(
         self,
@@ -973,11 +961,19 @@ class TiktokNamespace:
     ) -> Paginator[TiktokSearchTopItem, TiktokSearchTopData]:
         """Iterate TikTok Top Search results, following pagination cursors.
 
-        Yields flattened items from the `items` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokSearchTopItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "tiktok.search_top", dict(input), "items", options=options
+            self._client,
+            "tiktok.search_top",
+            dict(input),
+            "items",
+            item_model=TiktokSearchTopItem,
+            data_model=TiktokSearchTopData,
+            bare=False,
+            options=options,
         )
 
     def search_users(
@@ -996,12 +992,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.search_users(query="chef")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_users", dict(input), options
         )
-        return RunResult[TiktokSearchUsersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSearchUsersData].model_validate(raw)
 
     def iter_search_users(
         self,
@@ -1011,11 +1005,19 @@ class TiktokNamespace:
     ) -> Paginator[TiktokSearchUsersUser, TiktokSearchUsersData]:
         """Iterate TikTok User Search results, following pagination cursors.
 
-        Yields flattened items from the `users` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokSearchUsersUser` items from the `users` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "tiktok.search_users", dict(input), "users", options=options
+            self._client,
+            "tiktok.search_users",
+            dict(input),
+            "users",
+            item_model=TiktokSearchUsersUser,
+            data_model=TiktokSearchUsersData,
+            bare=False,
+            options=options,
         )
 
     def song(
@@ -1032,10 +1034,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.song(clipId="7439295283975702544")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.song", dict(input), options
         )
-        return RunResult[TiktokSongData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[TiktokSongData].model_validate(raw)
 
     def song_videos(
         self,
@@ -1054,12 +1056,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.song_videos(clipId="7439295283975702544")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.song_videos", dict(input), options
         )
-        return RunResult[TiktokSongVideosData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSongVideosData].model_validate(raw)
 
     def iter_song_videos(
         self,
@@ -1069,11 +1069,19 @@ class TiktokNamespace:
     ) -> Paginator[TiktokSongVideosVideo, TiktokSongVideosData]:
         """Iterate TikTok Song Videos results, following pagination cursors.
 
-        Yields flattened items from the `videos` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokSongVideosVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "tiktok.song_videos", dict(input), "videos", options=options
+            self._client,
+            "tiktok.song_videos",
+            dict(input),
+            "videos",
+            item_model=TiktokSongVideosVideo,
+            data_model=TiktokSongVideosData,
+            bare=False,
+            options=options,
         )
 
     def trending_feed(
@@ -1092,12 +1100,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.trending_feed(region="US")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.trending_feed", dict(input), options
         )
-        return RunResult[TiktokTrendingFeedData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokTrendingFeedData].model_validate(raw)
 
     def video(
         self,
@@ -1116,10 +1122,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.video", dict(input), options
         )
-        return RunResult[TiktokVideoData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[TiktokVideoData].model_validate(raw)
 
     def video_comments(
         self,
@@ -1137,12 +1143,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.video_comments", dict(input), options
         )
-        return RunResult[TiktokVideoCommentsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokVideoCommentsData].model_validate(raw)
 
     def iter_video_comments(
         self,
@@ -1152,14 +1156,18 @@ class TiktokNamespace:
     ) -> Paginator[TiktokVideoCommentsComment, TiktokVideoCommentsData]:
         """Iterate TikTok Video Comments results, following pagination cursors.
 
-        Yields flattened items from the `comments` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokVideoCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "tiktok.video_comments",
             dict(input),
             "comments",
+            item_model=TiktokVideoCommentsComment,
+            data_model=TiktokVideoCommentsData,
+            bare=False,
             options=options,
         )
 
@@ -1179,12 +1187,10 @@ class TiktokNamespace:
         Example:
             res = client.tiktok.video_transcript(url="https://www.tiktok.com/@washingtonpost/video/7609177768793787679")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.video_transcript", dict(input), options
         )
-        return RunResult[TiktokVideoTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokVideoTranscriptData].model_validate(raw)
 
 
 class AsyncTiktokNamespace:
@@ -1210,12 +1216,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.ad_library_ad(adId="7648493525660270600")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.ad_library_ad", dict(input), options
         )
-        return RunResult[TiktokAdLibraryAdData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokAdLibraryAdData].model_validate(raw)
 
     async def ad_library_search(
         self,
@@ -1234,12 +1238,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.ad_library_search(query="spotify")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.ad_library_search", dict(input), options
         )
-        return RunResult[TiktokAdLibrarySearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokAdLibrarySearchData].model_validate(raw)
 
     def iter_ad_library_search(
         self,
@@ -1249,14 +1251,18 @@ class AsyncTiktokNamespace:
     ) -> AsyncPaginator[TiktokAdLibrarySearchAd, TiktokAdLibrarySearchData]:
         """Iterate TikTok Ad Library Search results, following pagination cursors.
 
-        Yields flattened items from the `ads` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokAdLibrarySearchAd` items from the `ads` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "tiktok.ad_library_search",
             dict(input),
             "ads",
+            item_model=TiktokAdLibrarySearchAd,
+            data_model=TiktokAdLibrarySearchData,
+            bare=False,
             options=options,
         )
 
@@ -1276,12 +1282,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.audience_demographics(handle="shakira")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.audience_demographics", dict(input), options
         )
-        return RunResult[TiktokAudienceDemographicsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokAudienceDemographicsData].model_validate(raw)
 
     async def comment_replies(
         self,
@@ -1299,12 +1303,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.comment_replies(commentId="7623828115408274207", url="https://www.tiktok.com/@stoolpresidente/video/7623818255903329566")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.comment_replies", dict(input), options
         )
-        return RunResult[TiktokCommentRepliesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokCommentRepliesData].model_validate(raw)
 
     def iter_comment_replies(
         self,
@@ -1314,14 +1316,18 @@ class AsyncTiktokNamespace:
     ) -> AsyncPaginator[TiktokCommentRepliesComment, TiktokCommentRepliesData]:
         """Iterate TikTok Comment Replies results, following pagination cursors.
 
-        Yields flattened items from the `comments` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokCommentRepliesComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "tiktok.comment_replies",
             dict(input),
             "comments",
+            item_model=TiktokCommentRepliesComment,
+            data_model=TiktokCommentRepliesData,
+            bare=False,
             options=options,
         )
 
@@ -1341,12 +1347,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.followers(handle="stoolpresidente")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.followers", dict(input), options
         )
-        return RunResult[TiktokFollowersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokFollowersData].model_validate(raw)
 
     def iter_followers(
         self,
@@ -1356,11 +1360,19 @@ class AsyncTiktokNamespace:
     ) -> AsyncPaginator[TiktokFollowersFollower, TiktokFollowersData]:
         """Iterate TikTok Followers results, following pagination cursors.
 
-        Yields flattened items from the `followers` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokFollowersFollower` items from the `followers` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "tiktok.followers", dict(input), "followers", options=options
+            self._client,
+            "tiktok.followers",
+            dict(input),
+            "followers",
+            item_model=TiktokFollowersFollower,
+            data_model=TiktokFollowersData,
+            bare=False,
+            options=options,
         )
 
     async def following(
@@ -1379,12 +1391,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.following(handle="stoolpresidente")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.following", dict(input), options
         )
-        return RunResult[TiktokFollowingData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokFollowingData].model_validate(raw)
 
     async def hashtag_videos(
         self,
@@ -1402,12 +1412,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.hashtag_videos", dict(input), options
         )
-        return RunResult[TiktokHashtagVideosData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokHashtagVideosData].model_validate(raw)
 
     async def live(
         self, *, options: RequestOptions | None = None, **input: Unpack[TiktokLiveInput]
@@ -1422,10 +1430,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.live(handle="thejustalex")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.live", dict(input), options
         )
-        return RunResult[TiktokLiveData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[TiktokLiveData].model_validate(raw)
 
     async def profile(
         self,
@@ -1444,12 +1452,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.profile(handle="zachking")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.profile", dict(input), options
         )
-        return RunResult[TiktokProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokProfileData].model_validate(raw)
 
     async def profile_region(
         self,
@@ -1467,12 +1473,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.profile_region(handle="stoolpresidente")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.profile_region", dict(input), options
         )
-        return RunResult[TiktokProfileRegionData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokProfileRegionData].model_validate(raw)
 
     async def profile_videos(
         self,
@@ -1490,12 +1494,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.profile_videos", dict(input), options
         )
-        return RunResult[TiktokProfileVideosData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokProfileVideosData].model_validate(raw)
 
     def iter_profile_videos(
         self,
@@ -1505,14 +1507,18 @@ class AsyncTiktokNamespace:
     ) -> AsyncPaginator[TiktokProfileVideosVideo, TiktokProfileVideosData]:
         """Iterate TikTok Profile Videos results, following pagination cursors.
 
-        Yields flattened items from the `videos` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokProfileVideosVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "tiktok.profile_videos",
             dict(input),
             "videos",
+            item_model=TiktokProfileVideosVideo,
+            data_model=TiktokProfileVideosData,
+            bare=False,
             options=options,
         )
 
@@ -1533,12 +1539,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.search_hashtag(query="recipe")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_hashtag", dict(input), options
         )
-        return RunResult[TiktokSearchHashtagData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSearchHashtagData].model_validate(raw)
 
     async def search_keyword(
         self,
@@ -1557,12 +1561,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.search_keyword(query="cooking")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_keyword", dict(input), options
         )
-        return RunResult[TiktokSearchKeywordData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSearchKeywordData].model_validate(raw)
 
     async def search_top(
         self,
@@ -1580,12 +1582,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.search_top(query="funny")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_top", dict(input), options
         )
-        return RunResult[TiktokSearchTopData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSearchTopData].model_validate(raw)
 
     def iter_search_top(
         self,
@@ -1595,11 +1595,19 @@ class AsyncTiktokNamespace:
     ) -> AsyncPaginator[TiktokSearchTopItem, TiktokSearchTopData]:
         """Iterate TikTok Top Search results, following pagination cursors.
 
-        Yields flattened items from the `items` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokSearchTopItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "tiktok.search_top", dict(input), "items", options=options
+            self._client,
+            "tiktok.search_top",
+            dict(input),
+            "items",
+            item_model=TiktokSearchTopItem,
+            data_model=TiktokSearchTopData,
+            bare=False,
+            options=options,
         )
 
     async def search_users(
@@ -1618,12 +1626,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.search_users(query="chef")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_users", dict(input), options
         )
-        return RunResult[TiktokSearchUsersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSearchUsersData].model_validate(raw)
 
     def iter_search_users(
         self,
@@ -1633,11 +1639,19 @@ class AsyncTiktokNamespace:
     ) -> AsyncPaginator[TiktokSearchUsersUser, TiktokSearchUsersData]:
         """Iterate TikTok User Search results, following pagination cursors.
 
-        Yields flattened items from the `users` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokSearchUsersUser` items from the `users` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "tiktok.search_users", dict(input), "users", options=options
+            self._client,
+            "tiktok.search_users",
+            dict(input),
+            "users",
+            item_model=TiktokSearchUsersUser,
+            data_model=TiktokSearchUsersData,
+            bare=False,
+            options=options,
         )
 
     async def song(
@@ -1654,10 +1668,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.song(clipId="7439295283975702544")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.song", dict(input), options
         )
-        return RunResult[TiktokSongData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[TiktokSongData].model_validate(raw)
 
     async def song_videos(
         self,
@@ -1676,12 +1690,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.song_videos(clipId="7439295283975702544")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.song_videos", dict(input), options
         )
-        return RunResult[TiktokSongVideosData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokSongVideosData].model_validate(raw)
 
     def iter_song_videos(
         self,
@@ -1691,11 +1703,19 @@ class AsyncTiktokNamespace:
     ) -> AsyncPaginator[TiktokSongVideosVideo, TiktokSongVideosData]:
         """Iterate TikTok Song Videos results, following pagination cursors.
 
-        Yields flattened items from the `videos` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokSongVideosVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "tiktok.song_videos", dict(input), "videos", options=options
+            self._client,
+            "tiktok.song_videos",
+            dict(input),
+            "videos",
+            item_model=TiktokSongVideosVideo,
+            data_model=TiktokSongVideosData,
+            bare=False,
+            options=options,
         )
 
     async def trending_feed(
@@ -1714,12 +1734,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.trending_feed(region="US")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.trending_feed", dict(input), options
         )
-        return RunResult[TiktokTrendingFeedData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokTrendingFeedData].model_validate(raw)
 
     async def video(
         self,
@@ -1738,10 +1756,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.video", dict(input), options
         )
-        return RunResult[TiktokVideoData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[TiktokVideoData].model_validate(raw)
 
     async def video_comments(
         self,
@@ -1759,12 +1777,10 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.video_comments", dict(input), options
         )
-        return RunResult[TiktokVideoCommentsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokVideoCommentsData].model_validate(raw)
 
     def iter_video_comments(
         self,
@@ -1774,14 +1790,18 @@ class AsyncTiktokNamespace:
     ) -> AsyncPaginator[TiktokVideoCommentsComment, TiktokVideoCommentsData]:
         """Iterate TikTok Video Comments results, following pagination cursors.
 
-        Yields flattened items from the `comments` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TiktokVideoCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "tiktok.video_comments",
             dict(input),
             "comments",
+            item_model=TiktokVideoCommentsComment,
+            data_model=TiktokVideoCommentsData,
+            bare=False,
             options=options,
         )
 
@@ -1801,9 +1821,7 @@ class AsyncTiktokNamespace:
         Example:
             res = client.tiktok.video_transcript(url="https://www.tiktok.com/@washingtonpost/video/7609177768793787679")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.video_transcript", dict(input), options
         )
-        return RunResult[TiktokVideoTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TiktokVideoTranscriptData].model_validate(raw)

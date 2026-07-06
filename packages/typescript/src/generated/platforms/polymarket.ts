@@ -40,17 +40,8 @@ export interface PolymarketMarketsInput {
 }
 
 export interface PolymarketMarketsItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -61,7 +52,6 @@ export interface PolymarketMarketsItem {
 export interface PolymarketMarketsData {
   /**
    * Prediction-market records: market question, outcomes with current prices, volume, liquidity, and end date.
-   * Populated whenever the provider returns data.
    */
   items: PolymarketMarketsItem[];
 }
@@ -81,7 +71,7 @@ export class PolymarketNamespace {
    * Price: $0.105 per request plus $0.0006 per result.
    *
    * @example
-   * const res = await client.polymarket.markets({"limit":10,"query":"election"});
+   * const res = await client.polymarket.markets({ query: "election", limit: 10 });
    */
   markets(
     input: PolymarketMarketsInput,

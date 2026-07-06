@@ -20,20 +20,11 @@ export interface BlueskyPostInput {
  * The `data` payload of Bluesky Post (bluesky.post).
  */
 export interface BlueskyPostData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorHandle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
   likes: number;
   replies: number;
   reposts: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -52,19 +43,10 @@ export interface BlueskyProfileInput {
  * The `data` payload of Bluesky Profile (bluesky.profile).
  */
 export interface BlueskyProfileData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   displayName: string;
   followers: number;
   following: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   handle: string;
   postsCount: number;
   [extra: string]: unknown;
@@ -81,20 +63,11 @@ export interface BlueskyUserPostsInput {
 }
 
 export interface BlueskyUserPostsPost {
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorHandle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
   likes: number;
   replies: number;
   reposts: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -103,9 +76,6 @@ export interface BlueskyUserPostsPost {
  * The `data` payload of Bluesky User Posts (bluesky.user_posts).
  */
 export interface BlueskyUserPostsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: BlueskyUserPostsPost[];
 }
 
@@ -124,7 +94,7 @@ export class BlueskyNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.bluesky.post({"url":"https://bsky.app/profile/bsky.app/post/3l6oveex3ii2l"});
+   * const res = await client.bluesky.post({ url: "https://bsky.app/profile/bsky.app/post/3l6oveex3ii2l" });
    */
   post(
     input: BlueskyPostInput,
@@ -141,7 +111,7 @@ export class BlueskyNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.bluesky.profile({"handle":"bsky.app"});
+   * const res = await client.bluesky.profile({ handle: "bsky.app" });
    */
   profile(
     input: BlueskyProfileInput,
@@ -158,7 +128,7 @@ export class BlueskyNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.bluesky.userPosts({"handle":"bsky.app"});
+   * const res = await client.bluesky.userPosts({ handle: "bsky.app" });
    */
   userPosts(
     input: BlueskyUserPostsInput,

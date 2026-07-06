@@ -42,12 +42,11 @@ export interface AirbnbSearchItem {
   hostName?: string;
   /**
    * Airbnb listing identifier.
-   * Populated whenever the provider returns data.
    */
   id: string;
   /**
    * Primary listing image URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   isAvailable?: boolean;
@@ -70,13 +69,7 @@ export interface AirbnbSearchItem {
   rating?: number;
   reviewsCount?: number;
   roomType?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -87,7 +80,6 @@ export interface AirbnbSearchItem {
 export interface AirbnbSearchData {
   /**
    * Listing records: name, nightly price, rating, location, host info, and availability details.
-   * Populated whenever the provider returns data.
    */
   items: AirbnbSearchItem[];
 }
@@ -107,7 +99,7 @@ export class AirbnbNamespace {
    * Price: $0.00008 per request plus $0.0015 per result.
    *
    * @example
-   * const res = await client.airbnb.search({"limit":3,"location":"San Diego"});
+   * const res = await client.airbnb.search({ location: "San Diego", limit: 3 });
    */
   search(
     input: AirbnbSearchInput,

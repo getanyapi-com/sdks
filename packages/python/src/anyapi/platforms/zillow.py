@@ -35,7 +35,7 @@ class ZillowSearchInput(TypedDict, total=False):
 
 class ZillowPropertyData(BaseModel):
     items: list[ZillowPropertyItem] = Field(
-        description="Matching property records: full listing details including price, address, facts and features, photos, and price/tax history. Populated whenever the provider returns data."
+        description="Matching property records: full listing details including price, address, facts and features, photos, and price/tax history."
     )
 
 
@@ -44,19 +44,19 @@ class ZillowPropertyItem(BaseModel):
 
     price: float
     title: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class ZillowSearchData(BaseModel):
     items: list[ZillowSearchItem] = Field(
-        description="Property listing records matching the search: address, price, beds, baths, living area, property type, status, Zestimate, and coordinates. Populated whenever the provider returns data."
+        description="Property listing records matching the search: address, price, beds, baths, living area, property type, status, Zestimate, and coordinates."
     )
 
 
 class ZillowSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     baths: float | None = Field(default=None, description="Number of bathrooms.")
     beds: float | None = Field(default=None, description="Number of bedrooms.")
@@ -64,47 +64,54 @@ class ZillowSearchItem(BaseModel):
     currency: str | None = Field(
         default=None, description="ISO currency code of the price (e.g. usd)."
     )
-    daysOnZillow: int | None = Field(
-        default=None, description="Days the listing has been on Zillow."
+    days_on_zillow: int | None = Field(
+        default=None,
+        alias="daysOnZillow",
+        description="Days the listing has been on Zillow.",
     )
     image: str | None = Field(
         default=None,
-        description="URL of the primary listing photo. Populated whenever the provider returns data.",
+        description="URL of the primary listing photo. Present whenever the upstream returns this record.",
     )
     latitude: float | None = None
-    livingArea: float | None = Field(
-        default=None, description="Interior living area in square feet."
+    living_area: float | None = Field(
+        default=None,
+        alias="livingArea",
+        description="Interior living area in square feet.",
     )
     longitude: float | None = None
-    lotSize: float | None = Field(default=None, description="Lot size in square feet.")
+    lot_size: float | None = Field(
+        default=None, alias="lotSize", description="Lot size in square feet."
+    )
     price: float | None = Field(
         default=None, description="List price in the listing currency."
     )
-    propertyType: str | None = Field(
-        default=None, description="Property type (e.g. singleFamily, condo, townhouse)."
+    property_type: str | None = Field(
+        default=None,
+        alias="propertyType",
+        description="Property type (e.g. singleFamily, condo, townhouse).",
     )
-    rentZestimate: float | None = Field(
-        default=None, description="Zillow estimated monthly rent."
+    rent_zestimate: float | None = Field(
+        default=None,
+        alias="rentZestimate",
+        description="Zillow estimated monthly rent.",
     )
     state: str | None = Field(default=None, description="Two-letter state code.")
     status: str | None = Field(
         default=None, description="Listing status (e.g. forSale, forRent, sold)."
     )
-    streetAddress: str | None = Field(
+    street_address: str | None = Field(
         default=None,
-        description="Street address of the property. Populated whenever the provider returns data.",
+        alias="streetAddress",
+        description="Street address of the property. Present whenever the upstream returns this record.",
     )
-    url: str = Field(
-        description="Absolute Zillow listing URL. Populated whenever the provider returns data."
-    )
-    yearBuilt: int | None = None
+    url: str = Field(description="Absolute Zillow listing URL.")
+    year_built: int | None = Field(default=None, alias="yearBuilt")
     zestimate: float | None = Field(
         default=None, description="Zillow estimated market value."
     )
     zipcode: str | None = None
-    zpid: str = Field(
-        description="Zillow property id (zpid). Populated whenever the provider returns data."
-    )
+    zpid: str = Field(description="Zillow property id (zpid).")
 
 
 class ZillowNamespace:
@@ -130,12 +137,10 @@ class ZillowNamespace:
         Example:
             res = client.zillow.property(url="https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "zillow.property", dict(input), options
         )
-        return RunResult[ZillowPropertyData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ZillowPropertyData].model_validate(raw)
 
     def search(
         self,
@@ -150,15 +155,15 @@ class ZillowNamespace:
         area, status, Zestimate) as normalized JSON with per-request USD pricing
         that scales with the number of results.
 
-        Price: $0.003 per result.
+        Price: $0.0005 per request plus $0.003 per result.
 
         Example:
             res = client.zillow.search(limit=3, location="Austin, TX", operation="buy")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "zillow.search", dict(input), options
         )
-        return RunResult[ZillowSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[ZillowSearchData].model_validate(raw)
 
 
 class AsyncZillowNamespace:
@@ -184,12 +189,10 @@ class AsyncZillowNamespace:
         Example:
             res = client.zillow.property(url="https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "zillow.property", dict(input), options
         )
-        return RunResult[ZillowPropertyData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ZillowPropertyData].model_validate(raw)
 
     async def search(
         self,
@@ -204,12 +207,12 @@ class AsyncZillowNamespace:
         area, status, Zestimate) as normalized JSON with per-request USD pricing
         that scales with the number of results.
 
-        Price: $0.003 per result.
+        Price: $0.0005 per request plus $0.003 per result.
 
         Example:
             res = client.zillow.search(limit=3, location="Austin, TX", operation="buy")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "zillow.search", dict(input), options
         )
-        return RunResult[ZillowSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[ZillowSearchData].model_validate(raw)

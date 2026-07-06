@@ -24,70 +24,82 @@ class GoogleFinanceQuoteInput(TypedDict, total=False):
 
 class GoogleFinanceQuoteData(BaseModel):
     items: list[GoogleFinanceQuoteItem] = Field(
-        description="The quote for the requested symbol: name, current price, day change (absolute and percent), quote currency, exchange and market state, plus intraday and reference figures. Up to one element (empty when the symbol did not resolve). Populated whenever the provider returns data."
+        description="The quote for the requested symbol: name, current price, day change (absolute and percent), quote currency, exchange and market state, plus intraday and reference figures. Up to one element (empty when the symbol did not resolve)."
     )
 
 
 class GoogleFinanceQuoteItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     ask: float | None = Field(default=None, description="Current ask price.")
-    assetType: str | None = Field(
+    asset_type: str | None = Field(
         default=None,
+        alias="assetType",
         description="Instrument class (e.g. EQUITY, ETF, CRYPTOCURRENCY, CURRENCY, INDEX, MUTUALFUND, FUTURE).",
     )
-    averageVolume: float | None = Field(
-        default=None, description="Average daily trading volume."
+    average_volume: float | None = Field(
+        default=None, alias="averageVolume", description="Average daily trading volume."
     )
     bid: float | None = Field(default=None, description="Current bid price.")
     change: float | None = Field(
         default=None,
         description="Absolute price change on the day, in the quote currency.",
     )
-    changePercent: float | None = Field(
-        default=None, description="Percent price change on the day."
+    change_percent: float | None = Field(
+        default=None,
+        alias="changePercent",
+        description="Percent price change on the day.",
     )
     currency: str | None = Field(
         default=None,
-        description="ISO currency the quote is priced in (e.g. USD). Populated whenever the provider returns data.",
+        description="ISO currency the quote is priced in (e.g. USD). Present whenever the upstream returns this record.",
     )
-    dayHigh: float | None = Field(
-        default=None, description="Highest price so far in the current session."
+    day_high: float | None = Field(
+        default=None,
+        alias="dayHigh",
+        description="Highest price so far in the current session.",
     )
-    dayLow: float | None = Field(
-        default=None, description="Lowest price so far in the current session."
+    day_low: float | None = Field(
+        default=None,
+        alias="dayLow",
+        description="Lowest price so far in the current session.",
     )
     exchange: str | None = Field(
         default=None,
-        description="Exchange the instrument trades on (e.g. NasdaqGS). Populated whenever the provider returns data.",
+        description="Exchange the instrument trades on (e.g. NasdaqGS). Present whenever the upstream returns this record.",
     )
-    fiftyTwoWeekHigh: float | None = Field(
-        default=None, description="Highest price over the trailing 52 weeks."
-    )
-    fiftyTwoWeekLow: float | None = Field(
-        default=None, description="Lowest price over the trailing 52 weeks."
-    )
-    marketCap: float | None = Field(
-        default=None, description="Market capitalization in the quote currency."
-    )
-    marketState: str | None = Field(
+    fifty_two_week_high: float | None = Field(
         default=None,
+        alias="fiftyTwoWeekHigh",
+        description="Highest price over the trailing 52 weeks.",
+    )
+    fifty_two_week_low: float | None = Field(
+        default=None,
+        alias="fiftyTwoWeekLow",
+        description="Lowest price over the trailing 52 weeks.",
+    )
+    market_cap: float | None = Field(
+        default=None,
+        alias="marketCap",
+        description="Market capitalization in the quote currency.",
+    )
+    market_state: str | None = Field(
+        default=None,
+        alias="marketState",
         description="Current market state (e.g. REGULAR, PRE, POST, CLOSED).",
     )
     name: str | None = Field(
         default=None,
-        description="Instrument or company name. Populated whenever the provider returns data.",
+        description="Instrument or company name. Present whenever the upstream returns this record.",
     )
     open: float | None = Field(
         default=None, description="Opening price for the current session."
     )
-    previousClose: float | None = Field(
-        default=None, description="Previous session close price."
+    previous_close: float | None = Field(
+        default=None, alias="previousClose", description="Previous session close price."
     )
     price: float = Field(description="Current price in the quote currency.")
-    symbol: str = Field(
-        description="Resolved ticker symbol for the quote. Populated whenever the provider returns data."
-    )
+    symbol: str = Field(description="Resolved ticker symbol for the quote.")
     timestamp: str | None = Field(
         default=None, description="Timestamp of the quote (ISO 8601)."
     )
@@ -116,17 +128,15 @@ class GoogleFinanceNamespace:
         figures (open, day high/low, previous close, volume, market cap, and the
         52-week range) with transparent per-request USD pricing.
 
-        Price: $0.0015 per result.
+        Price: $0.0005 per request plus $0.0015 per result.
 
         Example:
             res = client.google_finance.quote(symbol="AAPL:NASDAQ")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google_finance.quote", dict(input), options
         )
-        return RunResult[GoogleFinanceQuoteData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GoogleFinanceQuoteData].model_validate(raw)
 
 
 class AsyncGoogleFinanceNamespace:
@@ -149,14 +159,12 @@ class AsyncGoogleFinanceNamespace:
         figures (open, day high/low, previous close, volume, market cap, and the
         52-week range) with transparent per-request USD pricing.
 
-        Price: $0.0015 per result.
+        Price: $0.0005 per request plus $0.0015 per result.
 
         Example:
             res = client.google_finance.quote(symbol="AAPL:NASDAQ")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google_finance.quote", dict(input), options
         )
-        return RunResult[GoogleFinanceQuoteData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GoogleFinanceQuoteData].model_validate(raw)

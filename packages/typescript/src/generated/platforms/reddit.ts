@@ -1,6 +1,7 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   Paginator,
   RequestOptions,
@@ -25,12 +26,10 @@ export interface RedditPostCommentsInput {
 export interface RedditPostCommentsComment {
   /**
    * Commenter username, without the u/ prefix.
-   * Populated whenever the provider returns data.
    */
   author: string;
   /**
    * Comment text, as Markdown.
-   * Populated whenever the provider returns data.
    */
   body: string;
   /**
@@ -39,12 +38,10 @@ export interface RedditPostCommentsComment {
   createdUtc: number;
   /**
    * Reddit comment ID (base-36, without the t1_ prefix).
-   * Populated whenever the provider returns data.
    */
   id: string;
   /**
    * Permalink to the comment on reddit.com.
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -54,9 +51,6 @@ export interface RedditPostCommentsComment {
  * The `data` payload of Reddit Post Comments (reddit.post_comments).
  */
 export interface RedditPostCommentsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   comments: RedditPostCommentsComment[];
 }
 
@@ -78,13 +72,7 @@ export interface RedditPostTranscriptInput {
  * The `data` payload of Reddit Post Transcript (reddit.post_transcript).
  */
 export interface RedditPostTranscriptData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   language: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   postId: string;
   transcript: string;
   transcriptNotAvailable: boolean;
@@ -118,7 +106,6 @@ export interface RedditSearchInput {
 export interface RedditSearchPost {
   /**
    * Author username, without the u/ prefix.
-   * Populated whenever the provider returns data.
    */
   author: string;
   /**
@@ -127,7 +114,6 @@ export interface RedditSearchPost {
   createdUtc: number;
   /**
    * Reddit post ID (base-36, without the t3_ prefix).
-   * Populated whenever the provider returns data.
    */
   id: string;
   /**
@@ -136,7 +122,6 @@ export interface RedditSearchPost {
   numComments: number;
   /**
    * Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it.
-   * Populated whenever the provider returns data.
    */
   permalink: string;
   /**
@@ -145,17 +130,14 @@ export interface RedditSearchPost {
   score: number;
   /**
    * Subreddit name, without the r/ prefix.
-   * Populated whenever the provider returns data.
    */
   subreddit: string;
   /**
    * Post title.
-   * Populated whenever the provider returns data.
    */
   title: string;
   /**
    * The post's destination link (the external URL for link posts, or the thread URL for self posts).
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -169,9 +151,6 @@ export interface RedditSearchData {
    * Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more results.
    */
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: RedditSearchPost[];
 }
 
@@ -190,26 +169,13 @@ export interface RedditSubredditDetailsInput {
  */
 export interface RedditSubredditDetailsData {
   advertiserCategory: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   createdAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   iconUrl: string;
   /**
    * Reddit fullname, e.g. "t5_2qh1i".
-   * Populated whenever the provider returns data.
    */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   weeklyActiveUsers: number;
   [extra: string]: unknown;
@@ -249,17 +215,14 @@ export interface RedditSubredditPostsInput {
 export interface RedditSubredditPostsPost {
   /**
    * Author username, without the u/ prefix.
-   * Populated whenever the provider returns data.
    */
   author: string;
   /**
    * Post creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   * Populated whenever the provider returns data.
    */
   createdUtc: number;
   /**
    * Reddit post ID (base-36, without the t3_ prefix).
-   * Populated whenever the provider returns data.
    */
   id: string;
   /**
@@ -268,7 +231,6 @@ export interface RedditSubredditPostsPost {
   numComments: number;
   /**
    * Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it.
-   * Populated whenever the provider returns data.
    */
   permalink: string;
   /**
@@ -277,17 +239,14 @@ export interface RedditSubredditPostsPost {
   score: number;
   /**
    * Subreddit name, without the r/ prefix.
-   * Populated whenever the provider returns data.
    */
   subreddit: string;
   /**
    * Post title.
-   * Populated whenever the provider returns data.
    */
   title: string;
   /**
    * The post's destination link (the external URL for link posts, or the thread URL for self posts).
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -301,9 +260,6 @@ export interface RedditSubredditPostsData {
    * Cursor for the next page of results; pass it back as the `after` input to fetch the following page. Empty string when there are no more results.
    */
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: RedditSubredditPostsPost[];
 }
 
@@ -336,7 +292,6 @@ export interface RedditSubredditSearchInput {
 export interface RedditSubredditSearchPost {
   /**
    * Author username, without the u/ prefix.
-   * Populated whenever the provider returns data.
    */
   author: string;
   /**
@@ -345,7 +300,6 @@ export interface RedditSubredditSearchPost {
   createdUtc: number;
   /**
    * Reddit post ID (base-36, without the t3_ prefix).
-   * Populated whenever the provider returns data.
    */
   id: string;
   /**
@@ -358,7 +312,6 @@ export interface RedditSubredditSearchPost {
   numComments: number;
   /**
    * Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link.
-   * Populated whenever the provider returns data.
    */
   permalink: string;
   /**
@@ -367,17 +320,14 @@ export interface RedditSubredditSearchPost {
   score: number;
   /**
    * Subreddit name, without the r/ prefix.
-   * Populated whenever the provider returns data.
    */
   subreddit: string;
   /**
    * Post title.
-   * Populated whenever the provider returns data.
    */
   title: string;
   /**
    * The post's destination link (the external URL for link posts, or the thread URL for self posts).
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -388,9 +338,6 @@ export interface RedditSubredditSearchPost {
  */
 export interface RedditSubredditSearchData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: RedditSubredditSearchPost[];
 }
 
@@ -409,13 +356,17 @@ export class RedditNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.reddit.postComments({"url":"https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/"});
+   * const res = await client.reddit.postComments({ url: "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/" });
    */
   postComments(
     input: RedditPostCommentsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedditPostCommentsData>> {
-    return this._core.run("reddit.post_comments", input, options);
+  ): Promise<BareRunResult<RedditPostCommentsData>> {
+    return this._core.run(
+      "reddit.post_comments",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<RedditPostCommentsData>>;
   }
 
   /**
@@ -426,7 +377,7 @@ export class RedditNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.reddit.postTranscript({"url":"https://www.reddit.com/r/youseeingthisshit/comments/1oiu9xm/"});
+   * const res = await client.reddit.postTranscript({ url: "https://www.reddit.com/r/youseeingthisshit/comments/1oiu9xm/" });
    */
   postTranscript(
     input: RedditPostTranscriptInput,
@@ -443,30 +394,35 @@ export class RedditNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.reddit.search({"query":"mechanical keyboard"});
+   * const res = await client.reddit.search({ query: "mechanical keyboard" });
    */
   search(
     input: RedditSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedditSearchData>> {
-    return this._core.run("reddit.search", input, options);
+  ): Promise<BareRunResult<RedditSearchData>> {
+    return this._core.run(
+      "reddit.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<RedditSearchData>>;
   }
 
   /**
    * Iterate every result of Reddit Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterSearch(
     input: RedditSearchInput,
     options?: RequestOptions,
-  ): Paginator<RedditSearchPost, RedditSearchData> {
-    return paginate<RedditSearchPost, RedditSearchData>(
+  ): Paginator<RedditSearchPost, BareRunResult<RedditSearchData>> {
+    return paginate<RedditSearchPost, BareRunResult<RedditSearchData>>(
       this._core,
       "reddit.search",
       input as unknown as Record<string, unknown>,
       "posts",
+      true,
       options,
     );
   }
@@ -479,7 +435,7 @@ export class RedditNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.reddit.subredditDetails({"subreddit":"programming"});
+   * const res = await client.reddit.subredditDetails({ subreddit: "programming" });
    */
   subredditDetails(
     input: RedditSubredditDetailsInput,
@@ -496,13 +452,17 @@ export class RedditNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.reddit.subredditPosts({"limit":5,"subreddit":"programming"});
+   * const res = await client.reddit.subredditPosts({ subreddit: "programming", limit: 5 });
    */
   subredditPosts(
     input: RedditSubredditPostsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedditSubredditPostsData>> {
-    return this._core.run("reddit.subreddit_posts", input, options);
+  ): Promise<BareRunResult<RedditSubredditPostsData>> {
+    return this._core.run(
+      "reddit.subreddit_posts",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<RedditSubredditPostsData>>;
   }
 
   /**
@@ -513,7 +473,7 @@ export class RedditNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.reddit.subredditSearch({"query":"push ups","subreddit":"Fitness"});
+   * const res = await client.reddit.subredditSearch({ subreddit: "Fitness", query: "push ups" });
    */
   subredditSearch(
     input: RedditSubredditSearchInput,
@@ -526,17 +486,24 @@ export class RedditNamespace {
    * Iterate every result of Reddit Subreddit Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterSubredditSearch(
     input: RedditSubredditSearchInput,
     options?: RequestOptions,
-  ): Paginator<RedditSubredditSearchPost, RedditSubredditSearchData> {
-    return paginate<RedditSubredditSearchPost, RedditSubredditSearchData>(
+  ): Paginator<
+    RedditSubredditSearchPost,
+    RunResult<RedditSubredditSearchData>
+  > {
+    return paginate<
+      RedditSubredditSearchPost,
+      RunResult<RedditSubredditSearchData>
+    >(
       this._core,
       "reddit.subreddit_search",
       input as unknown as Record<string, unknown>,
       "posts",
+      false,
       options,
     );
   }

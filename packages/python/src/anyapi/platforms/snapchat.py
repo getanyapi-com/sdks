@@ -24,27 +24,29 @@ class SnapchatProfileInput(TypedDict, total=False):
 
 class SnapchatProfileData(BaseModel):
     items: list[SnapchatProfileItem] = Field(
-        description="Profile records: public profile URL, handle, display name, bio, subscriber count, avatar, and recent public stories. Populated whenever the provider returns data."
+        description="Profile records: public profile URL, handle, display name, bio, subscriber count, avatar, and recent public stories."
     )
 
 
 class SnapchatProfileItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str | None = Field(
+    avatar_url: str | None = Field(
         default=None,
-        description="URL of the profile avatar image. Populated whenever the provider returns data.",
+        alias="avatarUrl",
+        description="URL of the profile avatar image. Present whenever the upstream returns this record.",
     )
     bio: str | None = Field(
         default=None,
-        description="The profile's public bio / description text. Populated whenever the provider returns data.",
+        description="The profile's public bio / description text. Present whenever the upstream returns this record.",
     )
-    displayName: str | None = Field(
+    display_name: str | None = Field(
         default=None,
-        description="The profile's public display name. Populated whenever the provider returns data.",
+        alias="displayName",
+        description="The profile's public display name. Present whenever the upstream returns this record.",
     )
     handle: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     stories: list[SnapchatProfileStorie] | None = Field(
         default=None,
@@ -53,29 +55,33 @@ class SnapchatProfileItem(BaseModel):
     subscribers: int | None = Field(
         default=None, description="Public subscriber count."
     )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class SnapchatProfileStorie(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     id: str | None = Field(default=None, description="Story identifier.")
     snaps: list[SnapchatProfileSnap] | None = Field(
         default=None, description="The snaps (media items) in this story."
     )
-    storyTitle: str | None = Field(default=None, description="Story title.")
-    thumbnailUrl: str | None = Field(
-        default=None, description="Story thumbnail image URL."
+    story_title: str | None = Field(
+        default=None, alias="storyTitle", description="Story title."
+    )
+    thumbnail_url: str | None = Field(
+        default=None, alias="thumbnailUrl", description="Story thumbnail image URL."
     )
 
 
 class SnapchatProfileSnap(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     id: str | None = Field(default=None, description="Snap identifier.")
-    mediaUrl: str | None = Field(default=None, description="Full-resolution media URL.")
-    previewUrl: str | None = Field(
-        default=None, description="Preview/thumbnail media URL."
+    media_url: str | None = Field(
+        default=None, alias="mediaUrl", description="Full-resolution media URL."
+    )
+    preview_url: str | None = Field(
+        default=None, alias="previewUrl", description="Preview/thumbnail media URL."
     )
     timestamp: str | None = Field(
         default=None, description="Snap timestamp (ISO 8601)."
@@ -100,17 +106,15 @@ class SnapchatNamespace:
         subscriber count, and recent public content - with transparent per-request
         USD pricing.
 
-        Price: $0.002 per result.
+        Price: $0.001 per request plus $0.002 per result.
 
         Example:
             res = client.snapchat.profile(username="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "snapchat.profile", dict(input), options
         )
-        return RunResult[SnapchatProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SnapchatProfileData].model_validate(raw)
 
 
 class AsyncSnapchatNamespace:
@@ -131,14 +135,12 @@ class AsyncSnapchatNamespace:
         subscriber count, and recent public content - with transparent per-request
         USD pricing.
 
-        Price: $0.002 per result.
+        Price: $0.001 per request plus $0.002 per result.
 
         Example:
             res = client.snapchat.profile(username="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "snapchat.profile", dict(input), options
         )
-        return RunResult[SnapchatProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SnapchatProfileData].model_validate(raw)

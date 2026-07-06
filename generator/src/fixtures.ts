@@ -9,7 +9,9 @@ import { buildIr } from "./ir.js";
 import type { Ir, SkuEntry, SchemaNode } from "./types.js";
 
 interface Fixture {
-  output: { found: true; data: unknown };
+  // found-data: output = { found: true, data }. bare: output = data directly (SPEC 1.2
+  // erratum) - there is no found/data wrapper on the wire for bare SKUs.
+  output: { found: true; data: unknown } | Record<string, unknown>;
   provider: "AnyAPI";
   costUsd: number;
   items: number;
@@ -30,8 +32,13 @@ function buildFixture(sku: SkuEntry): Fixture {
   // SPEC 4: items = length of the array at the primary array field, else 1. Synthesized
   // arrays are always single-element, so a SKU with a primary array yields 1, and one
   // without yields 1 - always 1 for synthetic fixtures.
+  // Bare SKUs have no found/data wrapper: output IS the synthesized data object directly.
+  const output =
+    sku.output.envelope === "bare"
+      ? (data as Record<string, unknown>)
+      : { found: true as const, data };
   return {
-    output: { found: true, data },
+    output,
     provider: "AnyAPI",
     costUsd: 0.001,
     items: 1,

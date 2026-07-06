@@ -28,9 +28,6 @@ export interface AppstoreReviewsInput {
 
 export interface AppstoreReviewsItem {
   rating: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -41,7 +38,6 @@ export interface AppstoreReviewsItem {
 export interface AppstoreReviewsData {
   /**
    * Review records: star rating, review title and text, reviewer nickname, app version, and review date.
-   * Populated whenever the provider returns data.
    */
   items: AppstoreReviewsItem[];
 }
@@ -58,10 +54,10 @@ export class AppstoreNamespace {
    *
    * Get App Store reviews for any iOS app by app ID, in any storefront country - ratings, titles, and review text with transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.0001 per result.
+   * Price: $0.0001 per result.
    *
    * @example
-   * const res = await client.appstore.reviews({"appId":"389801252","country":"us","limit":3});
+   * const res = await client.appstore.reviews({ appId: "389801252", country: "us", limit: 3 });
    */
   reviews(
     input: AppstoreReviewsInput,

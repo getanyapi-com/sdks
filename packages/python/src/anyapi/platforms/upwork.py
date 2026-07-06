@@ -28,42 +28,45 @@ class UpworkJobsInput(TypedDict, total=False):
 
 class UpworkJobsData(BaseModel):
     items: list[UpworkJobsItem] = Field(
-        description="Job records: title, description, budget or hourly rate, required skills, posted date, and client details. Populated whenever the provider returns data."
+        description="Job records: title, description, budget or hourly rate, required skills, posted date, and client details."
     )
 
 
 class UpworkJobsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     budget: str | None = Field(
         default=None, description="Fixed budget or hourly range."
     )
-    clientLocation: str | None = None
-    clientRating: float | None = None
-    clientTotalSpent: float | None = Field(
-        default=None, description="Client lifetime spend (USD)."
+    client_location: str | None = Field(default=None, alias="clientLocation")
+    client_rating: float | None = Field(default=None, alias="clientRating")
+    client_total_spent: float | None = Field(
+        default=None,
+        alias="clientTotalSpent",
+        description="Client lifetime spend (USD).",
     )
     description: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    experienceLevel: str | None = None
-    jobId: str = Field(
-        description="Upwork job identifier. Populated whenever the provider returns data."
+    experience_level: str | None = Field(default=None, alias="experienceLevel")
+    job_id: str = Field(alias="jobId", description="Upwork job identifier.")
+    job_type: str | None = Field(
+        default=None, alias="jobType", description="Fixed or Hourly."
     )
-    jobType: str | None = Field(default=None, description="Fixed or Hourly.")
-    paymentVerified: bool | None = Field(
+    payment_verified: bool | None = Field(
         default=None,
+        alias="paymentVerified",
         description="Whether the client's payment method is verified; null when Upwork reports it as unknown.",
     )
-    postedAt: str | None = Field(default=None, description="ISO 8601 posting date.")
+    posted_at: str | None = Field(
+        default=None, alias="postedAt", description="ISO 8601 posting date."
+    )
     proposals: int | None = Field(
         default=None, description="Number of proposals submitted."
     )
     tags: list[str] | None = Field(default=None, description="Skill tags.")
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(
-        description="Upwork job posting URL. Populated whenever the provider returns data."
-    )
+    title: str
+    url: str = Field(description="Upwork job posting URL.")
 
 
 class UpworkNamespace:
@@ -85,10 +88,10 @@ class UpworkNamespace:
         Example:
             res = client.upwork.jobs(limit=10, query="web developer")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "upwork.jobs", dict(input), options
         )
-        return RunResult[UpworkJobsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[UpworkJobsData].model_validate(raw)
 
 
 class AsyncUpworkNamespace:
@@ -110,7 +113,7 @@ class AsyncUpworkNamespace:
         Example:
             res = client.upwork.jobs(limit=10, query="web developer")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "upwork.jobs", dict(input), options
         )
-        return RunResult[UpworkJobsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[UpworkJobsData].model_validate(raw)

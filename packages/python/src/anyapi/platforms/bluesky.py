@@ -37,50 +37,40 @@ class BlueskyUserPostsInput(TypedDict, total=False):
 
 
 class BlueskyPostData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorHandle: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    createdAt: str = Field(description="Populated whenever the provider returns data.")
+    author_handle: str = Field(alias="authorHandle")
+    created_at: str = Field(alias="createdAt")
     likes: int
     replies: int
     reposts: int
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
 
 
 class BlueskyProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    description: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    description: str
+    display_name: str = Field(alias="displayName")
     followers: int
     following: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    postsCount: int
+    handle: str
+    posts_count: int = Field(alias="postsCount")
 
 
 class BlueskyUserPostsData(BaseModel):
-    posts: list[BlueskyUserPostsPost] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    posts: list[BlueskyUserPostsPost]
 
 
 class BlueskyUserPostsPost(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorHandle: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    createdAt: str = Field(description="Populated whenever the provider returns data.")
+    author_handle: str = Field(alias="authorHandle")
+    created_at: str = Field(alias="createdAt")
     likes: int
     replies: int
     reposts: int
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
 
 
 class BlueskyNamespace:
@@ -105,10 +95,10 @@ class BlueskyNamespace:
         Example:
             res = client.bluesky.post(url="https://bsky.app/profile/bsky.app/post/3l6oveex3ii2l")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "bluesky.post", dict(input), options
         )
-        return RunResult[BlueskyPostData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[BlueskyPostData].model_validate(raw)
 
     def profile(
         self,
@@ -126,12 +116,10 @@ class BlueskyNamespace:
         Example:
             res = client.bluesky.profile(handle="bsky.app")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "bluesky.profile", dict(input), options
         )
-        return RunResult[BlueskyProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[BlueskyProfileData].model_validate(raw)
 
     def user_posts(
         self,
@@ -150,12 +138,10 @@ class BlueskyNamespace:
         Example:
             res = client.bluesky.user_posts(handle="bsky.app")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "bluesky.user_posts", dict(input), options
         )
-        return RunResult[BlueskyUserPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[BlueskyUserPostsData].model_validate(raw)
 
 
 class AsyncBlueskyNamespace:
@@ -180,10 +166,10 @@ class AsyncBlueskyNamespace:
         Example:
             res = client.bluesky.post(url="https://bsky.app/profile/bsky.app/post/3l6oveex3ii2l")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "bluesky.post", dict(input), options
         )
-        return RunResult[BlueskyPostData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[BlueskyPostData].model_validate(raw)
 
     async def profile(
         self,
@@ -201,12 +187,10 @@ class AsyncBlueskyNamespace:
         Example:
             res = client.bluesky.profile(handle="bsky.app")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "bluesky.profile", dict(input), options
         )
-        return RunResult[BlueskyProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[BlueskyProfileData].model_validate(raw)
 
     async def user_posts(
         self,
@@ -225,9 +209,7 @@ class AsyncBlueskyNamespace:
         Example:
             res = client.bluesky.user_posts(handle="bsky.app")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "bluesky.user_posts", dict(input), options
         )
-        return RunResult[BlueskyUserPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[BlueskyUserPostsData].model_validate(raw)

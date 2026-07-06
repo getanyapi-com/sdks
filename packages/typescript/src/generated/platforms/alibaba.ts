@@ -22,13 +22,7 @@ export interface AlibabaSearchInput {
 }
 
 export interface AlibabaSearchItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -39,7 +33,6 @@ export interface AlibabaSearchItem {
 export interface AlibabaSearchData {
   /**
    * Matching Alibaba wholesale listings: title, price range, minimum order quantity, supplier name, and listing URL.
-   * Populated whenever the provider returns data.
    */
   items: AlibabaSearchItem[];
 }
@@ -56,10 +49,10 @@ export class AlibabaNamespace {
    *
    * Search Alibaba by keyword and get up to 25 wholesale listings - title, price range, minimum order, and supplier - in one normalized, flat-priced response.
    *
-   * Price: $0 per request plus $0.0012 per result.
+   * Price: $0.0012 per result.
    *
    * @example
-   * const res = await client.alibaba.search({"limit":3,"query":"bluetooth speaker"});
+   * const res = await client.alibaba.search({ query: "bluetooth speaker", limit: 3 });
    */
   search(
     input: AlibabaSearchInput,

@@ -123,19 +123,30 @@ export function itemTypeName(operationId: string, arrayPropName: string): string
   return pascalCase(operationId) + suffix;
 }
 
-/** Format a USD amount for a doc comment: trims to a plain decimal, no trailing zeros. */
+/**
+ * Format a USD amount for a doc comment: a fixed-decimal string with trailing zeros
+ * trimmed, so a sub-1e-6 price never renders in exponential form (`String(1e-7)` would be
+ * "1e-7"). Whole numbers keep no decimal point. See SPEC S1 (LOW formatter).
+ */
 export function formatUsd(amount: number): string {
-  // Use enough precision for sub-cent prices, then strip trailing zeros. JSON numbers in
-  // the IR are already exact; String() gives the shortest round-tripping form.
-  return String(amount);
+  if (!Number.isFinite(amount)) return "0";
+  // 8 decimals covers the smallest per-request/per-item prices in the catalog; trim the
+  // trailing zeros (and a bare trailing dot) so "0.01625" stays clean and "0" has no dot.
+  let s = amount.toFixed(8);
+  if (s.includes(".")) {
+    s = s.replace(/0+$/, "").replace(/\.$/, "");
+  }
+  return s;
 }
 
 /**
- * The "Price:" doc line per SPEC 2.4. Fixed pricing (perItemUsd null) yields the flat
- * form. Per-item pricing (perItemUsd non-null) yields
- *   "Price: $BASE per request plus $PER_ITEM per UNIT."
- * where BASE is the per-request floor (`baseUsd` when present, else `priceUsd`) and UNIT
- * falls back to "result" when perItemUnit is null (SPEC 1.2 note).
+ * The single "Price:" doc line shared by BOTH emitters (SPEC S1). Wording:
+ *   - fixed pricing (perItemUsd null/0) -> "Price: $X per request."
+ *   - per-item with base > 0 -> "Price: $BASE per request plus $PER per UNIT."
+ *   - per-item with base 0/null -> "Price: $PER per UNIT." (never "$0 per request plus")
+ * BASE is the per-request floor (`baseUsd` when set, else `priceUsd`) and UNIT falls back
+ * to "result" when perItemUnit is null (SPEC 1.2 note). perItemUsd 0 is treated like null
+ * (the extractor emits 0, not null, when catalog perItemCredits is 0).
  */
 export function priceLine(pricing: {
   priceUsd: number;
@@ -144,14 +155,16 @@ export function priceLine(pricing: {
   perItemUnit: string | null;
 }): string {
   const { priceUsd, baseUsd, perItemUsd, perItemUnit } = pricing;
-  // Treat perItemUsd 0 like null: the extractor emits 0 (not null) when catalog
-  // perItemCredits is 0, and we never want a "plus $0 per result" doc line (SPEC 1.2).
   if (perItemUsd !== null && perItemUsd > 0) {
-    const base = baseUsd ?? priceUsd;
     const unit = perItemUnit ?? "result";
-    return `Price: $${formatUsd(base)} per request plus $${formatUsd(
-      perItemUsd,
-    )} per ${unit}.`;
+    // The per-request base fee is the dynamic floor `baseUsd`. When it is null or 0 there
+    // is no base clause (never "$0 per request plus ...") - just the per-unit price (S1).
+    if (baseUsd !== null && baseUsd > 0) {
+      return `Price: $${formatUsd(baseUsd)} per request plus $${formatUsd(
+        perItemUsd,
+      )} per ${unit}.`;
+    }
+    return `Price: $${formatUsd(perItemUsd)} per ${unit}.`;
   }
   return `Price: $${formatUsd(priceUsd)} per request.`;
 }

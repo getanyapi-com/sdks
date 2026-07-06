@@ -31,40 +31,38 @@ class EmailVerifyInput(TypedDict, total=False):
 
 class EmailFindData(BaseModel):
     items: list[EmailFindItem] = Field(
-        description="Email lookup records: the discovered email address, verification status, and the matched person and company details. Populated whenever the provider returns data."
+        description="Email lookup records: the discovered email address, verification status, and the matched person and company details."
     )
 
 
 class EmailFindItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     domain: str | None = None
     email: str = Field(
-        description="Discovered email address, or empty when none was found. Populated whenever the provider returns data."
+        description="Discovered email address, or empty when none was found."
     )
-    firstName: str | None = None
-    isDeliverable: bool | None = None
-    lastName: str | None = None
-    status: str = Field(
-        description="Lookup status (e.g. found, not_found). Populated whenever the provider returns data."
-    )
+    first_name: str | None = Field(default=None, alias="firstName")
+    is_deliverable: bool | None = Field(default=None, alias="isDeliverable")
+    last_name: str | None = Field(default=None, alias="lastName")
+    status: str = Field(description="Lookup status (e.g. found, not_found).")
 
 
 class EmailVerifyData(BaseModel):
     items: list[EmailVerifyItem] = Field(
-        description="Verification records: the email address with its deliverability verdict and syntax, domain, and mailbox check details. Populated whenever the provider returns data."
+        description="Verification records: the email address with its deliverability verdict and syntax, domain, and mailbox check details."
     )
 
 
 class EmailVerifyItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    catchAll: bool | None = Field(
-        default=None, description="Domain accepts all addresses."
+    catch_all: bool | None = Field(
+        default=None, alias="catchAll", description="Domain accepts all addresses."
     )
     disposable: bool | None = None
     domain: str | None = None
-    email: str = Field(description="Populated whenever the provider returns data.")
+    email: str
     free: bool | None = Field(default=None, description="Free email provider.")
     reason: str | None = None
     role: bool | None = Field(
@@ -72,7 +70,7 @@ class EmailVerifyItem(BaseModel):
     )
     score: int | None = Field(default=None, description="Confidence score (0-100).")
     status: str = Field(
-        description="Deliverability verdict (e.g. valid, risky, invalid). Populated whenever the provider returns data."
+        description="Deliverability verdict (e.g. valid, risky, invalid)."
     )
 
 
@@ -90,15 +88,15 @@ class EmailNamespace:
         Find a person's work email address from their name and company domain, with
         transparent per-request USD pricing.
 
-        Price: $0.008 per result.
+        Price: $0.005 per request plus $0.008 per result.
 
         Example:
             res = client.email.find(person={"domain": "stripe.com", "firstName": "Patrick", "surname": "Collison"})
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "email.find", dict(input), options
         )
-        return RunResult[EmailFindData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[EmailFindData].model_validate(raw)
 
     def verify(
         self,
@@ -116,10 +114,10 @@ class EmailNamespace:
         Example:
             res = client.email.verify(email="patrick@stripe.com")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "email.verify", dict(input), options
         )
-        return RunResult[EmailVerifyData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[EmailVerifyData].model_validate(raw)
 
 
 class AsyncEmailNamespace:
@@ -136,15 +134,15 @@ class AsyncEmailNamespace:
         Find a person's work email address from their name and company domain, with
         transparent per-request USD pricing.
 
-        Price: $0.008 per result.
+        Price: $0.005 per request plus $0.008 per result.
 
         Example:
             res = client.email.find(person={"domain": "stripe.com", "firstName": "Patrick", "surname": "Collison"})
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "email.find", dict(input), options
         )
-        return RunResult[EmailFindData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[EmailFindData].model_validate(raw)
 
     async def verify(
         self,
@@ -162,7 +160,7 @@ class AsyncEmailNamespace:
         Example:
             res = client.email.verify(email="patrick@stripe.com")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "email.verify", dict(input), options
         )
-        return RunResult[EmailVerifyData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[EmailVerifyData].model_validate(raw)

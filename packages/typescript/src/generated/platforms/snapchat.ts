@@ -22,21 +22,21 @@ export interface SnapchatProfileInput {
 export interface SnapchatProfileItem {
   /**
    * URL of the profile avatar image.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   avatarUrl?: string;
   /**
    * The profile's public bio / description text.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   bio?: string;
   /**
    * The profile's public display name.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   displayName?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   handle?: string;
   /**
@@ -47,9 +47,6 @@ export interface SnapchatProfileItem {
    * Public subscriber count.
    */
   subscribers?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -100,7 +97,6 @@ export interface SnapchatProfileSnap {
 export interface SnapchatProfileData {
   /**
    * Profile records: public profile URL, handle, display name, bio, subscriber count, avatar, and recent public stories.
-   * Populated whenever the provider returns data.
    */
   items: SnapchatProfileItem[];
 }
@@ -120,7 +116,7 @@ export class SnapchatNamespace {
    * Price: $0.001 per request plus $0.002 per result.
    *
    * @example
-   * const res = await client.snapchat.profile({"username":"nasa"});
+   * const res = await client.snapchat.profile({ username: "nasa" });
    */
   profile(
     input: SnapchatProfileInput,

@@ -29,9 +29,6 @@ export interface PersonSkipTraceInput {
 }
 
 export interface PersonSkipTraceItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -42,7 +39,6 @@ export interface PersonSkipTraceItem {
 export interface PersonSkipTraceData {
   /**
    * Skip-trace records: the matched person with known names, ages, current and past addresses, phone numbers, and email addresses.
-   * Populated whenever the provider returns data.
    */
   items: PersonSkipTraceItem[];
 }
@@ -59,10 +55,10 @@ export class PersonNamespace {
    *
    * Skip-trace a person in the US by name, address, phone, or email and get back identity, address, and contact records in normalized JSON.
    *
-   * Price: $0 per request plus $0.007 per result.
+   * Price: $0.007 per result.
    *
    * @example
-   * const res = await client.person.skipTrace({"address":"123 Main St, Austin, TX 78701","name":"John Smith"});
+   * const res = await client.person.skipTrace({ address: "123 Main St, Austin, TX 78701", name: "John Smith" });
    */
   skipTrace(
     input: PersonSkipTraceInput,

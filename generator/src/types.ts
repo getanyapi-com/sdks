@@ -99,8 +99,18 @@ export interface SkuEntry {
   outputTypeName: string;
   example: unknown;
   input: SchemaNode;
-  output: { envelope: "found-data"; data: SchemaNode };
+  output: { envelope: Envelope; data: SchemaNode };
   pagination: Pagination;
+}
+
+/** How the wire `output` is shaped. "found-data": {found,data}. "bare": output IS the data. */
+export type Envelope = "found-data" | "bare";
+
+/** A generator diagnostic surfaced in the IR meta so gaps are diffable (SPEC 1.2 erratum). */
+export interface IrWarning {
+  kind: string;
+  slug: string;
+  message: string;
 }
 
 export interface Ir {
@@ -108,5 +118,6 @@ export interface Ir {
   generatedFrom: string;
   openapiVersion: string;
   baseUrl: string;
+  warnings?: IrWarning[];
   skus: SkuEntry[];
 }

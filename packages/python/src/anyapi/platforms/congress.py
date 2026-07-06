@@ -34,18 +34,18 @@ class CongressTradesInput(TypedDict, total=False):
 
 class CongressTradesData(BaseModel):
     items: list[CongressTradesItem] = Field(
-        description="Disclosure records: member name and chamber, stock ticker, transaction type, amount range, and transaction/report dates. Populated whenever the provider returns data."
+        description="Disclosure records: member name and chamber, stock ticker, transaction type, amount range, and transaction/report dates."
     )
 
 
 class CongressTradesItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str = Field(description="Populated whenever the provider returns data.")
+    id: str
     name: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    symbol: str = Field(description="Populated whenever the provider returns data.")
+    symbol: str
 
 
 class CongressNamespace:
@@ -66,17 +66,15 @@ class CongressNamespace:
         ticker, transaction type, amount range, and dates - filterable by member,
         ticker, or date range, billed per request in USD.
 
-        Price: $0.0019 per result.
+        Price: $0.001 per request plus $0.0019 per result.
 
         Example:
             res = client.congress.trades(limit=5)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "congress.trades", dict(input), options
         )
-        return RunResult[CongressTradesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[CongressTradesData].model_validate(raw)
 
 
 class AsyncCongressNamespace:
@@ -97,14 +95,12 @@ class AsyncCongressNamespace:
         ticker, transaction type, amount range, and dates - filterable by member,
         ticker, or date range, billed per request in USD.
 
-        Price: $0.0019 per result.
+        Price: $0.001 per request plus $0.0019 per result.
 
         Example:
             res = client.congress.trades(limit=5)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "congress.trades", dict(input), options
         )
-        return RunResult[CongressTradesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[CongressTradesData].model_validate(raw)

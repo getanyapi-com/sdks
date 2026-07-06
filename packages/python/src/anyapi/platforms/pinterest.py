@@ -28,7 +28,7 @@ class PinterestSearchInput(TypedDict, total=False):
 
 class PinterestSearchData(BaseModel):
     items: list[PinterestSearchItem] = Field(
-        description="Matching Pinterest records: pin or board title, description, image/video URL, creator, and link. Populated whenever the provider returns data."
+        description="Matching Pinterest records: pin or board title, description, image/video URL, creator, and link."
     )
 
 
@@ -37,7 +37,7 @@ class PinterestSearchItem(BaseModel):
 
     id: str
     title: str
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class PinterestNamespace:
@@ -62,12 +62,10 @@ class PinterestNamespace:
         Example:
             res = client.pinterest.search(limit=3, query="home decor")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "pinterest.search", dict(input), options
         )
-        return RunResult[PinterestSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[PinterestSearchData].model_validate(raw)
 
 
 class AsyncPinterestNamespace:
@@ -92,9 +90,7 @@ class AsyncPinterestNamespace:
         Example:
             res = client.pinterest.search(limit=3, query="home decor")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "pinterest.search", dict(input), options
         )
-        return RunResult[PinterestSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[PinterestSearchData].model_validate(raw)

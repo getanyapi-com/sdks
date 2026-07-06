@@ -38,13 +38,12 @@ export interface UpworkJobsItem {
    */
   clientTotalSpent?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   description?: string;
   experienceLevel?: string;
   /**
    * Upwork job identifier.
-   * Populated whenever the provider returns data.
    */
   jobId: string;
   /**
@@ -67,13 +66,9 @@ export interface UpworkJobsItem {
    * Skill tags.
    */
   tags?: string[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   /**
    * Upwork job posting URL.
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -85,7 +80,6 @@ export interface UpworkJobsItem {
 export interface UpworkJobsData {
   /**
    * Job records: title, description, budget or hourly rate, required skills, posted date, and client details.
-   * Populated whenever the provider returns data.
    */
   items: UpworkJobsItem[];
 }
@@ -102,10 +96,10 @@ export class UpworkNamespace {
    *
    * Search Upwork job postings by keyword - up to 25 fresh listings per request with transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.0033 per result.
+   * Price: $0.0033 per result.
    *
    * @example
-   * const res = await client.upwork.jobs({"limit":10,"query":"web developer"});
+   * const res = await client.upwork.jobs({ query: "web developer", limit: 10 });
    */
   jobs(
     input: UpworkJobsInput,

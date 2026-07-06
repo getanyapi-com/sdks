@@ -34,34 +34,13 @@ export interface SpotifyAlbumTrack {
  * The `data` payload of Spotify Album (spotify.album).
  */
 export interface SpotifyAlbumData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   label: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   popularity: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   releaseDate: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   tracks: SpotifyAlbumTrack[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   type: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   uri: string;
 }
 
@@ -80,26 +59,11 @@ export interface SpotifyArtistInput {
 }
 
 export interface SpotifyArtistAlbum {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   trackCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   type: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   uri: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   year: number;
   [extra: string]: unknown;
 }
@@ -116,13 +80,7 @@ export interface SpotifyArtistTopTrack {
  * The `data` payload of Spotify Artist (spotify.artist).
  */
 export interface SpotifyArtistData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   albums: SpotifyArtistAlbum[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   topTracks: SpotifyArtistTopTrack[];
 }
 
@@ -137,16 +95,10 @@ export interface SpotifyPlayCountInput {
 }
 
 export interface SpotifyPlayCountItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   url?: string;
   [extra: string]: unknown;
@@ -158,7 +110,6 @@ export interface SpotifyPlayCountItem {
 export interface SpotifyPlayCountData {
   /**
    * Play-count records: track, album, or artist metadata with stream counts and statistics.
-   * Populated whenever the provider returns data.
    */
   items: SpotifyPlayCountItem[];
 }
@@ -182,26 +133,11 @@ export interface SpotifyPodcastInput {
  */
 export interface SpotifyPodcastData {
   averageRating: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publisher: string;
   totalRatings: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   uri: string;
   [extra: string]: unknown;
 }
@@ -225,26 +161,11 @@ export interface SpotifyPodcastEpisodesInput {
 }
 
 export interface SpotifyPodcastEpisodesEpisode {
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
   durationMs: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   releaseDate: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   uri: string;
   [extra: string]: unknown;
 }
@@ -253,9 +174,6 @@ export interface SpotifyPodcastEpisodesEpisode {
  * The `data` payload of Spotify Podcast Episodes (spotify.podcast_episodes).
  */
 export interface SpotifyPodcastEpisodesData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   episodes: SpotifyPodcastEpisodesEpisode[];
   nextCursor: string;
   totalCount: number;
@@ -295,17 +213,8 @@ export interface SpotifySearchPodcast {
 }
 
 export interface SpotifySearchTrack {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   uri: string;
   [extra: string]: unknown;
 }
@@ -314,21 +223,9 @@ export interface SpotifySearchTrack {
  * The `data` payload of Spotify Search (spotify.search).
  */
 export interface SpotifySearchData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   albums: SpotifySearchAlbum[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   artists: SpotifySearchArtist[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   podcasts: SpotifySearchPodcast[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   tracks: SpotifySearchTrack[];
 }
 
@@ -350,31 +247,13 @@ export interface SpotifyTrackInput {
  * The `data` payload of Spotify Track (spotify.track).
  */
 export interface SpotifyTrackData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   durationMs: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   playcount: number;
   popularity: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   shareUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   trackNumber: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   uri: string;
   [extra: string]: unknown;
 }
@@ -394,7 +273,7 @@ export class SpotifyNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.spotify.album({"url":"https://open.spotify.com/album/0pgrg7phBbnwGJ2HBEl9EG"});
+   * const res = await client.spotify.album({ url: "https://open.spotify.com/album/0pgrg7phBbnwGJ2HBEl9EG" });
    */
   album(
     input: SpotifyAlbumInput,
@@ -411,7 +290,7 @@ export class SpotifyNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.spotify.artist({"url":"https://open.spotify.com/artist/3DiDSECUqqY1AuBP8qtaIa"});
+   * const res = await client.spotify.artist({ url: "https://open.spotify.com/artist/3DiDSECUqqY1AuBP8qtaIa" });
    */
   artist(
     input: SpotifyArtistInput,
@@ -425,10 +304,10 @@ export class SpotifyNamespace {
    *
    * Fetch stream counts and stats for a Spotify track, album, or artist URL, with transparent per-request USD pricing.
    *
-   * Price: $0 per request plus $0.003 per result.
+   * Price: $0.003 per result.
    *
    * @example
-   * const res = await client.spotify.playCount({"url":"https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT"});
+   * const res = await client.spotify.playCount({ url: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT" });
    */
   playCount(
     input: SpotifyPlayCountInput,
@@ -445,7 +324,7 @@ export class SpotifyNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.spotify.podcast({"url":"https://open.spotify.com/show/3mliji9352UAk3XnWElnDV"});
+   * const res = await client.spotify.podcast({ url: "https://open.spotify.com/show/3mliji9352UAk3XnWElnDV" });
    */
   podcast(
     input: SpotifyPodcastInput,
@@ -462,7 +341,7 @@ export class SpotifyNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.spotify.podcastEpisodes({"url":"https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk"});
+   * const res = await client.spotify.podcastEpisodes({ url: "https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk" });
    */
   podcastEpisodes(
     input: SpotifyPodcastEpisodesInput,
@@ -475,17 +354,24 @@ export class SpotifyNamespace {
    * Iterate every result of Spotify Podcast Episodes across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterPodcastEpisodes(
     input: SpotifyPodcastEpisodesInput,
     options?: RequestOptions,
-  ): Paginator<SpotifyPodcastEpisodesEpisode, SpotifyPodcastEpisodesData> {
-    return paginate<SpotifyPodcastEpisodesEpisode, SpotifyPodcastEpisodesData>(
+  ): Paginator<
+    SpotifyPodcastEpisodesEpisode,
+    RunResult<SpotifyPodcastEpisodesData>
+  > {
+    return paginate<
+      SpotifyPodcastEpisodesEpisode,
+      RunResult<SpotifyPodcastEpisodesData>
+    >(
       this._core,
       "spotify.podcast_episodes",
       input as unknown as Record<string, unknown>,
       "episodes",
+      false,
       options,
     );
   }
@@ -498,7 +384,7 @@ export class SpotifyNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.spotify.search({"query":"my first million"});
+   * const res = await client.spotify.search({ query: "my first million" });
    */
   search(
     input: SpotifySearchInput,
@@ -515,7 +401,7 @@ export class SpotifyNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.spotify.track({"url":"https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT"});
+   * const res = await client.spotify.track({ url: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT" });
    */
   track(
     input: SpotifyTrackInput,

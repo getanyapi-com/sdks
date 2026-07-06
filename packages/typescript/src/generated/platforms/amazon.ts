@@ -29,18 +29,17 @@ export interface AmazonAsinsInput {
 export interface AmazonAsinsItem {
   /**
    * Amazon Standard Identification Number.
-   * Populated whenever the provider returns data.
    */
   asin: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   brand?: string;
   condition?: string;
   currency?: string;
   /**
    * Primary product image URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   inStock?: boolean;
@@ -54,13 +53,7 @@ export interface AmazonAsinsItem {
   rating?: number;
   reviewsCount?: number;
   sellerName?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -71,7 +64,6 @@ export interface AmazonAsinsItem {
 export interface AmazonAsinsData {
   /**
    * Product records: ASIN, title, brand, price, ratings, images, and attributes.
-   * Populated whenever the provider returns data.
    */
   items: AmazonAsinsItem[];
 }
@@ -92,17 +84,8 @@ export interface AmazonBestsellersInput {
 }
 
 export interface AmazonBestsellersItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   asin: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -113,7 +96,6 @@ export interface AmazonBestsellersItem {
 export interface AmazonBestsellersData {
   /**
    * Best-seller product records: category rank, title, price, rating, thumbnail, and product URL.
-   * Populated whenever the provider returns data.
    */
   items: AmazonBestsellersItem[];
 }
@@ -129,18 +111,15 @@ export interface AmazonProductInput {
 }
 
 export interface AmazonProductItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   asin: string;
   /**
    * Manufacturer or brand name.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   brand?: string;
   /**
    * High-resolution product image URLs.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   images?: string[];
   /**
@@ -155,13 +134,7 @@ export interface AmazonProductItem {
    * Total number of customer reviews.
    */
   reviewCount?: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -172,7 +145,6 @@ export interface AmazonProductItem {
 export interface AmazonProductData {
   /**
    * Product detail records: title, url, asin, brand, price amount (when in stock), images, rating, review count, and (passed through) variant details and attributes.
-   * Populated whenever the provider returns data.
    */
   items: AmazonProductItem[];
 }
@@ -228,9 +200,6 @@ export interface AmazonReviewsInput {
 
 export interface AmazonReviewsItem {
   rating: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -241,7 +210,6 @@ export interface AmazonReviewsItem {
 export interface AmazonReviewsData {
   /**
    * Customer review records: star rating, title, review text, date, reviewer, and verified-purchase status.
-   * Populated whenever the provider returns data.
    */
   items: AmazonReviewsItem[];
 }
@@ -262,9 +230,6 @@ export interface AmazonSearchInput {
 }
 
 export interface AmazonSearchItem {
-  /**
-   * Populated whenever the provider returns data.
-   */
   asin: string;
   /**
    * Currency symbol or code for the price.
@@ -284,12 +249,9 @@ export interface AmazonSearchItem {
   reviewCount?: number;
   /**
    * Product thumbnail image URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   thumbnail?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   [extra: string]: unknown;
 }
@@ -300,7 +262,6 @@ export interface AmazonSearchItem {
 export interface AmazonSearchData {
   /**
    * Search result product records: title, ASIN, price amount, currency, rating, review count, and thumbnail.
-   * Populated whenever the provider returns data.
    */
   items: AmazonSearchItem[];
 }
@@ -317,10 +278,10 @@ export class AmazonNamespace {
    *
    * Look up to 10 Amazon products in one call by ASIN - title, brand, price, ratings, images, and attributes - as normalized JSON with flat per-request USD pricing.
    *
-   * Price: $0 per request plus $0.0035 per asin.
+   * Price: $0.0035 per asin.
    *
    * @example
-   * const res = await client.amazon.asins({"asins":["B09G9FPHY6"],"limit":3});
+   * const res = await client.amazon.asins({ asins: ["B09G9FPHY6"], limit: 3 });
    */
   asins(
     input: AmazonAsinsInput,
@@ -334,10 +295,10 @@ export class AmazonNamespace {
    *
    * List the top-ranked products of any Amazon Best Sellers category - rank, title, price, and rating - in one normalized, flat-priced request.
    *
-   * Price: $0 per request plus $0.0041 per result.
+   * Price: $0.0041 per result.
    *
    * @example
-   * const res = await client.amazon.bestsellers({"limit":3,"url":"https://www.amazon.com/gp/bestsellers/electronics"});
+   * const res = await client.amazon.bestsellers({ url: "https://www.amazon.com/gp/bestsellers/electronics", limit: 3 });
    */
   bestsellers(
     input: AmazonBestsellersInput,
@@ -354,7 +315,7 @@ export class AmazonNamespace {
    * Price: $0.001 per request plus $0.0081 per result.
    *
    * @example
-   * const res = await client.amazon.product({"url":"https://www.amazon.com/dp/B00NTCH52W"});
+   * const res = await client.amazon.product({ url: "https://www.amazon.com/dp/B00NTCH52W" });
    */
   product(
     input: AmazonProductInput,
@@ -371,7 +332,7 @@ export class AmazonNamespace {
    * Price: $0.01625 per request.
    *
    * @example
-   * const res = await client.amazon.reviews({"limit":3,"product":"B07FZ8S74R"});
+   * const res = await client.amazon.reviews({ product: "B07FZ8S74R", limit: 3 });
    */
   reviews(
     input: AmazonReviewsInput,
@@ -385,10 +346,10 @@ export class AmazonNamespace {
    *
    * Search Amazon from any search or category URL and get up to 20 matching products - title, price, rating, and thumbnail - in one normalized, flat-priced response.
    *
-   * Price: $0 per request plus $0.0035 per result.
+   * Price: $0.0035 per result.
    *
    * @example
-   * const res = await client.amazon.search({"limit":3,"url":"https://www.amazon.com/s?k=laptop"});
+   * const res = await client.amazon.search({ url: "https://www.amazon.com/s?k=laptop", limit: 3 });
    */
   search(
     input: AmazonSearchInput,

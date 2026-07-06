@@ -21,26 +21,14 @@ export interface ThreadsPostInput {
  */
 export interface ThreadsPostData {
   code: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   fullName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likeCount: number;
   quoteCount: number;
   replyCount: number;
   repostCount: number;
   takenAt: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   [extra: string]: unknown;
 }
@@ -59,28 +47,13 @@ export interface ThreadsProfileInput {
  * The `data` payload of Threads Profile (threads.profile).
  */
 export interface ThreadsProfileData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   biography: string;
   followerCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   fullName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   isPrivate: boolean;
   isVerified: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   profilePicUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   [extra: string]: unknown;
 }
@@ -97,29 +70,14 @@ export interface ThreadsSearchInput {
 
 export interface ThreadsSearchPost {
   code: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   fullName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likeCount: number;
   replyCount: number;
   repostCount: number;
   takenAt: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   [extra: string]: unknown;
 }
@@ -130,7 +88,6 @@ export interface ThreadsSearchPost {
 export interface ThreadsSearchData {
   /**
    * Matching public post records: text, author, engagement counts, timestamp, and URL.
-   * Populated whenever the provider returns data.
    */
   posts: ThreadsSearchPost[];
 }
@@ -146,22 +103,10 @@ export interface ThreadsSearchUsersInput {
 }
 
 export interface ThreadsSearchUsersUser {
-  /**
-   * Populated whenever the provider returns data.
-   */
   fullName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   isVerified: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   profilePicUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   [extra: string]: unknown;
 }
@@ -170,9 +115,6 @@ export interface ThreadsSearchUsersUser {
  * The `data` payload of Threads User Search (threads.search_users).
  */
 export interface ThreadsSearchUsersData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   users: ThreadsSearchUsersUser[];
 }
 
@@ -188,26 +130,14 @@ export interface ThreadsUserPostsInput {
 
 export interface ThreadsUserPostsPost {
   code: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likeCount: number;
   quoteCount: number;
   replyCount: number;
   repostCount: number;
   takenAt: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   username: string;
   [extra: string]: unknown;
 }
@@ -216,9 +146,6 @@ export interface ThreadsUserPostsPost {
  * The `data` payload of Threads User Posts (threads.user_posts).
  */
 export interface ThreadsUserPostsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: ThreadsUserPostsPost[];
 }
 
@@ -237,7 +164,7 @@ export class ThreadsNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.threads.post({"url":"https://www.threads.com/@aaronparnas/post/DZxPYVFkYSq"});
+   * const res = await client.threads.post({ url: "https://www.threads.com/@aaronparnas/post/DZxPYVFkYSq" });
    */
   post(
     input: ThreadsPostInput,
@@ -254,7 +181,7 @@ export class ThreadsNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.threads.profile({"username":"zuck"});
+   * const res = await client.threads.profile({ username: "zuck" });
    */
   profile(
     input: ThreadsProfileInput,
@@ -271,7 +198,7 @@ export class ThreadsNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.threads.search({"query":"trump"});
+   * const res = await client.threads.search({ query: "trump" });
    */
   search(
     input: ThreadsSearchInput,
@@ -288,7 +215,7 @@ export class ThreadsNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.threads.searchUsers({"query":"shams"});
+   * const res = await client.threads.searchUsers({ query: "shams" });
    */
   searchUsers(
     input: ThreadsSearchUsersInput,
@@ -305,7 +232,7 @@ export class ThreadsNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.threads.userPosts({"handle":"trendspider"});
+   * const res = await client.threads.userPosts({ handle: "trendspider" });
    */
   userPosts(
     input: ThreadsUserPostsInput,

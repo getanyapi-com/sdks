@@ -33,45 +33,18 @@ export interface PandaexpressLocationsInput {
 }
 
 export interface PandaexpressLocationsRestaurant {
-  /**
-   * Populated whenever the provider returns data.
-   */
   address: string;
   canDeliver: boolean;
   canPickup: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   city: string;
   distanceMiles: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: number;
   isOpen: boolean;
-  /**
-   * Populated whenever the provider returns data.
-   */
   latitude: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   longitude: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   phone: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   state: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   zip: string;
   [extra: string]: unknown;
 }
@@ -82,7 +55,6 @@ export interface PandaexpressLocationsRestaurant {
 export interface PandaexpressLocationsData {
   /**
    * Nearby Panda Express restaurants, nearest first.
-   * Populated whenever the provider returns data.
    */
   restaurants: PandaexpressLocationsRestaurant[];
 }
@@ -99,9 +71,6 @@ export interface PandaexpressMenuInput {
 
 export interface PandaexpressMenuCategorie {
   items: PandaexpressMenuItem[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   [extra: string]: unknown;
 }
@@ -111,9 +80,6 @@ export interface PandaexpressMenuItem {
    * Base calories when published by the restaurant, else 0.
    */
   calories: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
   name: string;
   /**
@@ -129,7 +95,6 @@ export interface PandaexpressMenuItem {
 export interface PandaexpressMenuData {
   /**
    * Menu categories in display order.
-   * Populated whenever the provider returns data.
    */
   categories: PandaexpressMenuCategorie[];
 }
@@ -148,9 +113,6 @@ export interface PandaexpressNutritionItem {
   calories: number;
   cholesterolMg: number;
   dietaryFiberG: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   name: string;
   proteinG: number;
   saturatedFatG: number;
@@ -169,7 +131,6 @@ export interface PandaexpressNutritionItem {
 export interface PandaexpressNutritionData {
   /**
    * Matching menu items with official nutrition facts.
-   * Populated whenever the provider returns data.
    */
   items: PandaexpressNutritionItem[];
 }
@@ -189,7 +150,7 @@ export class PandaexpressNamespace {
    * Price: $0.0009 per request.
    *
    * @example
-   * const res = await client.pandaexpress.locations({"latitude":34.0522,"limit":5,"longitude":-118.2437});
+   * const res = await client.pandaexpress.locations({ latitude: 34.0522, longitude: -118.2437, limit: 5 });
    */
   locations(
     input: PandaexpressLocationsInput,
@@ -206,7 +167,7 @@ export class PandaexpressNamespace {
    * Price: $0.0009 per request.
    *
    * @example
-   * const res = await client.pandaexpress.menu({"restaurantId":"112551"});
+   * const res = await client.pandaexpress.menu({ restaurantId: "112551" });
    */
   menu(
     input: PandaexpressMenuInput,
@@ -223,7 +184,7 @@ export class PandaexpressNamespace {
    * Price: $0.006 per request.
    *
    * @example
-   * const res = await client.pandaexpress.nutrition({"query":"orange chicken"});
+   * const res = await client.pandaexpress.nutrition({ query: "orange chicken" });
    */
   nutrition(
     input: PandaexpressNutritionInput,

@@ -39,49 +39,43 @@ export interface SubstackPostsInput {
 
 export interface SubstackPostsItem {
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorHandle?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   authorName?: string;
   commentCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
    * Cover image URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   image?: string;
   isPaid?: boolean;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   postId?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   postType?: string;
   /**
    * ISO 8601 publish date.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   publishedAt?: string;
   reactionCount?: number;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   subtitle?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   wordcount?: number;
   [extra: string]: unknown;
@@ -93,7 +87,6 @@ export interface SubstackPostsItem {
 export interface SubstackPostsData {
   /**
    * Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested.
-   * Populated whenever the provider returns data.
    */
   items: SubstackPostsItem[];
 }
@@ -113,7 +106,7 @@ export class SubstackNamespace {
    * Price: $0.005 per request plus $0.00156 per result.
    *
    * @example
-   * const res = await client.substack.posts({"limit":3,"url":"https://www.astralcodexten.com"});
+   * const res = await client.substack.posts({ url: "https://www.astralcodexten.com", limit: 3 });
    */
   posts(
     input: SubstackPostsInput,

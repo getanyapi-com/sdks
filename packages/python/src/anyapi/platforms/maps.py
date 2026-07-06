@@ -69,37 +69,37 @@ class MapsSearchInput(TypedDict, total=False):
 
 class MapsContactsData(BaseModel):
     items: list[MapsContactsItem] = Field(
-        description="Business records: name, address, rating, plus enriched contact details such as emails, phone numbers, and social profiles. Populated whenever the provider returns data."
+        description="Business records: name, address, rating, plus enriched contact details such as emails, phone numbers, and social profiles."
     )
 
 
 class MapsContactsItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    name: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    name: str
+    url: str
 
 
 class MapsPlaceData(BaseModel):
     items: list[MapsPlaceItem] = Field(
-        description="The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched). Populated whenever the provider returns data."
+        description="The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched)."
     )
 
 
 class MapsPlaceItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     address: str | None = Field(
         default=None,
-        description="Full formatted street address. Populated whenever the provider returns data.",
+        description="Full formatted street address. Present whenever the upstream returns this record.",
     )
     category: str | None = Field(
         default=None,
-        description="Primary Google Maps category (e.g. Coffee shop). Populated whenever the provider returns data.",
+        description="Primary Google Maps category (e.g. Coffee shop). Present whenever the upstream returns this record.",
     )
     city: str | None = None
-    countryCode: str | None = Field(
-        default=None, description="Two-letter country code."
+    country_code: str | None = Field(
+        default=None, alias="countryCode", description="Two-letter country code."
     )
     hours: list[MapsPlaceHour] | None = Field(
         default=None,
@@ -109,41 +109,42 @@ class MapsPlaceItem(BaseModel):
         default=None, description="URL of the primary place photo."
     )
     latitude: float | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     longitude: float | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    name: str = Field(
-        description="Business or place name. Populated whenever the provider returns data."
-    )
+    name: str = Field(description="Business or place name.")
     neighborhood: str | None = None
-    permanentlyClosed: bool | None = Field(
-        default=None, description="Whether the place is permanently closed."
+    permanently_closed: bool | None = Field(
+        default=None,
+        alias="permanentlyClosed",
+        description="Whether the place is permanently closed.",
     )
     phone: str | None = Field(default=None, description="Formatted phone number.")
-    placeId: str | None = Field(
+    place_id: str | None = Field(
         default=None,
-        description="Google Maps place id. Populated whenever the provider returns data.",
+        alias="placeId",
+        description="Google Maps place id. Present whenever the upstream returns this record.",
     )
-    plusCode: str | None = Field(
-        default=None, description="Google Plus Code for the location."
+    plus_code: str | None = Field(
+        default=None, alias="plusCode", description="Google Plus Code for the location."
     )
-    postalCode: str | None = None
-    priceLevel: str | None = Field(
-        default=None, description="Price level indicator (e.g. a price range)."
+    postal_code: str | None = Field(default=None, alias="postalCode")
+    price_level: str | None = Field(
+        default=None,
+        alias="priceLevel",
+        description="Price level indicator (e.g. a price range).",
     )
     rating: float | None = Field(default=None, description="Average star rating.")
-    reviewsCount: int | None = Field(
-        default=None, description="Total number of reviews."
+    reviews_count: int | None = Field(
+        default=None, alias="reviewsCount", description="Total number of reviews."
     )
     state: str | None = Field(default=None, description="State or region name.")
     street: str | None = Field(
         default=None, description="Street portion of the address."
     )
-    url: str = Field(
-        description="Google Maps URL for the place. Populated whenever the provider returns data."
-    )
+    url: str = Field(description="Google Maps URL for the place.")
     website: str | None = Field(default=None, description="Business website URL.")
 
 
@@ -153,19 +154,21 @@ class MapsPlaceHour(BaseModel):
 
 class MapsReviewsData(BaseModel):
     items: list[MapsReviewsItem] = Field(
-        description="Review records: reviewer, star rating, review text (empty when the reviewer left only a rating), publish date, likes, and owner response where present. Populated whenever the provider returns data."
+        description="Review records: reviewer, star rating, review text (empty when the reviewer left only a rating), publish date, likes, and owner response where present."
     )
 
 
 class MapsReviewsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     author: str | None = Field(
         default=None,
-        description="Reviewer display name. Populated whenever the provider returns data.",
+        description="Reviewer display name. Present whenever the upstream returns this record.",
     )
-    isLocalGuide: bool | None = Field(
-        default=None, description="Whether the reviewer is a Google Local Guide."
+    is_local_guide: bool | None = Field(
+        default=None,
+        alias="isLocalGuide",
+        description="Whether the reviewer is a Google Local Guide.",
     )
     likes: int | None = Field(
         default=None, description="Number of likes on the review."
@@ -173,33 +176,40 @@ class MapsReviewsItem(BaseModel):
     origin: str | None = Field(
         default=None, description="Source of the review (e.g. Google)."
     )
-    ownerResponse: str | None = Field(
-        default=None, description="Owner's reply text; empty when there is none."
-    )
-    ownerResponseAt: str | None = Field(
+    owner_response: str | None = Field(
         default=None,
+        alias="ownerResponse",
+        description="Owner's reply text; empty when there is none.",
+    )
+    owner_response_at: str | None = Field(
+        default=None,
+        alias="ownerResponseAt",
         description="ISO 8601 timestamp of the owner's reply; empty when there is none.",
     )
-    placeId: str | None = Field(
+    place_id: str | None = Field(
         default=None,
-        description="Google Maps place id the review belongs to. Populated whenever the provider returns data.",
+        alias="placeId",
+        description="Google Maps place id the review belongs to. Present whenever the upstream returns this record.",
     )
-    publishedAgo: str | None = Field(
-        default=None, description="Human-relative publish time (e.g. '7 hours ago')."
-    )
-    publishedAt: str | None = Field(
+    published_ago: str | None = Field(
         default=None,
-        description="ISO 8601 timestamp the review was published. Populated whenever the provider returns data.",
+        alias="publishedAgo",
+        description="Human-relative publish time (e.g. '7 hours ago').",
+    )
+    published_at: str | None = Field(
+        default=None,
+        alias="publishedAt",
+        description="ISO 8601 timestamp the review was published. Present whenever the upstream returns this record.",
     )
     rating: float | None = Field(
         default=None, description="Star rating the reviewer gave (1-5)."
     )
-    reviewId: str = Field(
-        description="Stable Google review id. Populated whenever the provider returns data."
-    )
-    reviewerId: str | None = None
-    reviewerReviewsCount: int | None = Field(
-        default=None, description="Total number of reviews the reviewer has written."
+    review_id: str = Field(alias="reviewId", description="Stable Google review id.")
+    reviewer_id: str | None = Field(default=None, alias="reviewerId")
+    reviewer_reviews_count: int | None = Field(
+        default=None,
+        alias="reviewerReviewsCount",
+        description="Total number of reviews the reviewer has written.",
     )
     text: str | None = Field(
         default=None,
@@ -207,21 +217,21 @@ class MapsReviewsItem(BaseModel):
     )
     url: str | None = Field(
         default=None,
-        description="Direct URL to the review on Google Maps. Populated whenever the provider returns data.",
+        description="Direct URL to the review on Google Maps. Present whenever the upstream returns this record.",
     )
 
 
 class MapsSearchData(BaseModel):
     items: list[MapsSearchItem] = Field(
-        description="Place records: name, category, address, coordinates, rating, review count, and contact basics. Populated whenever the provider returns data."
+        description="Place records: name, category, address, coordinates, rating, review count, and contact basics."
     )
 
 
 class MapsSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    name: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    name: str
+    url: str
 
 
 class MapsNamespace:
@@ -242,15 +252,15 @@ class MapsNamespace:
         details - emails, phones, and social profiles from their websites - up to 20
         records per request.
 
-        Price: $0.003 per result.
+        Price: $0.00005 per request plus $0.003 per result.
 
         Example:
             res = client.maps.contacts(limit=3, location="Austin, TX", query="coffee shop")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.contacts", dict(input), options
         )
-        return RunResult[MapsContactsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[MapsContactsData].model_validate(raw)
 
     def place(
         self, *, options: RequestOptions | None = None, **input: Unpack[MapsPlaceInput]
@@ -262,15 +272,15 @@ class MapsNamespace:
         phone, website, rating, hours, and coordinates - as normalized JSON priced
         per request in USD.
 
-        Price: $0.005 per result.
+        Price: $0.003 per request plus $0.005 per result.
 
         Example:
             res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.place", dict(input), options
         )
-        return RunResult[MapsPlaceData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[MapsPlaceData].model_validate(raw)
 
     def reviews(
         self,
@@ -283,15 +293,15 @@ class MapsNamespace:
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
         you need, in one flat-priced normalized response.
 
-        Price: $0.0004 per result.
+        Price: $0.00005 per request plus $0.0004 per result.
 
         Example:
             res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.reviews", dict(input), options
         )
-        return RunResult[MapsReviewsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[MapsReviewsData].model_validate(raw)
 
     def search(
         self, *, options: RequestOptions | None = None, **input: Unpack[MapsSearchInput]
@@ -302,15 +312,15 @@ class MapsNamespace:
         normalized place records with ratings, addresses, and contact basics per
         request.
 
-        Price: $0.003 per result.
+        Price: $0.00005 per request plus $0.003 per result.
 
         Example:
             res = client.maps.search(limit=3, location="Austin, TX", query="coffee")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.search", dict(input), options
         )
-        return RunResult[MapsSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[MapsSearchData].model_validate(raw)
 
 
 class AsyncMapsNamespace:
@@ -331,15 +341,15 @@ class AsyncMapsNamespace:
         details - emails, phones, and social profiles from their websites - up to 20
         records per request.
 
-        Price: $0.003 per result.
+        Price: $0.00005 per request plus $0.003 per result.
 
         Example:
             res = client.maps.contacts(limit=3, location="Austin, TX", query="coffee shop")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.contacts", dict(input), options
         )
-        return RunResult[MapsContactsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[MapsContactsData].model_validate(raw)
 
     async def place(
         self, *, options: RequestOptions | None = None, **input: Unpack[MapsPlaceInput]
@@ -351,15 +361,15 @@ class AsyncMapsNamespace:
         phone, website, rating, hours, and coordinates - as normalized JSON priced
         per request in USD.
 
-        Price: $0.005 per result.
+        Price: $0.003 per request plus $0.005 per result.
 
         Example:
             res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.place", dict(input), options
         )
-        return RunResult[MapsPlaceData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[MapsPlaceData].model_validate(raw)
 
     async def reviews(
         self,
@@ -372,15 +382,15 @@ class AsyncMapsNamespace:
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
         you need, in one flat-priced normalized response.
 
-        Price: $0.0004 per result.
+        Price: $0.00005 per request plus $0.0004 per result.
 
         Example:
             res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.reviews", dict(input), options
         )
-        return RunResult[MapsReviewsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[MapsReviewsData].model_validate(raw)
 
     async def search(
         self, *, options: RequestOptions | None = None, **input: Unpack[MapsSearchInput]
@@ -391,12 +401,12 @@ class AsyncMapsNamespace:
         normalized place records with ratings, addresses, and contact basics per
         request.
 
-        Price: $0.003 per result.
+        Price: $0.00005 per request plus $0.003 per result.
 
         Example:
             res = client.maps.search(limit=3, location="Austin, TX", query="coffee")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.search", dict(input), options
         )
-        return RunResult[MapsSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[MapsSearchData].model_validate(raw)

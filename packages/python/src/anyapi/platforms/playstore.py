@@ -30,7 +30,7 @@ class PlaystoreReviewsInput(TypedDict, total=False):
 
 class PlaystoreReviewsData(BaseModel):
     items: list[PlaystoreReviewsItem] = Field(
-        description="Review records: star rating, review text, reviewer name, app version, helpfulness votes, and review date. Populated whenever the provider returns data."
+        description="Review records: star rating, review text, reviewer name, app version, helpfulness votes, and review date."
     )
 
 
@@ -38,7 +38,7 @@ class PlaystoreReviewsItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     rating: float
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
 
 
 class PlaystoreNamespace:
@@ -64,12 +64,10 @@ class PlaystoreNamespace:
         Example:
             res = client.playstore.reviews(appId="com.whatsapp", limit=3)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "playstore.reviews", dict(input), options
         )
-        return RunResult[PlaystoreReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[PlaystoreReviewsData].model_validate(raw)
 
 
 class AsyncPlaystoreNamespace:
@@ -95,9 +93,7 @@ class AsyncPlaystoreNamespace:
         Example:
             res = client.playstore.reviews(appId="com.whatsapp", limit=3)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "playstore.reviews", dict(input), options
         )
-        return RunResult[PlaystoreReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[PlaystoreReviewsData].model_validate(raw)

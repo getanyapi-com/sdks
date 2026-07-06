@@ -39,33 +39,32 @@ class TripadvisorSearchInput(TypedDict, total=False):
 
 class TripadvisorReviewsData(BaseModel):
     items: list[TripadvisorReviewsItem] = Field(
-        description="Review records for the place: rating, title, review text, publish date, trip type, and reviewer details. Populated whenever the provider returns data."
+        description="Review records for the place: rating, title, review text, publish date, trip type, and reviewer details."
     )
 
 
 class TripadvisorReviewsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    publishedAt: str | None = Field(
+    published_at: str | None = Field(
         default=None,
-        description="Publish date. Populated whenever the provider returns data.",
+        alias="publishedAt",
+        description="Publish date. Present whenever the upstream returns this record.",
     )
     rating: float = Field(description="Star rating (typically 1-5).")
-    text: str = Field(
-        description="Review body text. Populated whenever the provider returns data."
-    )
+    text: str = Field(description="Review body text.")
     title: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     url: str | None = Field(
         default=None,
-        description="Canonical review URL. Populated whenever the provider returns data.",
+        description="Canonical review URL. Present whenever the upstream returns this record.",
     )
 
 
 class TripadvisorSearchData(BaseModel):
     items: list[TripadvisorSearchItem] = Field(
-        description="Matching place records: name, type (hotel/restaurant/attraction), rating, review count, address, contact details, and pricing. Populated whenever the provider returns data."
+        description="Matching place records: name, type (hotel/restaurant/attraction), rating, review count, address, contact details, and pricing."
     )
 
 
@@ -73,8 +72,8 @@ class TripadvisorSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     rating: float
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    title: str
+    url: str
 
 
 class TripadvisorNamespace:
@@ -100,12 +99,10 @@ class TripadvisorNamespace:
         Example:
             res = client.tripadvisor.reviews(limit=3, url="https://www.tripadvisor.com/Hotel_Review-g60763-d93450-Reviews-The_Plaza-New_York_City_New_York.html")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tripadvisor.reviews", dict(input), options
         )
-        return RunResult[TripadvisorReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TripadvisorReviewsData].model_validate(raw)
 
     def search(
         self,
@@ -125,12 +122,10 @@ class TripadvisorNamespace:
         Example:
             res = client.tripadvisor.search(limit=3, query="Paris")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tripadvisor.search", dict(input), options
         )
-        return RunResult[TripadvisorSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TripadvisorSearchData].model_validate(raw)
 
 
 class AsyncTripadvisorNamespace:
@@ -156,12 +151,10 @@ class AsyncTripadvisorNamespace:
         Example:
             res = client.tripadvisor.reviews(limit=3, url="https://www.tripadvisor.com/Hotel_Review-g60763-d93450-Reviews-The_Plaza-New_York_City_New_York.html")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tripadvisor.reviews", dict(input), options
         )
-        return RunResult[TripadvisorReviewsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TripadvisorReviewsData].model_validate(raw)
 
     async def search(
         self,
@@ -181,9 +174,7 @@ class AsyncTripadvisorNamespace:
         Example:
             res = client.tripadvisor.search(limit=3, query="Paris")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tripadvisor.search", dict(input), options
         )
-        return RunResult[TripadvisorSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TripadvisorSearchData].model_validate(raw)

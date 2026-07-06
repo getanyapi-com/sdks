@@ -32,12 +32,12 @@ class BookingSearchInput(TypedDict, total=False):
 
 class BookingSearchData(BaseModel):
     items: list[BookingSearchItem] = Field(
-        description="Hotel result records: name, price, review score, star rating, address, and location. Populated whenever the provider returns data."
+        description="Hotel result records: name, price, review score, star rating, address, and location."
     )
 
 
 class BookingSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     address: str | None = None
     city: str | None = None
@@ -45,29 +45,29 @@ class BookingSearchItem(BaseModel):
     currency: str | None = None
     id: str | None = Field(
         default=None,
-        description="Booking.com hotel identifier. Populated whenever the provider returns data.",
+        description="Booking.com hotel identifier. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
-        description="Primary hotel photo URL. Populated whenever the provider returns data.",
+        description="Primary hotel photo URL. Present whenever the upstream returns this record.",
     )
     latitude: float | None = None
     location: str | None = Field(
         default=None, description="Neighborhood or area label."
     )
     longitude: float | None = None
-    name: str = Field(description="Populated whenever the provider returns data.")
+    name: str
     price: float | None = Field(
         default=None, description="Total stay price in the requested currency."
     )
-    pricePerNight: float | None = None
+    price_per_night: float | None = Field(default=None, alias="pricePerNight")
     rating: float | None = Field(default=None, description="Guest review score (0-10).")
-    reviewScore: float | None = Field(
-        default=None, description="Guest review score (0-10)."
+    review_score: float | None = Field(
+        default=None, alias="reviewScore", description="Guest review score (0-10)."
     )
-    reviewsCount: int | None = None
+    reviews_count: int | None = Field(default=None, alias="reviewsCount")
     stars: int | None = Field(default=None, description="Star rating class (1-5).")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class BookingNamespace:
@@ -88,17 +88,15 @@ class BookingNamespace:
         (name, price, review score, location) as normalized JSON with flat
         per-request USD pricing.
 
-        Price: $0.0045 per result.
+        Price: $0.002 per request plus $0.0045 per result.
 
         Example:
             res = client.booking.search(checkIn="2026-09-01", checkOut="2026-09-03", limit=3, query="New York")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "booking.search", dict(input), options
         )
-        return RunResult[BookingSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[BookingSearchData].model_validate(raw)
 
 
 class AsyncBookingNamespace:
@@ -119,14 +117,12 @@ class AsyncBookingNamespace:
         (name, price, review score, location) as normalized JSON with flat
         per-request USD pricing.
 
-        Price: $0.0045 per result.
+        Price: $0.002 per request plus $0.0045 per result.
 
         Example:
             res = client.booking.search(checkIn="2026-09-01", checkOut="2026-09-03", limit=3, query="New York")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "booking.search", dict(input), options
         )
-        return RunResult[BookingSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[BookingSearchData].model_validate(raw)

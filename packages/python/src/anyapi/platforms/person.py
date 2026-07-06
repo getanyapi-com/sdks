@@ -30,14 +30,14 @@ class PersonSkipTraceInput(TypedDict, total=False):
 
 class PersonSkipTraceData(BaseModel):
     items: list[PersonSkipTraceItem] = Field(
-        description="Skip-trace records: the matched person with known names, ages, current and past addresses, phone numbers, and email addresses. Populated whenever the provider returns data."
+        description="Skip-trace records: the matched person with known names, ages, current and past addresses, phone numbers, and email addresses."
     )
 
 
 class PersonSkipTraceItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class PersonNamespace:
@@ -62,12 +62,10 @@ class PersonNamespace:
         Example:
             res = client.person.skip_trace(address="123 Main St, Austin, TX 78701", name="John Smith")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "person.skip_trace", dict(input), options
         )
-        return RunResult[PersonSkipTraceData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[PersonSkipTraceData].model_validate(raw)
 
 
 class AsyncPersonNamespace:
@@ -92,9 +90,7 @@ class AsyncPersonNamespace:
         Example:
             res = client.person.skip_trace(address="123 Main St, Austin, TX 78701", name="John Smith")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "person.skip_trace", dict(input), options
         )
-        return RunResult[PersonSkipTraceData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[PersonSkipTraceData].model_validate(raw)

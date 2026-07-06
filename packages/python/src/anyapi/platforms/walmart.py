@@ -24,15 +24,15 @@ class WalmartProductInput(TypedDict, total=False):
 
 class WalmartProductData(BaseModel):
     items: list[WalmartProductItem] = Field(
-        description="Product detail records: title, price, availability, rating, review count, images, and specifications. Populated whenever the provider returns data."
+        description="Product detail records: title, price, availability, rating, review count, images, and specifications."
     )
 
 
 class WalmartProductItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    title: str
+    url: str
 
 
 class WalmartNamespace:
@@ -58,12 +58,10 @@ class WalmartNamespace:
         Example:
             res = client.walmart.product(url="https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "walmart.product", dict(input), options
         )
-        return RunResult[WalmartProductData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[WalmartProductData].model_validate(raw)
 
 
 class AsyncWalmartNamespace:
@@ -89,9 +87,7 @@ class AsyncWalmartNamespace:
         Example:
             res = client.walmart.product(url="https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "walmart.product", dict(input), options
         )
-        return RunResult[WalmartProductData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[WalmartProductData].model_validate(raw)

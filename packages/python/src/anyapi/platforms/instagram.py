@@ -217,11 +217,11 @@ class InstagramUserReelsInput(TypedDict, total=False):
 
 
 class InstagramAudioReelsData(BaseModel):
-    hasMore: bool
-    nextCursor: str
-    reels: list[InstagramAudioReelsReel] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_more: bool = Field(alias="hasMore")
+    next_cursor: str = Field(alias="nextCursor")
+    reels: list[InstagramAudioReelsReel]
 
 
 class InstagramAudioReelsReel(BaseModel):
@@ -229,60 +229,63 @@ class InstagramAudioReelsReel(BaseModel):
 
     code: str
     comments: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
+    id: str
     likes: int
     plays: int
 
 
 class InstagramBasicProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
+    avatar_url: str = Field(alias="avatarUrl")
     bio: str
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    externalUrl: str
+    display_name: str = Field(alias="displayName")
+    external_url: str = Field(alias="externalUrl")
     followers: int
     following: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
     private: bool
-    userId: str = Field(description="Populated whenever the provider returns data.")
+    user_id: str = Field(alias="userId")
     verified: bool
 
 
 class InstagramEmbedData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    html: str = Field(description="Populated whenever the provider returns data.")
+    html: str
 
 
 class InstagramFollowersData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[InstagramFollowersItem] = Field(
-        description="Follower records: id, handle, full name, profile picture URL, and verification/privacy flags. Populated whenever the provider returns data."
+        description="Follower records: id, handle, full name, profile picture URL, and verification/privacy flags."
     )
-    nextCursor: str | None = Field(
+    next_cursor: str | None = Field(
         default=None,
+        alias="nextCursor",
         description="Opaque cursor for the next page of followers, or null when this lane has no more. Pass it back as cursor to continue.",
     )
 
 
 class InstagramFollowersItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    fullName: str | None = Field(
+    full_name: str | None = Field(
         default=None,
-        description="Follower's display name (may be empty). Populated whenever the provider returns data.",
+        alias="fullName",
+        description="Follower's display name (may be empty). Present whenever the upstream returns this record.",
     )
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
+    id: str
     private: bool | None = Field(
         default=None, description="Whether the follower's account is private."
     )
-    profilePicUrl: str | None = Field(
+    profile_pic_url: str | None = Field(
         default=None,
-        description="URL of the follower's profile picture. Populated whenever the provider returns data.",
+        alias="profilePicUrl",
+        description="URL of the follower's profile picture. Present whenever the upstream returns this record.",
     )
     verified: bool | None = Field(
         default=None, description="Whether the follower's account is verified."
@@ -290,30 +293,35 @@ class InstagramFollowersItem(BaseModel):
 
 
 class InstagramFollowingData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[InstagramFollowingItem] = Field(
-        description="Followed-account records: numeric id, handle, full name, profile picture URL, and verified/private flags. Populated whenever the provider returns data."
+        description="Followed-account records: numeric id, handle, full name, profile picture URL, and verified/private flags."
     )
-    nextCursor: str | None = Field(
+    next_cursor: str | None = Field(
         default=None,
+        alias="nextCursor",
         description="Opaque cursor for the next page of accounts, or null when this lane has no more. Pass it back as cursor to continue.",
     )
 
 
 class InstagramFollowingItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    fullName: str | None = Field(
+    full_name: str | None = Field(
         default=None,
-        description="Account display name. Populated whenever the provider returns data.",
+        alias="fullName",
+        description="Account display name. Present whenever the upstream returns this record.",
     )
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
+    id: str
     private: bool | None = Field(
         default=None, description="Whether the account is private."
     )
-    profilePicUrl: str | None = Field(
+    profile_pic_url: str | None = Field(
         default=None,
-        description="URL of the account's profile picture. Populated whenever the provider returns data.",
+        alias="profilePicUrl",
+        description="URL of the account's profile picture. Present whenever the upstream returns this record.",
     )
     verified: bool | None = Field(
         default=None, description="Whether the account has a verified badge."
@@ -322,104 +330,95 @@ class InstagramFollowingItem(BaseModel):
 
 class InstagramHashtagAnalyticsData(BaseModel):
     items: list[InstagramHashtagAnalyticsItem] = Field(
-        description="Hashtag analytics records: hashtag name, total post count, and related hashtag suggestions. Populated whenever the provider returns data."
+        description="Hashtag analytics records: hashtag name, total post count, and related hashtag suggestions."
     )
 
 
 class InstagramHashtagAnalyticsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     difficulty: str | None = None
     id: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    name: str = Field(
-        description="Hashtag (without #). Populated whenever the provider returns data."
+    name: str = Field(description="Hashtag (without #).")
+    posts_count: int | None = Field(
+        default=None, alias="postsCount", description="Total posts using the hashtag."
     )
-    postsCount: int | None = Field(
-        default=None, description="Total posts using the hashtag."
-    )
-    postsFormatted: str | None = Field(
+    posts_formatted: str | None = Field(
         default=None,
-        description="Human-formatted post count (e.g. 793.54 M). Populated whenever the provider returns data.",
+        alias="postsFormatted",
+        description="Human-formatted post count (e.g. 793.54 M). Present whenever the upstream returns this record.",
     )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class InstagramHighlightDetailData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    coverUrl: str = Field(description="Populated whenever the provider returns data.")
-    createdAt: int
-    id: str = Field(description="Populated whenever the provider returns data.")
-    mediaCount: int
-    ownerHandle: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    title: str = Field(description="Populated whenever the provider returns data.")
+    cover_url: str = Field(alias="coverUrl")
+    created_at: int = Field(alias="createdAt")
+    id: str
+    media_count: int = Field(alias="mediaCount")
+    owner_handle: str = Field(alias="ownerHandle")
+    title: str
 
 
 class InstagramMediaTranscriptData(BaseModel):
-    transcripts: list[InstagramMediaTranscriptTranscript] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    transcripts: list[InstagramMediaTranscriptTranscript]
 
 
 class InstagramMediaTranscriptTranscript(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str = Field(description="Populated whenever the provider returns data.")
-    shortcode: str = Field(description="Populated whenever the provider returns data.")
-    text: str = Field(description="Populated whenever the provider returns data.")
+    id: str
+    shortcode: str
+    text: str
 
 
 class InstagramPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    displayUrl: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    display_url: str = Field(alias="displayUrl")
+    id: str
     likes: int
-    owner: str = Field(description="Populated whenever the provider returns data.")
+    owner: str
     shortcode: str
     type_: str = Field(alias="type")
-    videoUrl: str
+    video_url: str = Field(alias="videoUrl")
 
 
 class InstagramPostCommentsData(BaseModel):
-    comments: list[InstagramPostCommentsComment] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    comments: list[InstagramPostCommentsComment]
 
 
 class InstagramPostCommentsComment(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
-    createdAt: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    author: str
+    created_at: str = Field(alias="createdAt")
+    id: str
     likes: int
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
     verified: bool
 
 
 class InstagramProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
-    bio: str = Field(description="Populated whenever the provider returns data.")
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    avatar_url: str = Field(alias="avatarUrl")
+    bio: str
+    display_name: str = Field(alias="displayName")
     followers: int
     following: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
     posts: int
     verified: bool
 
 
 class InstagramReelTranscriptData(BaseModel):
     items: list[InstagramReelTranscriptItem] = Field(
-        description="Transcript records: full transcript text, timed segments, detected language, and source video metadata. Populated whenever the provider returns data."
+        description="Transcript records: full transcript text, timed segments, detected language, and source video metadata."
     )
 
 
@@ -431,79 +430,73 @@ class InstagramReelTranscriptItem(BaseModel):
 
 
 class InstagramReelsSearchData(BaseModel):
-    reels: list[InstagramReelsSearchReel] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    reels: list[InstagramReelsSearchReel]
 
 
 class InstagramReelsSearchReel(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str = Field(description="Populated whenever the provider returns data.")
+    caption: str
     comments: int
-    durationSeconds: float
+    duration_seconds: float = Field(alias="durationSeconds")
     followers: int
     likes: int
-    paidPartnership: bool
+    paid_partnership: bool = Field(alias="paidPartnership")
     plays: int
-    shortcode: str = Field(description="Populated whenever the provider returns data.")
-    takenAt: str
-    thumbnail: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
-    username: str = Field(description="Populated whenever the provider returns data.")
+    shortcode: str
+    taken_at: str = Field(alias="takenAt")
+    thumbnail: str
+    url: str
+    username: str
     verified: bool
     views: int
 
 
 class InstagramSearchData(BaseModel):
     items: list[InstagramSearchItem] = Field(
-        description="Matching search results: user profiles, hashtags, or places with names, follower/post counts, and profile links. Populated whenever the provider returns data."
+        description="Matching search results: user profiles, hashtags, or places with names, follower/post counts, and profile links."
     )
 
 
 class InstagramSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
+    url: str
 
 
 class InstagramSearchHashtagData(BaseModel):
-    posts: list[InstagramSearchHashtagPost] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    posts: list[InstagramSearchHashtagPost]
 
 
 class InstagramSearchHashtagPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     caption: str
-    displayUrl: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    shortcode: str = Field(description="Populated whenever the provider returns data.")
+    display_url: str = Field(alias="displayUrl")
+    id: str
+    shortcode: str
     type_: str = Field(alias="type")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class InstagramSearchProfilesData(BaseModel):
-    nextCursor: str
-    profiles: list[InstagramSearchProfilesProfile] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(alias="nextCursor")
+    profiles: list[InstagramSearchProfilesProfile]
 
 
 class InstagramSearchProfilesProfile(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
-    bio: str = Field(description="Populated whenever the provider returns data.")
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    avatar_url: str = Field(alias="avatarUrl")
+    bio: str
+    display_name: str = Field(alias="displayName")
     followers: int
     following: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
+    id: str
     posts: int
     private: bool
     verified: bool
@@ -511,37 +504,42 @@ class InstagramSearchProfilesProfile(BaseModel):
 
 class InstagramStoriesFullData(BaseModel):
     items: list[InstagramStoriesFullItem] = Field(
-        description="Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption. Populated whenever the provider returns data."
+        description="Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption."
     )
 
 
 class InstagramStoriesFullItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     caption: str | None = Field(
         default=None, description="Story caption text, when present."
     )
     code: str | None = Field(default=None, description="Instagram media shortcode.")
-    expiresAt: int | None = Field(
-        default=None, description="Expiry time, 24h after posting (Unix seconds)."
+    expires_at: int | None = Field(
+        default=None,
+        alias="expiresAt",
+        description="Expiry time, 24h after posting (Unix seconds).",
     )
     height: int | None = Field(default=None, description="Media pixel height.")
     id: str = Field(description="Story identifier.")
-    imageUrl: str | None = Field(
-        default=None, description="Direct URL to the story image (highest resolution)."
+    image_url: str | None = Field(
+        default=None,
+        alias="imageUrl",
+        description="Direct URL to the story image (highest resolution).",
     )
-    mediaType: int | None = Field(
-        default=None, description="Media type: 1 = image, 2 = video."
+    media_type: int | None = Field(
+        default=None, alias="mediaType", description="Media type: 1 = image, 2 = video."
     )
-    postedAt: int | None = Field(
-        default=None, description="Posting time (Unix seconds)."
+    posted_at: int | None = Field(
+        default=None, alias="postedAt", description="Posting time (Unix seconds)."
     )
     username: str | None = Field(
         default=None,
-        description="Owner username. Populated whenever the provider returns data.",
+        description="Owner username. Present whenever the upstream returns this record.",
     )
-    videoUrl: str | None = Field(
+    video_url: str | None = Field(
         default=None,
+        alias="videoUrl",
         description="Direct URL to the story video, when the story is a video.",
     )
     width: int | None = Field(default=None, description="Media pixel width.")
@@ -549,37 +547,34 @@ class InstagramStoriesFullItem(BaseModel):
 
 class InstagramStoriesThinData(BaseModel):
     items: list[InstagramStoriesThinItem] = Field(
-        description="The account's currently live stories, each with its media URL, owner, posting time, and permalink. Populated whenever the provider returns data."
+        description="The account's currently live stories, each with its media URL, owner, posting time, and permalink."
     )
 
 
 class InstagramStoriesThinItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str = Field(
-        description="Story identifier. Populated whenever the provider returns data."
-    )
-    mediaUrl: str | None = Field(
+    id: str = Field(description="Story identifier.")
+    media_url: str | None = Field(
         default=None,
-        description="Direct URL to the story image or video. Populated whenever the provider returns data.",
+        alias="mediaUrl",
+        description="Direct URL to the story image or video. Present whenever the upstream returns this record.",
     )
     permalink: str | None = Field(
         default=None,
-        description="Public link to the story. Populated whenever the provider returns data.",
+        description="Public link to the story. Present whenever the upstream returns this record.",
     )
-    postedAt: int | None = Field(
-        default=None, description="Posting time (Unix seconds)."
+    posted_at: int | None = Field(
+        default=None, alias="postedAt", description="Posting time (Unix seconds)."
     )
     username: str | None = Field(
         default=None,
-        description="Owner username. Populated whenever the provider returns data.",
+        description="Owner username. Present whenever the upstream returns this record.",
     )
 
 
 class InstagramTrendingReelsData(BaseModel):
-    reels: list[InstagramTrendingReelsReel] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    reels: list[InstagramTrendingReelsReel]
 
 
 class InstagramTrendingReelsReel(BaseModel):
@@ -587,65 +582,61 @@ class InstagramTrendingReelsReel(BaseModel):
 
     caption: str
     comments: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
+    id: str
     likes: int
     plays: int
-    shortcode: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    shortcode: str
+    url: str
 
 
 class InstagramUserHighlightsData(BaseModel):
-    highlights: list[InstagramUserHighlightsHighlight] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    highlights: list[InstagramUserHighlightsHighlight]
 
 
 class InstagramUserHighlightsHighlight(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    coverUrl: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    ownerHandle: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    title: str = Field(description="Populated whenever the provider returns data.")
+    cover_url: str = Field(alias="coverUrl")
+    id: str
+    owner_handle: str = Field(alias="ownerHandle")
+    title: str
 
 
 class InstagramUserPostsData(BaseModel):
-    nextCursor: str
-    posts: list[InstagramUserPostsPost] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(alias="nextCursor")
+    posts: list[InstagramUserPostsPost]
 
 
 class InstagramUserPostsPost(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str = Field(description="Populated whenever the provider returns data.")
+    caption: str
     comments: int
-    createdAt: str
-    id: str = Field(description="Populated whenever the provider returns data.")
+    created_at: str = Field(alias="createdAt")
+    id: str
     likes: int
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class InstagramUserReelsData(BaseModel):
-    nextCursor: str
-    reels: list[InstagramUserReelsReel] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(alias="nextCursor")
+    reels: list[InstagramUserReelsReel]
 
 
 class InstagramUserReelsReel(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str = Field(description="Populated whenever the provider returns data.")
+    caption: str
     comments: int
-    id: str = Field(description="Populated whenever the provider returns data.")
+    id: str
     likes: int
-    shortcode: str = Field(description="Populated whenever the provider returns data.")
-    takenAt: int
+    shortcode: str
+    taken_at: int = Field(alias="takenAt")
     views: int
 
 
@@ -671,12 +662,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.audio_reels(audioId="1392969992841787")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.audio_reels", dict(input), options
         )
-        return RunResult[InstagramAudioReelsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramAudioReelsData].model_validate(raw)
 
     def iter_audio_reels(
         self,
@@ -686,11 +675,19 @@ class InstagramNamespace:
     ) -> Paginator[InstagramAudioReelsReel, InstagramAudioReelsData]:
         """Iterate Instagram Reels by Audio results, following pagination cursors.
 
-        Yields flattened items from the `reels` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramAudioReelsReel` items from the `reels` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "instagram.audio_reels", dict(input), "reels", options=options
+            self._client,
+            "instagram.audio_reels",
+            dict(input),
+            "reels",
+            item_model=InstagramAudioReelsReel,
+            data_model=InstagramAudioReelsData,
+            bare=False,
+            options=options,
         )
 
     def basic_profile(
@@ -710,12 +707,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.basic_profile(userId="314216")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.basic_profile", dict(input), options
         )
-        return RunResult[InstagramBasicProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramBasicProfileData].model_validate(raw)
 
     def embed(
         self,
@@ -733,12 +728,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.embed(handle="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.embed", dict(input), options
         )
-        return RunResult[InstagramEmbedData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramEmbedData].model_validate(raw)
 
     def followers(
         self,
@@ -756,12 +749,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.followers(limit=50, username="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.followers", dict(input), options
         )
-        return RunResult[InstagramFollowersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramFollowersData].model_validate(raw)
 
     def iter_followers(
         self,
@@ -771,11 +762,19 @@ class InstagramNamespace:
     ) -> Paginator[InstagramFollowersItem, InstagramFollowersData]:
         """Iterate Instagram Followers results, following pagination cursors.
 
-        Yields flattened items from the `items` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramFollowersItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "instagram.followers", dict(input), "items", options=options
+            self._client,
+            "instagram.followers",
+            dict(input),
+            "items",
+            item_model=InstagramFollowersItem,
+            data_model=InstagramFollowersData,
+            bare=False,
+            options=options,
         )
 
     def following(
@@ -794,12 +793,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.following(limit=50, username="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.following", dict(input), options
         )
-        return RunResult[InstagramFollowingData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramFollowingData].model_validate(raw)
 
     def iter_following(
         self,
@@ -809,11 +806,19 @@ class InstagramNamespace:
     ) -> Paginator[InstagramFollowingItem, InstagramFollowingData]:
         """Iterate Instagram Following results, following pagination cursors.
 
-        Yields flattened items from the `items` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramFollowingItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "instagram.following", dict(input), "items", options=options
+            self._client,
+            "instagram.following",
+            dict(input),
+            "items",
+            item_model=InstagramFollowingItem,
+            data_model=InstagramFollowingData,
+            bare=False,
+            options=options,
         )
 
     def hashtag_analytics(
@@ -827,17 +832,15 @@ class InstagramNamespace:
         Get analytics for any Instagram hashtag - total post count, related
         hashtags, and usage signals - normalized and priced per request in USD.
 
-        Price: $0.0017 per result.
+        Price: $0.001 per request plus $0.0017 per result.
 
         Example:
             res = client.instagram.hashtag_analytics(hashtag="travel", limit=5)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.hashtag_analytics", dict(input), options
         )
-        return RunResult[InstagramHashtagAnalyticsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramHashtagAnalyticsData].model_validate(raw)
 
     def highlight_detail(
         self,
@@ -855,12 +858,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.highlight_detail(id="18201653992314974")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.highlight_detail", dict(input), options
         )
-        return RunResult[InstagramHighlightDetailData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramHighlightDetailData].model_validate(raw)
 
     def media_transcript(
         self,
@@ -878,12 +879,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.media_transcript(url="https://www.instagram.com/reel/DHsD6HGqJhp/")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.media_transcript", dict(input), options
         )
-        return RunResult[InstagramMediaTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramMediaTranscriptData].model_validate(raw)
 
     def post(
         self,
@@ -901,12 +900,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.post", dict(input), options
         )
-        return RunResult[InstagramPostData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramPostData].model_validate(raw)
 
     def post_comments(
         self,
@@ -924,12 +921,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.post_comments", dict(input), options
         )
-        return RunResult[InstagramPostCommentsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramPostCommentsData].model_validate(raw)
 
     def profile(
         self,
@@ -948,12 +943,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.profile(handle="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.profile", dict(input), options
         )
-        return RunResult[InstagramProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramProfileData].model_validate(raw)
 
     def reel_transcript(
         self,
@@ -966,17 +959,15 @@ class InstagramNamespace:
         Turn any public Instagram reel or video post into a full speech transcript,
         with optional word-level timestamps - priced per request in USD.
 
-        Price: $0.02 per result.
+        Price: $0.005 per request plus $0.02 per result.
 
         Example:
             res = client.instagram.reel_transcript(url="https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps=False)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.reel_transcript", dict(input), options
         )
-        return RunResult[InstagramReelTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramReelTranscriptData].model_validate(raw)
 
     def reels_search(
         self,
@@ -995,12 +986,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.reels_search(query="travel")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.reels_search", dict(input), options
         )
-        return RunResult[InstagramReelsSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramReelsSearchData].model_validate(raw)
 
     def search(
         self,
@@ -1018,12 +1007,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.search(query="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.search", dict(input), options
         )
-        return RunResult[InstagramSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramSearchData].model_validate(raw)
 
     def search_hashtag(
         self,
@@ -1041,12 +1028,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.search_hashtag(hashtag="travel")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.search_hashtag", dict(input), options
         )
-        return RunResult[InstagramSearchHashtagData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramSearchHashtagData].model_validate(raw)
 
     def search_profiles(
         self,
@@ -1064,12 +1049,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.search_profiles(query="coffee roaster")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.search_profiles", dict(input), options
         )
-        return RunResult[InstagramSearchProfilesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramSearchProfilesData].model_validate(raw)
 
     def iter_search_profiles(
         self,
@@ -1079,14 +1062,18 @@ class InstagramNamespace:
     ) -> Paginator[InstagramSearchProfilesProfile, InstagramSearchProfilesData]:
         """Iterate Instagram Profile Search results, following pagination cursors.
 
-        Yields flattened items from the `profiles` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramSearchProfilesProfile` items from the `profiles` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "instagram.search_profiles",
             dict(input),
             "profiles",
+            item_model=InstagramSearchProfilesProfile,
+            data_model=InstagramSearchProfilesData,
+            bare=False,
             options=options,
         )
 
@@ -1104,17 +1091,15 @@ class InstagramNamespace:
         request several at once to lower the cost per account. Up to 100 usernames
         per request.
 
-        Price: $0.003 per username.
+        Price: $0.099 per request plus $0.003 per username.
 
         Example:
             res = client.instagram.stories_full(usernames=["natgeo"])
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_full", dict(input), options
         )
-        return RunResult[InstagramStoriesFullData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramStoriesFullData].model_validate(raw)
 
     def stories_thin(
         self,
@@ -1133,12 +1118,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.stories_thin(username="natgeo")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_thin", dict(input), options
         )
-        return RunResult[InstagramStoriesThinData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramStoriesThinData].model_validate(raw)
 
     def trending_reels(
         self,
@@ -1156,12 +1139,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.trending_reels()
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.trending_reels", dict(input), options
         )
-        return RunResult[InstagramTrendingReelsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramTrendingReelsData].model_validate(raw)
 
     def user_highlights(
         self,
@@ -1179,12 +1160,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.user_highlights(handle="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.user_highlights", dict(input), options
         )
-        return RunResult[InstagramUserHighlightsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramUserHighlightsData].model_validate(raw)
 
     def user_posts(
         self,
@@ -1202,12 +1181,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.user_posts(handle="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.user_posts", dict(input), options
         )
-        return RunResult[InstagramUserPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramUserPostsData].model_validate(raw)
 
     def iter_user_posts(
         self,
@@ -1217,11 +1194,19 @@ class InstagramNamespace:
     ) -> Paginator[InstagramUserPostsPost, InstagramUserPostsData]:
         """Iterate Instagram User Posts results, following pagination cursors.
 
-        Yields flattened items from the `posts` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramUserPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "instagram.user_posts", dict(input), "posts", options=options
+            self._client,
+            "instagram.user_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramUserPostsPost,
+            data_model=InstagramUserPostsData,
+            bare=False,
+            options=options,
         )
 
     def user_reels(
@@ -1240,12 +1225,10 @@ class InstagramNamespace:
         Example:
             res = client.instagram.user_reels(handle="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.user_reels", dict(input), options
         )
-        return RunResult[InstagramUserReelsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramUserReelsData].model_validate(raw)
 
     def iter_user_reels(
         self,
@@ -1255,11 +1238,19 @@ class InstagramNamespace:
     ) -> Paginator[InstagramUserReelsReel, InstagramUserReelsData]:
         """Iterate Instagram User Reels results, following pagination cursors.
 
-        Yields flattened items from the `reels` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramUserReelsReel` items from the `reels` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "instagram.user_reels", dict(input), "reels", options=options
+            self._client,
+            "instagram.user_reels",
+            dict(input),
+            "reels",
+            item_model=InstagramUserReelsReel,
+            data_model=InstagramUserReelsData,
+            bare=False,
+            options=options,
         )
 
 
@@ -1285,12 +1276,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.audio_reels(audioId="1392969992841787")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.audio_reels", dict(input), options
         )
-        return RunResult[InstagramAudioReelsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramAudioReelsData].model_validate(raw)
 
     def iter_audio_reels(
         self,
@@ -1300,11 +1289,19 @@ class AsyncInstagramNamespace:
     ) -> AsyncPaginator[InstagramAudioReelsReel, InstagramAudioReelsData]:
         """Iterate Instagram Reels by Audio results, following pagination cursors.
 
-        Yields flattened items from the `reels` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramAudioReelsReel` items from the `reels` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "instagram.audio_reels", dict(input), "reels", options=options
+            self._client,
+            "instagram.audio_reels",
+            dict(input),
+            "reels",
+            item_model=InstagramAudioReelsReel,
+            data_model=InstagramAudioReelsData,
+            bare=False,
+            options=options,
         )
 
     async def basic_profile(
@@ -1324,12 +1321,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.basic_profile(userId="314216")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.basic_profile", dict(input), options
         )
-        return RunResult[InstagramBasicProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramBasicProfileData].model_validate(raw)
 
     async def embed(
         self,
@@ -1347,12 +1342,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.embed(handle="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.embed", dict(input), options
         )
-        return RunResult[InstagramEmbedData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramEmbedData].model_validate(raw)
 
     async def followers(
         self,
@@ -1370,12 +1363,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.followers(limit=50, username="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.followers", dict(input), options
         )
-        return RunResult[InstagramFollowersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramFollowersData].model_validate(raw)
 
     def iter_followers(
         self,
@@ -1385,11 +1376,19 @@ class AsyncInstagramNamespace:
     ) -> AsyncPaginator[InstagramFollowersItem, InstagramFollowersData]:
         """Iterate Instagram Followers results, following pagination cursors.
 
-        Yields flattened items from the `items` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramFollowersItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "instagram.followers", dict(input), "items", options=options
+            self._client,
+            "instagram.followers",
+            dict(input),
+            "items",
+            item_model=InstagramFollowersItem,
+            data_model=InstagramFollowersData,
+            bare=False,
+            options=options,
         )
 
     async def following(
@@ -1408,12 +1407,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.following(limit=50, username="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.following", dict(input), options
         )
-        return RunResult[InstagramFollowingData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramFollowingData].model_validate(raw)
 
     def iter_following(
         self,
@@ -1423,11 +1420,19 @@ class AsyncInstagramNamespace:
     ) -> AsyncPaginator[InstagramFollowingItem, InstagramFollowingData]:
         """Iterate Instagram Following results, following pagination cursors.
 
-        Yields flattened items from the `items` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramFollowingItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "instagram.following", dict(input), "items", options=options
+            self._client,
+            "instagram.following",
+            dict(input),
+            "items",
+            item_model=InstagramFollowingItem,
+            data_model=InstagramFollowingData,
+            bare=False,
+            options=options,
         )
 
     async def hashtag_analytics(
@@ -1441,17 +1446,15 @@ class AsyncInstagramNamespace:
         Get analytics for any Instagram hashtag - total post count, related
         hashtags, and usage signals - normalized and priced per request in USD.
 
-        Price: $0.0017 per result.
+        Price: $0.001 per request plus $0.0017 per result.
 
         Example:
             res = client.instagram.hashtag_analytics(hashtag="travel", limit=5)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.hashtag_analytics", dict(input), options
         )
-        return RunResult[InstagramHashtagAnalyticsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramHashtagAnalyticsData].model_validate(raw)
 
     async def highlight_detail(
         self,
@@ -1469,12 +1472,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.highlight_detail(id="18201653992314974")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.highlight_detail", dict(input), options
         )
-        return RunResult[InstagramHighlightDetailData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramHighlightDetailData].model_validate(raw)
 
     async def media_transcript(
         self,
@@ -1492,12 +1493,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.media_transcript(url="https://www.instagram.com/reel/DHsD6HGqJhp/")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.media_transcript", dict(input), options
         )
-        return RunResult[InstagramMediaTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramMediaTranscriptData].model_validate(raw)
 
     async def post(
         self,
@@ -1515,12 +1514,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.post", dict(input), options
         )
-        return RunResult[InstagramPostData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramPostData].model_validate(raw)
 
     async def post_comments(
         self,
@@ -1538,12 +1535,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.post_comments", dict(input), options
         )
-        return RunResult[InstagramPostCommentsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramPostCommentsData].model_validate(raw)
 
     async def profile(
         self,
@@ -1562,12 +1557,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.profile(handle="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.profile", dict(input), options
         )
-        return RunResult[InstagramProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramProfileData].model_validate(raw)
 
     async def reel_transcript(
         self,
@@ -1580,17 +1573,15 @@ class AsyncInstagramNamespace:
         Turn any public Instagram reel or video post into a full speech transcript,
         with optional word-level timestamps - priced per request in USD.
 
-        Price: $0.02 per result.
+        Price: $0.005 per request plus $0.02 per result.
 
         Example:
             res = client.instagram.reel_transcript(url="https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps=False)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.reel_transcript", dict(input), options
         )
-        return RunResult[InstagramReelTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramReelTranscriptData].model_validate(raw)
 
     async def reels_search(
         self,
@@ -1609,12 +1600,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.reels_search(query="travel")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.reels_search", dict(input), options
         )
-        return RunResult[InstagramReelsSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramReelsSearchData].model_validate(raw)
 
     async def search(
         self,
@@ -1632,12 +1621,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.search(query="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.search", dict(input), options
         )
-        return RunResult[InstagramSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramSearchData].model_validate(raw)
 
     async def search_hashtag(
         self,
@@ -1655,12 +1642,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.search_hashtag(hashtag="travel")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.search_hashtag", dict(input), options
         )
-        return RunResult[InstagramSearchHashtagData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramSearchHashtagData].model_validate(raw)
 
     async def search_profiles(
         self,
@@ -1678,12 +1663,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.search_profiles(query="coffee roaster")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.search_profiles", dict(input), options
         )
-        return RunResult[InstagramSearchProfilesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramSearchProfilesData].model_validate(raw)
 
     def iter_search_profiles(
         self,
@@ -1693,14 +1676,18 @@ class AsyncInstagramNamespace:
     ) -> AsyncPaginator[InstagramSearchProfilesProfile, InstagramSearchProfilesData]:
         """Iterate Instagram Profile Search results, following pagination cursors.
 
-        Yields flattened items from the `profiles` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramSearchProfilesProfile` items from the `profiles` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "instagram.search_profiles",
             dict(input),
             "profiles",
+            item_model=InstagramSearchProfilesProfile,
+            data_model=InstagramSearchProfilesData,
+            bare=False,
             options=options,
         )
 
@@ -1718,17 +1705,15 @@ class AsyncInstagramNamespace:
         request several at once to lower the cost per account. Up to 100 usernames
         per request.
 
-        Price: $0.003 per username.
+        Price: $0.099 per request plus $0.003 per username.
 
         Example:
             res = client.instagram.stories_full(usernames=["natgeo"])
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_full", dict(input), options
         )
-        return RunResult[InstagramStoriesFullData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramStoriesFullData].model_validate(raw)
 
     async def stories_thin(
         self,
@@ -1747,12 +1732,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.stories_thin(username="natgeo")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_thin", dict(input), options
         )
-        return RunResult[InstagramStoriesThinData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramStoriesThinData].model_validate(raw)
 
     async def trending_reels(
         self,
@@ -1770,12 +1753,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.trending_reels()
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.trending_reels", dict(input), options
         )
-        return RunResult[InstagramTrendingReelsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramTrendingReelsData].model_validate(raw)
 
     async def user_highlights(
         self,
@@ -1793,12 +1774,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.user_highlights(handle="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.user_highlights", dict(input), options
         )
-        return RunResult[InstagramUserHighlightsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramUserHighlightsData].model_validate(raw)
 
     async def user_posts(
         self,
@@ -1816,12 +1795,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.user_posts(handle="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.user_posts", dict(input), options
         )
-        return RunResult[InstagramUserPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramUserPostsData].model_validate(raw)
 
     def iter_user_posts(
         self,
@@ -1831,11 +1808,19 @@ class AsyncInstagramNamespace:
     ) -> AsyncPaginator[InstagramUserPostsPost, InstagramUserPostsData]:
         """Iterate Instagram User Posts results, following pagination cursors.
 
-        Yields flattened items from the `posts` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramUserPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "instagram.user_posts", dict(input), "posts", options=options
+            self._client,
+            "instagram.user_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramUserPostsPost,
+            data_model=InstagramUserPostsData,
+            bare=False,
+            options=options,
         )
 
     async def user_reels(
@@ -1854,12 +1839,10 @@ class AsyncInstagramNamespace:
         Example:
             res = client.instagram.user_reels(handle="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.user_reels", dict(input), options
         )
-        return RunResult[InstagramUserReelsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[InstagramUserReelsData].model_validate(raw)
 
     def iter_user_reels(
         self,
@@ -1869,9 +1852,17 @@ class AsyncInstagramNamespace:
     ) -> AsyncPaginator[InstagramUserReelsReel, InstagramUserReelsData]:
         """Iterate Instagram User Reels results, following pagination cursors.
 
-        Yields flattened items from the `reels` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `InstagramUserReelsReel` items from the `reels` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "instagram.user_reels", dict(input), "reels", options=options
+            self._client,
+            "instagram.user_reels",
+            dict(input),
+            "reels",
+            item_model=InstagramUserReelsReel,
+            data_model=InstagramUserReelsData,
+            bare=False,
+            options=options,
         )

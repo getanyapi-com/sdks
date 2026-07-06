@@ -52,17 +52,15 @@ class WhatsappNamespace:
         Check whether a phone number is registered on WhatsApp, with transparent
         per-request USD pricing.
 
-        Price: $0.001 per result.
+        Price: $0.0035 per request plus $0.001 per result.
 
         Example:
             res = client.whatsapp.validate(phone="+14155552671")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "whatsapp.validate", dict(input), options
         )
-        return RunResult[WhatsappValidateData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[WhatsappValidateData].model_validate(raw)
 
 
 class AsyncWhatsappNamespace:
@@ -82,14 +80,12 @@ class AsyncWhatsappNamespace:
         Check whether a phone number is registered on WhatsApp, with transparent
         per-request USD pricing.
 
-        Price: $0.001 per result.
+        Price: $0.0035 per request plus $0.001 per result.
 
         Example:
             res = client.whatsapp.validate(phone="+14155552671")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "whatsapp.validate", dict(input), options
         )
-        return RunResult[WhatsappValidateData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[WhatsappValidateData].model_validate(raw)

@@ -27,18 +27,9 @@ export interface YoutubeChannelInput {
  */
 export interface YoutubeChannelData {
   avatarUrl: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   channelId: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   description: string;
   subscribers: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   videos: number;
   views: number;
@@ -64,23 +55,11 @@ export interface YoutubeChannelCommunityPostsInput {
 }
 
 export interface YoutubeChannelCommunityPostsPost {
-  /**
-   * Populated whenever the provider returns data.
-   */
   content: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   image: string;
   likeCount: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedTime: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -90,9 +69,6 @@ export interface YoutubeChannelCommunityPostsPost {
  */
 export interface YoutubeChannelCommunityPostsData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   posts: YoutubeChannelCommunityPostsPost[];
 }
 
@@ -115,22 +91,10 @@ export interface YoutubeChannelLivesInput {
 }
 
 export interface YoutubeChannelLivesLive {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   lengthText: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedTime: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -140,9 +104,6 @@ export interface YoutubeChannelLivesLive {
  * The `data` payload of YouTube Channel Live Streams (youtube.channel_lives).
  */
 export interface YoutubeChannelLivesData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   lives: YoutubeChannelLivesLive[];
   nextCursor: string;
 }
@@ -166,18 +127,9 @@ export interface YoutubeChannelPlaylistsInput {
 }
 
 export interface YoutubeChannelPlaylistsPlaylist {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   playlistUrl: string;
   thumbnail: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   videoCount: number;
   [extra: string]: unknown;
@@ -188,9 +140,6 @@ export interface YoutubeChannelPlaylistsPlaylist {
  */
 export interface YoutubeChannelPlaylistsData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   playlists: YoutubeChannelPlaylistsPlaylist[];
 }
 
@@ -219,18 +168,9 @@ export interface YoutubeChannelShortsInput {
 
 export interface YoutubeChannelShortsShort {
   duration: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -241,9 +181,6 @@ export interface YoutubeChannelShortsShort {
  */
 export interface YoutubeChannelShortsData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   shorts: YoutubeChannelShortsShort[];
 }
 
@@ -271,22 +208,10 @@ export interface YoutubeChannelVideosInput {
 }
 
 export interface YoutubeChannelVideosVideo {
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   lengthText: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedTime: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -297,9 +222,6 @@ export interface YoutubeChannelVideosVideo {
  */
 export interface YoutubeChannelVideosData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   videos: YoutubeChannelVideosVideo[];
 }
 
@@ -314,22 +236,10 @@ export interface YoutubeCommentRepliesInput {
 }
 
 export interface YoutubeCommentRepliesComment {
-  /**
-   * Populated whenever the provider returns data.
-   */
   authorName: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   content: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedTime: string;
   [extra: string]: unknown;
 }
@@ -338,9 +248,6 @@ export interface YoutubeCommentRepliesComment {
  * The `data` payload of YouTube Comment Replies (youtube.comment_replies).
  */
 export interface YoutubeCommentRepliesData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   comments: YoutubeCommentRepliesComment[];
   nextCursor: string;
 }
@@ -359,25 +266,10 @@ export interface YoutubeCommunityPostInput {
  * The `data` payload of YouTube Community Post (youtube.community_post).
  */
 export interface YoutubeCommunityPostData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   channelHandle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   channelTitle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   content: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedTime: string;
   [extra: string]: unknown;
 }
@@ -393,27 +285,12 @@ export interface YoutubePlaylistInput {
 }
 
 export interface YoutubePlaylistVideo {
-  /**
-   * Populated whenever the provider returns data.
-   */
   channel: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   lengthSeconds: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   lengthText: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   thumbnail: string;
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -422,18 +299,9 @@ export interface YoutubePlaylistVideo {
  * The `data` payload of YouTube Playlist (youtube.playlist).
  */
 export interface YoutubePlaylistData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   owner: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   totalVideos: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   videos: YoutubePlaylistVideo[];
 }
 
@@ -463,26 +331,11 @@ export interface YoutubeSearchInput {
 }
 
 export interface YoutubeSearchVideo {
-  /**
-   * Populated whenever the provider returns data.
-   */
   channel: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   lengthText: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedTime: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -492,9 +345,6 @@ export interface YoutubeSearchVideo {
  * The `data` payload of YouTube Search (youtube.search).
  */
 export interface YoutubeSearchData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   videos: YoutubeSearchVideo[];
 }
 
@@ -518,26 +368,11 @@ export interface YoutubeSearchHashtagInput {
 }
 
 export interface YoutubeSearchHashtagVideo {
-  /**
-   * Populated whenever the provider returns data.
-   */
   channelTitle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   lengthText: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedTime: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -548,9 +383,6 @@ export interface YoutubeSearchHashtagVideo {
  */
 export interface YoutubeSearchHashtagData {
   nextCursor: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   videos: YoutubeSearchHashtagVideo[];
 }
 
@@ -560,26 +392,11 @@ export interface YoutubeSearchHashtagData {
 export interface YoutubeTrendingShortsInput {}
 
 export interface YoutubeTrendingShortsShort {
-  /**
-   * Populated whenever the provider returns data.
-   */
   channelTitle: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   duration: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -589,9 +406,6 @@ export interface YoutubeTrendingShortsShort {
  * The `data` payload of YouTube Trending Shorts (youtube.trending_shorts).
  */
 export interface YoutubeTrendingShortsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   shorts: YoutubeTrendingShortsShort[];
 }
 
@@ -613,24 +427,12 @@ export interface YoutubeVideoInput {
  * The `data` payload of YouTube Video (youtube.video).
  */
 export interface YoutubeVideoData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   channel: string;
   comments: number;
   durationMs: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedAt: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
   views: number;
   [extra: string]: unknown;
@@ -655,23 +457,11 @@ export interface YoutubeVideoCommentsInput {
 }
 
 export interface YoutubeVideoCommentsComment {
-  /**
-   * Populated whenever the provider returns data.
-   */
   author: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   id: string;
   likes: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   publishedTime: string;
   replies: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -680,9 +470,6 @@ export interface YoutubeVideoCommentsComment {
  * The `data` payload of YouTube Video Comments (youtube.video_comments).
  */
 export interface YoutubeVideoCommentsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   comments: YoutubeVideoCommentsComment[];
   nextCursor: string;
 }
@@ -712,19 +499,10 @@ export interface YoutubeVideoSponsorsSuspectedSponsor {
  * The `data` payload of YouTube Video Sponsors (youtube.video_sponsors).
  */
 export interface YoutubeVideoSponsorsData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   detectionStatus: string;
   isPaidPromotion: boolean;
   suspectedSponsors: YoutubeVideoSponsorsSuspectedSponsor[];
-  /**
-   * Populated whenever the provider returns data.
-   */
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   videoId: string;
 }
 
@@ -746,13 +524,7 @@ export interface YoutubeVideoTranscriptInput {
  * The `data` payload of YouTube Video Transcript (youtube.video_transcript).
  */
 export interface YoutubeVideoTranscriptData {
-  /**
-   * Populated whenever the provider returns data.
-   */
   language: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   transcript: string;
   [extra: string]: unknown;
 }
@@ -772,7 +544,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.channel({"handle":"@mkbhd"});
+   * const res = await client.youtube.channel({ handle: "@mkbhd" });
    */
   channel(
     input: YoutubeChannelInput,
@@ -789,7 +561,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.channelCommunityPosts({"handle":"@MrBeast"});
+   * const res = await client.youtube.channelCommunityPosts({ handle: "@MrBeast" });
    */
   channelCommunityPosts(
     input: YoutubeChannelCommunityPostsInput,
@@ -802,23 +574,24 @@ export class YoutubeNamespace {
    * Iterate every result of YouTube Channel Community Posts across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterChannelCommunityPosts(
     input: YoutubeChannelCommunityPostsInput,
     options?: RequestOptions,
   ): Paginator<
     YoutubeChannelCommunityPostsPost,
-    YoutubeChannelCommunityPostsData
+    RunResult<YoutubeChannelCommunityPostsData>
   > {
     return paginate<
       YoutubeChannelCommunityPostsPost,
-      YoutubeChannelCommunityPostsData
+      RunResult<YoutubeChannelCommunityPostsData>
     >(
       this._core,
       "youtube.channel_community_posts",
       input as unknown as Record<string, unknown>,
       "posts",
+      false,
       options,
     );
   }
@@ -831,7 +604,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.channelLives({"handle":"@IShowSpeed"});
+   * const res = await client.youtube.channelLives({ handle: "@IShowSpeed" });
    */
   channelLives(
     input: YoutubeChannelLivesInput,
@@ -844,17 +617,21 @@ export class YoutubeNamespace {
    * Iterate every result of YouTube Channel Live Streams across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterChannelLives(
     input: YoutubeChannelLivesInput,
     options?: RequestOptions,
-  ): Paginator<YoutubeChannelLivesLive, YoutubeChannelLivesData> {
-    return paginate<YoutubeChannelLivesLive, YoutubeChannelLivesData>(
+  ): Paginator<YoutubeChannelLivesLive, RunResult<YoutubeChannelLivesData>> {
+    return paginate<
+      YoutubeChannelLivesLive,
+      RunResult<YoutubeChannelLivesData>
+    >(
       this._core,
       "youtube.channel_lives",
       input as unknown as Record<string, unknown>,
       "lives",
+      false,
       options,
     );
   }
@@ -867,7 +644,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.channelPlaylists({"handle":"@veritasium"});
+   * const res = await client.youtube.channelPlaylists({ handle: "@veritasium" });
    */
   channelPlaylists(
     input: YoutubeChannelPlaylistsInput,
@@ -880,20 +657,24 @@ export class YoutubeNamespace {
    * Iterate every result of YouTube Channel Playlists across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterChannelPlaylists(
     input: YoutubeChannelPlaylistsInput,
     options?: RequestOptions,
-  ): Paginator<YoutubeChannelPlaylistsPlaylist, YoutubeChannelPlaylistsData> {
+  ): Paginator<
+    YoutubeChannelPlaylistsPlaylist,
+    RunResult<YoutubeChannelPlaylistsData>
+  > {
     return paginate<
       YoutubeChannelPlaylistsPlaylist,
-      YoutubeChannelPlaylistsData
+      RunResult<YoutubeChannelPlaylistsData>
     >(
       this._core,
       "youtube.channel_playlists",
       input as unknown as Record<string, unknown>,
       "playlists",
+      false,
       options,
     );
   }
@@ -906,7 +687,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.channelShorts({"handle":"@starterstory"});
+   * const res = await client.youtube.channelShorts({ handle: "@starterstory" });
    */
   channelShorts(
     input: YoutubeChannelShortsInput,
@@ -919,17 +700,21 @@ export class YoutubeNamespace {
    * Iterate every result of YouTube Channel Shorts across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterChannelShorts(
     input: YoutubeChannelShortsInput,
     options?: RequestOptions,
-  ): Paginator<YoutubeChannelShortsShort, YoutubeChannelShortsData> {
-    return paginate<YoutubeChannelShortsShort, YoutubeChannelShortsData>(
+  ): Paginator<YoutubeChannelShortsShort, RunResult<YoutubeChannelShortsData>> {
+    return paginate<
+      YoutubeChannelShortsShort,
+      RunResult<YoutubeChannelShortsData>
+    >(
       this._core,
       "youtube.channel_shorts",
       input as unknown as Record<string, unknown>,
       "shorts",
+      false,
       options,
     );
   }
@@ -942,7 +727,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.channelVideos({"handle":"@mkbhd"});
+   * const res = await client.youtube.channelVideos({ handle: "@mkbhd" });
    */
   channelVideos(
     input: YoutubeChannelVideosInput,
@@ -955,17 +740,21 @@ export class YoutubeNamespace {
    * Iterate every result of YouTube Channel Videos across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterChannelVideos(
     input: YoutubeChannelVideosInput,
     options?: RequestOptions,
-  ): Paginator<YoutubeChannelVideosVideo, YoutubeChannelVideosData> {
-    return paginate<YoutubeChannelVideosVideo, YoutubeChannelVideosData>(
+  ): Paginator<YoutubeChannelVideosVideo, RunResult<YoutubeChannelVideosData>> {
+    return paginate<
+      YoutubeChannelVideosVideo,
+      RunResult<YoutubeChannelVideosData>
+    >(
       this._core,
       "youtube.channel_videos",
       input as unknown as Record<string, unknown>,
       "videos",
+      false,
       options,
     );
   }
@@ -978,7 +767,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.commentReplies({"continuationToken":"Eg0SC19fZm1EajBaSjFRGAYygwEaUBIaVWd3aXRjRk9fdmtpM0x4LUNfZDRBYUFCQWciAggAKhhVQ1g2T1EzRGtjc2JZTkU2SDh1UVF1VkEyC19fZm1EajBaSjFRQABICoIBAggBQi9jb21tZW50LXJlcGxpZXMtaXRlbS1VZ3dpdGNGT192a2kzTHgtQ19kNEFhQUJBZw=="});
+   * const res = await client.youtube.commentReplies({ continuationToken: "Eg0SC19fZm1EajBaSjFRGAYygwEaUBIaVWd3aXRjRk9fdmtpM0x4LUNfZDRBYUFCQWciAggAKhhVQ1g2T1EzRGtjc2JZTkU2SDh1UVF1VkEyC19fZm1EajBaSjFRQABICoIBAggBQi9jb21tZW50LXJlcGxpZXMtaXRlbS1VZ3dpdGNGT192a2kzTHgtQ19kNEFhQUJBZw==" });
    */
   commentReplies(
     input: YoutubeCommentRepliesInput,
@@ -995,7 +784,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.communityPost({"url":"https://www.youtube.com/post/Ugkx1LonSRBBUqASv-J8j9_FesxwlMAhT3_e"});
+   * const res = await client.youtube.communityPost({ url: "https://www.youtube.com/post/Ugkx1LonSRBBUqASv-J8j9_FesxwlMAhT3_e" });
    */
   communityPost(
     input: YoutubeCommunityPostInput,
@@ -1012,7 +801,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.playlist({"playlistId":"PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj"});
+   * const res = await client.youtube.playlist({ playlistId: "PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj" });
    */
   playlist(
     input: YoutubePlaylistInput,
@@ -1029,7 +818,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.search({"query":"how to cook rice"});
+   * const res = await client.youtube.search({ query: "how to cook rice" });
    */
   search(
     input: YoutubeSearchInput,
@@ -1046,7 +835,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.searchHashtag({"hashtag":"funny"});
+   * const res = await client.youtube.searchHashtag({ hashtag: "funny" });
    */
   searchHashtag(
     input: YoutubeSearchHashtagInput,
@@ -1059,17 +848,21 @@ export class YoutubeNamespace {
    * Iterate every result of YouTube Hashtag Search across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterSearchHashtag(
     input: YoutubeSearchHashtagInput,
     options?: RequestOptions,
-  ): Paginator<YoutubeSearchHashtagVideo, YoutubeSearchHashtagData> {
-    return paginate<YoutubeSearchHashtagVideo, YoutubeSearchHashtagData>(
+  ): Paginator<YoutubeSearchHashtagVideo, RunResult<YoutubeSearchHashtagData>> {
+    return paginate<
+      YoutubeSearchHashtagVideo,
+      RunResult<YoutubeSearchHashtagData>
+    >(
       this._core,
       "youtube.search_hashtag",
       input as unknown as Record<string, unknown>,
       "videos",
+      false,
       options,
     );
   }
@@ -1099,7 +892,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.video({"url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"});
+   * const res = await client.youtube.video({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
    */
   video(
     input: YoutubeVideoInput,
@@ -1116,7 +909,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.videoComments({"url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"});
+   * const res = await client.youtube.videoComments({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
    */
   videoComments(
     input: YoutubeVideoCommentsInput,
@@ -1129,17 +922,24 @@ export class YoutubeNamespace {
    * Iterate every result of YouTube Video Comments across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
-   * RunResult pages instead (each carries its own costUsd).
+   * result pages instead (each carries its own costUsd).
    */
   iterVideoComments(
     input: YoutubeVideoCommentsInput,
     options?: RequestOptions,
-  ): Paginator<YoutubeVideoCommentsComment, YoutubeVideoCommentsData> {
-    return paginate<YoutubeVideoCommentsComment, YoutubeVideoCommentsData>(
+  ): Paginator<
+    YoutubeVideoCommentsComment,
+    RunResult<YoutubeVideoCommentsData>
+  > {
+    return paginate<
+      YoutubeVideoCommentsComment,
+      RunResult<YoutubeVideoCommentsData>
+    >(
       this._core,
       "youtube.video_comments",
       input as unknown as Record<string, unknown>,
       "comments",
+      false,
       options,
     );
   }
@@ -1152,7 +952,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.videoSponsors({"url":"https://www.youtube.com/watch?v=AVO0ifle-OU"});
+   * const res = await client.youtube.videoSponsors({ url: "https://www.youtube.com/watch?v=AVO0ifle-OU" });
    */
   videoSponsors(
     input: YoutubeVideoSponsorsInput,
@@ -1169,7 +969,7 @@ export class YoutubeNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.videoTranscript({"url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"});
+   * const res = await client.youtube.videoTranscript({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
    */
   videoTranscript(
     input: YoutubeVideoTranscriptInput,

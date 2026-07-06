@@ -50,57 +50,47 @@ class HackernewsProfileData(BaseModel):
 
     bio: str
     karma: int
-    username: str = Field(description="Populated whenever the provider returns data.")
+    username: str
 
 
 class HackernewsSearchData(BaseModel):
-    results: list[HackernewsSearchResult] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    results: list[HackernewsSearchResult]
 
 
 class HackernewsSearchResult(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
+    author: str
     comments: int
-    id: str = Field(description="Populated whenever the provider returns data.")
+    id: str
     points: int
-    publishedAt: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    title: str = Field(description="Populated whenever the provider returns data.")
+    published_at: str = Field(alias="publishedAt")
+    title: str
     url: str
 
 
 class HackernewsStoryData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
+    author: str
     comments: int
     points: int
-    publishedAt: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    title: str = Field(description="Populated whenever the provider returns data.")
+    published_at: str = Field(alias="publishedAt")
+    title: str
     url: str
 
 
 class HackernewsStoryCommentsData(BaseModel):
-    comments: list[HackernewsStoryCommentsComment] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    comments: list[HackernewsStoryCommentsComment]
 
 
 class HackernewsStoryCommentsComment(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    parentId: str
-    publishedAt: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    author: str
+    id: str
+    parent_id: str = Field(alias="parentId")
+    published_at: str = Field(alias="publishedAt")
     text: str
 
 
@@ -126,12 +116,10 @@ class HackernewsNamespace:
         Example:
             res = client.hackernews.profile(handle="pg")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.profile", dict(input), options
         )
-        return RunResult[HackernewsProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[HackernewsProfileData].model_validate(raw)
 
     def search(
         self,
@@ -149,12 +137,10 @@ class HackernewsNamespace:
         Example:
             res = client.hackernews.search(query="ai")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.search", dict(input), options
         )
-        return RunResult[HackernewsSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[HackernewsSearchData].model_validate(raw)
 
     def story(
         self,
@@ -172,12 +158,10 @@ class HackernewsNamespace:
         Example:
             res = client.hackernews.story(id="47340079")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.story", dict(input), options
         )
-        return RunResult[HackernewsStoryData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[HackernewsStoryData].model_validate(raw)
 
     def story_comments(
         self,
@@ -195,12 +179,10 @@ class HackernewsNamespace:
         Example:
             res = client.hackernews.story_comments(id="47340079")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.story_comments", dict(input), options
         )
-        return RunResult[HackernewsStoryCommentsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[HackernewsStoryCommentsData].model_validate(raw)
 
 
 class AsyncHackernewsNamespace:
@@ -225,12 +207,10 @@ class AsyncHackernewsNamespace:
         Example:
             res = client.hackernews.profile(handle="pg")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.profile", dict(input), options
         )
-        return RunResult[HackernewsProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[HackernewsProfileData].model_validate(raw)
 
     async def search(
         self,
@@ -248,12 +228,10 @@ class AsyncHackernewsNamespace:
         Example:
             res = client.hackernews.search(query="ai")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.search", dict(input), options
         )
-        return RunResult[HackernewsSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[HackernewsSearchData].model_validate(raw)
 
     async def story(
         self,
@@ -271,12 +249,10 @@ class AsyncHackernewsNamespace:
         Example:
             res = client.hackernews.story(id="47340079")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.story", dict(input), options
         )
-        return RunResult[HackernewsStoryData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[HackernewsStoryData].model_validate(raw)
 
     async def story_comments(
         self,
@@ -294,9 +270,7 @@ class AsyncHackernewsNamespace:
         Example:
             res = client.hackernews.story_comments(id="47340079")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.story_comments", dict(input), options
         )
-        return RunResult[HackernewsStoryCommentsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[HackernewsStoryCommentsData].model_validate(raw)

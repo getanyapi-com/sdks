@@ -30,40 +30,38 @@ class IndeedJobsInput(TypedDict, total=False):
 
 class IndeedJobsData(BaseModel):
     items: list[IndeedJobsItem] = Field(
-        description="Job listing records: title, employer, location, salary when available, job type, posting date, and description. Populated whenever the provider returns data."
+        description="Job listing records: title, employer, location, salary when available, job type, posting date, and description."
     )
 
 
 class IndeedJobsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     city: str | None = None
     company: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     country: str | None = None
-    datePublished: str | None = Field(
-        default=None, description="ISO 8601 publish date."
+    date_published: str | None = Field(
+        default=None, alias="datePublished", description="ISO 8601 publish date."
     )
     description: str | None = Field(
         default=None, description="Plain-text job description."
     )
     expired: bool | None = None
-    jobId: str = Field(
-        description="Indeed job key. Populated whenever the provider returns data."
-    )
-    postalCode: str | None = None
-    salaryCurrency: str | None = None
-    salaryMax: float | None = None
-    salaryMin: float | None = None
-    salaryUnit: str | None = Field(
-        default=None, description="Salary period, e.g. YEAR or HOUR."
+    job_id: str = Field(alias="jobId", description="Indeed job key.")
+    postal_code: str | None = Field(default=None, alias="postalCode")
+    salary_currency: str | None = Field(default=None, alias="salaryCurrency")
+    salary_max: float | None = Field(default=None, alias="salaryMax")
+    salary_min: float | None = Field(default=None, alias="salaryMin")
+    salary_unit: str | None = Field(
+        default=None,
+        alias="salaryUnit",
+        description="Salary period, e.g. YEAR or HOUR.",
     )
     state: str | None = None
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(
-        description="Indeed job posting URL. Populated whenever the provider returns data."
-    )
+    title: str
+    url: str = Field(description="Indeed job posting URL.")
 
 
 class IndeedNamespace:
@@ -80,15 +78,15 @@ class IndeedNamespace:
         Search Indeed job listings by keyword, location, and country - up to 20
         normalized job records per request at a flat USD price.
 
-        Price: $0.00008 per result.
+        Price: $0.0008 per request plus $0.00008 per result.
 
         Example:
             res = client.indeed.jobs(limit=3, location="Austin, TX", query="data analyst")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "indeed.jobs", dict(input), options
         )
-        return RunResult[IndeedJobsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[IndeedJobsData].model_validate(raw)
 
 
 class AsyncIndeedNamespace:
@@ -105,12 +103,12 @@ class AsyncIndeedNamespace:
         Search Indeed job listings by keyword, location, and country - up to 20
         normalized job records per request at a flat USD price.
 
-        Price: $0.00008 per result.
+        Price: $0.0008 per request plus $0.00008 per result.
 
         Example:
             res = client.indeed.jobs(limit=3, location="Austin, TX", query="data analyst")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "indeed.jobs", dict(input), options
         )
-        return RunResult[IndeedJobsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[IndeedJobsData].model_validate(raw)

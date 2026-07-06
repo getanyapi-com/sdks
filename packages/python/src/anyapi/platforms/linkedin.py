@@ -154,263 +154,241 @@ class LinkedinSearchProfilesInput(TypedDict, total=False):
 
 
 class LinkedinAdData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    adType: str = Field(description="Populated whenever the provider returns data.")
-    advertiser: str = Field(description="Populated whenever the provider returns data.")
-    advertiserLinkedinPage: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    cta: str = Field(description="Populated whenever the provider returns data.")
-    description: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    destinationUrl: str
-    endDate: str = Field(description="ISO 8601 date.")
-    headline: str = Field(description="Populated whenever the provider returns data.")
+    ad_type: str = Field(alias="adType")
+    advertiser: str
+    advertiser_linkedin_page: str = Field(alias="advertiserLinkedinPage")
+    cta: str
+    description: str
+    destination_url: str = Field(alias="destinationUrl")
+    end_date: str = Field(alias="endDate", description="ISO 8601 date.")
+    headline: str
     id: str
     image: str
-    startDate: str = Field(description="ISO 8601 date.")
-    totalImpressions: str
+    start_date: str = Field(alias="startDate", description="ISO 8601 date.")
+    total_impressions: str = Field(alias="totalImpressions")
 
 
 class LinkedinAdsData(BaseModel):
     items: list[LinkedinAdsItem] = Field(
-        description="Ad records: advertiser name, ad creative text, format, and ad library URL. Populated whenever the provider returns data."
+        description="Ad records: advertiser name, ad creative text, format, and ad library URL."
     )
 
 
 class LinkedinAdsItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str = Field(description="Populated whenever the provider returns data.")
+    id: str
     text: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class LinkedinAdsSearchData(BaseModel):
-    ads: list[LinkedinAdsSearchAd] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    nextCursor: str
-    totalAds: int
+    model_config = ConfigDict(populate_by_name=True)
+
+    ads: list[LinkedinAdsSearchAd]
+    next_cursor: str = Field(alias="nextCursor")
+    total_ads: int = Field(alias="totalAds")
 
 
 class LinkedinAdsSearchAd(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    adType: str = Field(description="Populated whenever the provider returns data.")
-    advertiser: str = Field(description="Populated whenever the provider returns data.")
-    advertiserLinkedinPage: str
+    ad_type: str = Field(alias="adType")
+    advertiser: str
+    advertiser_linkedin_page: str = Field(alias="advertiserLinkedinPage")
     cta: str
     description: str
-    destinationUrl: str
-    endDate: str
+    destination_url: str = Field(alias="destinationUrl")
+    end_date: str = Field(alias="endDate")
     headline: str
-    id: str = Field(description="Populated whenever the provider returns data.")
-    startDate: str
-    totalImpressions: str
+    id: str
+    start_date: str = Field(alias="startDate")
+    total_impressions: str = Field(alias="totalImpressions")
 
 
 class LinkedinCompanyData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    description: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    employeeCount: int
-    industry: str = Field(description="Populated whenever the provider returns data.")
-    logoUrl: str = Field(description="Populated whenever the provider returns data.")
+    description: str
+    employee_count: int = Field(alias="employeeCount")
+    industry: str
+    logo_url: str = Field(alias="logoUrl")
     name: str
-    tagline: str = Field(description="Populated whenever the provider returns data.")
-    website: str = Field(description="Populated whenever the provider returns data.")
+    tagline: str
+    website: str
 
 
 class LinkedinCompanyEmployeesData(BaseModel):
     items: list[LinkedinCompanyEmployeesItem] = Field(
-        description="Employee records: name, job title, location text, and LinkedIn profile URL. Populated whenever the provider returns data."
+        description="Employee records: name, job title, location text, and LinkedIn profile URL."
     )
 
 
 class LinkedinCompanyEmployeesItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     handle: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    jobTitle: str | None = Field(
+    job_title: str | None = Field(
         default=None,
+        alias="jobTitle",
         description="The employee's current role or headline at the company.",
     )
-    locationText: str | None = Field(
+    location_text: str | None = Field(
         default=None,
+        alias="locationText",
         description="The employee's location as a single string (city, region, country).",
     )
     name: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class LinkedinCompanyPostsData(BaseModel):
-    posts: list[LinkedinCompanyPostsPost] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    posts: list[LinkedinCompanyPostsPost]
 
 
 class LinkedinCompanyPostsPost(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str = Field(description="Populated whenever the provider returns data.")
-    publishedAt: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    text: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    id: str
+    published_at: str = Field(alias="publishedAt")
+    text: str
+    url: str
 
 
 class LinkedinEmailData(BaseModel):
     items: list[LinkedinEmailItem] = Field(
-        description="Email lookup records: the discovered work email for a LinkedIn profile, with the person's name, profile URL, title, and company. Populated whenever the provider returns data."
+        description="Email lookup records: the discovered work email for a LinkedIn profile, with the person's name, profile URL, title, and company."
     )
 
 
 class LinkedinEmailItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     company: str | None = Field(default=None, description="Current company name.")
-    email: str = Field(
-        description="Discovered work email address. Populated whenever the provider returns data."
-    )
-    linkedinUrl: str | None = Field(
+    email: str = Field(description="Discovered work email address.")
+    linkedin_url: str | None = Field(
         default=None,
-        description="Canonical LinkedIn profile URL. Populated whenever the provider returns data.",
+        alias="linkedinUrl",
+        description="Canonical LinkedIn profile URL. Present whenever the upstream returns this record.",
     )
-    name: str = Field(
-        description="Full name on the LinkedIn profile. Populated whenever the provider returns data."
-    )
+    name: str = Field(description="Full name on the LinkedIn profile.")
     title: str | None = Field(default=None, description="Current job title.")
 
 
 class LinkedinJobsData(BaseModel):
     items: list[LinkedinJobsItem] = Field(
-        description="Job records: title and listing URL, plus (when present) company, location, posting date, description, and seniority. Populated whenever the provider returns data."
+        description="Job records: title and listing URL, plus (when present) company, location, posting date, description, and seniority."
     )
 
 
 class LinkedinJobsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     company: str | None = Field(
         default=None,
-        description="Hiring company name. Populated whenever the provider returns data.",
+        description="Hiring company name. Present whenever the upstream returns this record.",
     )
     description: str | None = Field(
         default=None, description="Full job description text."
     )
     location: str | None = Field(
         default=None,
-        description="Job location (city, region). Populated whenever the provider returns data.",
+        description="Job location (city, region). Present whenever the upstream returns this record.",
     )
-    postedAt: str | None = Field(
+    posted_at: str | None = Field(
         default=None,
-        description="When the job was posted, as an ISO 8601 timestamp. Populated whenever the provider returns data.",
+        alias="postedAt",
+        description="When the job was posted, as an ISO 8601 timestamp. Present whenever the upstream returns this record.",
     )
     seniority: str | None = Field(
         default=None,
         description="Seniority / experience level (e.g. Entry level, Mid-Senior, Not Applicable).",
     )
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(
-        description="Canonical LinkedIn job listing URL. Populated whenever the provider returns data."
-    )
+    title: str
+    url: str = Field(description="Canonical LinkedIn job listing URL.")
 
 
 class LinkedinPostData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Populated whenever the provider returns data.")
+    author: str
     comments: int
     likes: int
-    publishedAt: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    text: str = Field(description="Populated whenever the provider returns data.")
+    published_at: str = Field(alias="publishedAt")
+    text: str
     title: str
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class LinkedinPostTranscriptData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    transcript: str = Field(description="Populated whenever the provider returns data.")
-    transcriptNotAvailable: bool
+    transcript: str
+    transcript_not_available: bool = Field(alias="transcriptNotAvailable")
     url: str
 
 
 class LinkedinProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     about: str
-    articles: list[LinkedinProfileArticle] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    avatarUrl: str
-    education: list[LinkedinProfileEducation] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    experience: list[LinkedinProfileExperience] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    articles: list[LinkedinProfileArticle]
+    avatar_url: str = Field(alias="avatarUrl")
+    education: list[LinkedinProfileEducation]
+    experience: list[LinkedinProfileExperience]
     followers: int
     location: str
     name: str
-    recentPosts: list[LinkedinProfileRecentPost] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    recent_posts: list[LinkedinProfileRecentPost] = Field(alias="recentPosts")
 
 
 class LinkedinProfileArticle(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     headline: str
-    publishedAt: str | None = None
+    published_at: str | None = Field(default=None, alias="publishedAt")
     url: str | None = None
 
 
 class LinkedinProfileEducation(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    endDate: str | None = None
+    end_date: str | None = Field(default=None, alias="endDate")
     school: str
-    schoolUrl: str | None = None
-    startDate: str | None = None
+    school_url: str | None = Field(default=None, alias="schoolUrl")
+    start_date: str | None = Field(default=None, alias="startDate")
 
 
 class LinkedinProfileExperience(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     company: str
-    companyUrl: str | None = None
-    endDate: str | None = None
-    startDate: str | None = None
+    company_url: str | None = Field(default=None, alias="companyUrl")
+    end_date: str | None = Field(default=None, alias="endDate")
+    start_date: str | None = Field(default=None, alias="startDate")
 
 
 class LinkedinProfileRecentPost(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    activityType: str | None = None
+    activity_type: str | None = Field(default=None, alias="activityType")
     id: str
-    publishedAt: str | None = None
+    published_at: str | None = Field(default=None, alias="publishedAt")
     text: str | None = None
     url: str | None = None
 
 
 class LinkedinSearchCompaniesData(BaseModel):
     items: list[LinkedinSearchCompaniesItem] = Field(
-        description="Matching company records: name, LinkedIn URL, industry, location, headcount range, and description. Populated whenever the provider returns data."
+        description="Matching company records: name, LinkedIn URL, industry, location, headcount range, and description."
     )
 
 
@@ -418,37 +396,34 @@ class LinkedinSearchCompaniesItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     id: str
-    name: str = Field(description="Populated whenever the provider returns data.")
+    name: str
     url: str
 
 
 class LinkedinSearchPostsData(BaseModel):
-    posts: list[LinkedinSearchPostsPost] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    posts: list[LinkedinSearchPostsPost]
 
 
 class LinkedinSearchPostsPost(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    publishedAt: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    text: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    published_at: str = Field(alias="publishedAt")
+    text: str
+    url: str
 
 
 class LinkedinSearchProfilesData(BaseModel):
     items: list[LinkedinSearchProfilesItem] = Field(
-        description="Matched profile records. Each carries the profile URL, handle, and id. Depending on the match, records may also include first/last name, headline, location, current position, work experience, and education, plus upstream extras (about, skills, languages, certifications, connections, profile picture, and more) that pass through. Populated whenever the provider returns data."
+        description="Matched profile records. Each carries the profile URL, handle, and id. Depending on the match, records may also include first/last name, headline, location, current position, work experience, and education, plus upstream extras (about, skills, languages, certifications, connections, profile picture, and more) that pass through."
     )
 
 
 class LinkedinSearchProfilesItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    currentPosition: Any | None = Field(
+    current_position: Any | None = Field(
         default=None,
+        alias="currentPosition",
         description="Current role(s), passed through from the upstream. Typically a list of objects with job title, company, dates, and description; shape can vary by profile.",
     )
     education: Any | None = Field(
@@ -459,24 +434,26 @@ class LinkedinSearchProfilesItem(BaseModel):
         default=None,
         description="Full work history, passed through from the upstream. Typically a list of objects with job title, company, dates, and description; shape can vary by profile.",
     )
-    firstName: str | None = Field(default=None, description="Member's first name.")
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="Member's first name."
+    )
     handle: str | None = Field(
         default=None,
-        description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider returns data.",
+        description="Public profile identifier (the vanity slug in the URL). Present whenever the upstream returns this record.",
     )
     headline: str | None = Field(
         default=None,
-        description="Profile headline (the tagline under the name). Populated whenever the provider returns data.",
+        description="Profile headline (the tagline under the name). Present whenever the upstream returns this record.",
     )
     id: str = Field(description="LinkedIn member URN id for the profile.")
-    lastName: str | None = Field(default=None, description="Member's last name.")
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Member's last name."
+    )
     location: Any | None = Field(
         default=None,
         description="Member's location, passed through from the upstream. Typically an object with the displayed location text and country code; shape can vary by profile.",
     )
-    url: str = Field(
-        description="Canonical LinkedIn profile URL. Populated whenever the provider returns data."
-    )
+    url: str = Field(description="Canonical LinkedIn profile URL.")
 
 
 class LinkedinNamespace:
@@ -499,10 +476,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.ad(url="https://www.linkedin.com/ad-library/detail/1487405616")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ad", dict(input), options
         )
-        return RunResult[LinkedinAdData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[LinkedinAdData].model_validate(raw)
 
     def ads(
         self,
@@ -515,15 +492,15 @@ class LinkedinNamespace:
         Search the LinkedIn Ad Library by search URL and list the matching ads
         (advertiser, creative text, format), priced per request in USD.
 
-        Price: $0.0015 per result.
+        Price: $0.00005 per request plus $0.0015 per result.
 
         Example:
             res = client.linkedin.ads(limit=3, url="https://www.linkedin.com/company/stripe")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ads", dict(input), options
         )
-        return RunResult[LinkedinAdsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[LinkedinAdsData].model_validate(raw)
 
     def ads_search(
         self,
@@ -542,12 +519,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.ads_search(company="microsoft")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ads_search", dict(input), options
         )
-        return RunResult[LinkedinAdsSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinAdsSearchData].model_validate(raw)
 
     def company(
         self,
@@ -566,12 +541,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.company(url="https://www.linkedin.com/company/stripe")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company", dict(input), options
         )
-        return RunResult[LinkedinCompanyData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinCompanyData].model_validate(raw)
 
     def company_employees(
         self,
@@ -589,12 +562,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.company_employees(company="stripe", limit=3)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_employees", dict(input), options
         )
-        return RunResult[LinkedinCompanyEmployeesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinCompanyEmployeesData].model_validate(raw)
 
     def company_posts(
         self,
@@ -612,12 +583,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.company_posts(url="https://www.linkedin.com/company/stripe")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_posts", dict(input), options
         )
-        return RunResult[LinkedinCompanyPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinCompanyPostsData].model_validate(raw)
 
     def email(
         self,
@@ -635,12 +604,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.email(profileUrl="https://www.linkedin.com/in/satyanadella")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.email", dict(input), options
         )
-        return RunResult[LinkedinEmailData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinEmailData].model_validate(raw)
 
     def jobs(
         self,
@@ -658,10 +625,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.jobs(limit=3, location="San Francisco", query="software engineer")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs", dict(input), options
         )
-        return RunResult[LinkedinJobsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[LinkedinJobsData].model_validate(raw)
 
     def post(
         self,
@@ -679,10 +646,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.post(url="https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post", dict(input), options
         )
-        return RunResult[LinkedinPostData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[LinkedinPostData].model_validate(raw)
 
     def post_transcript(
         self,
@@ -700,12 +667,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.post_transcript(url="https://www.linkedin.com/posts/artificial-analysis_gemini-35-flash-is-a-step-forward-for-google-activity-7465082408409870337-4Pm-")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post_transcript", dict(input), options
         )
-        return RunResult[LinkedinPostTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinPostTranscriptData].model_validate(raw)
 
     def profile(
         self,
@@ -723,12 +688,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/williamhgates")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.profile", dict(input), options
         )
-        return RunResult[LinkedinProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinProfileData].model_validate(raw)
 
     def search_companies(
         self,
@@ -742,17 +705,15 @@ class LinkedinNamespace:
         returning normalized company records with transparent per-request USD
         pricing.
 
-        Price: $0.004 per result.
+        Price: $0.001 per request plus $0.004 per result.
 
         Example:
             res = client.linkedin.search_companies(limit=3, query="fintech")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_companies", dict(input), options
         )
-        return RunResult[LinkedinSearchCompaniesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinSearchCompaniesData].model_validate(raw)
 
     def search_posts(
         self,
@@ -770,12 +731,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.search_posts(datePosted="last-week", query="hiring")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_posts", dict(input), options
         )
-        return RunResult[LinkedinSearchPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinSearchPostsData].model_validate(raw)
 
     def search_profiles(
         self,
@@ -795,12 +754,10 @@ class LinkedinNamespace:
         Example:
             res = client.linkedin.search_profiles(limit=3, query="recruiter")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles", dict(input), options
         )
-        return RunResult[LinkedinSearchProfilesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinSearchProfilesData].model_validate(raw)
 
 
 class AsyncLinkedinNamespace:
@@ -823,10 +780,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.ad(url="https://www.linkedin.com/ad-library/detail/1487405616")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ad", dict(input), options
         )
-        return RunResult[LinkedinAdData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[LinkedinAdData].model_validate(raw)
 
     async def ads(
         self,
@@ -839,15 +796,15 @@ class AsyncLinkedinNamespace:
         Search the LinkedIn Ad Library by search URL and list the matching ads
         (advertiser, creative text, format), priced per request in USD.
 
-        Price: $0.0015 per result.
+        Price: $0.00005 per request plus $0.0015 per result.
 
         Example:
             res = client.linkedin.ads(limit=3, url="https://www.linkedin.com/company/stripe")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ads", dict(input), options
         )
-        return RunResult[LinkedinAdsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[LinkedinAdsData].model_validate(raw)
 
     async def ads_search(
         self,
@@ -866,12 +823,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.ads_search(company="microsoft")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ads_search", dict(input), options
         )
-        return RunResult[LinkedinAdsSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinAdsSearchData].model_validate(raw)
 
     async def company(
         self,
@@ -890,12 +845,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.company(url="https://www.linkedin.com/company/stripe")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company", dict(input), options
         )
-        return RunResult[LinkedinCompanyData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinCompanyData].model_validate(raw)
 
     async def company_employees(
         self,
@@ -913,12 +866,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.company_employees(company="stripe", limit=3)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_employees", dict(input), options
         )
-        return RunResult[LinkedinCompanyEmployeesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinCompanyEmployeesData].model_validate(raw)
 
     async def company_posts(
         self,
@@ -936,12 +887,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.company_posts(url="https://www.linkedin.com/company/stripe")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_posts", dict(input), options
         )
-        return RunResult[LinkedinCompanyPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinCompanyPostsData].model_validate(raw)
 
     async def email(
         self,
@@ -959,12 +908,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.email(profileUrl="https://www.linkedin.com/in/satyanadella")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.email", dict(input), options
         )
-        return RunResult[LinkedinEmailData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinEmailData].model_validate(raw)
 
     async def jobs(
         self,
@@ -982,10 +929,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.jobs(limit=3, location="San Francisco", query="software engineer")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs", dict(input), options
         )
-        return RunResult[LinkedinJobsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[LinkedinJobsData].model_validate(raw)
 
     async def post(
         self,
@@ -1003,10 +950,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.post(url="https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post", dict(input), options
         )
-        return RunResult[LinkedinPostData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[LinkedinPostData].model_validate(raw)
 
     async def post_transcript(
         self,
@@ -1024,12 +971,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.post_transcript(url="https://www.linkedin.com/posts/artificial-analysis_gemini-35-flash-is-a-step-forward-for-google-activity-7465082408409870337-4Pm-")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post_transcript", dict(input), options
         )
-        return RunResult[LinkedinPostTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinPostTranscriptData].model_validate(raw)
 
     async def profile(
         self,
@@ -1047,12 +992,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/williamhgates")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.profile", dict(input), options
         )
-        return RunResult[LinkedinProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinProfileData].model_validate(raw)
 
     async def search_companies(
         self,
@@ -1066,17 +1009,15 @@ class AsyncLinkedinNamespace:
         returning normalized company records with transparent per-request USD
         pricing.
 
-        Price: $0.004 per result.
+        Price: $0.001 per request plus $0.004 per result.
 
         Example:
             res = client.linkedin.search_companies(limit=3, query="fintech")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_companies", dict(input), options
         )
-        return RunResult[LinkedinSearchCompaniesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinSearchCompaniesData].model_validate(raw)
 
     async def search_posts(
         self,
@@ -1094,12 +1035,10 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.search_posts(datePosted="last-week", query="hiring")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_posts", dict(input), options
         )
-        return RunResult[LinkedinSearchPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinSearchPostsData].model_validate(raw)
 
     async def search_profiles(
         self,
@@ -1119,9 +1058,7 @@ class AsyncLinkedinNamespace:
         Example:
             res = client.linkedin.search_profiles(limit=3, query="recruiter")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles", dict(input), options
         )
-        return RunResult[LinkedinSearchProfilesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[LinkedinSearchProfilesData].model_validate(raw)

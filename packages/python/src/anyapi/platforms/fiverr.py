@@ -26,38 +26,42 @@ class FiverrSearchInput(TypedDict, total=False):
 
 class FiverrSearchData(BaseModel):
     items: list[FiverrSearchItem] = Field(
-        description="Gig records from the search or category URL. Operators may return additional fields beyond those documented here. Populated whenever the provider returns data."
+        description="Gig records from the search or category URL. Operators may return additional fields beyond those documented here."
     )
 
 
 class FiverrSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     duration: int | None = Field(default=None, description="Delivery time in days.")
-    gigId: str = Field(
-        description="Stable Fiverr gig identifier. Populated whenever the provider returns data."
-    )
-    gigUrl: str = Field(
-        description="Canonical Fiverr URL for the gig. Populated whenever the provider returns data."
+    gig_id: str = Field(alias="gigId", description="Stable Fiverr gig identifier.")
+    gig_url: str = Field(
+        alias="gigUrl", description="Canonical Fiverr URL for the gig."
     )
     image: str | None = Field(default=None, description="Primary gig thumbnail URL.")
     price: float | None = Field(default=None, description="Starting price in USD.")
-    sellerCountry: str | None = Field(default=None, description="Seller country code.")
-    sellerDisplayName: str | None = Field(
-        default=None, description="Seller display name."
+    seller_country: str | None = Field(
+        default=None, alias="sellerCountry", description="Seller country code."
     )
-    sellerLevel: str | None = Field(default=None, description="Fiverr seller level.")
-    sellerName: str | None = Field(default=None, description="Seller username.")
-    sellerRatingCount: int | None = Field(
-        default=None, description="Number of seller ratings."
+    seller_display_name: str | None = Field(
+        default=None, alias="sellerDisplayName", description="Seller display name."
     )
-    sellerRatingScore: float | None = Field(
-        default=None, description="Average seller rating."
+    seller_level: str | None = Field(
+        default=None, alias="sellerLevel", description="Fiverr seller level."
     )
-    sellerUrl: str | None = Field(default=None, description="Seller profile URL.")
-    title: str = Field(
-        description="Gig headline. Populated whenever the provider returns data."
+    seller_name: str | None = Field(
+        default=None, alias="sellerName", description="Seller username."
     )
+    seller_rating_count: int | None = Field(
+        default=None, alias="sellerRatingCount", description="Number of seller ratings."
+    )
+    seller_rating_score: float | None = Field(
+        default=None, alias="sellerRatingScore", description="Average seller rating."
+    )
+    seller_url: str | None = Field(
+        default=None, alias="sellerUrl", description="Seller profile URL."
+    )
+    title: str = Field(description="Gig headline.")
 
 
 class FiverrNamespace:
@@ -83,10 +87,10 @@ class FiverrNamespace:
         Example:
             res = client.fiverr.search(limit=3, url="https://www.fiverr.com/search/gigs?query=logo%20design")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "fiverr.search", dict(input), options
         )
-        return RunResult[FiverrSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[FiverrSearchData].model_validate(raw)
 
 
 class AsyncFiverrNamespace:
@@ -112,7 +116,7 @@ class AsyncFiverrNamespace:
         Example:
             res = client.fiverr.search(limit=3, url="https://www.fiverr.com/search/gigs?query=logo%20design")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "fiverr.search", dict(input), options
         )
-        return RunResult[FiverrSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[FiverrSearchData].model_validate(raw)

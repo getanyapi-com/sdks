@@ -170,10 +170,12 @@ function renderObjectMembers(
   const mustPopulate = new Set(node.mustPopulate ?? []);
   const lines: string[] = [];
   for (const [key, child] of Object.entries(node.properties)) {
-    const doc = propDocComment(child, key, mustPopulate.has(key), 2);
     const optional = topLevelInput
       ? isInputOptional(child, required.has(key))
       : !required.has(key);
+    // N1: the must-populate note is emitted only on OPTIONAL fields (a required field is
+    // always present, so the note adds nothing).
+    const doc = propDocComment(child, key, optional && mustPopulate.has(key), 2);
     const type = renderType(child, operationId, key, collect);
     if (doc) lines.push(doc.trimEnd());
     lines.push(`  ${objectKey(key)}${optional ? "?" : ""}: ${type};`);
@@ -238,7 +240,7 @@ function propDocComment(
   }
 
   if (mustPopulate) {
-    lines.push("Populated whenever the provider returns data.");
+    lines.push("Present whenever the upstream returns this record.");
   }
 
   if (lines.length === 0) return "";
@@ -261,6 +263,7 @@ function defaultValue(node: SchemaNode): string | undefined {
 /** The set of core type names a platform file may reference, for a single import line. */
 interface CoreImports {
   runResult: boolean;
+  bareRunResult: boolean;
   requestOptions: boolean;
   paginator: boolean;
   clientCore: boolean;
@@ -342,26 +345,86 @@ function methodDoc(sku: SkuEntry): string {
 }
 
 /**
- * The `@example` line for a method: `const res = await client.<ns>.<method>({...});`
- * The input object is JSON.stringify'd (double quotes) per SPEC 2.4. Returns "" when the
- * SKU has no example.
+ * The `@example` line for a method: `const res = await client.<ns>.<method>({ ... });`
+ * The input object is rendered as an idiomatic TS object literal (SPEC S4): unquoted
+ * identifier keys (only non-identifier keys are quoted), a space after each colon, and
+ * required input fields first (schema-declared order) then the remaining optionals. Returns
+ * "" when the SKU has no example.
  */
 function exampleCall(sku: SkuEntry): string {
   if (sku.example === null || sku.example === undefined) return "";
-  const input = JSON.stringify(sku.example);
-  return `const res = await client.${sku.tsNamespace}.${sku.tsMethod}(${input});`;
+  if (typeof sku.example !== "object" || Array.isArray(sku.example)) {
+    return `const res = await client.${sku.tsNamespace}.${sku.tsMethod}(${JSON.stringify(
+      sku.example,
+    )});`;
+  }
+  const literal = renderExampleObject(
+    sku.example as Record<string, unknown>,
+    sku.input,
+  );
+  return `const res = await client.${sku.tsNamespace}.${sku.tsMethod}(${literal});`;
+}
+
+/** Order example keys: required input fields (declared order) first, then the rest. */
+function exampleKeyOrder(example: Record<string, unknown>, input: SchemaNode): string[] {
+  const present = Object.keys(example);
+  if (input.kind !== "object") return present;
+  const required = new Set(input.required);
+  const declared = Object.keys(input.properties);
+  const requiredFirst = declared.filter((k) => required.has(k) && k in example);
+  const rest = present.filter((k) => !requiredFirst.includes(k));
+  return [...requiredFirst, ...rest];
+}
+
+/** Render a JS value as an idiomatic TS literal (unquoted identifier object keys). */
+function renderExampleValue(value: unknown): string {
+  if (value === null) return "null";
+  if (typeof value === "string") return doubleQuote(value);
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (Array.isArray(value)) {
+    return `[${value.map(renderExampleValue).join(", ")}]`;
+  }
+  if (typeof value === "object") {
+    return renderExampleObject(value as Record<string, unknown>, { kind: "unknown" });
+  }
+  return JSON.stringify(value);
+}
+
+/** Render an object example as `{ key: value, ... }` with required-first key ordering. */
+function renderExampleObject(
+  obj: Record<string, unknown>,
+  input: SchemaNode,
+): string {
+  const keys = exampleKeyOrder(obj, input);
+  if (keys.length === 0) return "{}";
+  const parts = keys.map((k) => `${objectKey(k)}: ${renderExampleValue(obj[k])}`);
+  return `{ ${parts.join(", ")} }`;
+}
+
+/** The RunResult<Data> or BareRunResult<Data> type a method returns, per envelope. */
+function resultType(sku: SkuEntry): string {
+  return sku.output.envelope === "bare"
+    ? `BareRunResult<${sku.outputTypeName}>`
+    : `RunResult<${sku.outputTypeName}>`;
 }
 
 /** Emit one namespace method (the run call) plus, when paginated, its iterator method. */
 function emitMethods(sku: SkuEntry): string {
   const doc = methodDoc(sku);
+  const ret = resultType(sku);
+  // Bare SKUs return output = data directly; cast the untyped core seam to the bare shape.
+  // Found-data SKUs return the discriminated RunResult straight through.
+  const body =
+    sku.output.envelope === "bare"
+      ? `    return this._core.run(${doubleQuote(sku.slug)}, input, options) as unknown as Promise<${ret}>;`
+      : `    return this._core.run(${doubleQuote(sku.slug)}, input, options);`;
   const run =
     `${doc}` +
     `  ${sku.tsMethod}(\n` +
     `    input: ${sku.inputTypeName},\n` +
     `    options?: RequestOptions,\n` +
-    `  ): Promise<RunResult<${sku.outputTypeName}>> {\n` +
-    `    return this._core.run(${doubleQuote(sku.slug)}, input, options);\n` +
+    `  ): Promise<${ret}> {\n` +
+    `${body}\n` +
     `  }`;
 
   const iter = emitIterator(sku);
@@ -380,12 +443,16 @@ function emitIterator(sku: SkuEntry): string {
 
   const itemsField = sku.pagination.itemsField;
   const itemType = itemTypeName(sku.operationId, itemsField);
+  const bare = sku.output.envelope === "bare";
+  const pageResult = bare
+    ? `BareRunResult<${sku.outputTypeName}>`
+    : `RunResult<${sku.outputTypeName}>`;
   const doc = docComment(
     [
       `Iterate every result of ${sku.name} across pages.`,
       "",
       "Yields items directly; call `.pages()` on the return value to walk whole",
-      "RunResult pages instead (each carries its own costUsd).",
+      "result pages instead (each carries its own costUsd).",
     ],
     2,
   );
@@ -394,12 +461,13 @@ function emitIterator(sku: SkuEntry): string {
     `  ${sku.tsIterMethod}(\n` +
     `    input: ${sku.inputTypeName},\n` +
     `    options?: RequestOptions,\n` +
-    `  ): Paginator<${itemType}, ${sku.outputTypeName}> {\n` +
-    `    return paginate<${itemType}, ${sku.outputTypeName}>(\n` +
+    `  ): Paginator<${itemType}, ${pageResult}> {\n` +
+    `    return paginate<${itemType}, ${pageResult}>(\n` +
     `      this._core,\n` +
     `      ${doubleQuote(sku.slug)},\n` +
     `      input as unknown as Record<string, unknown>,\n` +
     `      ${doubleQuote(itemsField)},\n` +
+    `      ${bare ? "true" : "false"},\n` +
     `      options,\n` +
     `    );\n` +
     `  }`
@@ -435,8 +503,11 @@ function coreImportsFor(skus: SkuEntry[]): CoreImports {
   const hasIter = skus.some(
     (s) => s.pagination.paginated && s.pagination.itemsField !== null && s.tsIterMethod,
   );
+  const hasBare = skus.some((s) => s.output.envelope === "bare");
+  const hasFoundData = skus.some((s) => s.output.envelope !== "bare");
   return {
-    runResult: true,
+    runResult: hasFoundData,
+    bareRunResult: hasBare,
     requestOptions: true,
     clientCore: true,
     paginator: hasIter,
@@ -450,6 +521,7 @@ function coreImportsFor(skus: SkuEntry[]): CoreImports {
  */
 function coreImportBlock(imports: CoreImports): string {
   const typeNames: string[] = [];
+  if (imports.bareRunResult) typeNames.push("BareRunResult");
   if (imports.clientCore) typeNames.push("ClientCore");
   if (imports.requestOptions) typeNames.push("RequestOptions");
   if (imports.runResult) typeNames.push("RunResult");
@@ -497,7 +569,14 @@ function emitPlatformFile(platform: string, skus: SkuEntry[]): string {
 // sku-map.ts, client.ts, index.ts
 // --------------------------------------------------------------------------------------
 
-/** Emit `sku-map.ts`: the slug -> {input, data} type map powering `client.run` typing. */
+/**
+ * Emit `sku-map.ts`: a CONCRETE `SkuMap` interface mapping every slug literal to its
+ * `{ input; data; result }` types. `result` is `BareRunResult<Data>` for bare SKUs and
+ * `RunResult<Data>` for found-data SKUs (SPEC 1.2 erratum). No module augmentation - the
+ * generated `AnyAPI` subclass reads this map directly to type its `run` overloads, so the
+ * concrete map survives .d.ts bundling (SPEC 2.1 erratum, B2). Unknown slugs fall back to
+ * RunResult<unknown> via the subclass string overload.
+ */
 function emitSkuMap(skus: SkuEntry[]): string {
   // Group type imports by platform file for a stable import block.
   const byPlatform = groupByPlatform(skus);
@@ -512,30 +591,31 @@ function emitSkuMap(skus: SkuEntry[]): string {
       `import type { ${names.join(", ")} } from "./platforms/${platform}.js";`,
     );
   }
+  const coreResultTypes = ["BareRunResult", "RunResult"];
 
   const sorted = [...skus].sort((a, b) => (a.slug < b.slug ? -1 : 1));
   const entries = sorted
-    .map(
-      (s) =>
-        `  ${objectKey(s.slug)}: { input: ${s.inputTypeName}; data: ${s.outputTypeName} };`,
-    )
+    .map((s) => {
+      const result =
+        s.output.envelope === "bare"
+          ? `BareRunResult<${s.outputTypeName}>`
+          : `RunResult<${s.outputTypeName}>`;
+      return `  ${objectKey(s.slug)}: { input: ${s.inputTypeName}; data: ${s.outputTypeName}; result: ${result} };`;
+    })
     .join("\n");
 
   const doc = docComment([
-    "Maps every SKU slug literal to its input and data payload types. Powers the generic",
-    "`client.run(slug, input)` overload so the compiler infers the right shapes by slug.",
-    "",
-    "Emitted as a module augmentation of the handwritten core `SkuMap` (declaration",
-    "merging): the core interface carries a permissive string index (unknown slugs resolve",
-    "to RunResult<unknown>) and this file adds every concrete slug literal on top.",
+    "Maps every SKU slug literal to its input, data payload, and run-result types. The",
+    "generated `client.run(slug, input)` overload reads this map so the compiler infers the",
+    "right shapes by slug. `result` is BareRunResult<Data> for bare SKUs (output IS the",
+    "data) and RunResult<Data> for found-data SKUs (the discriminated envelope).",
   ]);
 
   return [
     GENERATED_HEADER_TS.trimEnd(),
+    `import type { ${coreResultTypes.join(", ")} } from "../core/index.js";`,
     importLines.join("\n"),
-    `${doc}declare module "../core/client.js" {\n  interface SkuMap {\n${entries}\n  }\n}`,
-    // Re-export the augmented core SkuMap so this file has a value/type binding to name.
-    `export type { SkuMap } from "../core/index.js";`,
+    `${doc}export interface SkuMap {\n${entries}\n}`,
   ].join("\n\n");
 }
 
@@ -572,18 +652,51 @@ function emitClient(skus: SkuEntry[]): string {
     "The AnyAPI client. Extends the handwritten core base (run/balance/me/catalog/",
     "describe) and attaches every platform namespace as a lazily instantiated getter.",
     "",
-    'import { AnyAPI } from "@anyapi/sdk";',
+    'import { AnyAPI } from "@getanyapi/sdk";',
   ]);
+
+  // Typed run overloads read the concrete SkuMap (B2): a known slug literal returns its
+  // mapped result type (RunResult or BareRunResult); an unknown slug falls back to the base
+  // string overload returning RunResult<unknown>.
+  const runDoc = docComment(
+    [
+      "Generic typed run for any SKU by slug. A known slug literal infers its input and",
+      "result type from the SkuMap; any other string returns RunResult<unknown>.",
+    ],
+    2,
+  );
+  const runOverloads =
+    `${runDoc}` +
+    `  run<K extends keyof SkuMap>(\n` +
+    `    slug: K,\n` +
+    `    input: SkuMap[K]["input"],\n` +
+    `    options?: RequestOptions,\n` +
+    `  ): Promise<SkuMap[K]["result"]>;\n` +
+    `  run<S extends string, T = unknown>(\n` +
+    `    slug: S extends keyof SkuMap ? never : S,\n` +
+    `    input: unknown,\n` +
+    `    options?: RequestOptions,\n` +
+    `  ): Promise<RunResult<T>>;\n` +
+    `  run(\n` +
+    `    slug: string,\n` +
+    `    input: unknown,\n` +
+    `    options?: RequestOptions,\n` +
+    `  ): Promise<RunResult<unknown>> {\n` +
+    `    return super.run(slug, input, options);\n` +
+    `  }`;
 
   const body =
     `${classDoc}export class AnyAPI extends AnyAPIBase {\n` +
     `  private readonly _namespaces: Record<string, unknown> = {};\n\n` +
+    `${runOverloads}\n\n` +
     `${getters.join("\n\n")}\n` +
     `}`;
 
   return [
     GENERATED_HEADER_TS.trimEnd(),
     `import { AnyAPI as AnyAPIBase } from "../core/index.js";`,
+    `import type { RequestOptions, RunResult } from "../core/index.js";`,
+    `import type { SkuMap } from "./sku-map.js";`,
     nsImports.join("\n"),
     body,
   ].join("\n\n");
@@ -614,6 +727,7 @@ function emitIndex(skus: SkuEntry[]): string {
     "AuthenticationError",
     "InsufficientBalanceError",
     "NotFoundError",
+    "ResultNotFoundError",
     "RateLimitedError",
     "UpstreamError",
     "ConnectionError",
@@ -622,6 +736,7 @@ function emitIndex(skus: SkuEntry[]): string {
   const coreTypes = [
     "ClientOptions",
     "RunResult",
+    "BareRunResult",
     "Output",
     "RequestOptions",
     "Paginator",

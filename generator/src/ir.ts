@@ -17,11 +17,13 @@ import {
 import { stableStringify } from "./serialize.js";
 import type {
   Ir,
+  IrWarning,
   SkuEntry,
   SchemaNode,
   ObjectNode,
   Pricing,
   Pagination,
+  Envelope,
 } from "./types.js";
 
 const CREDITS_TO_USD = 0.00001;
@@ -48,22 +50,43 @@ export function buildIr(): Ir {
     .filter((p) => p.startsWith("/v1/run/"))
     .map((p) => p.slice("/v1/run/".length));
 
+  const warnings: IrWarning[] = [];
   const skus: SkuEntry[] = slugs.map((slug) =>
-    extractSku(slug, paths["/v1/run/" + slug] as RawSchema, catalog),
+    extractSku(slug, paths["/v1/run/" + slug] as RawSchema, catalog, warnings),
   );
 
   // Determinism: sort ascending by slug (byte order).
   skus.sort((a, b) => (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0));
+  warnings.sort((a, b) =>
+    a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : 0,
+  );
 
   detectCollisions(skus);
+
+  reportWarnings(warnings);
 
   return {
     version: 1,
     generatedFrom: "openapi.json snapshot",
     openapiVersion: String(openapi.info?.version ?? ""),
     baseUrl: String(openapi.servers?.[0]?.url ?? "https://api.getanyapi.com"),
+    ...(warnings.length > 0 ? { warnings } : {}),
     skus,
   };
+}
+
+// SPEC 1.2 erratum (S8): a SKU that accepts a `cursor` input but whose closed output has no
+// `nextCursor` can never page. We do not change its emitted surface (the input still accepts
+// cursor), but we log a diffable WARNING block at generation time so the gap is never silent.
+function reportWarnings(warnings: IrWarning[]): void {
+  const deadCursor = warnings.filter((w) => w.kind === "dead-cursor");
+  if (deadCursor.length === 0) return;
+  const lines = deadCursor.map((w) => `  - ${w.slug}: ${w.message}`).join("\n");
+  // eslint-disable-next-line no-console
+  console.warn(
+    `WARNING: ${deadCursor.length} SKU(s) accept a cursor input but have no nextCursor output ` +
+      `(cannot paginate; surface unchanged):\n${lines}`,
+  );
 }
 
 function indexCatalog(raw: unknown): Map<string, CatalogEntry> {
@@ -79,6 +102,7 @@ function extractSku(
   slug: string,
   pathItem: RawSchema,
   catalog: Map<string, CatalogEntry>,
+  warnings: IrWarning[],
 ): SkuEntry {
   const op = pathItem.post as RawSchema;
   const dot = slug.indexOf(".");
@@ -97,13 +121,31 @@ function extractSku(
 
   const example = extractExample(op, inputSchemaRaw);
 
-  const dataRaw = crackEnvelope(op);
-  const data = toSchemaNode(dataRaw);
+  const cracked = crackEnvelope(op);
+  const data = toSchemaNode(cracked.data);
+  const envelope: Envelope = cracked.bare ? "bare" : "found-data";
 
   const pricing = extractPricing(op, catalog.get(slug));
   const category = normalizeDashes(catalog.get(slug)?.category ?? "");
 
   const pagination = detectPagination(input, data);
+
+  // S8: dead-cursor detection. Input accepts a `cursor` property but our pagination rules
+  // do not wire it (no generated iterator): either the output has no `nextCursor`, or the
+  // cursor is not a string (SPEC 1.4.10 requires a string cursor). The emitted surface is
+  // unchanged (the input still accepts `cursor`); the gap is recorded as a diffable warning
+  // so it is never silent.
+  if (input.kind === "object") {
+    const hasCursorInput = input.properties["cursor"] !== undefined;
+    if (hasCursorInput && !pagination.paginated) {
+      warnings.push({
+        kind: "dead-cursor",
+        slug,
+        message:
+          "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)",
+      });
+    }
+  }
 
   const pascal = pascalFromOperationId(operationId);
 
@@ -132,7 +174,7 @@ function extractSku(
     outputTypeName: pascal + "Data",
     example,
     input,
-    output: { envelope: "found-data", data },
+    output: { envelope, data },
     pagination,
   };
 }
@@ -162,10 +204,12 @@ function extractExample(op: RawSchema, inputSchema: RawSchema): unknown {
   return null;
 }
 
-// SPEC 1.4.1: crack the found/data envelope. The output object is
-// { properties: { found, data: { oneOf: [{type:null}, DATA] } } }.
-// Some outputs are the bare data object directly (no found/data wrapper) - use those as-is.
-function crackEnvelope(op: RawSchema): RawSchema {
+// SPEC 1.4.1 (+ 1.2 bare erratum): crack the run envelope. A found-data output is
+// { properties: { found, data: { oneOf: [{type:null}, DATA] } } } and yields DATA (the
+// non-null branch), bare:false. A BARE output has no found/data wrapper - the `output`
+// schema IS the data object directly (required does not contain found+data); yield it as-is
+// with bare:true so the runtime knows there is no discriminated envelope to unwrap.
+function crackEnvelope(op: RawSchema): { data: RawSchema; bare: boolean } {
   const responses = op.responses as RawSchema;
   const ok = (responses["200"] as RawSchema).content as RawSchema;
   const out = ((ok["application/json"] as RawSchema).schema as RawSchema)
@@ -173,16 +217,19 @@ function crackEnvelope(op: RawSchema): RawSchema {
   const output = (out.output as RawSchema) ?? {};
   const outProps = (output.properties as RawSchema) ?? {};
   const data = outProps.data as RawSchema | undefined;
-  if (data === undefined) {
+  const required = Array.isArray(output.required) ? (output.required as string[]) : [];
+  const isFoundData =
+    data !== undefined && required.includes("found") && required.includes("data");
+  if (!isFoundData) {
     // Bare data object: the output schema itself is the data schema.
-    return output;
+    return { data: output, bare: true };
   }
   const oneOf = data.oneOf as RawSchema[] | undefined;
   if (oneOf) {
     const branch = oneOf.find((b) => b.type !== "null");
-    return branch ?? data;
+    return { data: branch ?? data, bare: false };
   }
-  return data;
+  return { data, bare: false };
 }
 
 function extractPricing(op: RawSchema, cat: CatalogEntry | undefined): Pricing {

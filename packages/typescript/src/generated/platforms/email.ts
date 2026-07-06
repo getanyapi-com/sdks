@@ -33,7 +33,6 @@ export interface EmailFindItem {
   domain?: string;
   /**
    * Discovered email address, or empty when none was found.
-   * Populated whenever the provider returns data.
    */
   email: string;
   firstName?: string;
@@ -41,7 +40,6 @@ export interface EmailFindItem {
   lastName?: string;
   /**
    * Lookup status (e.g. found, not_found).
-   * Populated whenever the provider returns data.
    */
   status: string;
   [extra: string]: unknown;
@@ -53,7 +51,6 @@ export interface EmailFindItem {
 export interface EmailFindData {
   /**
    * Email lookup records: the discovered email address, verification status, and the matched person and company details.
-   * Populated whenever the provider returns data.
    */
   items: EmailFindItem[];
 }
@@ -75,9 +72,6 @@ export interface EmailVerifyItem {
   catchAll?: boolean;
   disposable?: boolean;
   domain?: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   email: string;
   /**
    * Free email provider.
@@ -94,7 +88,6 @@ export interface EmailVerifyItem {
   score?: number;
   /**
    * Deliverability verdict (e.g. valid, risky, invalid).
-   * Populated whenever the provider returns data.
    */
   status: string;
   [extra: string]: unknown;
@@ -106,7 +99,6 @@ export interface EmailVerifyItem {
 export interface EmailVerifyData {
   /**
    * Verification records: the email address with its deliverability verdict and syntax, domain, and mailbox check details.
-   * Populated whenever the provider returns data.
    */
   items: EmailVerifyItem[];
 }
@@ -126,7 +118,7 @@ export class EmailNamespace {
    * Price: $0.005 per request plus $0.008 per result.
    *
    * @example
-   * const res = await client.email.find({"person":{"domain":"stripe.com","firstName":"Patrick","surname":"Collison"}});
+   * const res = await client.email.find({ person: { domain: "stripe.com", firstName: "Patrick", surname: "Collison" } });
    */
   find(
     input: EmailFindInput,
@@ -140,10 +132,10 @@ export class EmailNamespace {
    *
    * Verify any email address for deliverability - syntax, domain, and mailbox checks in one normalized response, priced per request in USD.
    *
-   * Price: $0 per request plus $0.0008 per result.
+   * Price: $0.0008 per result.
    *
    * @example
-   * const res = await client.email.verify({"email":"patrick@stripe.com"});
+   * const res = await client.email.verify({ email: "patrick@stripe.com" });
    */
   verify(
     input: EmailVerifyInput,

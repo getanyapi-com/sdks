@@ -76,248 +76,284 @@ class RednoteUserNotesInput(TypedDict, total=False):
 class RednoteNoteData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorImage: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Present whenever the upstream returns this record.",
     )
-    authorNickname: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_nickname: str | None = Field(
+        default=None,
+        alias="authorNickname",
+        description="Present whenever the upstream returns this record.",
     )
-    authorRedId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_red_id: str | None = Field(
+        default=None,
+        alias="authorRedId",
+        description="Present whenever the upstream returns this record.",
     )
-    authorUserId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Present whenever the upstream returns this record.",
     )
-    collectCount: int | None = None
-    commentCount: int | None = None
-    createdAt: int | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    collect_count: int | None = Field(default=None, alias="collectCount")
+    comment_count: int | None = Field(default=None, alias="commentCount")
+    created_at: int | None = Field(
+        default=None,
+        alias="createdAt",
+        description="Present whenever the upstream returns this record.",
     )
     description: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     image: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     language: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    likeCount: int | None = None
-    noteId: str = Field(description="Populated whenever the provider returns data.")
-    shareCount: int | None = None
+    like_count: int | None = Field(default=None, alias="likeCount")
+    note_id: str = Field(alias="noteId")
+    share_count: int | None = Field(default=None, alias="shareCount")
     title: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     type_: str | None = Field(
         default=None,
         alias="type",
-        description="Populated whenever the provider returns data.",
+        description="Present whenever the upstream returns this record.",
     )
-    updatedAt: int | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    updated_at: int | None = Field(
+        default=None,
+        alias="updatedAt",
+        description="Present whenever the upstream returns this record.",
     )
     url: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
 
 
 class RednoteNoteCommentsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    comments: list[RednoteNoteCommentsComment] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    nextCursor: str
+    comments: list[RednoteNoteCommentsComment]
+    next_cursor: str = Field(alias="nextCursor")
 
 
 class RednoteNoteCommentsComment(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    commentId: str = Field(description="Populated whenever the provider returns data.")
-    createdAt: int | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    comment_id: str = Field(alias="commentId")
+    created_at: int | None = Field(
+        default=None,
+        alias="createdAt",
+        description="Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    ipLocation: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    ip_location: str | None = Field(
+        default=None,
+        alias="ipLocation",
+        description="Present whenever the upstream returns this record.",
     )
-    likeCount: int | None = None
+    like_count: int | None = Field(default=None, alias="likeCount")
     nickname: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    noteId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    note_id: str | None = Field(
+        default=None,
+        alias="noteId",
+        description="Present whenever the upstream returns this record.",
     )
-    redId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    red_id: str | None = Field(
+        default=None,
+        alias="redId",
+        description="Present whenever the upstream returns this record.",
     )
-    replyCount: int | None = None
+    reply_count: int | None = Field(default=None, alias="replyCount")
     text: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    userId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Present whenever the upstream returns this record.",
     )
 
 
 class RednoteProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    collectedCount: int | None = None
+    collected_count: int | None = Field(default=None, alias="collectedCount")
     description: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     followers: int | None = None
     following: int | None = None
     gender: int | None = None
     image: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    likedCount: int | None = None
+    liked_count: int | None = Field(default=None, alias="likedCount")
     location: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     nickname: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    postedNotes: int | None = None
-    redId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    posted_notes: int | None = Field(default=None, alias="postedNotes")
+    red_id: str | None = Field(
+        default=None,
+        alias="redId",
+        description="Present whenever the upstream returns this record.",
     )
-    shareUrl: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    share_url: str | None = Field(
+        default=None,
+        alias="shareUrl",
+        description="Present whenever the upstream returns this record.",
     )
-    userId: str = Field(description="Populated whenever the provider returns data.")
+    user_id: str = Field(alias="userId")
     verified: bool | None = None
-    verifyType: int | None = None
+    verify_type: int | None = Field(default=None, alias="verifyType")
 
 
 class RednoteSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    nextCursor: str
-    notes: list[RednoteSearchNote] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    next_cursor: str = Field(alias="nextCursor")
+    notes: list[RednoteSearchNote]
 
 
 class RednoteSearchNote(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorImage: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Present whenever the upstream returns this record.",
     )
-    authorNickname: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_nickname: str | None = Field(
+        default=None,
+        alias="authorNickname",
+        description="Present whenever the upstream returns this record.",
     )
-    authorRedId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_red_id: str | None = Field(
+        default=None,
+        alias="authorRedId",
+        description="Present whenever the upstream returns this record.",
     )
-    authorUserId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Present whenever the upstream returns this record.",
     )
-    collectCount: int | None = None
-    commentCount: int | None = None
-    createdAt: int | None = None
+    collect_count: int | None = Field(default=None, alias="collectCount")
+    comment_count: int | None = Field(default=None, alias="commentCount")
+    created_at: int | None = Field(default=None, alias="createdAt")
     description: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     image: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    likeCount: int | None = None
-    noteId: str = Field(description="Populated whenever the provider returns data.")
-    shareCount: int | None = None
+    like_count: int | None = Field(default=None, alias="likeCount")
+    note_id: str = Field(alias="noteId")
+    share_count: int | None = Field(default=None, alias="shareCount")
     title: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     type_: str | None = Field(
         default=None,
         alias="type",
-        description="Populated whenever the provider returns data.",
+        description="Present whenever the upstream returns this record.",
     )
-    xsecToken: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    xsec_token: str | None = Field(
+        default=None,
+        alias="xsecToken",
+        description="Present whenever the upstream returns this record.",
     )
 
 
 class RednoteSearchUsersData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    nextCursor: str
-    users: list[RednoteSearchUsersUser] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    next_cursor: str = Field(alias="nextCursor")
+    users: list[RednoteSearchUsersUser]
 
 
 class RednoteSearchUsersUser(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     description: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     image: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     link: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     name: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    redId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    red_id: str | None = Field(
+        default=None,
+        alias="redId",
+        description="Present whenever the upstream returns this record.",
     )
     subtitle: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    userId: str = Field(description="Populated whenever the provider returns data.")
+    user_id: str = Field(alias="userId")
     verified: bool | None = None
-    verifyType: int | None = None
+    verify_type: int | None = Field(default=None, alias="verifyType")
 
 
 class RednoteUserNotesData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    nextCursor: str
-    notes: list[RednoteUserNotesNote] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    next_cursor: str = Field(alias="nextCursor")
+    notes: list[RednoteUserNotesNote]
 
 
 class RednoteUserNotesNote(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorImage: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Present whenever the upstream returns this record.",
     )
-    authorNickname: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_nickname: str | None = Field(
+        default=None,
+        alias="authorNickname",
+        description="Present whenever the upstream returns this record.",
     )
-    authorUserId: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Present whenever the upstream returns this record.",
     )
-    collectCount: int | None = None
-    commentCount: int | None = None
-    createdAt: int | None = None
+    collect_count: int | None = Field(default=None, alias="collectCount")
+    comment_count: int | None = Field(default=None, alias="commentCount")
+    created_at: int | None = Field(default=None, alias="createdAt")
     description: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     image: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    likeCount: int | None = None
-    noteId: str = Field(description="Populated whenever the provider returns data.")
-    shareCount: int | None = None
+    like_count: int | None = Field(default=None, alias="likeCount")
+    note_id: str = Field(alias="noteId")
+    share_count: int | None = Field(default=None, alias="shareCount")
     title: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
     type_: str | None = Field(
         default=None,
         alias="type",
-        description="Populated whenever the provider returns data.",
+        description="Present whenever the upstream returns this record.",
     )
 
 
@@ -343,10 +379,10 @@ class RednoteNamespace:
         Example:
             res = client.rednote.note(noteId="66f2a24f000000002c02cf57")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note", dict(input), options
         )
-        return RunResult[RednoteNoteData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[RednoteNoteData].model_validate(raw)
 
     def note_comments(
         self,
@@ -364,12 +400,10 @@ class RednoteNamespace:
         Example:
             res = client.rednote.note_comments(noteId="68dd422c0000000203019829")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note_comments", dict(input), options
         )
-        return RunResult[RednoteNoteCommentsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteNoteCommentsData].model_validate(raw)
 
     def iter_note_comments(
         self,
@@ -379,14 +413,18 @@ class RednoteNamespace:
     ) -> Paginator[RednoteNoteCommentsComment, RednoteNoteCommentsData]:
         """Iterate RedNote (Xiaohongshu) Note Comments results, following pagination cursors.
 
-        Yields flattened items from the `comments` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `RednoteNoteCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "rednote.note_comments",
             dict(input),
             "comments",
+            item_model=RednoteNoteCommentsComment,
+            data_model=RednoteNoteCommentsData,
+            bare=False,
             options=options,
         )
 
@@ -406,12 +444,10 @@ class RednoteNamespace:
         Example:
             res = client.rednote.profile(userId="56b0a4491c07df6365277af7")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.profile", dict(input), options
         )
-        return RunResult[RednoteProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteProfileData].model_validate(raw)
 
     def search(
         self,
@@ -429,12 +465,10 @@ class RednoteNamespace:
         Example:
             res = client.rednote.search(query="coffee", sort="general")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.search", dict(input), options
         )
-        return RunResult[RednoteSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteSearchData].model_validate(raw)
 
     def iter_search(
         self,
@@ -444,11 +478,19 @@ class RednoteNamespace:
     ) -> Paginator[RednoteSearchNote, RednoteSearchData]:
         """Iterate RedNote (Xiaohongshu) Search results, following pagination cursors.
 
-        Yields flattened items from the `notes` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `RednoteSearchNote` items from the `notes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "rednote.search", dict(input), "notes", options=options
+            self._client,
+            "rednote.search",
+            dict(input),
+            "notes",
+            item_model=RednoteSearchNote,
+            data_model=RednoteSearchData,
+            bare=False,
+            options=options,
         )
 
     def search_users(
@@ -467,12 +509,10 @@ class RednoteNamespace:
         Example:
             res = client.rednote.search_users(query="coffee")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.search_users", dict(input), options
         )
-        return RunResult[RednoteSearchUsersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteSearchUsersData].model_validate(raw)
 
     def iter_search_users(
         self,
@@ -482,11 +522,19 @@ class RednoteNamespace:
     ) -> Paginator[RednoteSearchUsersUser, RednoteSearchUsersData]:
         """Iterate RedNote (Xiaohongshu) User Search results, following pagination cursors.
 
-        Yields flattened items from the `users` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `RednoteSearchUsersUser` items from the `users` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "rednote.search_users", dict(input), "users", options=options
+            self._client,
+            "rednote.search_users",
+            dict(input),
+            "users",
+            item_model=RednoteSearchUsersUser,
+            data_model=RednoteSearchUsersData,
+            bare=False,
+            options=options,
         )
 
     def user_notes(
@@ -505,12 +553,10 @@ class RednoteNamespace:
         Example:
             res = client.rednote.user_notes(userId="56b0a4491c07df6365277af7")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.user_notes", dict(input), options
         )
-        return RunResult[RednoteUserNotesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteUserNotesData].model_validate(raw)
 
     def iter_user_notes(
         self,
@@ -520,11 +566,19 @@ class RednoteNamespace:
     ) -> Paginator[RednoteUserNotesNote, RednoteUserNotesData]:
         """Iterate RedNote (Xiaohongshu) User Notes results, following pagination cursors.
 
-        Yields flattened items from the `notes` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `RednoteUserNotesNote` items from the `notes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "rednote.user_notes", dict(input), "notes", options=options
+            self._client,
+            "rednote.user_notes",
+            dict(input),
+            "notes",
+            item_model=RednoteUserNotesNote,
+            data_model=RednoteUserNotesData,
+            bare=False,
+            options=options,
         )
 
 
@@ -550,10 +604,10 @@ class AsyncRednoteNamespace:
         Example:
             res = client.rednote.note(noteId="66f2a24f000000002c02cf57")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note", dict(input), options
         )
-        return RunResult[RednoteNoteData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[RednoteNoteData].model_validate(raw)
 
     async def note_comments(
         self,
@@ -571,12 +625,10 @@ class AsyncRednoteNamespace:
         Example:
             res = client.rednote.note_comments(noteId="68dd422c0000000203019829")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note_comments", dict(input), options
         )
-        return RunResult[RednoteNoteCommentsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteNoteCommentsData].model_validate(raw)
 
     def iter_note_comments(
         self,
@@ -586,14 +638,18 @@ class AsyncRednoteNamespace:
     ) -> AsyncPaginator[RednoteNoteCommentsComment, RednoteNoteCommentsData]:
         """Iterate RedNote (Xiaohongshu) Note Comments results, following pagination cursors.
 
-        Yields flattened items from the `comments` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `RednoteNoteCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "rednote.note_comments",
             dict(input),
             "comments",
+            item_model=RednoteNoteCommentsComment,
+            data_model=RednoteNoteCommentsData,
+            bare=False,
             options=options,
         )
 
@@ -613,12 +669,10 @@ class AsyncRednoteNamespace:
         Example:
             res = client.rednote.profile(userId="56b0a4491c07df6365277af7")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.profile", dict(input), options
         )
-        return RunResult[RednoteProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteProfileData].model_validate(raw)
 
     async def search(
         self,
@@ -636,12 +690,10 @@ class AsyncRednoteNamespace:
         Example:
             res = client.rednote.search(query="coffee", sort="general")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.search", dict(input), options
         )
-        return RunResult[RednoteSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteSearchData].model_validate(raw)
 
     def iter_search(
         self,
@@ -651,11 +703,19 @@ class AsyncRednoteNamespace:
     ) -> AsyncPaginator[RednoteSearchNote, RednoteSearchData]:
         """Iterate RedNote (Xiaohongshu) Search results, following pagination cursors.
 
-        Yields flattened items from the `notes` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `RednoteSearchNote` items from the `notes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "rednote.search", dict(input), "notes", options=options
+            self._client,
+            "rednote.search",
+            dict(input),
+            "notes",
+            item_model=RednoteSearchNote,
+            data_model=RednoteSearchData,
+            bare=False,
+            options=options,
         )
 
     async def search_users(
@@ -674,12 +734,10 @@ class AsyncRednoteNamespace:
         Example:
             res = client.rednote.search_users(query="coffee")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.search_users", dict(input), options
         )
-        return RunResult[RednoteSearchUsersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteSearchUsersData].model_validate(raw)
 
     def iter_search_users(
         self,
@@ -689,11 +747,19 @@ class AsyncRednoteNamespace:
     ) -> AsyncPaginator[RednoteSearchUsersUser, RednoteSearchUsersData]:
         """Iterate RedNote (Xiaohongshu) User Search results, following pagination cursors.
 
-        Yields flattened items from the `users` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `RednoteSearchUsersUser` items from the `users` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "rednote.search_users", dict(input), "users", options=options
+            self._client,
+            "rednote.search_users",
+            dict(input),
+            "users",
+            item_model=RednoteSearchUsersUser,
+            data_model=RednoteSearchUsersData,
+            bare=False,
+            options=options,
         )
 
     async def user_notes(
@@ -712,12 +778,10 @@ class AsyncRednoteNamespace:
         Example:
             res = client.rednote.user_notes(userId="56b0a4491c07df6365277af7")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.user_notes", dict(input), options
         )
-        return RunResult[RednoteUserNotesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RednoteUserNotesData].model_validate(raw)
 
     def iter_user_notes(
         self,
@@ -727,9 +791,17 @@ class AsyncRednoteNamespace:
     ) -> AsyncPaginator[RednoteUserNotesNote, RednoteUserNotesData]:
         """Iterate RedNote (Xiaohongshu) User Notes results, following pagination cursors.
 
-        Yields flattened items from the `notes` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `RednoteUserNotesNote` items from the `notes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "rednote.user_notes", dict(input), "notes", options=options
+            self._client,
+            "rednote.user_notes",
+            dict(input),
+            "notes",
+            item_model=RednoteUserNotesNote,
+            data_model=RednoteUserNotesData,
+            bare=False,
+            options=options,
         )

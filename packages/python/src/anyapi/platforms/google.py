@@ -48,57 +48,54 @@ class GoogleSearchInput(TypedDict, total=False):
 
 class GoogleImagesData(BaseModel):
     items: list[GoogleImagesItem] = Field(
-        description="Image result records: image URL, dimensions, title, and the source page it appears on. Populated whenever the provider returns data."
+        description="Image result records: image URL, dimensions, title, and the source page it appears on."
     )
 
 
 class GoogleImagesItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    title: str
+    url: str
 
 
 class GoogleNewsData(BaseModel):
     items: list[GoogleNewsItem] = Field(
-        description="Article records: headline, source name, article link, and publish time. Populated whenever the provider returns data."
+        description="Article records: headline, source name, article link, and publish time."
     )
 
 
 class GoogleNewsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    publishedAt: str | None = Field(
+    published_at: str | None = Field(
         default=None,
-        description="Publish time. Populated whenever the provider returns data.",
+        alias="publishedAt",
+        description="Publish time. Present whenever the upstream returns this record.",
     )
     snippet: str | None = Field(
         default=None, description="Article snippet when available."
     )
     source: str | None = Field(
         default=None,
-        description="Publisher name. Populated whenever the provider returns data.",
+        description="Publisher name. Present whenever the upstream returns this record.",
     )
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(
-        description="Article link. Populated whenever the provider returns data."
-    )
+    title: str
+    url: str = Field(description="Article link.")
 
 
 class GoogleSearchData(BaseModel):
     query: str
-    results: list[GoogleSearchResult] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    results: list[GoogleSearchResult]
 
 
 class GoogleSearchResult(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    link: str = Field(description="Populated whenever the provider returns data.")
+    link: str
     position: int
-    snippet: str = Field(description="Populated whenever the provider returns data.")
-    title: str = Field(description="Populated whenever the provider returns data.")
+    snippet: str
+    title: str
 
 
 class GoogleNamespace:
@@ -118,15 +115,15 @@ class GoogleNamespace:
         Run a Google Images search and get structured results - image URLs,
         dimensions, titles, and source pages - with flat per-request USD pricing.
 
-        Price: $0.0024 per result.
+        Price: $0.00005 per request plus $0.0024 per result.
 
         Example:
             res = client.google.images(limit=5, query="golden retriever")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.images", dict(input), options
         )
-        return RunResult[GoogleImagesData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[GoogleImagesData].model_validate(raw)
 
     def news(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleNewsInput]
@@ -141,10 +138,10 @@ class GoogleNamespace:
         Example:
             res = client.google.news(limit=5, query="openai")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.news", dict(input), options
         )
-        return RunResult[GoogleNewsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[GoogleNewsData].model_validate(raw)
 
     def search(
         self,
@@ -162,10 +159,10 @@ class GoogleNamespace:
         Example:
             res = client.google.search(query="best coffee maker")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.search", dict(input), options
         )
-        return RunResult[GoogleSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[GoogleSearchData].model_validate(raw)
 
 
 class AsyncGoogleNamespace:
@@ -185,15 +182,15 @@ class AsyncGoogleNamespace:
         Run a Google Images search and get structured results - image URLs,
         dimensions, titles, and source pages - with flat per-request USD pricing.
 
-        Price: $0.0024 per result.
+        Price: $0.00005 per request plus $0.0024 per result.
 
         Example:
             res = client.google.images(limit=5, query="golden retriever")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.images", dict(input), options
         )
-        return RunResult[GoogleImagesData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[GoogleImagesData].model_validate(raw)
 
     async def news(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleNewsInput]
@@ -208,10 +205,10 @@ class AsyncGoogleNamespace:
         Example:
             res = client.google.news(limit=5, query="openai")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.news", dict(input), options
         )
-        return RunResult[GoogleNewsData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[GoogleNewsData].model_validate(raw)
 
     async def search(
         self,
@@ -229,7 +226,7 @@ class AsyncGoogleNamespace:
         Example:
             res = client.google.search(query="best coffee maker")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.search", dict(input), options
         )
-        return RunResult[GoogleSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[GoogleSearchData].model_validate(raw)

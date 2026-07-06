@@ -51,93 +51,85 @@ class ThreadsUserPostsInput(TypedDict, total=False):
 
 
 class ThreadsPostData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     code: str
-    fullName: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    likeCount: int
-    quoteCount: int
-    replyCount: int
-    repostCount: int
-    takenAt: int
-    text: str = Field(description="Populated whenever the provider returns data.")
-    username: str = Field(description="Populated whenever the provider returns data.")
+    full_name: str = Field(alias="fullName")
+    id: str
+    like_count: int = Field(alias="likeCount")
+    quote_count: int = Field(alias="quoteCount")
+    reply_count: int = Field(alias="replyCount")
+    repost_count: int = Field(alias="repostCount")
+    taken_at: int = Field(alias="takenAt")
+    text: str
+    username: str
 
 
 class ThreadsProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    biography: str = Field(description="Populated whenever the provider returns data.")
-    followerCount: int
-    fullName: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    isPrivate: bool
-    isVerified: bool
-    profilePicUrl: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    username: str = Field(description="Populated whenever the provider returns data.")
+    biography: str
+    follower_count: int = Field(alias="followerCount")
+    full_name: str = Field(alias="fullName")
+    id: str
+    is_private: bool = Field(alias="isPrivate")
+    is_verified: bool = Field(alias="isVerified")
+    profile_pic_url: str = Field(alias="profilePicUrl")
+    username: str
 
 
 class ThreadsSearchData(BaseModel):
     posts: list[ThreadsSearchPost] = Field(
-        description="Matching public post records: text, author, engagement counts, timestamp, and URL. Populated whenever the provider returns data."
+        description="Matching public post records: text, author, engagement counts, timestamp, and URL."
     )
 
 
 class ThreadsSearchPost(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     code: str
-    fullName: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    likeCount: int
-    replyCount: int
-    repostCount: int
-    takenAt: int
-    text: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
-    username: str = Field(description="Populated whenever the provider returns data.")
+    full_name: str = Field(alias="fullName")
+    id: str
+    like_count: int = Field(alias="likeCount")
+    reply_count: int = Field(alias="replyCount")
+    repost_count: int = Field(alias="repostCount")
+    taken_at: int = Field(alias="takenAt")
+    text: str
+    url: str
+    username: str
 
 
 class ThreadsSearchUsersData(BaseModel):
-    users: list[ThreadsSearchUsersUser] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    users: list[ThreadsSearchUsersUser]
 
 
 class ThreadsSearchUsersUser(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    fullName: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    isVerified: bool
-    profilePicUrl: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    username: str = Field(description="Populated whenever the provider returns data.")
+    full_name: str = Field(alias="fullName")
+    id: str
+    is_verified: bool = Field(alias="isVerified")
+    profile_pic_url: str = Field(alias="profilePicUrl")
+    username: str
 
 
 class ThreadsUserPostsData(BaseModel):
-    posts: list[ThreadsUserPostsPost] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    posts: list[ThreadsUserPostsPost]
 
 
 class ThreadsUserPostsPost(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     code: str
-    id: str = Field(description="Populated whenever the provider returns data.")
-    likeCount: int
-    quoteCount: int
-    replyCount: int
-    repostCount: int
-    takenAt: int
-    text: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
-    username: str = Field(description="Populated whenever the provider returns data.")
+    id: str
+    like_count: int = Field(alias="likeCount")
+    quote_count: int = Field(alias="quoteCount")
+    reply_count: int = Field(alias="replyCount")
+    repost_count: int = Field(alias="repostCount")
+    taken_at: int = Field(alias="takenAt")
+    text: str
+    url: str
+    username: str
 
 
 class ThreadsNamespace:
@@ -162,10 +154,10 @@ class ThreadsNamespace:
         Example:
             res = client.threads.post(url="https://www.threads.com/@aaronparnas/post/DZxPYVFkYSq")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.post", dict(input), options
         )
-        return RunResult[ThreadsPostData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[ThreadsPostData].model_validate(raw)
 
     def profile(
         self,
@@ -183,12 +175,10 @@ class ThreadsNamespace:
         Example:
             res = client.threads.profile(username="zuck")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.profile", dict(input), options
         )
-        return RunResult[ThreadsProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ThreadsProfileData].model_validate(raw)
 
     def search(
         self,
@@ -206,12 +196,10 @@ class ThreadsNamespace:
         Example:
             res = client.threads.search(query="trump")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.search", dict(input), options
         )
-        return RunResult[ThreadsSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ThreadsSearchData].model_validate(raw)
 
     def search_users(
         self,
@@ -230,12 +218,10 @@ class ThreadsNamespace:
         Example:
             res = client.threads.search_users(query="shams")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.search_users", dict(input), options
         )
-        return RunResult[ThreadsSearchUsersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ThreadsSearchUsersData].model_validate(raw)
 
     def user_posts(
         self,
@@ -253,12 +239,10 @@ class ThreadsNamespace:
         Example:
             res = client.threads.user_posts(handle="trendspider")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.user_posts", dict(input), options
         )
-        return RunResult[ThreadsUserPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ThreadsUserPostsData].model_validate(raw)
 
 
 class AsyncThreadsNamespace:
@@ -283,10 +267,10 @@ class AsyncThreadsNamespace:
         Example:
             res = client.threads.post(url="https://www.threads.com/@aaronparnas/post/DZxPYVFkYSq")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.post", dict(input), options
         )
-        return RunResult[ThreadsPostData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[ThreadsPostData].model_validate(raw)
 
     async def profile(
         self,
@@ -304,12 +288,10 @@ class AsyncThreadsNamespace:
         Example:
             res = client.threads.profile(username="zuck")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.profile", dict(input), options
         )
-        return RunResult[ThreadsProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ThreadsProfileData].model_validate(raw)
 
     async def search(
         self,
@@ -327,12 +309,10 @@ class AsyncThreadsNamespace:
         Example:
             res = client.threads.search(query="trump")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.search", dict(input), options
         )
-        return RunResult[ThreadsSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ThreadsSearchData].model_validate(raw)
 
     async def search_users(
         self,
@@ -351,12 +331,10 @@ class AsyncThreadsNamespace:
         Example:
             res = client.threads.search_users(query="shams")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.search_users", dict(input), options
         )
-        return RunResult[ThreadsSearchUsersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ThreadsSearchUsersData].model_validate(raw)
 
     async def user_posts(
         self,
@@ -374,9 +352,7 @@ class AsyncThreadsNamespace:
         Example:
             res = client.threads.user_posts(handle="trendspider")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.user_posts", dict(input), options
         )
-        return RunResult[ThreadsUserPostsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[ThreadsUserPostsData].model_validate(raw)

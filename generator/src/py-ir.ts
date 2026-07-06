@@ -104,8 +104,14 @@ export interface SkuEntry {
   outputTypeName: string;
   example: unknown;
   input: SchemaNode;
-  output: { envelope: "found-data"; data: SchemaNode };
+  output: { envelope: "found-data" | "bare"; data: SchemaNode };
   pagination: Pagination;
+}
+
+export interface IrWarning {
+  kind: string;
+  slug: string;
+  message: string;
 }
 
 export interface IR {
@@ -113,6 +119,7 @@ export interface IR {
   generatedFrom?: string;
   openapiVersion: string;
   baseUrl: string;
+  warnings?: IrWarning[];
   skus: SkuEntry[];
 }
 

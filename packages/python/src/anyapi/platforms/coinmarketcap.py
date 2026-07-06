@@ -24,34 +24,34 @@ class CoinmarketcapListingsInput(TypedDict, total=False):
 
 class CoinmarketcapListingsData(BaseModel):
     items: list[CoinmarketcapListingsItem] = Field(
-        description="Cryptocurrency listing records: rank, name, symbol, price, market cap, trading volume, and 24h price change. Populated whenever the provider returns data."
+        description="Cryptocurrency listing records: rank, name, symbol, price, market cap, trading volume, and 24h price change."
     )
 
 
 class CoinmarketcapListingsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     ath: float | None = Field(default=None, description="All-time high.")
     atl: float | None = Field(default=None, description="All-time low.")
-    circulatingSupply: float | None = None
+    circulating_supply: float | None = Field(default=None, alias="circulatingSupply")
     high24h: float | None = None
-    id: str = Field(
-        description="CoinMarketCap identifier. Populated whenever the provider returns data."
-    )
-    lastUpdated: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    id: str = Field(description="CoinMarketCap identifier.")
+    last_updated: str | None = Field(
+        default=None,
+        alias="lastUpdated",
+        description="Present whenever the upstream returns this record.",
     )
     low24h: float | None = None
-    marketCap: float | None = None
-    name: str = Field(description="Populated whenever the provider returns data.")
+    market_cap: float | None = Field(default=None, alias="marketCap")
+    name: str
     price: float | None = Field(
         default=None, description="Latest price in the primary quote currency (USD)."
     )
     slug: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    symbol: str = Field(description="Populated whenever the provider returns data.")
-    totalSupply: float | None = None
+    symbol: str
+    total_supply: float | None = Field(default=None, alias="totalSupply")
     volume24h: float | None = Field(default=None, description="24h trading volume.")
 
 
@@ -78,12 +78,10 @@ class CoinmarketcapNamespace:
         Example:
             res = client.coinmarketcap.listings(limit=5)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "coinmarketcap.listings", dict(input), options
         )
-        return RunResult[CoinmarketcapListingsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[CoinmarketcapListingsData].model_validate(raw)
 
 
 class AsyncCoinmarketcapNamespace:
@@ -109,9 +107,7 @@ class AsyncCoinmarketcapNamespace:
         Example:
             res = client.coinmarketcap.listings(limit=5)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "coinmarketcap.listings", dict(input), options
         )
-        return RunResult[CoinmarketcapListingsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[CoinmarketcapListingsData].model_validate(raw)

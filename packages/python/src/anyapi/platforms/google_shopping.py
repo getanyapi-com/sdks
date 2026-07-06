@@ -34,15 +34,15 @@ class GoogleShoppingSearchInput(TypedDict, total=False):
 
 class GoogleShoppingSearchData(BaseModel):
     items: list[GoogleShoppingSearchItem] = Field(
-        description="Matching product offers: title, price, store name, rating, shipping info, and product link. Populated whenever the provider returns data."
+        description="Matching product offers: title, price, store name, rating, shipping info, and product link."
     )
 
 
 class GoogleShoppingSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    title: str
+    url: str
 
 
 class GoogleShoppingNamespace:
@@ -68,12 +68,10 @@ class GoogleShoppingNamespace:
         Example:
             res = client.google_shopping.search(limit=10, query="airpods")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google_shopping.search", dict(input), options
         )
-        return RunResult[GoogleShoppingSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GoogleShoppingSearchData].model_validate(raw)
 
 
 class AsyncGoogleShoppingNamespace:
@@ -99,9 +97,7 @@ class AsyncGoogleShoppingNamespace:
         Example:
             res = client.google_shopping.search(limit=10, query="airpods")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google_shopping.search", dict(input), options
         )
-        return RunResult[GoogleShoppingSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GoogleShoppingSearchData].model_validate(raw)

@@ -32,9 +32,6 @@ export interface PlaystoreReviewsInput {
 
 export interface PlaystoreReviewsItem {
   rating: number;
-  /**
-   * Populated whenever the provider returns data.
-   */
   text: string;
   [extra: string]: unknown;
 }
@@ -45,7 +42,6 @@ export interface PlaystoreReviewsItem {
 export interface PlaystoreReviewsData {
   /**
    * Review records: star rating, review text, reviewer name, app version, helpfulness votes, and review date.
-   * Populated whenever the provider returns data.
    */
   items: PlaystoreReviewsItem[];
 }
@@ -62,10 +58,10 @@ export class PlaystoreNamespace {
    *
    * Fetch Google Play reviews for any Android app by package name or store URL - ratings, review text, dates, and helpfulness votes, billed per request in USD.
    *
-   * Price: $0 per request plus $0.00011 per result.
+   * Price: $0.00011 per result.
    *
    * @example
-   * const res = await client.playstore.reviews({"appId":"com.whatsapp","limit":3});
+   * const res = await client.playstore.reviews({ appId: "com.whatsapp", limit: 3 });
    */
   reviews(
     input: PlaystoreReviewsInput,

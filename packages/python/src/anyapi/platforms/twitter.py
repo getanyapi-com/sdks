@@ -110,53 +110,46 @@ class TwitterUserTweetsInput(TypedDict, total=False):
 
 
 class TwitterCommunityData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    createdAt: float
-    creatorHandle: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    description: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    id: str = Field(description="Populated whenever the provider returns data.")
-    joinPolicy: str = Field(description="Populated whenever the provider returns data.")
-    memberCount: int
-    name: str = Field(description="Populated whenever the provider returns data.")
+    created_at: float = Field(alias="createdAt")
+    creator_handle: str = Field(alias="creatorHandle")
+    description: str
+    id: str
+    join_policy: str = Field(alias="joinPolicy")
+    member_count: int = Field(alias="memberCount")
+    name: str
 
 
 class TwitterCommunityTweetsData(BaseModel):
-    tweets: list[TwitterCommunityTweetsTweet] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    tweets: list[TwitterCommunityTweetsTweet]
 
 
 class TwitterCommunityTweetsTweet(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorHandle: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    createdAt: str = Field(description="Populated whenever the provider returns data.")
-    favoriteCount: int
-    id: str = Field(description="Populated whenever the provider returns data.")
-    quoteCount: int
-    replyCount: int
-    retweetCount: int
-    text: str = Field(description="Populated whenever the provider returns data.")
+    author_handle: str = Field(alias="authorHandle")
+    created_at: str = Field(alias="createdAt")
+    favorite_count: int = Field(alias="favoriteCount")
+    id: str
+    quote_count: int = Field(alias="quoteCount")
+    reply_count: int = Field(alias="replyCount")
+    retweet_count: int = Field(alias="retweetCount")
+    text: str
 
 
 class TwitterFollowersData(BaseModel):
     items: list[TwitterFollowersItem] = Field(
-        description="Follower records, normalized to a compact shape. Populated whenever the provider returns data."
+        description="Follower records, normalized to a compact shape."
     )
 
 
 class TwitterFollowersItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(
-        description="URL of the account's profile image (may be empty). Populated whenever the provider returns data."
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="URL of the account's profile image (may be empty).",
     )
     bio: str = Field(description="The account's profile bio/description.")
     followers: int = Field(description="How many followers this account has.")
@@ -164,26 +157,23 @@ class TwitterFollowersItem(BaseModel):
     location: str = Field(
         description="The account's self-reported location (may be empty)."
     )
-    name: str = Field(
-        description="The account's display name. Populated whenever the provider returns data."
-    )
-    username: str = Field(
-        description="The account's @ handle, without the @ prefix. Populated whenever the provider returns data."
-    )
+    name: str = Field(description="The account's display name.")
+    username: str = Field(description="The account's @ handle, without the @ prefix.")
     verified: bool = Field(description="Whether the account is verified.")
 
 
 class TwitterFollowingData(BaseModel):
     items: list[TwitterFollowingItem] = Field(
-        description="Followed-account records, normalized to a compact shape. Populated whenever the provider returns data."
+        description="Followed-account records, normalized to a compact shape."
     )
 
 
 class TwitterFollowingItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(
-        description="URL of the account's profile image (may be empty). Populated whenever the provider returns data."
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="URL of the account's profile image (may be empty).",
     )
     bio: str = Field(description="The account's profile bio/description.")
     followers: int = Field(description="How many followers this account has.")
@@ -191,33 +181,27 @@ class TwitterFollowingItem(BaseModel):
     location: str = Field(
         description="The account's self-reported location (may be empty)."
     )
-    name: str = Field(
-        description="The account's display name. Populated whenever the provider returns data."
-    )
-    username: str = Field(
-        description="The account's @ handle, without the @ prefix. Populated whenever the provider returns data."
-    )
+    name: str = Field(description="The account's display name.")
+    username: str = Field(description="The account's @ handle, without the @ prefix.")
     verified: bool = Field(description="Whether the account is verified.")
 
 
 class TwitterProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
-    bio: str = Field(description="Populated whenever the provider returns data.")
-    displayName: str = Field(
-        description="Populated whenever the provider returns data."
-    )
+    avatar_url: str = Field(alias="avatarUrl")
+    bio: str
+    display_name: str = Field(alias="displayName")
     followers: int
     following: int
-    handle: str = Field(description="Populated whenever the provider returns data.")
+    handle: str
     tweets: int
     verified: bool
 
 
 class TwitterRepliesData(BaseModel):
     items: list[TwitterRepliesItem] = Field(
-        description="Reply records: reply text, author profile, timestamp, and engagement metrics. Populated whenever the provider returns data."
+        description="Reply records: reply text, author profile, timestamp, and engagement metrics."
     )
 
 
@@ -225,58 +209,63 @@ class TwitterRepliesItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     id: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    text: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    text: str
+    url: str
 
 
 class TwitterSearchData(BaseModel):
     items: list[TwitterSearchItem] = Field(
-        description="Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider returns data."
+        description="Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views)."
     )
 
 
 class TwitterSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorName: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
-    )
-    authorUsername: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
-    )
-    authorVerified: bool | None = None
-    bookmarkCount: int | None = None
-    conversationId: str | None = None
-    createdAt: str | None = Field(
+    author_name: str | None = Field(
         default=None,
-        description="Tweet creation time. Populated whenever the provider returns data.",
+        alias="authorName",
+        description="Present whenever the upstream returns this record.",
     )
-    id: str = Field(description="Populated whenever the provider returns data.")
-    isReply: bool | None = None
+    author_username: str | None = Field(
+        default=None,
+        alias="authorUsername",
+        description="Present whenever the upstream returns this record.",
+    )
+    author_verified: bool | None = Field(default=None, alias="authorVerified")
+    bookmark_count: int | None = Field(default=None, alias="bookmarkCount")
+    conversation_id: str | None = Field(default=None, alias="conversationId")
+    created_at: str | None = Field(
+        default=None,
+        alias="createdAt",
+        description="Tweet creation time. Present whenever the upstream returns this record.",
+    )
+    id: str
+    is_reply: bool | None = Field(default=None, alias="isReply")
     lang: str | None = None
-    likeCount: int | None = None
-    quoteCount: int | None = None
-    replyCount: int | None = None
-    retweetCount: int | None = None
-    text: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
-    viewCount: int | None = None
+    like_count: int | None = Field(default=None, alias="likeCount")
+    quote_count: int | None = Field(default=None, alias="quoteCount")
+    reply_count: int | None = Field(default=None, alias="replyCount")
+    retweet_count: int | None = Field(default=None, alias="retweetCount")
+    text: str
+    url: str
+    view_count: int | None = Field(default=None, alias="viewCount")
 
 
 class TwitterTweetData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    authorId: str = Field(description="Populated whenever the provider returns data.")
+    author_id: str = Field(alias="authorId")
     bookmarks: int
-    createdAt: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
+    created_at: str = Field(alias="createdAt")
+    id: str
     likes: int
     quotes: int
     replies: int
     retweets: int
-    text: str = Field(description="Populated whenever the provider returns data.")
+    text: str
     views: int
 
 
@@ -287,30 +276,31 @@ class TwitterTweetTranscriptData(BaseModel):
 
 
 class TwitterUserTweetsData(BaseModel):
-    nextCursor: str | None = Field(
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
         default=None,
+        alias="nextCursor",
         description="Opaque cursor for the next page of tweets, or null when this lane has no more. Pass it back as cursor to continue.",
     )
-    tweets: list[TwitterUserTweetsTweet] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    tweets: list[TwitterUserTweetsTweet]
 
 
 class TwitterUserTweetsTweet(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     bookmarks: int
-    createdAt: str = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    isPinned: bool
-    isReply: bool | None = None
+    created_at: str = Field(alias="createdAt")
+    id: str
+    is_pinned: bool = Field(alias="isPinned")
+    is_reply: bool | None = Field(default=None, alias="isReply")
     lang: str | None = None
     likes: int
     quotes: int | None = None
     replies: int
     retweets: int
-    text: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    text: str
+    url: str
     views: int
 
 
@@ -337,12 +327,10 @@ class TwitterNamespace:
         Example:
             res = client.twitter.community(url="https://x.com/i/communities/1926186499399139650")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.community", dict(input), options
         )
-        return RunResult[TwitterCommunityData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterCommunityData].model_validate(raw)
 
     def community_tweets(
         self,
@@ -360,12 +348,10 @@ class TwitterNamespace:
         Example:
             res = client.twitter.community_tweets(url="https://x.com/i/communities/1926186499399139650")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.community_tweets", dict(input), options
         )
-        return RunResult[TwitterCommunityTweetsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterCommunityTweetsData].model_validate(raw)
 
     def followers(
         self,
@@ -384,12 +370,10 @@ class TwitterNamespace:
         Example:
             res = client.twitter.followers(limit=200, username="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.followers", dict(input), options
         )
-        return RunResult[TwitterFollowersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterFollowersData].model_validate(raw)
 
     def following(
         self,
@@ -407,12 +391,10 @@ class TwitterNamespace:
         Example:
             res = client.twitter.following(limit=200, username="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.following", dict(input), options
         )
-        return RunResult[TwitterFollowingData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterFollowingData].model_validate(raw)
 
     def profile(
         self,
@@ -431,12 +413,10 @@ class TwitterNamespace:
         Example:
             res = client.twitter.profile(handle="nasa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.profile", dict(input), options
         )
-        return RunResult[TwitterProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterProfileData].model_validate(raw)
 
     def replies(
         self,
@@ -449,17 +429,15 @@ class TwitterNamespace:
         Fetch the replies to any X (Twitter) post URL as structured records -
         author, text, and engagement - priced per request in USD.
 
-        Price: $0.00025 per result.
+        Price: $0.0025 per request plus $0.00025 per result.
 
         Example:
             res = client.twitter.replies(limit=3, url="https://x.com/jack/status/20")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.replies", dict(input), options
         )
-        return RunResult[TwitterRepliesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterRepliesData].model_validate(raw)
 
     def search(
         self,
@@ -473,17 +451,15 @@ class TwitterNamespace:
         structured tweets per request - text, author, and engagement - with
         transparent per-request USD pricing.
 
-        Price: $0.0002 per result.
+        Price: $0.004 per request plus $0.0002 per result.
 
         Example:
             res = client.twitter.search(query="openai")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.search", dict(input), options
         )
-        return RunResult[TwitterSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterSearchData].model_validate(raw)
 
     def tweet(
         self,
@@ -502,10 +478,10 @@ class TwitterNamespace:
         Example:
             res = client.twitter.tweet(url="https://x.com/SpaceX/status/1732824684683784516")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.tweet", dict(input), options
         )
-        return RunResult[TwitterTweetData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[TwitterTweetData].model_validate(raw)
 
     def tweet_transcript(
         self,
@@ -523,12 +499,10 @@ class TwitterNamespace:
         Example:
             res = client.twitter.tweet_transcript(url="https://x.com/TheoVon/status/1916982720317821050")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.tweet_transcript", dict(input), options
         )
-        return RunResult[TwitterTweetTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterTweetTranscriptData].model_validate(raw)
 
     def user_tweets(
         self,
@@ -548,12 +522,10 @@ class TwitterNamespace:
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.user_tweets", dict(input), options
         )
-        return RunResult[TwitterUserTweetsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterUserTweetsData].model_validate(raw)
 
     def iter_user_tweets(
         self,
@@ -563,11 +535,19 @@ class TwitterNamespace:
     ) -> Paginator[TwitterUserTweetsTweet, TwitterUserTweetsData]:
         """Iterate Twitter User Tweets results, following pagination cursors.
 
-        Yields flattened items from the `tweets` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TwitterUserTweetsTweet` items from the `tweets` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
-            self._client, "twitter.user_tweets", dict(input), "tweets", options=options
+            self._client,
+            "twitter.user_tweets",
+            dict(input),
+            "tweets",
+            item_model=TwitterUserTweetsTweet,
+            data_model=TwitterUserTweetsData,
+            bare=False,
+            options=options,
         )
 
 
@@ -594,12 +574,10 @@ class AsyncTwitterNamespace:
         Example:
             res = client.twitter.community(url="https://x.com/i/communities/1926186499399139650")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.community", dict(input), options
         )
-        return RunResult[TwitterCommunityData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterCommunityData].model_validate(raw)
 
     async def community_tweets(
         self,
@@ -617,12 +595,10 @@ class AsyncTwitterNamespace:
         Example:
             res = client.twitter.community_tweets(url="https://x.com/i/communities/1926186499399139650")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.community_tweets", dict(input), options
         )
-        return RunResult[TwitterCommunityTweetsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterCommunityTweetsData].model_validate(raw)
 
     async def followers(
         self,
@@ -641,12 +617,10 @@ class AsyncTwitterNamespace:
         Example:
             res = client.twitter.followers(limit=200, username="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.followers", dict(input), options
         )
-        return RunResult[TwitterFollowersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterFollowersData].model_validate(raw)
 
     async def following(
         self,
@@ -664,12 +638,10 @@ class AsyncTwitterNamespace:
         Example:
             res = client.twitter.following(limit=200, username="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.following", dict(input), options
         )
-        return RunResult[TwitterFollowingData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterFollowingData].model_validate(raw)
 
     async def profile(
         self,
@@ -688,12 +660,10 @@ class AsyncTwitterNamespace:
         Example:
             res = client.twitter.profile(handle="nasa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.profile", dict(input), options
         )
-        return RunResult[TwitterProfileData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterProfileData].model_validate(raw)
 
     async def replies(
         self,
@@ -706,17 +676,15 @@ class AsyncTwitterNamespace:
         Fetch the replies to any X (Twitter) post URL as structured records -
         author, text, and engagement - priced per request in USD.
 
-        Price: $0.00025 per result.
+        Price: $0.0025 per request plus $0.00025 per result.
 
         Example:
             res = client.twitter.replies(limit=3, url="https://x.com/jack/status/20")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.replies", dict(input), options
         )
-        return RunResult[TwitterRepliesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterRepliesData].model_validate(raw)
 
     async def search(
         self,
@@ -730,17 +698,15 @@ class AsyncTwitterNamespace:
         structured tweets per request - text, author, and engagement - with
         transparent per-request USD pricing.
 
-        Price: $0.0002 per result.
+        Price: $0.004 per request plus $0.0002 per result.
 
         Example:
             res = client.twitter.search(query="openai")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.search", dict(input), options
         )
-        return RunResult[TwitterSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterSearchData].model_validate(raw)
 
     async def tweet(
         self,
@@ -759,10 +725,10 @@ class AsyncTwitterNamespace:
         Example:
             res = client.twitter.tweet(url="https://x.com/SpaceX/status/1732824684683784516")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.tweet", dict(input), options
         )
-        return RunResult[TwitterTweetData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[TwitterTweetData].model_validate(raw)
 
     async def tweet_transcript(
         self,
@@ -780,12 +746,10 @@ class AsyncTwitterNamespace:
         Example:
             res = client.twitter.tweet_transcript(url="https://x.com/TheoVon/status/1916982720317821050")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.tweet_transcript", dict(input), options
         )
-        return RunResult[TwitterTweetTranscriptData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterTweetTranscriptData].model_validate(raw)
 
     async def user_tweets(
         self,
@@ -805,12 +769,10 @@ class AsyncTwitterNamespace:
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.user_tweets", dict(input), options
         )
-        return RunResult[TwitterUserTweetsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[TwitterUserTweetsData].model_validate(raw)
 
     def iter_user_tweets(
         self,
@@ -820,9 +782,17 @@ class AsyncTwitterNamespace:
     ) -> AsyncPaginator[TwitterUserTweetsTweet, TwitterUserTweetsData]:
         """Iterate Twitter User Tweets results, following pagination cursors.
 
-        Yields flattened items from the `tweets` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `TwitterUserTweetsTweet` items from the `tweets` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
-            self._client, "twitter.user_tweets", dict(input), "tweets", options=options
+            self._client,
+            "twitter.user_tweets",
+            dict(input),
+            "tweets",
+            item_model=TwitterUserTweetsTweet,
+            data_model=TwitterUserTweetsData,
+            bare=False,
+            options=options,
         )

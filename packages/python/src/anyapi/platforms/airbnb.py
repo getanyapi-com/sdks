@@ -34,36 +34,34 @@ class AirbnbSearchInput(TypedDict, total=False):
 
 class AirbnbSearchData(BaseModel):
     items: list[AirbnbSearchItem] = Field(
-        description="Listing records: name, nightly price, rating, location, host info, and availability details. Populated whenever the provider returns data."
+        description="Listing records: name, nightly price, rating, location, host info, and availability details."
     )
 
 
 class AirbnbSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    hostName: str | None = None
-    id: str = Field(
-        description="Airbnb listing identifier. Populated whenever the provider returns data."
-    )
+    host_name: str | None = Field(default=None, alias="hostName")
+    id: str = Field(description="Airbnb listing identifier.")
     image: str | None = Field(
         default=None,
-        description="Primary listing image URL. Populated whenever the provider returns data.",
+        description="Primary listing image URL. Present whenever the upstream returns this record.",
     )
-    isAvailable: bool | None = None
-    isSuperhost: bool | None = None
+    is_available: bool | None = Field(default=None, alias="isAvailable")
+    is_superhost: bool | None = Field(default=None, alias="isSuperhost")
     latitude: float | None = None
     location: str | None = Field(default=None, description="Location subtitle.")
     longitude: float | None = None
-    personCapacity: int | None = None
+    person_capacity: int | None = Field(default=None, alias="personCapacity")
     price: str | None = Field(default=None, description="Nightly price label.")
-    propertyType: str | None = None
+    property_type: str | None = Field(default=None, alias="propertyType")
     rating: float | None = Field(
         default=None, description="Guest satisfaction rating (0-5)."
     )
-    reviewsCount: int | None = None
-    roomType: str | None = None
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    reviews_count: int | None = Field(default=None, alias="reviewsCount")
+    room_type: str | None = Field(default=None, alias="roomType")
+    title: str
+    url: str
 
 
 class AirbnbNamespace:
@@ -83,15 +81,15 @@ class AirbnbNamespace:
         Search Airbnb listings by location and dates and get results (name, price,
         rating, host) as normalized JSON with flat per-request USD pricing.
 
-        Price: $0.0015 per result.
+        Price: $0.00008 per request plus $0.0015 per result.
 
         Example:
             res = client.airbnb.search(limit=3, location="San Diego")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "airbnb.search", dict(input), options
         )
-        return RunResult[AirbnbSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[AirbnbSearchData].model_validate(raw)
 
 
 class AsyncAirbnbNamespace:
@@ -111,12 +109,12 @@ class AsyncAirbnbNamespace:
         Search Airbnb listings by location and dates and get results (name, price,
         rating, host) as normalized JSON with flat per-request USD pricing.
 
-        Price: $0.0015 per result.
+        Price: $0.00008 per request plus $0.0015 per result.
 
         Example:
             res = client.airbnb.search(limit=3, location="San Diego")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "airbnb.search", dict(input), options
         )
-        return RunResult[AirbnbSearchData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[AirbnbSearchData].model_validate(raw)

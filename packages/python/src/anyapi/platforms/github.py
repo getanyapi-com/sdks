@@ -116,125 +116,129 @@ class GithubUserRepositoriesInput(TypedDict, total=False):
 
 
 class GithubRepositoryData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     archived: bool | None = None
-    createdAt: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    created_at: str | None = Field(
+        default=None,
+        alias="createdAt",
+        description="Present whenever the upstream returns this record.",
     )
-    defaultBranch: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    default_branch: str | None = Field(
+        default=None,
+        alias="defaultBranch",
+        description="Present whenever the upstream returns this record.",
     )
     description: str | None = None
     fork: bool | None = None
     forks: int | None = None
-    fullName: str = Field(description="Populated whenever the provider returns data.")
+    full_name: str = Field(alias="fullName")
     homepage: str | None = None
     language: str | None = None
     license: str | None = None
-    name: str = Field(description="Populated whenever the provider returns data.")
-    openIssues: int | None = None
+    name: str
+    open_issues: int | None = Field(default=None, alias="openIssues")
     owner: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    pushedAt: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    pushed_at: str | None = Field(
+        default=None,
+        alias="pushedAt",
+        description="Present whenever the upstream returns this record.",
     )
     stars: int | None = None
     topics: list[str] | None = None
-    updatedAt: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    updated_at: str | None = Field(
+        default=None,
+        alias="updatedAt",
+        description="Present whenever the upstream returns this record.",
     )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
     watchers: int | None = None
 
 
 class GithubTrendingDevelopersData(BaseModel):
-    developers: list[GithubTrendingDevelopersDeveloper] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    developers: list[GithubTrendingDevelopersDeveloper]
     language: str
-    since: str = Field(description="Populated whenever the provider returns data.")
+    since: str
 
 
 class GithubTrendingDevelopersDeveloper(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
+    avatar_url: str = Field(alias="avatarUrl")
     name: str
-    popularRepo: str
-    popularRepoDescription: str
-    popularRepoUrl: str
+    popular_repo: str = Field(alias="popularRepo")
+    popular_repo_description: str = Field(alias="popularRepoDescription")
+    popular_repo_url: str = Field(alias="popularRepoUrl")
     rank: int
-    url: str = Field(description="Populated whenever the provider returns data.")
-    username: str = Field(description="Populated whenever the provider returns data.")
+    url: str
+    username: str
 
 
 class GithubTrendingRepositoriesData(BaseModel):
-    repos: list[GithubTrendingRepositoriesRepo] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    repos: list[GithubTrendingRepositoriesRepo]
 
 
 class GithubTrendingRepositoriesRepo(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     description: str
     forks: int
-    fullName: str = Field(description="Populated whenever the provider returns data.")
+    full_name: str = Field(alias="fullName")
     language: str
     rank: int
     stars: int
-    starsToday: int
-    url: str = Field(description="Populated whenever the provider returns data.")
+    stars_today: int = Field(alias="starsToday")
+    url: str
 
 
 class GithubUserData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
+    avatar_url: str = Field(alias="avatarUrl")
     bio: str
     blog: str | None = None
     company: str | None = None
-    createdAt: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+    created_at: str | None = Field(
+        default=None,
+        alias="createdAt",
+        description="Present whenever the upstream returns this record.",
     )
     followers: int
     following: int
     location: str | None = None
-    login: str = Field(description="Populated whenever the provider returns data.")
-    name: str = Field(description="Populated whenever the provider returns data.")
-    publicGists: int | None = None
-    publicRepos: int
-    twitterUsername: str | None = None
+    login: str
+    name: str
+    public_gists: int | None = Field(default=None, alias="publicGists")
+    public_repos: int = Field(alias="publicRepos")
+    twitter_username: str | None = Field(default=None, alias="twitterUsername")
     type_: str | None = Field(
         default=None, alias="type", description='"User" or "Organization".'
     )
 
 
 class GithubUserActivityData(BaseModel):
-    activity: list[GithubUserActivityActivity] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    month: str = Field(description="Populated whenever the provider returns data.")
-    nextCursor: str
-    noActivity: bool
-    username: str = Field(description="Populated whenever the provider returns data.")
+    model_config = ConfigDict(populate_by_name=True)
+
+    activity: list[GithubUserActivityActivity]
+    month: str
+    next_cursor: str = Field(alias="nextCursor")
+    no_activity: bool = Field(alias="noActivity")
+    username: str
     year: int
 
 
 class GithubUserActivityActivity(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    summary: str = Field(description="Populated whenever the provider returns data.")
+    summary: str
 
 
 class GithubUserContributionsData(BaseModel):
-    days: list[GithubUserContributionsDay] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    days: list[GithubUserContributionsDay]
     total: int
-    username: str = Field(description="Populated whenever the provider returns data.")
+    username: str
     year: int
 
 
@@ -242,92 +246,86 @@ class GithubUserContributionsDay(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     count: int
-    date: str = Field(
-        description="YYYY-MM-DD. Populated whenever the provider returns data."
-    )
+    date: str = Field(description="YYYY-MM-DD.")
     intensity: int = Field(description="Heatmap level 0-4.")
 
 
 class GithubUserFollowersData(BaseModel):
-    followers: list[GithubUserFollowersFollower] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    nextCursor: str
+    model_config = ConfigDict(populate_by_name=True)
+
+    followers: list[GithubUserFollowersFollower]
+    next_cursor: str = Field(alias="nextCursor")
 
 
 class GithubUserFollowersFollower(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
+    avatar_url: str = Field(alias="avatarUrl")
     id: int
-    login: str = Field(description="Populated whenever the provider returns data.")
-    siteAdmin: bool
-    type_: str = Field(
-        alias="type", description="Populated whenever the provider returns data."
-    )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    login: str
+    site_admin: bool = Field(alias="siteAdmin")
+    type_: str = Field(alias="type")
+    url: str
 
 
 class GithubUserFollowingData(BaseModel):
-    following: list[GithubUserFollowingFollowing] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    nextCursor: str
+    model_config = ConfigDict(populate_by_name=True)
+
+    following: list[GithubUserFollowingFollowing]
+    next_cursor: str = Field(alias="nextCursor")
 
 
 class GithubUserFollowingFollowing(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatarUrl: str = Field(description="Populated whenever the provider returns data.")
+    avatar_url: str = Field(alias="avatarUrl")
     id: int
-    login: str = Field(description="Populated whenever the provider returns data.")
-    siteAdmin: bool
-    type_: str = Field(
-        alias="type", description="Populated whenever the provider returns data."
-    )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    login: str
+    site_admin: bool = Field(alias="siteAdmin")
+    type_: str = Field(alias="type")
+    url: str
 
 
 class GithubUserPullRequestsData(BaseModel):
-    hasMore: bool
-    nextCursor: str
-    pullRequests: list[GithubUserPullRequestsPullRequest] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_more: bool = Field(alias="hasMore")
+    next_cursor: str = Field(alias="nextCursor")
+    pull_requests: list[GithubUserPullRequestsPullRequest] = Field(alias="pullRequests")
 
 
 class GithubUserPullRequestsPullRequest(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    createdAt: str = Field(description="Populated whenever the provider returns data.")
-    repo: str = Field(description="Populated whenever the provider returns data.")
-    state: str = Field(description="Populated whenever the provider returns data.")
-    title: str = Field(description="Populated whenever the provider returns data.")
-    url: str = Field(description="Populated whenever the provider returns data.")
+    created_at: str = Field(alias="createdAt")
+    repo: str
+    state: str
+    title: str
+    url: str
 
 
 class GithubUserRepositoriesData(BaseModel):
-    hasMore: bool
-    nextCursor: int
-    repos: list[GithubUserRepositoriesRepo] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_more: bool = Field(alias="hasMore")
+    next_cursor: int = Field(alias="nextCursor")
+    repos: list[GithubUserRepositoriesRepo]
 
 
 class GithubUserRepositoriesRepo(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     archived: bool
     description: str
     fork: bool
     forks: int
-    fullName: str = Field(description="Populated whenever the provider returns data.")
+    full_name: str = Field(alias="fullName")
     language: str
-    name: str = Field(description="Populated whenever the provider returns data.")
-    pushedAt: str
+    name: str
+    pushed_at: str = Field(alias="pushedAt")
     stars: int
-    updatedAt: str
-    url: str = Field(description="Populated whenever the provider returns data.")
+    updated_at: str = Field(alias="updatedAt")
+    url: str
 
 
 class GithubNamespace:
@@ -353,12 +351,10 @@ class GithubNamespace:
         Example:
             res = client.github.repository(url="https://github.com/facebook/react")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.repository", dict(input), options
         )
-        return RunResult[GithubRepositoryData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubRepositoryData].model_validate(raw)
 
     def trending_developers(
         self,
@@ -377,12 +373,10 @@ class GithubNamespace:
         Example:
             res = client.github.trending_developers(language="go", since="weekly")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.trending_developers", dict(input), options
         )
-        return RunResult[GithubTrendingDevelopersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubTrendingDevelopersData].model_validate(raw)
 
     def trending_repositories(
         self,
@@ -401,12 +395,10 @@ class GithubNamespace:
         Example:
             res = client.github.trending_repositories(language="python", since="daily")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.trending_repositories", dict(input), options
         )
-        return RunResult[GithubTrendingRepositoriesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubTrendingRepositoriesData].model_validate(raw)
 
     def user(
         self, *, options: RequestOptions | None = None, **input: Unpack[GithubUserInput]
@@ -422,10 +414,10 @@ class GithubNamespace:
         Example:
             res = client.github.user(handle="torvalds")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user", dict(input), options
         )
-        return RunResult[GithubUserData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[GithubUserData].model_validate(raw)
 
     def user_activity(
         self,
@@ -444,12 +436,10 @@ class GithubNamespace:
         Example:
             res = client.github.user_activity(handle="kentcdodds")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_activity", dict(input), options
         )
-        return RunResult[GithubUserActivityData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserActivityData].model_validate(raw)
 
     def iter_user_activity(
         self,
@@ -459,14 +449,18 @@ class GithubNamespace:
     ) -> Paginator[GithubUserActivityActivity, GithubUserActivityData]:
         """Iterate GitHub User Activity results, following pagination cursors.
 
-        Yields flattened items from the `activity` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `GithubUserActivityActivity` items from the `activity` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "github.user_activity",
             dict(input),
             "activity",
+            item_model=GithubUserActivityActivity,
+            data_model=GithubUserActivityData,
+            bare=False,
             options=options,
         )
 
@@ -487,12 +481,10 @@ class GithubNamespace:
         Example:
             res = client.github.user_contributions(handle="torvalds", year=2024)
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_contributions", dict(input), options
         )
-        return RunResult[GithubUserContributionsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserContributionsData].model_validate(raw)
 
     def user_followers(
         self,
@@ -510,12 +502,10 @@ class GithubNamespace:
         Example:
             res = client.github.user_followers(handle="torvalds")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_followers", dict(input), options
         )
-        return RunResult[GithubUserFollowersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserFollowersData].model_validate(raw)
 
     def iter_user_followers(
         self,
@@ -525,14 +515,18 @@ class GithubNamespace:
     ) -> Paginator[GithubUserFollowersFollower, GithubUserFollowersData]:
         """Iterate GitHub User Followers results, following pagination cursors.
 
-        Yields flattened items from the `followers` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `GithubUserFollowersFollower` items from the `followers` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "github.user_followers",
             dict(input),
             "followers",
+            item_model=GithubUserFollowersFollower,
+            data_model=GithubUserFollowersData,
+            bare=False,
             options=options,
         )
 
@@ -552,12 +546,10 @@ class GithubNamespace:
         Example:
             res = client.github.user_following(handle="kentcdodds")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_following", dict(input), options
         )
-        return RunResult[GithubUserFollowingData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserFollowingData].model_validate(raw)
 
     def iter_user_following(
         self,
@@ -567,14 +559,18 @@ class GithubNamespace:
     ) -> Paginator[GithubUserFollowingFollowing, GithubUserFollowingData]:
         """Iterate GitHub User Following results, following pagination cursors.
 
-        Yields flattened items from the `following` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `GithubUserFollowingFollowing` items from the `following` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "github.user_following",
             dict(input),
             "following",
+            item_model=GithubUserFollowingFollowing,
+            data_model=GithubUserFollowingData,
+            bare=False,
             options=options,
         )
 
@@ -594,12 +590,10 @@ class GithubNamespace:
         Example:
             res = client.github.user_pull_requests(handle="torvalds")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_pull_requests", dict(input), options
         )
-        return RunResult[GithubUserPullRequestsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserPullRequestsData].model_validate(raw)
 
     def iter_user_pull_requests(
         self,
@@ -609,14 +603,18 @@ class GithubNamespace:
     ) -> Paginator[GithubUserPullRequestsPullRequest, GithubUserPullRequestsData]:
         """Iterate GitHub User Pull Requests results, following pagination cursors.
 
-        Yields flattened items from the `pullRequests` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `GithubUserPullRequestsPullRequest` items from the `pullRequests` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "github.user_pull_requests",
             dict(input),
             "pullRequests",
+            item_model=GithubUserPullRequestsPullRequest,
+            data_model=GithubUserPullRequestsData,
+            bare=False,
             options=options,
         )
 
@@ -637,12 +635,10 @@ class GithubNamespace:
         Example:
             res = client.github.user_repositories(handle="torvalds")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_repositories", dict(input), options
         )
-        return RunResult[GithubUserRepositoriesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserRepositoriesData].model_validate(raw)
 
 
 class AsyncGithubNamespace:
@@ -668,12 +664,10 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.repository(url="https://github.com/facebook/react")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.repository", dict(input), options
         )
-        return RunResult[GithubRepositoryData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubRepositoryData].model_validate(raw)
 
     async def trending_developers(
         self,
@@ -692,12 +686,10 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.trending_developers(language="go", since="weekly")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.trending_developers", dict(input), options
         )
-        return RunResult[GithubTrendingDevelopersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubTrendingDevelopersData].model_validate(raw)
 
     async def trending_repositories(
         self,
@@ -716,12 +708,10 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.trending_repositories(language="python", since="daily")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.trending_repositories", dict(input), options
         )
-        return RunResult[GithubTrendingRepositoriesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubTrendingRepositoriesData].model_validate(raw)
 
     async def user(
         self, *, options: RequestOptions | None = None, **input: Unpack[GithubUserInput]
@@ -737,10 +727,10 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.user(handle="torvalds")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user", dict(input), options
         )
-        return RunResult[GithubUserData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[GithubUserData].model_validate(raw)
 
     async def user_activity(
         self,
@@ -759,12 +749,10 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.user_activity(handle="kentcdodds")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_activity", dict(input), options
         )
-        return RunResult[GithubUserActivityData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserActivityData].model_validate(raw)
 
     def iter_user_activity(
         self,
@@ -774,14 +762,18 @@ class AsyncGithubNamespace:
     ) -> AsyncPaginator[GithubUserActivityActivity, GithubUserActivityData]:
         """Iterate GitHub User Activity results, following pagination cursors.
 
-        Yields flattened items from the `activity` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `GithubUserActivityActivity` items from the `activity` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "github.user_activity",
             dict(input),
             "activity",
+            item_model=GithubUserActivityActivity,
+            data_model=GithubUserActivityData,
+            bare=False,
             options=options,
         )
 
@@ -802,12 +794,10 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.user_contributions(handle="torvalds", year=2024)
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_contributions", dict(input), options
         )
-        return RunResult[GithubUserContributionsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserContributionsData].model_validate(raw)
 
     async def user_followers(
         self,
@@ -825,12 +815,10 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.user_followers(handle="torvalds")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_followers", dict(input), options
         )
-        return RunResult[GithubUserFollowersData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserFollowersData].model_validate(raw)
 
     def iter_user_followers(
         self,
@@ -840,14 +828,18 @@ class AsyncGithubNamespace:
     ) -> AsyncPaginator[GithubUserFollowersFollower, GithubUserFollowersData]:
         """Iterate GitHub User Followers results, following pagination cursors.
 
-        Yields flattened items from the `followers` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `GithubUserFollowersFollower` items from the `followers` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "github.user_followers",
             dict(input),
             "followers",
+            item_model=GithubUserFollowersFollower,
+            data_model=GithubUserFollowersData,
+            bare=False,
             options=options,
         )
 
@@ -867,12 +859,10 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.user_following(handle="kentcdodds")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_following", dict(input), options
         )
-        return RunResult[GithubUserFollowingData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserFollowingData].model_validate(raw)
 
     def iter_user_following(
         self,
@@ -882,14 +872,18 @@ class AsyncGithubNamespace:
     ) -> AsyncPaginator[GithubUserFollowingFollowing, GithubUserFollowingData]:
         """Iterate GitHub User Following results, following pagination cursors.
 
-        Yields flattened items from the `following` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `GithubUserFollowingFollowing` items from the `following` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "github.user_following",
             dict(input),
             "following",
+            item_model=GithubUserFollowingFollowing,
+            data_model=GithubUserFollowingData,
+            bare=False,
             options=options,
         )
 
@@ -909,12 +903,10 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.user_pull_requests(handle="torvalds")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_pull_requests", dict(input), options
         )
-        return RunResult[GithubUserPullRequestsData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserPullRequestsData].model_validate(raw)
 
     def iter_user_pull_requests(
         self,
@@ -924,14 +916,18 @@ class AsyncGithubNamespace:
     ) -> AsyncPaginator[GithubUserPullRequestsPullRequest, GithubUserPullRequestsData]:
         """Iterate GitHub User Pull Requests results, following pagination cursors.
 
-        Yields flattened items from the `pullRequests` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `GithubUserPullRequestsPullRequest` items from the `pullRequests` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "github.user_pull_requests",
             dict(input),
             "pullRequests",
+            item_model=GithubUserPullRequestsPullRequest,
+            data_model=GithubUserPullRequestsData,
+            bare=False,
             options=options,
         )
 
@@ -952,9 +948,7 @@ class AsyncGithubNamespace:
         Example:
             res = client.github.user_repositories(handle="torvalds")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "github.user_repositories", dict(input), options
         )
-        return RunResult[GithubUserRepositoriesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[GithubUserRepositoriesData].model_validate(raw)

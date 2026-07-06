@@ -36,31 +36,29 @@ export interface SecFilingsInput {
 export interface SecFilingsItem {
   /**
    * SEC accession number uniquely identifying the filing.
-   * Populated whenever the provider returns data.
    */
   accessionNumber: string;
   /**
    * SEC Central Index Key for the filer.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   cik?: string;
   /**
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   companyName?: string;
   /**
    * Date the filing was filed, YYYY-MM-DD.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   filingDate?: string;
   /**
    * SEC form type, e.g. 10-K, 10-Q, 8-K.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   form?: string;
   /**
    * Direct link to the primary filing document on sec.gov.
-   * Populated whenever the provider returns data.
    */
   url: string;
   [extra: string]: unknown;
@@ -72,7 +70,6 @@ export interface SecFilingsItem {
 export interface SecFilingsData {
   /**
    * Filing records: company and CIK, form type, filing date, accession number, and document links.
-   * Populated whenever the provider returns data.
    */
   items: SecFilingsItem[];
 }
@@ -92,7 +89,7 @@ export class SecNamespace {
    * Price: $0.002 per request plus $0.0004 per result.
    *
    * @example
-   * const res = await client.sec.filings({"limit":3,"ticker":"AAPL"});
+   * const res = await client.sec.filings({ ticker: "AAPL", limit: 3 });
    */
   filings(
     input: SecFilingsInput,

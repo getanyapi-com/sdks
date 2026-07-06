@@ -30,9 +30,6 @@ export interface PinterestSearchInput {
 export interface PinterestSearchItem {
   id: string;
   title: string;
-  /**
-   * Populated whenever the provider returns data.
-   */
   url: string;
   [extra: string]: unknown;
 }
@@ -43,7 +40,6 @@ export interface PinterestSearchItem {
 export interface PinterestSearchData {
   /**
    * Matching Pinterest records: pin or board title, description, image/video URL, creator, and link.
-   * Populated whenever the provider returns data.
    */
   items: PinterestSearchItem[];
 }
@@ -63,7 +59,7 @@ export class PinterestNamespace {
    * Price: $0.00325 per request.
    *
    * @example
-   * const res = await client.pinterest.search({"limit":3,"query":"home decor"});
+   * const res = await client.pinterest.search({ query: "home decor", limit: 3 });
    */
   search(
     input: PinterestSearchInput,

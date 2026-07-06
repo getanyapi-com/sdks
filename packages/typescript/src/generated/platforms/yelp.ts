@@ -40,7 +40,6 @@ export interface YelpSearchItem {
   address3?: string;
   /**
    * URL slug for the business.
-   * Populated whenever the provider returns data.
    */
   alias: string;
   /**
@@ -65,7 +64,6 @@ export interface YelpSearchItem {
   dialable_phone?: string;
   /**
    * Stable Yelp business identifier.
-   * Populated whenever the provider returns data.
    */
   id: string;
   /**
@@ -90,7 +88,6 @@ export interface YelpSearchItem {
   longitude?: number;
   /**
    * Business display name.
-   * Populated whenever the provider returns data.
    */
   name: string;
   /**
@@ -107,7 +104,7 @@ export interface YelpSearchItem {
   photo_count?: number;
   /**
    * Primary photo URL.
-   * Populated whenever the provider returns data.
+   * Present whenever the upstream returns this record.
    */
   photo_url?: string;
   /**
@@ -143,7 +140,6 @@ export interface YelpSearchCategorie {
 export interface YelpSearchData {
   /**
    * Business listing records: name, categories, rating, review count, address, and core business info.
-   * Populated whenever the provider returns data.
    */
   items: YelpSearchItem[];
 }
@@ -163,7 +159,7 @@ export class YelpNamespace {
    * Price: $0.04 per request plus $0.00075 per result.
    *
    * @example
-   * const res = await client.yelp.search({"limit":5,"location":"Chicago, IL","query":"pizza"});
+   * const res = await client.yelp.search({ location: "Chicago, IL", query: "pizza", limit: 5 });
    */
   search(
     input: YelpSearchInput,

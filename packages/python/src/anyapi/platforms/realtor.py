@@ -32,7 +32,7 @@ class RealtorSearchInput(TypedDict, total=False):
 
 class RealtorSearchData(BaseModel):
     items: list[RealtorSearchItem] = Field(
-        description="Property listing records: address, price, beds, baths, square footage, status, and listing metadata. Populated whenever the provider returns data."
+        description="Property listing records: address, price, beds, baths, square footage, status, and listing metadata."
     )
 
 
@@ -41,9 +41,9 @@ class RealtorSearchItem(BaseModel):
 
     price: float | None = None
     title: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class RealtorNamespace:
@@ -64,17 +64,15 @@ class RealtorNamespace:
         property records (price, address, beds, baths) as normalized JSON, priced
         per request in USD.
 
-        Price: $0.0015 per result.
+        Price: $0.005 per request plus $0.0015 per result.
 
         Example:
             res = client.realtor.search(limit=3, location="Austin, TX")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "realtor.search", dict(input), options
         )
-        return RunResult[RealtorSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RealtorSearchData].model_validate(raw)
 
 
 class AsyncRealtorNamespace:
@@ -95,14 +93,12 @@ class AsyncRealtorNamespace:
         property records (price, address, beds, baths) as normalized JSON, priced
         per request in USD.
 
-        Price: $0.0015 per result.
+        Price: $0.005 per request plus $0.0015 per result.
 
         Example:
             res = client.realtor.search(limit=3, location="Austin, TX")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "realtor.search", dict(input), options
         )
-        return RunResult[RealtorSearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[RealtorSearchData].model_validate(raw)

@@ -2404,19 +2404,16 @@
   },
   "reddit.post_comments": {
     "output": {
-      "found": true,
-      "data": {
-        "comments": [
-          {
-            "id": "sample",
-            "author": "sample",
-            "body": "sample",
-            "url": "sample",
-            "createdUtc": 1.5,
-            "_extra": "passthrough"
-          }
-        ]
-      }
+      "comments": [
+        {
+          "id": "sample",
+          "author": "sample",
+          "body": "sample",
+          "url": "sample",
+          "createdUtc": 1.5,
+          "_extra": "passthrough"
+        }
+      ]
     },
     "provider": "AnyAPI",
     "costUsd": 0.001,
@@ -2439,24 +2436,21 @@
   },
   "reddit.search": {
     "output": {
-      "found": true,
-      "data": {
-        "posts": [
-          {
-            "id": "sample",
-            "title": "sample",
-            "author": "sample",
-            "score": 1,
-            "numComments": 1,
-            "url": "sample",
-            "permalink": "sample",
-            "createdUtc": 1.5,
-            "subreddit": "sample",
-            "_extra": "passthrough"
-          }
-        ],
-        "nextCursor": "sample"
-      }
+      "posts": [
+        {
+          "id": "sample",
+          "title": "sample",
+          "author": "sample",
+          "score": 1,
+          "numComments": 1,
+          "url": "sample",
+          "permalink": "sample",
+          "createdUtc": 1.5,
+          "subreddit": "sample",
+          "_extra": "passthrough"
+        }
+      ],
+      "nextCursor": "sample"
     },
     "provider": "AnyAPI",
     "costUsd": 0.001,
@@ -2482,24 +2476,21 @@
   },
   "reddit.subreddit_posts": {
     "output": {
-      "found": true,
-      "data": {
-        "posts": [
-          {
-            "id": "sample",
-            "title": "sample",
-            "author": "sample",
-            "score": 1,
-            "numComments": 1,
-            "url": "sample",
-            "permalink": "sample",
-            "createdUtc": 1.5,
-            "subreddit": "sample",
-            "_extra": "passthrough"
-          }
-        ],
-        "nextCursor": "sample"
-      }
+      "posts": [
+        {
+          "id": "sample",
+          "title": "sample",
+          "author": "sample",
+          "score": 1,
+          "numComments": 1,
+          "url": "sample",
+          "permalink": "sample",
+          "createdUtc": 1.5,
+          "subreddit": "sample",
+          "_extra": "passthrough"
+        }
+      ],
+      "nextCursor": "sample"
     },
     "provider": "AnyAPI",
     "costUsd": 0.001,

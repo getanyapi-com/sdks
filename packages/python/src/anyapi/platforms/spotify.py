@@ -85,51 +85,41 @@ class SpotifyTrackInput(TypedDict, total=False):
 class SpotifyAlbumData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    id: str = Field(description="Populated whenever the provider returns data.")
-    label: str = Field(description="Populated whenever the provider returns data.")
-    name: str = Field(description="Populated whenever the provider returns data.")
+    id: str
+    label: str
+    name: str
     popularity: int
-    releaseDate: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    tracks: list[SpotifyAlbumTrack] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    type_: str = Field(
-        alias="type", description="Populated whenever the provider returns data."
-    )
-    uri: str = Field(description="Populated whenever the provider returns data.")
+    release_date: str = Field(alias="releaseDate")
+    tracks: list[SpotifyAlbumTrack]
+    type_: str = Field(alias="type")
+    uri: str
 
 
 class SpotifyAlbumTrack(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    durationMs: int
+    duration_ms: int = Field(alias="durationMs")
     name: str
     playcount: int
     uri: str
 
 
 class SpotifyArtistData(BaseModel):
-    albums: list[SpotifyArtistAlbum] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    topTracks: list[SpotifyArtistTopTrack] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    model_config = ConfigDict(populate_by_name=True)
+
+    albums: list[SpotifyArtistAlbum]
+    top_tracks: list[SpotifyArtistTopTrack] = Field(alias="topTracks")
 
 
 class SpotifyArtistAlbum(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str = Field(description="Populated whenever the provider returns data.")
-    name: str = Field(description="Populated whenever the provider returns data.")
-    trackCount: int
-    type_: str = Field(
-        alias="type", description="Populated whenever the provider returns data."
-    )
-    uri: str = Field(description="Populated whenever the provider returns data.")
-    year: int = Field(description="Populated whenever the provider returns data.")
+    id: str
+    name: str
+    track_count: int = Field(alias="trackCount")
+    type_: str = Field(alias="type")
+    uri: str
+    year: int
 
 
 class SpotifyArtistTopTrack(BaseModel):
@@ -143,70 +133,56 @@ class SpotifyArtistTopTrack(BaseModel):
 
 class SpotifyPlayCountData(BaseModel):
     items: list[SpotifyPlayCountItem] = Field(
-        description="Play-count records: track, album, or artist metadata with stream counts and statistics. Populated whenever the provider returns data."
+        description="Play-count records: track, album, or artist metadata with stream counts and statistics."
     )
 
 
 class SpotifyPlayCountItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str = Field(description="Populated whenever the provider returns data.")
-    name: str = Field(description="Populated whenever the provider returns data.")
+    id: str
+    name: str
     url: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
 
 
 class SpotifyPodcastData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    averageRating: float
-    description: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    id: str = Field(description="Populated whenever the provider returns data.")
-    name: str = Field(description="Populated whenever the provider returns data.")
-    publisher: str = Field(description="Populated whenever the provider returns data.")
-    totalRatings: int
-    uri: str = Field(description="Populated whenever the provider returns data.")
+    average_rating: float = Field(alias="averageRating")
+    description: str
+    id: str
+    name: str
+    publisher: str
+    total_ratings: int = Field(alias="totalRatings")
+    uri: str
 
 
 class SpotifyPodcastEpisodesData(BaseModel):
-    episodes: list[SpotifyPodcastEpisodesEpisode] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    nextCursor: str
-    totalCount: int
+    model_config = ConfigDict(populate_by_name=True)
+
+    episodes: list[SpotifyPodcastEpisodesEpisode]
+    next_cursor: str = Field(alias="nextCursor")
+    total_count: int = Field(alias="totalCount")
 
 
 class SpotifyPodcastEpisodesEpisode(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    description: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    durationMs: int
-    id: str = Field(description="Populated whenever the provider returns data.")
-    name: str = Field(description="Populated whenever the provider returns data.")
-    releaseDate: str = Field(
-        description="Populated whenever the provider returns data."
-    )
-    uri: str = Field(description="Populated whenever the provider returns data.")
+    description: str
+    duration_ms: int = Field(alias="durationMs")
+    id: str
+    name: str
+    release_date: str = Field(alias="releaseDate")
+    uri: str
 
 
 class SpotifySearchData(BaseModel):
-    albums: list[SpotifySearchAlbum] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    artists: list[SpotifySearchArtist] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    podcasts: list[SpotifySearchPodcast] = Field(
-        description="Populated whenever the provider returns data."
-    )
-    tracks: list[SpotifySearchTrack] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    albums: list[SpotifySearchAlbum]
+    artists: list[SpotifySearchArtist]
+    podcasts: list[SpotifySearchPodcast]
+    tracks: list[SpotifySearchTrack]
 
 
 class SpotifySearchAlbum(BaseModel):
@@ -238,24 +214,22 @@ class SpotifySearchPodcast(BaseModel):
 class SpotifySearchTrack(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str = Field(description="Populated whenever the provider returns data.")
-    name: str = Field(description="Populated whenever the provider returns data.")
-    uri: str = Field(description="Populated whenever the provider returns data.")
+    id: str
+    name: str
+    uri: str
 
 
 class SpotifyTrackData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    durationMs: int = Field(description="Populated whenever the provider returns data.")
-    id: str = Field(description="Populated whenever the provider returns data.")
-    name: str = Field(description="Populated whenever the provider returns data.")
+    duration_ms: int = Field(alias="durationMs")
+    id: str
+    name: str
     playcount: int
     popularity: int
-    shareUrl: str = Field(description="Populated whenever the provider returns data.")
-    trackNumber: int = Field(
-        description="Populated whenever the provider returns data."
-    )
-    uri: str = Field(description="Populated whenever the provider returns data.")
+    share_url: str = Field(alias="shareUrl")
+    track_number: int = Field(alias="trackNumber")
+    uri: str
 
 
 class SpotifyNamespace:
@@ -280,10 +254,10 @@ class SpotifyNamespace:
         Example:
             res = client.spotify.album(url="https://open.spotify.com/album/0pgrg7phBbnwGJ2HBEl9EG")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.album", dict(input), options
         )
-        return RunResult[SpotifyAlbumData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[SpotifyAlbumData].model_validate(raw)
 
     def artist(
         self,
@@ -301,12 +275,10 @@ class SpotifyNamespace:
         Example:
             res = client.spotify.artist(url="https://open.spotify.com/artist/3DiDSECUqqY1AuBP8qtaIa")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.artist", dict(input), options
         )
-        return RunResult[SpotifyArtistData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifyArtistData].model_validate(raw)
 
     def play_count(
         self,
@@ -324,12 +296,10 @@ class SpotifyNamespace:
         Example:
             res = client.spotify.play_count(url="https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.play_count", dict(input), options
         )
-        return RunResult[SpotifyPlayCountData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifyPlayCountData].model_validate(raw)
 
     def podcast(
         self,
@@ -347,12 +317,10 @@ class SpotifyNamespace:
         Example:
             res = client.spotify.podcast(url="https://open.spotify.com/show/3mliji9352UAk3XnWElnDV")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.podcast", dict(input), options
         )
-        return RunResult[SpotifyPodcastData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifyPodcastData].model_validate(raw)
 
     def podcast_episodes(
         self,
@@ -371,12 +339,10 @@ class SpotifyNamespace:
         Example:
             res = client.spotify.podcast_episodes(url="https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.podcast_episodes", dict(input), options
         )
-        return RunResult[SpotifyPodcastEpisodesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifyPodcastEpisodesData].model_validate(raw)
 
     def iter_podcast_episodes(
         self,
@@ -386,14 +352,18 @@ class SpotifyNamespace:
     ) -> Paginator[SpotifyPodcastEpisodesEpisode, SpotifyPodcastEpisodesData]:
         """Iterate Spotify Podcast Episodes results, following pagination cursors.
 
-        Yields flattened items from the `episodes` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `SpotifyPodcastEpisodesEpisode` items from the `episodes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return paginate(
             self._client,
             "spotify.podcast_episodes",
             dict(input),
             "episodes",
+            item_model=SpotifyPodcastEpisodesEpisode,
+            data_model=SpotifyPodcastEpisodesData,
+            bare=False,
             options=options,
         )
 
@@ -413,12 +383,10 @@ class SpotifyNamespace:
         Example:
             res = client.spotify.search(query="my first million")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.search", dict(input), options
         )
-        return RunResult[SpotifySearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifySearchData].model_validate(raw)
 
     def track(
         self,
@@ -436,10 +404,10 @@ class SpotifyNamespace:
         Example:
             res = client.spotify.track(url="https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.track", dict(input), options
         )
-        return RunResult[SpotifyTrackData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[SpotifyTrackData].model_validate(raw)
 
 
 class AsyncSpotifyNamespace:
@@ -464,10 +432,10 @@ class AsyncSpotifyNamespace:
         Example:
             res = client.spotify.album(url="https://open.spotify.com/album/0pgrg7phBbnwGJ2HBEl9EG")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.album", dict(input), options
         )
-        return RunResult[SpotifyAlbumData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[SpotifyAlbumData].model_validate(raw)
 
     async def artist(
         self,
@@ -485,12 +453,10 @@ class AsyncSpotifyNamespace:
         Example:
             res = client.spotify.artist(url="https://open.spotify.com/artist/3DiDSECUqqY1AuBP8qtaIa")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.artist", dict(input), options
         )
-        return RunResult[SpotifyArtistData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifyArtistData].model_validate(raw)
 
     async def play_count(
         self,
@@ -508,12 +474,10 @@ class AsyncSpotifyNamespace:
         Example:
             res = client.spotify.play_count(url="https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.play_count", dict(input), options
         )
-        return RunResult[SpotifyPlayCountData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifyPlayCountData].model_validate(raw)
 
     async def podcast(
         self,
@@ -531,12 +495,10 @@ class AsyncSpotifyNamespace:
         Example:
             res = client.spotify.podcast(url="https://open.spotify.com/show/3mliji9352UAk3XnWElnDV")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.podcast", dict(input), options
         )
-        return RunResult[SpotifyPodcastData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifyPodcastData].model_validate(raw)
 
     async def podcast_episodes(
         self,
@@ -555,12 +517,10 @@ class AsyncSpotifyNamespace:
         Example:
             res = client.spotify.podcast_episodes(url="https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.podcast_episodes", dict(input), options
         )
-        return RunResult[SpotifyPodcastEpisodesData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifyPodcastEpisodesData].model_validate(raw)
 
     def iter_podcast_episodes(
         self,
@@ -570,14 +530,18 @@ class AsyncSpotifyNamespace:
     ) -> AsyncPaginator[SpotifyPodcastEpisodesEpisode, SpotifyPodcastEpisodesData]:
         """Iterate Spotify Podcast Episodes results, following pagination cursors.
 
-        Yields flattened items from the `episodes` field of each page. Use
-        `.pages()` on the returned paginator to walk whole `RunResult` pages.
+        Yields validated `SpotifyPodcastEpisodesEpisode` items from the `episodes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
             "spotify.podcast_episodes",
             dict(input),
             "episodes",
+            item_model=SpotifyPodcastEpisodesEpisode,
+            data_model=SpotifyPodcastEpisodesData,
+            bare=False,
             options=options,
         )
 
@@ -597,12 +561,10 @@ class AsyncSpotifyNamespace:
         Example:
             res = client.spotify.search(query="my first million")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.search", dict(input), options
         )
-        return RunResult[SpotifySearchData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[SpotifySearchData].model_validate(raw)
 
     async def track(
         self,
@@ -620,7 +582,7 @@ class AsyncSpotifyNamespace:
         Example:
             res = client.spotify.track(url="https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "spotify.track", dict(input), options
         )
-        return RunResult[SpotifyTrackData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[SpotifyTrackData].model_validate(raw)

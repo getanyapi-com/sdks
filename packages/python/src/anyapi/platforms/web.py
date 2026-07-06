@@ -53,21 +53,19 @@ class WebScreenshotInput(TypedDict, total=False):
 
 class WebCrawlData(BaseModel):
     items: list[WebCrawlItem] = Field(
-        description="Crawled page records: URL, page title, and extracted text content for each page. Populated whenever the provider returns data."
+        description="Crawled page records: URL, page title, and extracted text content for each page."
     )
 
 
 class WebCrawlItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    domain: str = Field(description="Populated whenever the provider returns data.")
-    text: str = Field(description="Populated whenever the provider returns data.")
+    domain: str
+    text: str
 
 
 class WebMapData(BaseModel):
-    results: list[WebMapResult] = Field(
-        description="Populated whenever the provider returns data."
-    )
+    results: list[WebMapResult]
 
 
 class WebMapResult(BaseModel):
@@ -75,21 +73,21 @@ class WebMapResult(BaseModel):
 
     description: str
     title: str
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class WebScrapeData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     description: str
-    markdown: str = Field(description="Populated whenever the provider returns data.")
+    markdown: str
     title: str
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class WebScreenshotData(BaseModel):
     items: list[WebScreenshotItem] = Field(
-        description="Screenshot records: the requested page URL and a link to the captured image. Populated whenever the provider returns data."
+        description="Screenshot records: the requested page URL and a link to the captured image."
     )
 
 
@@ -97,9 +95,9 @@ class WebScreenshotItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     image: str | None = Field(
-        default=None, description="Populated whenever the provider returns data."
+        default=None, description="Present whenever the upstream returns this record."
     )
-    url: str = Field(description="Populated whenever the provider returns data.")
+    url: str
 
 
 class WebNamespace:
@@ -116,15 +114,15 @@ class WebNamespace:
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response - ideal for feeding sites into LLMs and search indexes.
 
-        Price: $0.003 per result.
+        Price: $0.0015 per request plus $0.003 per result.
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.crawl", dict(input), options
         )
-        return RunResult[WebCrawlData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[WebCrawlData].model_validate(raw)
 
     def map(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebMapInput]
@@ -139,10 +137,10 @@ class WebNamespace:
         Example:
             res = client.web.map(url="https://example.com")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.map", dict(input), options
         )
-        return RunResult[WebMapData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[WebMapData].model_validate(raw)
 
     def scrape(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebScrapeInput]
@@ -157,10 +155,10 @@ class WebNamespace:
         Example:
             res = client.web.scrape(url="https://example.com")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options
         )
-        return RunResult[WebScrapeData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[WebScrapeData].model_validate(raw)
 
     def screenshot(
         self,
@@ -178,12 +176,10 @@ class WebNamespace:
         Example:
             res = client.web.screenshot(url="https://example.com")
         """
-        raw = self._client._run(  # pyright: ignore[reportPrivateUsage]
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.screenshot", dict(input), options
         )
-        return RunResult[WebScreenshotData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[WebScreenshotData].model_validate(raw)
 
 
 class AsyncWebNamespace:
@@ -200,15 +196,15 @@ class AsyncWebNamespace:
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response - ideal for feeding sites into LLMs and search indexes.
 
-        Price: $0.003 per result.
+        Price: $0.0015 per request plus $0.003 per result.
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.crawl", dict(input), options
         )
-        return RunResult[WebCrawlData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[WebCrawlData].model_validate(raw)
 
     async def map(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebMapInput]
@@ -223,10 +219,10 @@ class AsyncWebNamespace:
         Example:
             res = client.web.map(url="https://example.com")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.map", dict(input), options
         )
-        return RunResult[WebMapData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[WebMapData].model_validate(raw)
 
     async def scrape(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebScrapeInput]
@@ -241,10 +237,10 @@ class AsyncWebNamespace:
         Example:
             res = client.web.scrape(url="https://example.com")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options
         )
-        return RunResult[WebScrapeData].model_validate(raw.model_dump(by_alias=True))
+        return RunResult[WebScrapeData].model_validate(raw)
 
     async def screenshot(
         self,
@@ -262,9 +258,7 @@ class AsyncWebNamespace:
         Example:
             res = client.web.screenshot(url="https://example.com")
         """
-        raw = await self._client._arun(  # pyright: ignore[reportPrivateUsage]
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.screenshot", dict(input), options
         )
-        return RunResult[WebScreenshotData].model_validate(
-            raw.model_dump(by_alias=True)
-        )
+        return RunResult[WebScreenshotData].model_validate(raw)
