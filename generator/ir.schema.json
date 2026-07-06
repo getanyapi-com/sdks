@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://getanyapi.com/sdks/ir.schema.json",
+  "title": "AnyAPI SDK IR",
+  "description": "The frozen intermediate representation the emitters read. See SPEC.md section 1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "openapiVersion", "baseUrl", "skus"],
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "generatedFrom": { "type": "string" },
+    "openapiVersion": { "type": "string" },
+    "baseUrl": { "type": "string" },
+    "skus": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/skuEntry" }
+    }
+  },
+  "$defs": {
+    "skuEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slug", "platform", "action", "operationId", "name", "category",
+        "description", "pricing", "tsNamespace", "tsMethod", "tsIterMethod",
+        "pyNamespace", "pyMethod", "pyIterMethod", "inputTypeName",
+        "outputTypeName", "example", "input", "output", "pagination"
+      ],
+      "properties": {
+        "slug": { "type": "string", "pattern": "^[a-z0-9_]+\\.[a-z0-9_]+$" },
+        "platform": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "action": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "operationId": { "type": "string", "pattern": "^[A-Za-z0-9_]+$" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "pricing": { "$ref": "#/$defs/pricing" },
+        "tsNamespace": { "type": "string" },
+        "tsMethod": { "type": "string" },
+        "tsIterMethod": { "type": ["string", "null"] },
+        "pyNamespace": { "type": "string" },
+        "pyMethod": { "type": "string" },
+        "pyIterMethod": { "type": ["string", "null"] },
+        "inputTypeName": { "type": "string" },
+        "outputTypeName": { "type": "string" },
+        "example": {},
+        "input": { "$ref": "#/$defs/schemaNode" },
+        "output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["envelope", "data"],
+          "properties": {
+            "envelope": { "type": "string", "const": "found-data" },
+            "data": { "$ref": "#/$defs/schemaNode" }
+          }
+        },
+        "pagination": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["paginated", "itemsField", "cursorInputField", "nextCursorField"],
+          "properties": {
+            "paginated": { "type": "boolean" },
+            "itemsField": { "type": ["string", "null"] },
+            "cursorInputField": { "type": ["string", "null"] },
+            "nextCursorField": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["priceUsd", "baseUsd", "perItemUsd", "perItemUnit"],
+      "properties": {
+        "priceUsd": { "type": "number" },
+        "baseUsd": { "type": ["number", "null"] },
+        "perItemUsd": { "type": ["number", "null"] },
+        "perItemUnit": { "type": ["string", "null"] }
+      }
+    },
+    "schemaNode": {
+      "oneOf": [
+        { "$ref": "#/$defs/objectNode" },
+        { "$ref": "#/$defs/arrayNode" },
+        { "$ref": "#/$defs/stringNode" },
+        { "$ref": "#/$defs/integerNode" },
+        { "$ref": "#/$defs/numberNode" },
+        { "$ref": "#/$defs/booleanNode" },
+        { "$ref": "#/$defs/nullNode" },
+        { "$ref": "#/$defs/unknownNode" }
+      ]
+    },
+    "objectNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "properties", "required", "open"],
+      "properties": {
+        "kind": { "const": "object" },
+        "description": { "type": "string" },
+        "properties": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/schemaNode" }
+        },
+        "required": { "type": "array", "items": { "type": "string" } },
+        "open": { "type": "boolean" },
+        "mustPopulate": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "arrayNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "items"],
+      "properties": {
+        "kind": { "const": "array" },
+        "description": { "type": "string" },
+        "items": { "$ref": "#/$defs/schemaNode" },
+        "mustPopulate": { "type": "boolean" }
+      }
+    },
+    "stringNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "string" },
+        "description": { "type": "string" },
+        "enum": { "type": ["array", "null"], "items": { "type": "string" } },
+        "default": {},
+        "format": { "type": ["string", "null"] }
+      }
+    },
+    "integerNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "integer" },
+        "description": { "type": "string" },
+        "minimum": { "type": ["number", "null"] },
+        "maximum": { "type": ["number", "null"] },
+        "default": {}
+      }
+    },
+    "numberNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "number" },
+        "description": { "type": "string" },
+        "minimum": { "type": ["number", "null"] },
+        "maximum": { "type": ["number", "null"] },
+        "default": {}
+      }
+    },
+    "booleanNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "boolean" },
+        "description": { "type": "string" },
+        "default": {}
+      }
+    },
+    "nullNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "null" },
+        "description": { "type": "string" }
+      }
+    },
+    "unknownNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "unknown" },
+        "description": { "type": "string" }
+      }
+    }
+  }
+}

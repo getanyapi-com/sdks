@@ -1,0 +1,284 @@
+{
+  "version": 1,
+  "generatedFrom": "hand-built Phase 0 sample (3 SKUs) - conformant to ir.schema.json",
+  "openapiVersion": "1.0.0",
+  "baseUrl": "https://api.getanyapi.com",
+  "skus": [
+    {
+      "slug": "amazon.reviews",
+      "platform": "amazon",
+      "action": "reviews",
+      "operationId": "amazon_reviews",
+      "name": "Amazon Reviews",
+      "category": "",
+      "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL - rating, title, text, date, and verified-purchase badge - at a flat per-request USD price.",
+      "pricing": {
+        "priceUsd": 0.01625,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "amazon",
+      "tsMethod": "reviews",
+      "tsIterMethod": null,
+      "pyNamespace": "amazon",
+      "pyMethod": "reviews",
+      "pyIterMethod": null,
+      "inputTypeName": "AmazonReviewsInput",
+      "outputTypeName": "AmazonReviewsData",
+      "example": { "product": "B07FZ8S74R", "limit": 3 },
+      "input": {
+        "kind": "object",
+        "open": false,
+        "required": ["product"],
+        "properties": {
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 50,
+            "default": null
+          },
+          "product": {
+            "kind": "string",
+            "description": "Amazon product ASIN or full product URL (e.g. B07CMS5Q6P).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Review sort order: most helpful first or most recent first (e.g. recent).",
+            "enum": ["helpful", "recent"],
+            "default": "helpful",
+            "format": null
+          },
+          "region": {
+            "kind": "string",
+            "description": "Amazon marketplace domain the product ASIN belongs to (e.g. amazon.co.uk).",
+            "enum": [
+              "amazon.com", "amazon.ca", "amazon.de", "amazon.fr", "amazon.co.uk",
+              "amazon.it", "amazon.es", "amazon.com.au", "amazon.co.jp", "amazon.com.br",
+              "amazon.com.mx", "amazon.nl", "amazon.ie", "amazon.se", "amazon.com.tr",
+              "amazon.ae", "amazon.sg", "amazon.sa", "amazon.pl", "amazon.com.be",
+              "amazon.eg", "amazon.in"
+            ],
+            "default": "amazon.com",
+            "format": null
+          }
+        }
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "open": false,
+          "required": ["items"],
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Customer review records: star rating, title, review text, date, reviewer, and verified-purchase status.",
+              "mustPopulate": true,
+              "items": {
+                "kind": "object",
+                "open": true,
+                "required": ["rating", "text"],
+                "mustPopulate": ["text"],
+                "properties": {
+                  "rating": { "kind": "number", "minimum": null, "maximum": null, "default": null },
+                  "text": { "kind": "string", "enum": null, "default": null, "format": null }
+                }
+              }
+            }
+          }
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "facebook.ads_search",
+      "platform": "facebook",
+      "action": "ads_search",
+      "operationId": "facebook_ads_search",
+      "name": "Facebook Ads Search",
+      "category": "",
+      "description": "Search the Meta Ad Library by keyword and country, paging through active or inactive ads with an opaque cursor.",
+      "pricing": {
+        "priceUsd": 0.002,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "facebook",
+      "tsMethod": "adsSearch",
+      "tsIterMethod": "iterAdsSearch",
+      "pyNamespace": "facebook",
+      "pyMethod": "ads_search",
+      "pyIterMethod": "iter_ads_search",
+      "inputTypeName": "FacebookAdsSearchInput",
+      "outputTypeName": "FacebookAdsSearchData",
+      "example": { "query": "nike", "country": "US" },
+      "input": {
+        "kind": "object",
+        "open": false,
+        "required": ["query"],
+        "properties": {
+          "query": {
+            "kind": "string",
+            "description": "Keyword to search the Meta Ad Library for (e.g. \"protein powder\").",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "country": {
+            "kind": "string",
+            "description": "Two-letter country code to scope results. Omit for all countries.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "status": {
+            "kind": "string",
+            "description": "Ad status filter.",
+            "enum": ["ALL", "ACTIVE", "INACTIVE"],
+            "default": "ACTIVE",
+            "format": null
+          },
+          "mediaType": {
+            "kind": "string",
+            "description": "Creative media type filter.",
+            "enum": ["ALL", "IMAGE", "VIDEO", "MEME", "IMAGE_AND_MEME", "NONE"],
+            "default": null,
+            "format": null
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's nextCursor.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        }
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "open": false,
+          "required": ["totalResults", "nextCursor", "ads"],
+          "properties": {
+            "totalResults": { "kind": "integer", "minimum": null, "maximum": null, "default": null },
+            "nextCursor": { "kind": "string", "enum": null, "default": null, "format": null },
+            "ads": {
+              "kind": "array",
+              "mustPopulate": false,
+              "items": {
+                "kind": "object",
+                "open": true,
+                "required": [
+                  "id", "pageId", "pageName", "active", "startDate", "endDate",
+                  "text", "title", "ctaText", "ctaType", "linkUrl", "displayFormat",
+                  "platforms", "adCount"
+                ],
+                "mustPopulate": [
+                  "id", "pageId", "pageName", "startDate", "text", "title",
+                  "ctaText", "ctaType", "linkUrl", "displayFormat", "platforms"
+                ],
+                "properties": {
+                  "id": { "kind": "string", "description": "Ad Library archive ID.", "enum": null, "default": null, "format": null },
+                  "pageId": { "kind": "string", "enum": null, "default": null, "format": null },
+                  "pageName": { "kind": "string", "enum": null, "default": null, "format": null },
+                  "active": { "kind": "boolean", "default": null },
+                  "startDate": { "kind": "integer", "description": "Epoch seconds.", "minimum": null, "maximum": null, "default": null },
+                  "endDate": { "kind": "integer", "description": "Epoch seconds.", "minimum": null, "maximum": null, "default": null },
+                  "text": { "kind": "string", "description": "Ad body text.", "enum": null, "default": null, "format": null },
+                  "title": { "kind": "string", "enum": null, "default": null, "format": null },
+                  "ctaText": { "kind": "string", "enum": null, "default": null, "format": null },
+                  "ctaType": { "kind": "string", "enum": null, "default": null, "format": null },
+                  "linkUrl": { "kind": "string", "enum": null, "default": null, "format": null },
+                  "displayFormat": { "kind": "string", "enum": null, "default": null, "format": null },
+                  "platforms": { "kind": "array", "mustPopulate": false, "items": { "kind": "string", "enum": null, "default": null, "format": null } },
+                  "adCount": { "kind": "integer", "description": "Number of ads in this campaign (collation count).", "minimum": null, "maximum": null, "default": null }
+                }
+              }
+            }
+          }
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "ads",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "threads.profile",
+      "platform": "threads",
+      "action": "profile",
+      "operationId": "threads_profile",
+      "name": "Threads Profile",
+      "category": "",
+      "description": "Look up a Threads profile by username: id, name, bio, follower count, and verification and privacy flags.",
+      "pricing": {
+        "priceUsd": 0.002,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "threads",
+      "tsMethod": "profile",
+      "tsIterMethod": null,
+      "pyNamespace": "threads",
+      "pyMethod": "profile",
+      "pyIterMethod": null,
+      "inputTypeName": "ThreadsProfileInput",
+      "outputTypeName": "ThreadsProfileData",
+      "example": { "username": "zuck" },
+      "input": {
+        "kind": "object",
+        "open": false,
+        "required": ["username"],
+        "properties": {
+          "username": {
+            "kind": "string",
+            "description": "The Threads username to look up, without the @ prefix (e.g. zuck).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        }
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "open": true,
+          "required": ["id", "username", "fullName", "biography", "followerCount", "isVerified", "isPrivate", "profilePicUrl"],
+          "mustPopulate": ["id", "username", "fullName", "biography", "profilePicUrl"],
+          "properties": {
+            "id": { "kind": "string", "enum": null, "default": null, "format": null },
+            "username": { "kind": "string", "enum": null, "default": null, "format": null },
+            "fullName": { "kind": "string", "enum": null, "default": null, "format": null },
+            "biography": { "kind": "string", "enum": null, "default": null, "format": null },
+            "followerCount": { "kind": "integer", "minimum": null, "maximum": null, "default": null },
+            "isVerified": { "kind": "boolean", "default": null },
+            "isPrivate": { "kind": "boolean", "default": null },
+            "profilePicUrl": { "kind": "string", "enum": null, "default": null, "format": null }
+          }
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    }
+  ]
+}
