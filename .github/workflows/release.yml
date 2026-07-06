@@ -1,0 +1,188 @@
+name: release
+
+# Publish @getanyapi/sdk (npm) and anyapi (PyPI) for a version tag.
+#
+# Triggers:
+#   - push tag v*: a human-pushed tag (the first manual v0.1.0), or any future manual tag.
+#   - workflow_dispatch (input: tag): how regen.yml kicks a release after auto-tagging, since
+#     a tag pushed by the default GITHUB_TOKEN does not fire the tag-`push` trigger.
+#
+# Flow: verify (full gate suite + tag/manifest version match) -> publish-npm + publish-pypi
+# (both need verify) -> github-release. npm publishes with provenance (id-token). PyPI uses
+# trusted publishing (OIDC, environment `pypi`); if the trusted publisher is not configured
+# yet the publish step fails with a clear message - that is acceptable and does NOT fall back
+# to a token.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The version tag to release (e.g. v0.1.0). Must already exist."
+        required: true
+        type: string
+
+concurrency:
+  group: release-${{ github.event.inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: verify (full gate + version match)
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+    steps:
+      - name: resolve tag
+        id: resolve
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          case "$TAG" in
+            v*) ;;
+            *) echo "tag '$TAG' does not start with 'v'"; exit 1 ;;
+          esac
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.resolve.outputs.tag }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: assert tag version matches both manifests (lockstep)
+        env:
+          VERSION: ${{ steps.resolve.outputs.version }}
+        run: |
+          MANIFEST="$(pnpm --silent --filter @anyapi/generator run version:current)"
+          if [ "$MANIFEST" != "$VERSION" ]; then
+            echo "tag version ($VERSION) does not match manifest version ($MANIFEST)"
+            exit 1
+          fi
+          echo "version match: $VERSION"
+
+      # Mirror ci.yml gates (duplication over indirection; correctness first).
+      - name: install pinned ruff (generated-Python formatting is part of byte determinism)
+        run: pip install ruff==0.15.20
+      - name: generator typecheck + vitest
+        run: pnpm --filter @anyapi/generator run check
+      - name: regen drift (byte-identical)
+        run: pnpm run generate:check
+      - name: typescript (tsc strict + vitest + tsup + consumer typecheck)
+        run: |
+          pnpm --filter @getanyapi/sdk run check
+          pnpm --filter @getanyapi/sdk run consumer-typecheck
+      - name: install python package + dev deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e "packages/python[dev]"
+      - name: pyright + mypy --strict + pytest
+        working-directory: packages/python
+        run: |
+          pyright
+          mypy
+          pytest
+      - name: dash guard
+        run: bash scripts/check-dashes.sh
+
+  publish-npm:
+    name: publish @getanyapi/sdk (npm)
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # npm provenance
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.verify.outputs.version }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: "https://registry.npmjs.org"
+      - run: pnpm install --frozen-lockfile
+      - name: build (tsup -> ESM + CJS + d.ts)
+        run: pnpm --filter @getanyapi/sdk run build
+      - name: publish
+        working-directory: packages/typescript
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
+        run: npm publish --access public --provenance
+
+  publish-pypi:
+    name: publish anyapi (PyPI, trusted publishing)
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write # PyPI trusted publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.verify.outputs.version }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: build sdist + wheel
+        working-directory: packages/python
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+      - name: publish via trusted publishing
+        # Fails with a clear message until the PyPI trusted publisher is configured (see
+        # README "Releasing"). We do NOT fall back to a token; configure the publisher instead.
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: packages/python/dist
+
+  github-release:
+    name: github release
+    needs: [verify, publish-npm, publish-pypi]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.verify.outputs.version }}
+          fetch-depth: 0
+      - name: derive release notes from the tagged commit body
+        id: notes
+        env:
+          TAG: v${{ needs.verify.outputs.version }}
+        run: |
+          # The tag's annotated/commit message body carries the classifier change summary.
+          # Strip the first (subject) line; keep the body as release notes. Fall back to a
+          # generic line for a manual tag with no structured body.
+          BODY="$(git log -1 --format=%b "$TAG" || true)"
+          if [ -z "$BODY" ]; then
+            BODY="Release $TAG."
+          fi
+          {
+            echo "notes<<RELEOF"
+            echo "$BODY"
+            echo "RELEOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: v${{ needs.verify.outputs.version }}
+          NOTES: ${{ steps.notes.outputs.notes }}
+        run: |
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --notes "$NOTES"

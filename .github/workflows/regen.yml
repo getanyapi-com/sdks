@@ -1,0 +1,118 @@
+name: regen
+
+# Catalog-refresh automation. Re-fetches the live gateway snapshots, regenerates the SDKs,
+# classifies the IR diff into a semver bump, and (when the surface changed) commits the
+# regenerated tree with the two package versions bumped in lockstep, tags v<X.Y.Z>, and
+# triggers release.yml to publish.
+#
+# Triggers:
+#   - repository_dispatch [sdk-refresh]: the AnyAPI monorepo fires this after each gateway
+#     deploy (so the SDKs track the catalog within minutes of a catalog change shipping).
+#   - schedule: a nightly fallback in case a dispatch is missed.
+#   - workflow_dispatch: manual kick.
+#
+# Loop guard: the job only commits/tags when the classifier reports a non-"none" bump, and a
+# "none" bump means the only diff was snapshot provenance / metadata (no SKU surface change),
+# so a self-triggered rerun on an unchanged catalog is a no-op.
+
+on:
+  repository_dispatch:
+    types: [sdk-refresh]
+  schedule:
+    - cron: "17 7 * * *" # 07:17 UTC nightly
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write # to trigger release.yml via workflow_dispatch after tagging
+
+concurrency:
+  group: regen
+  cancel-in-progress: false
+
+jobs:
+  regen:
+    name: refresh catalog + classify + tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # need HEAD:generator/ir.json for the classifier diff
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: install pinned ruff (generated-Python formatting is part of byte determinism)
+        run: pip install ruff==0.15.20
+
+      - name: fetch live snapshots (openapi.json + catalog.json)
+        run: pnpm --filter @anyapi/generator run fetch
+
+      - name: regenerate ir.json + fixtures.json + both generated trees
+        run: pnpm generate
+
+      - name: classify IR diff -> bump level + change summary
+        id: classify
+        run: |
+          bash scripts/release-notes.sh release-bump.txt release-notes.md
+          echo "bump=$(cat release-bump.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: no-op when nothing changed
+        if: steps.classify.outputs.bump == 'none'
+        run: |
+          echo "No SKU-surface change (bump=none); nothing to release."
+          git checkout -- . || true
+
+      - name: verify regenerated tree is self-consistent (drift check)
+        if: steps.classify.outputs.bump != 'none'
+        run: pnpm run generate:check
+
+      - name: compute + apply lockstep version bump
+        if: steps.classify.outputs.bump != 'none'
+        id: version
+        run: |
+          NEXT="$(pnpm --silent --filter @anyapi/generator run version:next ${{ steps.classify.outputs.bump }})"
+          pnpm --silent --filter @anyapi/generator run version:apply "$NEXT"
+          echo "next=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "Bumping to v$NEXT (${{ steps.classify.outputs.bump }})."
+
+      - name: commit, tag, push
+        if: steps.classify.outputs.bump != 'none'
+        env:
+          NEXT: ${{ steps.version.outputs.next }}
+        run: |
+          git config user.name "anyapi-bot"
+          git config user.email "support@getanyapi.com"
+          # Stage the refreshed snapshots, regenerated tree, and both bumped manifests.
+          git add openapi.json catalog.json generator/ir.json generator/fixtures.json \
+            packages/typescript/src/generated packages/python/src/anyapi/platforms \
+            packages/typescript/package.json packages/python/pyproject.toml
+          if git diff --cached --quiet; then
+            echo "Classifier reported a bump but the tree is clean; aborting (no-op guard)."
+            exit 0
+          fi
+          git commit -F - <<EOF
+          chore(release): catalog refresh v$NEXT
+
+          $(cat release-notes.md)
+          EOF
+          git tag "v$NEXT"
+          git push origin HEAD:main
+          git push origin "v$NEXT"
+
+      - name: trigger release.yml for the new tag
+        if: steps.classify.outputs.bump != 'none'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT: ${{ steps.version.outputs.next }}
+        # A tag pushed with the default GITHUB_TOKEN does NOT trigger tag-`push` workflows, so
+        # we explicitly dispatch release.yml with the tag as input. release.yml also runs on a
+        # `push` tag (for a human-pushed tag, e.g. the first manual v0.1.0). Both paths reach
+        # the same publish jobs.
+        run: gh workflow run release.yml --ref "v$NEXT" -f tag="v$NEXT"
