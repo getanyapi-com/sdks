@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "anyapi"
+version = "0.0.0"
+description = "Official typed Python SDK for AnyAPI: any API, one wallet, USD, no subscriptions."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "AnyAPI", email = "support@getanyapi.com" }]
+keywords = ["anyapi", "api", "scraping", "sdk"]
+dependencies = [
+  "httpx>=0.27",
+  "pydantic>=2.5",
+  "typing_extensions>=4.7",
+]
+
+[project.urls]
+Homepage = "https://getanyapi.com"
+Repository = "https://github.com/getanyapi-com/sdks"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-asyncio>=0.23",
+  "pyright>=1.1.380",
+  "mypy>=1.11",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/anyapi"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+files = ["src/anyapi"]
+
+[tool.pyright]
+include = ["src/anyapi"]
+pythonVersion = "3.10"
+typeCheckingMode = "strict"
