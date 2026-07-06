@@ -1,0 +1,447 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`emitTypescript golden output > emits the full file map for the 3-SKU sample IR 2`] = `
+{
+  "client.ts": "// Generated - do not edit. Regenerate with: pnpm generate
+
+import { AnyAPI as AnyAPIBase } from "../core/client.js";
+
+import type { ClientCore } from "../core/types.js";
+
+import { AmazonNamespace } from "./platforms/amazon.js";
+import { FacebookNamespace } from "./platforms/facebook.js";
+import { ThreadsNamespace } from "./platforms/threads.js";
+
+/**
+ * The AnyAPI client. Extends the handwritten core base (run/balance/me/catalog/
+ * describe) and attaches every platform namespace as a lazily instantiated getter.
+ *
+ * import { AnyAPI } from "@anyapi/sdk";
+ */
+export class AnyAPI extends AnyAPIBase {
+  private readonly _namespaces: Record<string, unknown> = {};
+
+  /**
+   * Typed methods for the amazon platform.
+   */
+  get amazon(): AmazonNamespace {
+    return (this._namespaces["amazon"] ??= new AmazonNamespace(
+      this._core,
+    )) as AmazonNamespace;
+  }
+
+  /**
+   * Typed methods for the facebook platform.
+   */
+  get facebook(): FacebookNamespace {
+    return (this._namespaces["facebook"] ??= new FacebookNamespace(
+      this._core,
+    )) as FacebookNamespace;
+  }
+
+  /**
+   * Typed methods for the threads platform.
+   */
+  get threads(): ThreadsNamespace {
+    return (this._namespaces["threads"] ??= new ThreadsNamespace(
+      this._core,
+    )) as ThreadsNamespace;
+  }
+}
+",
+  "index.ts": "// Generated - do not edit. Regenerate with: pnpm generate
+
+/**
+ * Barrel for the generated surface plus a re-export of the handwritten core public
+ * surface (named exports only). The package entry re-exports from here.
+ */
+
+export { AnyAPI } from "./client.js";
+export type { SkuMap } from "./sku-map.js";
+export * from "./platforms/amazon.js";
+export * from "./platforms/facebook.js";
+export * from "./platforms/threads.js";
+
+export {
+  agentSignup,
+  unwrap,
+  AnyAPIError,
+  BadRequestError,
+  AuthenticationError,
+  InsufficientBalanceError,
+  NotFoundError,
+  RateLimitedError,
+  UpstreamError,
+  ConnectionError,
+  TimeoutError,
+} from "../core/index.js";
+
+export type {
+  ClientOptions,
+  RunResult,
+  Output,
+  RequestOptions,
+  Paginator,
+  AccountProfile,
+  CatalogQuery,
+  CatalogEntry,
+  AgentSignupOptions,
+  AgentSignupResult,
+} from "../core/index.js";
+",
+  "platforms/amazon.ts": "// Generated - do not edit. Regenerate with: pnpm generate
+
+import type {
+  ClientCore,
+  RequestOptions,
+  RunResult,
+} from "../../core/types.js";
+
+/**
+ * Input for Amazon Reviews (amazon.reviews).
+ */
+export interface AmazonReviewsInput {
+  /**
+   * Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.
+   * Range: minimum 1, maximum 50.
+   */
+  limit?: number;
+  /**
+   * Amazon product ASIN or full product URL (e.g. B07CMS5Q6P).
+   */
+  product: string;
+  /**
+   * Review sort order: most helpful first or most recent first (e.g. recent).
+   * One of: helpful, recent.
+   * Default: helpful.
+   */
+  sort?: "helpful" | "recent";
+  /**
+   * Amazon marketplace domain the product ASIN belongs to (e.g. amazon.co.uk).
+   * One of: amazon.com, amazon.ca, amazon.de, amazon.fr, amazon.co.uk, amazon.it, amazon.es, amazon.com.au, amazon.co.jp, amazon.com.br, amazon.com.mx, amazon.nl, amazon.ie, amazon.se, amazon.com.tr, amazon.ae, amazon.sg, amazon.sa, amazon.pl, amazon.com.be, amazon.eg, amazon.in.
+   * Default: amazon.com.
+   */
+  region?:
+    | "amazon.com"
+    | "amazon.ca"
+    | "amazon.de"
+    | "amazon.fr"
+    | "amazon.co.uk"
+    | "amazon.it"
+    | "amazon.es"
+    | "amazon.com.au"
+    | "amazon.co.jp"
+    | "amazon.com.br"
+    | "amazon.com.mx"
+    | "amazon.nl"
+    | "amazon.ie"
+    | "amazon.se"
+    | "amazon.com.tr"
+    | "amazon.ae"
+    | "amazon.sg"
+    | "amazon.sa"
+    | "amazon.pl"
+    | "amazon.com.be"
+    | "amazon.eg"
+    | "amazon.in";
+}
+
+export interface AmazonReviewsItem {
+  rating: number;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  text: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The \`data\` payload of Amazon Reviews (amazon.reviews).
+ */
+export interface AmazonReviewsData {
+  /**
+   * Customer review records: star rating, title, review text, date, reviewer, and verified-purchase status.
+   */
+  items: AmazonReviewsItem[];
+}
+
+/**
+ * Typed methods for the amazon platform. Attached to the AnyAPI client as
+ * \`client.amazon\`.
+ */
+export class AmazonNamespace {
+  constructor(private readonly _core: ClientCore) {}
+
+  /**
+   * Amazon Reviews
+   *
+   * Pull up to 50 customer reviews for any Amazon product by ASIN or URL - rating, title, text, date, and verified-purchase badge - at a flat per-request USD price.
+   *
+   * Price: $0.01625 per request.
+   *
+   * @example
+   * const res = await client.amazon.reviews({"product":"B07FZ8S74R","limit":3});
+   */
+  reviews(
+    input: AmazonReviewsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<AmazonReviewsData>> {
+    return this._core.run("amazon.reviews", input, options);
+  }
+}
+",
+  "platforms/facebook.ts": "// Generated - do not edit. Regenerate with: pnpm generate
+
+import type {
+  ClientCore,
+  Paginator,
+  RequestOptions,
+  RunResult,
+} from "../../core/types.js";
+import { paginate } from "../../core/pagination.js";
+
+/**
+ * Input for Facebook Ads Search (facebook.ads_search).
+ */
+export interface FacebookAdsSearchInput {
+  /**
+   * Keyword to search the Meta Ad Library for (e.g. "protein powder").
+   */
+  query: string;
+  /**
+   * Two-letter country code to scope results. Omit for all countries.
+   */
+  country?: string;
+  /**
+   * Ad status filter.
+   * One of: ALL, ACTIVE, INACTIVE.
+   * Default: ACTIVE.
+   */
+  status?: "ALL" | "ACTIVE" | "INACTIVE";
+  /**
+   * Creative media type filter.
+   * One of: ALL, IMAGE, VIDEO, MEME, IMAGE_AND_MEME, NONE.
+   */
+  mediaType?: "ALL" | "IMAGE" | "VIDEO" | "MEME" | "IMAGE_AND_MEME" | "NONE";
+  /**
+   * Opaque pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+}
+
+export interface FacebookAdsSearchAd {
+  /**
+   * Ad Library archive ID.
+   * Populated whenever the provider returns data.
+   */
+  id: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  pageId: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  pageName: string;
+  active: boolean;
+  /**
+   * Epoch seconds.
+   * Populated whenever the provider returns data.
+   */
+  startDate: number;
+  /**
+   * Epoch seconds.
+   */
+  endDate: number;
+  /**
+   * Ad body text.
+   * Populated whenever the provider returns data.
+   */
+  text: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  title: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  ctaText: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  ctaType: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  linkUrl: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  displayFormat: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  platforms: string[];
+  /**
+   * Number of ads in this campaign (collation count).
+   */
+  adCount: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The \`data\` payload of Facebook Ads Search (facebook.ads_search).
+ */
+export interface FacebookAdsSearchData {
+  totalResults: number;
+  nextCursor: string;
+  ads: FacebookAdsSearchAd[];
+}
+
+/**
+ * Typed methods for the facebook platform. Attached to the AnyAPI client as
+ * \`client.facebook\`.
+ */
+export class FacebookNamespace {
+  constructor(private readonly _core: ClientCore) {}
+
+  /**
+   * Facebook Ads Search
+   *
+   * Search the Meta Ad Library by keyword and country, paging through active or inactive ads with an opaque cursor.
+   *
+   * Price: $0.002 per request.
+   *
+   * @example
+   * const res = await client.facebook.adsSearch({"query":"nike","country":"US"});
+   */
+  adsSearch(
+    input: FacebookAdsSearchInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<FacebookAdsSearchData>> {
+    return this._core.run("facebook.ads_search", input, options);
+  }
+
+  /**
+   * Iterate every result of Facebook Ads Search across pages.
+   *
+   * Yields items directly; call \`.pages()\` on the return value to walk whole
+   * RunResult pages instead (each carries its own costUsd).
+   */
+  iterAdsSearch(
+    input: FacebookAdsSearchInput,
+    options?: RequestOptions,
+  ): Paginator<FacebookAdsSearchAd, FacebookAdsSearchData> {
+    return paginate<FacebookAdsSearchAd, FacebookAdsSearchData>(
+      this._core,
+      "facebook.ads_search",
+      input,
+      "ads",
+      options,
+    );
+  }
+}
+",
+  "platforms/threads.ts": "// Generated - do not edit. Regenerate with: pnpm generate
+
+import type {
+  ClientCore,
+  RequestOptions,
+  RunResult,
+} from "../../core/types.js";
+
+/**
+ * Input for Threads Profile (threads.profile).
+ */
+export interface ThreadsProfileInput {
+  /**
+   * The Threads username to look up, without the @ prefix (e.g. zuck).
+   */
+  username: string;
+}
+
+/**
+ * The \`data\` payload of Threads Profile (threads.profile).
+ */
+export interface ThreadsProfileData {
+  /**
+   * Populated whenever the provider returns data.
+   */
+  id: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  username: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  fullName: string;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  biography: string;
+  followerCount: number;
+  isVerified: boolean;
+  isPrivate: boolean;
+  /**
+   * Populated whenever the provider returns data.
+   */
+  profilePicUrl: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Typed methods for the threads platform. Attached to the AnyAPI client as
+ * \`client.threads\`.
+ */
+export class ThreadsNamespace {
+  constructor(private readonly _core: ClientCore) {}
+
+  /**
+   * Threads Profile
+   *
+   * Look up a Threads profile by username: id, name, bio, follower count, and verification and privacy flags.
+   *
+   * Price: $0.002 per request.
+   *
+   * @example
+   * const res = await client.threads.profile({"username":"zuck"});
+   */
+  profile(
+    input: ThreadsProfileInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<ThreadsProfileData>> {
+    return this._core.run("threads.profile", input, options);
+  }
+}
+",
+  "sku-map.ts": "// Generated - do not edit. Regenerate with: pnpm generate
+
+import type {
+  AmazonReviewsData,
+  AmazonReviewsInput,
+} from "./platforms/amazon.js";
+import type {
+  FacebookAdsSearchData,
+  FacebookAdsSearchInput,
+} from "./platforms/facebook.js";
+import type {
+  ThreadsProfileData,
+  ThreadsProfileInput,
+} from "./platforms/threads.js";
+
+/**
+ * Maps every SKU slug literal to its input and data payload types. Powers the generic
+ * \`client.run(slug, input)\` overload so the compiler infers the right shapes by slug.
+ */
+export interface SkuMap {
+  "amazon.reviews": { input: AmazonReviewsInput; data: AmazonReviewsData };
+  "facebook.ads_search": {
+    input: FacebookAdsSearchInput;
+    data: FacebookAdsSearchData;
+  };
+  "threads.profile": { input: ThreadsProfileInput; data: ThreadsProfileData };
+}
+",
+}
+`;

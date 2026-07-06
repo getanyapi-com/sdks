@@ -10,6 +10,12 @@ importers:
 
   generator:
     devDependencies:
+      '@types/node':
+        specifier: ^20.14.0
+        version: 20.19.43
+      prettier:
+        specifier: ^3.3.0
+        version: 3.9.4
       tsx:
         specifier: ^4.19.0
         version: 4.23.0
@@ -22,9 +28,6 @@ importers:
 
   packages/typescript:
     devDependencies:
-      '@types/node':
-        specifier: ^20
-        version: 20.19.43
       tsup:
         specifier: ^8.3.0
         version: 8.5.1(postcss@8.5.16)(tsx@4.23.0)(typescript@5.9.3)
@@ -845,6 +848,11 @@ packages:
     resolution: {integrity: sha512-vuwillviilfKZsg0VGj5R/YwwcHx4SLsIOI/7K6mQkWx+l5cUHTjj5g0AasTBcyXsbfTgrwsUNmVUb5xVwyPwg==}
     engines: {node: ^10 || ^12 || >=14}
 
+  prettier@3.9.4:
+    resolution: {integrity: sha512-yWG/o/4oJfo036EKAfK6ACAoDOfHeRHx4tuxkfBZiauURiaSmYwlpOr5LQqKtIkRD2z1PLteme2WoxEnj4tHTg==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   readdirp@4.1.2:
     resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
     engines: {node: '>= 14.18.0'}
@@ -1586,6 +1594,8 @@ snapshots:
       nanoid: 3.3.15
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  prettier@3.9.4: {}
 
   readdirp@4.1.2: {}
 
