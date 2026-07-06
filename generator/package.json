@@ -7,6 +7,10 @@
   "scripts": {
     "generate": "tsx src/index.ts",
     "fetch": "tsx src/index.ts fetch",
+    "classify": "tsx src/classify-cli.ts",
+    "version:current": "tsx src/bump-version.ts current",
+    "version:next": "tsx src/bump-version.ts next",
+    "version:apply": "tsx src/bump-version.ts apply",
     "test": "vitest run --config vitest.config.ts",
     "check": "tsc --noEmit && vitest run --config vitest.config.ts"
   },
