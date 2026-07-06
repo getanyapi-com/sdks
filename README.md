@@ -108,6 +108,25 @@ pip install -e "packages/python[dev]"
 cd packages/python && pyright && mypy && pytest
 ```
 
+### Published-artifact smoke
+
+`pnpm check` and the CI suite are mock-only: they never touch the registries. The
+published-artifact smoke fills that gap. It installs BOTH SDKs FROM the registries (npm +
+PyPI) into throwaway temp dirs outside the repo, mints an ephemeral capped key via the public
+`/agent/signup` endpoint (no secrets needed), and makes ONE real production call through each
+(a `$0.001` `reddit.search`), then asserts a well-formed, non-empty envelope. This catches
+packaging bugs, missing files, broken exports or types, that source-tree tests cannot see.
+
+```bash
+bash scripts/smoke.sh            # smoke the latest published version
+VERSION=0.1.0 bash scripts/smoke.sh
+```
+
+It exits nonzero if either SDK fails and prints a per-SDK PASS/FAIL summary. In CI it is a
+standalone workflow (`.github/workflows/smoke.yml`) that runs nightly (08:00 UTC) and on manual
+dispatch (with an optional `version` input). It is intentionally NOT wired into `ci.yml`,
+`release.yml`, or branch protection, so registry or upstream flakiness never blocks a PR.
+
 ## Releasing
 
 Releases are automated from the live catalog. Two workflows drive it:

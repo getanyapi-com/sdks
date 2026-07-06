@@ -1,0 +1,67 @@
+name: smoke
+
+# Published-artifact smoke: install the SDKs FROM THE REGISTRIES and make one real
+# production call each, to catch packaging bugs (missing files, broken exports)
+# the mock-only CI suite cannot.
+#
+# Dispatch + nightly ONLY. This never runs on push/pull_request and is NOT a
+# required check, so upstream/registry flakiness can never block a PR. No secrets:
+# each smoke mints its own capped key via the public /agent/signup endpoint.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Published version to smoke (e.g. 0.1.0), or 'latest'."
+        required: false
+        default: "latest"
+        type: string
+  schedule:
+    # Nightly at 08:00 UTC.
+    - cron: "0 8 * * *"
+
+jobs:
+  npm-smoke:
+    name: npm @getanyapi/sdk (published-artifact)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: install published package into a clean temp dir + run smoke
+        env:
+          VERSION: ${{ github.event.inputs.version || 'latest' }}
+        run: |
+          set -euo pipefail
+          spec="@getanyapi/sdk"
+          [ "$VERSION" != "latest" ] && spec="@getanyapi/sdk@$VERSION"
+          tmp="$(mktemp -d)"
+          cd "$tmp"
+          npm init -y >/dev/null
+          npm install "$spec"
+          cp "$GITHUB_WORKSPACE/smoke/npm-smoke.mjs" ./npm-smoke.mjs
+          node npm-smoke.mjs
+
+  pypi-smoke:
+    name: pypi getanyapi (published-artifact)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install published package into a fresh venv + run smoke
+        env:
+          VERSION: ${{ github.event.inputs.version || 'latest' }}
+        run: |
+          set -euo pipefail
+          spec="getanyapi"
+          [ "$VERSION" != "latest" ] && spec="getanyapi==$VERSION"
+          tmp="$(mktemp -d)"
+          python -m venv "$tmp/venv"
+          "$tmp/venv/bin/python" -m pip install --upgrade pip
+          "$tmp/venv/bin/python" -m pip install "$spec"
+          cp "$GITHUB_WORKSPACE/smoke/pypi-smoke.py" "$tmp/pypi-smoke.py"
+          cd "$tmp"
+          "$tmp/venv/bin/python" pypi-smoke.py
