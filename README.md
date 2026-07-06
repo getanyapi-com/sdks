@@ -4,7 +4,7 @@ Official typed SDKs for [AnyAPI](https://getanyapi.com): any API, one wallet, US
 subscriptions. Reach hundreds of scraping and data APIs through one interface and one key;
 pay per request in real US dollars.
 
-- **TypeScript:** [`@anyapi/sdk`](packages/typescript) (npm) - zero runtime deps, ESM + CJS,
+- **TypeScript:** [`@getanyapi/sdk`](packages/typescript) (npm) - zero runtime deps, ESM + CJS,
   Node 18+ and edge runtimes.
 - **Python:** [`anyapi`](packages/python) (PyPI) - httpx + pydantic v2, Python 3.10+, sync
   and async clients.
@@ -17,7 +17,7 @@ track the catalog automatically.
 TypeScript:
 
 ```ts
-import { AnyAPI } from "@anyapi/sdk";
+import { AnyAPI } from "@getanyapi/sdk";
 
 const client = new AnyAPI({ apiKey: process.env.ANYAPI_API_KEY });
 const res = await client.google.search({ query: "best coffee maker" });
@@ -35,6 +35,30 @@ if res.output.found:
     print(res.output.data, res.cost_usd)
 ```
 
+## Using the SDK
+
+Both packages share one surface; the per-package READMEs
+([TypeScript](packages/typescript/README.md), [Python](packages/python/README.md)) have full
+detail. The essentials:
+
+- **Not found vs error.** A success always resolves. Most SKUs wrap the payload in a `found`
+  flag (`output.found` is `false` when the upstream had no match, which is not an error).
+  `unwrap(res)` returns the data or throws `ResultNotFoundError` (a subclass of
+  `NotFoundError`) on an empty result. A few SKUs return their data object directly as
+  `output`; `unwrap` returns it as-is and never throws.
+- **Pagination.** Paginated SKUs expose an iterator (`client.reddit.iterSearch(...)` /
+  `client.reddit.iter_search(...)`) that yields items across pages and follows the cursor.
+  Call `.pages()` on it to walk whole results and read each page's `costUsd` / `cost_usd`.
+- **Request options.** `fields`, `maxItems`/`max_items`, and `summary` trim the response to
+  save context/bandwidth; they do NOT change the price. Per-call `timeout(Ms)` and retry
+  overrides live here too.
+- **Errors and retries.** Every failure raises an `AnyAPIError` subclass mapped from the HTTP
+  status (400/401/402/404/429/502, plus `Connection`/`Timeout` at status 0). Only 429 and
+  network failures retry, with jittered backoff honoring `Retry-After`; timeouts never retry.
+  Default `maxRetries`/`max_retries` is 2.
+- **Agent signup.** `agentSignup()` / `agent_signup()` bootstraps a capped starter key with no
+  account, for autonomous agents; a human funds it via the returned claim URL.
+
 ## Repo layout
 
 - `SPEC.md` - the frozen contract (IR shape, naming rules, runtime signatures). Read this
@@ -46,7 +70,7 @@ if res.output.found:
   deterministic `ir.json` (the normalized intermediate the emitters consume), a
   `fixtures.json` (one synthetic run-response per SKU, used by the integration tests), and
   the two generated SDK trees. `ir.json` and `fixtures.json` are committed.
-- `packages/typescript/` - the `@anyapi/sdk` package. Handwritten runtime in `src/core/`;
+- `packages/typescript/` - the `@getanyapi/sdk` package. Handwritten runtime in `src/core/`;
   emitted namespaces, sku-map, and client in `src/generated/`.
 - `packages/python/` - the `anyapi` package. Handwritten runtime in `src/anyapi/` (`_*.py`
   + `types.py`); emitted namespaces in `src/anyapi/platforms/`.
