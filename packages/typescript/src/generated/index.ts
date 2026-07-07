@@ -43,6 +43,7 @@ export * from "./platforms/redfin.js";
 export * from "./platforms/rednote.js";
 export * from "./platforms/sec.js";
 export * from "./platforms/semrush.js";
+export * from "./platforms/seo.js";
 export * from "./platforms/snapchat.js";
 export * from "./platforms/social.js";
 export * from "./platforms/spotify.js";

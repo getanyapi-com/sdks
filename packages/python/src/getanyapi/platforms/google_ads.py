@@ -138,10 +138,58 @@ class GoogleAdsSearchData(BaseModel):
 
 
 class GoogleAdsSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
-    url: str
+    advertiser: str | None = Field(
+        default=None,
+        description="Advertiser display name. Present whenever the upstream returns this record.",
+    )
+    advertiser_id: str | None = Field(
+        default=None,
+        alias="advertiserId",
+        description="Google Ads advertiser identifier.",
+    )
+    first_shown_utc: float | None = Field(
+        default=None,
+        alias="firstShownUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was first shown.",
+    )
+    format: str | None = Field(
+        default=None, description="Ad format, e.g. TEXT, IMAGE, VIDEO."
+    )
+    id: str = Field(description="Google Ads creative identifier.")
+    last_shown_utc: float | None = Field(
+        default=None,
+        alias="lastShownUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was last shown.",
+    )
+    num_served_days: int | None = Field(
+        default=None,
+        alias="numServedDays",
+        description="Number of days the ad has been served.",
+    )
+    preview_url: str | None = Field(
+        default=None,
+        alias="previewUrl",
+        description="URL to a rendered preview of the creative.",
+    )
+    url: str = Field(description="Ads Transparency Center URL for the creative.")
+    variations: list[GoogleAdsSearchVariation] | None = Field(
+        default=None,
+        description="Creative variations for the ad, each with image, headline, and body text where present.",
+    )
+
+
+class GoogleAdsSearchVariation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    headline: str | None = Field(default=None, description="Creative headline text.")
+    image_url: str | None = Field(
+        default=None, alias="imageUrl", description="Creative image URL."
+    )
+    text: str | None = Field(
+        default=None, description="Creative body/description text."
+    )
 
 
 class GoogleAdsNamespace:

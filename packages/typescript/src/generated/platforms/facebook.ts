@@ -207,15 +207,45 @@ export interface FacebookCommentRepliesInput {
 }
 
 export interface FacebookCommentRepliesReplie {
+  /**
+   * Identifier of the reply author.
+   */
   authorId: string;
+  /**
+   * Display name of the reply author.
+   */
   authorName: string;
+  /**
+   * URL of the author's profile picture.
+   */
   authorProfilePicture: string;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Token used to expand nested replies, when present.
+   */
   expansionToken?: string;
+  /**
+   * Facebook feedback identifier for the reply.
+   */
   feedbackId: string;
+  /**
+   * Reply identifier.
+   */
   id: string;
+  /**
+   * Number of reactions on the reply.
+   */
   reactionCount: number;
+  /**
+   * Number of replies nested under this reply.
+   */
   replyCount: number;
+  /**
+   * Reply text content.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -224,8 +254,17 @@ export interface FacebookCommentRepliesReplie {
  * The `data` payload of Facebook Comment Replies (facebook.comment_replies).
  */
 export interface FacebookCommentRepliesData {
+  /**
+   * True when more replies are available beyond this page.
+   */
   hasNextPage: boolean;
+  /**
+   * Cursor for the next page of replies; empty when there are no more.
+   */
   nextCursor: string;
+  /**
+   * Replies to the comment.
+   */
   replies: FacebookCommentRepliesReplie[];
 }
 
@@ -433,11 +472,21 @@ export interface FacebookFollowersInput {
 }
 
 export interface FacebookFollowersItem {
+  /**
+   * The account's numeric Facebook ID, as a string.
+   */
   id: string;
   /**
-   * Present whenever the upstream returns this record.
+   * URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.
    */
-  name?: string;
+  image?: string;
+  /**
+   * The account's public display name.
+   */
+  name: string;
+  /**
+   * Canonical URL of the account's Facebook profile, with tracking query params stripped.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -447,7 +496,7 @@ export interface FacebookFollowersItem {
  */
 export interface FacebookFollowersData {
   /**
-   * Follower or following records: profile name, profile URL, and picture for each account.
+   * Follower or following records for the target page/profile.
    */
   items: FacebookFollowersItem[];
 }
@@ -626,15 +675,42 @@ export interface FacebookPageContactInput {
 }
 
 export interface FacebookPageContactItem {
+  /**
+   * The page's public physical address. Empty when the page lists none.
+   */
   address?: string;
   /**
+   * The page's primary category (e.g. "Seafood Restaurant").
    * Present whenever the upstream returns this record.
    */
   category?: string;
+  /**
+   * The page's public contact email. Empty when the page lists none.
+   */
   email?: string;
+  /**
+   * The page's follower count.
+   */
+  followers?: number;
+  /**
+   * URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   */
+  image?: string;
+  /**
+   * The page's public phone number. Empty when the page lists none.
+   */
   phone?: string;
+  /**
+   * The page's public name.
+   */
   title: string;
+  /**
+   * Canonical URL of the Facebook Page, with tracking query params stripped.
+   */
   url: string;
+  /**
+   * The page's public website URL. Empty when the page lists none.
+   */
   website?: string;
   [extra: string]: unknown;
 }
@@ -644,7 +720,7 @@ export interface FacebookPageContactItem {
  */
 export interface FacebookPageContactData {
   /**
-   * Page contact records: page name, email, phone, website, physical address, and category.
+   * Contact record for the requested Facebook Page (one item).
    */
   items: FacebookPageContactItem[];
 }
@@ -726,11 +802,29 @@ export interface FacebookPostCommentsInput {
 }
 
 export interface FacebookPostCommentsComment {
+  /**
+   * Display name of the comment author.
+   */
   author: string;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Comment identifier.
+   */
   id: string;
+  /**
+   * Number of reactions on the comment.
+   */
   reactions: number;
+  /**
+   * Number of replies to the comment.
+   */
   replies: number;
+  /**
+   * Comment text content.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -739,7 +833,13 @@ export interface FacebookPostCommentsComment {
  * The `data` payload of Facebook Post Comments (facebook.post_comments).
  */
 export interface FacebookPostCommentsData {
+  /**
+   * Comments on the post.
+   */
   comments: FacebookPostCommentsComment[];
+  /**
+   * Cursor for the next page of comments; empty when there are no more.
+   */
   nextCursor: string;
 }
 
@@ -875,11 +975,29 @@ export interface FacebookProfileReelsInput {
 }
 
 export interface FacebookProfileReelsReel {
+  /**
+   * Reel caption text.
+   */
   caption: string;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Reel identifier.
+   */
   id: string;
+  /**
+   * URL of the reel thumbnail image.
+   */
   thumbnail: string;
+  /**
+   * Canonical URL of the reel.
+   */
   url: string;
+  /**
+   * Number of views on the reel.
+   */
   views: number;
   [extra: string]: unknown;
 }
@@ -888,6 +1006,9 @@ export interface FacebookProfileReelsReel {
  * The `data` payload of Facebook Profile Reels (facebook.profile_reels).
  */
 export interface FacebookProfileReelsData {
+  /**
+   * The profile's reels.
+   */
   reels: FacebookProfileReelsReel[];
 }
 
@@ -943,8 +1064,42 @@ export interface FacebookSearchPagesInput {
 }
 
 export interface FacebookSearchPagesItem {
+  /**
+   * The page's primary category (e.g. "Sportswear Store"). Empty when the upstream omits it.
+   */
+  category?: string;
+  /**
+   * The page's follower count.
+   */
+  followers?: number;
+  /**
+   * The page's numeric Facebook ID, as a string.
+   */
+  id: string;
+  /**
+   * URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   */
+  image?: string;
+  /**
+   * The page's like count.
+   */
+  likes?: number;
+  /**
+   * The page's public phone number. Empty when the upstream omits it.
+   */
+  phone?: string;
+  /**
+   * The page's public name.
+   */
   title: string;
+  /**
+   * Canonical URL of the Facebook Page, with tracking query params stripped.
+   */
   url: string;
+  /**
+   * The page's public website URL. Empty when the upstream omits it.
+   */
+  website?: string;
   [extra: string]: unknown;
 }
 
@@ -953,7 +1108,7 @@ export interface FacebookSearchPagesItem {
  */
 export interface FacebookSearchPagesData {
   /**
-   * Page profile records: page name, category, follower/like counts, contact details, and page URL.
+   * Matching Facebook Page records for the query.
    */
   items: FacebookSearchPagesItem[];
 }
@@ -978,7 +1133,45 @@ export interface FacebookSearchPostsInput {
 }
 
 export interface FacebookSearchPostsItem {
+  /**
+   * Display name of the post's author. Empty when the upstream omits it.
+   */
+  authorName?: string;
+  /**
+   * Canonical profile URL of the post's author, with tracking query params stripped. Empty when the upstream omits it.
+   */
+  authorUrl?: string;
+  /**
+   * Total number of comments on the post.
+   */
+  commentCount?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * The post's numeric Facebook ID, as a string.
+   */
+  id: string;
+  /**
+   * URL of the post's primary image, with tracking query params stripped. Empty for text-only or video posts.
+   */
+  image?: string;
+  /**
+   * Total number of reactions on the post.
+   */
+  reactionCount?: number;
+  /**
+   * Total number of shares/reshares of the post.
+   */
+  shareCount?: number;
+  /**
+   * The post's text/message. Empty for media-only posts with no caption.
+   */
   text: string;
+  /**
+   * Canonical URL of the post, with tracking query params stripped.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -988,7 +1181,7 @@ export interface FacebookSearchPostsItem {
  */
 export interface FacebookSearchPostsData {
   /**
-   * Post records: post text, author, timestamp, engagement counts (reactions, comments, shares), and post URL.
+   * Matching public Facebook post records for the query.
    */
   items: FacebookSearchPostsItem[];
 }

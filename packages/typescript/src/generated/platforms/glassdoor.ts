@@ -21,8 +21,67 @@ export interface GlassdoorJobsInput {
   url: string;
 }
 
+/**
+ * A Glassdoor job listing: title, employer, location, salary estimate, rating, and the listing URL.
+ */
 export interface GlassdoorJobsItem {
+  /**
+   * Days since the listing was posted.
+   */
+  ageInDays?: number;
+  /**
+   * Hiring employer name.
+   * Present whenever the upstream returns this record.
+   */
+  company?: string;
+  /**
+   * Full job description (may contain HTML).
+   */
+  description?: string;
+  /**
+   * Glassdoor job listing id.
+   */
+  id: string;
+  /**
+   * Job location (city, region).
+   */
+  location?: string;
+  /**
+   * Employer Glassdoor star rating (0 when not rated).
+   */
+  rating?: number;
+  /**
+   * Estimated salary range for the listing.
+   */
+  salary?: {
+    /**
+     * ISO currency code for the salary figures.
+     */
+    currency?: string;
+    /**
+     * High end of the estimated salary range.
+     */
+    max?: number;
+    /**
+     * Median of the estimated salary range.
+     */
+    median?: number;
+    /**
+     * Low end of the estimated salary range.
+     */
+    min?: number;
+    /**
+     * Pay period the figures cover (e.g. ANNUAL, HOURLY).
+     */
+    period?: string;
+  };
+  /**
+   * Job title.
+   */
   title: string;
+  /**
+   * Absolute Glassdoor job listing URL.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -32,7 +91,7 @@ export interface GlassdoorJobsItem {
  */
 export interface GlassdoorJobsData {
   /**
-   * Job listing records: title, employer, location, salary estimate, rating, and posting details.
+   * Job listing records for the search or company page.
    */
   items: GlassdoorJobsItem[];
 }

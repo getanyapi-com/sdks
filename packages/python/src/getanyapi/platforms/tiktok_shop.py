@@ -112,25 +112,37 @@ class TiktokShopProductData(BaseModel):
 class TiktokShopProductReviewsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    has_more: bool = Field(alias="hasMore")
+    has_more: bool = Field(
+        alias="hasMore",
+        description="True when more reviews are available beyond this page.",
+    )
     rating: float = Field(description="Overall product score (1-5).")
-    reviews: list[TiktokShopProductReviewsReview]
-    total_reviews: int = Field(alias="totalReviews")
+    reviews: list[TiktokShopProductReviewsReview] = Field(
+        description="Product reviews."
+    )
+    total_reviews: int = Field(
+        alias="totalReviews", description="Total number of reviews for the product."
+    )
 
 
 class TiktokShopProductReviewsReview(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    country: str
-    created_at: str = Field(
-        alias="createdAt", description="Review time as epoch milliseconds."
+    country: str = Field(description="Reviewer's country code.")
+    created_utc: float = Field(
+        alias="createdUtc", description="Review time as epoch milliseconds."
     )
-    id: str
-    rating: float
-    reviewer_name: str = Field(alias="reviewerName")
+    id: str = Field(description="Review identifier.")
+    rating: float = Field(description="Star rating for this review (1-5).")
+    reviewer_name: str = Field(
+        alias="reviewerName", description="Display name of the reviewer."
+    )
     sku: str = Field(description='Variant bought, e.g. "Color: Black".')
-    text: str
-    verified_purchase: bool = Field(alias="verifiedPurchase")
+    text: str = Field(description="Review text content.")
+    verified_purchase: bool = Field(
+        alias="verifiedPurchase",
+        description="True when the review is from a verified purchase.",
+    )
 
 
 class TiktokShopSearchData(BaseModel):

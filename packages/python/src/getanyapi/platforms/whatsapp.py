@@ -24,15 +24,27 @@ class WhatsappValidateInput(TypedDict, total=False):
 
 class WhatsappValidateData(BaseModel):
     items: list[WhatsappValidateItem] = Field(
-        description="Validation records: the phone number with its WhatsApp registration status."
+        description="Validation records for the phone number."
     )
 
 
 class WhatsappValidateItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    phone: str
-    status: str
+    checked_utc: float | None = Field(
+        default=None,
+        alias="checkedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) when the check ran. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    exists: bool = Field(description="True when the number is registered on WhatsApp.")
+    is_valid: bool | None = Field(
+        default=None,
+        alias="isValid",
+        description="True when the number is a valid, reachable WhatsApp account.",
+    )
+    phone: str = Field(
+        description="The phone number that was checked, in international format."
+    )
 
 
 class WhatsappNamespace:

@@ -35,18 +35,71 @@ class ZillowSearchInput(TypedDict, total=False):
 
 class ZillowPropertyData(BaseModel):
     items: list[ZillowPropertyItem] = Field(
-        description="Matching property records: full listing details including price, address, facts and features, photos, and price/tax history."
+        description="The matched property record (single element for a property lookup)."
     )
 
 
 class ZillowPropertyItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    price: float
-    title: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    address_line: str | None = Field(
+        default=None,
+        alias="addressLine",
+        description="Street address line of the property.",
     )
-    url: str
+    baths: float | None = Field(default=None, description="Number of bathrooms.")
+    beds: float | None = Field(default=None, description="Number of bedrooms.")
+    city: str | None = Field(default=None, description="City the property is in.")
+    county: str | None = Field(default=None, description="County the property is in.")
+    currency: str | None = Field(
+        default=None, description="Currency code for the price (e.g. USD)."
+    )
+    description: str | None = Field(
+        default=None, description="Listing description text."
+    )
+    home_status: str | None = Field(
+        default=None,
+        alias="homeStatus",
+        description="Listing status (e.g. FOR_SALE, RECENTLY_SOLD, OTHER).",
+    )
+    home_type: str | None = Field(
+        default=None,
+        alias="homeType",
+        description="Home type (e.g. SINGLE_FAMILY, CONDO, TOWNHOUSE).",
+    )
+    image: str | None = Field(default=None, description="Primary listing photo URL.")
+    latitude: float | None = Field(
+        default=None, description="Latitude of the property in decimal degrees."
+    )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the property in decimal degrees."
+    )
+    postal_code: str | None = Field(
+        default=None,
+        alias="postalCode",
+        description="Postal (ZIP) code of the property.",
+    )
+    price: float | None = Field(
+        default=None, description="Listed price in the listing currency."
+    )
+    property_tax_rate: float | None = Field(
+        default=None,
+        alias="propertyTaxRate",
+        description="Annual property tax rate as a percentage.",
+    )
+    sqft: float | None = Field(
+        default=None, description="Interior living area in square feet."
+    )
+    state: str | None = Field(
+        default=None, description="Two-letter state code the property is in."
+    )
+    title: str | None = Field(
+        default=None, description="Street address line used as the property title."
+    )
+    url: str = Field(description="Canonical Zillow property detail page URL.")
+    zpid: str = Field(
+        description="Zillow property id (zpid), the stable identifier for the property."
+    )
 
 
 class ZillowSearchData(BaseModel):
@@ -128,9 +181,9 @@ class ZillowNamespace:
     ) -> RunResult[ZillowPropertyData]:
         """Zillow Property
 
-        Fetch full details for a single Zillow property listing by URL - price,
-        facts and features, photos, and price/tax history - with transparent
-        per-request USD pricing.
+        Fetch full details for a single Zillow property listing by URL (price, facts
+        and features, photos, and price/tax history) with transparent per-request
+        USD pricing.
 
         Price: $0.0024 per result.
 
@@ -180,9 +233,9 @@ class AsyncZillowNamespace:
     ) -> RunResult[ZillowPropertyData]:
         """Zillow Property
 
-        Fetch full details for a single Zillow property listing by URL - price,
-        facts and features, photos, and price/tax history - with transparent
-        per-request USD pricing.
+        Fetch full details for a single Zillow property listing by URL (price, facts
+        and features, photos, and price/tax history) with transparent per-request
+        USD pricing.
 
         Price: $0.0024 per result.
 

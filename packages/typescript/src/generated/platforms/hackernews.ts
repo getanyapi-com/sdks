@@ -41,12 +41,33 @@ export interface HackernewsSearchInput {
 }
 
 export interface HackernewsSearchResult {
+  /**
+   * Submitting user's username.
+   */
   author: string;
+  /**
+   * Number of comments on the story.
+   */
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Hacker News item id.
+   */
   id: string;
+  /**
+   * Story score (upvotes).
+   */
   points: number;
-  publishedAt: string;
+  /**
+   * Story title.
+   */
   title: string;
+  /**
+   * Story link.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -55,6 +76,9 @@ export interface HackernewsSearchResult {
  * The `data` payload of Hacker News Search (hackernews.search).
  */
 export interface HackernewsSearchData {
+  /**
+   * Matching Hacker News stories.
+   */
   results: HackernewsSearchResult[];
 }
 
@@ -72,11 +96,29 @@ export interface HackernewsStoryInput {
  * The `data` payload of Hacker News Story (hackernews.story).
  */
 export interface HackernewsStoryData {
+  /**
+   * Submitting user's username.
+   */
   author: string;
+  /**
+   * Number of comments on the story.
+   */
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Story score (upvotes).
+   */
   points: number;
-  publishedAt: string;
+  /**
+   * Story title.
+   */
   title: string;
+  /**
+   * Story link.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -92,10 +134,25 @@ export interface HackernewsStoryCommentsInput {
 }
 
 export interface HackernewsStoryCommentsComment {
+  /**
+   * Commenting user's username.
+   */
   author: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Hacker News comment id.
+   */
   id: string;
+  /**
+   * Id of the parent item (story or comment) this reply belongs to.
+   */
   parentId: string;
-  publishedAt: string;
+  /**
+   * Comment body text.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -104,6 +161,9 @@ export interface HackernewsStoryCommentsComment {
  * The `data` payload of Hacker News Story Comments (hackernews.story_comments).
  */
 export interface HackernewsStoryCommentsData {
+  /**
+   * Comments on the story.
+   */
   comments: HackernewsStoryCommentsComment[];
 }
 

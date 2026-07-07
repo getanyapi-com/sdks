@@ -36,11 +36,63 @@ export interface DexscreenerTokensInput {
 
 export interface DexscreenerTokensItem {
   /**
+   * Age of the token pair in hours.
+   */
+  ageHours?: number;
+  /**
+   * Token logo image URL.
+   */
+  image?: string;
+  /**
+   * Total pool liquidity in USD.
+   */
+  liquidityUsd?: number;
+  /**
+   * Number of distinct makers over the selected timeframe.
+   */
+  makerCount?: number;
+  /**
+   * Token market capitalization in USD.
+   */
+  marketCapUsd?: number;
+  /**
+   * Token full name.
    * Present whenever the upstream returns this record.
    */
   name?: string;
+  /**
+   * On-chain address of the liquidity pool.
+   */
+  poolAddress?: string;
+  /**
+   * Current token price in USD.
+   */
   price: number;
+  /**
+   * Fractional price change over the past hour.
+   */
+  priceChange1h?: number;
+  /**
+   * Fractional price change over the past 24 hours.
+   */
+  priceChange24h?: number;
+  /**
+   * Token ticker symbol.
+   */
   symbol: string;
+  /**
+   * Number of transactions over the selected timeframe.
+   */
+  transactionCount?: number;
+  /**
+   * DEX Screener URL for the trading pair.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  /**
+   * Trading volume in USD over the selected timeframe.
+   */
+  volumeUsd?: number;
   [extra: string]: unknown;
 }
 
@@ -49,7 +101,7 @@ export interface DexscreenerTokensItem {
  */
 export interface DexscreenerTokensData {
   /**
-   * Token listing records: token name and symbol, pair, price, liquidity, volume, transaction counts, and price change.
+   * Token listing records: token name and symbol, price, liquidity, volume, transaction/maker counts, price change, market cap, and the DEX Screener pair URL.
    */
   items: DexscreenerTokensItem[];
 }

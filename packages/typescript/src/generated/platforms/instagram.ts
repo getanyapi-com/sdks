@@ -111,21 +111,29 @@ export interface InstagramFollowersInput {
 
 export interface InstagramFollowersItem {
   /**
-   * Follower's display name (may be empty).
-   * Present whenever the upstream returns this record.
+   * The follower's username, without the @ prefix.
    */
-  fullName?: string;
   handle: string;
+  /**
+   * The follower's numeric Instagram user ID, as a string.
+   */
   id: string;
+  /**
+   * URL of the follower's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   */
+  image?: string;
+  /**
+   * The follower's display name. Empty when the account has none.
+   */
+  name?: string;
   /**
    * Whether the follower's account is private.
    */
   private?: boolean;
   /**
-   * URL of the follower's profile picture.
-   * Present whenever the upstream returns this record.
+   * Canonical URL of the follower's profile, with tracking query params stripped. Empty when the lane does not return it.
    */
-  profilePicUrl?: string;
+  url?: string;
   /**
    * Whether the follower's account is verified.
    */
@@ -138,11 +146,11 @@ export interface InstagramFollowersItem {
  */
 export interface InstagramFollowersData {
   /**
-   * Follower records: id, handle, full name, profile picture URL, and verification/privacy flags.
+   * Follower records for the target account.
    */
   items: InstagramFollowersItem[];
   /**
-   * Opaque cursor for the next page of followers, or null when this lane has no more. Pass it back as cursor to continue.
+   * Opaque cursor for the next page of followers, or null/empty when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor?: string;
 }
@@ -172,23 +180,31 @@ export interface InstagramFollowingInput {
 
 export interface InstagramFollowingItem {
   /**
-   * Account display name.
-   * Present whenever the upstream returns this record.
+   * The followed account's username, without the @ prefix.
    */
-  fullName?: string;
   handle: string;
+  /**
+   * The followed account's numeric Instagram user ID, as a string.
+   */
   id: string;
   /**
-   * Whether the account is private.
+   * URL of the followed account's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   */
+  image?: string;
+  /**
+   * The followed account's display name. Empty when the account has none.
+   */
+  name?: string;
+  /**
+   * Whether the followed account is private.
    */
   private?: boolean;
   /**
-   * URL of the account's profile picture.
-   * Present whenever the upstream returns this record.
+   * Canonical URL of the followed account's profile, with tracking query params stripped. Empty when the lane does not return it.
    */
-  profilePicUrl?: string;
+  url?: string;
   /**
-   * Whether the account has a verified badge.
+   * Whether the followed account is verified.
    */
   verified?: boolean;
   [extra: string]: unknown;
@@ -199,11 +215,11 @@ export interface InstagramFollowingItem {
  */
 export interface InstagramFollowingData {
   /**
-   * Followed-account records: numeric id, handle, full name, profile picture URL, and verified/private flags.
+   * Records for the accounts the target user follows.
    */
   items: InstagramFollowingItem[];
   /**
-   * Opaque cursor for the next page of accounts, or null when this lane has no more. Pass it back as cursor to continue.
+   * Opaque cursor for the next page of results, or null/empty when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor?: string;
 }
@@ -270,11 +286,29 @@ export interface InstagramHighlightDetailInput {
  * The `data` payload of Instagram Highlight Detail (instagram.highlight_detail).
  */
 export interface InstagramHighlightDetailData {
+  /**
+   * URL of the highlight cover image.
+   */
   coverUrl: string;
-  createdAt: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Highlight identifier.
+   */
   id: string;
+  /**
+   * Number of media items in the highlight.
+   */
   mediaCount: number;
+  /**
+   * Handle of the account that owns the highlight.
+   */
   ownerHandle: string;
+  /**
+   * Highlight title.
+   */
   title: string;
   [extra: string]: unknown;
 }
@@ -343,7 +377,10 @@ export interface InstagramPostCommentsInput {
 
 export interface InstagramPostCommentsComment {
   author: string;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   likes: number;
   text: string;
@@ -399,8 +436,70 @@ export interface InstagramReelTranscriptInput {
 }
 
 export interface InstagramReelTranscriptItem {
+  /**
+   * The reel's caption text. Empty when the reel has no caption.
+   */
+  caption?: string;
+  /**
+   * Number of comments on the reel.
+   */
+  commentCount?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Video duration in seconds.
+   */
+  durationSeconds?: number;
+  /**
+   * The reel's numeric Instagram media ID, as a string.
+   */
+  id: string;
+  /**
+   * Detected spoken language (ISO 639-1 code, e.g. "en"). Empty when the upstream omits it.
+   */
+  language?: string;
+  /**
+   * Number of likes on the reel.
+   */
+  likeCount?: number;
+  /**
+   * Username of the reel's owner, without the @ prefix. Empty when the upstream omits it.
+   */
+  ownerUsername?: string;
+  /**
+   * Time-aligned transcript segments, each with its text and start/end offsets in seconds.
+   */
+  segments?: InstagramReelTranscriptSegment[];
+  /**
+   * The full speech transcript. Empty when the reel has no detectable spoken audio.
+   */
   text: string;
+  /**
+   * Canonical URL of the reel, with tracking query params stripped.
+   */
   url: string;
+  /**
+   * Number of video views.
+   */
+  viewCount?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramReelTranscriptSegment {
+  /**
+   * Segment end offset in seconds from the start of the video.
+   */
+  end?: number;
+  /**
+   * Segment start offset in seconds from the start of the video.
+   */
+  start?: number;
+  /**
+   * The segment's transcribed text.
+   */
+  text?: string;
   [extra: string]: unknown;
 }
 
@@ -409,7 +508,7 @@ export interface InstagramReelTranscriptItem {
  */
 export interface InstagramReelTranscriptData {
   /**
-   * Transcript records: full transcript text, timed segments, detected language, and source video metadata.
+   * Transcript record for the requested reel (one item), with the full transcript text, timed segments, and source video metadata.
    */
   items: InstagramReelTranscriptItem[];
 }
@@ -437,19 +536,61 @@ export interface InstagramReelsSearchInput {
 }
 
 export interface InstagramReelsSearchReel {
+  /**
+   * Reel caption text.
+   */
   caption: string;
+  /**
+   * Number of comments on the reel.
+   */
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Reel duration in seconds.
+   */
   durationSeconds: number;
+  /**
+   * Follower count of the posting account.
+   */
   followers: number;
+  /**
+   * Number of likes on the reel.
+   */
   likes: number;
+  /**
+   * True when the reel is a paid partnership.
+   */
   paidPartnership: boolean;
+  /**
+   * Number of plays of the reel.
+   */
   plays: number;
+  /**
+   * Instagram media shortcode.
+   */
   shortcode: string;
-  takenAt: string;
+  /**
+   * URL of the reel thumbnail image.
+   */
   thumbnail: string;
+  /**
+   * Canonical URL of the reel.
+   */
   url: string;
+  /**
+   * Username of the account that posted the reel.
+   */
   username: string;
+  /**
+   * True when the posting account is verified.
+   */
   verified: boolean;
+  /**
+   * Number of views on the reel.
+   */
   views: number;
   [extra: string]: unknown;
 }
@@ -458,6 +599,9 @@ export interface InstagramReelsSearchReel {
  * The `data` payload of Instagram Reels Search (instagram.reels_search).
  */
 export interface InstagramReelsSearchData {
+  /**
+   * Reels matching the search.
+   */
   reels: InstagramReelsSearchReel[];
 }
 
@@ -483,8 +627,46 @@ export interface InstagramSearchInput {
 }
 
 export interface InstagramSearchItem {
+  /**
+   * The account's bio text. Empty when the account has none.
+   */
+  bio?: string;
+  /**
+   * The account's follower count. May be 0 when the lane does not return it in search results.
+   */
+  followers?: number;
+  /**
+   * The number of accounts the account follows. May be 0 when the lane does not return it in search results.
+   */
+  following?: number;
+  /**
+   * The account's username, without the @ prefix.
+   */
   handle: string;
+  /**
+   * The account's numeric Instagram user ID, as a string.
+   */
+  id: string;
+  /**
+   * URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   */
+  image?: string;
+  /**
+   * The account's display name. Empty when the account has none.
+   */
+  name?: string;
+  /**
+   * The account's post count. May be 0 when the lane does not return it in search results.
+   */
+  postsCount?: number;
+  /**
+   * Canonical URL of the account's profile, with tracking query params stripped.
+   */
   url: string;
+  /**
+   * Whether the account is verified.
+   */
+  verified?: boolean;
   [extra: string]: unknown;
 }
 
@@ -493,7 +675,7 @@ export interface InstagramSearchItem {
  */
 export interface InstagramSearchData {
   /**
-   * Matching search results: user profiles, hashtags, or places with names, follower/post counts, and profile links.
+   * Matching Instagram profile records for the query.
    */
   items: InstagramSearchItem[];
 }
@@ -589,6 +771,10 @@ export interface InstagramStoriesFullItem {
    */
   code?: string;
   /**
+   * Posting time (Unix seconds).
+   */
+  createdUtc?: number;
+  /**
    * Expiry time, 24h after posting (Unix seconds).
    */
   expiresAt?: number;
@@ -608,10 +794,6 @@ export interface InstagramStoriesFullItem {
    * Media type: 1 = image, 2 = video.
    */
   mediaType?: number;
-  /**
-   * Posting time (Unix seconds).
-   */
-  postedAt?: number;
   /**
    * Owner username.
    * Present whenever the upstream returns this record.
@@ -650,6 +832,10 @@ export interface InstagramStoriesThinInput {
 
 export interface InstagramStoriesThinItem {
   /**
+   * Posting time (Unix seconds).
+   */
+  createdUtc?: number;
+  /**
    * Story identifier.
    */
   id: string;
@@ -663,10 +849,6 @@ export interface InstagramStoriesThinItem {
    * Present whenever the upstream returns this record.
    */
   permalink?: string;
-  /**
-   * Posting time (Unix seconds).
-   */
-  postedAt?: number;
   /**
    * Owner username.
    * Present whenever the upstream returns this record.
@@ -755,7 +937,10 @@ export interface InstagramUserPostsInput {
 export interface InstagramUserPostsPost {
   caption: string;
   comments: number;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   likes: number;
   url: string;
@@ -791,10 +976,13 @@ export interface InstagramUserReelsInput {
 export interface InstagramUserReelsReel {
   caption: string;
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   likes: number;
   shortcode: string;
-  takenAt: number;
   views: number;
   [extra: string]: unknown;
 }

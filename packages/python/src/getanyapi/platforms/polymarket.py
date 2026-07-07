@@ -44,11 +44,49 @@ class PolymarketMarketsData(BaseModel):
 
 
 class PolymarketMarketsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ends_utc: float | None = Field(
+        default=None,
+        alias="endsUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the market resolves/ends.",
+    )
+    event_title: str | None = Field(
+        default=None,
+        alias="eventTitle",
+        description="Title of the parent event grouping this market.",
+    )
+    id: str = Field(description="Polymarket market identifier.")
+    image: str | None = Field(default=None, description="Event image URL.")
+    liquidity_usd: float | None = Field(
+        default=None, alias="liquidityUsd", description="Available liquidity in USD."
+    )
+    outcomes: list[PolymarketMarketsOutcome] | None = Field(
+        default=None, description="Market outcomes with their current implied prices."
+    )
+    status: str | None = Field(
+        default=None, description="Market status, e.g. active or closed."
+    )
+    title: str = Field(description="The market question.")
+    url: str = Field(description="Polymarket URL for the market event.")
+    volume24h_usd: float | None = Field(
+        default=None,
+        alias="volume24hUsd",
+        description="Traded volume in USD over the past 24 hours.",
+    )
+    volume_usd: float | None = Field(
+        default=None, alias="volumeUsd", description="Total traded volume in USD."
+    )
+
+
+class PolymarketMarketsOutcome(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str
-    title: str
-    url: str
+    name: str | None = Field(default=None, description="Outcome label, e.g. Yes or No.")
+    price: float | None = Field(
+        default=None,
+        description="Current implied probability price for the outcome (0 to 1).",
+    )
 
 
 class PolymarketNamespace:

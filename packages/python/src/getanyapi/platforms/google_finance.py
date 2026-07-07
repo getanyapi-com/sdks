@@ -31,6 +31,11 @@ class GoogleFinanceQuoteData(BaseModel):
 class GoogleFinanceQuoteItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    as_of_utc: float | None = Field(
+        default=None,
+        alias="asOfUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     ask: float | None = Field(default=None, description="Current ask price.")
     asset_type: str | None = Field(
         default=None,
@@ -100,9 +105,6 @@ class GoogleFinanceQuoteItem(BaseModel):
     )
     price: float = Field(description="Current price in the quote currency.")
     symbol: str = Field(description="Resolved ticker symbol for the quote.")
-    timestamp: str | None = Field(
-        default=None, description="Timestamp of the quote (ISO 8601)."
-    )
     volume: float | None = Field(
         default=None, description="Traded volume for the current session."
     )

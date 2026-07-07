@@ -22,8 +22,36 @@ export interface GoogleImagesInput {
 }
 
 export interface GoogleImagesItem {
+  /**
+   * Full image height in pixels.
+   */
+  height?: number;
+  /**
+   * Host domain of the page the image appears on.
+   * Present whenever the upstream returns this record.
+   */
+  source?: string;
+  /**
+   * URL of the page the image appears on.
+   * Present whenever the upstream returns this record.
+   */
+  sourceUrl?: string;
+  /**
+   * URL to a thumbnail of the image.
+   */
+  thumbnailUrl?: string;
+  /**
+   * Image result title.
+   */
   title: string;
+  /**
+   * Direct URL to the full-size image.
+   */
   url: string;
+  /**
+   * Full image width in pixels.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -64,10 +92,10 @@ export interface GoogleNewsInput {
 
 export interface GoogleNewsItem {
   /**
-   * Publish time.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    * Present whenever the upstream returns this record.
    */
-  publishedAt?: string;
+  createdUtc?: number;
   /**
    * Article snippet when available.
    */
@@ -77,6 +105,9 @@ export interface GoogleNewsItem {
    * Present whenever the upstream returns this record.
    */
   source?: string;
+  /**
+   * Article headline.
+   */
   title: string;
   /**
    * Article link.

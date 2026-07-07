@@ -38,17 +38,31 @@ class UpworkJobsItem(BaseModel):
     budget: str | None = Field(
         default=None, description="Fixed budget or hourly range."
     )
-    client_location: str | None = Field(default=None, alias="clientLocation")
-    client_rating: float | None = Field(default=None, alias="clientRating")
+    client_location: str | None = Field(
+        default=None, alias="clientLocation", description="Client country or location."
+    )
+    client_rating: float | None = Field(
+        default=None, alias="clientRating", description="Client average rating."
+    )
     client_total_spent: float | None = Field(
         default=None,
         alias="clientTotalSpent",
         description="Client lifetime spend (USD).",
     )
-    description: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    experience_level: str | None = Field(default=None, alias="experienceLevel")
+    description: str | None = Field(
+        default=None,
+        description="Full job posting description text. Present whenever the upstream returns this record.",
+    )
+    experience_level: str | None = Field(
+        default=None,
+        alias="experienceLevel",
+        description="Required experience level (e.g. Entry, Intermediate, Expert).",
+    )
     job_id: str = Field(alias="jobId", description="Upwork job identifier.")
     job_type: str | None = Field(
         default=None, alias="jobType", description="Fixed or Hourly."
@@ -58,14 +72,11 @@ class UpworkJobsItem(BaseModel):
         alias="paymentVerified",
         description="Whether the client's payment method is verified; null when Upwork reports it as unknown.",
     )
-    posted_at: str | None = Field(
-        default=None, alias="postedAt", description="ISO 8601 posting date."
-    )
     proposals: int | None = Field(
         default=None, description="Number of proposals submitted."
     )
     tags: list[str] | None = Field(default=None, description="Skill tags.")
-    title: str
+    title: str = Field(description="Job posting title.")
     url: str = Field(description="Upwork job posting URL.")
 
 

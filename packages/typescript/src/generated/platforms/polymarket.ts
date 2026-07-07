@@ -40,9 +40,62 @@ export interface PolymarketMarketsInput {
 }
 
 export interface PolymarketMarketsItem {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the market resolves/ends.
+   */
+  endsUtc?: number;
+  /**
+   * Title of the parent event grouping this market.
+   */
+  eventTitle?: string;
+  /**
+   * Polymarket market identifier.
+   */
   id: string;
+  /**
+   * Event image URL.
+   */
+  image?: string;
+  /**
+   * Available liquidity in USD.
+   */
+  liquidityUsd?: number;
+  /**
+   * Market outcomes with their current implied prices.
+   */
+  outcomes?: PolymarketMarketsOutcome[];
+  /**
+   * Market status, e.g. active or closed.
+   */
+  status?: string;
+  /**
+   * The market question.
+   */
   title: string;
+  /**
+   * Polymarket URL for the market event.
+   */
   url: string;
+  /**
+   * Traded volume in USD over the past 24 hours.
+   */
+  volume24hUsd?: number;
+  /**
+   * Total traded volume in USD.
+   */
+  volumeUsd?: number;
+  [extra: string]: unknown;
+}
+
+export interface PolymarketMarketsOutcome {
+  /**
+   * Outcome label, e.g. Yes or No.
+   */
+  name?: string;
+  /**
+   * Current implied probability price for the outcome (0 to 1).
+   */
+  price?: number;
   [extra: string]: unknown;
 }
 

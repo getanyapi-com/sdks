@@ -17,12 +17,86 @@ export interface ZillowPropertyInput {
 }
 
 export interface ZillowPropertyItem {
-  price: number;
   /**
-   * Present whenever the upstream returns this record.
+   * Street address line of the property.
+   */
+  addressLine?: string;
+  /**
+   * Number of bathrooms.
+   */
+  baths?: number;
+  /**
+   * Number of bedrooms.
+   */
+  beds?: number;
+  /**
+   * City the property is in.
+   */
+  city?: string;
+  /**
+   * County the property is in.
+   */
+  county?: string;
+  /**
+   * Currency code for the price (e.g. USD).
+   */
+  currency?: string;
+  /**
+   * Listing description text.
+   */
+  description?: string;
+  /**
+   * Listing status (e.g. FOR_SALE, RECENTLY_SOLD, OTHER).
+   */
+  homeStatus?: string;
+  /**
+   * Home type (e.g. SINGLE_FAMILY, CONDO, TOWNHOUSE).
+   */
+  homeType?: string;
+  /**
+   * Primary listing photo URL.
+   */
+  image?: string;
+  /**
+   * Latitude of the property in decimal degrees.
+   */
+  latitude?: number;
+  /**
+   * Longitude of the property in decimal degrees.
+   */
+  longitude?: number;
+  /**
+   * Postal (ZIP) code of the property.
+   */
+  postalCode?: string;
+  /**
+   * Listed price in the listing currency.
+   */
+  price?: number;
+  /**
+   * Annual property tax rate as a percentage.
+   */
+  propertyTaxRate?: number;
+  /**
+   * Interior living area in square feet.
+   */
+  sqft?: number;
+  /**
+   * Two-letter state code the property is in.
+   */
+  state?: string;
+  /**
+   * Street address line used as the property title.
    */
   title?: string;
+  /**
+   * Canonical Zillow property detail page URL.
+   */
   url: string;
+  /**
+   * Zillow property id (zpid), the stable identifier for the property.
+   */
+  zpid: string;
   [extra: string]: unknown;
 }
 
@@ -31,7 +105,7 @@ export interface ZillowPropertyItem {
  */
 export interface ZillowPropertyData {
   /**
-   * Matching property records: full listing details including price, address, facts and features, photos, and price/tax history.
+   * The matched property record (single element for a property lookup).
    */
   items: ZillowPropertyItem[];
 }
@@ -152,7 +226,7 @@ export class ZillowNamespace {
   /**
    * Zillow Property
    *
-   * Fetch full details for a single Zillow property listing by URL - price, facts and features, photos, and price/tax history - with transparent per-request USD pricing.
+   * Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history) with transparent per-request USD pricing.
    *
    * Price: $0.0024 per result.
    *

@@ -18,10 +18,47 @@ export interface YahooFinanceQuoteInput {
 
 export interface YahooFinanceQuoteItem {
   /**
+   * Absolute price change from the previous close.
+   */
+  change?: number;
+  /**
+   * Percent price change from the previous close (e.g. 3.14 means +3.14%).
+   */
+  changePercent?: number;
+  /**
+   * Highest trade price during the current session.
+   */
+  dayHigh?: number;
+  /**
+   * Lowest trade price during the current session.
+   */
+  dayLow?: number;
+  /**
+   * Total market capitalization in the security's native currency.
+   */
+  marketCap?: number;
+  /**
+   * The security's display name, e.g. "Apple Inc.".
    * Present whenever the upstream returns this record.
    */
   name?: string;
+  /**
+   * The previous session's closing price.
+   */
+  previousClose?: number;
+  /**
+   * The latest trade price in the security's native currency.
+   */
   price: number;
+  /**
+   * The resolved ticker symbol for the quote, e.g. "AAPL".
+   * Present whenever the upstream returns this record.
+   */
+  symbol?: string;
+  /**
+   * Number of shares traded during the current session.
+   */
+  volume?: number;
   [extra: string]: unknown;
 }
 
@@ -30,7 +67,7 @@ export interface YahooFinanceQuoteItem {
  */
 export interface YahooFinanceQuoteData {
   /**
-   * Quote records for the ticker: current price, market cap, volume, day range, and key financial stats.
+   * Quote records for the ticker: current price, day range, volume, and market cap.
    */
   items: YahooFinanceQuoteItem[];
 }
@@ -45,7 +82,7 @@ export class YahooFinanceNamespace {
   /**
    * Yahoo Finance Quote
    *
-   * Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote - price, market cap, volume, and key stats - as normalized JSON with transparent per-request USD pricing.
+   * Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote (price, market cap, volume, and key stats) as normalized JSON with transparent per-request USD pricing.
    *
    * Price: $0.00005 per request plus $0.0009 per result.
    *

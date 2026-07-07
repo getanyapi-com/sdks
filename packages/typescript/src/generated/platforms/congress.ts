@@ -38,12 +38,57 @@ export interface CongressTradesInput {
 }
 
 export interface CongressTradesItem {
-  id: string;
   /**
+   * Disclosed dollar amount range for the transaction.
+   */
+  amountRange?: string;
+  /**
+   * Full name of the traded asset.
    * Present whenever the upstream returns this record.
    */
-  name?: string;
+  assetName?: string;
+  /**
+   * Congressional chamber, e.g. House or Senate.
+   */
+  chamber?: string;
+  /**
+   * Member's first name.
+   * Present whenever the upstream returns this record.
+   */
+  firstName?: string;
+  /**
+   * Stable disclosure record identifier.
+   */
+  id: string;
+  /**
+   * Member's last name.
+   * Present whenever the upstream returns this record.
+   */
+  lastName?: string;
+  /**
+   * Trade owner code, e.g. SP (spouse), JT (joint), DC (dependent child).
+   */
+  owner?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the transaction was reported/disclosed.
+   */
+  reportedUtc?: number;
+  /**
+   * Member's state and district, e.g. PA11.
+   */
+  stateDistrict?: string;
+  /**
+   * Stock ticker symbol of the traded asset.
+   */
   symbol: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the transaction occurred.
+   */
+  tradedUtc?: number;
+  /**
+   * Transaction type code, e.g. P (purchase), S (sale).
+   */
+  transactionType?: string;
   [extra: string]: unknown;
 }
 

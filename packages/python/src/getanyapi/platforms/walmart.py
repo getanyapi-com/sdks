@@ -24,15 +24,66 @@ class WalmartProductInput(TypedDict, total=False):
 
 class WalmartProductData(BaseModel):
     items: list[WalmartProductItem] = Field(
-        description="Product detail records: title, price, availability, rating, review count, images, and specifications."
+        description="Product detail records (one per requested product URL)."
     )
 
 
 class WalmartProductItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    title: str
-    url: str
+    availability: str | None = Field(
+        default=None, description='Stock status, e.g. "IN_STOCK".'
+    )
+    brand: str | None = Field(
+        default=None, description="Brand name; empty when not reported."
+    )
+    description: str | None = Field(
+        default=None,
+        description="Short product description; empty when the listing has none.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="Primary product image URL. Present whenever the upstream returns this record.",
+    )
+    images: list[str] | None = Field(
+        default=None, description="All product image URLs."
+    )
+    item_id: str | None = Field(
+        default=None,
+        alias="itemId",
+        description="Walmart US item id (usItemId). Present whenever the upstream returns this record.",
+    )
+    model: str | None = Field(
+        default=None, description="Manufacturer model number; empty when not reported."
+    )
+    price_text: str | None = Field(
+        default=None,
+        alias="priceText",
+        description='Current price as displayed, e.g. "$125.00"; empty when unavailable (Walmart returns a formatted string, not a numeric value).',
+    )
+    product_id: str | None = Field(
+        default=None, alias="productId", description="Walmart internal product id."
+    )
+    rating: float | None = Field(
+        default=None, description="Average customer rating, 0-5; 0 when unrated."
+    )
+    reviews_count: int | None = Field(
+        default=None,
+        alias="reviewsCount",
+        description="Number of customer reviews; 0 when none.",
+    )
+    seller_name: str | None = Field(
+        default=None,
+        alias="sellerName",
+        description="Name of the seller fulfilling the offer.",
+    )
+    title: str = Field(description="Product title.")
+    upc: str | None = Field(
+        default=None, description="Universal Product Code; empty when not reported."
+    )
+    url: str = Field(
+        description="Canonical Walmart product page URL (condition query param retained, as it selects the offer)."
+    )
 
 
 class WalmartNamespace:

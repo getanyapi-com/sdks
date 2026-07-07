@@ -345,6 +345,32 @@ import type {
   SemrushOverviewInput,
 } from "./platforms/semrush.js";
 import type {
+  SeoCompetitorsDomainData,
+  SeoCompetitorsDomainInput,
+  SeoDomainIntersectionData,
+  SeoDomainIntersectionInput,
+  SeoDomainRankOverviewData,
+  SeoDomainRankOverviewInput,
+  SeoKeywordDifficultyData,
+  SeoKeywordDifficultyInput,
+  SeoKeywordIdeasData,
+  SeoKeywordIdeasInput,
+  SeoKeywordOverviewData,
+  SeoKeywordOverviewInput,
+  SeoKeywordSuggestionsData,
+  SeoKeywordSuggestionsInput,
+  SeoLocalPackData,
+  SeoLocalPackInput,
+  SeoRankedKeywordsData,
+  SeoRankedKeywordsInput,
+  SeoRelatedKeywordsData,
+  SeoRelatedKeywordsInput,
+  SeoSearchIntentData,
+  SeoSearchIntentInput,
+  SeoSearchVolumeData,
+  SeoSearchVolumeInput,
+} from "./platforms/seo.js";
+import type {
   SnapchatProfileData,
   SnapchatProfileInput,
 } from "./platforms/snapchat.js";
@@ -1165,7 +1191,7 @@ export interface SkuMap {
   "reddit.post_comments": {
     input: RedditPostCommentsInput;
     data: RedditPostCommentsData;
-    result: BareRunResult<RedditPostCommentsData>;
+    result: RunResult<RedditPostCommentsData>;
   };
   "reddit.post_transcript": {
     input: RedditPostTranscriptInput;
@@ -1175,7 +1201,7 @@ export interface SkuMap {
   "reddit.search": {
     input: RedditSearchInput;
     data: RedditSearchData;
-    result: BareRunResult<RedditSearchData>;
+    result: RunResult<RedditSearchData>;
   };
   "reddit.subreddit_details": {
     input: RedditSubredditDetailsInput;
@@ -1185,7 +1211,7 @@ export interface SkuMap {
   "reddit.subreddit_posts": {
     input: RedditSubredditPostsInput;
     data: RedditSubredditPostsData;
-    result: BareRunResult<RedditSubredditPostsData>;
+    result: RunResult<RedditSubredditPostsData>;
   };
   "reddit.subreddit_search": {
     input: RedditSubredditSearchInput;
@@ -1241,6 +1267,66 @@ export interface SkuMap {
     input: SemrushOverviewInput;
     data: SemrushOverviewData;
     result: RunResult<SemrushOverviewData>;
+  };
+  "seo.competitors_domain": {
+    input: SeoCompetitorsDomainInput;
+    data: SeoCompetitorsDomainData;
+    result: RunResult<SeoCompetitorsDomainData>;
+  };
+  "seo.domain_intersection": {
+    input: SeoDomainIntersectionInput;
+    data: SeoDomainIntersectionData;
+    result: RunResult<SeoDomainIntersectionData>;
+  };
+  "seo.domain_rank_overview": {
+    input: SeoDomainRankOverviewInput;
+    data: SeoDomainRankOverviewData;
+    result: RunResult<SeoDomainRankOverviewData>;
+  };
+  "seo.keyword_difficulty": {
+    input: SeoKeywordDifficultyInput;
+    data: SeoKeywordDifficultyData;
+    result: RunResult<SeoKeywordDifficultyData>;
+  };
+  "seo.keyword_ideas": {
+    input: SeoKeywordIdeasInput;
+    data: SeoKeywordIdeasData;
+    result: RunResult<SeoKeywordIdeasData>;
+  };
+  "seo.keyword_overview": {
+    input: SeoKeywordOverviewInput;
+    data: SeoKeywordOverviewData;
+    result: RunResult<SeoKeywordOverviewData>;
+  };
+  "seo.keyword_suggestions": {
+    input: SeoKeywordSuggestionsInput;
+    data: SeoKeywordSuggestionsData;
+    result: RunResult<SeoKeywordSuggestionsData>;
+  };
+  "seo.local_pack": {
+    input: SeoLocalPackInput;
+    data: SeoLocalPackData;
+    result: RunResult<SeoLocalPackData>;
+  };
+  "seo.ranked_keywords": {
+    input: SeoRankedKeywordsInput;
+    data: SeoRankedKeywordsData;
+    result: RunResult<SeoRankedKeywordsData>;
+  };
+  "seo.related_keywords": {
+    input: SeoRelatedKeywordsInput;
+    data: SeoRelatedKeywordsData;
+    result: RunResult<SeoRelatedKeywordsData>;
+  };
+  "seo.search_intent": {
+    input: SeoSearchIntentInput;
+    data: SeoSearchIntentData;
+    result: RunResult<SeoSearchIntentData>;
+  };
+  "seo.search_volume": {
+    input: SeoSearchVolumeInput;
+    data: SeoSearchVolumeData;
+    result: RunResult<SeoSearchVolumeData>;
   };
   "snapchat.profile": {
     input: SnapchatProfileInput;

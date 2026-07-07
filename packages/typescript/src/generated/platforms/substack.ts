@@ -39,15 +39,26 @@ export interface SubstackPostsInput {
 
 export interface SubstackPostsItem {
   /**
+   * Handle of the post author.
    * Present whenever the upstream returns this record.
    */
   authorHandle?: string;
   /**
+   * Display name of the post author.
    * Present whenever the upstream returns this record.
    */
   authorName?: string;
+  /**
+   * Number of comments on the post.
+   */
   commentCount?: number;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Post description or article HTML/summary.
    * Present whenever the upstream returns this record.
    */
   description?: string;
@@ -56,27 +67,40 @@ export interface SubstackPostsItem {
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * Whether the post is behind a paywall.
+   */
   isPaid?: boolean;
   /**
+   * Substack post identifier.
    * Present whenever the upstream returns this record.
    */
   postId?: string;
   /**
+   * Post type (e.g. newsletter, podcast, thread).
    * Present whenever the upstream returns this record.
    */
   postType?: string;
   /**
-   * ISO 8601 publish date.
-   * Present whenever the upstream returns this record.
+   * Number of reactions on the post.
    */
-  publishedAt?: string;
   reactionCount?: number;
   /**
+   * Post subtitle or deck.
    * Present whenever the upstream returns this record.
    */
   subtitle?: string;
+  /**
+   * Post title.
+   */
   title: string;
+  /**
+   * Canonical post URL.
+   */
   url: string;
+  /**
+   * Approximate word count of the article.
+   */
   wordcount?: number;
   [extra: string]: unknown;
 }

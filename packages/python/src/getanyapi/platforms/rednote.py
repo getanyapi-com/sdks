@@ -79,106 +79,139 @@ class RednoteNoteData(BaseModel):
     author_image: str | None = Field(
         default=None,
         alias="authorImage",
-        description="Present whenever the upstream returns this record.",
+        description="URL of the author's avatar. Present whenever the upstream returns this record.",
     )
     author_nickname: str | None = Field(
         default=None,
         alias="authorNickname",
-        description="Present whenever the upstream returns this record.",
+        description="Display name of the note author. Present whenever the upstream returns this record.",
     )
     author_red_id: str | None = Field(
         default=None,
         alias="authorRedId",
-        description="Present whenever the upstream returns this record.",
+        description="Author's public RedNote ID. Present whenever the upstream returns this record.",
     )
     author_user_id: str | None = Field(
         default=None,
         alias="authorUserId",
-        description="Present whenever the upstream returns this record.",
+        description="Identifier of the note author. Present whenever the upstream returns this record.",
     )
-    collect_count: int | None = Field(default=None, alias="collectCount")
-    comment_count: int | None = Field(default=None, alias="commentCount")
-    created_at: int | None = Field(
+    collect_count: int | None = Field(
         default=None,
-        alias="createdAt",
-        description="Present whenever the upstream returns this record.",
+        alias="collectCount",
+        description="Number of times the note was collected.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the note.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
     )
     description: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Note body text. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="URL of the note cover image. Present whenever the upstream returns this record.",
     )
     language: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Detected language of the note. Present whenever the upstream returns this record.",
     )
-    like_count: int | None = Field(default=None, alias="likeCount")
-    note_id: str = Field(alias="noteId")
-    share_count: int | None = Field(default=None, alias="shareCount")
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the note."
+    )
+    note_id: str = Field(alias="noteId", description="Note identifier.")
+    share_count: int | None = Field(
+        default=None,
+        alias="shareCount",
+        description="Number of times the note was shared.",
+    )
     title: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Note title. Present whenever the upstream returns this record.",
     )
     type_: str | None = Field(
         default=None,
         alias="type",
-        description="Present whenever the upstream returns this record.",
+        description='Note type, e.g. "normal" or "video". Present whenever the upstream returns this record.',
     )
-    updated_at: int | None = Field(
+    updated_utc: float | None = Field(
         default=None,
-        alias="updatedAt",
-        description="Present whenever the upstream returns this record.",
+        alias="updatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
     )
     url: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Canonical URL of the note. Present whenever the upstream returns this record.",
     )
 
 
 class RednoteNoteCommentsData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    comments: list[RednoteNoteCommentsComment]
-    next_cursor: str = Field(alias="nextCursor")
+    comments: list[RednoteNoteCommentsComment] = Field(
+        description="Comments on the note."
+    )
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of comments; empty when there are no more.",
+    )
 
 
 class RednoteNoteCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    comment_id: str = Field(alias="commentId")
-    created_at: int | None = Field(
+    comment_id: str = Field(alias="commentId", description="Comment identifier.")
+    created_utc: float | None = Field(
         default=None,
-        alias="createdAt",
-        description="Present whenever the upstream returns this record.",
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="URL of the author's avatar. Present whenever the upstream returns this record.",
     )
     ip_location: str | None = Field(
         default=None,
         alias="ipLocation",
-        description="Present whenever the upstream returns this record.",
+        description="IP-based location shown for the commenter. Present whenever the upstream returns this record.",
     )
-    like_count: int | None = Field(default=None, alias="likeCount")
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the comment."
+    )
     nickname: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Display name of the comment author. Present whenever the upstream returns this record.",
     )
     note_id: str | None = Field(
         default=None,
         alias="noteId",
-        description="Present whenever the upstream returns this record.",
+        description="Identifier of the note the comment belongs to. Present whenever the upstream returns this record.",
     )
     red_id: str | None = Field(
         default=None,
         alias="redId",
-        description="Present whenever the upstream returns this record.",
+        description="Author's public RedNote ID. Present whenever the upstream returns this record.",
     )
-    reply_count: int | None = Field(default=None, alias="replyCount")
+    reply_count: int | None = Field(
+        default=None,
+        alias="replyCount",
+        description="Number of replies to the comment.",
+    )
     text: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Comment text content. Present whenever the upstream returns this record.",
     )
     user_id: str | None = Field(
         default=None,
         alias="userId",
-        description="Present whenever the upstream returns this record.",
+        description="Identifier of the comment author. Present whenever the upstream returns this record.",
     )
 
 
@@ -221,8 +254,11 @@ class RednoteProfileData(BaseModel):
 class RednoteSearchData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
-    notes: list[RednoteSearchNote]
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of results; empty when there are no more.",
+    )
+    notes: list[RednoteSearchNote] = Field(description="Notes matching the search.")
 
 
 class RednoteSearchNote(BaseModel):
@@ -231,47 +267,68 @@ class RednoteSearchNote(BaseModel):
     author_image: str | None = Field(
         default=None,
         alias="authorImage",
-        description="Present whenever the upstream returns this record.",
+        description="URL of the author's avatar. Present whenever the upstream returns this record.",
     )
     author_nickname: str | None = Field(
         default=None,
         alias="authorNickname",
-        description="Present whenever the upstream returns this record.",
+        description="Display name of the note author. Present whenever the upstream returns this record.",
     )
     author_red_id: str | None = Field(
         default=None,
         alias="authorRedId",
-        description="Present whenever the upstream returns this record.",
+        description="Author's public RedNote ID. Present whenever the upstream returns this record.",
     )
     author_user_id: str | None = Field(
         default=None,
         alias="authorUserId",
-        description="Present whenever the upstream returns this record.",
+        description="Identifier of the note author. Present whenever the upstream returns this record.",
     )
-    collect_count: int | None = Field(default=None, alias="collectCount")
-    comment_count: int | None = Field(default=None, alias="commentCount")
-    created_at: int | None = Field(default=None, alias="createdAt")
+    collect_count: int | None = Field(
+        default=None,
+        alias="collectCount",
+        description="Number of times the note was collected.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the note.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     description: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Note body text. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="URL of the note cover image. Present whenever the upstream returns this record.",
     )
-    like_count: int | None = Field(default=None, alias="likeCount")
-    note_id: str = Field(alias="noteId")
-    share_count: int | None = Field(default=None, alias="shareCount")
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the note."
+    )
+    note_id: str = Field(alias="noteId", description="Note identifier.")
+    share_count: int | None = Field(
+        default=None,
+        alias="shareCount",
+        description="Number of times the note was shared.",
+    )
     title: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Note title. Present whenever the upstream returns this record.",
     )
     type_: str | None = Field(
         default=None,
         alias="type",
-        description="Present whenever the upstream returns this record.",
+        description='Note type, e.g. "normal" or "video". Present whenever the upstream returns this record.',
     )
     xsec_token: str | None = Field(
         default=None,
         alias="xsecToken",
-        description="Present whenever the upstream returns this record.",
+        description="Security token required to fetch the note's full detail. Present whenever the upstream returns this record.",
     )
 
 
@@ -313,8 +370,11 @@ class RednoteSearchUsersUser(BaseModel):
 class RednoteUserNotesData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
-    notes: list[RednoteUserNotesNote]
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of results; empty when there are no more.",
+    )
+    notes: list[RednoteUserNotesNote] = Field(description="The user's notes.")
 
 
 class RednoteUserNotesNote(BaseModel):
@@ -323,37 +383,58 @@ class RednoteUserNotesNote(BaseModel):
     author_image: str | None = Field(
         default=None,
         alias="authorImage",
-        description="Present whenever the upstream returns this record.",
+        description="URL of the author's avatar. Present whenever the upstream returns this record.",
     )
     author_nickname: str | None = Field(
         default=None,
         alias="authorNickname",
-        description="Present whenever the upstream returns this record.",
+        description="Display name of the note author. Present whenever the upstream returns this record.",
     )
     author_user_id: str | None = Field(
         default=None,
         alias="authorUserId",
-        description="Present whenever the upstream returns this record.",
+        description="Identifier of the note author. Present whenever the upstream returns this record.",
     )
-    collect_count: int | None = Field(default=None, alias="collectCount")
-    comment_count: int | None = Field(default=None, alias="commentCount")
-    created_at: int | None = Field(default=None, alias="createdAt")
+    collect_count: int | None = Field(
+        default=None,
+        alias="collectCount",
+        description="Number of times the note was collected.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the note.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     description: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Note body text. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="URL of the note cover image. Present whenever the upstream returns this record.",
     )
-    like_count: int | None = Field(default=None, alias="likeCount")
-    note_id: str = Field(alias="noteId")
-    share_count: int | None = Field(default=None, alias="shareCount")
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the note."
+    )
+    note_id: str = Field(alias="noteId", description="Note identifier.")
+    share_count: int | None = Field(
+        default=None,
+        alias="shareCount",
+        description="Number of times the note was shared.",
+    )
     title: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Note title. Present whenever the upstream returns this record.",
     )
     type_: str | None = Field(
         default=None,
         alias="type",
-        description="Present whenever the upstream returns this record.",
+        description='Note type, e.g. "normal" or "video". Present whenever the upstream returns this record.',
     )
 
 

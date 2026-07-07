@@ -53,10 +53,26 @@ class GoogleImagesData(BaseModel):
 
 
 class GoogleImagesItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    title: str
-    url: str
+    height: int | None = Field(default=None, description="Full image height in pixels.")
+    source: str | None = Field(
+        default=None,
+        description="Host domain of the page the image appears on. Present whenever the upstream returns this record.",
+    )
+    source_url: str | None = Field(
+        default=None,
+        alias="sourceUrl",
+        description="URL of the page the image appears on. Present whenever the upstream returns this record.",
+    )
+    thumbnail_url: str | None = Field(
+        default=None,
+        alias="thumbnailUrl",
+        description="URL to a thumbnail of the image.",
+    )
+    title: str = Field(description="Image result title.")
+    url: str = Field(description="Direct URL to the full-size image.")
+    width: int | None = Field(default=None, description="Full image width in pixels.")
 
 
 class GoogleNewsData(BaseModel):
@@ -68,10 +84,10 @@ class GoogleNewsData(BaseModel):
 class GoogleNewsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    published_at: str | None = Field(
+    created_utc: float | None = Field(
         default=None,
-        alias="publishedAt",
-        description="Publish time. Present whenever the upstream returns this record.",
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
     )
     snippet: str | None = Field(
         default=None, description="Article snippet when available."
@@ -80,7 +96,7 @@ class GoogleNewsItem(BaseModel):
         default=None,
         description="Publisher name. Present whenever the upstream returns this record.",
     )
-    title: str
+    title: str = Field(description="Article headline.")
     url: str = Field(description="Article link.")
 
 

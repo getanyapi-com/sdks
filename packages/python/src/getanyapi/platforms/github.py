@@ -118,43 +118,62 @@ class GithubUserRepositoriesInput(TypedDict, total=False):
 class GithubRepositoryData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    archived: bool | None = None
-    created_at: str | None = Field(
+    archived: bool | None = Field(
+        default=None, description="Whether the repository is archived."
+    )
+    created_utc: float | None = Field(
         default=None,
-        alias="createdAt",
-        description="Present whenever the upstream returns this record.",
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
     )
     default_branch: str | None = Field(
         default=None,
         alias="defaultBranch",
-        description="Present whenever the upstream returns this record.",
+        description="Name of the default branch. Present whenever the upstream returns this record.",
     )
-    description: str | None = None
-    fork: bool | None = None
-    forks: int | None = None
-    full_name: str = Field(alias="fullName")
-    homepage: str | None = None
-    language: str | None = None
-    license: str | None = None
-    name: str
-    open_issues: int | None = Field(default=None, alias="openIssues")
+    description: str | None = Field(
+        default=None, description="Short repository description, or null if none."
+    )
+    fork: bool | None = Field(
+        default=None, description="Whether the repository is a fork."
+    )
+    forks: int | None = Field(default=None, description="Number of forks.")
+    full_name: str = Field(
+        alias="fullName", description="Full repository name in owner/name form."
+    )
+    homepage: str | None = Field(
+        default=None, description="Project homepage URL, or null if none."
+    )
+    language: str | None = Field(
+        default=None, description="Primary programming language, or null if undetected."
+    )
+    license: str | None = Field(
+        default=None, description="License name, or null if unlicensed."
+    )
+    name: str = Field(description="Repository short name (without owner).")
+    open_issues: int | None = Field(
+        default=None,
+        alias="openIssues",
+        description="Count of open issues and pull requests.",
+    )
     owner: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Login of the repository owner (user or organization). Present whenever the upstream returns this record.",
     )
     pushed_at: str | None = Field(
         default=None,
         alias="pushedAt",
-        description="Present whenever the upstream returns this record.",
+        description="Last push timestamp (ISO 8601). Present whenever the upstream returns this record.",
     )
-    stars: int | None = None
-    topics: list[str] | None = None
+    stars: int | None = Field(default=None, description="Number of stargazers.")
+    topics: list[str] | None = Field(default=None, description="Repository topic tags.")
     updated_at: str | None = Field(
         default=None,
         alias="updatedAt",
-        description="Present whenever the upstream returns this record.",
+        description="Last metadata update timestamp (ISO 8601). Present whenever the upstream returns this record.",
     )
-    url: str
-    watchers: int | None = None
+    url: str = Field(description="Canonical URL of the repository.")
+    watchers: int | None = Field(default=None, description="Number of watchers.")
 
 
 class GithubTrendingDevelopersData(BaseModel):
@@ -196,23 +215,37 @@ class GithubTrendingRepositoriesRepo(BaseModel):
 class GithubUserData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
-    bio: str
-    blog: str | None = None
-    company: str | None = None
-    created_at: str | None = Field(
-        default=None,
-        alias="createdAt",
-        description="Present whenever the upstream returns this record.",
+    avatar_url: str = Field(
+        alias="avatarUrl", description="URL of the profile avatar image."
     )
-    followers: int
-    following: int
-    location: str | None = None
-    login: str
-    name: str
-    public_gists: int | None = Field(default=None, alias="publicGists")
-    public_repos: int = Field(alias="publicRepos")
-    twitter_username: str | None = Field(default=None, alias="twitterUsername")
+    bio: str = Field(description="Profile bio text.")
+    blog: str | None = Field(
+        default=None, description="Blog or website URL from the profile."
+    )
+    company: str | None = Field(
+        default=None, description="Company listed on the profile."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+    )
+    followers: int = Field(description="Number of followers.")
+    following: int = Field(description="Number of accounts the user follows.")
+    location: str | None = Field(
+        default=None, description="Location listed on the profile."
+    )
+    login: str = Field(description="GitHub username (handle).")
+    name: str = Field(description="Display name, or empty string if unset.")
+    public_gists: int | None = Field(
+        default=None, alias="publicGists", description="Count of public gists."
+    )
+    public_repos: int = Field(
+        alias="publicRepos", description="Count of public repositories."
+    )
+    twitter_username: str | None = Field(
+        default=None, alias="twitterUsername", description="Linked X/Twitter username."
+    )
     type_: str | None = Field(
         default=None, alias="type", description='"User" or "Organization".'
     )
@@ -236,17 +269,24 @@ class GithubUserActivityActivity(BaseModel):
 
 
 class GithubUserContributionsData(BaseModel):
-    days: list[GithubUserContributionsDay]
-    total: int
-    username: str
-    year: int
+    days: list[GithubUserContributionsDay] = Field(
+        description="Per-day contribution buckets for the year."
+    )
+    total: int = Field(description="Total contributions across the year.")
+    username: str = Field(
+        description="GitHub username the contribution graph belongs to."
+    )
+    year: int = Field(description="Calendar year of the contribution graph.")
 
 
 class GithubUserContributionsDay(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    count: int
-    date: str = Field(description="YYYY-MM-DD.")
+    count: int = Field(description="Number of contributions on this day.")
+    date_utc: float = Field(
+        alias="dateUtc",
+        description="UTC epoch seconds at 00:00 UTC of the contribution day.",
+    )
     intensity: int = Field(description="Heatmap level 0-4.")
 
 
@@ -289,19 +329,33 @@ class GithubUserFollowingFollowing(BaseModel):
 class GithubUserPullRequestsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    has_more: bool = Field(alias="hasMore")
-    next_cursor: str = Field(alias="nextCursor")
-    pull_requests: list[GithubUserPullRequestsPullRequest] = Field(alias="pullRequests")
+    has_more: bool = Field(
+        alias="hasMore",
+        description="Whether more pull requests are available beyond this page.",
+    )
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page, or empty string when none.",
+    )
+    pull_requests: list[GithubUserPullRequestsPullRequest] = Field(
+        alias="pullRequests",
+        description="The user's public pull requests for this page.",
+    )
 
 
 class GithubUserPullRequestsPullRequest(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    created_at: str = Field(alias="createdAt")
-    repo: str
-    state: str
-    title: str
-    url: str
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    repo: str = Field(
+        description="Repository the pull request targets, in owner/name form."
+    )
+    state: str = Field(description="Pull request state (e.g. open, closed, merged).")
+    title: str = Field(description="Pull request title.")
+    url: str = Field(description="Canonical URL of the pull request.")
 
 
 class GithubUserRepositoriesData(BaseModel):

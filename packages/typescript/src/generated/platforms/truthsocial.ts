@@ -20,13 +20,37 @@ export interface TruthsocialPostInput {
  * The `data` payload of Truth Social Post (truthsocial.post).
  */
 export interface TruthsocialPostData {
+  /**
+   * Number of comments on the post.
+   */
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Display name of the author.
+   */
   displayName: string;
+  /**
+   * Post identifier.
+   */
   id: string;
+  /**
+   * Number of likes on the post.
+   */
   likes: number;
-  publishedAt: string;
+  /**
+   * Number of reblogs of the post.
+   */
   shares: number;
+  /**
+   * Post text content.
+   */
   text: string;
+  /**
+   * Username of the author.
+   */
   username: string;
   [extra: string]: unknown;
 }
@@ -71,12 +95,33 @@ export interface TruthsocialUserPostsInput {
 }
 
 export interface TruthsocialUserPostsPost {
+  /**
+   * Number of comments on the post.
+   */
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Post identifier.
+   */
   id: string;
+  /**
+   * Number of likes on the post.
+   */
   likes: number;
-  publishedAt: string;
+  /**
+   * Number of reblogs of the post.
+   */
   shares: number;
+  /**
+   * Post text content.
+   */
   text: string;
+  /**
+   * Canonical URL of the post.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -85,6 +130,9 @@ export interface TruthsocialUserPostsPost {
  * The `data` payload of Truth Social User Posts (truthsocial.user_posts).
  */
 export interface TruthsocialUserPostsData {
+  /**
+   * The user's recent posts.
+   */
   posts: TruthsocialUserPostsPost[];
 }
 

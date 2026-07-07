@@ -56,12 +56,38 @@ export interface LinkedinAdsInput {
   url: string;
 }
 
+/**
+ * A LinkedIn ad: advertiser, creative text, format, and ad library URL.
+ */
 export interface LinkedinAdsItem {
-  id: string;
   /**
+   * Advertiser (company) name.
    * Present whenever the upstream returns this record.
    */
+  advertiser?: string;
+  /**
+   * Advertiser logo image URL.
+   */
+  advertiserLogo?: string;
+  /**
+   * Ad format (e.g. SINGLE_IMAGE, VIDEO).
+   */
+  format?: string;
+  /**
+   * LinkedIn ad id.
+   */
+  id: string;
+  /**
+   * Ad creative image URL.
+   */
+  image?: string;
+  /**
+   * Ad creative body text.
+   */
   text?: string;
+  /**
+   * Canonical LinkedIn Ad Library detail URL.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -71,7 +97,7 @@ export interface LinkedinAdsItem {
  */
 export interface LinkedinAdsData {
   /**
-   * Ad records: advertiser name, ad creative text, format, and ad library URL.
+   * Ad records from the LinkedIn Ad Library.
    */
   items: LinkedinAdsItem[];
 }
@@ -178,25 +204,42 @@ export interface LinkedinCompanyEmployeesInput {
 }
 
 /**
- * An employee: name, job title (headline), location text, public handle, and LinkedIn profile URL.
+ * An employee: name, headline, location, handle, and LinkedIn profile URL.
  */
 export interface LinkedinCompanyEmployeesItem {
   /**
+   * First name.
+   */
+  firstName?: string;
+  /**
+   * Public profile identifier (the vanity slug in the URL).
    * Present whenever the upstream returns this record.
    */
   handle?: string;
   /**
-   * The employee's current role or headline at the company.
+   * Profile picture URL.
+   */
+  image?: string;
+  /**
+   * The employee's current role or headline.
    */
   jobTitle?: string;
   /**
+   * Last name.
+   */
+  lastName?: string;
+  /**
    * The employee's location as a single string (city, region, country).
    */
-  locationText?: string;
+  location?: string;
   /**
+   * Full name.
    * Present whenever the upstream returns this record.
    */
   name?: string;
+  /**
+   * Canonical LinkedIn profile URL.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -206,7 +249,7 @@ export interface LinkedinCompanyEmployeesItem {
  */
 export interface LinkedinCompanyEmployeesData {
   /**
-   * Employee records: name, job title, location text, and LinkedIn profile URL.
+   * Employee records for the company.
    */
   items: LinkedinCompanyEmployeesItem[];
 }
@@ -227,9 +270,21 @@ export interface LinkedinCompanyPostsInput {
 }
 
 export interface LinkedinCompanyPostsPost {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Unique identifier of the post.
+   */
   id: string;
-  publishedAt: string;
+  /**
+   * Text content of the post.
+   */
   text: string;
+  /**
+   * Canonical URL of the post.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -238,6 +293,9 @@ export interface LinkedinCompanyPostsPost {
  * The `data` payload of LinkedIn Company Posts (linkedin.company_posts).
  */
 export interface LinkedinCompanyPostsData {
+  /**
+   * The company's recent posts.
+   */
   posts: LinkedinCompanyPostsPost[];
 }
 
@@ -251,6 +309,9 @@ export interface LinkedinEmailInput {
   profileUrl: string;
 }
 
+/**
+ * The discovered work email for a LinkedIn profile, with the person's name, title, company, and location.
+ */
 export interface LinkedinEmailItem {
   /**
    * Current company name.
@@ -261,14 +322,38 @@ export interface LinkedinEmailItem {
    */
   email: string;
   /**
+   * First name.
+   */
+  firstName?: string;
+  /**
+   * Profile headline.
+   */
+  headline?: string;
+  /**
+   * Last name.
+   */
+  lastName?: string;
+  /**
    * Canonical LinkedIn profile URL.
    * Present whenever the upstream returns this record.
    */
   linkedinUrl?: string;
   /**
+   * Current location (city, region, country).
+   */
+  location?: string;
+  /**
    * Full name on the LinkedIn profile.
    */
   name: string;
+  /**
+   * Phone number, when available.
+   */
+  phone?: string;
+  /**
+   * Seniority level (e.g. entry, senior).
+   */
+  seniority?: string;
   /**
    * Current job title.
    */
@@ -281,7 +366,7 @@ export interface LinkedinEmailItem {
  */
 export interface LinkedinEmailData {
   /**
-   * Email lookup records: the discovered work email for a LinkedIn profile, with the person's name, profile URL, title, and company.
+   * Email lookup records for the LinkedIn profile.
    */
   items: LinkedinEmailItem[];
 }
@@ -305,6 +390,9 @@ export interface LinkedinJobsInput {
   query: string;
 }
 
+/**
+ * A LinkedIn job listing: title, company, location, posting date, and the listing URL.
+ */
 export interface LinkedinJobsItem {
   /**
    * Hiring company name.
@@ -312,23 +400,33 @@ export interface LinkedinJobsItem {
    */
   company?: string;
   /**
+   * Canonical LinkedIn company URL.
+   */
+  companyUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * Full job description text.
    */
   description?: string;
+  /**
+   * LinkedIn job listing id.
+   */
+  id?: string;
   /**
    * Job location (city, region).
    * Present whenever the upstream returns this record.
    */
   location?: string;
   /**
-   * When the job was posted, as an ISO 8601 timestamp.
-   * Present whenever the upstream returns this record.
-   */
-  postedAt?: string;
-  /**
    * Seniority / experience level (e.g. Entry level, Mid-Senior, Not Applicable).
    */
   seniority?: string;
+  /**
+   * Job title.
+   */
   title: string;
   /**
    * Canonical LinkedIn job listing URL.
@@ -342,7 +440,7 @@ export interface LinkedinJobsItem {
  */
 export interface LinkedinJobsData {
   /**
-   * Job records: title and listing URL, plus (when present) company, location, posting date, description, and seniority.
+   * Job listing records for the search.
    */
   items: LinkedinJobsItem[];
 }
@@ -361,12 +459,33 @@ export interface LinkedinPostInput {
  * The `data` payload of LinkedIn Post (linkedin.post).
  */
 export interface LinkedinPostData {
+  /**
+   * Name of the post author.
+   */
   author: string;
+  /**
+   * Number of comments on the post.
+   */
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Number of likes on the post.
+   */
   likes: number;
-  publishedAt: string;
+  /**
+   * Text content of the post.
+   */
   text: string;
+  /**
+   * Title of the post.
+   */
   title: string;
+  /**
+   * Canonical URL of the post.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -402,33 +521,81 @@ export interface LinkedinProfileInput {
 }
 
 export interface LinkedinProfileArticle {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Headline of the article.
+   */
   headline: string;
-  publishedAt?: string;
+  /**
+   * Canonical URL of the article.
+   */
   url?: string;
   [extra: string]: unknown;
 }
 
 export interface LinkedinProfileEducation {
+  /**
+   * End date of study.
+   */
   endDate?: string;
+  /**
+   * Name of the school.
+   */
   school: string;
+  /**
+   * URL of the school page.
+   */
   schoolUrl?: string;
+  /**
+   * Start date of study.
+   */
   startDate?: string;
   [extra: string]: unknown;
 }
 
 export interface LinkedinProfileExperience {
+  /**
+   * Name of the company.
+   */
   company: string;
+  /**
+   * URL of the company page.
+   */
   companyUrl?: string;
+  /**
+   * End date of the role.
+   */
   endDate?: string;
+  /**
+   * Start date of the role.
+   */
   startDate?: string;
   [extra: string]: unknown;
 }
 
 export interface LinkedinProfileRecentPost {
+  /**
+   * Type of activity for the post.
+   */
   activityType?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Unique identifier of the post.
+   */
   id: string;
-  publishedAt?: string;
+  /**
+   * Text content of the post.
+   */
   text?: string;
+  /**
+   * Canonical URL of the post.
+   */
   url?: string;
   [extra: string]: unknown;
 }
@@ -437,14 +604,41 @@ export interface LinkedinProfileRecentPost {
  * The `data` payload of LinkedIn Profile (linkedin.profile).
  */
 export interface LinkedinProfileData {
+  /**
+   * About/summary text of the profile.
+   */
   about: string;
+  /**
+   * The profile's published articles.
+   */
   articles: LinkedinProfileArticle[];
+  /**
+   * URL of the profile avatar image.
+   */
   avatarUrl: string;
+  /**
+   * Education entries.
+   */
   education: LinkedinProfileEducation[];
+  /**
+   * Work experience entries.
+   */
   experience: LinkedinProfileExperience[];
+  /**
+   * Number of followers.
+   */
   followers: number;
+  /**
+   * Location of the profile owner.
+   */
   location: string;
+  /**
+   * Full name of the profile owner.
+   */
   name: string;
+  /**
+   * The profile's recent posts.
+   */
   recentPosts: LinkedinProfileRecentPost[];
   [extra: string]: unknown;
 }
@@ -468,9 +662,45 @@ export interface LinkedinSearchCompaniesInput {
   query: string;
 }
 
+/**
+ * A LinkedIn company: name, URL, industry, location, follower count, and description.
+ */
 export interface LinkedinSearchCompaniesItem {
+  /**
+   * Company summary / about text.
+   */
+  description?: string;
+  /**
+   * Follower count as a display string (e.g. 105K followers).
+   */
+  followersText?: string;
+  /**
+   * Company universal name (the vanity slug in the URL).
+   */
+  handle?: string;
+  /**
+   * LinkedIn company id.
+   */
   id: string;
+  /**
+   * Company logo image URL.
+   */
+  image?: string;
+  /**
+   * Company industry.
+   */
+  industry?: string;
+  /**
+   * Company location as a single string (city, region).
+   */
+  location?: string;
+  /**
+   * Company name.
+   */
   name: string;
+  /**
+   * Canonical LinkedIn company URL.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -480,7 +710,7 @@ export interface LinkedinSearchCompaniesItem {
  */
 export interface LinkedinSearchCompaniesData {
   /**
-   * Matching company records: name, LinkedIn URL, industry, location, headcount range, and description.
+   * Matching company records.
    */
   items: LinkedinSearchCompaniesItem[];
 }
@@ -506,8 +736,17 @@ export interface LinkedinSearchPostsInput {
 }
 
 export interface LinkedinSearchPostsPost {
-  publishedAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Text content of the post.
+   */
   text: string;
+  /**
+   * Canonical URL of the post.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -516,6 +755,9 @@ export interface LinkedinSearchPostsPost {
  * The `data` payload of LinkedIn Post Search (linkedin.search_posts).
  */
 export interface LinkedinSearchPostsData {
+  /**
+   * Posts matching the search query.
+   */
   posts: LinkedinSearchPostsPost[];
 }
 
@@ -542,19 +784,26 @@ export interface LinkedinSearchProfilesInput {
   query: string;
 }
 
+/**
+ * A LinkedIn profile: name, headline, location, current position, work experience, and education, plus the profile URL, handle, and id.
+ */
 export interface LinkedinSearchProfilesItem {
   /**
-   * Current role(s), passed through from the upstream. Typically a list of objects with job title, company, dates, and description; shape can vary by profile.
+   * Profile about / summary text.
    */
-  currentPosition?: unknown;
+  about?: string;
   /**
-   * Education history, passed through from the upstream. Typically a list of objects with school, degree, and field of study; shape can vary by profile.
+   * Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile and lane.
    */
-  education?: unknown;
+  currentPosition?: LinkedinSearchProfilesCurrentPosition[];
   /**
-   * Full work history, passed through from the upstream. Typically a list of objects with job title, company, dates, and description; shape can vary by profile.
+   * Education history. Each entry is an open object with school, degree, and field of study; shape can vary by profile and lane.
    */
-  experience?: unknown;
+  education?: LinkedinSearchProfilesEducation[];
+  /**
+   * Full work history. Each entry is an open object with the position title, company, dates, and location; shape can vary by profile and lane.
+   */
+  experience?: LinkedinSearchProfilesExperience[];
   /**
    * Member's first name.
    */
@@ -574,17 +823,33 @@ export interface LinkedinSearchProfilesItem {
    */
   id: string;
   /**
+   * Profile picture URL.
+   */
+  image?: string;
+  /**
    * Member's last name.
    */
   lastName?: string;
   /**
-   * Member's location, passed through from the upstream. Typically an object with the displayed location text and country code; shape can vary by profile.
+   * Member's location as a single string (city, region, country).
    */
-  location?: unknown;
+  location?: string;
   /**
    * Canonical LinkedIn profile URL.
    */
   url: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinSearchProfilesCurrentPosition {
+  [extra: string]: unknown;
+}
+
+export interface LinkedinSearchProfilesEducation {
+  [extra: string]: unknown;
+}
+
+export interface LinkedinSearchProfilesExperience {
   [extra: string]: unknown;
 }
 
@@ -593,7 +858,7 @@ export interface LinkedinSearchProfilesItem {
  */
 export interface LinkedinSearchProfilesData {
   /**
-   * Matched profile records. Each carries the profile URL, handle, and id. Depending on the match, records may also include first/last name, headline, location, current position, work experience, and education, plus upstream extras (about, skills, languages, certifications, connections, profile picture, and more) that pass through.
+   * Matched profile records.
    */
   items: LinkedinSearchProfilesItem[];
 }

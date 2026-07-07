@@ -379,14 +379,19 @@ class YoutubeTrendingShortsShort(BaseModel):
 class YoutubeVideoData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    channel: str
-    comments: int
-    duration_ms: int = Field(alias="durationMs")
-    id: str
-    likes: int
-    published_at: str = Field(alias="publishedAt")
-    title: str
-    views: int
+    channel: str = Field(description="Name of the channel that published the video.")
+    comments: int = Field(description="Number of comments.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    duration_ms: int = Field(
+        alias="durationMs", description="Duration of the video in milliseconds."
+    )
+    id: str = Field(description="Unique identifier of the video.")
+    likes: int = Field(description="Number of likes.")
+    title: str = Field(description="Title of the video.")
+    views: int = Field(description="Number of views.")
 
 
 class YoutubeVideoCommentsData(BaseModel):

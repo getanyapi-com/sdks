@@ -22,39 +22,86 @@ export interface GithubRepositoryInput {
  * The `data` payload of GitHub Repository (github.repository).
  */
 export interface GithubRepositoryData {
+  /**
+   * Whether the repository is archived.
+   */
   archived?: boolean;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    * Present whenever the upstream returns this record.
    */
-  createdAt?: string;
+  createdUtc?: number;
   /**
+   * Name of the default branch.
    * Present whenever the upstream returns this record.
    */
   defaultBranch?: string;
+  /**
+   * Short repository description, or null if none.
+   */
   description?: string;
+  /**
+   * Whether the repository is a fork.
+   */
   fork?: boolean;
+  /**
+   * Number of forks.
+   */
   forks?: number;
+  /**
+   * Full repository name in owner/name form.
+   */
   fullName: string;
+  /**
+   * Project homepage URL, or null if none.
+   */
   homepage?: string;
+  /**
+   * Primary programming language, or null if undetected.
+   */
   language?: string;
+  /**
+   * License name, or null if unlicensed.
+   */
   license?: string;
+  /**
+   * Repository short name (without owner).
+   */
   name: string;
+  /**
+   * Count of open issues and pull requests.
+   */
   openIssues?: number;
   /**
+   * Login of the repository owner (user or organization).
    * Present whenever the upstream returns this record.
    */
   owner?: string;
   /**
+   * Last push timestamp (ISO 8601).
    * Present whenever the upstream returns this record.
    */
   pushedAt?: string;
+  /**
+   * Number of stargazers.
+   */
   stars?: number;
+  /**
+   * Repository topic tags.
+   */
   topics?: string[];
   /**
+   * Last metadata update timestamp (ISO 8601).
    * Present whenever the upstream returns this record.
    */
   updatedAt?: string;
+  /**
+   * Canonical URL of the repository.
+   */
   url: string;
+  /**
+   * Number of watchers.
+   */
   watchers?: number;
   [extra: string]: unknown;
 }
@@ -143,21 +190,58 @@ export interface GithubUserInput {
  * The `data` payload of GitHub User (github.user).
  */
 export interface GithubUserData {
+  /**
+   * URL of the profile avatar image.
+   */
   avatarUrl: string;
+  /**
+   * Profile bio text.
+   */
   bio: string;
+  /**
+   * Blog or website URL from the profile.
+   */
   blog?: string;
+  /**
+   * Company listed on the profile.
+   */
   company?: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    * Present whenever the upstream returns this record.
    */
-  createdAt?: string;
+  createdUtc?: number;
+  /**
+   * Number of followers.
+   */
   followers: number;
+  /**
+   * Number of accounts the user follows.
+   */
   following: number;
+  /**
+   * Location listed on the profile.
+   */
   location?: string;
+  /**
+   * GitHub username (handle).
+   */
   login: string;
+  /**
+   * Display name, or empty string if unset.
+   */
   name: string;
+  /**
+   * Count of public gists.
+   */
   publicGists?: number;
+  /**
+   * Count of public repositories.
+   */
   publicRepos: number;
+  /**
+   * Linked X/Twitter username.
+   */
   twitterUsername?: string;
   /**
    * "User" or "Organization".
@@ -216,11 +300,14 @@ export interface GithubUserContributionsInput {
 }
 
 export interface GithubUserContributionsDay {
+  /**
+   * Number of contributions on this day.
+   */
   count: number;
   /**
-   * YYYY-MM-DD.
+   * UTC epoch seconds at 00:00 UTC of the contribution day.
    */
-  date: string;
+  dateUtc: number;
   /**
    * Heatmap level 0-4.
    */
@@ -232,9 +319,21 @@ export interface GithubUserContributionsDay {
  * The `data` payload of GitHub User Contributions (github.user_contributions).
  */
 export interface GithubUserContributionsData {
+  /**
+   * Per-day contribution buckets for the year.
+   */
   days: GithubUserContributionsDay[];
+  /**
+   * Total contributions across the year.
+   */
   total: number;
+  /**
+   * GitHub username the contribution graph belongs to.
+   */
   username: string;
+  /**
+   * Calendar year of the contribution graph.
+   */
   year: number;
 }
 
@@ -325,10 +424,25 @@ export interface GithubUserPullRequestsInput {
 }
 
 export interface GithubUserPullRequestsPullRequest {
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Repository the pull request targets, in owner/name form.
+   */
   repo: string;
+  /**
+   * Pull request state (e.g. open, closed, merged).
+   */
   state: string;
+  /**
+   * Pull request title.
+   */
   title: string;
+  /**
+   * Canonical URL of the pull request.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -337,8 +451,17 @@ export interface GithubUserPullRequestsPullRequest {
  * The `data` payload of GitHub User Pull Requests (github.user_pull_requests).
  */
 export interface GithubUserPullRequestsData {
+  /**
+   * Whether more pull requests are available beyond this page.
+   */
   hasMore: boolean;
+  /**
+   * Opaque cursor for the next page, or empty string when none.
+   */
   nextCursor: string;
+  /**
+   * The user's public pull requests for this page.
+   */
   pullRequests: GithubUserPullRequestsPullRequest[];
 }
 

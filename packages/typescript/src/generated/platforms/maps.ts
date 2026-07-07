@@ -31,8 +31,106 @@ export interface MapsContactsInput {
 }
 
 export interface MapsContactsItem {
+  /**
+   * Full formatted street address.
+   */
+  address?: string;
+  /**
+   * Primary business category.
+   */
+  category?: string;
+  /**
+   * Google customer/place id (cid).
+   */
+  cid?: string;
+  /**
+   * City the business is in.
+   */
+  city?: string;
+  /**
+   * Two-letter country code.
+   */
+  countryCode?: string;
+  /**
+   * Email addresses scraped from the business website.
+   */
+  emails?: string[];
+  /**
+   * Facebook profile URLs found on the business website.
+   */
+  facebooks?: string[];
+  /**
+   * Primary business photo URL.
+   */
+  image?: string;
+  /**
+   * Instagram profile URLs found on the business website.
+   */
+  instagrams?: string[];
+  /**
+   * Latitude of the business in decimal degrees.
+   */
+  latitude?: number;
+  /**
+   * LinkedIn profile URLs found on the business website.
+   */
+  linkedIns?: string[];
+  /**
+   * Longitude of the business in decimal degrees.
+   */
+  longitude?: number;
+  /**
+   * Business name.
+   */
   name: string;
+  /**
+   * Business phone number in E.164 format, when listed on Google Maps.
+   */
+  phone?: string;
+  /**
+   * Additional phone numbers scraped from the business website.
+   */
+  phones?: string[];
+  /**
+   * Google Maps place id (stable identifier for the business).
+   */
+  placeId: string;
+  /**
+   * Postal code of the business.
+   */
+  postalCode?: string;
+  /**
+   * Average star rating out of 5.
+   */
+  rating?: number;
+  /**
+   * Total number of reviews.
+   */
+  reviewCount?: number;
+  /**
+   * State or region the business is in.
+   */
+  state?: string;
+  /**
+   * TikTok profile URLs found on the business website.
+   */
+  tiktoks?: string[];
+  /**
+   * X/Twitter profile URLs found on the business website.
+   */
+  twitters?: string[];
+  /**
+   * Canonical Google Maps URL for the business.
+   */
   url: string;
+  /**
+   * The business website URL, when listed.
+   */
+  website?: string;
+  /**
+   * YouTube channel URLs found on the business website.
+   */
+  youtubes?: string[];
   [extra: string]: unknown;
 }
 
@@ -41,7 +139,7 @@ export interface MapsContactsItem {
  */
 export interface MapsContactsData {
   /**
-   * Business records: name, address, rating, plus enriched contact details such as emails, phone numbers, and social profiles.
+   * Matching business records, each enriched with contact details scraped from the business website.
    */
   items: MapsContactsItem[];
 }
@@ -198,6 +296,11 @@ export interface MapsReviewsItem {
    */
   author?: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
    * Whether the reviewer is a Google Local Guide.
    */
   isLocalGuide?: boolean;
@@ -227,11 +330,6 @@ export interface MapsReviewsItem {
    */
   publishedAgo?: string;
   /**
-   * ISO 8601 timestamp the review was published.
-   * Present whenever the upstream returns this record.
-   */
-  publishedAt?: string;
-  /**
    * Star rating the reviewer gave (1-5).
    */
   rating?: number;
@@ -239,6 +337,9 @@ export interface MapsReviewsItem {
    * Stable Google review id.
    */
   reviewId: string;
+  /**
+   * Stable Google id of the reviewer.
+   */
   reviewerId?: string;
   /**
    * Total number of reviews the reviewer has written.
@@ -291,8 +392,86 @@ export interface MapsSearchInput {
 }
 
 export interface MapsSearchItem {
+  /**
+   * Full formatted street address.
+   */
+  address?: string;
+  /**
+   * Primary place category (e.g. Coffee shop).
+   */
+  category?: string;
+  /**
+   * Google customer/place id (cid).
+   */
+  cid?: string;
+  /**
+   * City the place is in.
+   */
+  city?: string;
+  /**
+   * Two-letter country code.
+   */
+  countryCode?: string;
+  /**
+   * Primary place photo URL.
+   */
+  image?: string;
+  /**
+   * Latitude of the place in decimal degrees.
+   */
+  latitude?: number;
+  /**
+   * Longitude of the place in decimal degrees.
+   */
+  longitude?: number;
+  /**
+   * Place name.
+   */
   name: string;
+  /**
+   * True when the place is marked permanently closed.
+   */
+  permanentlyClosed?: boolean;
+  /**
+   * Business phone number in E.164 format, when listed.
+   */
+  phone?: string;
+  /**
+   * Google Maps place id (stable identifier for the place).
+   */
+  placeId: string;
+  /**
+   * Postal code of the place.
+   */
+  postalCode?: string;
+  /**
+   * Relative price level indicator (e.g. $, $10-20).
+   */
+  priceLevel?: string;
+  /**
+   * Average star rating out of 5.
+   */
+  rating?: number;
+  /**
+   * Total number of reviews.
+   */
+  reviewCount?: number;
+  /**
+   * State or region the place is in.
+   */
+  state?: string;
+  /**
+   * Street line of the address.
+   */
+  street?: string;
+  /**
+   * Canonical Google Maps URL for the place.
+   */
   url: string;
+  /**
+   * The place's own website URL, when listed.
+   */
+  website?: string;
   [extra: string]: unknown;
 }
 
@@ -301,7 +480,7 @@ export interface MapsSearchItem {
  */
 export interface MapsSearchData {
   /**
-   * Place records: name, category, address, coordinates, rating, review count, and contact basics.
+   * Matching Google Maps place records.
    */
   items: MapsSearchItem[];
 }
@@ -316,7 +495,7 @@ export class MapsNamespace {
   /**
    * Google Maps Contacts
    *
-   * Search Google Maps for businesses and enrich each result with contact details - emails, phones, and social profiles from their websites - up to 20 records per request.
+   * Search Google Maps for businesses and enrich each result with contact details (emails, phones, and social profiles from their websites), up to 20 records per request.
    *
    * Price: $0.00005 per request plus $0.003 per result.
    *
@@ -367,7 +546,7 @@ export class MapsNamespace {
   /**
    * Google Maps Search
    *
-   * Search Google Maps for places matching a query and location - up to 20 normalized place records with ratings, addresses, and contact basics per request.
+   * Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.
    *
    * Price: $0.00005 per request plus $0.003 per result.
    *

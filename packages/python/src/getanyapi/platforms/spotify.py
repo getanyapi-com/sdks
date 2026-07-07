@@ -133,17 +133,38 @@ class SpotifyArtistTopTrack(BaseModel):
 
 class SpotifyPlayCountData(BaseModel):
     items: list[SpotifyPlayCountItem] = Field(
-        description="Play-count records: track, album, or artist metadata with stream counts and statistics."
+        description="Play-count records for the requested Spotify entity (one per track)."
     )
 
 
 class SpotifyPlayCountItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
-    name: str
-    url: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    album_name: str | None = Field(
+        default=None,
+        alias="albumName",
+        description="Name of the album the track belongs to. Empty when the upstream omits it.",
+    )
+    artist_name: str | None = Field(
+        default=None,
+        alias="artistName",
+        description="Name of the primary artist. Empty when the upstream omits it.",
+    )
+    duration_ms: int | None = Field(
+        default=None, alias="durationMs", description="Track duration in milliseconds."
+    )
+    id: str = Field(description="The Spotify entity ID.")
+    name: str = Field(description="The track (or entity) name.")
+    play_count: int = Field(
+        alias="playCount", description="Total number of streams/plays for the track."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description='The Spotify entity type (e.g. "track").',
+    )
+    url: str = Field(
+        description="Canonical open.spotify.com URL for the entity, with tracking query params stripped."
     )
 
 

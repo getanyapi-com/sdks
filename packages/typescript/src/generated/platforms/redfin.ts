@@ -22,8 +22,86 @@ export interface RedfinSearchInput {
 }
 
 export interface RedfinSearchItem {
+  /**
+   * Street address line of the home.
+   */
+  addressLine?: string;
+  /**
+   * Number of bathrooms (fractional for half baths).
+   */
+  baths?: number;
+  /**
+   * Number of bedrooms.
+   */
+  beds?: number;
+  /**
+   * City the home is in.
+   */
+  city?: string;
+  /**
+   * Latitude of the home in decimal degrees.
+   */
+  latitude?: number;
+  /**
+   * Redfin listing id for this specific listing.
+   */
+  listingId?: string;
+  /**
+   * Longitude of the home in decimal degrees.
+   */
+  longitude?: number;
+  /**
+   * Lot size in square feet.
+   */
+  lotSize?: number;
+  /**
+   * MLS number for the listing.
+   */
+  mlsId?: string;
+  /**
+   * Postal (ZIP) code of the home.
+   */
+  postalCode?: string;
+  /**
+   * List (or last sale) price in US dollars.
+   */
+  price?: number;
+  /**
+   * Price per square foot in US dollars.
+   */
+  pricePerSqft?: number;
+  /**
+   * Redfin property id (stable identifier for the home).
+   */
+  propertyId: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  soldUtc?: number;
+  /**
+   * Interior living area in square feet.
+   */
+  sqft?: number;
+  /**
+   * Two-letter state code the home is in.
+   */
+  state?: string;
+  /**
+   * MLS listing status (e.g. Active, Coming Soon, Sold).
+   */
+  status?: string;
+  /**
+   * Street address line used as the listing title.
+   */
   title?: string;
+  /**
+   * Canonical Redfin listing detail page URL.
+   */
   url: string;
+  /**
+   * Year the home was built.
+   */
+  yearBuilt?: number;
   [extra: string]: unknown;
 }
 
@@ -32,7 +110,7 @@ export interface RedfinSearchItem {
  */
 export interface RedfinSearchData {
   /**
-   * Home listing records: address, price, beds, baths, square footage, and listing status.
+   * Matching Redfin home listing records.
    */
   items: RedfinSearchItem[];
 }

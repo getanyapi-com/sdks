@@ -121,93 +121,200 @@ class AmazonAsinsItem(BaseModel):
 
 class AmazonBestsellersData(BaseModel):
     items: list[AmazonBestsellersItem] = Field(
-        description="Best-seller product records: category rank, title, price, rating, thumbnail, and product URL."
+        description="Best-seller product records ordered by category rank."
     )
 
 
 class AmazonBestsellersItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    asin: str
-    title: str
-    url: str
+    asin: str = Field(description="Amazon Standard Identification Number.")
+    category_name: str | None = Field(
+        default=None,
+        alias="categoryName",
+        description="Best Sellers category name the product ranks in.",
+    )
+    currency: str | None = Field(
+        default=None, description='Price currency symbol or code, e.g. "$".'
+    )
+    image: str | None = Field(
+        default=None, description="Primary product thumbnail image URL."
+    )
+    offers_count: int | None = Field(
+        default=None,
+        alias="offersCount",
+        description="Number of available offers; 0 when unknown.",
+    )
+    price: float | None = Field(
+        default=None, description="Listed price; 0 when no offer is available."
+    )
+    rank: int | None = Field(
+        default=None, description="Best-seller rank within the category (1 = top)."
+    )
+    rating: float | None = Field(
+        default=None, description="Average star rating, 0-5; 0 when unrated."
+    )
+    reviews_count: int | None = Field(
+        default=None,
+        alias="reviewsCount",
+        description="Number of customer reviews; 0 when none.",
+    )
+    title: str = Field(description="Product title.")
+    url: str = Field(
+        description="Canonical product detail page URL (tracking query params stripped)."
+    )
 
 
 class AmazonProductData(BaseModel):
     items: list[AmazonProductItem] = Field(
-        description="Product detail records: title, url, asin, brand, price amount (when in stock), images, rating, review count, and (passed through) variant details and attributes."
+        description="Product detail records (one per requested product URL)."
     )
 
 
 class AmazonProductItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    asin: str
+    asin: str = Field(description="Amazon Standard Identification Number.")
     brand: str | None = Field(
         default=None,
         description="Manufacturer or brand name. Present whenever the upstream returns this record.",
     )
-    images: list[str] | None = Field(
+    category: str | None = Field(
         default=None,
-        description="High-resolution product image URLs. Present whenever the upstream returns this record.",
+        description='Category breadcrumb path, e.g. "Health & Household > Household Supplies".',
     )
-    price_amount: float | None = Field(
+    condition: str | None = Field(
+        default=None, description='Item condition, e.g. "New"; empty when not reported.'
+    )
+    currency: str | None = Field(
+        default=None, description='Price currency symbol or code, e.g. "$".'
+    )
+    description: str | None = Field(
         default=None,
-        alias="priceAmount",
-        description="Current price as a numeric amount. Absent when the listing has no buyable price (out of stock).",
+        description="Product description text; empty when the listing has none.",
+    )
+    features: list[str] | None = Field(
+        default=None, description="Bullet-point feature list from the listing."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Primary product image URL. Present whenever the upstream returns this record.",
+    )
+    images: list[str] | None = Field(
+        default=None, description="High-resolution product image URLs."
+    )
+    in_stock: bool | None = Field(
+        default=None,
+        alias="inStock",
+        description="True when the product is purchasable.",
+    )
+    price: float | None = Field(
+        default=None,
+        description="Current buy-box price as a numeric amount; 0 when the listing has no buyable price (out of stock).",
     )
     rating: float | None = Field(
-        default=None, description="Average customer star rating, 0 to 5."
+        default=None, description="Average customer star rating, 0-5; 0 when unrated."
     )
-    review_count: int | None = Field(
+    reviews_count: int | None = Field(
         default=None,
-        alias="reviewCount",
-        description="Total number of customer reviews.",
+        alias="reviewsCount",
+        description="Total number of customer reviews; 0 when none.",
     )
-    title: str
-    url: str
+    seller_name: str | None = Field(
+        default=None,
+        alias="sellerName",
+        description="Name of the seller fulfilling the buy box.",
+    )
+    title: str = Field(description="Product title.")
+    url: str = Field(
+        description="Canonical product detail page URL (tracking query params stripped)."
+    )
 
 
 class AmazonReviewsData(BaseModel):
-    items: list[AmazonReviewsItem] = Field(
-        description="Customer review records: star rating, title, review text, date, reviewer, and verified-purchase status."
-    )
+    items: list[AmazonReviewsItem] = Field(description="Customer review records.")
 
 
 class AmazonReviewsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    rating: float
-    text: str
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. 0 when the review date is not reported in a parseable form.",
+    )
+    helpful_votes: int | None = Field(
+        default=None,
+        alias="helpfulVotes",
+        description='Number of "helpful" votes the review received; 0 when none.',
+    )
+    rating: float = Field(
+        description="Star rating the reviewer gave, 1-5; 0 when not reported."
+    )
+    reviewer: str | None = Field(
+        default=None, description="Reviewer display name; empty when withheld."
+    )
+    text: str = Field(description="Full review body text.")
+    title: str | None = Field(
+        default=None,
+        description="Review headline / title; empty when the review has none.",
+    )
+    verified_purchase: bool | None = Field(
+        default=None,
+        alias="verifiedPurchase",
+        description="True when Amazon marks the review a verified purchase.",
+    )
 
 
 class AmazonSearchData(BaseModel):
     items: list[AmazonSearchItem] = Field(
-        description="Search result product records: title, ASIN, price amount, currency, rating, review count, and thumbnail."
+        description="Matching Amazon product records."
     )
 
 
 class AmazonSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    asin: str
+    asin: str = Field(
+        description="Amazon Standard Identification Number; use it with the Amazon Products by ASIN SKU for full detail."
+    )
     currency: str | None = Field(
-        default=None, description="Currency symbol or code for the price."
+        default=None, description='Price currency symbol or code, e.g. "$".'
     )
-    price_amount: float | None = Field(
+    image: str | None = Field(
+        default=None, description="Primary product thumbnail image URL."
+    )
+    is_sponsored: bool | None = Field(
         default=None,
-        alias="priceAmount",
-        description="Current price as a numeric amount.",
+        alias="isSponsored",
+        description="True when the result is a sponsored placement.",
     )
-    rating: float | None = Field(default=None, description="Average star rating.")
-    review_count: int | None = Field(
-        default=None, alias="reviewCount", description="Number of customer reviews."
-    )
-    thumbnail: str | None = Field(
+    list_price: float | None = Field(
         default=None,
-        description="Product thumbnail image URL. Present whenever the upstream returns this record.",
+        alias="listPrice",
+        description="Pre-discount list price when on sale; 0 when not discounted.",
     )
-    title: str
+    offers_count: int | None = Field(
+        default=None,
+        alias="offersCount",
+        description="Number of available offers; 0 when unknown.",
+    )
+    position: int | None = Field(
+        default=None, description="1-based position of the result on the search page."
+    )
+    price: float | None = Field(
+        default=None,
+        description="Current price as a numeric amount; 0 when no offer is available.",
+    )
+    rating: float | None = Field(
+        default=None, description="Average star rating, 0-5; 0 when unrated."
+    )
+    reviews_count: int | None = Field(
+        default=None,
+        alias="reviewsCount",
+        description="Number of customer reviews; 0 when none.",
+    )
+    title: str = Field(description="Product title.")
 
 
 class AmazonNamespace:
@@ -296,7 +403,7 @@ class AmazonNamespace:
         Price: $0.01625 per request.
 
         Example:
-            res = client.amazon.reviews(limit=3, product="B07FZ8S74R")
+            res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.reviews", dict(input), options
@@ -412,7 +519,7 @@ class AsyncAmazonNamespace:
         Price: $0.01625 per request.
 
         Example:
-            res = client.amazon.reviews(limit=3, product="B07FZ8S74R")
+            res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.reviews", dict(input), options

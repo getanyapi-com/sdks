@@ -37,10 +37,10 @@ export interface TrustpilotReviewsInput {
 
 export interface TrustpilotReviewsItem {
   /**
-   * Publish date (ISO 8601).
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    * Present whenever the upstream returns this record.
    */
-  publishedAt?: string;
+  createdUtc?: number;
   /**
    * Star rating (1-5).
    */
@@ -50,6 +50,7 @@ export interface TrustpilotReviewsItem {
    */
   text: string;
   /**
+   * Review title or headline.
    * Present whenever the upstream returns this record.
    */
   title?: string;

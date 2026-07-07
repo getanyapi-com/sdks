@@ -112,13 +112,23 @@ class TwitterUserTweetsInput(TypedDict, total=False):
 class TwitterCommunityData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    created_at: float = Field(alias="createdAt")
-    creator_handle: str = Field(alias="creatorHandle")
-    description: str
-    id: str
-    join_policy: str = Field(alias="joinPolicy")
-    member_count: int = Field(alias="memberCount")
-    name: str
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    creator_handle: str = Field(
+        alias="creatorHandle",
+        description="Handle of the account that created the community.",
+    )
+    description: str = Field(description="Community description text.")
+    id: str = Field(description="Community identifier.")
+    join_policy: str = Field(
+        alias="joinPolicy", description='How members join, e.g. "open" or "restricted".'
+    )
+    member_count: int = Field(
+        alias="memberCount", description="Number of members in the community."
+    )
+    name: str = Field(description="Community name.")
 
 
 class TwitterCommunityTweetsData(BaseModel):
@@ -129,7 +139,10 @@ class TwitterCommunityTweetsTweet(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     author_handle: str = Field(alias="authorHandle")
-    created_at: str = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     favorite_count: int = Field(alias="favoriteCount")
     id: str
     quote_count: int = Field(alias="quoteCount")
@@ -201,18 +214,53 @@ class TwitterProfileData(BaseModel):
 
 class TwitterRepliesData(BaseModel):
     items: list[TwitterRepliesItem] = Field(
-        description="Reply records: reply text, author profile, timestamp, and engagement metrics."
+        description="Reply records for the requested post."
     )
 
 
 class TwitterRepliesItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="Screen name / handle of the reply's author, without the @ prefix.",
     )
-    text: str
-    url: str
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the reply's author. Empty when the upstream omits it.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="The reply's numeric tweet ID, as a string.")
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on this reply."
+    )
+    quote_count: int | None = Field(
+        default=None,
+        alias="quoteCount",
+        description="Number of quote tweets of this reply.",
+    )
+    reply_count: int | None = Field(
+        default=None, alias="replyCount", description="Number of replies to this reply."
+    )
+    repost_count: int | None = Field(
+        default=None,
+        alias="repostCount",
+        description="Number of reposts/retweets of this reply.",
+    )
+    text: str = Field(
+        description="The reply's text. Empty for media-only replies with no text."
+    )
+    url: str = Field(
+        description="Canonical x.com URL of the reply, with tracking query params stripped."
+    )
+    view_count: int | None = Field(
+        default=None, alias="viewCount", description="Number of views of this reply."
+    )
 
 
 class TwitterSearchData(BaseModel):
@@ -237,10 +285,10 @@ class TwitterSearchItem(BaseModel):
     author_verified: bool | None = Field(default=None, alias="authorVerified")
     bookmark_count: int | None = Field(default=None, alias="bookmarkCount")
     conversation_id: str | None = Field(default=None, alias="conversationId")
-    created_at: str | None = Field(
+    created_utc: float | None = Field(
         default=None,
-        alias="createdAt",
-        description="Tweet creation time. Present whenever the upstream returns this record.",
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
     )
     id: str
     is_reply: bool | None = Field(default=None, alias="isReply")
@@ -259,7 +307,10 @@ class TwitterTweetData(BaseModel):
 
     author_id: str = Field(alias="authorId")
     bookmarks: int
-    created_at: str = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     likes: int
     quotes: int
@@ -290,7 +341,10 @@ class TwitterUserTweetsTweet(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     bookmarks: int
-    created_at: str = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     is_pinned: bool = Field(alias="isPinned")
     is_reply: bool | None = Field(default=None, alias="isReply")

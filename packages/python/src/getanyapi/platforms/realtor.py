@@ -32,18 +32,88 @@ class RealtorSearchInput(TypedDict, total=False):
 
 class RealtorSearchData(BaseModel):
     items: list[RealtorSearchItem] = Field(
-        description="Property listing records: address, price, beds, baths, square footage, status, and listing metadata."
+        description="Matching Realtor.com property listing records."
     )
 
 
 class RealtorSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    price: float | None = None
-    title: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    address_line: str | None = Field(
+        default=None,
+        alias="addressLine",
+        description="Street address line of the property.",
     )
-    url: str
+    baths: str | None = Field(
+        default=None,
+        description='Consolidated bathroom count (e.g. "3.5" for three full and one half bath).',
+    )
+    beds: float | None = Field(default=None, description="Number of bedrooms.")
+    city: str | None = Field(default=None, description="City the property is in.")
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    days_on_market: float | None = Field(
+        default=None,
+        alias="daysOnMarket",
+        description="Number of days the listing has been on the market.",
+    )
+    image: str | None = Field(default=None, description="Primary listing photo URL.")
+    latitude: float | None = Field(
+        default=None, description="Latitude of the property in decimal degrees."
+    )
+    listing_id: str | None = Field(
+        default=None,
+        alias="listingId",
+        description="Realtor.com listing id for this specific listing of the property.",
+    )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the property in decimal degrees."
+    )
+    lot_sqft: float | None = Field(
+        default=None, alias="lotSqft", description="Lot size in square feet."
+    )
+    postal_code: str | None = Field(
+        default=None,
+        alias="postalCode",
+        description="Postal (ZIP) code of the property.",
+    )
+    price: float | None = Field(
+        default=None, description="Current list price in US dollars."
+    )
+    price_per_sqft: float | None = Field(
+        default=None,
+        alias="pricePerSqft",
+        description="List price per square foot in US dollars.",
+    )
+    property_id: str = Field(
+        alias="propertyId",
+        description="Realtor.com property id (stable identifier for the listing).",
+    )
+    property_type: str | None = Field(
+        default=None,
+        alias="propertyType",
+        description="Property type (e.g. single_family, condos, townhomes).",
+    )
+    sqft: float | None = Field(
+        default=None, description="Interior living area in square feet."
+    )
+    state: str | None = Field(
+        default=None, description="Two-letter state code the property is in."
+    )
+    status: str | None = Field(
+        default=None, description="Listing status (e.g. for_sale, sold)."
+    )
+    title: str | None = Field(
+        default=None,
+        description="Human-readable street address line used as the listing title.",
+    )
+    url: str = Field(description="Canonical Realtor.com listing detail page URL.")
+    year_built: float | None = Field(
+        default=None, alias="yearBuilt", description="Year the property was built."
+    )
 
 
 class RealtorNamespace:

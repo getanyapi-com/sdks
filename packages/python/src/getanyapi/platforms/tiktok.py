@@ -284,7 +284,10 @@ class TiktokCommentRepliesComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     author: str
-    created_at: int = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     likes: int
     text: str
@@ -328,16 +331,50 @@ class TiktokFollowingFollowing(BaseModel):
 
 class TiktokHashtagVideosData(BaseModel):
     items: list[TiktokHashtagVideosItem] = Field(
-        description="Video records: creator, caption, hashtags, play/like/share/comment counts, and video URL."
+        description="Recent TikTok video records for the hashtag."
     )
 
 
 class TiktokHashtagVideosItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
-    text: str
-    url: str
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="Username of the video's creator, without the @ prefix. Empty when the upstream omits it.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the video.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="The video's numeric TikTok ID, as a string.")
+    image: str | None = Field(
+        default=None,
+        description="URL of the video's cover/thumbnail image, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the video."
+    )
+    play_count: int | None = Field(
+        default=None,
+        alias="playCount",
+        description="Number of views/plays of the video.",
+    )
+    share_count: int | None = Field(
+        default=None, alias="shareCount", description="Number of shares of the video."
+    )
+    text: str | None = Field(
+        default=None,
+        description="The video caption text. Empty for videos with no caption.",
+    )
+    url: str = Field(
+        description="Canonical tiktok.com URL of the video, with tracking query params stripped."
+    )
 
 
 class TiktokLiveData(BaseModel):
@@ -388,7 +425,10 @@ class TiktokProfileVideosVideo(BaseModel):
 
     caption: str
     comments: int
-    created_at: str = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     likes: int
     url: str
@@ -405,7 +445,10 @@ class TiktokSearchHashtagVideo(BaseModel):
     author: str
     caption: str
     comments: int
-    created_at: int = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     likes: int
     shares: int
@@ -512,7 +555,10 @@ class TiktokTrendingFeedVideo(BaseModel):
     author: str
     caption: str
     comments: int
-    created_at: int = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     likes: int
     region: str
@@ -545,7 +591,10 @@ class TiktokVideoCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     author: str
-    created_at: int = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     likes: int
     replies: int

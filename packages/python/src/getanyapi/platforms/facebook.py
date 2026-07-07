@@ -388,24 +388,51 @@ class FacebookAdsSearchAd(BaseModel):
 class FacebookCommentRepliesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    has_next_page: bool = Field(alias="hasNextPage")
-    next_cursor: str = Field(alias="nextCursor")
-    replies: list[FacebookCommentRepliesReplie]
+    has_next_page: bool = Field(
+        alias="hasNextPage",
+        description="True when more replies are available beyond this page.",
+    )
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of replies; empty when there are no more.",
+    )
+    replies: list[FacebookCommentRepliesReplie] = Field(
+        description="Replies to the comment."
+    )
 
 
 class FacebookCommentRepliesReplie(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author_id: str = Field(alias="authorId")
-    author_name: str = Field(alias="authorName")
-    author_profile_picture: str = Field(alias="authorProfilePicture")
-    created_at: str = Field(alias="createdAt")
-    expansion_token: str | None = Field(default=None, alias="expansionToken")
-    feedback_id: str = Field(alias="feedbackId")
-    id: str
-    reaction_count: int = Field(alias="reactionCount")
-    reply_count: int = Field(alias="replyCount")
-    text: str
+    author_id: str = Field(
+        alias="authorId", description="Identifier of the reply author."
+    )
+    author_name: str = Field(
+        alias="authorName", description="Display name of the reply author."
+    )
+    author_profile_picture: str = Field(
+        alias="authorProfilePicture", description="URL of the author's profile picture."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    expansion_token: str | None = Field(
+        default=None,
+        alias="expansionToken",
+        description="Token used to expand nested replies, when present.",
+    )
+    feedback_id: str = Field(
+        alias="feedbackId", description="Facebook feedback identifier for the reply."
+    )
+    id: str = Field(description="Reply identifier.")
+    reaction_count: int = Field(
+        alias="reactionCount", description="Number of reactions on the reply."
+    )
+    reply_count: int = Field(
+        alias="replyCount", description="Number of replies nested under this reply."
+    )
+    text: str = Field(description="Reply text content.")
 
 
 class FacebookCompanyAdsData(BaseModel):
@@ -499,18 +526,22 @@ class FacebookEventsSearchEvent(BaseModel):
 
 class FacebookFollowersData(BaseModel):
     items: list[FacebookFollowersItem] = Field(
-        description="Follower or following records: profile name, profile URL, and picture for each account."
+        description="Follower or following records for the target page/profile."
     )
 
 
 class FacebookFollowersItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str
-    name: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    id: str = Field(description="The account's numeric Facebook ID, as a string.")
+    image: str | None = Field(
+        default=None,
+        description="URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
     )
-    url: str
+    name: str = Field(description="The account's public display name.")
+    url: str = Field(
+        description="Canonical URL of the account's Facebook profile, with tracking query params stripped."
+    )
 
 
 class FacebookGroupPostsData(BaseModel):
@@ -590,22 +621,44 @@ class FacebookMarketplaceLocationSearchLocation(BaseModel):
 
 class FacebookPageContactData(BaseModel):
     items: list[FacebookPageContactItem] = Field(
-        description="Page contact records: page name, email, phone, website, physical address, and category."
+        description="Contact record for the requested Facebook Page (one item)."
     )
 
 
 class FacebookPageContactItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    address: str | None = None
-    category: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    address: str | None = Field(
+        default=None,
+        description="The page's public physical address. Empty when the page lists none.",
     )
-    email: str | None = None
-    phone: str | None = None
-    title: str
-    url: str
-    website: str | None = None
+    category: str | None = Field(
+        default=None,
+        description='The page\'s primary category (e.g. "Seafood Restaurant"). Present whenever the upstream returns this record.',
+    )
+    email: str | None = Field(
+        default=None,
+        description="The page's public contact email. Empty when the page lists none.",
+    )
+    followers: int | None = Field(
+        default=None, description="The page's follower count."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    phone: str | None = Field(
+        default=None,
+        description="The page's public phone number. Empty when the page lists none.",
+    )
+    title: str = Field(description="The page's public name.")
+    url: str = Field(
+        description="Canonical URL of the Facebook Page, with tracking query params stripped."
+    )
+    website: str | None = Field(
+        default=None,
+        description="The page's public website URL. Empty when the page lists none.",
+    )
 
 
 class FacebookPhotosData(BaseModel):
@@ -643,19 +696,27 @@ class FacebookPostData(BaseModel):
 class FacebookPostCommentsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    comments: list[FacebookPostCommentsComment]
-    next_cursor: str = Field(alias="nextCursor")
+    comments: list[FacebookPostCommentsComment] = Field(
+        description="Comments on the post."
+    )
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of comments; empty when there are no more.",
+    )
 
 
 class FacebookPostCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
-    created_at: str = Field(alias="createdAt")
-    id: str
-    reactions: int
-    replies: int
-    text: str
+    author: str = Field(description="Display name of the comment author.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Comment identifier.")
+    reactions: int = Field(description="Number of reactions on the comment.")
+    replies: int = Field(description="Number of replies to the comment.")
+    text: str = Field(description="Comment text content.")
 
 
 class FacebookPostTranscriptData(BaseModel):
@@ -714,18 +775,21 @@ class FacebookProfilePostsPost(BaseModel):
 
 
 class FacebookProfileReelsData(BaseModel):
-    reels: list[FacebookProfileReelsReel]
+    reels: list[FacebookProfileReelsReel] = Field(description="The profile's reels.")
 
 
 class FacebookProfileReelsReel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str
-    created_at: str = Field(alias="createdAt")
-    id: str
-    thumbnail: str
-    url: str
-    views: int
+    caption: str = Field(description="Reel caption text.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Reel identifier.")
+    thumbnail: str = Field(description="URL of the reel thumbnail image.")
+    url: str = Field(description="Canonical URL of the reel.")
+    views: int = Field(description="Number of views on the reel.")
 
 
 class FacebookSearchCompaniesData(BaseModel):
@@ -750,28 +814,89 @@ class FacebookSearchCompaniesCompanie(BaseModel):
 
 class FacebookSearchPagesData(BaseModel):
     items: list[FacebookSearchPagesItem] = Field(
-        description="Page profile records: page name, category, follower/like counts, contact details, and page URL."
+        description="Matching Facebook Page records for the query."
     )
 
 
 class FacebookSearchPagesItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    title: str
-    url: str
+    category: str | None = Field(
+        default=None,
+        description='The page\'s primary category (e.g. "Sportswear Store"). Empty when the upstream omits it.',
+    )
+    followers: int | None = Field(
+        default=None, description="The page's follower count."
+    )
+    id: str = Field(description="The page's numeric Facebook ID, as a string.")
+    image: str | None = Field(
+        default=None,
+        description="URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    likes: int | None = Field(default=None, description="The page's like count.")
+    phone: str | None = Field(
+        default=None,
+        description="The page's public phone number. Empty when the upstream omits it.",
+    )
+    title: str = Field(description="The page's public name.")
+    url: str = Field(
+        description="Canonical URL of the Facebook Page, with tracking query params stripped."
+    )
+    website: str | None = Field(
+        default=None,
+        description="The page's public website URL. Empty when the upstream omits it.",
+    )
 
 
 class FacebookSearchPostsData(BaseModel):
     items: list[FacebookSearchPostsItem] = Field(
-        description="Post records: post text, author, timestamp, engagement counts (reactions, comments, shares), and post URL."
+        description="Matching public Facebook post records for the query."
     )
 
 
 class FacebookSearchPostsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    text: str
-    url: str
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the post's author. Empty when the upstream omits it.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical profile URL of the post's author, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Total number of comments on the post.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="The post's numeric Facebook ID, as a string.")
+    image: str | None = Field(
+        default=None,
+        description="URL of the post's primary image, with tracking query params stripped. Empty for text-only or video posts.",
+    )
+    reaction_count: int | None = Field(
+        default=None,
+        alias="reactionCount",
+        description="Total number of reactions on the post.",
+    )
+    share_count: int | None = Field(
+        default=None,
+        alias="shareCount",
+        description="Total number of shares/reshares of the post.",
+    )
+    text: str = Field(
+        description="The post's text/message. Empty for media-only posts with no caption."
+    )
+    url: str = Field(
+        description="Canonical URL of the post, with tracking query params stripped."
+    )
 
 
 class FacebookNamespace:

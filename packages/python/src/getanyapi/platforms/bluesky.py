@@ -39,12 +39,18 @@ class BlueskyUserPostsInput(TypedDict, total=False):
 class BlueskyPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author_handle: str = Field(alias="authorHandle")
-    created_at: str = Field(alias="createdAt")
-    likes: int
-    replies: int
-    reposts: int
-    text: str
+    author_handle: str = Field(
+        alias="authorHandle",
+        description="Handle of the account that authored the post.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    likes: int = Field(description="Number of likes on the post.")
+    replies: int = Field(description="Number of replies to the post.")
+    reposts: int = Field(description="Number of reposts of the post.")
+    text: str = Field(description="The post's text content.")
 
 
 class BlueskyProfileData(BaseModel):
@@ -59,18 +65,24 @@ class BlueskyProfileData(BaseModel):
 
 
 class BlueskyUserPostsData(BaseModel):
-    posts: list[BlueskyUserPostsPost]
+    posts: list[BlueskyUserPostsPost] = Field(description="The account's recent posts.")
 
 
 class BlueskyUserPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author_handle: str = Field(alias="authorHandle")
-    created_at: str = Field(alias="createdAt")
-    likes: int
-    replies: int
-    reposts: int
-    text: str
+    author_handle: str = Field(
+        alias="authorHandle",
+        description="Handle of the account that authored the post.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    likes: int = Field(description="Number of likes on the post.")
+    replies: int = Field(description="Number of replies to the post.")
+    reposts: int = Field(description="Number of reposts of the post.")
+    text: str = Field(description="The post's text content.")
 
 
 class BlueskyNamespace:

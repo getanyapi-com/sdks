@@ -24,67 +24,57 @@ class SnapchatProfileInput(TypedDict, total=False):
 
 class SnapchatProfileData(BaseModel):
     items: list[SnapchatProfileItem] = Field(
-        description="Profile records: public profile URL, handle, display name, bio, subscriber count, avatar, and recent public stories."
+        description="Profile record for the requested Snapchat username (one item)."
     )
 
 
 class SnapchatProfileItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str | None = Field(
-        default=None,
-        alias="avatarUrl",
-        description="URL of the profile avatar image. Present whenever the upstream returns this record.",
-    )
     bio: str | None = Field(
         default=None,
-        description="The profile's public bio / description text. Present whenever the upstream returns this record.",
+        description="The profile's public bio / description text. Empty when the profile has none.",
     )
-    display_name: str | None = Field(
+    category: str | None = Field(
         default=None,
-        alias="displayName",
-        description="The profile's public display name. Present whenever the upstream returns this record.",
+        description='The profile\'s category (e.g. "Government Org"). Empty when the upstream omits it.',
     )
-    handle: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    display_name: str = Field(
+        alias="displayName", description="The profile's public display name."
+    )
+    handle: str = Field(description="The profile's Snapchat username (add-me handle).")
+    image: str | None = Field(
+        default=None,
+        description="URL of the profile avatar image, with tracking query params stripped. Empty when the upstream omits it.",
     )
     stories: list[SnapchatProfileStorie] | None = Field(
-        default=None,
-        description="Recent public stories, each with its snaps (media items).",
+        default=None, description="Recent public stories on the profile."
     )
     subscribers: int | None = Field(
         default=None, description="Public subscriber count."
     )
-    url: str
+    url: str = Field(
+        description="Canonical public profile URL, with tracking query params stripped."
+    )
+    website: str | None = Field(
+        default=None,
+        description="The profile's linked website URL. Empty when the profile has none.",
+    )
 
 
 class SnapchatProfileStorie(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     id: str | None = Field(default=None, description="Story identifier.")
-    snaps: list[SnapchatProfileSnap] | None = Field(
-        default=None, description="The snaps (media items) in this story."
-    )
     story_title: str | None = Field(
-        default=None, alias="storyTitle", description="Story title."
+        default=None,
+        alias="storyTitle",
+        description="Story title. Empty when the story has no title.",
     )
     thumbnail_url: str | None = Field(
-        default=None, alias="thumbnailUrl", description="Story thumbnail image URL."
-    )
-
-
-class SnapchatProfileSnap(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    id: str | None = Field(default=None, description="Snap identifier.")
-    media_url: str | None = Field(
-        default=None, alias="mediaUrl", description="Full-resolution media URL."
-    )
-    preview_url: str | None = Field(
-        default=None, alias="previewUrl", description="Preview/thumbnail media URL."
-    )
-    timestamp: str | None = Field(
-        default=None, description="Snap timestamp (ISO 8601)."
+        default=None,
+        alias="thumbnailUrl",
+        description="Story thumbnail image URL, with tracking query params stripped.",
     )
 
 

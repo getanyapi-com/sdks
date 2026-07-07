@@ -35,10 +35,34 @@ class PlaystoreReviewsData(BaseModel):
 
 
 class PlaystoreReviewsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    rating: float
-    text: str
+    author: str | None = Field(
+        default=None,
+        description="Reviewer display name. Present whenever the upstream returns this record.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted. Present whenever the upstream returns this record.",
+    )
+    helpful_votes: int | None = Field(
+        default=None,
+        alias="helpfulVotes",
+        description="Number of helpful votes on the review.",
+    )
+    id: str | None = Field(
+        default=None,
+        description="Review identifier. Present whenever the upstream returns this record.",
+    )
+    rating: float = Field(description="Star rating, 1 to 5.")
+    text: str = Field(description="Review body text.")
+    title: str | None = Field(
+        default=None, description="Review title, when the store provides one."
+    )
+    version: str | None = Field(
+        default=None, description="App version the review was left on."
+    )
 
 
 class PlaystoreNamespace:

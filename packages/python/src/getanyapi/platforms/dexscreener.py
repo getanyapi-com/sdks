@@ -32,18 +32,65 @@ class DexscreenerTokensInput(TypedDict, total=False):
 
 class DexscreenerTokensData(BaseModel):
     items: list[DexscreenerTokensItem] = Field(
-        description="Token listing records: token name and symbol, pair, price, liquidity, volume, transaction counts, and price change."
+        description="Token listing records: token name and symbol, price, liquidity, volume, transaction/maker counts, price change, market cap, and the DEX Screener pair URL."
     )
 
 
 class DexscreenerTokensItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    name: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    age_hours: int | None = Field(
+        default=None, alias="ageHours", description="Age of the token pair in hours."
     )
-    price: float
-    symbol: str
+    image: str | None = Field(default=None, description="Token logo image URL.")
+    liquidity_usd: float | None = Field(
+        default=None, alias="liquidityUsd", description="Total pool liquidity in USD."
+    )
+    maker_count: int | None = Field(
+        default=None,
+        alias="makerCount",
+        description="Number of distinct makers over the selected timeframe.",
+    )
+    market_cap_usd: float | None = Field(
+        default=None,
+        alias="marketCapUsd",
+        description="Token market capitalization in USD.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="Token full name. Present whenever the upstream returns this record.",
+    )
+    pool_address: str | None = Field(
+        default=None,
+        alias="poolAddress",
+        description="On-chain address of the liquidity pool.",
+    )
+    price: float = Field(description="Current token price in USD.")
+    price_change1h: float | None = Field(
+        default=None,
+        alias="priceChange1h",
+        description="Fractional price change over the past hour.",
+    )
+    price_change24h: float | None = Field(
+        default=None,
+        alias="priceChange24h",
+        description="Fractional price change over the past 24 hours.",
+    )
+    symbol: str = Field(description="Token ticker symbol.")
+    transaction_count: int | None = Field(
+        default=None,
+        alias="transactionCount",
+        description="Number of transactions over the selected timeframe.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="DEX Screener URL for the trading pair. Present whenever the upstream returns this record.",
+    )
+    volume_usd: float | None = Field(
+        default=None,
+        alias="volumeUsd",
+        description="Trading volume in USD over the selected timeframe.",
+    )
 
 
 class DexscreenerNamespace:

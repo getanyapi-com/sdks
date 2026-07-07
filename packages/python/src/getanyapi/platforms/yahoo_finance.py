@@ -24,17 +24,55 @@ class YahooFinanceQuoteInput(TypedDict, total=False):
 
 class YahooFinanceQuoteData(BaseModel):
     items: list[YahooFinanceQuoteItem] = Field(
-        description="Quote records for the ticker: current price, market cap, volume, day range, and key financial stats."
+        description="Quote records for the ticker: current price, day range, volume, and market cap."
     )
 
 
 class YahooFinanceQuoteItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    name: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    change: float | None = Field(
+        default=None, description="Absolute price change from the previous close."
     )
-    price: float
+    change_percent: float | None = Field(
+        default=None,
+        alias="changePercent",
+        description="Percent price change from the previous close (e.g. 3.14 means +3.14%).",
+    )
+    day_high: float | None = Field(
+        default=None,
+        alias="dayHigh",
+        description="Highest trade price during the current session.",
+    )
+    day_low: float | None = Field(
+        default=None,
+        alias="dayLow",
+        description="Lowest trade price during the current session.",
+    )
+    market_cap: int | None = Field(
+        default=None,
+        alias="marketCap",
+        description="Total market capitalization in the security's native currency.",
+    )
+    name: str | None = Field(
+        default=None,
+        description='The security\'s display name, e.g. "Apple Inc.". Present whenever the upstream returns this record.',
+    )
+    previous_close: float | None = Field(
+        default=None,
+        alias="previousClose",
+        description="The previous session's closing price.",
+    )
+    price: float = Field(
+        description="The latest trade price in the security's native currency."
+    )
+    symbol: str | None = Field(
+        default=None,
+        description='The resolved ticker symbol for the quote, e.g. "AAPL". Present whenever the upstream returns this record.',
+    )
+    volume: int | None = Field(
+        default=None, description="Number of shares traded during the current session."
+    )
 
 
 class YahooFinanceNamespace:
@@ -51,8 +89,8 @@ class YahooFinanceNamespace:
     ) -> RunResult[YahooFinanceQuoteData]:
         """Yahoo Finance Quote
 
-        Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote -
-        price, market cap, volume, and key stats - as normalized JSON with
+        Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote
+        (price, market cap, volume, and key stats) as normalized JSON with
         transparent per-request USD pricing.
 
         Price: $0.00005 per request plus $0.0009 per result.
@@ -80,8 +118,8 @@ class AsyncYahooFinanceNamespace:
     ) -> RunResult[YahooFinanceQuoteData]:
         """Yahoo Finance Quote
 
-        Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote -
-        price, market cap, volume, and key stats - as normalized JSON with
+        Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote
+        (price, market cap, volume, and key stats) as normalized JSON with
         transparent per-request USD pricing.
 
         Price: $0.00005 per request plus $0.0009 per result.

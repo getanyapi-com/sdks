@@ -39,14 +39,19 @@ class TruthsocialUserPostsInput(TypedDict, total=False):
 class TruthsocialPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    comments: int
-    display_name: str = Field(alias="displayName")
-    id: str
-    likes: int
-    published_at: str = Field(alias="publishedAt")
-    shares: int
-    text: str
-    username: str
+    comments: int = Field(description="Number of comments on the post.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    display_name: str = Field(
+        alias="displayName", description="Display name of the author."
+    )
+    id: str = Field(description="Post identifier.")
+    likes: int = Field(description="Number of likes on the post.")
+    shares: int = Field(description="Number of reblogs of the post.")
+    text: str = Field(description="Post text content.")
+    username: str = Field(description="Username of the author.")
 
 
 class TruthsocialProfileData(BaseModel):
@@ -67,19 +72,24 @@ class TruthsocialProfileData(BaseModel):
 
 
 class TruthsocialUserPostsData(BaseModel):
-    posts: list[TruthsocialUserPostsPost]
+    posts: list[TruthsocialUserPostsPost] = Field(
+        description="The user's recent posts."
+    )
 
 
 class TruthsocialUserPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    comments: int
-    id: str
-    likes: int
-    published_at: str = Field(alias="publishedAt")
-    shares: int
-    text: str
-    url: str
+    comments: int = Field(description="Number of comments on the post.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Post identifier.")
+    likes: int = Field(description="Number of likes on the post.")
+    shares: int = Field(description="Number of reblogs of the post.")
+    text: str = Field(description="Post text content.")
+    url: str = Field(description="Canonical URL of the post.")
 
 
 class TruthsocialNamespace:

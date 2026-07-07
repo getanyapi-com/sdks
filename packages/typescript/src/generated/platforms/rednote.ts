@@ -23,55 +23,82 @@ export interface RednoteNoteInput {
  */
 export interface RednoteNoteData {
   /**
+   * URL of the author's avatar.
    * Present whenever the upstream returns this record.
    */
   authorImage?: string;
   /**
+   * Display name of the note author.
    * Present whenever the upstream returns this record.
    */
   authorNickname?: string;
   /**
+   * Author's public RedNote ID.
    * Present whenever the upstream returns this record.
    */
   authorRedId?: string;
   /**
+   * Identifier of the note author.
    * Present whenever the upstream returns this record.
    */
   authorUserId?: string;
+  /**
+   * Number of times the note was collected.
+   */
   collectCount?: number;
+  /**
+   * Number of comments on the note.
+   */
   commentCount?: number;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    * Present whenever the upstream returns this record.
    */
-  createdAt?: number;
+  createdUtc?: number;
   /**
+   * Note body text.
    * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
+   * URL of the note cover image.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
+   * Detected language of the note.
    * Present whenever the upstream returns this record.
    */
   language?: string;
+  /**
+   * Number of likes on the note.
+   */
   likeCount?: number;
+  /**
+   * Note identifier.
+   */
   noteId: string;
+  /**
+   * Number of times the note was shared.
+   */
   shareCount?: number;
   /**
+   * Note title.
    * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
+   * Note type, e.g. "normal" or "video".
    * Present whenever the upstream returns this record.
    */
   type?: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    * Present whenever the upstream returns this record.
    */
-  updatedAt?: number;
+  updatedUtc?: number;
   /**
+   * Canonical URL of the note.
    * Present whenever the upstream returns this record.
    */
   url?: string;
@@ -93,38 +120,55 @@ export interface RednoteNoteCommentsInput {
 }
 
 export interface RednoteNoteCommentsComment {
+  /**
+   * Comment identifier.
+   */
   commentId: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    * Present whenever the upstream returns this record.
    */
-  createdAt?: number;
+  createdUtc?: number;
   /**
+   * URL of the author's avatar.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
+   * IP-based location shown for the commenter.
    * Present whenever the upstream returns this record.
    */
   ipLocation?: string;
+  /**
+   * Number of likes on the comment.
+   */
   likeCount?: number;
   /**
+   * Display name of the comment author.
    * Present whenever the upstream returns this record.
    */
   nickname?: string;
   /**
+   * Identifier of the note the comment belongs to.
    * Present whenever the upstream returns this record.
    */
   noteId?: string;
   /**
+   * Author's public RedNote ID.
    * Present whenever the upstream returns this record.
    */
   redId?: string;
+  /**
+   * Number of replies to the comment.
+   */
   replyCount?: number;
   /**
+   * Comment text content.
    * Present whenever the upstream returns this record.
    */
   text?: string;
   /**
+   * Identifier of the comment author.
    * Present whenever the upstream returns this record.
    */
   userId?: string;
@@ -135,7 +179,13 @@ export interface RednoteNoteCommentsComment {
  * The `data` payload of RedNote (Xiaohongshu) Note Comments (rednote.note_comments).
  */
 export interface RednoteNoteCommentsData {
+  /**
+   * Comments on the note.
+   */
   comments: RednoteNoteCommentsComment[];
+  /**
+   * Cursor for the next page of comments; empty when there are no more.
+   */
   nextCursor: string;
   [extra: string]: unknown;
 }
@@ -212,44 +262,71 @@ export interface RednoteSearchInput {
 
 export interface RednoteSearchNote {
   /**
+   * URL of the author's avatar.
    * Present whenever the upstream returns this record.
    */
   authorImage?: string;
   /**
+   * Display name of the note author.
    * Present whenever the upstream returns this record.
    */
   authorNickname?: string;
   /**
+   * Author's public RedNote ID.
    * Present whenever the upstream returns this record.
    */
   authorRedId?: string;
   /**
+   * Identifier of the note author.
    * Present whenever the upstream returns this record.
    */
   authorUserId?: string;
-  collectCount?: number;
-  commentCount?: number;
-  createdAt?: number;
   /**
+   * Number of times the note was collected.
+   */
+  collectCount?: number;
+  /**
+   * Number of comments on the note.
+   */
+  commentCount?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Note body text.
    * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
+   * URL of the note cover image.
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * Number of likes on the note.
+   */
   likeCount?: number;
+  /**
+   * Note identifier.
+   */
   noteId: string;
+  /**
+   * Number of times the note was shared.
+   */
   shareCount?: number;
   /**
+   * Note title.
    * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
+   * Note type, e.g. "normal" or "video".
    * Present whenever the upstream returns this record.
    */
   type?: string;
   /**
+   * Security token required to fetch the note's full detail.
    * Present whenever the upstream returns this record.
    */
   xsecToken?: string;
@@ -260,7 +337,13 @@ export interface RednoteSearchNote {
  * The `data` payload of RedNote (Xiaohongshu) Search (rednote.search).
  */
 export interface RednoteSearchData {
+  /**
+   * Cursor for the next page of results; empty when there are no more.
+   */
   nextCursor: string;
+  /**
+   * Notes matching the search.
+   */
   notes: RednoteSearchNote[];
   [extra: string]: unknown;
 }
@@ -335,36 +418,61 @@ export interface RednoteUserNotesInput {
 
 export interface RednoteUserNotesNote {
   /**
+   * URL of the author's avatar.
    * Present whenever the upstream returns this record.
    */
   authorImage?: string;
   /**
+   * Display name of the note author.
    * Present whenever the upstream returns this record.
    */
   authorNickname?: string;
   /**
+   * Identifier of the note author.
    * Present whenever the upstream returns this record.
    */
   authorUserId?: string;
-  collectCount?: number;
-  commentCount?: number;
-  createdAt?: number;
   /**
+   * Number of times the note was collected.
+   */
+  collectCount?: number;
+  /**
+   * Number of comments on the note.
+   */
+  commentCount?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Note body text.
    * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
+   * URL of the note cover image.
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * Number of likes on the note.
+   */
   likeCount?: number;
+  /**
+   * Note identifier.
+   */
   noteId: string;
+  /**
+   * Number of times the note was shared.
+   */
   shareCount?: number;
   /**
+   * Note title.
    * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
+   * Note type, e.g. "normal" or "video".
    * Present whenever the upstream returns this record.
    */
   type?: string;
@@ -375,7 +483,13 @@ export interface RednoteUserNotesNote {
  * The `data` payload of RedNote (Xiaohongshu) User Notes (rednote.user_notes).
  */
 export interface RednoteUserNotesData {
+  /**
+   * Cursor for the next page of results; empty when there are no more.
+   */
   nextCursor: string;
+  /**
+   * The user's notes.
+   */
   notes: RednoteUserNotesNote[];
   [extra: string]: unknown;
 }

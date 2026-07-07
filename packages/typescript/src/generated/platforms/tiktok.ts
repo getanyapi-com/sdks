@@ -137,7 +137,10 @@ export interface TiktokCommentRepliesInput {
 
 export interface TiktokCommentRepliesComment {
   author: string;
-  createdAt: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   likes: number;
   text: string;
@@ -234,8 +237,45 @@ export interface TiktokHashtagVideosInput {
 }
 
 export interface TiktokHashtagVideosItem {
+  /**
+   * Username of the video's creator, without the @ prefix. Empty when the upstream omits it.
+   */
+  authorHandle?: string;
+  /**
+   * Number of comments on the video.
+   */
+  commentCount?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * The video's numeric TikTok ID, as a string.
+   */
   id: string;
-  text: string;
+  /**
+   * URL of the video's cover/thumbnail image, with tracking query params stripped. Empty when the upstream omits it.
+   */
+  image?: string;
+  /**
+   * Number of likes on the video.
+   */
+  likeCount?: number;
+  /**
+   * Number of views/plays of the video.
+   */
+  playCount?: number;
+  /**
+   * Number of shares of the video.
+   */
+  shareCount?: number;
+  /**
+   * The video caption text. Empty for videos with no caption.
+   */
+  text?: string;
+  /**
+   * Canonical tiktok.com URL of the video, with tracking query params stripped.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -245,7 +285,7 @@ export interface TiktokHashtagVideosItem {
  */
 export interface TiktokHashtagVideosData {
   /**
-   * Video records: creator, caption, hashtags, play/like/share/comment counts, and video URL.
+   * Recent TikTok video records for the hashtag.
    */
   items: TiktokHashtagVideosItem[];
 }
@@ -339,7 +379,10 @@ export interface TiktokProfileVideosInput {
 export interface TiktokProfileVideosVideo {
   caption: string;
   comments: number;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   likes: number;
   url: string;
@@ -373,7 +416,10 @@ export interface TiktokSearchHashtagVideo {
   author: string;
   caption: string;
   comments: number;
-  createdAt: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   likes: number;
   shares: number;
@@ -586,7 +632,10 @@ export interface TiktokTrendingFeedVideo {
   author: string;
   caption: string;
   comments: number;
-  createdAt: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   likes: number;
   region: string;
@@ -644,7 +693,10 @@ export interface TiktokVideoCommentsInput {
 
 export interface TiktokVideoCommentsComment {
   author: string;
-  createdAt: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   likes: number;
   replies: number;

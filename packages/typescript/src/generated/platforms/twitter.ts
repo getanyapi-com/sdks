@@ -22,12 +22,33 @@ export interface TwitterCommunityInput {
  * The `data` payload of Twitter Community (twitter.community).
  */
 export interface TwitterCommunityData {
-  createdAt: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Handle of the account that created the community.
+   */
   creatorHandle: string;
+  /**
+   * Community description text.
+   */
   description: string;
+  /**
+   * Community identifier.
+   */
   id: string;
+  /**
+   * How members join, e.g. "open" or "restricted".
+   */
   joinPolicy: string;
+  /**
+   * Number of members in the community.
+   */
   memberCount: number;
+  /**
+   * Community name.
+   */
   name: string;
   [extra: string]: unknown;
 }
@@ -44,7 +65,10 @@ export interface TwitterCommunityTweetsInput {
 
 export interface TwitterCommunityTweetsTweet {
   authorHandle: string;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   favoriteCount: number;
   id: string;
   quoteCount: number;
@@ -227,11 +251,49 @@ export interface TwitterRepliesInput {
 
 export interface TwitterRepliesItem {
   /**
-   * Present whenever the upstream returns this record.
+   * Screen name / handle of the reply's author, without the @ prefix.
    */
-  id?: string;
+  authorHandle?: string;
+  /**
+   * Display name of the reply's author. Empty when the upstream omits it.
+   */
+  authorName?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * The reply's numeric tweet ID, as a string.
+   */
+  id: string;
+  /**
+   * Number of likes on this reply.
+   */
+  likeCount?: number;
+  /**
+   * Number of quote tweets of this reply.
+   */
+  quoteCount?: number;
+  /**
+   * Number of replies to this reply.
+   */
+  replyCount?: number;
+  /**
+   * Number of reposts/retweets of this reply.
+   */
+  repostCount?: number;
+  /**
+   * The reply's text. Empty for media-only replies with no text.
+   */
   text: string;
+  /**
+   * Canonical x.com URL of the reply, with tracking query params stripped.
+   */
   url: string;
+  /**
+   * Number of views of this reply.
+   */
+  viewCount?: number;
   [extra: string]: unknown;
 }
 
@@ -240,7 +302,7 @@ export interface TwitterRepliesItem {
  */
 export interface TwitterRepliesData {
   /**
-   * Reply records: reply text, author profile, timestamp, and engagement metrics.
+   * Reply records for the requested post.
    */
   items: TwitterRepliesItem[];
 }
@@ -282,10 +344,10 @@ export interface TwitterSearchItem {
   bookmarkCount?: number;
   conversationId?: string;
   /**
-   * Tweet creation time.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    * Present whenever the upstream returns this record.
    */
-  createdAt?: string;
+  createdUtc?: number;
   id: string;
   isReply?: boolean;
   lang?: string;
@@ -325,7 +387,10 @@ export interface TwitterTweetInput {
 export interface TwitterTweetData {
   authorId: string;
   bookmarks: number;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   likes: number;
   quotes: number;
@@ -380,7 +445,10 @@ export interface TwitterUserTweetsInput {
 
 export interface TwitterUserTweetsTweet {
   bookmarks: number;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
   id: string;
   isPinned: boolean;
   isReply?: boolean;

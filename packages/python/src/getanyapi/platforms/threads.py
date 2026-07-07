@@ -53,16 +53,25 @@ class ThreadsUserPostsInput(TypedDict, total=False):
 class ThreadsPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    code: str
-    full_name: str = Field(alias="fullName")
-    id: str
-    like_count: int = Field(alias="likeCount")
-    quote_count: int = Field(alias="quoteCount")
-    reply_count: int = Field(alias="replyCount")
-    repost_count: int = Field(alias="repostCount")
-    taken_at: int = Field(alias="takenAt")
-    text: str
-    username: str
+    code: str = Field(description="Threads post shortcode.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    full_name: str = Field(alias="fullName", description="Display name of the author.")
+    id: str = Field(description="Post identifier.")
+    like_count: int = Field(
+        alias="likeCount", description="Number of likes on the post."
+    )
+    quote_count: int = Field(alias="quoteCount", description="Number of quote posts.")
+    reply_count: int = Field(
+        alias="replyCount", description="Number of replies to the post."
+    )
+    repost_count: int = Field(
+        alias="repostCount", description="Number of reposts of the post."
+    )
+    text: str = Field(description="Post text content.")
+    username: str = Field(description="Username of the author.")
 
 
 class ThreadsProfileData(BaseModel):
@@ -87,16 +96,25 @@ class ThreadsSearchData(BaseModel):
 class ThreadsSearchPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    code: str
-    full_name: str = Field(alias="fullName")
-    id: str
-    like_count: int = Field(alias="likeCount")
-    reply_count: int = Field(alias="replyCount")
-    repost_count: int = Field(alias="repostCount")
-    taken_at: int = Field(alias="takenAt")
-    text: str
-    url: str
-    username: str
+    code: str = Field(description="Threads post shortcode.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    full_name: str = Field(alias="fullName", description="Display name of the author.")
+    id: str = Field(description="Post identifier.")
+    like_count: int = Field(
+        alias="likeCount", description="Number of likes on the post."
+    )
+    reply_count: int = Field(
+        alias="replyCount", description="Number of replies to the post."
+    )
+    repost_count: int = Field(
+        alias="repostCount", description="Number of reposts of the post."
+    )
+    text: str = Field(description="Post text content.")
+    url: str = Field(description="Canonical URL of the post.")
+    username: str = Field(description="Username of the author.")
 
 
 class ThreadsSearchUsersData(BaseModel):
@@ -114,22 +132,31 @@ class ThreadsSearchUsersUser(BaseModel):
 
 
 class ThreadsUserPostsData(BaseModel):
-    posts: list[ThreadsUserPostsPost]
+    posts: list[ThreadsUserPostsPost] = Field(description="The user's recent posts.")
 
 
 class ThreadsUserPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    code: str
-    id: str
-    like_count: int = Field(alias="likeCount")
-    quote_count: int = Field(alias="quoteCount")
-    reply_count: int = Field(alias="replyCount")
-    repost_count: int = Field(alias="repostCount")
-    taken_at: int = Field(alias="takenAt")
-    text: str
-    url: str
-    username: str
+    code: str = Field(description="Threads post shortcode.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Post identifier.")
+    like_count: int = Field(
+        alias="likeCount", description="Number of likes on the post."
+    )
+    quote_count: int = Field(alias="quoteCount", description="Number of quote posts.")
+    reply_count: int = Field(
+        alias="replyCount", description="Number of replies to the post."
+    )
+    repost_count: int = Field(
+        alias="repostCount", description="Number of reposts of the post."
+    )
+    text: str = Field(description="Post text content.")
+    url: str = Field(description="Canonical URL of the post.")
+    username: str = Field(description="Username of the author.")
 
 
 class ThreadsNamespace:

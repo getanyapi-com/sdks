@@ -110,9 +110,13 @@ export interface WebScreenshotInput {
 
 export interface WebScreenshotItem {
   /**
+   * Link to the captured screenshot image.
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * The final page URL that was captured.
+   */
   url: string;
   [extra: string]: unknown;
 }

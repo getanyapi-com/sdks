@@ -31,28 +31,36 @@ class CoinmarketcapListingsData(BaseModel):
 class CoinmarketcapListingsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    ath: float | None = Field(default=None, description="All-time high.")
-    atl: float | None = Field(default=None, description="All-time low.")
-    circulating_supply: float | None = Field(default=None, alias="circulatingSupply")
-    high24h: float | None = None
+    ath: float | None = Field(default=None, description="All-time high price in USD.")
+    atl: float | None = Field(default=None, description="All-time low price in USD.")
+    circulating_supply: float | None = Field(
+        default=None,
+        alias="circulatingSupply",
+        description="Circulating supply (coin count).",
+    )
+    high24h: float | None = Field(default=None, description="24h high price in USD.")
     id: str = Field(description="CoinMarketCap identifier.")
     last_updated: str | None = Field(
         default=None,
         alias="lastUpdated",
         description="Present whenever the upstream returns this record.",
     )
-    low24h: float | None = None
-    market_cap: float | None = Field(default=None, alias="marketCap")
-    name: str
-    price: float | None = Field(
-        default=None, description="Latest price in the primary quote currency (USD)."
+    low24h: float | None = Field(default=None, description="24h low price in USD.")
+    market_cap: float | None = Field(
+        default=None, alias="marketCap", description="Market capitalization in USD."
     )
+    name: str
+    price: float | None = Field(default=None, description="Latest price in USD.")
     slug: str | None = Field(
         default=None, description="Present whenever the upstream returns this record."
     )
     symbol: str
-    total_supply: float | None = Field(default=None, alias="totalSupply")
-    volume24h: float | None = Field(default=None, description="24h trading volume.")
+    total_supply: float | None = Field(
+        default=None, alias="totalSupply", description="Total supply (coin count)."
+    )
+    volume24h: float | None = Field(
+        default=None, description="24h trading volume in USD."
+    )
 
 
 class CoinmarketcapNamespace:

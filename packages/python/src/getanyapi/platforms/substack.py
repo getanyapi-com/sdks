@@ -42,44 +42,60 @@ class SubstackPostsItem(BaseModel):
     author_handle: str | None = Field(
         default=None,
         alias="authorHandle",
-        description="Present whenever the upstream returns this record.",
+        description="Handle of the post author. Present whenever the upstream returns this record.",
     )
     author_name: str | None = Field(
         default=None,
         alias="authorName",
-        description="Present whenever the upstream returns this record.",
+        description="Display name of the post author. Present whenever the upstream returns this record.",
     )
-    comment_count: int | None = Field(default=None, alias="commentCount")
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the post.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+    )
     description: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Post description or article HTML/summary. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
         description="Cover image URL. Present whenever the upstream returns this record.",
     )
-    is_paid: bool | None = Field(default=None, alias="isPaid")
+    is_paid: bool | None = Field(
+        default=None,
+        alias="isPaid",
+        description="Whether the post is behind a paywall.",
+    )
     post_id: str | None = Field(
         default=None,
         alias="postId",
-        description="Present whenever the upstream returns this record.",
+        description="Substack post identifier. Present whenever the upstream returns this record.",
     )
     post_type: str | None = Field(
         default=None,
         alias="postType",
-        description="Present whenever the upstream returns this record.",
+        description="Post type (e.g. newsletter, podcast, thread). Present whenever the upstream returns this record.",
     )
-    published_at: str | None = Field(
+    reaction_count: int | None = Field(
         default=None,
-        alias="publishedAt",
-        description="ISO 8601 publish date. Present whenever the upstream returns this record.",
+        alias="reactionCount",
+        description="Number of reactions on the post.",
     )
-    reaction_count: int | None = Field(default=None, alias="reactionCount")
     subtitle: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Post subtitle or deck. Present whenever the upstream returns this record.",
     )
-    title: str
-    url: str
-    wordcount: int | None = None
+    title: str = Field(description="Post title.")
+    url: str = Field(description="Canonical post URL.")
+    wordcount: int | None = Field(
+        default=None, description="Approximate word count of the article."
+    )
 
 
 class SubstackNamespace:

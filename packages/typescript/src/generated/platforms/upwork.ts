@@ -31,16 +31,30 @@ export interface UpworkJobsItem {
    * Fixed budget or hourly range.
    */
   budget?: string;
+  /**
+   * Client country or location.
+   */
   clientLocation?: string;
+  /**
+   * Client average rating.
+   */
   clientRating?: number;
   /**
    * Client lifetime spend (USD).
    */
   clientTotalSpent?: number;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Full job posting description text.
    * Present whenever the upstream returns this record.
    */
   description?: string;
+  /**
+   * Required experience level (e.g. Entry, Intermediate, Expert).
+   */
   experienceLevel?: string;
   /**
    * Upwork job identifier.
@@ -55,10 +69,6 @@ export interface UpworkJobsItem {
    */
   paymentVerified?: boolean;
   /**
-   * ISO 8601 posting date.
-   */
-  postedAt?: string;
-  /**
    * Number of proposals submitted.
    */
   proposals?: number;
@@ -66,6 +76,9 @@ export interface UpworkJobsItem {
    * Skill tags.
    */
   tags?: string[];
+  /**
+   * Job posting title.
+   */
   title: string;
   /**
    * Upwork job posting URL.

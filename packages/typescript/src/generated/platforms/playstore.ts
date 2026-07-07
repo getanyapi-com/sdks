@@ -31,8 +31,41 @@ export interface PlaystoreReviewsInput {
 }
 
 export interface PlaystoreReviewsItem {
+  /**
+   * Reviewer display name.
+   * Present whenever the upstream returns this record.
+   */
+  author?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Number of helpful votes on the review.
+   */
+  helpfulVotes?: number;
+  /**
+   * Review identifier.
+   * Present whenever the upstream returns this record.
+   */
+  id?: string;
+  /**
+   * Star rating, 1 to 5.
+   */
   rating: number;
+  /**
+   * Review body text.
+   */
   text: string;
+  /**
+   * Review title, when the store provides one.
+   */
+  title?: string;
+  /**
+   * App version the review was left on.
+   */
+  version?: string;
   [extra: string]: unknown;
 }
 

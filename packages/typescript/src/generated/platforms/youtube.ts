@@ -427,13 +427,37 @@ export interface YoutubeVideoInput {
  * The `data` payload of YouTube Video (youtube.video).
  */
 export interface YoutubeVideoData {
+  /**
+   * Name of the channel that published the video.
+   */
   channel: string;
+  /**
+   * Number of comments.
+   */
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Duration of the video in milliseconds.
+   */
   durationMs: number;
+  /**
+   * Unique identifier of the video.
+   */
   id: string;
+  /**
+   * Number of likes.
+   */
   likes: number;
-  publishedAt: string;
+  /**
+   * Title of the video.
+   */
   title: string;
+  /**
+   * Number of views.
+   */
   views: number;
   [extra: string]: unknown;
 }

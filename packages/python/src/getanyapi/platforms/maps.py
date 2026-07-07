@@ -69,15 +69,83 @@ class MapsSearchInput(TypedDict, total=False):
 
 class MapsContactsData(BaseModel):
     items: list[MapsContactsItem] = Field(
-        description="Business records: name, address, rating, plus enriched contact details such as emails, phone numbers, and social profiles."
+        description="Matching business records, each enriched with contact details scraped from the business website."
     )
 
 
 class MapsContactsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    name: str
-    url: str
+    address: str | None = Field(
+        default=None, description="Full formatted street address."
+    )
+    category: str | None = Field(default=None, description="Primary business category.")
+    cid: str | None = Field(default=None, description="Google customer/place id (cid).")
+    city: str | None = Field(default=None, description="City the business is in.")
+    country_code: str | None = Field(
+        default=None, alias="countryCode", description="Two-letter country code."
+    )
+    emails: list[str] | None = Field(
+        default=None, description="Email addresses scraped from the business website."
+    )
+    facebooks: list[str] | None = Field(
+        default=None, description="Facebook profile URLs found on the business website."
+    )
+    image: str | None = Field(default=None, description="Primary business photo URL.")
+    instagrams: list[str] | None = Field(
+        default=None,
+        description="Instagram profile URLs found on the business website.",
+    )
+    latitude: float | None = Field(
+        default=None, description="Latitude of the business in decimal degrees."
+    )
+    linked_ins: list[str] | None = Field(
+        default=None,
+        alias="linkedIns",
+        description="LinkedIn profile URLs found on the business website.",
+    )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the business in decimal degrees."
+    )
+    name: str = Field(description="Business name.")
+    phone: str | None = Field(
+        default=None,
+        description="Business phone number in E.164 format, when listed on Google Maps.",
+    )
+    phones: list[str] | None = Field(
+        default=None,
+        description="Additional phone numbers scraped from the business website.",
+    )
+    place_id: str = Field(
+        alias="placeId",
+        description="Google Maps place id (stable identifier for the business).",
+    )
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal code of the business."
+    )
+    rating: float | None = Field(
+        default=None, description="Average star rating out of 5."
+    )
+    review_count: float | None = Field(
+        default=None, alias="reviewCount", description="Total number of reviews."
+    )
+    state: str | None = Field(
+        default=None, description="State or region the business is in."
+    )
+    tiktoks: list[str] | None = Field(
+        default=None, description="TikTok profile URLs found on the business website."
+    )
+    twitters: list[str] | None = Field(
+        default=None,
+        description="X/Twitter profile URLs found on the business website.",
+    )
+    url: str = Field(description="Canonical Google Maps URL for the business.")
+    website: str | None = Field(
+        default=None, description="The business website URL, when listed."
+    )
+    youtubes: list[str] | None = Field(
+        default=None, description="YouTube channel URLs found on the business website."
+    )
 
 
 class MapsPlaceData(BaseModel):
@@ -165,6 +233,11 @@ class MapsReviewsItem(BaseModel):
         default=None,
         description="Reviewer display name. Present whenever the upstream returns this record.",
     )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+    )
     is_local_guide: bool | None = Field(
         default=None,
         alias="isLocalGuide",
@@ -196,16 +269,15 @@ class MapsReviewsItem(BaseModel):
         alias="publishedAgo",
         description="Human-relative publish time (e.g. '7 hours ago').",
     )
-    published_at: str | None = Field(
-        default=None,
-        alias="publishedAt",
-        description="ISO 8601 timestamp the review was published. Present whenever the upstream returns this record.",
-    )
     rating: float | None = Field(
         default=None, description="Star rating the reviewer gave (1-5)."
     )
     review_id: str = Field(alias="reviewId", description="Stable Google review id.")
-    reviewer_id: str | None = Field(default=None, alias="reviewerId")
+    reviewer_id: str | None = Field(
+        default=None,
+        alias="reviewerId",
+        description="Stable Google id of the reviewer.",
+    )
     reviewer_reviews_count: int | None = Field(
         default=None,
         alias="reviewerReviewsCount",
@@ -223,15 +295,66 @@ class MapsReviewsItem(BaseModel):
 
 class MapsSearchData(BaseModel):
     items: list[MapsSearchItem] = Field(
-        description="Place records: name, category, address, coordinates, rating, review count, and contact basics."
+        description="Matching Google Maps place records."
     )
 
 
 class MapsSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    name: str
-    url: str
+    address: str | None = Field(
+        default=None, description="Full formatted street address."
+    )
+    category: str | None = Field(
+        default=None, description="Primary place category (e.g. Coffee shop)."
+    )
+    cid: str | None = Field(default=None, description="Google customer/place id (cid).")
+    city: str | None = Field(default=None, description="City the place is in.")
+    country_code: str | None = Field(
+        default=None, alias="countryCode", description="Two-letter country code."
+    )
+    image: str | None = Field(default=None, description="Primary place photo URL.")
+    latitude: float | None = Field(
+        default=None, description="Latitude of the place in decimal degrees."
+    )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the place in decimal degrees."
+    )
+    name: str = Field(description="Place name.")
+    permanently_closed: bool | None = Field(
+        default=None,
+        alias="permanentlyClosed",
+        description="True when the place is marked permanently closed.",
+    )
+    phone: str | None = Field(
+        default=None, description="Business phone number in E.164 format, when listed."
+    )
+    place_id: str = Field(
+        alias="placeId",
+        description="Google Maps place id (stable identifier for the place).",
+    )
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal code of the place."
+    )
+    price_level: str | None = Field(
+        default=None,
+        alias="priceLevel",
+        description="Relative price level indicator (e.g. $, $10-20).",
+    )
+    rating: float | None = Field(
+        default=None, description="Average star rating out of 5."
+    )
+    review_count: float | None = Field(
+        default=None, alias="reviewCount", description="Total number of reviews."
+    )
+    state: str | None = Field(
+        default=None, description="State or region the place is in."
+    )
+    street: str | None = Field(default=None, description="Street line of the address.")
+    url: str = Field(description="Canonical Google Maps URL for the place.")
+    website: str | None = Field(
+        default=None, description="The place's own website URL, when listed."
+    )
 
 
 class MapsNamespace:
@@ -249,7 +372,7 @@ class MapsNamespace:
         """Google Maps Contacts
 
         Search Google Maps for businesses and enrich each result with contact
-        details - emails, phones, and social profiles from their websites - up to 20
+        details (emails, phones, and social profiles from their websites), up to 20
         records per request.
 
         Price: $0.00005 per request plus $0.003 per result.
@@ -308,7 +431,7 @@ class MapsNamespace:
     ) -> RunResult[MapsSearchData]:
         """Google Maps Search
 
-        Search Google Maps for places matching a query and location - up to 20
+        Search Google Maps for places matching a query and location: up to 20
         normalized place records with ratings, addresses, and contact basics per
         request.
 
@@ -338,7 +461,7 @@ class AsyncMapsNamespace:
         """Google Maps Contacts
 
         Search Google Maps for businesses and enrich each result with contact
-        details - emails, phones, and social profiles from their websites - up to 20
+        details (emails, phones, and social profiles from their websites), up to 20
         records per request.
 
         Price: $0.00005 per request plus $0.003 per result.
@@ -397,7 +520,7 @@ class AsyncMapsNamespace:
     ) -> RunResult[MapsSearchData]:
         """Google Maps Search
 
-        Search Google Maps for places matching a query and location - up to 20
+        Search Google Maps for places matching a query and location: up to 20
         normalized place records with ratings, addresses, and contact basics per
         request.
 

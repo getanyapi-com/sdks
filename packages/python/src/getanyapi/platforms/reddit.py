@@ -8,7 +8,7 @@ from typing import Literal, TYPE_CHECKING
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions, RunResult
+from ..types import RequestOptions, RunResult
 from .._pagination import (
     AsyncPaginator,
     Paginator,
@@ -100,7 +100,7 @@ class RedditPostCommentsComment(BaseModel):
     body: str = Field(description="Comment text, as Markdown.")
     created_utc: float = Field(
         alias="createdUtc",
-        description="Comment creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     id: str = Field(description="Reddit comment ID (base-36, without the t1_ prefix).")
     url: str = Field(description="Permalink to the comment on reddit.com.")
@@ -131,7 +131,7 @@ class RedditSearchPost(BaseModel):
     author: str = Field(description="Author username, without the u/ prefix.")
     created_utc: float = Field(
         alias="createdUtc",
-        description="Post creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     id: str = Field(description="Reddit post ID (base-36, without the t3_ prefix).")
     num_comments: int = Field(
@@ -151,13 +151,22 @@ class RedditSearchPost(BaseModel):
 class RedditSubredditDetailsData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    advertiser_category: str = Field(alias="advertiserCategory")
-    created_at: str = Field(alias="createdAt")
-    description: str
-    icon_url: str = Field(alias="iconUrl")
+    advertiser_category: str = Field(
+        alias="advertiserCategory",
+        description="Reddit advertiser category for the subreddit.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    description: str = Field(description="Subreddit description text.")
+    icon_url: str = Field(alias="iconUrl", description="URL of the subreddit icon.")
     id: str = Field(description='Reddit fullname, e.g. "t5_2qh1i".')
-    name: str
-    weekly_active_users: int = Field(alias="weeklyActiveUsers")
+    name: str = Field(description="Subreddit name (without the r/ prefix).")
+    weekly_active_users: int = Field(
+        alias="weeklyActiveUsers",
+        description="Number of users active in the past week.",
+    )
 
 
 class RedditSubredditPostsData(BaseModel):
@@ -176,7 +185,7 @@ class RedditSubredditPostsPost(BaseModel):
     author: str = Field(description="Author username, without the u/ prefix.")
     created_utc: float = Field(
         alias="createdUtc",
-        description="Post creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     id: str = Field(description="Reddit post ID (base-36, without the t3_ prefix).")
     num_comments: int = Field(
@@ -235,7 +244,7 @@ class RedditNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditPostCommentsInput],
-    ) -> BareRunResult[RedditPostCommentsData]:
+    ) -> RunResult[RedditPostCommentsData]:
         """Reddit Post Comments
 
         List the top-level comments on a Reddit post by URL (author, body, score,
@@ -249,7 +258,7 @@ class RedditNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.post_comments", dict(input), options
         )
-        return BareRunResult[RedditPostCommentsData].model_validate(raw)
+        return RunResult[RedditPostCommentsData].model_validate(raw)
 
     def post_transcript(
         self,
@@ -277,7 +286,7 @@ class RedditNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSearchInput],
-    ) -> BareRunResult[RedditSearchData]:
+    ) -> RunResult[RedditSearchData]:
         """Reddit Search
 
         Search Reddit posts across all subreddits by query, normalized across
@@ -291,7 +300,7 @@ class RedditNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.search", dict(input), options
         )
-        return BareRunResult[RedditSearchData].model_validate(raw)
+        return RunResult[RedditSearchData].model_validate(raw)
 
     def iter_search(
         self,
@@ -303,7 +312,7 @@ class RedditNamespace:
 
         Yields validated `RedditSearchPost` items from the `posts` field of
         each page. Use `.pages()` on the returned paginator to walk whole
-        `BareRunResult` pages.
+        `RunResult` pages.
         """
         return paginate(
             self._client,
@@ -312,7 +321,7 @@ class RedditNamespace:
             "posts",
             item_model=RedditSearchPost,
             data_model=RedditSearchData,
-            bare=True,
+            bare=False,
             options=options,
         )
 
@@ -342,7 +351,7 @@ class RedditNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSubredditPostsInput],
-    ) -> BareRunResult[RedditSubredditPostsData]:
+    ) -> RunResult[RedditSubredditPostsData]:
         """Reddit Subreddit Posts
 
         Fetch posts from a subreddit listing (hot, new, or top), normalized across
@@ -356,7 +365,7 @@ class RedditNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.subreddit_posts", dict(input), options
         )
-        return BareRunResult[RedditSubredditPostsData].model_validate(raw)
+        return RunResult[RedditSubredditPostsData].model_validate(raw)
 
     def subreddit_search(
         self,
@@ -414,7 +423,7 @@ class AsyncRedditNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditPostCommentsInput],
-    ) -> BareRunResult[RedditPostCommentsData]:
+    ) -> RunResult[RedditPostCommentsData]:
         """Reddit Post Comments
 
         List the top-level comments on a Reddit post by URL (author, body, score,
@@ -428,7 +437,7 @@ class AsyncRedditNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.post_comments", dict(input), options
         )
-        return BareRunResult[RedditPostCommentsData].model_validate(raw)
+        return RunResult[RedditPostCommentsData].model_validate(raw)
 
     async def post_transcript(
         self,
@@ -456,7 +465,7 @@ class AsyncRedditNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSearchInput],
-    ) -> BareRunResult[RedditSearchData]:
+    ) -> RunResult[RedditSearchData]:
         """Reddit Search
 
         Search Reddit posts across all subreddits by query, normalized across
@@ -470,7 +479,7 @@ class AsyncRedditNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.search", dict(input), options
         )
-        return BareRunResult[RedditSearchData].model_validate(raw)
+        return RunResult[RedditSearchData].model_validate(raw)
 
     def iter_search(
         self,
@@ -482,7 +491,7 @@ class AsyncRedditNamespace:
 
         Yields validated `RedditSearchPost` items from the `posts` field of
         each page. Use `.pages()` on the returned paginator to walk whole
-        `BareRunResult` pages.
+        `RunResult` pages.
         """
         return apaginate(
             self._client,
@@ -491,7 +500,7 @@ class AsyncRedditNamespace:
             "posts",
             item_model=RedditSearchPost,
             data_model=RedditSearchData,
-            bare=True,
+            bare=False,
             options=options,
         )
 
@@ -521,7 +530,7 @@ class AsyncRedditNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSubredditPostsInput],
-    ) -> BareRunResult[RedditSubredditPostsData]:
+    ) -> RunResult[RedditSubredditPostsData]:
         """Reddit Subreddit Posts
 
         Fetch posts from a subreddit listing (hot, new, or top), normalized across
@@ -535,7 +544,7 @@ class AsyncRedditNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.subreddit_posts", dict(input), options
         )
-        return BareRunResult[RedditSubredditPostsData].model_validate(raw)
+        return RunResult[RedditSubredditPostsData].model_validate(raw)
 
     async def subreddit_search(
         self,

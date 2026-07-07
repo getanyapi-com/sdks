@@ -20,11 +20,29 @@ export interface BlueskyPostInput {
  * The `data` payload of Bluesky Post (bluesky.post).
  */
 export interface BlueskyPostData {
+  /**
+   * Handle of the account that authored the post.
+   */
   authorHandle: string;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Number of likes on the post.
+   */
   likes: number;
+  /**
+   * Number of replies to the post.
+   */
   replies: number;
+  /**
+   * Number of reposts of the post.
+   */
   reposts: number;
+  /**
+   * The post's text content.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -63,11 +81,29 @@ export interface BlueskyUserPostsInput {
 }
 
 export interface BlueskyUserPostsPost {
+  /**
+   * Handle of the account that authored the post.
+   */
   authorHandle: string;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Number of likes on the post.
+   */
   likes: number;
+  /**
+   * Number of replies to the post.
+   */
   replies: number;
+  /**
+   * Number of reposts of the post.
+   */
   reposts: number;
+  /**
+   * The post's text content.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -76,6 +112,9 @@ export interface BlueskyUserPostsPost {
  * The `data` payload of Bluesky User Posts (bluesky.user_posts).
  */
 export interface BlueskyUserPostsData {
+  /**
+   * The account's recent posts.
+   */
   posts: BlueskyUserPostsPost[];
 }
 

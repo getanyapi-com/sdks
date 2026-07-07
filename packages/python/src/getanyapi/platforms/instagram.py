@@ -260,32 +260,36 @@ class InstagramFollowersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     items: list[InstagramFollowersItem] = Field(
-        description="Follower records: id, handle, full name, profile picture URL, and verification/privacy flags."
+        description="Follower records for the target account."
     )
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Opaque cursor for the next page of followers, or null when this lane has no more. Pass it back as cursor to continue.",
+        description="Opaque cursor for the next page of followers, or null/empty when this lane has no more. Pass it back as cursor to continue.",
     )
 
 
 class InstagramFollowersItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
+    model_config = ConfigDict(extra="allow")
 
-    full_name: str | None = Field(
-        default=None,
-        alias="fullName",
-        description="Follower's display name (may be empty). Present whenever the upstream returns this record.",
+    handle: str = Field(description="The follower's username, without the @ prefix.")
+    id: str = Field(
+        description="The follower's numeric Instagram user ID, as a string."
     )
-    handle: str
-    id: str
+    image: str | None = Field(
+        default=None,
+        description="URL of the follower's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="The follower's display name. Empty when the account has none.",
+    )
     private: bool | None = Field(
         default=None, description="Whether the follower's account is private."
     )
-    profile_pic_url: str | None = Field(
+    url: str | None = Field(
         default=None,
-        alias="profilePicUrl",
-        description="URL of the follower's profile picture. Present whenever the upstream returns this record.",
+        description="Canonical URL of the follower's profile, with tracking query params stripped. Empty when the lane does not return it.",
     )
     verified: bool | None = Field(
         default=None, description="Whether the follower's account is verified."
@@ -296,35 +300,41 @@ class InstagramFollowingData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     items: list[InstagramFollowingItem] = Field(
-        description="Followed-account records: numeric id, handle, full name, profile picture URL, and verified/private flags."
+        description="Records for the accounts the target user follows."
     )
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Opaque cursor for the next page of accounts, or null when this lane has no more. Pass it back as cursor to continue.",
+        description="Opaque cursor for the next page of results, or null/empty when this lane has no more. Pass it back as cursor to continue.",
     )
 
 
 class InstagramFollowingItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
+    model_config = ConfigDict(extra="allow")
 
-    full_name: str | None = Field(
-        default=None,
-        alias="fullName",
-        description="Account display name. Present whenever the upstream returns this record.",
+    handle: str = Field(
+        description="The followed account's username, without the @ prefix."
     )
-    handle: str
-    id: str
+    id: str = Field(
+        description="The followed account's numeric Instagram user ID, as a string."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the followed account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="The followed account's display name. Empty when the account has none.",
+    )
     private: bool | None = Field(
-        default=None, description="Whether the account is private."
+        default=None, description="Whether the followed account is private."
     )
-    profile_pic_url: str | None = Field(
+    url: str | None = Field(
         default=None,
-        alias="profilePicUrl",
-        description="URL of the account's profile picture. Present whenever the upstream returns this record.",
+        description="Canonical URL of the followed account's profile, with tracking query params stripped. Empty when the lane does not return it.",
     )
     verified: bool | None = Field(
-        default=None, description="Whether the account has a verified badge."
+        default=None, description="Whether the followed account is verified."
     )
 
 
@@ -356,12 +366,22 @@ class InstagramHashtagAnalyticsItem(BaseModel):
 class InstagramHighlightDetailData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    cover_url: str = Field(alias="coverUrl")
-    created_at: int = Field(alias="createdAt")
-    id: str
-    media_count: int = Field(alias="mediaCount")
-    owner_handle: str = Field(alias="ownerHandle")
-    title: str
+    cover_url: str = Field(
+        alias="coverUrl", description="URL of the highlight cover image."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Highlight identifier.")
+    media_count: int = Field(
+        alias="mediaCount", description="Number of media items in the highlight."
+    )
+    owner_handle: str = Field(
+        alias="ownerHandle",
+        description="Handle of the account that owns the highlight.",
+    )
+    title: str = Field(description="Highlight title.")
 
 
 class InstagramMediaTranscriptData(BaseModel):
@@ -396,7 +416,10 @@ class InstagramPostCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     author: str
-    created_at: str = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     likes: int
     text: str
@@ -418,51 +441,148 @@ class InstagramProfileData(BaseModel):
 
 class InstagramReelTranscriptData(BaseModel):
     items: list[InstagramReelTranscriptItem] = Field(
-        description="Transcript records: full transcript text, timed segments, detected language, and source video metadata."
+        description="Transcript record for the requested reel (one item), with the full transcript text, timed segments, and source video metadata."
     )
 
 
 class InstagramReelTranscriptItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    caption: str | None = Field(
+        default=None,
+        description="The reel's caption text. Empty when the reel has no caption.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the reel.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    duration_seconds: float | None = Field(
+        default=None, alias="durationSeconds", description="Video duration in seconds."
+    )
+    id: str = Field(description="The reel's numeric Instagram media ID, as a string.")
+    language: str | None = Field(
+        default=None,
+        description='Detected spoken language (ISO 639-1 code, e.g. "en"). Empty when the upstream omits it.',
+    )
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the reel."
+    )
+    owner_username: str | None = Field(
+        default=None,
+        alias="ownerUsername",
+        description="Username of the reel's owner, without the @ prefix. Empty when the upstream omits it.",
+    )
+    segments: list[InstagramReelTranscriptSegment] | None = Field(
+        default=None,
+        description="Time-aligned transcript segments, each with its text and start/end offsets in seconds.",
+    )
+    text: str = Field(
+        description="The full speech transcript. Empty when the reel has no detectable spoken audio."
+    )
+    url: str = Field(
+        description="Canonical URL of the reel, with tracking query params stripped."
+    )
+    view_count: int | None = Field(
+        default=None, alias="viewCount", description="Number of video views."
+    )
+
+
+class InstagramReelTranscriptSegment(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    text: str
-    url: str
+    end: float | None = Field(
+        default=None,
+        description="Segment end offset in seconds from the start of the video.",
+    )
+    start: float | None = Field(
+        default=None,
+        description="Segment start offset in seconds from the start of the video.",
+    )
+    text: str | None = Field(
+        default=None, description="The segment's transcribed text."
+    )
 
 
 class InstagramReelsSearchData(BaseModel):
-    reels: list[InstagramReelsSearchReel]
+    reels: list[InstagramReelsSearchReel] = Field(
+        description="Reels matching the search."
+    )
 
 
 class InstagramReelsSearchReel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str
-    comments: int
-    duration_seconds: float = Field(alias="durationSeconds")
-    followers: int
-    likes: int
-    paid_partnership: bool = Field(alias="paidPartnership")
-    plays: int
-    shortcode: str
-    taken_at: str = Field(alias="takenAt")
-    thumbnail: str
-    url: str
-    username: str
-    verified: bool
-    views: int
+    caption: str = Field(description="Reel caption text.")
+    comments: int = Field(description="Number of comments on the reel.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    duration_seconds: float = Field(
+        alias="durationSeconds", description="Reel duration in seconds."
+    )
+    followers: int = Field(description="Follower count of the posting account.")
+    likes: int = Field(description="Number of likes on the reel.")
+    paid_partnership: bool = Field(
+        alias="paidPartnership", description="True when the reel is a paid partnership."
+    )
+    plays: int = Field(description="Number of plays of the reel.")
+    shortcode: str = Field(description="Instagram media shortcode.")
+    thumbnail: str = Field(description="URL of the reel thumbnail image.")
+    url: str = Field(description="Canonical URL of the reel.")
+    username: str = Field(description="Username of the account that posted the reel.")
+    verified: bool = Field(description="True when the posting account is verified.")
+    views: int = Field(description="Number of views on the reel.")
 
 
 class InstagramSearchData(BaseModel):
     items: list[InstagramSearchItem] = Field(
-        description="Matching search results: user profiles, hashtags, or places with names, follower/post counts, and profile links."
+        description="Matching Instagram profile records for the query."
     )
 
 
 class InstagramSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    handle: str
-    url: str
+    bio: str | None = Field(
+        default=None,
+        description="The account's bio text. Empty when the account has none.",
+    )
+    followers: int | None = Field(
+        default=None,
+        description="The account's follower count. May be 0 when the lane does not return it in search results.",
+    )
+    following: int | None = Field(
+        default=None,
+        description="The number of accounts the account follows. May be 0 when the lane does not return it in search results.",
+    )
+    handle: str = Field(description="The account's username, without the @ prefix.")
+    id: str = Field(description="The account's numeric Instagram user ID, as a string.")
+    image: str | None = Field(
+        default=None,
+        description="URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="The account's display name. Empty when the account has none.",
+    )
+    posts_count: int | None = Field(
+        default=None,
+        alias="postsCount",
+        description="The account's post count. May be 0 when the lane does not return it in search results.",
+    )
+    url: str = Field(
+        description="Canonical URL of the account's profile, with tracking query params stripped."
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether the account is verified."
+    )
 
 
 class InstagramSearchHashtagData(BaseModel):
@@ -515,6 +635,9 @@ class InstagramStoriesFullItem(BaseModel):
         default=None, description="Story caption text, when present."
     )
     code: str | None = Field(default=None, description="Instagram media shortcode.")
+    created_utc: float | None = Field(
+        default=None, alias="createdUtc", description="Posting time (Unix seconds)."
+    )
     expires_at: int | None = Field(
         default=None,
         alias="expiresAt",
@@ -529,9 +652,6 @@ class InstagramStoriesFullItem(BaseModel):
     )
     media_type: int | None = Field(
         default=None, alias="mediaType", description="Media type: 1 = image, 2 = video."
-    )
-    posted_at: int | None = Field(
-        default=None, alias="postedAt", description="Posting time (Unix seconds)."
     )
     username: str | None = Field(
         default=None,
@@ -554,6 +674,9 @@ class InstagramStoriesThinData(BaseModel):
 class InstagramStoriesThinItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    created_utc: float | None = Field(
+        default=None, alias="createdUtc", description="Posting time (Unix seconds)."
+    )
     id: str = Field(description="Story identifier.")
     media_url: str | None = Field(
         default=None,
@@ -563,9 +686,6 @@ class InstagramStoriesThinItem(BaseModel):
     permalink: str | None = Field(
         default=None,
         description="Public link to the story. Present whenever the upstream returns this record.",
-    )
-    posted_at: int | None = Field(
-        default=None, alias="postedAt", description="Posting time (Unix seconds)."
     )
     username: str | None = Field(
         default=None,
@@ -615,7 +735,10 @@ class InstagramUserPostsPost(BaseModel):
 
     caption: str
     comments: int
-    created_at: str = Field(alias="createdAt")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     likes: int
     url: str
@@ -633,10 +756,13 @@ class InstagramUserReelsReel(BaseModel):
 
     caption: str
     comments: int
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str
     likes: int
     shortcode: str
-    taken_at: int = Field(alias="takenAt")
     views: int
 
 

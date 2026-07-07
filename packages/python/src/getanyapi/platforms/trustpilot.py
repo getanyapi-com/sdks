@@ -39,15 +39,16 @@ class TrustpilotReviewsData(BaseModel):
 class TrustpilotReviewsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    published_at: str | None = Field(
+    created_utc: float | None = Field(
         default=None,
-        alias="publishedAt",
-        description="Publish date (ISO 8601). Present whenever the upstream returns this record.",
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
     )
     rating: float = Field(description="Star rating (1-5).")
     text: str = Field(description="Review body text.")
     title: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Review title or headline. Present whenever the upstream returns this record.",
     )
     url: str | None = Field(
         default=None,

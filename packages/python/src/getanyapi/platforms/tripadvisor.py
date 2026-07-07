@@ -46,15 +46,16 @@ class TripadvisorReviewsData(BaseModel):
 class TripadvisorReviewsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    published_at: str | None = Field(
+    created_utc: float | None = Field(
         default=None,
-        alias="publishedAt",
-        description="Publish date. Present whenever the upstream returns this record.",
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
     )
     rating: float = Field(description="Star rating (typically 1-5).")
     text: str = Field(description="Review body text.")
     title: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Review title or headline. Present whenever the upstream returns this record.",
     )
     url: str | None = Field(
         default=None,
@@ -64,16 +65,77 @@ class TripadvisorReviewsItem(BaseModel):
 
 class TripadvisorSearchData(BaseModel):
     items: list[TripadvisorSearchItem] = Field(
-        description="Matching place records: name, type (hotel/restaurant/attraction), rating, review count, address, contact details, and pricing."
+        description="Matching Tripadvisor place records (hotels, restaurants, attractions)."
     )
 
 
 class TripadvisorSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    rating: float
-    title: str
-    url: str
+    address: str | None = Field(
+        default=None, description="Full formatted street address."
+    )
+    category: str | None = Field(
+        default=None,
+        description="High-level category (e.g. hotel, restaurant, attraction).",
+    )
+    city: str | None = Field(default=None, description="City the place is in.")
+    country: str | None = Field(default=None, description="Country the place is in.")
+    email: str | None = Field(
+        default=None, description="Business contact email, when listed."
+    )
+    hotel_class: str | None = Field(
+        default=None,
+        alias="hotelClass",
+        description="Star rating / hotel class, when applicable.",
+    )
+    id: str | None = Field(
+        default=None,
+        description="Tripadvisor location id (stable identifier for the place).",
+    )
+    image: str | None = Field(default=None, description="Primary place photo URL.")
+    latitude: float | None = Field(
+        default=None, description="Latitude of the place in decimal degrees."
+    )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the place in decimal degrees."
+    )
+    phone: str | None = Field(
+        default=None, description="Business phone number, when listed."
+    )
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal code of the place."
+    )
+    price_level: str | None = Field(
+        default=None,
+        alias="priceLevel",
+        description="Relative price level indicator (e.g. $$, $$$$).",
+    )
+    price_range: str | None = Field(
+        default=None,
+        alias="priceRange",
+        description="Nightly or per-visit price range in the requested currency.",
+    )
+    ranking: str | None = Field(
+        default=None,
+        description='Ranking string within its location (e.g. "#2 of 1,885 hotels in Paris").',
+    )
+    rating: float = Field(description="Average traveler rating out of 5.")
+    review_count: float | None = Field(
+        default=None,
+        alias="reviewCount",
+        description="Total number of traveler reviews.",
+    )
+    title: str = Field(description="Place name.")
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Tripadvisor place type (e.g. HOTEL, RESTAURANT, ATTRACTION).",
+    )
+    url: str = Field(description="Canonical Tripadvisor listing page URL.")
+    website: str | None = Field(
+        default=None, description="The place's own website URL, when listed."
+    )
 
 
 class TripadvisorNamespace:

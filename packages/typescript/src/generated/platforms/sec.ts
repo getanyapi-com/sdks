@@ -44,19 +44,36 @@ export interface SecFilingsItem {
    */
   cik?: string;
   /**
+   * Filer company name.
    * Present whenever the upstream returns this record.
    */
   companyName?: string;
   /**
-   * Date the filing was filed, YYYY-MM-DD.
+   * Primary document description, e.g. the form label.
+   */
+  description?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the filing was filed.
    * Present whenever the upstream returns this record.
    */
-  filingDate?: string;
+  filedUtc?: number;
+  /**
+   * Link to the filing index/folder on sec.gov.
+   */
+  filingUrl?: string;
   /**
    * SEC form type, e.g. 10-K, 10-Q, 8-K.
    * Present whenever the upstream returns this record.
    */
   form?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Period-of-report date for the filing.
+   */
+  reportedUtc?: number;
+  /**
+   * Stock ticker symbol of the filer, when known.
+   */
+  ticker?: string;
   /**
    * Direct link to the primary filing document on sec.gov.
    */

@@ -26,15 +26,56 @@ class AlibabaSearchInput(TypedDict, total=False):
 
 class AlibabaSearchData(BaseModel):
     items: list[AlibabaSearchItem] = Field(
-        description="Matching Alibaba wholesale listings: title, price range, minimum order quantity, supplier name, and listing URL."
+        description="Matching Alibaba wholesale listings."
     )
 
 
 class AlibabaSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    title: str
-    url: str
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description='Supplier country ISO code, e.g. "CN".',
+    )
+    image: str | None = Field(default=None, description="Primary product image URL.")
+    moq: str | None = Field(
+        default=None,
+        description='Minimum order quantity text, e.g. "Min. order: 1 piece".',
+    )
+    price_text: str | None = Field(
+        default=None,
+        alias="priceText",
+        description='Price or price range as displayed, e.g. "$40.80-45.80" (Alibaba lists ranges, not a single numeric value).',
+    )
+    promotion_price: str | None = Field(
+        default=None,
+        alias="promotionPrice",
+        description="Discounted promotional price when the listing is on sale; empty otherwise.",
+    )
+    rating: float | None = Field(
+        default=None,
+        description="Average buyer review score, 0-5; 0 when the listing has no reviews.",
+    )
+    review_count: int | None = Field(
+        default=None,
+        alias="reviewCount",
+        description="Number of buyer reviews; 0 when none.",
+    )
+    supplier_name: str | None = Field(
+        default=None, alias="supplierName", description="Supplier / company name."
+    )
+    supplier_years: str | None = Field(
+        default=None,
+        alias="supplierYears",
+        description='Gold Supplier tenure text, e.g. "3 yrs"; empty when not a Gold Supplier.',
+    )
+    title: str = Field(
+        description="Listing title as shown on Alibaba (may contain the supplier's inline markup)."
+    )
+    url: str = Field(
+        description="Canonical product detail page URL (tracking query params stripped)."
+    )
 
 
 class AlibabaNamespace:

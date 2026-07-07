@@ -167,8 +167,63 @@ export interface GoogleAdsSearchInput {
 }
 
 export interface GoogleAdsSearchItem {
+  /**
+   * Advertiser display name.
+   * Present whenever the upstream returns this record.
+   */
+  advertiser?: string;
+  /**
+   * Google Ads advertiser identifier.
+   */
+  advertiserId?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was first shown.
+   */
+  firstShownUtc?: number;
+  /**
+   * Ad format, e.g. TEXT, IMAGE, VIDEO.
+   */
+  format?: string;
+  /**
+   * Google Ads creative identifier.
+   */
   id: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was last shown.
+   */
+  lastShownUtc?: number;
+  /**
+   * Number of days the ad has been served.
+   */
+  numServedDays?: number;
+  /**
+   * URL to a rendered preview of the creative.
+   */
+  previewUrl?: string;
+  /**
+   * Ads Transparency Center URL for the creative.
+   */
   url: string;
+  /**
+   * Creative variations for the ad, each with image, headline, and body text where present.
+   */
+  variations?: GoogleAdsSearchVariation[];
+  [extra: string]: unknown;
+}
+
+export interface GoogleAdsSearchVariation {
+  /**
+   * Creative headline text.
+   */
+  headline?: string;
+  /**
+   * Creative image URL.
+   */
+  imageUrl?: string;
+  /**
+   * Creative body/description text.
+   */
+  text?: string;
   [extra: string]: unknown;
 }
 

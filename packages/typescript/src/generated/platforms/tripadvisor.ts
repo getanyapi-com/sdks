@@ -27,10 +27,10 @@ export interface TripadvisorReviewsInput {
 
 export interface TripadvisorReviewsItem {
   /**
-   * Publish date.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    * Present whenever the upstream returns this record.
    */
-  publishedAt?: string;
+  createdUtc?: number;
   /**
    * Star rating (typically 1-5).
    */
@@ -40,6 +40,7 @@ export interface TripadvisorReviewsItem {
    */
   text: string;
   /**
+   * Review title or headline.
    * Present whenever the upstream returns this record.
    */
   title?: string;
@@ -82,9 +83,90 @@ export interface TripadvisorSearchInput {
 }
 
 export interface TripadvisorSearchItem {
+  /**
+   * Full formatted street address.
+   */
+  address?: string;
+  /**
+   * High-level category (e.g. hotel, restaurant, attraction).
+   */
+  category?: string;
+  /**
+   * City the place is in.
+   */
+  city?: string;
+  /**
+   * Country the place is in.
+   */
+  country?: string;
+  /**
+   * Business contact email, when listed.
+   */
+  email?: string;
+  /**
+   * Star rating / hotel class, when applicable.
+   */
+  hotelClass?: string;
+  /**
+   * Tripadvisor location id (stable identifier for the place).
+   */
+  id?: string;
+  /**
+   * Primary place photo URL.
+   */
+  image?: string;
+  /**
+   * Latitude of the place in decimal degrees.
+   */
+  latitude?: number;
+  /**
+   * Longitude of the place in decimal degrees.
+   */
+  longitude?: number;
+  /**
+   * Business phone number, when listed.
+   */
+  phone?: string;
+  /**
+   * Postal code of the place.
+   */
+  postalCode?: string;
+  /**
+   * Relative price level indicator (e.g. $$, $$$$).
+   */
+  priceLevel?: string;
+  /**
+   * Nightly or per-visit price range in the requested currency.
+   */
+  priceRange?: string;
+  /**
+   * Ranking string within its location (e.g. "#2 of 1,885 hotels in Paris").
+   */
+  ranking?: string;
+  /**
+   * Average traveler rating out of 5.
+   */
   rating: number;
+  /**
+   * Total number of traveler reviews.
+   */
+  reviewCount?: number;
+  /**
+   * Place name.
+   */
   title: string;
+  /**
+   * Tripadvisor place type (e.g. HOTEL, RESTAURANT, ATTRACTION).
+   */
+  type?: string;
+  /**
+   * Canonical Tripadvisor listing page URL.
+   */
   url: string;
+  /**
+   * The place's own website URL, when listed.
+   */
+  website?: string;
   [extra: string]: unknown;
 }
 
@@ -93,7 +175,7 @@ export interface TripadvisorSearchItem {
  */
 export interface TripadvisorSearchData {
   /**
-   * Matching place records: name, type (hotel/restaurant/attraction), rating, review count, address, contact details, and pricing.
+   * Matching Tripadvisor place records (hotels, restaurants, attractions).
    */
   items: TripadvisorSearchItem[];
 }

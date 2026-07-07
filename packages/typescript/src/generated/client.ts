@@ -42,6 +42,7 @@ import { RedfinNamespace } from "./platforms/redfin.js";
 import { RednoteNamespace } from "./platforms/rednote.js";
 import { SecNamespace } from "./platforms/sec.js";
 import { SemrushNamespace } from "./platforms/semrush.js";
+import { SeoNamespace } from "./platforms/seo.js";
 import { SnapchatNamespace } from "./platforms/snapchat.js";
 import { SocialNamespace } from "./platforms/social.js";
 import { SpotifyNamespace } from "./platforms/spotify.js";
@@ -415,6 +416,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["semrush"] ??= new SemrushNamespace(
       this._core,
     )) as SemrushNamespace;
+  }
+
+  /**
+   * Typed methods for the seo platform.
+   */
+  get seo(): SeoNamespace {
+    return (this._namespaces["seo"] ??= new SeoNamespace(
+      this._core,
+    )) as SeoNamespace;
   }
 
   /**

@@ -26,15 +26,76 @@ class RedfinSearchInput(TypedDict, total=False):
 
 class RedfinSearchData(BaseModel):
     items: list[RedfinSearchItem] = Field(
-        description="Home listing records: address, price, beds, baths, square footage, and listing status."
+        description="Matching Redfin home listing records."
     )
 
 
 class RedfinSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    title: str | None = None
-    url: str
+    address_line: str | None = Field(
+        default=None,
+        alias="addressLine",
+        description="Street address line of the home.",
+    )
+    baths: float | None = Field(
+        default=None, description="Number of bathrooms (fractional for half baths)."
+    )
+    beds: float | None = Field(default=None, description="Number of bedrooms.")
+    city: str | None = Field(default=None, description="City the home is in.")
+    latitude: float | None = Field(
+        default=None, description="Latitude of the home in decimal degrees."
+    )
+    listing_id: str | None = Field(
+        default=None,
+        alias="listingId",
+        description="Redfin listing id for this specific listing.",
+    )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the home in decimal degrees."
+    )
+    lot_size: float | None = Field(
+        default=None, alias="lotSize", description="Lot size in square feet."
+    )
+    mls_id: str | None = Field(
+        default=None, alias="mlsId", description="MLS number for the listing."
+    )
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal (ZIP) code of the home."
+    )
+    price: float | None = Field(
+        default=None, description="List (or last sale) price in US dollars."
+    )
+    price_per_sqft: float | None = Field(
+        default=None,
+        alias="pricePerSqft",
+        description="Price per square foot in US dollars.",
+    )
+    property_id: str = Field(
+        alias="propertyId",
+        description="Redfin property id (stable identifier for the home).",
+    )
+    sold_utc: float | None = Field(
+        default=None,
+        alias="soldUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    sqft: float | None = Field(
+        default=None, description="Interior living area in square feet."
+    )
+    state: str | None = Field(
+        default=None, description="Two-letter state code the home is in."
+    )
+    status: str | None = Field(
+        default=None, description="MLS listing status (e.g. Active, Coming Soon, Sold)."
+    )
+    title: str | None = Field(
+        default=None, description="Street address line used as the listing title."
+    )
+    url: str = Field(description="Canonical Redfin listing detail page URL.")
+    year_built: float | None = Field(
+        default=None, alias="yearBuilt", description="Year the home was built."
+    )
 
 
 class RedfinNamespace:

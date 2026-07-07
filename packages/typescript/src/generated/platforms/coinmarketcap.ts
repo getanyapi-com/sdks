@@ -19,14 +19,20 @@ export interface CoinmarketcapListingsInput {
 
 export interface CoinmarketcapListingsItem {
   /**
-   * All-time high.
+   * All-time high price in USD.
    */
   ath?: number;
   /**
-   * All-time low.
+   * All-time low price in USD.
    */
   atl?: number;
+  /**
+   * Circulating supply (coin count).
+   */
   circulatingSupply?: number;
+  /**
+   * 24h high price in USD.
+   */
   high24h?: number;
   /**
    * CoinMarketCap identifier.
@@ -36,11 +42,17 @@ export interface CoinmarketcapListingsItem {
    * Present whenever the upstream returns this record.
    */
   lastUpdated?: string;
+  /**
+   * 24h low price in USD.
+   */
   low24h?: number;
+  /**
+   * Market capitalization in USD.
+   */
   marketCap?: number;
   name: string;
   /**
-   * Latest price in the primary quote currency (USD).
+   * Latest price in USD.
    */
   price?: number;
   /**
@@ -48,9 +60,12 @@ export interface CoinmarketcapListingsItem {
    */
   slug?: string;
   symbol: string;
+  /**
+   * Total supply (coin count).
+   */
   totalSupply?: number;
   /**
-   * 24h trading volume.
+   * 24h trading volume in USD.
    */
   volume24h?: number;
   [extra: string]: unknown;

@@ -34,15 +34,67 @@ class GoogleShoppingSearchInput(TypedDict, total=False):
 
 class GoogleShoppingSearchData(BaseModel):
     items: list[GoogleShoppingSearchItem] = Field(
-        description="Matching product offers: title, price, store name, rating, shipping info, and product link."
+        description="Matching Google Shopping product offers."
     )
 
 
 class GoogleShoppingSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    title: str
-    url: str
+    brand: str | None = Field(
+        default=None, description="Product brand; empty when not reported."
+    )
+    currency: str | None = Field(
+        default=None,
+        description='Price currency code, e.g. "USD"; empty when not reported.',
+    )
+    discount_percent: str | None = Field(
+        default=None,
+        alias="discountPercent",
+        description='Discount label when on sale, e.g. "23% OFF"; empty otherwise.',
+    )
+    image: str | None = Field(
+        default=None,
+        description="Primary product image URL. Present whenever the upstream returns this record.",
+    )
+    list_price: float | None = Field(
+        default=None,
+        alias="listPrice",
+        description="Pre-discount list price as a numeric amount; 0 when not on sale or reported only as text.",
+    )
+    list_price_text: str | None = Field(
+        default=None,
+        alias="listPriceText",
+        description='Pre-discount list price as displayed, e.g. "$130"; empty when not applicable.',
+    )
+    price: float | None = Field(
+        default=None,
+        description="Current price as a numeric amount; 0 when the lane reports price only as text (see priceText).",
+    )
+    price_text: str | None = Field(
+        default=None,
+        alias="priceText",
+        description='Current price as displayed, e.g. "$99.99"; empty when the lane reports a numeric price instead.',
+    )
+    product_id: str | None = Field(
+        default=None, alias="productId", description="Provider product identifier."
+    )
+    rating: float | None = Field(
+        default=None, description="Average product rating, 0-5; 0 when unrated."
+    )
+    reviews_count: int | None = Field(
+        default=None,
+        alias="reviewsCount",
+        description="Number of ratings / reviews; 0 when none reported.",
+    )
+    seller: str | None = Field(
+        default=None,
+        description='Store / seller name offering the product, e.g. "Target".',
+    )
+    title: str = Field(description="Product title.")
+    url: str = Field(
+        description="Google Shopping product page URL (query retained; it encodes the product identity)."
+    )
 
 
 class GoogleShoppingNamespace:

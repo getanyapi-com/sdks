@@ -16,38 +16,43 @@ export interface SnapchatProfileInput {
   username: string;
 }
 
-/**
- * A public Snapchat profile: url, handle, displayName, bio, subscribers, avatarUrl, and recent public stories.
- */
 export interface SnapchatProfileItem {
   /**
-   * URL of the profile avatar image.
-   * Present whenever the upstream returns this record.
-   */
-  avatarUrl?: string;
-  /**
-   * The profile's public bio / description text.
-   * Present whenever the upstream returns this record.
+   * The profile's public bio / description text. Empty when the profile has none.
    */
   bio?: string;
   /**
+   * The profile's category (e.g. "Government Org"). Empty when the upstream omits it.
+   */
+  category?: string;
+  /**
    * The profile's public display name.
-   * Present whenever the upstream returns this record.
    */
-  displayName?: string;
+  displayName: string;
   /**
-   * Present whenever the upstream returns this record.
+   * The profile's Snapchat username (add-me handle).
    */
-  handle?: string;
+  handle: string;
   /**
-   * Recent public stories, each with its snaps (media items).
+   * URL of the profile avatar image, with tracking query params stripped. Empty when the upstream omits it.
+   */
+  image?: string;
+  /**
+   * Recent public stories on the profile.
    */
   stories?: SnapchatProfileStorie[];
   /**
    * Public subscriber count.
    */
   subscribers?: number;
+  /**
+   * Canonical public profile URL, with tracking query params stripped.
+   */
   url: string;
+  /**
+   * The profile's linked website URL. Empty when the profile has none.
+   */
+  website?: string;
   [extra: string]: unknown;
 }
 
@@ -57,37 +62,13 @@ export interface SnapchatProfileStorie {
    */
   id?: string;
   /**
-   * The snaps (media items) in this story.
-   */
-  snaps?: SnapchatProfileSnap[];
-  /**
-   * Story title.
+   * Story title. Empty when the story has no title.
    */
   storyTitle?: string;
   /**
-   * Story thumbnail image URL.
+   * Story thumbnail image URL, with tracking query params stripped.
    */
   thumbnailUrl?: string;
-  [extra: string]: unknown;
-}
-
-export interface SnapchatProfileSnap {
-  /**
-   * Snap identifier.
-   */
-  id?: string;
-  /**
-   * Full-resolution media URL.
-   */
-  mediaUrl?: string;
-  /**
-   * Preview/thumbnail media URL.
-   */
-  previewUrl?: string;
-  /**
-   * Snap timestamp (ISO 8601).
-   */
-  timestamp?: string;
   [extra: string]: unknown;
 }
 
@@ -96,7 +77,7 @@ export interface SnapchatProfileSnap {
  */
 export interface SnapchatProfileData {
   /**
-   * Profile records: public profile URL, handle, display name, bio, subscriber count, avatar, and recent public stories.
+   * Profile record for the requested Snapchat username (one item).
    */
   items: SnapchatProfileItem[];
 }

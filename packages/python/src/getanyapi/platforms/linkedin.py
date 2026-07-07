@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal, TYPE_CHECKING
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -172,18 +172,27 @@ class LinkedinAdData(BaseModel):
 
 class LinkedinAdsData(BaseModel):
     items: list[LinkedinAdsItem] = Field(
-        description="Ad records: advertiser name, ad creative text, format, and ad library URL."
+        description="Ad records from the LinkedIn Ad Library."
     )
 
 
 class LinkedinAdsItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
-    text: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    advertiser: str | None = Field(
+        default=None,
+        description="Advertiser (company) name. Present whenever the upstream returns this record.",
     )
-    url: str
+    advertiser_logo: str | None = Field(
+        default=None, alias="advertiserLogo", description="Advertiser logo image URL."
+    )
+    format: str | None = Field(
+        default=None, description="Ad format (e.g. SINGLE_IMAGE, VIDEO)."
+    )
+    id: str = Field(description="LinkedIn ad id.")
+    image: str | None = Field(default=None, description="Ad creative image URL.")
+    text: str | None = Field(default=None, description="Ad creative body text.")
+    url: str = Field(description="Canonical LinkedIn Ad Library detail URL.")
 
 
 class LinkedinAdsSearchData(BaseModel):
@@ -224,48 +233,61 @@ class LinkedinCompanyData(BaseModel):
 
 class LinkedinCompanyEmployeesData(BaseModel):
     items: list[LinkedinCompanyEmployeesItem] = Field(
-        description="Employee records: name, job title, location text, and LinkedIn profile URL."
+        description="Employee records for the company."
     )
 
 
 class LinkedinCompanyEmployeesItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    handle: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="First name."
     )
+    handle: str | None = Field(
+        default=None,
+        description="Public profile identifier (the vanity slug in the URL). Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(default=None, description="Profile picture URL.")
     job_title: str | None = Field(
         default=None,
         alias="jobTitle",
-        description="The employee's current role or headline at the company.",
+        description="The employee's current role or headline.",
     )
-    location_text: str | None = Field(
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Last name."
+    )
+    location: str | None = Field(
         default=None,
-        alias="locationText",
         description="The employee's location as a single string (city, region, country).",
     )
     name: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Full name. Present whenever the upstream returns this record.",
     )
-    url: str
+    url: str = Field(description="Canonical LinkedIn profile URL.")
 
 
 class LinkedinCompanyPostsData(BaseModel):
-    posts: list[LinkedinCompanyPostsPost]
+    posts: list[LinkedinCompanyPostsPost] = Field(
+        description="The company's recent posts."
+    )
 
 
 class LinkedinCompanyPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
-    published_at: str = Field(alias="publishedAt")
-    text: str
-    url: str
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Unique identifier of the post.")
+    text: str = Field(description="Text content of the post.")
+    url: str = Field(description="Canonical URL of the post.")
 
 
 class LinkedinEmailData(BaseModel):
     items: list[LinkedinEmailItem] = Field(
-        description="Email lookup records: the discovered work email for a LinkedIn profile, with the person's name, profile URL, title, and company."
+        description="Email lookup records for the LinkedIn profile."
     )
 
 
@@ -274,18 +296,32 @@ class LinkedinEmailItem(BaseModel):
 
     company: str | None = Field(default=None, description="Current company name.")
     email: str = Field(description="Discovered work email address.")
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="First name."
+    )
+    headline: str | None = Field(default=None, description="Profile headline.")
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Last name."
+    )
     linkedin_url: str | None = Field(
         default=None,
         alias="linkedinUrl",
         description="Canonical LinkedIn profile URL. Present whenever the upstream returns this record.",
     )
+    location: str | None = Field(
+        default=None, description="Current location (city, region, country)."
+    )
     name: str = Field(description="Full name on the LinkedIn profile.")
+    phone: str | None = Field(default=None, description="Phone number, when available.")
+    seniority: str | None = Field(
+        default=None, description="Seniority level (e.g. entry, senior)."
+    )
     title: str | None = Field(default=None, description="Current job title.")
 
 
 class LinkedinJobsData(BaseModel):
     items: list[LinkedinJobsItem] = Field(
-        description="Job records: title and listing URL, plus (when present) company, location, posting date, description, and seniority."
+        description="Job listing records for the search."
     )
 
 
@@ -296,36 +332,43 @@ class LinkedinJobsItem(BaseModel):
         default=None,
         description="Hiring company name. Present whenever the upstream returns this record.",
     )
+    company_url: str | None = Field(
+        default=None, alias="companyUrl", description="Canonical LinkedIn company URL."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     description: str | None = Field(
         default=None, description="Full job description text."
     )
+    id: str | None = Field(default=None, description="LinkedIn job listing id.")
     location: str | None = Field(
         default=None,
         description="Job location (city, region). Present whenever the upstream returns this record.",
-    )
-    posted_at: str | None = Field(
-        default=None,
-        alias="postedAt",
-        description="When the job was posted, as an ISO 8601 timestamp. Present whenever the upstream returns this record.",
     )
     seniority: str | None = Field(
         default=None,
         description="Seniority / experience level (e.g. Entry level, Mid-Senior, Not Applicable).",
     )
-    title: str
+    title: str = Field(description="Job title.")
     url: str = Field(description="Canonical LinkedIn job listing URL.")
 
 
 class LinkedinPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
-    comments: int
-    likes: int
-    published_at: str = Field(alias="publishedAt")
-    text: str
-    title: str
-    url: str
+    author: str = Field(description="Name of the post author.")
+    comments: int = Field(description="Number of comments on the post.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    likes: int = Field(description="Number of likes on the post.")
+    text: str = Field(description="Text content of the post.")
+    title: str = Field(description="Title of the post.")
+    url: str = Field(description="Canonical URL of the post.")
 
 
 class LinkedinPostTranscriptData(BaseModel):
@@ -339,100 +382,152 @@ class LinkedinPostTranscriptData(BaseModel):
 class LinkedinProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    about: str
-    articles: list[LinkedinProfileArticle]
-    avatar_url: str = Field(alias="avatarUrl")
-    education: list[LinkedinProfileEducation]
-    experience: list[LinkedinProfileExperience]
-    followers: int
-    location: str
-    name: str
-    recent_posts: list[LinkedinProfileRecentPost] = Field(alias="recentPosts")
+    about: str = Field(description="About/summary text of the profile.")
+    articles: list[LinkedinProfileArticle] = Field(
+        description="The profile's published articles."
+    )
+    avatar_url: str = Field(
+        alias="avatarUrl", description="URL of the profile avatar image."
+    )
+    education: list[LinkedinProfileEducation] = Field(description="Education entries.")
+    experience: list[LinkedinProfileExperience] = Field(
+        description="Work experience entries."
+    )
+    followers: int = Field(description="Number of followers.")
+    location: str = Field(description="Location of the profile owner.")
+    name: str = Field(description="Full name of the profile owner.")
+    recent_posts: list[LinkedinProfileRecentPost] = Field(
+        alias="recentPosts", description="The profile's recent posts."
+    )
 
 
 class LinkedinProfileArticle(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    headline: str
-    published_at: str | None = Field(default=None, alias="publishedAt")
-    url: str | None = None
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    headline: str = Field(description="Headline of the article.")
+    url: str | None = Field(default=None, description="Canonical URL of the article.")
 
 
 class LinkedinProfileEducation(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    end_date: str | None = Field(default=None, alias="endDate")
-    school: str
-    school_url: str | None = Field(default=None, alias="schoolUrl")
-    start_date: str | None = Field(default=None, alias="startDate")
+    end_date: str | None = Field(
+        default=None, alias="endDate", description="End date of study."
+    )
+    school: str = Field(description="Name of the school.")
+    school_url: str | None = Field(
+        default=None, alias="schoolUrl", description="URL of the school page."
+    )
+    start_date: str | None = Field(
+        default=None, alias="startDate", description="Start date of study."
+    )
 
 
 class LinkedinProfileExperience(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    company: str
-    company_url: str | None = Field(default=None, alias="companyUrl")
-    end_date: str | None = Field(default=None, alias="endDate")
-    start_date: str | None = Field(default=None, alias="startDate")
+    company: str = Field(description="Name of the company.")
+    company_url: str | None = Field(
+        default=None, alias="companyUrl", description="URL of the company page."
+    )
+    end_date: str | None = Field(
+        default=None, alias="endDate", description="End date of the role."
+    )
+    start_date: str | None = Field(
+        default=None, alias="startDate", description="Start date of the role."
+    )
 
 
 class LinkedinProfileRecentPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    activity_type: str | None = Field(default=None, alias="activityType")
-    id: str
-    published_at: str | None = Field(default=None, alias="publishedAt")
-    text: str | None = None
-    url: str | None = None
+    activity_type: str | None = Field(
+        default=None, alias="activityType", description="Type of activity for the post."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Unique identifier of the post.")
+    text: str | None = Field(default=None, description="Text content of the post.")
+    url: str | None = Field(default=None, description="Canonical URL of the post.")
 
 
 class LinkedinSearchCompaniesData(BaseModel):
     items: list[LinkedinSearchCompaniesItem] = Field(
-        description="Matching company records: name, LinkedIn URL, industry, location, headcount range, and description."
+        description="Matching company records."
     )
 
 
 class LinkedinSearchCompaniesItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
-    name: str
-    url: str
+    description: str | None = Field(
+        default=None, description="Company summary / about text."
+    )
+    followers_text: str | None = Field(
+        default=None,
+        alias="followersText",
+        description="Follower count as a display string (e.g. 105K followers).",
+    )
+    handle: str | None = Field(
+        default=None, description="Company universal name (the vanity slug in the URL)."
+    )
+    id: str = Field(description="LinkedIn company id.")
+    image: str | None = Field(default=None, description="Company logo image URL.")
+    industry: str | None = Field(default=None, description="Company industry.")
+    location: str | None = Field(
+        default=None, description="Company location as a single string (city, region)."
+    )
+    name: str = Field(description="Company name.")
+    url: str = Field(description="Canonical LinkedIn company URL.")
 
 
 class LinkedinSearchPostsData(BaseModel):
-    posts: list[LinkedinSearchPostsPost]
+    posts: list[LinkedinSearchPostsPost] = Field(
+        description="Posts matching the search query."
+    )
 
 
 class LinkedinSearchPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    published_at: str = Field(alias="publishedAt")
-    text: str
-    url: str
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    text: str = Field(description="Text content of the post.")
+    url: str = Field(description="Canonical URL of the post.")
 
 
 class LinkedinSearchProfilesData(BaseModel):
     items: list[LinkedinSearchProfilesItem] = Field(
-        description="Matched profile records. Each carries the profile URL, handle, and id. Depending on the match, records may also include first/last name, headline, location, current position, work experience, and education, plus upstream extras (about, skills, languages, certifications, connections, profile picture, and more) that pass through."
+        description="Matched profile records."
     )
 
 
 class LinkedinSearchProfilesItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    current_position: Any | None = Field(
+    about: str | None = Field(default=None, description="Profile about / summary text.")
+    current_position: list[LinkedinSearchProfilesCurrentPosition] | None = Field(
         default=None,
         alias="currentPosition",
-        description="Current role(s), passed through from the upstream. Typically a list of objects with job title, company, dates, and description; shape can vary by profile.",
+        description="Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile and lane.",
     )
-    education: Any | None = Field(
+    education: list[LinkedinSearchProfilesEducation] | None = Field(
         default=None,
-        description="Education history, passed through from the upstream. Typically a list of objects with school, degree, and field of study; shape can vary by profile.",
+        description="Education history. Each entry is an open object with school, degree, and field of study; shape can vary by profile and lane.",
     )
-    experience: Any | None = Field(
+    experience: list[LinkedinSearchProfilesExperience] | None = Field(
         default=None,
-        description="Full work history, passed through from the upstream. Typically a list of objects with job title, company, dates, and description; shape can vary by profile.",
+        description="Full work history. Each entry is an open object with the position title, company, dates, and location; shape can vary by profile and lane.",
     )
     first_name: str | None = Field(
         default=None, alias="firstName", description="Member's first name."
@@ -446,14 +541,27 @@ class LinkedinSearchProfilesItem(BaseModel):
         description="Profile headline (the tagline under the name). Present whenever the upstream returns this record.",
     )
     id: str = Field(description="LinkedIn member URN id for the profile.")
+    image: str | None = Field(default=None, description="Profile picture URL.")
     last_name: str | None = Field(
         default=None, alias="lastName", description="Member's last name."
     )
-    location: Any | None = Field(
+    location: str | None = Field(
         default=None,
-        description="Member's location, passed through from the upstream. Typically an object with the displayed location text and country code; shape can vary by profile.",
+        description="Member's location as a single string (city, region, country).",
     )
     url: str = Field(description="Canonical LinkedIn profile URL.")
+
+
+class LinkedinSearchProfilesCurrentPosition(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEducation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesExperience(BaseModel):
+    model_config = ConfigDict(extra="allow")
 
 
 class LinkedinNamespace:

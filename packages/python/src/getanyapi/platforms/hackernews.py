@@ -54,44 +54,60 @@ class HackernewsProfileData(BaseModel):
 
 
 class HackernewsSearchData(BaseModel):
-    results: list[HackernewsSearchResult]
+    results: list[HackernewsSearchResult] = Field(
+        description="Matching Hacker News stories."
+    )
 
 
 class HackernewsSearchResult(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
-    comments: int
-    id: str
-    points: int
-    published_at: str = Field(alias="publishedAt")
-    title: str
-    url: str
+    author: str = Field(description="Submitting user's username.")
+    comments: int = Field(description="Number of comments on the story.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Hacker News item id.")
+    points: int = Field(description="Story score (upvotes).")
+    title: str = Field(description="Story title.")
+    url: str = Field(description="Story link.")
 
 
 class HackernewsStoryData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
-    comments: int
-    points: int
-    published_at: str = Field(alias="publishedAt")
-    title: str
-    url: str
+    author: str = Field(description="Submitting user's username.")
+    comments: int = Field(description="Number of comments on the story.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    points: int = Field(description="Story score (upvotes).")
+    title: str = Field(description="Story title.")
+    url: str = Field(description="Story link.")
 
 
 class HackernewsStoryCommentsData(BaseModel):
-    comments: list[HackernewsStoryCommentsComment]
+    comments: list[HackernewsStoryCommentsComment] = Field(
+        description="Comments on the story."
+    )
 
 
 class HackernewsStoryCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
-    id: str
-    parent_id: str = Field(alias="parentId")
-    published_at: str = Field(alias="publishedAt")
-    text: str
+    author: str = Field(description="Commenting user's username.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Hacker News comment id.")
+    parent_id: str = Field(
+        alias="parentId",
+        description="Id of the parent item (story or comment) this reply belongs to.",
+    )
+    text: str = Field(description="Comment body text.")
 
 
 class HackernewsNamespace:

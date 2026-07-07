@@ -61,6 +61,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "rednote": ("rednote", "RednoteNamespace", "AsyncRednoteNamespace"),
     "sec": ("sec", "SecNamespace", "AsyncSecNamespace"),
     "semrush": ("semrush", "SemrushNamespace", "AsyncSemrushNamespace"),
+    "seo": ("seo", "SeoNamespace", "AsyncSeoNamespace"),
     "snapchat": ("snapchat", "SnapchatNamespace", "AsyncSnapchatNamespace"),
     "social": ("social", "SocialNamespace", "AsyncSocialNamespace"),
     "spotify": ("spotify", "SpotifyNamespace", "AsyncSpotifyNamespace"),

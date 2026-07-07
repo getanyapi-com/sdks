@@ -17,7 +17,67 @@ export interface WalmartProductInput {
 }
 
 export interface WalmartProductItem {
+  /**
+   * Stock status, e.g. "IN_STOCK".
+   */
+  availability?: string;
+  /**
+   * Brand name; empty when not reported.
+   */
+  brand?: string;
+  /**
+   * Short product description; empty when the listing has none.
+   */
+  description?: string;
+  /**
+   * Primary product image URL.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * All product image URLs.
+   */
+  images?: string[];
+  /**
+   * Walmart US item id (usItemId).
+   * Present whenever the upstream returns this record.
+   */
+  itemId?: string;
+  /**
+   * Manufacturer model number; empty when not reported.
+   */
+  model?: string;
+  /**
+   * Current price as displayed, e.g. "$125.00"; empty when unavailable (Walmart returns a formatted string, not a numeric value).
+   */
+  priceText?: string;
+  /**
+   * Walmart internal product id.
+   */
+  productId?: string;
+  /**
+   * Average customer rating, 0-5; 0 when unrated.
+   */
+  rating?: number;
+  /**
+   * Number of customer reviews; 0 when none.
+   */
+  reviewsCount?: number;
+  /**
+   * Name of the seller fulfilling the offer.
+   */
+  sellerName?: string;
+  /**
+   * Product title.
+   */
   title: string;
+  /**
+   * Universal Product Code; empty when not reported.
+   */
+  upc?: string;
+  /**
+   * Canonical Walmart product page URL (condition query param retained, as it selects the offer).
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -27,7 +87,7 @@ export interface WalmartProductItem {
  */
 export interface WalmartProductData {
   /**
-   * Product detail records: title, price, availability, rating, review count, images, and specifications.
+   * Product detail records (one per requested product URL).
    */
   items: WalmartProductItem[];
 }

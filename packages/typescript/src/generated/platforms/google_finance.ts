@@ -18,6 +18,10 @@ export interface GoogleFinanceQuoteInput {
 
 export interface GoogleFinanceQuoteItem {
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  asOfUtc?: number;
+  /**
    * Current ask price.
    */
   ask?: number;
@@ -96,10 +100,6 @@ export interface GoogleFinanceQuoteItem {
    * Resolved ticker symbol for the quote.
    */
   symbol: string;
-  /**
-   * Timestamp of the quote (ISO 8601).
-   */
-  timestamp?: string;
   /**
    * Traded volume for the current session.
    */

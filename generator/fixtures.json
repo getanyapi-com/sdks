@@ -213,7 +213,7 @@
         "likes": 1,
         "replies": 1,
         "reposts": 1,
-        "createdAt": "sample",
+        "createdUtc": 1.5,
         "_extra": "passthrough"
       }
     },
@@ -249,7 +249,7 @@
             "likes": 1,
             "replies": 1,
             "reposts": 1,
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -469,7 +469,7 @@
           {
             "id": "sample",
             "text": "sample",
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "replyCount": 1,
             "reactionCount": 1,
             "authorName": "sample",
@@ -599,6 +599,7 @@
         "items": [
           {
             "id": "sample",
+            "name": "sample",
             "url": "sample",
             "_extra": "passthrough"
           }
@@ -774,7 +775,7 @@
             "author": "sample",
             "reactions": 1,
             "replies": 1,
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ],
@@ -873,7 +874,7 @@
             "caption": "sample",
             "views": 1,
             "thumbnail": "sample",
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -915,6 +916,7 @@
       "data": {
         "items": [
           {
+            "id": "sample",
             "title": "sample",
             "url": "sample",
             "_extra": "passthrough"
@@ -932,8 +934,10 @@
       "data": {
         "items": [
           {
+            "id": "sample",
             "url": "sample",
             "text": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -1071,7 +1075,7 @@
         "total": 1,
         "days": [
           {
-            "date": "sample",
+            "dateUtc": 1.5,
             "count": 1,
             "intensity": 1,
             "_extra": "passthrough"
@@ -1138,7 +1142,7 @@
             "title": "sample",
             "repo": "sample",
             "state": "sample",
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "url": "sample",
             "_extra": "passthrough"
           }
@@ -1183,6 +1187,7 @@
       "data": {
         "items": [
           {
+            "id": "sample",
             "title": "sample",
             "url": "sample",
             "_extra": "passthrough"
@@ -1396,7 +1401,7 @@
             "author": "sample",
             "points": 1,
             "comments": 1,
-            "publishedAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -1415,7 +1420,7 @@
         "author": "sample",
         "points": 1,
         "comments": 1,
-        "publishedAt": "sample",
+        "createdUtc": 1.5,
         "_extra": "passthrough"
       }
     },
@@ -1433,7 +1438,7 @@
             "parentId": "sample",
             "author": "sample",
             "text": "sample",
-            "publishedAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -1575,7 +1580,7 @@
         "id": "sample",
         "title": "sample",
         "mediaCount": 1,
-        "createdAt": 1,
+        "createdUtc": 1.5,
         "ownerHandle": "sample",
         "coverUrl": "sample",
         "_extra": "passthrough"
@@ -1632,7 +1637,7 @@
             "author": "sample",
             "verified": true,
             "likes": 1,
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -1667,6 +1672,7 @@
       "data": {
         "items": [
           {
+            "id": "sample",
             "url": "sample",
             "text": "sample",
             "_extra": "passthrough"
@@ -1693,7 +1699,7 @@
             "likes": 1,
             "comments": 1,
             "durationSeconds": 1.5,
-            "takenAt": "sample",
+            "createdUtc": 1.5,
             "username": "sample",
             "followers": 1,
             "verified": true,
@@ -1713,8 +1719,9 @@
       "data": {
         "items": [
           {
-            "url": "sample",
+            "id": "sample",
             "handle": "sample",
+            "url": "sample",
             "_extra": "passthrough"
           }
         ]
@@ -1856,7 +1863,7 @@
             "caption": "sample",
             "likes": 1,
             "comments": 1,
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ],
@@ -1879,7 +1886,7 @@
             "views": 1,
             "likes": 1,
             "comments": 1,
-            "takenAt": 1,
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ],
@@ -2001,7 +2008,7 @@
             "id": "sample",
             "url": "sample",
             "text": "sample",
-            "publishedAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -2055,7 +2062,7 @@
         "author": "sample",
         "likes": 1,
         "comments": 1,
-        "publishedAt": "sample",
+        "createdUtc": 1.5,
         "_extra": "passthrough"
       }
     },
@@ -2143,7 +2150,7 @@
           {
             "url": "sample",
             "text": "sample",
-            "publishedAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -2176,6 +2183,7 @@
       "data": {
         "items": [
           {
+            "placeId": "sample",
             "name": "sample",
             "url": "sample",
             "_extra": "passthrough"
@@ -2226,6 +2234,7 @@
       "data": {
         "items": [
           {
+            "placeId": "sample",
             "name": "sample",
             "url": "sample",
             "_extra": "passthrough"
@@ -2392,6 +2401,7 @@
       "data": {
         "items": [
           {
+            "propertyId": "sample",
             "url": "sample",
             "_extra": "passthrough"
           }
@@ -2404,16 +2414,19 @@
   },
   "reddit.post_comments": {
     "output": {
-      "comments": [
-        {
-          "id": "sample",
-          "author": "sample",
-          "body": "sample",
-          "url": "sample",
-          "createdUtc": 1.5,
-          "_extra": "passthrough"
-        }
-      ]
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "author": "sample",
+            "body": "sample",
+            "url": "sample",
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
     },
     "provider": "AnyAPI",
     "costUsd": 0.001,
@@ -2436,21 +2449,24 @@
   },
   "reddit.search": {
     "output": {
-      "posts": [
-        {
-          "id": "sample",
-          "title": "sample",
-          "author": "sample",
-          "score": 1,
-          "numComments": 1,
-          "url": "sample",
-          "permalink": "sample",
-          "createdUtc": 1.5,
-          "subreddit": "sample",
-          "_extra": "passthrough"
-        }
-      ],
-      "nextCursor": "sample"
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "author": "sample",
+            "score": 1,
+            "numComments": 1,
+            "url": "sample",
+            "permalink": "sample",
+            "createdUtc": 1.5,
+            "subreddit": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
     },
     "provider": "AnyAPI",
     "costUsd": 0.001,
@@ -2466,7 +2482,7 @@
         "description": "sample",
         "advertiserCategory": "sample",
         "iconUrl": "sample",
-        "createdAt": "sample",
+        "createdUtc": 1.5,
         "_extra": "passthrough"
       }
     },
@@ -2476,21 +2492,24 @@
   },
   "reddit.subreddit_posts": {
     "output": {
-      "posts": [
-        {
-          "id": "sample",
-          "title": "sample",
-          "author": "sample",
-          "score": 1,
-          "numComments": 1,
-          "url": "sample",
-          "permalink": "sample",
-          "createdUtc": 1.5,
-          "subreddit": "sample",
-          "_extra": "passthrough"
-        }
-      ],
-      "nextCursor": "sample"
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "author": "sample",
+            "score": 1,
+            "numComments": 1,
+            "url": "sample",
+            "permalink": "sample",
+            "createdUtc": 1.5,
+            "subreddit": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
     },
     "provider": "AnyAPI",
     "costUsd": 0.001,
@@ -2528,6 +2547,7 @@
       "data": {
         "items": [
           {
+            "propertyId": "sample",
             "url": "sample",
             "_extra": "passthrough"
           }
@@ -2683,6 +2703,200 @@
     "costUsd": 0.001,
     "items": 1
   },
+  "seo.competitors_domain": {
+    "output": {
+      "found": true,
+      "data": {
+        "competitors": [
+          {
+            "domain": "sample",
+            "intersections": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.domain_intersection": {
+    "output": {
+      "found": true,
+      "data": {
+        "keywords": [
+          {
+            "keyword": "sample",
+            "firstRank": 1,
+            "secondRank": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.domain_rank_overview": {
+    "output": {
+      "found": true,
+      "data": {
+        "domain": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.keyword_difficulty": {
+    "output": {
+      "found": true,
+      "data": {
+        "difficulties": [
+          {
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.keyword_ideas": {
+    "output": {
+      "found": true,
+      "data": {
+        "ideas": [
+          {
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.keyword_overview": {
+    "output": {
+      "found": true,
+      "data": {
+        "keywords": [
+          {
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.keyword_suggestions": {
+    "output": {
+      "found": true,
+      "data": {
+        "suggestions": [
+          {
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.local_pack": {
+    "output": {
+      "found": true,
+      "data": {
+        "places": [
+          {
+            "name": "sample",
+            "rankAbsolute": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.ranked_keywords": {
+    "output": {
+      "found": true,
+      "data": {
+        "rankedKeywords": [
+          {
+            "keyword": "sample",
+            "rankAbsolute": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.related_keywords": {
+    "output": {
+      "found": true,
+      "data": {
+        "relatedKeywords": [
+          {
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.search_intent": {
+    "output": {
+      "found": true,
+      "data": {
+        "intents": [
+          {
+            "keyword": "sample",
+            "intent": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "seo.search_volume": {
+    "output": {
+      "found": true,
+      "data": {
+        "keywords": [
+          {
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
   "snapchat.profile": {
     "output": {
       "found": true,
@@ -2690,6 +2904,8 @@
         "items": [
           {
             "url": "sample",
+            "handle": "sample",
+            "displayName": "sample",
             "_extra": "passthrough"
           }
         ]
@@ -2780,6 +2996,8 @@
           {
             "id": "sample",
             "name": "sample",
+            "url": "sample",
+            "playCount": 1,
             "_extra": "passthrough"
           }
         ]
@@ -2923,7 +3141,7 @@
         "replyCount": 1,
         "repostCount": 1,
         "quoteCount": 1,
-        "takenAt": 1,
+        "createdUtc": 1.5,
         "_extra": "passthrough"
       }
     },
@@ -2964,7 +3182,7 @@
             "likeCount": 1,
             "replyCount": 1,
             "repostCount": 1,
-            "takenAt": 1,
+            "createdUtc": 1.5,
             "url": "sample",
             "_extra": "passthrough"
           }
@@ -3010,7 +3228,7 @@
             "replyCount": 1,
             "repostCount": 1,
             "quoteCount": 1,
-            "takenAt": 1,
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -3101,7 +3319,7 @@
             "text": "sample",
             "author": "sample",
             "likes": 1,
-            "createdAt": 1,
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ],
@@ -3165,8 +3383,8 @@
         "items": [
           {
             "id": "sample",
-            "text": "sample",
             "url": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -3242,7 +3460,7 @@
             "views": 1,
             "likes": 1,
             "comments": 1,
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ],
@@ -3266,7 +3484,7 @@
             "likes": 1,
             "comments": 1,
             "shares": 1,
-            "createdAt": 1,
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -3405,7 +3623,7 @@
             "likes": 1,
             "comments": 1,
             "shares": 1,
-            "createdAt": 1,
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -3445,7 +3663,7 @@
             "author": "sample",
             "likes": 1,
             "replies": 1,
-            "createdAt": 1,
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ],
@@ -3506,7 +3724,7 @@
             "country": "sample",
             "sku": "sample",
             "verifiedPurchase": true,
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -3652,7 +3870,7 @@
         "likes": 1,
         "comments": 1,
         "shares": 1,
-        "publishedAt": "sample",
+        "createdUtc": 1.5,
         "_extra": "passthrough"
       }
     },
@@ -3695,7 +3913,7 @@
             "likes": 1,
             "comments": 1,
             "shares": 1,
-            "publishedAt": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -3714,7 +3932,7 @@
         "description": "sample",
         "memberCount": 1,
         "joinPolicy": "sample",
-        "createdAt": 1.5,
+        "createdUtc": 1.5,
         "creatorHandle": "sample",
         "_extra": "passthrough"
       }
@@ -3731,7 +3949,7 @@
           {
             "id": "sample",
             "text": "sample",
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "favoriteCount": 1,
             "replyCount": 1,
             "retweetCount": 1,
@@ -3817,8 +4035,10 @@
       "data": {
         "items": [
           {
+            "id": "sample",
             "url": "sample",
             "text": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -3859,7 +4079,7 @@
         "quotes": 1,
         "bookmarks": 1,
         "views": 1,
-        "createdAt": "sample",
+        "createdUtc": 1.5,
         "_extra": "passthrough"
       }
     },
@@ -3888,7 +4108,7 @@
             "id": "sample",
             "url": "sample",
             "text": "sample",
-            "createdAt": "sample",
+            "createdUtc": 1.5,
             "likes": 1,
             "retweets": 1,
             "replies": 1,
@@ -4012,7 +4232,7 @@
         "items": [
           {
             "phone": "sample",
-            "status": "sample",
+            "exists": true,
             "_extra": "passthrough"
           }
         ]
@@ -4323,7 +4543,7 @@
         "likes": 1,
         "comments": 1,
         "durationMs": 1,
-        "publishedAt": "sample",
+        "createdUtc": 1.5,
         "_extra": "passthrough"
       }
     },
@@ -4394,8 +4614,8 @@
       "data": {
         "items": [
           {
+            "zpid": "sample",
             "url": "sample",
-            "price": 1.5,
             "_extra": "passthrough"
           }
         ]

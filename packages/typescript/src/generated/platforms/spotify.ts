@@ -95,12 +95,38 @@ export interface SpotifyPlayCountInput {
 }
 
 export interface SpotifyPlayCountItem {
+  /**
+   * Name of the album the track belongs to. Empty when the upstream omits it.
+   */
+  albumName?: string;
+  /**
+   * Name of the primary artist. Empty when the upstream omits it.
+   */
+  artistName?: string;
+  /**
+   * Track duration in milliseconds.
+   */
+  durationMs?: number;
+  /**
+   * The Spotify entity ID.
+   */
   id: string;
+  /**
+   * The track (or entity) name.
+   */
   name: string;
   /**
-   * Present whenever the upstream returns this record.
+   * Total number of streams/plays for the track.
    */
-  url?: string;
+  playCount: number;
+  /**
+   * The Spotify entity type (e.g. "track").
+   */
+  type?: string;
+  /**
+   * Canonical open.spotify.com URL for the entity, with tracking query params stripped.
+   */
+  url: string;
   [extra: string]: unknown;
 }
 
@@ -109,7 +135,7 @@ export interface SpotifyPlayCountItem {
  */
 export interface SpotifyPlayCountData {
   /**
-   * Play-count records: track, album, or artist metadata with stream counts and statistics.
+   * Play-count records for the requested Spotify entity (one per track).
    */
   items: SpotifyPlayCountItem[];
 }

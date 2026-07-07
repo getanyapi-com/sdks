@@ -20,15 +20,45 @@ export interface ThreadsPostInput {
  * The `data` payload of Threads Post (threads.post).
  */
 export interface ThreadsPostData {
+  /**
+   * Threads post shortcode.
+   */
   code: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Display name of the author.
+   */
   fullName: string;
+  /**
+   * Post identifier.
+   */
   id: string;
+  /**
+   * Number of likes on the post.
+   */
   likeCount: number;
+  /**
+   * Number of quote posts.
+   */
   quoteCount: number;
+  /**
+   * Number of replies to the post.
+   */
   replyCount: number;
+  /**
+   * Number of reposts of the post.
+   */
   repostCount: number;
-  takenAt: number;
+  /**
+   * Post text content.
+   */
   text: string;
+  /**
+   * Username of the author.
+   */
   username: string;
   [extra: string]: unknown;
 }
@@ -69,15 +99,45 @@ export interface ThreadsSearchInput {
 }
 
 export interface ThreadsSearchPost {
+  /**
+   * Threads post shortcode.
+   */
   code: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Display name of the author.
+   */
   fullName: string;
+  /**
+   * Post identifier.
+   */
   id: string;
+  /**
+   * Number of likes on the post.
+   */
   likeCount: number;
+  /**
+   * Number of replies to the post.
+   */
   replyCount: number;
+  /**
+   * Number of reposts of the post.
+   */
   repostCount: number;
-  takenAt: number;
+  /**
+   * Post text content.
+   */
   text: string;
+  /**
+   * Canonical URL of the post.
+   */
   url: string;
+  /**
+   * Username of the author.
+   */
   username: string;
   [extra: string]: unknown;
 }
@@ -129,15 +189,45 @@ export interface ThreadsUserPostsInput {
 }
 
 export interface ThreadsUserPostsPost {
+  /**
+   * Threads post shortcode.
+   */
   code: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Post identifier.
+   */
   id: string;
+  /**
+   * Number of likes on the post.
+   */
   likeCount: number;
+  /**
+   * Number of quote posts.
+   */
   quoteCount: number;
+  /**
+   * Number of replies to the post.
+   */
   replyCount: number;
+  /**
+   * Number of reposts of the post.
+   */
   repostCount: number;
-  takenAt: number;
+  /**
+   * Post text content.
+   */
   text: string;
+  /**
+   * Canonical URL of the post.
+   */
   url: string;
+  /**
+   * Username of the author.
+   */
   username: string;
   [extra: string]: unknown;
 }
@@ -146,6 +236,9 @@ export interface ThreadsUserPostsPost {
  * The `data` payload of Threads User Posts (threads.user_posts).
  */
 export interface ThreadsUserPostsData {
+  /**
+   * The user's recent posts.
+   */
   posts: ThreadsUserPostsPost[];
 }
 

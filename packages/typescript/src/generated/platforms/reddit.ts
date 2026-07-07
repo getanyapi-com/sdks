@@ -1,7 +1,6 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   Paginator,
   RequestOptions,
@@ -33,7 +32,7 @@ export interface RedditPostCommentsComment {
    */
   body: string;
   /**
-   * Comment creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
   /**
@@ -109,7 +108,7 @@ export interface RedditSearchPost {
    */
   author: string;
   /**
-   * Post creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
   /**
@@ -168,15 +167,33 @@ export interface RedditSubredditDetailsInput {
  * The `data` payload of Reddit Subreddit Details (reddit.subreddit_details).
  */
 export interface RedditSubredditDetailsData {
+  /**
+   * Reddit advertiser category for the subreddit.
+   */
   advertiserCategory: string;
-  createdAt: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Subreddit description text.
+   */
   description: string;
+  /**
+   * URL of the subreddit icon.
+   */
   iconUrl: string;
   /**
    * Reddit fullname, e.g. "t5_2qh1i".
    */
   id: string;
+  /**
+   * Subreddit name (without the r/ prefix).
+   */
   name: string;
+  /**
+   * Number of users active in the past week.
+   */
   weeklyActiveUsers: number;
   [extra: string]: unknown;
 }
@@ -218,7 +235,7 @@ export interface RedditSubredditPostsPost {
    */
   author: string;
   /**
-   * Post creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
   /**
@@ -361,12 +378,8 @@ export class RedditNamespace {
   postComments(
     input: RedditPostCommentsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<RedditPostCommentsData>> {
-    return this._core.run(
-      "reddit.post_comments",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<RedditPostCommentsData>>;
+  ): Promise<RunResult<RedditPostCommentsData>> {
+    return this._core.run("reddit.post_comments", input, options);
   }
 
   /**
@@ -399,12 +412,8 @@ export class RedditNamespace {
   search(
     input: RedditSearchInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<RedditSearchData>> {
-    return this._core.run(
-      "reddit.search",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<RedditSearchData>>;
+  ): Promise<RunResult<RedditSearchData>> {
+    return this._core.run("reddit.search", input, options);
   }
 
   /**
@@ -416,13 +425,13 @@ export class RedditNamespace {
   iterSearch(
     input: RedditSearchInput,
     options?: RequestOptions,
-  ): Paginator<RedditSearchPost, BareRunResult<RedditSearchData>> {
-    return paginate<RedditSearchPost, BareRunResult<RedditSearchData>>(
+  ): Paginator<RedditSearchPost, RunResult<RedditSearchData>> {
+    return paginate<RedditSearchPost, RunResult<RedditSearchData>>(
       this._core,
       "reddit.search",
       input as unknown as Record<string, unknown>,
       "posts",
-      true,
+      false,
       options,
     );
   }
@@ -457,12 +466,8 @@ export class RedditNamespace {
   subredditPosts(
     input: RedditSubredditPostsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<RedditSubredditPostsData>> {
-    return this._core.run(
-      "reddit.subreddit_posts",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<RedditSubredditPostsData>>;
+  ): Promise<RunResult<RedditSubredditPostsData>> {
+    return this._core.run("reddit.subreddit_posts", input, options);
   }
 
   /**

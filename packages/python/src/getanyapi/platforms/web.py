@@ -95,9 +95,10 @@ class WebScreenshotItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     image: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Link to the captured screenshot image. Present whenever the upstream returns this record.",
     )
-    url: str
+    url: str = Field(description="The final page URL that was captured.")
 
 
 class WebNamespace:

@@ -50,16 +50,32 @@ class SecFilingsItem(BaseModel):
     company_name: str | None = Field(
         default=None,
         alias="companyName",
-        description="Present whenever the upstream returns this record.",
+        description="Filer company name. Present whenever the upstream returns this record.",
     )
-    filing_date: str | None = Field(
+    description: str | None = Field(
+        default=None, description="Primary document description, e.g. the form label."
+    )
+    filed_utc: float | None = Field(
         default=None,
-        alias="filingDate",
-        description="Date the filing was filed, YYYY-MM-DD. Present whenever the upstream returns this record.",
+        alias="filedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the filing was filed. Present whenever the upstream returns this record.",
+    )
+    filing_url: str | None = Field(
+        default=None,
+        alias="filingUrl",
+        description="Link to the filing index/folder on sec.gov.",
     )
     form: str | None = Field(
         default=None,
         description="SEC form type, e.g. 10-K, 10-Q, 8-K. Present whenever the upstream returns this record.",
+    )
+    reported_utc: float | None = Field(
+        default=None,
+        alias="reportedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Period-of-report date for the filing.",
+    )
+    ticker: str | None = Field(
+        default=None, description="Stock ticker symbol of the filer, when known."
     )
     url: str = Field(
         description="Direct link to the primary filing document on sec.gov."

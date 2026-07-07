@@ -39,13 +39,57 @@ class CongressTradesData(BaseModel):
 
 
 class CongressTradesItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
-    name: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+    amount_range: str | None = Field(
+        default=None,
+        alias="amountRange",
+        description="Disclosed dollar amount range for the transaction.",
     )
-    symbol: str
+    asset_name: str | None = Field(
+        default=None,
+        alias="assetName",
+        description="Full name of the traded asset. Present whenever the upstream returns this record.",
+    )
+    chamber: str | None = Field(
+        default=None, description="Congressional chamber, e.g. House or Senate."
+    )
+    first_name: str | None = Field(
+        default=None,
+        alias="firstName",
+        description="Member's first name. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(description="Stable disclosure record identifier.")
+    last_name: str | None = Field(
+        default=None,
+        alias="lastName",
+        description="Member's last name. Present whenever the upstream returns this record.",
+    )
+    owner: str | None = Field(
+        default=None,
+        description="Trade owner code, e.g. SP (spouse), JT (joint), DC (dependent child).",
+    )
+    reported_utc: float | None = Field(
+        default=None,
+        alias="reportedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the transaction was reported/disclosed.",
+    )
+    state_district: str | None = Field(
+        default=None,
+        alias="stateDistrict",
+        description="Member's state and district, e.g. PA11.",
+    )
+    symbol: str = Field(description="Stock ticker symbol of the traded asset.")
+    traded_utc: float | None = Field(
+        default=None,
+        alias="tradedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the transaction occurred.",
+    )
+    transaction_type: str | None = Field(
+        default=None,
+        alias="transactionType",
+        description="Transaction type code, e.g. P (purchase), S (sale).",
+    )
 
 
 class CongressNamespace:

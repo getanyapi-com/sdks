@@ -60,19 +60,37 @@ export interface TiktokShopProductReviewsInput {
 }
 
 export interface TiktokShopProductReviewsReview {
+  /**
+   * Reviewer's country code.
+   */
   country: string;
   /**
    * Review time as epoch milliseconds.
    */
-  createdAt: string;
+  createdUtc: number;
+  /**
+   * Review identifier.
+   */
   id: string;
+  /**
+   * Star rating for this review (1-5).
+   */
   rating: number;
+  /**
+   * Display name of the reviewer.
+   */
   reviewerName: string;
   /**
    * Variant bought, e.g. "Color: Black".
    */
   sku: string;
+  /**
+   * Review text content.
+   */
   text: string;
+  /**
+   * True when the review is from a verified purchase.
+   */
   verifiedPurchase: boolean;
   [extra: string]: unknown;
 }
@@ -81,12 +99,21 @@ export interface TiktokShopProductReviewsReview {
  * The `data` payload of TikTok Shop Product Reviews (tiktok_shop.product_reviews).
  */
 export interface TiktokShopProductReviewsData {
+  /**
+   * True when more reviews are available beyond this page.
+   */
   hasMore: boolean;
   /**
    * Overall product score (1-5).
    */
   rating: number;
+  /**
+   * Product reviews.
+   */
   reviews: TiktokShopProductReviewsReview[];
+  /**
+   * Total number of reviews for the product.
+   */
   totalReviews: number;
 }
 
