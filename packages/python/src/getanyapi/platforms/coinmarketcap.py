@@ -24,7 +24,7 @@ class CoinmarketcapListingsInput(TypedDict, total=False):
 
 class CoinmarketcapListingsData(BaseModel):
     items: list[CoinmarketcapListingsItem] = Field(
-        description="Cryptocurrency listing records: rank, name, symbol, price, market cap, trading volume, and 24h price change."
+        description="Cryptocurrency listing records: rank, name, symbol, price, market cap, trading volume, and 24h price change. Populated whenever the provider has data for the entity."
     )
 
 
@@ -39,22 +39,29 @@ class CoinmarketcapListingsItem(BaseModel):
         description="Circulating supply (coin count).",
     )
     high24h: float | None = Field(default=None, description="24h high price in USD.")
-    id: str = Field(description="CoinMarketCap identifier.")
+    id: str = Field(
+        description="CoinMarketCap identifier. Populated whenever the provider has data for the entity."
+    )
     last_updated: str | None = Field(
         default=None,
         alias="lastUpdated",
-        description="Present whenever the upstream returns this record.",
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     low24h: float | None = Field(default=None, description="24h low price in USD.")
     market_cap: float | None = Field(
         default=None, alias="marketCap", description="Market capitalization in USD."
     )
-    name: str
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     price: float | None = Field(default=None, description="Latest price in USD.")
     slug: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    symbol: str
+    symbol: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     total_supply: float | None = Field(
         default=None, alias="totalSupply", description="Total supply (coin count)."
     )
@@ -78,8 +85,9 @@ class CoinmarketcapNamespace:
         """CoinMarketCap Listings
 
         Get the current top cryptocurrencies from CoinMarketCap - rank, price,
-        market cap, volume, and 24h change - as normalized JSON with transparent
-        per-request USD pricing.
+        market cap, volume, and 24h change - as normalized JSON. **Price:** billed
+        per result - $0.00 per 1,000 requests base + $1.80 per 1,000 results, capped
+        at $45.00 per 1,000 requests.
 
         Price: $0.0018 per result.
 
@@ -107,8 +115,9 @@ class AsyncCoinmarketcapNamespace:
         """CoinMarketCap Listings
 
         Get the current top cryptocurrencies from CoinMarketCap - rank, price,
-        market cap, volume, and 24h change - as normalized JSON with transparent
-        per-request USD pricing.
+        market cap, volume, and 24h change - as normalized JSON. **Price:** billed
+        per result - $0.00 per 1,000 requests base + $1.80 per 1,000 results, capped
+        at $45.00 per 1,000 requests.
 
         Price: $0.0018 per result.
 

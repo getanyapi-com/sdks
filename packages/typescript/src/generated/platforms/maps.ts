@@ -80,7 +80,7 @@ export interface MapsContactsItem {
    */
   longitude?: number;
   /**
-   * Business name.
+   * Business name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
@@ -92,7 +92,7 @@ export interface MapsContactsItem {
    */
   phones?: string[];
   /**
-   * Google Maps place id (stable identifier for the business).
+   * Google Maps place id (stable identifier for the business). Populated whenever the provider has data for the entity.
    */
   placeId: string;
   /**
@@ -120,7 +120,7 @@ export interface MapsContactsItem {
    */
   twitters?: string[];
   /**
-   * Canonical Google Maps URL for the business.
+   * Canonical Google Maps URL for the business. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -139,7 +139,7 @@ export interface MapsContactsItem {
  */
 export interface MapsContactsData {
   /**
-   * Matching business records, each enriched with contact details scraped from the business website.
+   * Matching business records, each enriched with contact details scraped from the business website. Populated whenever the provider has data for the entity.
    */
   items: MapsContactsItem[];
 }
@@ -165,12 +165,12 @@ export interface MapsPlaceInput {
 
 export interface MapsPlaceItem {
   /**
-   * Full formatted street address.
+   * Full formatted street address. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   address?: string;
   /**
-   * Primary Google Maps category (e.g. Coffee shop).
+   * Primary Google Maps category (e.g. Coffee shop). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   category?: string;
@@ -188,15 +188,17 @@ export interface MapsPlaceItem {
    */
   image?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   latitude?: number;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   longitude?: number;
   /**
-   * Business or place name.
+   * Business or place name. Populated whenever the provider has data for the entity.
    */
   name: string;
   neighborhood?: string;
@@ -209,7 +211,7 @@ export interface MapsPlaceItem {
    */
   phone?: string;
   /**
-   * Google Maps place id.
+   * Google Maps place id. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   placeId?: string;
@@ -239,7 +241,7 @@ export interface MapsPlaceItem {
    */
   street?: string;
   /**
-   * Google Maps URL for the place.
+   * Google Maps URL for the place. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -258,7 +260,7 @@ export interface MapsPlaceHour {
  */
 export interface MapsPlaceData {
   /**
-   * The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched).
+   * The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched). Populated whenever the provider has data for the entity.
    */
   items: MapsPlaceItem[];
 }
@@ -291,12 +293,12 @@ export interface MapsReviewsInput {
 
 export interface MapsReviewsItem {
   /**
-   * Reviewer display name.
+   * Reviewer display name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   author?: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
@@ -321,7 +323,7 @@ export interface MapsReviewsItem {
    */
   ownerResponseAt?: string;
   /**
-   * Google Maps place id the review belongs to.
+   * Google Maps place id the review belongs to. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   placeId?: string;
@@ -334,7 +336,7 @@ export interface MapsReviewsItem {
    */
   rating?: number;
   /**
-   * Stable Google review id.
+   * Stable Google review id. Populated whenever the provider has data for the entity.
    */
   reviewId: string;
   /**
@@ -350,7 +352,7 @@ export interface MapsReviewsItem {
    */
   text?: string;
   /**
-   * Direct URL to the review on Google Maps.
+   * Direct URL to the review on Google Maps. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   url?: string;
@@ -362,7 +364,7 @@ export interface MapsReviewsItem {
  */
 export interface MapsReviewsData {
   /**
-   * Review records: reviewer, star rating, review text (empty when the reviewer left only a rating), publish date, likes, and owner response where present.
+   * Review records: reviewer, star rating, review text (empty when the reviewer left only a rating), publish date, likes, and owner response where present. Populated whenever the provider has data for the entity.
    */
   items: MapsReviewsItem[];
 }
@@ -425,7 +427,7 @@ export interface MapsSearchItem {
    */
   longitude?: number;
   /**
-   * Place name.
+   * Place name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
@@ -437,7 +439,7 @@ export interface MapsSearchItem {
    */
   phone?: string;
   /**
-   * Google Maps place id (stable identifier for the place).
+   * Google Maps place id (stable identifier for the place). Populated whenever the provider has data for the entity.
    */
   placeId: string;
   /**
@@ -465,7 +467,7 @@ export interface MapsSearchItem {
    */
   street?: string;
   /**
-   * Canonical Google Maps URL for the place.
+   * Canonical Google Maps URL for the place. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -480,7 +482,7 @@ export interface MapsSearchItem {
  */
 export interface MapsSearchData {
   /**
-   * Matching Google Maps place records.
+   * Matching Google Maps place records. Populated whenever the provider has data for the entity.
    */
   items: MapsSearchItem[];
 }
@@ -496,6 +498,8 @@ export class MapsNamespace {
    * Google Maps Contacts
    *
    * Search Google Maps for businesses and enrich each result with contact details (emails, phones, and social profiles from their websites), up to 20 records per request.
+
+**Price:** billed per result - $0.05 per 1,000 requests base + $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.003 per result.
    *
@@ -512,7 +516,9 @@ export class MapsNamespace {
   /**
    * Google Maps Place Lookup
    *
-   * Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with full details - address, phone, website, rating, hours, and coordinates - as normalized JSON priced per request in USD.
+   * Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with full details - address, phone, website, rating, hours, and coordinates - as normalized JSON.
+
+**Price:** billed per result - $3.00 per 1,000 requests base + $5.00 per 1,000 results, capped at $9.00 per 1,000 requests.
    *
    * Price: $0.003 per request plus $0.005 per result.
    *
@@ -529,7 +535,9 @@ export class MapsNamespace {
   /**
    * Google Maps Reviews
    *
-   * Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one flat-priced normalized response.
+   * Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.
+
+**Price:** billed per result - $0.05 per 1,000 requests base + $0.40 per 1,000 results, capped at $40.05 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.0004 per result.
    *
@@ -547,6 +555,8 @@ export class MapsNamespace {
    * Google Maps Search
    *
    * Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.
+
+**Price:** billed per result - $0.05 per 1,000 requests base + $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.003 per result.
    *

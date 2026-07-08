@@ -26,7 +26,7 @@ class GlassdoorJobsInput(TypedDict, total=False):
 
 class GlassdoorJobsData(BaseModel):
     items: list[GlassdoorJobsItem] = Field(
-        description="Job listing records for the search or company page."
+        description="Job listing records for the search or company page. Populated whenever the provider has data for the entity."
     )
 
 
@@ -40,12 +40,14 @@ class GlassdoorJobsItem(BaseModel):
     )
     company: str | None = Field(
         default=None,
-        description="Hiring employer name. Present whenever the upstream returns this record.",
+        description="Hiring employer name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     description: str | None = Field(
         default=None, description="Full job description (may contain HTML)."
     )
-    id: str = Field(description="Glassdoor job listing id.")
+    id: str = Field(
+        description="Glassdoor job listing id. Populated whenever the provider has data for the entity."
+    )
     location: str | None = Field(
         default=None, description="Job location (city, region)."
     )
@@ -55,8 +57,12 @@ class GlassdoorJobsItem(BaseModel):
     salary: GlassdoorJobsSalary | None = Field(
         default=None, description="Estimated salary range for the listing."
     )
-    title: str = Field(description="Job title.")
-    url: str = Field(description="Absolute Glassdoor job listing URL.")
+    title: str = Field(
+        description="Job title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Absolute Glassdoor job listing URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class GlassdoorJobsSalary(BaseModel):
@@ -94,7 +100,9 @@ class GlassdoorNamespace:
         """Glassdoor Jobs
 
         Fetch job listings from any Glassdoor company or job search page URL - up to
-        20 normalized job records per request at a flat USD price.
+        20 normalized job records per request. **Price:** billed per result - $5.00
+        per 1,000 requests base + $4.75 per 1,000 results, capped at $100.00 per
+        1,000 requests.
 
         Price: $0.005 per request plus $0.00475 per result.
 
@@ -122,7 +130,9 @@ class AsyncGlassdoorNamespace:
         """Glassdoor Jobs
 
         Fetch job listings from any Glassdoor company or job search page URL - up to
-        20 normalized job records per request at a flat USD price.
+        20 normalized job records per request. **Price:** billed per result - $5.00
+        per 1,000 requests base + $4.75 per 1,000 results, capped at $100.00 per
+        1,000 requests.
 
         Price: $0.005 per request plus $0.00475 per result.
 

@@ -32,7 +32,7 @@ class BookingSearchInput(TypedDict, total=False):
 
 class BookingSearchData(BaseModel):
     items: list[BookingSearchItem] = Field(
-        description="Hotel result records: name, price, review score, star rating, address, and location."
+        description="Hotel result records: name, price, review score, star rating, address, and location. Populated whenever the provider has data for the entity."
     )
 
 
@@ -45,18 +45,20 @@ class BookingSearchItem(BaseModel):
     currency: str | None = None
     id: str | None = Field(
         default=None,
-        description="Booking.com hotel identifier. Present whenever the upstream returns this record.",
+        description="Booking.com hotel identifier. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
-        description="Primary hotel photo URL. Present whenever the upstream returns this record.",
+        description="Primary hotel photo URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     latitude: float | None = None
     location: str | None = Field(
         default=None, description="Neighborhood or area label."
     )
     longitude: float | None = None
-    name: str
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     price: float | None = Field(
         default=None, description="Total stay price in the requested currency."
     )
@@ -67,7 +69,9 @@ class BookingSearchItem(BaseModel):
     )
     reviews_count: int | None = Field(default=None, alias="reviewsCount")
     stars: int | None = Field(default=None, description="Star rating class (1-5).")
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class BookingNamespace:
@@ -85,8 +89,9 @@ class BookingNamespace:
         """Booking.com Search
 
         Search Booking.com stays by destination and dates and get hotel results
-        (name, price, review score, location) as normalized JSON with flat
-        per-request USD pricing.
+        (name, price, review score, location) as normalized JSON. **Price:** billed
+        per result - $2.00 per 1,000 requests base + $4.50 per 1,000 results, capped
+        at $92.00 per 1,000 requests.
 
         Price: $0.002 per request plus $0.0045 per result.
 
@@ -114,8 +119,9 @@ class AsyncBookingNamespace:
         """Booking.com Search
 
         Search Booking.com stays by destination and dates and get hotel results
-        (name, price, review score, location) as normalized JSON with flat
-        per-request USD pricing.
+        (name, price, review score, location) as normalized JSON. **Price:** billed
+        per result - $2.00 per 1,000 requests base + $4.50 per 1,000 results, capped
+        at $92.00 per 1,000 requests.
 
         Price: $0.002 per request plus $0.0045 per result.
 

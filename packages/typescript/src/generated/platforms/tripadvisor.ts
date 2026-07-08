@@ -27,7 +27,7 @@ export interface TripadvisorReviewsInput {
 
 export interface TripadvisorReviewsItem {
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
@@ -36,16 +36,16 @@ export interface TripadvisorReviewsItem {
    */
   rating: number;
   /**
-   * Review body text.
+   * Review body text. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Review title or headline.
+   * Review title or headline. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
-   * Canonical review URL.
+   * Canonical review URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   url?: string;
@@ -57,7 +57,7 @@ export interface TripadvisorReviewsItem {
  */
 export interface TripadvisorReviewsData {
   /**
-   * Review records for the place: rating, title, review text, publish date, trip type, and reviewer details.
+   * Review records for the place: rating, title, review text, publish date, trip type, and reviewer details. Populated whenever the provider has data for the entity.
    */
   items: TripadvisorReviewsItem[];
 }
@@ -144,7 +144,7 @@ export interface TripadvisorSearchItem {
    */
   ranking?: string;
   /**
-   * Average traveler rating out of 5.
+   * Average traveler rating out of 5. Populated whenever the provider has data for the entity.
    */
   rating: number;
   /**
@@ -152,7 +152,7 @@ export interface TripadvisorSearchItem {
    */
   reviewCount?: number;
   /**
-   * Place name.
+   * Place name. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
@@ -160,7 +160,7 @@ export interface TripadvisorSearchItem {
    */
   type?: string;
   /**
-   * Canonical Tripadvisor listing page URL.
+   * Canonical Tripadvisor listing page URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -175,7 +175,7 @@ export interface TripadvisorSearchItem {
  */
 export interface TripadvisorSearchData {
   /**
-   * Matching Tripadvisor place records (hotels, restaurants, attractions).
+   * Matching Tripadvisor place records (hotels, restaurants, attractions). Populated whenever the provider has data for the entity.
    */
   items: TripadvisorSearchItem[];
 }
@@ -190,7 +190,9 @@ export class TripadvisorNamespace {
   /**
    * Tripadvisor Reviews
    *
-   * Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL - rating, text, date, and trip details as normalized JSON with transparent per-request USD pricing.
+   * Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL - rating, text, date, and trip details as normalized JSON.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -207,7 +209,9 @@ export class TripadvisorNamespace {
   /**
    * Tripadvisor Search
    *
-   * Search Tripadvisor for hotels, restaurants, and attractions in any destination and get rich place records (ratings, review counts, contact details, pricing) as normalized JSON with transparent per-request USD pricing.
+   * Search Tripadvisor for hotels, restaurants, and attractions in any destination and get rich place records (ratings, review counts, contact details, pricing) as normalized JSON.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *

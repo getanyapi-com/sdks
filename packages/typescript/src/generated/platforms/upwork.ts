@@ -48,7 +48,7 @@ export interface UpworkJobsItem {
    */
   createdUtc?: number;
   /**
-   * Full job posting description text.
+   * Full job posting description text. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   description?: string;
@@ -57,7 +57,7 @@ export interface UpworkJobsItem {
    */
   experienceLevel?: string;
   /**
-   * Upwork job identifier.
+   * Upwork job identifier. Populated whenever the provider has data for the entity.
    */
   jobId: string;
   /**
@@ -77,11 +77,11 @@ export interface UpworkJobsItem {
    */
   tags?: string[];
   /**
-   * Job posting title.
+   * Job posting title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Upwork job posting URL.
+   * Upwork job posting URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -92,7 +92,7 @@ export interface UpworkJobsItem {
  */
 export interface UpworkJobsData {
   /**
-   * Job records: title, description, budget or hourly rate, required skills, posted date, and client details.
+   * Job records: title, description, budget or hourly rate, required skills, posted date, and client details. Populated whenever the provider has data for the entity.
    */
   items: UpworkJobsItem[];
 }
@@ -107,7 +107,9 @@ export class UpworkNamespace {
   /**
    * Upwork Jobs
    *
-   * Search Upwork job postings by keyword - up to 25 fresh listings per request with transparent per-request USD pricing.
+   * Search Upwork job postings by keyword - up to 25 fresh listings per request.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $3.30 per 1,000 results, capped at $82.50 per 1,000 requests.
    *
    * Price: $0.0033 per result.
    *

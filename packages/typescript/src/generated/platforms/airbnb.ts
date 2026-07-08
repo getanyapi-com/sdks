@@ -41,11 +41,11 @@ export interface AirbnbSearchInput {
 export interface AirbnbSearchItem {
   hostName?: string;
   /**
-   * Airbnb listing identifier.
+   * Airbnb listing identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * Primary listing image URL.
+   * Primary listing image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -69,7 +69,13 @@ export interface AirbnbSearchItem {
   rating?: number;
   reviewsCount?: number;
   roomType?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -79,7 +85,7 @@ export interface AirbnbSearchItem {
  */
 export interface AirbnbSearchData {
   /**
-   * Listing records: name, nightly price, rating, location, host info, and availability details.
+   * Listing records: name, nightly price, rating, location, host info, and availability details. Populated whenever the provider has data for the entity.
    */
   items: AirbnbSearchItem[];
 }
@@ -94,7 +100,9 @@ export class AirbnbNamespace {
   /**
    * Airbnb Search
    *
-   * Search Airbnb listings by location and dates and get results (name, price, rating, host) as normalized JSON with flat per-request USD pricing.
+   * Search Airbnb listings by location and dates and get results (name, price, rating, host) as normalized JSON.
+
+**Price:** billed per result - $0.08 per 1,000 requests base + $1.50 per 1,000 results, capped at $30.08 per 1,000 requests.
    *
    * Price: $0.00008 per request plus $0.0015 per result.
    *

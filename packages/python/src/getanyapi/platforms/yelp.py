@@ -28,7 +28,7 @@ class YelpSearchInput(TypedDict, total=False):
 
 class YelpSearchData(BaseModel):
     items: list[YelpSearchItem] = Field(
-        description="Business listing records: name, categories, rating, review count, address, and core business info."
+        description="Business listing records: name, categories, rating, review count, address, and core business info. Populated whenever the provider has data for the entity."
     )
 
 
@@ -40,7 +40,9 @@ class YelpSearchItem(BaseModel):
     )
     address2: str | None = Field(default=None, description="Secondary address line.")
     address3: str | None = Field(default=None, description="Tertiary address line.")
-    alias: str = Field(description="URL slug for the business.")
+    alias: str = Field(
+        description="URL slug for the business. Populated whenever the provider has data for the entity."
+    )
     avg_rating: float | None = Field(
         default=None, description="Rounded average star rating."
     )
@@ -52,7 +54,9 @@ class YelpSearchItem(BaseModel):
     dialable_phone: str | None = Field(
         default=None, description="Dialable phone number."
     )
-    id: str = Field(description="Stable Yelp business identifier.")
+    id: str = Field(
+        description="Stable Yelp business identifier. Populated whenever the provider has data for the entity."
+    )
     is_closed: bool | None = Field(
         default=None, description="Whether the business is permanently closed."
     )
@@ -68,7 +72,9 @@ class YelpSearchItem(BaseModel):
     longitude: float | None = Field(
         default=None, description="Longitude of the business."
     )
-    name: str = Field(description="Business display name.")
+    name: str = Field(
+        description="Business display name. Populated whenever the provider has data for the entity."
+    )
     neighborhoods: list[str] | None = Field(
         default=None, description="Neighborhood labels for the location."
     )
@@ -76,7 +82,7 @@ class YelpSearchItem(BaseModel):
     photo_count: int | None = Field(default=None, description="Total photo count.")
     photo_url: str | None = Field(
         default=None,
-        description="Primary photo URL. Present whenever the upstream returns this record.",
+        description="Primary photo URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     price: int | None = Field(default=None, description="Numeric price tier.")
     review_count: int | None = Field(default=None, description="Number of reviews.")
@@ -103,7 +109,9 @@ class YelpNamespace:
         """Yelp Search
 
         Search Yelp for businesses by keyword and location: up to 20 listings with
-        ratings, categories, and core business info per flat-priced request.
+        ratings, categories, and core business info per request. **Price:** billed
+        per result - $40.00 per 1,000 requests base + $0.75 per 1,000 results,
+        capped at $55.00 per 1,000 requests.
 
         Price: $0.04 per request plus $0.00075 per result.
 
@@ -128,7 +136,9 @@ class AsyncYelpNamespace:
         """Yelp Search
 
         Search Yelp for businesses by keyword and location: up to 20 listings with
-        ratings, categories, and core business info per flat-priced request.
+        ratings, categories, and core business info per request. **Price:** billed
+        per result - $40.00 per 1,000 requests base + $0.75 per 1,000 results,
+        capped at $55.00 per 1,000 requests.
 
         Price: $0.04 per request plus $0.00075 per result.
 

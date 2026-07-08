@@ -41,31 +41,42 @@ class BlueskyPostData(BaseModel):
 
     author_handle: str = Field(
         alias="authorHandle",
-        description="Handle of the account that authored the post.",
+        description="Handle of the account that authored the post. Populated whenever the provider has data for the entity.",
     )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     likes: int = Field(description="Number of likes on the post.")
     replies: int = Field(description="Number of replies to the post.")
     reposts: int = Field(description="Number of reposts of the post.")
-    text: str = Field(description="The post's text content.")
+    text: str = Field(
+        description="The post's text content. Populated whenever the provider has data for the entity."
+    )
 
 
 class BlueskyProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    description: str
-    display_name: str = Field(alias="displayName")
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    display_name: str = Field(
+        alias="displayName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     followers: int
     following: int
-    handle: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     posts_count: int = Field(alias="postsCount")
 
 
 class BlueskyUserPostsData(BaseModel):
-    posts: list[BlueskyUserPostsPost] = Field(description="The account's recent posts.")
+    posts: list[BlueskyUserPostsPost] = Field(
+        description="The account's recent posts. Populated whenever the provider has data for the entity."
+    )
 
 
 class BlueskyUserPostsPost(BaseModel):
@@ -73,16 +84,18 @@ class BlueskyUserPostsPost(BaseModel):
 
     author_handle: str = Field(
         alias="authorHandle",
-        description="Handle of the account that authored the post.",
+        description="Handle of the account that authored the post. Populated whenever the provider has data for the entity.",
     )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     likes: int = Field(description="Number of likes on the post.")
     replies: int = Field(description="Number of replies to the post.")
     reposts: int = Field(description="Number of reposts of the post.")
-    text: str = Field(description="The post's text content.")
+    text: str = Field(
+        description="The post's text content. Populated whenever the provider has data for the entity."
+    )
 
 
 class BlueskyNamespace:
@@ -100,7 +113,8 @@ class BlueskyNamespace:
         """Bluesky Post
 
         Get a single Bluesky post by URL - text, author handle, like, reply, and
-        repost counts as clean JSON, billed per request in USD.
+        repost counts as clean JSON. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -121,7 +135,8 @@ class BlueskyNamespace:
         """Bluesky Profile
 
         Get a Bluesky user's public profile by handle - display name, bio, follower
-        and post counts as clean JSON, billed per request in USD.
+        and post counts as clean JSON. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -142,8 +157,9 @@ class BlueskyNamespace:
         """Bluesky User Posts
 
         List a Bluesky account's recent posts (text, author handle, like, reply, and
-        repost counts) by handle as clean JSON, normalized across providers, billed
-        per request in USD.
+        repost counts) by handle as clean JSON, normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -171,7 +187,8 @@ class AsyncBlueskyNamespace:
         """Bluesky Post
 
         Get a single Bluesky post by URL - text, author handle, like, reply, and
-        repost counts as clean JSON, billed per request in USD.
+        repost counts as clean JSON. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -192,7 +209,8 @@ class AsyncBlueskyNamespace:
         """Bluesky Profile
 
         Get a Bluesky user's public profile by handle - display name, bio, follower
-        and post counts as clean JSON, billed per request in USD.
+        and post counts as clean JSON. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -213,8 +231,9 @@ class AsyncBlueskyNamespace:
         """Bluesky User Posts
 
         List a Bluesky account's recent posts (text, author handle, like, reply, and
-        repost counts) by handle as clean JSON, normalized across providers, billed
-        per request in USD.
+        repost counts) by handle as clean JSON, normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 

@@ -180,10 +180,17 @@ class YoutubeChannelData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     avatar_url: str = Field(alias="avatarUrl")
-    channel_id: str = Field(alias="channelId")
-    description: str
+    channel_id: str = Field(
+        alias="channelId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     subscribers: int
-    title: str
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     videos: int
     views: int
 
@@ -192,35 +199,57 @@ class YoutubeChannelCommunityPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    posts: list[YoutubeChannelCommunityPostsPost]
+    posts: list[YoutubeChannelCommunityPostsPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeChannelCommunityPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    content: str
-    id: str
+    content: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     image: str
     like_count: int = Field(alias="likeCount")
-    published_time: str = Field(alias="publishedTime")
-    url: str
+    published_time: str = Field(
+        alias="publishedTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeChannelLivesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    lives: list[YoutubeChannelLivesLive]
+    lives: list[YoutubeChannelLivesLive] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     next_cursor: str = Field(alias="nextCursor")
 
 
 class YoutubeChannelLivesLive(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     length_text: str = Field(alias="lengthText")
-    published_time: str = Field(alias="publishedTime")
-    title: str
-    url: str
+    published_time: str = Field(
+        alias="publishedTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
@@ -228,16 +257,25 @@ class YoutubeChannelPlaylistsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    playlists: list[YoutubeChannelPlaylistsPlaylist]
+    playlists: list[YoutubeChannelPlaylistsPlaylist] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeChannelPlaylistsPlaylist(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
-    playlist_url: str = Field(alias="playlistUrl")
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    playlist_url: str = Field(
+        alias="playlistUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     thumbnail: str
-    title: str
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     video_count: int = Field(alias="videoCount")
 
 
@@ -245,17 +283,25 @@ class YoutubeChannelShortsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    shorts: list[YoutubeChannelShortsShort]
+    shorts: list[YoutubeChannelShortsShort] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeChannelShortsShort(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     duration: str
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    title: str
-    url: str
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
@@ -263,81 +309,147 @@ class YoutubeChannelVideosData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    videos: list[YoutubeChannelVideosVideo]
+    videos: list[YoutubeChannelVideosVideo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeChannelVideosVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     length_text: str = Field(alias="lengthText")
-    published_time: str = Field(alias="publishedTime")
-    title: str
-    url: str
+    published_time: str = Field(
+        alias="publishedTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
 class YoutubeCommentRepliesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    comments: list[YoutubeCommentRepliesComment]
+    comments: list[YoutubeCommentRepliesComment] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     next_cursor: str = Field(alias="nextCursor")
 
 
 class YoutubeCommentRepliesComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author_name: str = Field(alias="authorName")
-    content: str
-    id: str
+    author_name: str = Field(
+        alias="authorName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    content: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    published_time: str = Field(alias="publishedTime")
+    published_time: str = Field(
+        alias="publishedTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
 
 
 class YoutubeCommunityPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    channel_handle: str = Field(alias="channelHandle")
-    channel_title: str = Field(alias="channelTitle")
-    content: str
-    id: str
-    published_time: str = Field(alias="publishedTime")
+    channel_handle: str = Field(
+        alias="channelHandle",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    channel_title: str = Field(
+        alias="channelTitle",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    content: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    published_time: str = Field(
+        alias="publishedTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
 
 
 class YoutubePlaylistData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    owner: str
-    title: str
+    owner: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     total_videos: int = Field(alias="totalVideos")
-    videos: list[YoutubePlaylistVideo]
+    videos: list[YoutubePlaylistVideo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubePlaylistVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    channel: str
-    id: str
+    channel: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     length_seconds: int = Field(alias="lengthSeconds")
-    length_text: str = Field(alias="lengthText")
-    thumbnail: str
+    length_text: str = Field(
+        alias="lengthText",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    thumbnail: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     title: str
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeSearchData(BaseModel):
-    videos: list[YoutubeSearchVideo]
+    videos: list[YoutubeSearchVideo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeSearchVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    channel: str
-    id: str
+    channel: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     length_text: str = Field(alias="lengthText")
-    published_time: str = Field(alias="publishedTime")
-    title: str
-    url: str
+    published_time: str = Field(
+        alias="publishedTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
@@ -345,83 +457,135 @@ class YoutubeSearchHashtagData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    videos: list[YoutubeSearchHashtagVideo]
+    videos: list[YoutubeSearchHashtagVideo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeSearchHashtagVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    channel_title: str = Field(alias="channelTitle")
-    id: str
+    channel_title: str = Field(
+        alias="channelTitle",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     length_text: str = Field(alias="lengthText")
-    published_time: str = Field(alias="publishedTime")
-    title: str
-    url: str
+    published_time: str = Field(
+        alias="publishedTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
 class YoutubeTrendingShortsData(BaseModel):
-    shorts: list[YoutubeTrendingShortsShort]
+    shorts: list[YoutubeTrendingShortsShort] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeTrendingShortsShort(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    channel_title: str = Field(alias="channelTitle")
-    duration: str
-    id: str
+    channel_title: str = Field(
+        alias="channelTitle",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    duration: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    title: str
-    url: str
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
 class YoutubeVideoData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    channel: str = Field(description="Name of the channel that published the video.")
+    channel: str = Field(
+        description="Name of the channel that published the video. Populated whenever the provider has data for the entity."
+    )
     comments: int = Field(description="Number of comments.")
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     duration_ms: int = Field(
         alias="durationMs", description="Duration of the video in milliseconds."
     )
-    id: str = Field(description="Unique identifier of the video.")
+    id: str = Field(
+        description="Unique identifier of the video. Populated whenever the provider has data for the entity."
+    )
     likes: int = Field(description="Number of likes.")
-    title: str = Field(description="Title of the video.")
+    title: str = Field(
+        description="Title of the video. Populated whenever the provider has data for the entity."
+    )
     views: int = Field(description="Number of views.")
 
 
 class YoutubeVideoCommentsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    comments: list[YoutubeVideoCommentsComment]
+    comments: list[YoutubeVideoCommentsComment] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     next_cursor: str = Field(alias="nextCursor")
 
 
 class YoutubeVideoCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
-    id: str
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    published_time: str = Field(alias="publishedTime")
+    published_time: str = Field(
+        alias="publishedTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
     replies: int
-    text: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeVideoSponsorsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    detection_status: str = Field(alias="detectionStatus")
+    detection_status: str = Field(
+        alias="detectionStatus",
+        description="Populated whenever the provider has data for the entity.",
+    )
     is_paid_promotion: bool = Field(alias="isPaidPromotion")
     suspected_sponsors: list[YoutubeVideoSponsorsSuspectedSponsor] = Field(
         alias="suspectedSponsors"
     )
-    title: str
-    video_id: str = Field(alias="videoId")
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    video_id: str = Field(
+        alias="videoId",
+        description="Populated whenever the provider has data for the entity.",
+    )
 
 
 class YoutubeVideoSponsorsSuspectedSponsor(BaseModel):
@@ -435,8 +599,12 @@ class YoutubeVideoSponsorsSuspectedSponsor(BaseModel):
 class YoutubeVideoTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    language: str
-    transcript: str
+    language: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    transcript: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class YoutubeNamespace:
@@ -455,6 +623,8 @@ class YoutubeNamespace:
 
         Fetch a YouTube channel's stats (subscribers, video count, total views,
         description) by handle or channel ID, normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -476,6 +646,8 @@ class YoutubeNamespace:
 
         List a YouTube channel's community posts by handle or channel ID with cursor
         pagination (text, likes, image, publish time), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -520,7 +692,8 @@ class YoutubeNamespace:
 
         List a YouTube channel's live and past-live streams by handle or channel ID
         with cursor pagination (title, views, length, publish time), normalized
-        across providers.
+        across providers. **Price:** $2.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -565,6 +738,8 @@ class YoutubeNamespace:
 
         List a YouTube channel's playlists by handle or channel ID with cursor
         pagination (title, video count, thumbnail), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -609,6 +784,8 @@ class YoutubeNamespace:
 
         List a YouTube channel's Shorts by handle or channel ID with cursor
         pagination (title, views, likes, duration), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -653,7 +830,8 @@ class YoutubeNamespace:
 
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time), normalized across
-        providers.
+        providers. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -698,6 +876,8 @@ class YoutubeNamespace:
 
         List replies to a YouTube comment using a continuation token with cursor
         pagination (text, author, likes, publish time), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -718,7 +898,8 @@ class YoutubeNamespace:
         """YouTube Community Post
 
         Fetch a single YouTube community post by URL (text, images, channel, publish
-        time), normalized across providers.
+        time), normalized across providers. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -740,7 +921,8 @@ class YoutubeNamespace:
 
         List every video in a YouTube playlist - title, length, and channel per
         video plus playlist owner and totals - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -762,7 +944,8 @@ class YoutubeNamespace:
 
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON, across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -783,7 +966,9 @@ class YoutubeNamespace:
         """YouTube Hashtag Search
 
         Search YouTube videos by hashtag with cursor pagination (title, channel,
-        views, length, publish time), normalized across providers.
+        views, length, publish time), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -827,7 +1012,8 @@ class YoutubeNamespace:
         """YouTube Trending Shorts
 
         List currently trending YouTube Shorts (title, channel, views, likes,
-        duration), normalized across providers.
+        duration), normalized across providers. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -848,7 +1034,9 @@ class YoutubeNamespace:
         """YouTube Video
 
         Fetch a YouTube video's metadata (title, channel, views, likes, duration,
-        publish date) by URL or ID, normalized across providers.
+        publish date) by URL or ID, normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -869,7 +1057,9 @@ class YoutubeNamespace:
         """YouTube Video Comments
 
         List the comments on a YouTube video by URL with cursor pagination (text,
-        author, likes, reply count), normalized across providers.
+        author, likes, reply count), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -914,6 +1104,8 @@ class YoutubeNamespace:
 
         Detect suspected sponsors and paid promotions in a YouTube video by URL
         (sponsor names, websites, confidence), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -934,7 +1126,8 @@ class YoutubeNamespace:
         """YouTube Video Transcript
 
         Fetch the transcript/captions of a YouTube video by URL or ID, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -963,6 +1156,8 @@ class AsyncYoutubeNamespace:
 
         Fetch a YouTube channel's stats (subscribers, video count, total views,
         description) by handle or channel ID, normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -984,6 +1179,8 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's community posts by handle or channel ID with cursor
         pagination (text, likes, image, publish time), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1030,7 +1227,8 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's live and past-live streams by handle or channel ID
         with cursor pagination (title, views, length, publish time), normalized
-        across providers.
+        across providers. **Price:** $2.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1075,6 +1273,8 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's playlists by handle or channel ID with cursor
         pagination (title, video count, thumbnail), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1119,6 +1319,8 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's Shorts by handle or channel ID with cursor
         pagination (title, views, likes, duration), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1163,7 +1365,8 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time), normalized across
-        providers.
+        providers. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1208,6 +1411,8 @@ class AsyncYoutubeNamespace:
 
         List replies to a YouTube comment using a continuation token with cursor
         pagination (text, author, likes, publish time), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1228,7 +1433,8 @@ class AsyncYoutubeNamespace:
         """YouTube Community Post
 
         Fetch a single YouTube community post by URL (text, images, channel, publish
-        time), normalized across providers.
+        time), normalized across providers. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1250,7 +1456,8 @@ class AsyncYoutubeNamespace:
 
         List every video in a YouTube playlist - title, length, and channel per
         video plus playlist owner and totals - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1272,7 +1479,8 @@ class AsyncYoutubeNamespace:
 
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON, across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1293,7 +1501,9 @@ class AsyncYoutubeNamespace:
         """YouTube Hashtag Search
 
         Search YouTube videos by hashtag with cursor pagination (title, channel,
-        views, length, publish time), normalized across providers.
+        views, length, publish time), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1337,7 +1547,8 @@ class AsyncYoutubeNamespace:
         """YouTube Trending Shorts
 
         List currently trending YouTube Shorts (title, channel, views, likes,
-        duration), normalized across providers.
+        duration), normalized across providers. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1358,7 +1569,9 @@ class AsyncYoutubeNamespace:
         """YouTube Video
 
         Fetch a YouTube video's metadata (title, channel, views, likes, duration,
-        publish date) by URL or ID, normalized across providers.
+        publish date) by URL or ID, normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1379,7 +1592,9 @@ class AsyncYoutubeNamespace:
         """YouTube Video Comments
 
         List the comments on a YouTube video by URL with cursor pagination (text,
-        author, likes, reply count), normalized across providers.
+        author, likes, reply count), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1424,6 +1639,8 @@ class AsyncYoutubeNamespace:
 
         Detect suspected sponsors and paid promotions in a YouTube video by URL
         (sponsor names, websites, confidence), normalized across providers.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1444,7 +1661,8 @@ class AsyncYoutubeNamespace:
         """YouTube Video Transcript
 
         Fetch the transcript/captions of a YouTube video by URL or ID, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 

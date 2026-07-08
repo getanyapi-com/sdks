@@ -29,11 +29,11 @@ export interface ThreadsPostData {
    */
   createdUtc: number;
   /**
-   * Display name of the author.
+   * Display name of the author. Populated whenever the provider has data for the entity.
    */
   fullName: string;
   /**
-   * Post identifier.
+   * Post identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -53,11 +53,11 @@ export interface ThreadsPostData {
    */
   repostCount: number;
   /**
-   * Post text content.
+   * Post text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Username of the author.
+   * Username of the author. Populated whenever the provider has data for the entity.
    */
   username: string;
   [extra: string]: unknown;
@@ -77,13 +77,28 @@ export interface ThreadsProfileInput {
  * The `data` payload of Threads Profile (threads.profile).
  */
 export interface ThreadsProfileData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   biography: string;
   followerCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   fullName: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   isPrivate: boolean;
   isVerified: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   profilePicUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   username: string;
   [extra: string]: unknown;
 }
@@ -108,11 +123,11 @@ export interface ThreadsSearchPost {
    */
   createdUtc: number;
   /**
-   * Display name of the author.
+   * Display name of the author. Populated whenever the provider has data for the entity.
    */
   fullName: string;
   /**
-   * Post identifier.
+   * Post identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -128,15 +143,15 @@ export interface ThreadsSearchPost {
    */
   repostCount: number;
   /**
-   * Post text content.
+   * Post text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Canonical URL of the post.
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
-   * Username of the author.
+   * Username of the author. Populated whenever the provider has data for the entity.
    */
   username: string;
   [extra: string]: unknown;
@@ -147,7 +162,7 @@ export interface ThreadsSearchPost {
  */
 export interface ThreadsSearchData {
   /**
-   * Matching public post records: text, author, engagement counts, timestamp, and URL.
+   * Matching public post records: text, author, engagement counts, timestamp, and URL. Populated whenever the provider has data for the entity.
    */
   posts: ThreadsSearchPost[];
 }
@@ -163,10 +178,22 @@ export interface ThreadsSearchUsersInput {
 }
 
 export interface ThreadsSearchUsersUser {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   fullName: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   isVerified: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   profilePicUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   username: string;
   [extra: string]: unknown;
 }
@@ -175,6 +202,9 @@ export interface ThreadsSearchUsersUser {
  * The `data` payload of Threads User Search (threads.search_users).
  */
 export interface ThreadsSearchUsersData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   users: ThreadsSearchUsersUser[];
 }
 
@@ -198,7 +228,7 @@ export interface ThreadsUserPostsPost {
    */
   createdUtc: number;
   /**
-   * Post identifier.
+   * Post identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -218,15 +248,15 @@ export interface ThreadsUserPostsPost {
    */
   repostCount: number;
   /**
-   * Post text content.
+   * Post text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Canonical URL of the post.
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
-   * Username of the author.
+   * Username of the author. Populated whenever the provider has data for the entity.
    */
   username: string;
   [extra: string]: unknown;
@@ -237,7 +267,7 @@ export interface ThreadsUserPostsPost {
  */
 export interface ThreadsUserPostsData {
   /**
-   * The user's recent posts.
+   * The user's recent posts. Populated whenever the provider has data for the entity.
    */
   posts: ThreadsUserPostsPost[];
 }
@@ -252,7 +282,9 @@ export class ThreadsNamespace {
   /**
    * Threads Post
    *
-   * Fetch a single Threads post by URL - text, author, engagement counts, and timestamp - billed per request in USD.
+   * Fetch a single Threads post by URL - text, author, engagement counts, and timestamp.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -269,7 +301,9 @@ export class ThreadsNamespace {
   /**
    * Threads Profile
    *
-   * Fetch a Threads user's public profile (bio, follower count, verification, profile picture) by username, billed per request in USD.
+   * Fetch a Threads user's public profile (bio, follower count, verification, profile picture) by username.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -286,7 +320,9 @@ export class ThreadsNamespace {
   /**
    * Threads Search
    *
-   * Search public Threads posts by keyword or hashtag and get normalized post records - text, author, and engagement - billed per request in USD.
+   * Search public Threads posts by keyword or hashtag and get normalized post records - text, author, and engagement.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -303,7 +339,9 @@ export class ThreadsNamespace {
   /**
    * Threads User Search
    *
-   * Search Threads users by name or username and get normalized profile records - username, full name, verification, and picture - at a flat per-request USD price.
+   * Search Threads users by name or username and get normalized profile records - username, full name, verification, and picture.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -320,7 +358,9 @@ export class ThreadsNamespace {
   /**
    * Threads User Posts
    *
-   * List a Threads user's recent public posts by username - text, engagement counts, and post URLs - at a flat per-request USD price.
+   * List a Threads user's recent public posts by username - text, engagement counts, and post URLs.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

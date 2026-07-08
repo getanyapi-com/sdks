@@ -34,7 +34,7 @@ class GoogleShoppingSearchInput(TypedDict, total=False):
 
 class GoogleShoppingSearchData(BaseModel):
     items: list[GoogleShoppingSearchItem] = Field(
-        description="Matching Google Shopping product offers."
+        description="Matching Google Shopping product offers. Populated whenever the provider has data for the entity."
     )
 
 
@@ -55,7 +55,7 @@ class GoogleShoppingSearchItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="Primary product image URL. Present whenever the upstream returns this record.",
+        description="Primary product image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     list_price: float | None = Field(
         default=None,
@@ -91,9 +91,11 @@ class GoogleShoppingSearchItem(BaseModel):
         default=None,
         description='Store / seller name offering the product, e.g. "Target".',
     )
-    title: str = Field(description="Product title.")
+    title: str = Field(
+        description="Product title. Populated whenever the provider has data for the entity."
+    )
     url: str = Field(
-        description="Google Shopping product page URL (query retained; it encodes the product identity)."
+        description="Google Shopping product page URL (query retained; it encodes the product identity). Populated whenever the provider has data for the entity."
     )
 
 
@@ -112,8 +114,9 @@ class GoogleShoppingNamespace:
         """Google Shopping Search
 
         Search Google Shopping by keyword and get up to 10 product offers - title,
-        price, store, rating, and link - localized by country and language, at a
-        flat per-request USD price.
+        price, store, rating, and link - localized by country and language.
+        **Price:** $16.25 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.01625 per request.
 
@@ -141,8 +144,9 @@ class AsyncGoogleShoppingNamespace:
         """Google Shopping Search
 
         Search Google Shopping by keyword and get up to 10 product offers - title,
-        price, store, rating, and link - localized by country and language, at a
-        flat per-request USD price.
+        price, store, rating, and link - localized by country and language.
+        **Price:** $16.25 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.01625 per request.
 

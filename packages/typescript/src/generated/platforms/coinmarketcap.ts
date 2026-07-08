@@ -35,10 +35,11 @@ export interface CoinmarketcapListingsItem {
    */
   high24h?: number;
   /**
-   * CoinMarketCap identifier.
+   * CoinMarketCap identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   lastUpdated?: string;
@@ -50,15 +51,22 @@ export interface CoinmarketcapListingsItem {
    * Market capitalization in USD.
    */
   marketCap?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   /**
    * Latest price in USD.
    */
   price?: number;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   slug?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   symbol: string;
   /**
    * Total supply (coin count).
@@ -76,7 +84,7 @@ export interface CoinmarketcapListingsItem {
  */
 export interface CoinmarketcapListingsData {
   /**
-   * Cryptocurrency listing records: rank, name, symbol, price, market cap, trading volume, and 24h price change.
+   * Cryptocurrency listing records: rank, name, symbol, price, market cap, trading volume, and 24h price change. Populated whenever the provider has data for the entity.
    */
   items: CoinmarketcapListingsItem[];
 }
@@ -91,7 +99,9 @@ export class CoinmarketcapNamespace {
   /**
    * CoinMarketCap Listings
    *
-   * Get the current top cryptocurrencies from CoinMarketCap - rank, price, market cap, volume, and 24h change - as normalized JSON with transparent per-request USD pricing.
+   * Get the current top cryptocurrencies from CoinMarketCap - rank, price, market cap, volume, and 24h change - as normalized JSON.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $1.80 per 1,000 results, capped at $45.00 per 1,000 requests.
    *
    * Price: $0.0018 per result.
    *

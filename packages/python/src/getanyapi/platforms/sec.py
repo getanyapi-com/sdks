@@ -32,7 +32,7 @@ class SecFilingsInput(TypedDict, total=False):
 
 class SecFilingsData(BaseModel):
     items: list[SecFilingsItem] = Field(
-        description="Filing records: company and CIK, form type, filing date, accession number, and document links."
+        description="Filing records: company and CIK, form type, filing date, accession number, and document links. Populated whenever the provider has data for the entity."
     )
 
 
@@ -41,16 +41,16 @@ class SecFilingsItem(BaseModel):
 
     accession_number: str = Field(
         alias="accessionNumber",
-        description="SEC accession number uniquely identifying the filing.",
+        description="SEC accession number uniquely identifying the filing. Populated whenever the provider has data for the entity.",
     )
     cik: str | None = Field(
         default=None,
-        description="SEC Central Index Key for the filer. Present whenever the upstream returns this record.",
+        description="SEC Central Index Key for the filer. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     company_name: str | None = Field(
         default=None,
         alias="companyName",
-        description="Filer company name. Present whenever the upstream returns this record.",
+        description="Filer company name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     description: str | None = Field(
         default=None, description="Primary document description, e.g. the form label."
@@ -58,7 +58,7 @@ class SecFilingsItem(BaseModel):
     filed_utc: float | None = Field(
         default=None,
         alias="filedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the filing was filed. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the filing was filed. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     filing_url: str | None = Field(
         default=None,
@@ -67,7 +67,7 @@ class SecFilingsItem(BaseModel):
     )
     form: str | None = Field(
         default=None,
-        description="SEC form type, e.g. 10-K, 10-Q, 8-K. Present whenever the upstream returns this record.",
+        description="SEC form type, e.g. 10-K, 10-Q, 8-K. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     reported_utc: float | None = Field(
         default=None,
@@ -78,7 +78,7 @@ class SecFilingsItem(BaseModel):
         default=None, description="Stock ticker symbol of the filer, when known."
     )
     url: str = Field(
-        description="Direct link to the primary filing document on sec.gov."
+        description="Direct link to the primary filing document on sec.gov. Populated whenever the provider has data for the entity."
     )
 
 
@@ -95,7 +95,9 @@ class SecNamespace:
 
         List a public company's SEC EDGAR filings - form type, filing date,
         accession number, and document links - by ticker, company name, or CIK, with
-        optional form-type and date filters, billed per request in USD.
+        optional form-type and date filters. **Price:** billed per result - $2.00
+        per 1,000 requests base + $0.40 per 1,000 results, capped at $12.00 per
+        1,000 requests.
 
         Price: $0.002 per request plus $0.0004 per result.
 
@@ -121,7 +123,9 @@ class AsyncSecNamespace:
 
         List a public company's SEC EDGAR filings - form type, filing date,
         accession number, and document links - by ticker, company name, or CIK, with
-        optional form-type and date filters, billed per request in USD.
+        optional form-type and date filters. **Price:** billed per result - $2.00
+        per 1,000 requests base + $0.40 per 1,000 results, capped at $12.00 per
+        1,000 requests.
 
         Price: $0.002 per request plus $0.0004 per result.
 

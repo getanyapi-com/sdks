@@ -53,7 +53,7 @@ class AhrefsOverviewInput(TypedDict, total=False):
 
 class AhrefsBacklinksData(BaseModel):
     items: list[AhrefsBacklinksItem] = Field(
-        description="Referring pages that link to the domain or URL."
+        description="Referring pages that link to the domain or URL. Populated whenever the provider has data for the entity."
     )
 
 
@@ -78,7 +78,8 @@ class AhrefsBacklinksItem(BaseModel):
     )
     title: str | None = Field(default=None, description="Title of the referring page.")
     url_from: str = Field(
-        alias="urlFrom", description="URL of the referring page that contains the link."
+        alias="urlFrom",
+        description="URL of the referring page that contains the link. Populated whenever the provider has data for the entity.",
     )
     url_to: str | None = Field(
         default=None, alias="urlTo", description="Target URL the link points to."
@@ -87,7 +88,7 @@ class AhrefsBacklinksItem(BaseModel):
 
 class AhrefsKeywordIdeasData(BaseModel):
     items: list[AhrefsKeywordIdeasItem] = Field(
-        description="Keyword-idea records: the seed keyword and its related keyword suggestions, each with an Ahrefs difficulty and search-volume bucket."
+        description="Keyword-idea records: the seed keyword and its related keyword suggestions, each with an Ahrefs difficulty and search-volume bucket. Populated whenever the provider has data for the entity."
     )
 
 
@@ -100,7 +101,7 @@ class AhrefsKeywordIdeasItem(BaseModel):
     )
     ideas: list[AhrefsKeywordIdeasIdea] | None = Field(
         default=None,
-        description="Related keyword suggestions for the seed term. Present whenever the upstream returns this record.",
+        description="Related keyword suggestions for the seed term. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_engine: str | None = Field(
         default=None,
@@ -109,7 +110,7 @@ class AhrefsKeywordIdeasItem(BaseModel):
     )
     source_keyword: str = Field(
         alias="sourceKeyword",
-        description="The seed keyword the suggestions were expanded from.",
+        description="The seed keyword the suggestions were expanded from. Populated whenever the provider has data for the entity.",
     )
 
 
@@ -120,7 +121,9 @@ class AhrefsKeywordIdeasIdea(BaseModel):
         default=None,
         description="Relative Ahrefs difficulty bucket (a letter such as E, M, or H), not an exact number.",
     )
-    keyword: str = Field(description="The suggested related keyword.")
+    keyword: str = Field(
+        description="The suggested related keyword. Populated whenever the provider has data for the entity."
+    )
     updated_at: str | None = Field(
         default=None,
         alias="updatedAt",
@@ -134,7 +137,7 @@ class AhrefsKeywordIdeasIdea(BaseModel):
 
 class AhrefsKeywordsData(BaseModel):
     items: list[AhrefsKeywordsItem] = Field(
-        description="Keyword-difficulty records: the difficulty score and the referring-domain gap needed to rank in the top 10."
+        description="Keyword-difficulty records: the difficulty score and the referring-domain gap needed to rank in the top 10. Populated whenever the provider has data for the entity."
     )
 
 
@@ -147,7 +150,9 @@ class AhrefsKeywordsItem(BaseModel):
     difficulty: int | None = Field(
         default=None, description="Ahrefs Keyword Difficulty, 0-100."
     )
-    keyword: str
+    keyword: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     referring_domains_to_rank: int | None = Field(
         default=None,
         alias="referringDomainsToRank",
@@ -157,7 +162,7 @@ class AhrefsKeywordsItem(BaseModel):
 
 class AhrefsOverviewData(BaseModel):
     items: list[AhrefsOverviewItem] = Field(
-        description="Domain authority records: the requested domain plus its Domain Rating, total backlinks, and referring-domain counts."
+        description="Domain authority records: the requested domain plus its Domain Rating, total backlinks, and referring-domain counts. Populated whenever the provider has data for the entity."
     )
 
 
@@ -177,7 +182,9 @@ class AhrefsOverviewItem(BaseModel):
         alias="dofollowReferringDomainsPct",
         description="Percentage (0-100) of referring domains that provide a dofollow link.",
     )
-    domain: str = Field(description="The domain or URL the metrics are scoped to.")
+    domain: str = Field(
+        description="The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity."
+    )
     domain_rating: float | None = Field(
         default=None,
         alias="domainRating",
@@ -209,8 +216,9 @@ class AhrefsNamespace:
         """Ahrefs Backlinks
 
         Get the referring pages linking to a domain or URL, each with the source
-        page, anchor text, linking domain rating, and page title. Transparent
-        per-request USD pricing.
+        page, anchor text, linking domain rating, and page title. **Price:** $19.50
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.0195 per request.
 
@@ -231,7 +239,9 @@ class AhrefsNamespace:
         """Ahrefs Keyword Ideas
 
         Get related keyword suggestions for any seed term, each with an Ahrefs
-        difficulty and search-volume bucket. Transparent per-request USD pricing.
+        difficulty and search-volume bucket. **Price:** billed per result - $1.50
+        per 1,000 requests base + $18.00 per 1,000 results, capped at $19.50 per
+        1,000 requests.
 
         Price: $0.0015 per request plus $0.018 per result.
 
@@ -253,8 +263,9 @@ class AhrefsNamespace:
 
         Get the Ahrefs keyword-difficulty metrics for any search term: the
         difficulty score (0-100) and the number of referring domains a page needs to
-        rank in the top 10 - as normalized JSON with transparent per-request USD
-        pricing.
+        rank in the top 10 - as normalized JSON. **Price:** billed per result -
+        $1.50 per 1,000 requests base + $18.00 per 1,000 results, capped at $19.50
+        per 1,000 requests.
 
         Price: $0.0015 per request plus $0.018 per result.
 
@@ -275,8 +286,9 @@ class AhrefsNamespace:
         """Ahrefs Domain Overview
 
         Get an SEO authority overview for any domain or URL: Domain Rating, total
-        backlinks, and referring domains - as normalized JSON with transparent
-        per-request USD pricing.
+        backlinks, and referring domains - as normalized JSON. **Price:** billed per
+        result - $1.50 per 1,000 requests base + $18.00 per 1,000 results, capped at
+        $19.50 per 1,000 requests.
 
         Price: $0.0015 per request plus $0.018 per result.
 
@@ -304,8 +316,9 @@ class AsyncAhrefsNamespace:
         """Ahrefs Backlinks
 
         Get the referring pages linking to a domain or URL, each with the source
-        page, anchor text, linking domain rating, and page title. Transparent
-        per-request USD pricing.
+        page, anchor text, linking domain rating, and page title. **Price:** $19.50
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.0195 per request.
 
@@ -326,7 +339,9 @@ class AsyncAhrefsNamespace:
         """Ahrefs Keyword Ideas
 
         Get related keyword suggestions for any seed term, each with an Ahrefs
-        difficulty and search-volume bucket. Transparent per-request USD pricing.
+        difficulty and search-volume bucket. **Price:** billed per result - $1.50
+        per 1,000 requests base + $18.00 per 1,000 results, capped at $19.50 per
+        1,000 requests.
 
         Price: $0.0015 per request plus $0.018 per result.
 
@@ -348,8 +363,9 @@ class AsyncAhrefsNamespace:
 
         Get the Ahrefs keyword-difficulty metrics for any search term: the
         difficulty score (0-100) and the number of referring domains a page needs to
-        rank in the top 10 - as normalized JSON with transparent per-request USD
-        pricing.
+        rank in the top 10 - as normalized JSON. **Price:** billed per result -
+        $1.50 per 1,000 requests base + $18.00 per 1,000 results, capped at $19.50
+        per 1,000 requests.
 
         Price: $0.0015 per request plus $0.018 per result.
 
@@ -370,8 +386,9 @@ class AsyncAhrefsNamespace:
         """Ahrefs Domain Overview
 
         Get an SEO authority overview for any domain or URL: Domain Rating, total
-        backlinks, and referring domains - as normalized JSON with transparent
-        per-request USD pricing.
+        backlinks, and referring domains - as normalized JSON. **Price:** billed per
+        result - $1.50 per 1,000 requests base + $18.00 per 1,000 results, capped at
+        $19.50 per 1,000 requests.
 
         Price: $0.0015 per request plus $0.018 per result.
 

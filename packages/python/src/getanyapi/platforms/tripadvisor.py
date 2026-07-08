@@ -39,7 +39,7 @@ class TripadvisorSearchInput(TypedDict, total=False):
 
 class TripadvisorReviewsData(BaseModel):
     items: list[TripadvisorReviewsItem] = Field(
-        description="Review records for the place: rating, title, review text, publish date, trip type, and reviewer details."
+        description="Review records for the place: rating, title, review text, publish date, trip type, and reviewer details. Populated whenever the provider has data for the entity."
     )
 
 
@@ -49,23 +49,25 @@ class TripadvisorReviewsItem(BaseModel):
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     rating: float = Field(description="Star rating (typically 1-5).")
-    text: str = Field(description="Review body text.")
+    text: str = Field(
+        description="Review body text. Populated whenever the provider has data for the entity."
+    )
     title: str | None = Field(
         default=None,
-        description="Review title or headline. Present whenever the upstream returns this record.",
+        description="Review title or headline. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     url: str | None = Field(
         default=None,
-        description="Canonical review URL. Present whenever the upstream returns this record.",
+        description="Canonical review URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
 class TripadvisorSearchData(BaseModel):
     items: list[TripadvisorSearchItem] = Field(
-        description="Matching Tripadvisor place records (hotels, restaurants, attractions)."
+        description="Matching Tripadvisor place records (hotels, restaurants, attractions). Populated whenever the provider has data for the entity."
     )
 
 
@@ -120,19 +122,25 @@ class TripadvisorSearchItem(BaseModel):
         default=None,
         description='Ranking string within its location (e.g. "#2 of 1,885 hotels in Paris").',
     )
-    rating: float = Field(description="Average traveler rating out of 5.")
+    rating: float = Field(
+        description="Average traveler rating out of 5. Populated whenever the provider has data for the entity."
+    )
     review_count: float | None = Field(
         default=None,
         alias="reviewCount",
         description="Total number of traveler reviews.",
     )
-    title: str = Field(description="Place name.")
+    title: str = Field(
+        description="Place name. Populated whenever the provider has data for the entity."
+    )
     type_: str | None = Field(
         default=None,
         alias="type",
         description="Tripadvisor place type (e.g. HOTEL, RESTAURANT, ATTRACTION).",
     )
-    url: str = Field(description="Canonical Tripadvisor listing page URL.")
+    url: str = Field(
+        description="Canonical Tripadvisor listing page URL. Populated whenever the provider has data for the entity."
+    )
     website: str | None = Field(
         default=None, description="The place's own website URL, when listed."
     )
@@ -154,7 +162,8 @@ class TripadvisorNamespace:
 
         Fetch the latest reviews for any Tripadvisor hotel, restaurant, or
         attraction by its page URL - rating, text, date, and trip details as
-        normalized JSON with transparent per-request USD pricing.
+        normalized JSON. **Price:** $3.25 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -176,8 +185,8 @@ class TripadvisorNamespace:
 
         Search Tripadvisor for hotels, restaurants, and attractions in any
         destination and get rich place records (ratings, review counts, contact
-        details, pricing) as normalized JSON with transparent per-request USD
-        pricing.
+        details, pricing) as normalized JSON. **Price:** $3.25 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -206,7 +215,8 @@ class AsyncTripadvisorNamespace:
 
         Fetch the latest reviews for any Tripadvisor hotel, restaurant, or
         attraction by its page URL - rating, text, date, and trip details as
-        normalized JSON with transparent per-request USD pricing.
+        normalized JSON. **Price:** $3.25 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -228,8 +238,8 @@ class AsyncTripadvisorNamespace:
 
         Search Tripadvisor for hotels, restaurants, and attractions in any
         destination and get rich place records (ratings, review counts, contact
-        details, pricing) as normalized JSON with transparent per-request USD
-        pricing.
+        details, pricing) as normalized JSON. **Price:** $3.25 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 

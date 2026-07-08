@@ -24,7 +24,7 @@ class GoogleFinanceQuoteInput(TypedDict, total=False):
 
 class GoogleFinanceQuoteData(BaseModel):
     items: list[GoogleFinanceQuoteItem] = Field(
-        description="The quote for the requested symbol: name, current price, day change (absolute and percent), quote currency, exchange and market state, plus intraday and reference figures. Up to one element (empty when the symbol did not resolve)."
+        description="The quote for the requested symbol: name, current price, day change (absolute and percent), quote currency, exchange and market state, plus intraday and reference figures. Up to one element (empty when the symbol did not resolve). Populated whenever the provider has data for the entity."
     )
 
 
@@ -57,7 +57,7 @@ class GoogleFinanceQuoteItem(BaseModel):
     )
     currency: str | None = Field(
         default=None,
-        description="ISO currency the quote is priced in (e.g. USD). Present whenever the upstream returns this record.",
+        description="ISO currency the quote is priced in (e.g. USD). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     day_high: float | None = Field(
         default=None,
@@ -71,7 +71,7 @@ class GoogleFinanceQuoteItem(BaseModel):
     )
     exchange: str | None = Field(
         default=None,
-        description="Exchange the instrument trades on (e.g. NasdaqGS). Present whenever the upstream returns this record.",
+        description="Exchange the instrument trades on (e.g. NasdaqGS). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     fifty_two_week_high: float | None = Field(
         default=None,
@@ -95,7 +95,7 @@ class GoogleFinanceQuoteItem(BaseModel):
     )
     name: str | None = Field(
         default=None,
-        description="Instrument or company name. Present whenever the upstream returns this record.",
+        description="Instrument or company name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     open: float | None = Field(
         default=None, description="Opening price for the current session."
@@ -104,7 +104,9 @@ class GoogleFinanceQuoteItem(BaseModel):
         default=None, alias="previousClose", description="Previous session close price."
     )
     price: float = Field(description="Current price in the quote currency.")
-    symbol: str = Field(description="Resolved ticker symbol for the quote.")
+    symbol: str = Field(
+        description="Resolved ticker symbol for the quote. Populated whenever the provider has data for the entity."
+    )
     volume: float | None = Field(
         default=None, description="Traded volume for the current session."
     )
@@ -128,7 +130,8 @@ class GoogleFinanceNamespace:
         crypto symbol: name, current price, the absolute and percent change on the
         day, quote currency, exchange and market state, plus intraday and reference
         figures (open, day high/low, previous close, volume, market cap, and the
-        52-week range) with transparent per-request USD pricing.
+        52-week range). **Price:** billed per result - $0.50 per 1,000 requests base
+        + $1.50 per 1,000 results, capped at $2.00 per 1,000 requests.
 
         Price: $0.0005 per request plus $0.0015 per result.
 
@@ -159,7 +162,8 @@ class AsyncGoogleFinanceNamespace:
         crypto symbol: name, current price, the absolute and percent change on the
         day, quote currency, exchange and market state, plus intraday and reference
         figures (open, day high/low, previous close, volume, market cap, and the
-        52-week range) with transparent per-request USD pricing.
+        52-week range). **Price:** billed per result - $0.50 per 1,000 requests base
+        + $1.50 per 1,000 results, capped at $2.00 per 1,000 requests.
 
         Price: $0.0005 per request plus $0.0015 per result.
 

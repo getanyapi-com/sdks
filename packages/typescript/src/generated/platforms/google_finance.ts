@@ -46,7 +46,7 @@ export interface GoogleFinanceQuoteItem {
    */
   changePercent?: number;
   /**
-   * ISO currency the quote is priced in (e.g. USD).
+   * ISO currency the quote is priced in (e.g. USD). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   currency?: string;
@@ -59,7 +59,7 @@ export interface GoogleFinanceQuoteItem {
    */
   dayLow?: number;
   /**
-   * Exchange the instrument trades on (e.g. NasdaqGS).
+   * Exchange the instrument trades on (e.g. NasdaqGS). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   exchange?: string;
@@ -80,7 +80,7 @@ export interface GoogleFinanceQuoteItem {
    */
   marketState?: string;
   /**
-   * Instrument or company name.
+   * Instrument or company name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   name?: string;
@@ -97,7 +97,7 @@ export interface GoogleFinanceQuoteItem {
    */
   price: number;
   /**
-   * Resolved ticker symbol for the quote.
+   * Resolved ticker symbol for the quote. Populated whenever the provider has data for the entity.
    */
   symbol: string;
   /**
@@ -112,7 +112,7 @@ export interface GoogleFinanceQuoteItem {
  */
 export interface GoogleFinanceQuoteData {
   /**
-   * The quote for the requested symbol: name, current price, day change (absolute and percent), quote currency, exchange and market state, plus intraday and reference figures. Up to one element (empty when the symbol did not resolve).
+   * The quote for the requested symbol: name, current price, day change (absolute and percent), quote currency, exchange and market state, plus intraday and reference figures. Up to one element (empty when the symbol did not resolve). Populated whenever the provider has data for the entity.
    */
   items: GoogleFinanceQuoteItem[];
 }
@@ -127,7 +127,9 @@ export class GoogleFinanceNamespace {
   /**
    * Google Finance Quote
    *
-   * Fetch a live quote for any stock, index, ETF, mutual fund, currency pair, or crypto symbol: name, current price, the absolute and percent change on the day, quote currency, exchange and market state, plus intraday and reference figures (open, day high/low, previous close, volume, market cap, and the 52-week range) with transparent per-request USD pricing.
+   * Fetch a live quote for any stock, index, ETF, mutual fund, currency pair, or crypto symbol: name, current price, the absolute and percent change on the day, quote currency, exchange and market state, plus intraday and reference figures (open, day high/low, previous close, volume, market cap, and the 52-week range).
+
+**Price:** billed per result - $0.50 per 1,000 requests base + $1.50 per 1,000 results, capped at $2.00 per 1,000 requests.
    *
    * Price: $0.0005 per request plus $0.0015 per result.
    *

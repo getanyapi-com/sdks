@@ -30,7 +30,7 @@ export interface GlassdoorJobsItem {
    */
   ageInDays?: number;
   /**
-   * Hiring employer name.
+   * Hiring employer name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   company?: string;
@@ -39,7 +39,7 @@ export interface GlassdoorJobsItem {
    */
   description?: string;
   /**
-   * Glassdoor job listing id.
+   * Glassdoor job listing id. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -76,11 +76,11 @@ export interface GlassdoorJobsItem {
     period?: string;
   };
   /**
-   * Job title.
+   * Job title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Absolute Glassdoor job listing URL.
+   * Absolute Glassdoor job listing URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -91,7 +91,7 @@ export interface GlassdoorJobsItem {
  */
 export interface GlassdoorJobsData {
   /**
-   * Job listing records for the search or company page.
+   * Job listing records for the search or company page. Populated whenever the provider has data for the entity.
    */
   items: GlassdoorJobsItem[];
 }
@@ -106,7 +106,9 @@ export class GlassdoorNamespace {
   /**
    * Glassdoor Jobs
    *
-   * Fetch job listings from any Glassdoor company or job search page URL - up to 20 normalized job records per request at a flat USD price.
+   * Fetch job listings from any Glassdoor company or job search page URL - up to 20 normalized job records per request.
+
+**Price:** billed per result - $5.00 per 1,000 requests base + $4.75 per 1,000 results, capped at $100.00 per 1,000 requests.
    *
    * Price: $0.005 per request plus $0.00475 per result.
    *

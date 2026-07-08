@@ -27,11 +27,11 @@ export interface FiverrSearchItem {
    */
   duration?: number;
   /**
-   * Stable Fiverr gig identifier.
+   * Stable Fiverr gig identifier. Populated whenever the provider has data for the entity.
    */
   gigId: string;
   /**
-   * Canonical Fiverr URL for the gig.
+   * Canonical Fiverr URL for the gig. Populated whenever the provider has data for the entity.
    */
   gigUrl: string;
   /**
@@ -71,7 +71,7 @@ export interface FiverrSearchItem {
    */
   sellerUrl?: string;
   /**
-   * Gig headline.
+   * Gig headline. Populated whenever the provider has data for the entity.
    */
   title: string;
   [extra: string]: unknown;
@@ -82,7 +82,7 @@ export interface FiverrSearchItem {
  */
 export interface FiverrSearchData {
   /**
-   * Gig records from the search or category URL. Operators may return additional fields beyond those documented here.
+   * Gig records from the search or category URL. Operators may return additional fields beyond those documented here. Populated whenever the provider has data for the entity.
    */
   items: FiverrSearchItem[];
 }
@@ -97,7 +97,9 @@ export class FiverrNamespace {
   /**
    * Fiverr Gig Search
    *
-   * Extract Fiverr gig listings from any search or category URL - titles, sellers, ratings, and pricing as structured JSON with transparent per-request USD pricing.
+   * Extract Fiverr gig listings from any search or category URL - titles, sellers, ratings, and pricing as structured JSON.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $1.50 per 1,000 results, capped at $30.00 per 1,000 requests.
    *
    * Price: $0.0015 per result.
    *

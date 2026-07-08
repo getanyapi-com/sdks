@@ -24,7 +24,7 @@ class SnapchatProfileInput(TypedDict, total=False):
 
 class SnapchatProfileData(BaseModel):
     items: list[SnapchatProfileItem] = Field(
-        description="Profile record for the requested Snapchat username (one item)."
+        description="Profile record for the requested Snapchat username (one item). Populated whenever the provider has data for the entity."
     )
 
 
@@ -40,9 +40,12 @@ class SnapchatProfileItem(BaseModel):
         description='The profile\'s category (e.g. "Government Org"). Empty when the upstream omits it.',
     )
     display_name: str = Field(
-        alias="displayName", description="The profile's public display name."
+        alias="displayName",
+        description="The profile's public display name. Populated whenever the provider has data for the entity.",
     )
-    handle: str = Field(description="The profile's Snapchat username (add-me handle).")
+    handle: str = Field(
+        description="The profile's Snapchat username (add-me handle). Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(
         default=None,
         description="URL of the profile avatar image, with tracking query params stripped. Empty when the upstream omits it.",
@@ -54,7 +57,7 @@ class SnapchatProfileItem(BaseModel):
         default=None, description="Public subscriber count."
     )
     url: str = Field(
-        description="Canonical public profile URL, with tracking query params stripped."
+        description="Canonical public profile URL, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
     website: str | None = Field(
         default=None,
@@ -93,8 +96,9 @@ class SnapchatNamespace:
         """Snapchat Profile
 
         Fetch a Snapchat user's public profile by username - display name, bio,
-        subscriber count, and recent public content - with transparent per-request
-        USD pricing.
+        subscriber count, and recent public content. **Price:** billed per result -
+        $1.00 per 1,000 requests base + $2.00 per 1,000 results, capped at $3.00 per
+        1,000 requests.
 
         Price: $0.001 per request plus $0.002 per result.
 
@@ -122,8 +126,9 @@ class AsyncSnapchatNamespace:
         """Snapchat Profile
 
         Fetch a Snapchat user's public profile by username - display name, bio,
-        subscriber count, and recent public content - with transparent per-request
-        USD pricing.
+        subscriber count, and recent public content. **Price:** billed per result -
+        $1.00 per 1,000 requests base + $2.00 per 1,000 results, capped at $3.00 per
+        1,000 requests.
 
         Price: $0.001 per request plus $0.002 per result.
 

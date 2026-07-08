@@ -39,7 +39,7 @@ export interface YelpSearchItem {
    */
   address3?: string;
   /**
-   * URL slug for the business.
+   * URL slug for the business. Populated whenever the provider has data for the entity.
    */
   alias: string;
   /**
@@ -63,7 +63,7 @@ export interface YelpSearchItem {
    */
   dialable_phone?: string;
   /**
-   * Stable Yelp business identifier.
+   * Stable Yelp business identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -87,7 +87,7 @@ export interface YelpSearchItem {
    */
   longitude?: number;
   /**
-   * Business display name.
+   * Business display name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
@@ -103,7 +103,7 @@ export interface YelpSearchItem {
    */
   photo_count?: number;
   /**
-   * Primary photo URL.
+   * Primary photo URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   photo_url?: string;
@@ -139,7 +139,7 @@ export interface YelpSearchCategorie {
  */
 export interface YelpSearchData {
   /**
-   * Business listing records: name, categories, rating, review count, address, and core business info.
+   * Business listing records: name, categories, rating, review count, address, and core business info. Populated whenever the provider has data for the entity.
    */
   items: YelpSearchItem[];
 }
@@ -154,7 +154,9 @@ export class YelpNamespace {
   /**
    * Yelp Search
    *
-   * Search Yelp for businesses by keyword and location: up to 20 listings with ratings, categories, and core business info per flat-priced request.
+   * Search Yelp for businesses by keyword and location: up to 20 listings with ratings, categories, and core business info per request.
+
+**Price:** billed per result - $40.00 per 1,000 requests base + $0.75 per 1,000 results, capped at $55.00 per 1,000 requests.
    *
    * Price: $0.04 per request plus $0.00075 per result.
    *

@@ -22,18 +22,39 @@ export interface TiktokAdLibraryAdInput {
  * The `data` payload of TikTok Ad Library Ad (tiktok.ad_library_ad).
  */
 export interface TiktokAdLibraryAdData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   adId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   adTitle: string;
   brandName: string;
   comments: number;
   cost: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   coverUrl: string;
   ctr: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   industry: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   landingPage: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   objective: string;
   shares: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videoUrl: string;
   [extra: string]: unknown;
 }
@@ -69,15 +90,33 @@ export interface TiktokAdLibrarySearchInput {
 }
 
 export interface TiktokAdLibrarySearchAd {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   adId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   adTitle: string;
   brandName: string;
   cost: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   coverUrl: string;
   ctr: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   industry: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   objective: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videoUrl: string;
   [extra: string]: unknown;
 }
@@ -86,6 +125,9 @@ export interface TiktokAdLibrarySearchAd {
  * The `data` payload of TikTok Ad Library Search (tiktok.ad_library_search).
  */
 export interface TiktokAdLibrarySearchData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   ads: TiktokAdLibrarySearchAd[];
   hasMore: boolean;
   nextCursor: string;
@@ -104,8 +146,17 @@ export interface TiktokAudienceDemographicsInput {
 
 export interface TiktokAudienceDemographicsAudienceLocation {
   count: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   country: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   countryCode: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   percentage: string;
   [extra: string]: unknown;
 }
@@ -136,13 +187,22 @@ export interface TiktokCommentRepliesInput {
 }
 
 export interface TiktokCommentRepliesComment {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   author: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -173,9 +233,21 @@ export interface TiktokFollowersFollower {
   avatarUrl: string;
   followerCount: number;
   followingCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   nickname: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   region: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   userId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   username: string;
   [extra: string]: unknown;
 }
@@ -205,10 +277,22 @@ export interface TiktokFollowingInput {
 
 export interface TiktokFollowingFollowing {
   bio: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayName: string;
   followers: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   region: string;
   videos: number;
   [extra: string]: unknown;
@@ -250,7 +334,7 @@ export interface TiktokHashtagVideosItem {
    */
   createdUtc: number;
   /**
-   * The video's numeric TikTok ID, as a string.
+   * The video's numeric TikTok ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -274,7 +358,7 @@ export interface TiktokHashtagVideosItem {
    */
   text?: string;
   /**
-   * Canonical tiktok.com URL of the video, with tracking query params stripped.
+   * Canonical tiktok.com URL of the video, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -285,7 +369,7 @@ export interface TiktokHashtagVideosItem {
  */
 export interface TiktokHashtagVideosData {
   /**
-   * Recent TikTok video records for the hashtag.
+   * Recent TikTok video records for the hashtag. Populated whenever the provider has data for the entity.
    */
   items: TiktokHashtagVideosItem[];
 }
@@ -304,13 +388,28 @@ export interface TiktokLiveInput {
  * The `data` payload of TikTok Live (tiktok.live).
  */
 export interface TiktokLiveData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   coverUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayName: string;
   enterCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   roomId: string;
   startTime: number;
   status: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   viewers: number;
   [extra: string]: unknown;
@@ -330,11 +429,23 @@ export interface TiktokProfileInput {
  * The `data` payload of TikTok Profile (tiktok.profile).
  */
 export interface TiktokProfileData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   bio: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayName: string;
   followers: number;
   following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
   likes: number;
   verified: boolean;
@@ -356,8 +467,17 @@ export interface TiktokProfileRegionInput {
  * The `data` payload of TikTok Profile Region (tiktok.profile_region).
  */
 export interface TiktokProfileRegionData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   profileUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   region: string;
   [extra: string]: unknown;
 }
@@ -377,14 +497,23 @@ export interface TiktokProfileVideosInput {
 }
 
 export interface TiktokProfileVideosVideo {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   caption: string;
   comments: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -413,13 +542,22 @@ export interface TiktokSearchHashtagInput {
 }
 
 export interface TiktokSearchHashtagVideo {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   author: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   caption: string;
   comments: number;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
   shares: number;
@@ -431,6 +569,9 @@ export interface TiktokSearchHashtagVideo {
  * The `data` payload of TikTok Hashtag Search (tiktok.search_hashtag).
  */
 export interface TiktokSearchHashtagData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videos: TiktokSearchHashtagVideo[];
 }
 
@@ -457,8 +598,14 @@ export interface TiktokSearchKeywordInput {
 }
 
 export interface TiktokSearchKeywordVideo {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   caption: string;
   comments: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
   region: string;
@@ -471,6 +618,9 @@ export interface TiktokSearchKeywordVideo {
  * The `data` payload of TikTok Keyword Search (tiktok.search_keyword).
  */
 export interface TiktokSearchKeywordData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videos: TiktokSearchKeywordVideo[];
 }
 
@@ -501,13 +651,25 @@ export interface TiktokSearchTopInput {
 }
 
 export interface TiktokSearchTopItem {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   author: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   caption: string;
   comments: number;
   contentType: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
   shares: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -517,6 +679,9 @@ export interface TiktokSearchTopItem {
  * The `data` payload of TikTok Top Search (tiktok.search_top).
  */
 export interface TiktokSearchTopData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   items: TiktokSearchTopItem[];
   nextCursor: string;
 }
@@ -538,8 +703,17 @@ export interface TiktokSearchUsersInput {
 export interface TiktokSearchUsersUser {
   followers: number;
   following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   nickname: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   userId: string;
   [extra: string]: unknown;
 }
@@ -549,6 +723,9 @@ export interface TiktokSearchUsersUser {
  */
 export interface TiktokSearchUsersData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   users: TiktokSearchUsersUser[];
 }
 
@@ -566,13 +743,34 @@ export interface TiktokSongInput {
  * The `data` payload of TikTok Song (tiktok.song).
  */
 export interface TiktokSongData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   album: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   author: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   coverUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   duration: number;
   isOriginal: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   shareUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   songId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   videoCount: number;
   [extra: string]: unknown;
@@ -593,7 +791,13 @@ export interface TiktokSongVideosInput {
 }
 
 export interface TiktokSongVideosVideo {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   authorHandle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   authorName: string;
   commentCount: number;
   createTime: number;
@@ -601,6 +805,9 @@ export interface TiktokSongVideosVideo {
   likeCount: number;
   playCount: number;
   shareCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videoId: string;
   [extra: string]: unknown;
 }
@@ -611,6 +818,9 @@ export interface TiktokSongVideosVideo {
 export interface TiktokSongVideosData {
   hasMore: number;
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videos: TiktokSongVideosVideo[];
 }
 
@@ -629,17 +839,29 @@ export interface TiktokTrendingFeedInput {
 }
 
 export interface TiktokTrendingFeedVideo {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   author: string;
   caption: string;
   comments: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   region: string;
   shares: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -649,6 +871,9 @@ export interface TiktokTrendingFeedVideo {
  * The `data` payload of TikTok Trending Feed (tiktok.trending_feed).
  */
 export interface TiktokTrendingFeedData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videos: TiktokTrendingFeedVideo[];
 }
 
@@ -666,8 +891,14 @@ export interface TiktokVideoInput {
  * The `data` payload of TikTok Video (tiktok.video).
  */
 export interface TiktokVideoData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   caption: string;
   comments: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
   region: string;
@@ -692,14 +923,23 @@ export interface TiktokVideoCommentsInput {
 }
 
 export interface TiktokVideoCommentsComment {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   author: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
   replies: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -727,6 +967,9 @@ export interface TiktokVideoTranscriptInput {
  */
 export interface TiktokVideoTranscriptData {
   language: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   transcript: string;
   [extra: string]: unknown;
 }
@@ -742,6 +985,8 @@ export class TiktokNamespace {
    * TikTok Ad Library Ad
    *
    * Fetch full details for a single TikTok ad - brand, title, spend, CTR, objectives, landing page, and video info - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -759,6 +1004,8 @@ export class TiktokNamespace {
    * TikTok Ad Library Search
    *
    * Search TikTok's ad library by keyword - top ads with brand, title, spend, CTR, likes, and video info - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -799,6 +1046,8 @@ export class TiktokNamespace {
    * TikTok Audience Demographics
    *
    * Get the audience country breakdown (follower count and share per country) for a TikTok creator by handle, normalized across providers.
+
+**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *
@@ -816,6 +1065,8 @@ export class TiktokNamespace {
    * TikTok Comment Replies
    *
    * List the replies to a TikTok comment with cursor pagination (text, author, likes), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -858,7 +1109,9 @@ export class TiktokNamespace {
   /**
    * TikTok Followers
    *
-   * List the followers of a TikTok account by username, returning each follower's profile basics, with transparent per-request USD pricing.
+   * List the followers of a TikTok account by username, returning each follower's profile basics.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -896,6 +1149,8 @@ export class TiktokNamespace {
    * TikTok Following
    *
    * List the accounts a TikTok user follows (handle, display name, follower count, bio) by username, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -912,7 +1167,9 @@ export class TiktokNamespace {
   /**
    * TikTok Hashtag Videos
    *
-   * List recent TikTok videos for a hashtag (creator, caption, views, likes, shares), normalized output with transparent per-request USD pricing.
+   * List recent TikTok videos for a hashtag (creator, caption, views, likes, shares), normalized output.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -930,6 +1187,8 @@ export class TiktokNamespace {
    * TikTok Live
    *
    * Check whether a TikTok creator is live and get the current live room (title, viewers, start time) by handle, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -947,6 +1206,8 @@ export class TiktokNamespace {
    * TikTok Profile
    *
    * Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle, normalized across providers with transparent failover.
+
+**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -964,6 +1225,8 @@ export class TiktokNamespace {
    * TikTok Profile Region
    *
    * Resolve the home region (country) of a TikTok creator by handle, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -981,6 +1244,8 @@ export class TiktokNamespace {
    * TikTok Profile Videos
    *
    * List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination, normalized across providers.
+
+**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -1021,6 +1286,8 @@ export class TiktokNamespace {
    * TikTok Hashtag Search
    *
    * Search TikTok by hashtag and get matching videos (caption, views, likes, comments, shares) as normalized JSON, across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1038,6 +1305,8 @@ export class TiktokNamespace {
    * TikTok Keyword Search
    *
    * Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON, across providers with transparent failover.
+
+**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -1055,6 +1324,8 @@ export class TiktokNamespace {
    * TikTok Top Search
    *
    * Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1092,6 +1363,8 @@ export class TiktokNamespace {
    * TikTok User Search
    *
    * Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination, normalized across providers.
+
+**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -1129,6 +1402,8 @@ export class TiktokNamespace {
    * TikTok Song
    *
    * Fetch details for a TikTok song or sound - title, author, duration, cover art, and how many videos use it - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1146,6 +1421,8 @@ export class TiktokNamespace {
    * TikTok Song Videos
    *
    * List TikTok videos that use a given song or sound - with descriptions, authors, and engagement stats - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1183,6 +1460,8 @@ export class TiktokNamespace {
    * TikTok Trending Feed
    *
    * Get TikTok's trending feed for a region (caption, views, likes, comments, author) as normalized JSON, across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1200,6 +1479,8 @@ export class TiktokNamespace {
    * TikTok Video
    *
    * Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves), normalized across providers with transparent failover.
+
+**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -1217,6 +1498,8 @@ export class TiktokNamespace {
    * TikTok Video Comments
    *
    * List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1257,6 +1540,8 @@ export class TiktokNamespace {
    * TikTok Video Transcript
    *
    * Fetch the spoken-word transcript of a TikTok video by URL, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

@@ -26,15 +26,33 @@ export interface TiktokShopProductInput {
  * The `data` payload of TikTok Shop Product (tiktok_shop.product).
  */
 export interface TiktokShopProductData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   currency: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   originalPrice: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   price: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   productId: string;
   rating: number;
   reviewCount: number;
   sellerLocation: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   sellerName: string;
   soldCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   [extra: string]: unknown;
 }
@@ -65,11 +83,11 @@ export interface TiktokShopProductReviewsReview {
    */
   country: string;
   /**
-   * Review time as epoch milliseconds.
+   * Review time as epoch milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Review identifier.
+   * Review identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -77,15 +95,15 @@ export interface TiktokShopProductReviewsReview {
    */
   rating: number;
   /**
-   * Display name of the reviewer.
+   * Display name of the reviewer. Populated whenever the provider has data for the entity.
    */
   reviewerName: string;
   /**
-   * Variant bought, e.g. "Color: Black".
+   * Variant bought, e.g. "Color: Black". Populated whenever the provider has data for the entity.
    */
   sku: string;
   /**
-   * Review text content.
+   * Review text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
@@ -108,7 +126,7 @@ export interface TiktokShopProductReviewsData {
    */
   rating: number;
   /**
-   * Product reviews.
+   * Product reviews. Populated whenever the provider has data for the entity.
    */
   reviews: TiktokShopProductReviewsReview[];
   /**
@@ -167,7 +185,7 @@ export interface TiktokShopSearchItem {
    */
   price?: number;
   /**
-   * TikTok Shop product id.
+   * TikTok Shop product id. Populated whenever the provider has data for the entity.
    */
   productId: string;
   /**
@@ -183,11 +201,11 @@ export interface TiktokShopSearchItem {
    */
   soldCount?: number;
   /**
-   * Product title.
+   * Product title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Canonical product detail page URL.
+   * Canonical product detail page URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   url?: string;
@@ -199,7 +217,7 @@ export interface TiktokShopSearchItem {
  */
 export interface TiktokShopSearchData {
   /**
-   * Product records matching the search query: id, title, price, sales count, rating, seller, and product URL.
+   * Product records matching the search query: id, title, price, sales count, rating, seller, and product URL. Populated whenever the provider has data for the entity.
    */
   items: TiktokShopSearchItem[];
 }
@@ -232,11 +250,20 @@ export interface TiktokShopShopProductsProduct {
   currency: string;
   originalPrice: number;
   price: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   productId: string;
   rating: number;
   reviewCount: number;
   soldCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -248,7 +275,13 @@ export interface TiktokShopShopProductsData {
   hasMore: boolean;
   nextCursor: string;
   productCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   products: TiktokShopShopProductsProduct[];
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   shopName: string;
   shopRating: number;
   soldCount: number;
@@ -274,14 +307,26 @@ export interface TiktokShopUserShowcaseInput {
 
 export interface TiktokShopUserShowcaseProduct {
   currency: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   imageUrl: string;
   originalPrice: string;
   price: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   productId: string;
   rating: number;
   reviewCount: number;
   soldCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -291,6 +336,9 @@ export interface TiktokShopUserShowcaseProduct {
  */
 export interface TiktokShopUserShowcaseData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   products: TiktokShopUserShowcaseProduct[];
 }
 
@@ -304,7 +352,9 @@ export class TiktokShopNamespace {
   /**
    * TikTok Shop Product
    *
-   * Fetch TikTok Shop product details - title, price, sales, seller, and ratings - from a product URL, with transparent per-request USD pricing.
+   * Fetch TikTok Shop product details - title, price, sales, seller, and ratings - from a product URL.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -322,6 +372,8 @@ export class TiktokShopNamespace {
    * TikTok Shop Product Reviews
    *
    * Fetch customer reviews for a TikTok Shop product by URL - rating, text, reviewer, country, and verified-purchase flag - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -339,6 +391,8 @@ export class TiktokShopNamespace {
    * TikTok Shop Search
    *
    * Search TikTok Shop products by keyword across 15 countries: price, sales, rating, and seller info per product, in one normalized response.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -356,6 +410,8 @@ export class TiktokShopNamespace {
    * TikTok Shop Store Products
    *
    * List every product of a TikTok Shop store by URL - title, price, sales, and rating per product plus shop-level stats - with cursor pagination and transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -399,6 +455,8 @@ export class TiktokShopNamespace {
    * TikTok Shop User Showcase
    *
    * List the TikTok Shop products a creator showcases - title, price, rating, and sales per product - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

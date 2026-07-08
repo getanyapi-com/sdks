@@ -35,12 +35,12 @@ export interface SemrushKeywordsItem {
    */
   database?: string;
   /**
-   * Search-intent labels for the keyword (e.g. commercial, informational).
+   * Search-intent labels for the keyword (e.g. commercial, informational). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   intents?: string[];
   /**
-   * The researched search term.
+   * The researched search term. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
@@ -52,7 +52,7 @@ export interface SemrushKeywordsItem {
    */
   organicResultsCount?: number;
   /**
-   * Question-phrased keyword variations with their own volume and difficulty.
+   * Question-phrased keyword variations with their own volume and difficulty. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   questions?: SemrushKeywordsQuestion[];
@@ -61,7 +61,7 @@ export interface SemrushKeywordsItem {
    */
   referringDomainsMedian?: number;
   /**
-   * Related keyword suggestions with their own volume and difficulty.
+   * Related keyword suggestions with their own volume and difficulty. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   relatedKeywords?: SemrushKeywordsRelatedKeyword[];
@@ -109,7 +109,7 @@ export interface SemrushKeywordsRelatedKeyword {
  */
 export interface SemrushKeywordsData {
   /**
-   * Keyword-research records: search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords for the researched term.
+   * Keyword-research records: search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords for the researched term. Populated whenever the provider has data for the entity.
    */
   items: SemrushKeywordsItem[];
 }
@@ -152,7 +152,7 @@ export interface SemrushOverviewItem {
    */
   database?: string;
   /**
-   * The analyzed domain.
+   * The analyzed domain. Populated whenever the provider has data for the entity.
    */
   domain: string;
   /**
@@ -208,7 +208,7 @@ export interface SemrushOverviewItem {
    */
   topCountryTraffic?: number;
   /**
-   * The domain's top organic keywords with position, volume, and value.
+   * The domain's top organic keywords with position, volume, and value. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   topKeywords?: SemrushOverviewTopKeyword[];
@@ -260,7 +260,7 @@ export interface SemrushOverviewTopKeyword {
  */
 export interface SemrushOverviewData {
   /**
-   * Domain overview records: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.
+   * Domain overview records: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords. Populated whenever the provider has data for the entity.
    */
   items: SemrushOverviewItem[];
 }
@@ -275,7 +275,9 @@ export class SemrushNamespace {
   /**
    * Semrush Keyword Research
    *
-   * Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords. Transparent per-request USD pricing.
+   * Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
    *
    * Price: $0.015 per result.
    *
@@ -292,7 +294,9 @@ export class SemrushNamespace {
   /**
    * Semrush Domain Overview
    *
-   * a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords. Transparent per-request USD pricing.
+   * a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
    *
    * Price: $0.015 per result.
    *

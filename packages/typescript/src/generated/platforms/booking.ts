@@ -43,12 +43,12 @@ export interface BookingSearchItem {
   country?: string;
   currency?: string;
   /**
-   * Booking.com hotel identifier.
+   * Booking.com hotel identifier. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   id?: string;
   /**
-   * Primary hotel photo URL.
+   * Primary hotel photo URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -58,6 +58,9 @@ export interface BookingSearchItem {
    */
   location?: string;
   longitude?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   /**
    * Total stay price in the requested currency.
@@ -77,6 +80,9 @@ export interface BookingSearchItem {
    * Star rating class (1-5).
    */
   stars?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -86,7 +92,7 @@ export interface BookingSearchItem {
  */
 export interface BookingSearchData {
   /**
-   * Hotel result records: name, price, review score, star rating, address, and location.
+   * Hotel result records: name, price, review score, star rating, address, and location. Populated whenever the provider has data for the entity.
    */
   items: BookingSearchItem[];
 }
@@ -101,7 +107,9 @@ export class BookingNamespace {
   /**
    * Booking.com Search
    *
-   * Search Booking.com stays by destination and dates and get hotel results (name, price, review score, location) as normalized JSON with flat per-request USD pricing.
+   * Search Booking.com stays by destination and dates and get hotel results (name, price, review score, location) as normalized JSON.
+
+**Price:** billed per result - $2.00 per 1,000 requests base + $4.50 per 1,000 results, capped at $92.00 per 1,000 requests.
    *
    * Price: $0.002 per request plus $0.0045 per result.
    *

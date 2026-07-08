@@ -34,15 +34,16 @@ export interface SeoCompetitorsDomainInput {
 
 export interface SeoCompetitorsDomainCompetitor {
   /**
-   * Average ranking position across shared keywords.
+   * Average ranking position across shared keywords. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   avgPosition?: number;
   /**
-   * Competing domain.
+   * Competing domain. Populated whenever the provider has data for the entity.
    */
   domain: string;
   /**
-   * Number of keywords shared with the target domain.
+   * Number of keywords shared with the target domain. Populated whenever the provider has data for the entity.
    */
   intersections: number;
   /**
@@ -54,7 +55,8 @@ export interface SeoCompetitorsDomainCompetitor {
    */
   organicKeywords?: number;
   /**
-   * Sum of ranking positions across shared keywords.
+   * Sum of ranking positions across shared keywords. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   sumPosition?: number;
   [extra: string]: unknown;
@@ -65,7 +67,7 @@ export interface SeoCompetitorsDomainCompetitor {
  */
 export interface SeoCompetitorsDomainData {
   /**
-   * SEO competitor domain records.
+   * SEO competitor domain records. Populated whenever the provider has data for the entity.
    */
   competitors: SeoCompetitorsDomainCompetitor[];
 }
@@ -106,7 +108,7 @@ export interface SeoDomainIntersectionKeyword {
    */
   cpc?: number;
   /**
-   * Absolute organic ranking position for the first domain.
+   * Absolute organic ranking position for the first domain. Populated whenever the provider has data for the entity.
    */
   firstRank: number;
   /**
@@ -114,7 +116,7 @@ export interface SeoDomainIntersectionKeyword {
    */
   firstUrl?: string;
   /**
-   * Keyword phrase both domains rank for.
+   * Keyword phrase both domains rank for. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
@@ -126,7 +128,7 @@ export interface SeoDomainIntersectionKeyword {
    */
   searchVolume?: number;
   /**
-   * Absolute organic ranking position for the second domain.
+   * Absolute organic ranking position for the second domain. Populated whenever the provider has data for the entity.
    */
   secondRank: number;
   /**
@@ -145,7 +147,7 @@ export interface SeoDomainIntersectionKeyword {
  */
 export interface SeoDomainIntersectionData {
   /**
-   * SEO keyword records both domains rank for.
+   * SEO keyword records both domains rank for. Populated whenever the provider has data for the entity.
    */
   keywords: SeoDomainIntersectionKeyword[];
 }
@@ -175,7 +177,7 @@ export interface SeoDomainRankOverviewInput {
  */
 export interface SeoDomainRankOverviewData {
   /**
-   * Analyzed domain.
+   * Analyzed domain. Populated whenever the provider has data for the entity.
    */
   domain: string;
   /**
@@ -187,27 +189,33 @@ export interface SeoDomainRankOverviewData {
    */
   location?: number;
   /**
-   * Number of organic search results where the domain appears.
+   * Number of organic search results where the domain appears. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   organicKeywords?: number;
   /**
-   * Number of organic search results where the domain ranks first.
+   * Number of organic search results where the domain ranks first. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   organicPos1?: number;
   /**
-   * Number of organic search results where the domain ranks second or third.
+   * Number of organic search results where the domain ranks second or third. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   organicPos2To3?: number;
   /**
-   * Number of organic search results where the domain ranks fourth through tenth.
+   * Number of organic search results where the domain ranks fourth through tenth. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   organicPos4To10?: number;
   /**
-   * Estimated monthly organic search traffic.
+   * Estimated monthly organic search traffic. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   organicTraffic?: number;
   /**
-   * Estimated USD value of the organic search traffic.
+   * Estimated USD value of the organic search traffic. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   organicTrafficCostUsd?: number;
   /**
@@ -259,11 +267,12 @@ export interface SeoKeywordDifficultyInput {
 
 export interface SeoKeywordDifficultyDifficultie {
   /**
-   * Keyword phrase.
+   * Keyword phrase. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
-   * Estimated organic ranking difficulty on a 0-100 scale. Unknown keywords may return 0.
+   * Estimated organic ranking difficulty on a 0-100 scale. Omitted when the upstream has no difficulty for the keyword. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   keywordDifficulty?: number;
   [extra: string]: unknown;
@@ -274,7 +283,7 @@ export interface SeoKeywordDifficultyDifficultie {
  */
 export interface SeoKeywordDifficultyData {
   /**
-   * SEO keyword difficulty records.
+   * SEO keyword difficulty records. Populated whenever the provider has data for the entity.
    */
   difficulties: SeoKeywordDifficultyDifficultie[];
 }
@@ -307,27 +316,32 @@ export interface SeoKeywordIdeasInput {
 
 export interface SeoKeywordIdeasIdea {
   /**
-   * Paid-search competition level for the keyword idea.
+   * Paid-search competition level for the keyword idea. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   competition?: string;
   /**
-   * Average paid-search cost per click in USD.
+   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   cpc?: number;
   /**
-   * Keyword idea phrase.
+   * Keyword idea phrase. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
-   * Estimated organic ranking difficulty on a 0-100 scale.
+   * Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   keywordDifficulty?: number;
   /**
-   * Primary SEO search intent for the keyword idea.
+   * Primary SEO search intent for the keyword idea. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   searchIntent?: string;
   /**
-   * Average monthly search volume for the keyword idea.
+   * Average monthly search volume for the keyword idea. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   searchVolume?: number;
   /**
@@ -342,7 +356,7 @@ export interface SeoKeywordIdeasIdea {
  */
 export interface SeoKeywordIdeasData {
   /**
-   * SEO keyword idea records.
+   * SEO keyword idea records. Populated whenever the provider has data for the entity.
    */
   ideas: SeoKeywordIdeasIdea[];
 }
@@ -377,19 +391,22 @@ export interface SeoKeywordOverviewKeyword {
    */
   bidLow?: number;
   /**
-   * Paid-search competition level for the keyword.
+   * Paid-search competition level for the keyword. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   competition?: string;
   /**
-   * Average paid-search cost per click in USD.
+   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   cpc?: number;
   /**
-   * Keyword phrase.
+   * Keyword phrase. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
-   * Estimated organic ranking difficulty on a 0-100 scale.
+   * Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   keywordDifficulty?: number;
   /**
@@ -397,11 +414,12 @@ export interface SeoKeywordOverviewKeyword {
    */
   monthlySearches?: SeoKeywordOverviewMonthlySearche[];
   /**
-   * Primary SEO search intent for the keyword.
+   * Primary SEO search intent for the keyword. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   searchIntent?: string;
   /**
-   * Average monthly search volume for the keyword.
+   * Average monthly search volume for the keyword. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   searchVolume?: number;
@@ -433,7 +451,7 @@ export interface SeoKeywordOverviewMonthlySearche {
  */
 export interface SeoKeywordOverviewData {
   /**
-   * SEO keyword metric records.
+   * SEO keyword metric records. Populated whenever the provider has data for the entity.
    */
   keywords: SeoKeywordOverviewKeyword[];
 }
@@ -466,27 +484,32 @@ export interface SeoKeywordSuggestionsInput {
 
 export interface SeoKeywordSuggestionsSuggestion {
   /**
-   * Paid-search competition level for the keyword suggestion.
+   * Paid-search competition level for the keyword suggestion. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   competition?: string;
   /**
-   * Average paid-search cost per click in USD.
+   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   cpc?: number;
   /**
-   * Keyword suggestion phrase.
+   * Keyword suggestion phrase. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
-   * Estimated organic ranking difficulty on a 0-100 scale.
+   * Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   keywordDifficulty?: number;
   /**
-   * Primary SEO search intent for the keyword suggestion.
+   * Primary SEO search intent for the keyword suggestion. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   searchIntent?: string;
   /**
-   * Average monthly search volume for the keyword suggestion.
+   * Average monthly search volume for the keyword suggestion. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   searchVolume?: number;
   /**
@@ -501,7 +524,7 @@ export interface SeoKeywordSuggestionsSuggestion {
  */
 export interface SeoKeywordSuggestionsData {
   /**
-   * SEO keyword suggestion records.
+   * SEO keyword suggestion records. Populated whenever the provider has data for the entity.
    */
   suggestions: SeoKeywordSuggestionsSuggestion[];
 }
@@ -533,7 +556,8 @@ export interface SeoLocalPackInput {
 
 export interface SeoLocalPackPlace {
   /**
-   * Full formatted street address.
+   * Full formatted street address. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   address?: string;
   /**
@@ -553,7 +577,7 @@ export interface SeoLocalPackPlace {
    */
   longitude?: number;
   /**
-   * Place name.
+   * Place name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
@@ -565,11 +589,12 @@ export interface SeoLocalPackPlace {
    */
   placeId?: string;
   /**
-   * Absolute ranking position in the local pack results.
+   * Absolute ranking position in the local pack results. Populated whenever the provider has data for the entity.
    */
   rankAbsolute: number;
   /**
-   * Average star rating out of 5.
+   * Average star rating out of 5. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   rating?: number;
   /**
@@ -588,7 +613,7 @@ export interface SeoLocalPackPlace {
  */
 export interface SeoLocalPackData {
   /**
-   * SEO local pack place records.
+   * SEO local pack place records. Populated whenever the provider has data for the entity.
    */
   places: SeoLocalPackPlace[];
 }
@@ -629,7 +654,7 @@ export interface SeoRankedKeywordsRankedKeyword {
    */
   etv?: number;
   /**
-   * Keyword phrase the domain ranks for.
+   * Keyword phrase the domain ranks for. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
@@ -637,11 +662,12 @@ export interface SeoRankedKeywordsRankedKeyword {
    */
   keywordDifficulty?: number;
   /**
-   * Absolute organic ranking position for the keyword.
+   * Absolute organic ranking position for the keyword. Populated whenever the provider has data for the entity.
    */
   rankAbsolute: number;
   /**
-   * Grouped organic ranking position for the keyword.
+   * Grouped organic ranking position for the keyword. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   rankGroup?: number;
   /**
@@ -649,7 +675,8 @@ export interface SeoRankedKeywordsRankedKeyword {
    */
   searchIntent?: string;
   /**
-   * Average monthly search volume for the keyword.
+   * Average monthly search volume for the keyword. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   searchVolume?: number;
   /**
@@ -668,7 +695,7 @@ export interface SeoRankedKeywordsRankedKeyword {
  */
 export interface SeoRankedKeywordsData {
   /**
-   * SEO ranked keyword records for the domain.
+   * SEO ranked keyword records for the domain. Populated whenever the provider has data for the entity.
    */
   rankedKeywords: SeoRankedKeywordsRankedKeyword[];
 }
@@ -701,32 +728,37 @@ export interface SeoRelatedKeywordsInput {
 
 export interface SeoRelatedKeywordsRelatedKeyword {
   /**
-   * Paid-search competition level for the related keyword.
+   * Paid-search competition level for the related keyword. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   competition?: string;
   /**
-   * Average paid-search cost per click in USD.
+   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   cpc?: number;
   /**
-   * Related-keyword graph depth from the seed keyword.
+   * Related-keyword graph depth from the seed keyword. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   depth?: number;
   /**
-   * Related keyword phrase.
+   * Related keyword phrase. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
-   * Estimated organic ranking difficulty on a 0-100 scale.
+   * Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   keywordDifficulty?: number;
   /**
-   * Primary SEO search intent for the related keyword.
+   * Primary SEO search intent for the related keyword. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   searchIntent?: string;
   /**
-   * Average monthly search volume for the related keyword.
+   * Average monthly search volume for the related keyword. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   searchVolume?: number;
   /**
@@ -741,7 +773,7 @@ export interface SeoRelatedKeywordsRelatedKeyword {
  */
 export interface SeoRelatedKeywordsData {
   /**
-   * SEO related keyword records.
+   * SEO related keyword records. Populated whenever the provider has data for the entity.
    */
   relatedKeywords: SeoRelatedKeywordsRelatedKeyword[];
 }
@@ -763,11 +795,11 @@ export interface SeoSearchIntentInput {
 
 export interface SeoSearchIntentIntent {
   /**
-   * Primary SEO search intent for the keyword.
+   * Primary SEO search intent for the keyword. Populated whenever the provider has data for the entity.
    */
   intent: string;
   /**
-   * Keyword phrase.
+   * Keyword phrase. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   [extra: string]: unknown;
@@ -778,7 +810,7 @@ export interface SeoSearchIntentIntent {
  */
 export interface SeoSearchIntentData {
   /**
-   * SEO keyword search intent records.
+   * SEO keyword search intent records. Populated whenever the provider has data for the entity.
    */
   intents: SeoSearchIntentIntent[];
 }
@@ -813,7 +845,8 @@ export interface SeoSearchVolumeKeyword {
    */
   bidLow?: number;
   /**
-   * Paid-search competition level for the keyword.
+   * Paid-search competition level for the keyword. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   competition?: string;
   /**
@@ -821,11 +854,12 @@ export interface SeoSearchVolumeKeyword {
    */
   competitionIndex?: number;
   /**
-   * Average paid-search cost per click in USD.
+   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   cpc?: number;
   /**
-   * Keyword phrase.
+   * Keyword phrase. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
@@ -833,7 +867,7 @@ export interface SeoSearchVolumeKeyword {
    */
   monthlySearches?: SeoSearchVolumeMonthlySearche[];
   /**
-   * Average monthly search volume for the keyword.
+   * Average monthly search volume for the keyword. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   searchVolume?: number;
@@ -861,7 +895,7 @@ export interface SeoSearchVolumeMonthlySearche {
  */
 export interface SeoSearchVolumeData {
   /**
-   * SEO keyword search-volume records.
+   * SEO keyword search-volume records. Populated whenever the provider has data for the entity.
    */
   keywords: SeoSearchVolumeKeyword[];
 }
@@ -876,7 +910,9 @@ export class SeoNamespace {
   /**
    * SEO Competitor Domains
    *
-   * Get AnyAPI SEO competitor domains for a target domain with shared keyword counts and organic metrics as normalized JSON with USD pricing.
+   * Get AnyAPI SEO competitor domains for a target domain with shared keyword counts and organic metrics as normalized JSON.
+
+**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
@@ -893,7 +929,9 @@ export class SeoNamespace {
   /**
    * SEO Domain Intersection
    *
-   * Get AnyAPI SEO keyword overlap for two domains with each domain's rankings, URLs, volume, CPC, and difficulty as normalized JSON with USD pricing.
+   * Get AnyAPI SEO keyword overlap for two domains with each domain's rankings, URLs, volume, CPC, and difficulty as normalized JSON.
+
+**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
@@ -910,7 +948,9 @@ export class SeoNamespace {
   /**
    * SEO Domain Rank Overview
    *
-   * Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as normalized JSON with USD pricing.
+   * Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as normalized JSON.
+
+**Price:** $15.60 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0156 per request.
    *
@@ -927,7 +967,9 @@ export class SeoNamespace {
   /**
    * SEO Keyword Difficulty
    *
-   * Get AnyAPI SEO keyword difficulty scores for one or more keywords as normalized JSON with USD pricing.
+   * Get AnyAPI SEO keyword difficulty scores for one or more keywords as normalized JSON.
+
+**Price:** billed per keyword - $15.60 per 1,000 requests base + $0.16 per 1,000 keywords, capped at $175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per keyword.
    *
@@ -944,12 +986,14 @@ export class SeoNamespace {
   /**
    * SEO Keyword Ideas
    *
-   * Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON with USD pricing.
+   * Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON.
+
+**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
    * @example
-   * const res = await client.seo.keywordIdeas({ keywords: ["seo tools"], language: "en", limit: 5, location: 2840 });
+   * const res = await client.seo.keywordIdeas({ keywords: ["project management software"], language: "en", limit: 5, location: 2840 });
    */
   keywordIdeas(
     input: SeoKeywordIdeasInput,
@@ -961,12 +1005,14 @@ export class SeoNamespace {
   /**
    * SEO Keyword Overview
    *
-   * Get AnyAPI SEO keyword metrics including search volume, CPC, competition, difficulty, and search intent as normalized JSON with USD pricing.
+   * Get AnyAPI SEO keyword metrics including search volume, CPC, competition, difficulty, and search intent as normalized JSON.
+
+**Price:** billed per keyword - $15.60 per 1,000 requests base + $0.16 per 1,000 keywords, capped at $127.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per keyword.
    *
    * @example
-   * const res = await client.seo.keywordOverview({ keywords: ["seo tools"], language: "en", location: 2840 });
+   * const res = await client.seo.keywordOverview({ keywords: ["project management software"], language: "en", location: 2840 });
    */
   keywordOverview(
     input: SeoKeywordOverviewInput,
@@ -978,12 +1024,14 @@ export class SeoNamespace {
   /**
    * SEO Keyword Suggestions
    *
-   * Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC, competition, difficulty, and intent as normalized JSON with USD pricing.
+   * Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC, competition, difficulty, and intent as normalized JSON.
+
+**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
    * @example
-   * const res = await client.seo.keywordSuggestions({ keyword: "seo tools", language: "en", limit: 5, location: 2840 });
+   * const res = await client.seo.keywordSuggestions({ keyword: "project management software", language: "en", limit: 5, location: 2840 });
    */
   keywordSuggestions(
     input: SeoKeywordSuggestionsInput,
@@ -995,7 +1043,9 @@ export class SeoNamespace {
   /**
    * SEO Local Pack
    *
-   * Search AnyAPI SEO local pack results with rankings, ratings, addresses, and contact basics as normalized JSON with USD pricing.
+   * Search AnyAPI SEO local pack results with rankings, ratings, addresses, and contact basics as normalized JSON.
+
+**Price:** $2.60 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0026 per request.
    *
@@ -1012,7 +1062,9 @@ export class SeoNamespace {
   /**
    * SEO Ranked Keywords
    *
-   * Get AnyAPI SEO ranked keywords for a domain with rankings, traffic estimates, volume, CPC, difficulty, and intent as normalized JSON with USD pricing.
+   * Get AnyAPI SEO ranked keywords for a domain with rankings, traffic estimates, volume, CPC, difficulty, and intent as normalized JSON.
+
+**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
@@ -1029,12 +1081,14 @@ export class SeoNamespace {
   /**
    * SEO Related Keywords
    *
-   * Find AnyAPI SEO related keywords from a seed term with volume, CPC, competition, difficulty, and intent as normalized JSON with USD pricing.
+   * Find AnyAPI SEO related keywords from a seed term with volume, CPC, competition, difficulty, and intent as normalized JSON.
+
+**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
    * @example
-   * const res = await client.seo.relatedKeywords({ keyword: "seo tools", language: "en", limit: 5, location: 2840 });
+   * const res = await client.seo.relatedKeywords({ keyword: "project management software", language: "en", limit: 5, location: 2840 });
    */
   relatedKeywords(
     input: SeoRelatedKeywordsInput,
@@ -1046,7 +1100,9 @@ export class SeoNamespace {
   /**
    * SEO Search Intent
    *
-   * Classify AnyAPI SEO keyword search intent as normalized JSON with USD pricing.
+   * Classify AnyAPI SEO keyword search intent as normalized JSON.
+
+**Price:** billed per keyword - $15.60 per 1,000 requests base + $0.16 per 1,000 keywords, capped at $175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per keyword.
    *
@@ -1063,7 +1119,9 @@ export class SeoNamespace {
   /**
    * SEO Search Volume
    *
-   * Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and monthly history as normalized JSON with USD pricing.
+   * Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and monthly history as normalized JSON.
+
+**Price:** $117.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.117 per request.
    *

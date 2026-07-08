@@ -32,14 +32,14 @@ export interface EmailFindInput {
 export interface EmailFindItem {
   domain?: string;
   /**
-   * Discovered email address, or empty when none was found.
+   * Discovered email address, or empty when none was found. Populated whenever the provider has data for the entity.
    */
   email: string;
   firstName?: string;
   isDeliverable?: boolean;
   lastName?: string;
   /**
-   * Lookup status (e.g. found, not_found).
+   * Lookup status (e.g. found, not_found). Populated whenever the provider has data for the entity.
    */
   status: string;
   [extra: string]: unknown;
@@ -50,7 +50,7 @@ export interface EmailFindItem {
  */
 export interface EmailFindData {
   /**
-   * Email lookup records: the discovered email address, verification status, and the matched person and company details.
+   * Email lookup records: the discovered email address, verification status, and the matched person and company details. Populated whenever the provider has data for the entity.
    */
   items: EmailFindItem[];
 }
@@ -72,6 +72,9 @@ export interface EmailVerifyItem {
   catchAll?: boolean;
   disposable?: boolean;
   domain?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   email: string;
   /**
    * Free email provider.
@@ -87,7 +90,7 @@ export interface EmailVerifyItem {
    */
   score?: number;
   /**
-   * Deliverability verdict (e.g. valid, risky, invalid).
+   * Deliverability verdict (e.g. valid, risky, invalid). Populated whenever the provider has data for the entity.
    */
   status: string;
   [extra: string]: unknown;
@@ -98,7 +101,7 @@ export interface EmailVerifyItem {
  */
 export interface EmailVerifyData {
   /**
-   * Verification records: the email address with its deliverability verdict and syntax, domain, and mailbox check details.
+   * Verification records: the email address with its deliverability verdict and syntax, domain, and mailbox check details. Populated whenever the provider has data for the entity.
    */
   items: EmailVerifyItem[];
 }
@@ -113,7 +116,9 @@ export class EmailNamespace {
   /**
    * Email Finder
    *
-   * Find a person's work email address from their name and company domain, with transparent per-request USD pricing.
+   * Find a person's work email address from their name and company domain.
+
+**Price:** billed per result - $5.00 per 1,000 requests base + $8.00 per 1,000 results, capped at $13.00 per 1,000 requests.
    *
    * Price: $0.005 per request plus $0.008 per result.
    *
@@ -130,7 +135,9 @@ export class EmailNamespace {
   /**
    * Email Verifier
    *
-   * Verify any email address for deliverability - syntax, domain, and mailbox checks in one normalized response, priced per request in USD.
+   * Verify any email address for deliverability - syntax, domain, and mailbox checks in one normalized response.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $0.80 per 1,000 results, capped at $0.80 per 1,000 requests.
    *
    * Price: $0.0008 per result.
    *

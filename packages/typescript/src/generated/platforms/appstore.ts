@@ -28,12 +28,12 @@ export interface AppstoreReviewsInput {
 
 export interface AppstoreReviewsItem {
   /**
-   * Reviewer nickname.
+   * Reviewer nickname. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   author?: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
@@ -42,16 +42,16 @@ export interface AppstoreReviewsItem {
    */
   helpfulVotes?: number;
   /**
-   * Review identifier.
+   * Review identifier. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   id?: string;
   /**
-   * Star rating, 1 to 5.
+   * Star rating, 1 to 5. Populated whenever the provider has data for the entity.
    */
   rating: number;
   /**
-   * Review body text.
+   * Review body text. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
@@ -70,7 +70,7 @@ export interface AppstoreReviewsItem {
  */
 export interface AppstoreReviewsData {
   /**
-   * Review records: star rating, review title and text, reviewer nickname, app version, and review date.
+   * Review records: star rating, review title and text, reviewer nickname, app version, and review date. Populated whenever the provider has data for the entity.
    */
   items: AppstoreReviewsItem[];
 }
@@ -85,7 +85,9 @@ export class AppstoreNamespace {
   /**
    * App Store Reviews
    *
-   * Get App Store reviews for any iOS app by app ID, in any storefront country - ratings, titles, and review text with transparent per-request USD pricing.
+   * Get App Store reviews for any iOS app by app ID, in any storefront country - ratings, titles, and review text.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $0.10 per 1,000 results, capped at $10.00 per 1,000 requests.
    *
    * Price: $0.0001 per result.
    *

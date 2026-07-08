@@ -33,7 +33,7 @@ export interface WhatsappValidateItem {
    */
   isValid?: boolean;
   /**
-   * The phone number that was checked, in international format.
+   * The phone number that was checked, in international format. Populated whenever the provider has data for the entity.
    */
   phone: string;
   [extra: string]: unknown;
@@ -44,7 +44,7 @@ export interface WhatsappValidateItem {
  */
 export interface WhatsappValidateData {
   /**
-   * Validation records for the phone number.
+   * Validation records for the phone number. Populated whenever the provider has data for the entity.
    */
   items: WhatsappValidateItem[];
 }
@@ -59,7 +59,9 @@ export class WhatsappNamespace {
   /**
    * WhatsApp Number Validator
    *
-   * Check whether a phone number is registered on WhatsApp, with transparent per-request USD pricing.
+   * Check whether a phone number is registered on WhatsApp.
+
+**Price:** billed per result - $3.50 per 1,000 requests base + $1.00 per 1,000 results, capped at $4.50 per 1,000 requests.
    *
    * Price: $0.0035 per request plus $0.001 per result.
    *

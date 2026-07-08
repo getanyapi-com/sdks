@@ -48,7 +48,7 @@ class GoogleSearchInput(TypedDict, total=False):
 
 class GoogleImagesData(BaseModel):
     items: list[GoogleImagesItem] = Field(
-        description="Image result records: image URL, dimensions, title, and the source page it appears on."
+        description="Image result records: image URL, dimensions, title, and the source page it appears on. Populated whenever the provider has data for the entity."
     )
 
 
@@ -58,26 +58,30 @@ class GoogleImagesItem(BaseModel):
     height: int | None = Field(default=None, description="Full image height in pixels.")
     source: str | None = Field(
         default=None,
-        description="Host domain of the page the image appears on. Present whenever the upstream returns this record.",
+        description="Host domain of the page the image appears on. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     source_url: str | None = Field(
         default=None,
         alias="sourceUrl",
-        description="URL of the page the image appears on. Present whenever the upstream returns this record.",
+        description="URL of the page the image appears on. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     thumbnail_url: str | None = Field(
         default=None,
         alias="thumbnailUrl",
         description="URL to a thumbnail of the image.",
     )
-    title: str = Field(description="Image result title.")
-    url: str = Field(description="Direct URL to the full-size image.")
+    title: str = Field(
+        description="Image result title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Direct URL to the full-size image. Populated whenever the provider has data for the entity."
+    )
     width: int | None = Field(default=None, description="Full image width in pixels.")
 
 
 class GoogleNewsData(BaseModel):
     items: list[GoogleNewsItem] = Field(
-        description="Article records: headline, source name, article link, and publish time."
+        description="Article records: headline, source name, article link, and publish time. Populated whenever the provider has data for the entity."
     )
 
 
@@ -87,31 +91,43 @@ class GoogleNewsItem(BaseModel):
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     snippet: str | None = Field(
         default=None, description="Article snippet when available."
     )
     source: str | None = Field(
         default=None,
-        description="Publisher name. Present whenever the upstream returns this record.",
+        description="Publisher name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    title: str = Field(description="Article headline.")
-    url: str = Field(description="Article link.")
+    title: str = Field(
+        description="Article headline. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Article link. Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleSearchData(BaseModel):
     query: str
-    results: list[GoogleSearchResult]
+    results: list[GoogleSearchResult] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleSearchResult(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    link: str
+    link: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     position: int
-    snippet: str
-    title: str
+    snippet: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleNamespace:
@@ -129,7 +145,9 @@ class GoogleNamespace:
         """Google Images
 
         Run a Google Images search and get structured results - image URLs,
-        dimensions, titles, and source pages - with flat per-request USD pricing.
+        dimensions, titles, and source pages. **Price:** billed per result - $0.05
+        per 1,000 requests base + $2.40 per 1,000 results, capped at $48.05 per
+        1,000 requests.
 
         Price: $0.00005 per request plus $0.0024 per result.
 
@@ -147,7 +165,8 @@ class GoogleNamespace:
         """Google News
 
         Search Google News by keyword and get fresh articles - headlines, sources,
-        links, and publish times - as clean JSON, billed per request in USD.
+        links, and publish times - as clean JSON. **Price:** $3.25 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -168,7 +187,8 @@ class GoogleNamespace:
         """Google Search
 
         Run a Google web search and get the organic results (title, link, snippet,
-        position) as clean JSON. One call, billed per request in real dollars.
+        position) as clean JSON. **Price:** $0.99 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.00099 per request.
 
@@ -196,7 +216,9 @@ class AsyncGoogleNamespace:
         """Google Images
 
         Run a Google Images search and get structured results - image URLs,
-        dimensions, titles, and source pages - with flat per-request USD pricing.
+        dimensions, titles, and source pages. **Price:** billed per result - $0.05
+        per 1,000 requests base + $2.40 per 1,000 results, capped at $48.05 per
+        1,000 requests.
 
         Price: $0.00005 per request plus $0.0024 per result.
 
@@ -214,7 +236,8 @@ class AsyncGoogleNamespace:
         """Google News
 
         Search Google News by keyword and get fresh articles - headlines, sources,
-        links, and publish times - as clean JSON, billed per request in USD.
+        links, and publish times - as clean JSON. **Price:** $3.25 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -235,7 +258,8 @@ class AsyncGoogleNamespace:
         """Google Search
 
         Run a Google web search and get the organic results (title, link, snippet,
-        position) as clean JSON. One call, billed per request in real dollars.
+        position) as clean JSON. **Price:** $0.99 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.00099 per request.
 

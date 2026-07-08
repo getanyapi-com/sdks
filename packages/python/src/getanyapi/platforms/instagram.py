@@ -221,7 +221,9 @@ class InstagramAudioReelsData(BaseModel):
 
     has_more: bool = Field(alias="hasMore")
     next_cursor: str = Field(alias="nextCursor")
-    reels: list[InstagramAudioReelsReel]
+    reels: list[InstagramAudioReelsReel] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramAudioReelsReel(BaseModel):
@@ -229,8 +231,12 @@ class InstagramAudioReelsReel(BaseModel):
 
     code: str
     comments: int
-    handle: str
-    id: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     plays: int
 
@@ -238,29 +244,42 @@ class InstagramAudioReelsReel(BaseModel):
 class InstagramBasicProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     bio: str
-    display_name: str = Field(alias="displayName")
+    display_name: str = Field(
+        alias="displayName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     external_url: str = Field(alias="externalUrl")
     followers: int
     following: int
-    handle: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     private: bool
-    user_id: str = Field(alias="userId")
+    user_id: str = Field(
+        alias="userId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     verified: bool
 
 
 class InstagramEmbedData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    html: str
+    html: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramFollowersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     items: list[InstagramFollowersItem] = Field(
-        description="Follower records for the target account."
+        description="Follower records for the target account. Populated whenever the provider has data for the entity."
     )
     next_cursor: str | None = Field(
         default=None,
@@ -272,9 +291,11 @@ class InstagramFollowersData(BaseModel):
 class InstagramFollowersItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    handle: str = Field(description="The follower's username, without the @ prefix.")
+    handle: str = Field(
+        description="The follower's username, without the @ prefix. Populated whenever the provider has data for the entity."
+    )
     id: str = Field(
-        description="The follower's numeric Instagram user ID, as a string."
+        description="The follower's numeric Instagram user ID, as a string. Populated whenever the provider has data for the entity."
     )
     image: str | None = Field(
         default=None,
@@ -300,7 +321,7 @@ class InstagramFollowingData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     items: list[InstagramFollowingItem] = Field(
-        description="Records for the accounts the target user follows."
+        description="Records for the accounts the target user follows. Populated whenever the provider has data for the entity."
     )
     next_cursor: str | None = Field(
         default=None,
@@ -313,10 +334,10 @@ class InstagramFollowingItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     handle: str = Field(
-        description="The followed account's username, without the @ prefix."
+        description="The followed account's username, without the @ prefix. Populated whenever the provider has data for the entity."
     )
     id: str = Field(
-        description="The followed account's numeric Instagram user ID, as a string."
+        description="The followed account's numeric Instagram user ID, as a string. Populated whenever the provider has data for the entity."
     )
     image: str | None = Field(
         default=None,
@@ -340,7 +361,7 @@ class InstagramFollowingItem(BaseModel):
 
 class InstagramHashtagAnalyticsData(BaseModel):
     items: list[InstagramHashtagAnalyticsItem] = Field(
-        description="Hashtag analytics records: hashtag name, total post count, and related hashtag suggestions."
+        description="Hashtag analytics records: hashtag name, total post count, and related hashtag suggestions. Populated whenever the provider has data for the entity."
     )
 
 
@@ -349,99 +370,142 @@ class InstagramHashtagAnalyticsItem(BaseModel):
 
     difficulty: str | None = None
     id: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    name: str = Field(description="Hashtag (without #).")
+    name: str = Field(
+        description="Hashtag (without #). Populated whenever the provider has data for the entity."
+    )
     posts_count: int | None = Field(
         default=None, alias="postsCount", description="Total posts using the hashtag."
     )
     posts_formatted: str | None = Field(
         default=None,
         alias="postsFormatted",
-        description="Human-formatted post count (e.g. 793.54 M). Present whenever the upstream returns this record.",
+        description="Human-formatted post count (e.g. 793.54 M). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramHighlightDetailData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     cover_url: str = Field(
-        alias="coverUrl", description="URL of the highlight cover image."
+        alias="coverUrl",
+        description="URL of the highlight cover image. Populated whenever the provider has data for the entity.",
     )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str = Field(description="Highlight identifier.")
+    id: str = Field(
+        description="Highlight identifier. Populated whenever the provider has data for the entity."
+    )
     media_count: int = Field(
         alias="mediaCount", description="Number of media items in the highlight."
     )
     owner_handle: str = Field(
         alias="ownerHandle",
-        description="Handle of the account that owns the highlight.",
+        description="Handle of the account that owns the highlight. Populated whenever the provider has data for the entity.",
     )
-    title: str = Field(description="Highlight title.")
+    title: str = Field(
+        description="Highlight title. Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramMediaTranscriptData(BaseModel):
-    transcripts: list[InstagramMediaTranscriptTranscript]
+    transcripts: list[InstagramMediaTranscriptTranscript] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramMediaTranscriptTranscript(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str
-    shortcode: str
-    text: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    shortcode: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    display_url: str = Field(alias="displayUrl")
-    id: str
+    display_url: str = Field(
+        alias="displayUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    owner: str
+    owner: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     shortcode: str
     type_: str = Field(alias="type")
     video_url: str = Field(alias="videoUrl")
 
 
 class InstagramPostCommentsData(BaseModel):
-    comments: list[InstagramPostCommentsComment]
+    comments: list[InstagramPostCommentsComment] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramPostCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    text: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     verified: bool
 
 
 class InstagramProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
-    bio: str
-    display_name: str = Field(alias="displayName")
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    bio: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    display_name: str = Field(
+        alias="displayName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     followers: int
     following: int
-    handle: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     posts: int
     verified: bool
 
 
 class InstagramReelTranscriptData(BaseModel):
     items: list[InstagramReelTranscriptItem] = Field(
-        description="Transcript record for the requested reel (one item), with the full transcript text, timed segments, and source video metadata."
+        description="Transcript record for the requested reel (one item), with the full transcript text, timed segments, and source video metadata. Populated whenever the provider has data for the entity."
     )
 
 
@@ -465,7 +529,9 @@ class InstagramReelTranscriptItem(BaseModel):
     duration_seconds: float | None = Field(
         default=None, alias="durationSeconds", description="Video duration in seconds."
     )
-    id: str = Field(description="The reel's numeric Instagram media ID, as a string.")
+    id: str = Field(
+        description="The reel's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity."
+    )
     language: str | None = Field(
         default=None,
         description='Detected spoken language (ISO 639-1 code, e.g. "en"). Empty when the upstream omits it.',
@@ -483,10 +549,10 @@ class InstagramReelTranscriptItem(BaseModel):
         description="Time-aligned transcript segments, each with its text and start/end offsets in seconds.",
     )
     text: str = Field(
-        description="The full speech transcript. Empty when the reel has no detectable spoken audio."
+        description="The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity."
     )
     url: str = Field(
-        description="Canonical URL of the reel, with tracking query params stripped."
+        description="Canonical URL of the reel, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
     view_count: int | None = Field(
         default=None, alias="viewCount", description="Number of video views."
@@ -511,14 +577,16 @@ class InstagramReelTranscriptSegment(BaseModel):
 
 class InstagramReelsSearchData(BaseModel):
     reels: list[InstagramReelsSearchReel] = Field(
-        description="Reels matching the search."
+        description="Reels matching the search. Populated whenever the provider has data for the entity."
     )
 
 
 class InstagramReelsSearchReel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str = Field(description="Reel caption text.")
+    caption: str = Field(
+        description="Reel caption text. Populated whenever the provider has data for the entity."
+    )
     comments: int = Field(description="Number of comments on the reel.")
     created_utc: float = Field(
         alias="createdUtc",
@@ -533,17 +601,25 @@ class InstagramReelsSearchReel(BaseModel):
         alias="paidPartnership", description="True when the reel is a paid partnership."
     )
     plays: int = Field(description="Number of plays of the reel.")
-    shortcode: str = Field(description="Instagram media shortcode.")
-    thumbnail: str = Field(description="URL of the reel thumbnail image.")
-    url: str = Field(description="Canonical URL of the reel.")
-    username: str = Field(description="Username of the account that posted the reel.")
+    shortcode: str = Field(
+        description="Instagram media shortcode. Populated whenever the provider has data for the entity."
+    )
+    thumbnail: str = Field(
+        description="URL of the reel thumbnail image. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the reel. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the account that posted the reel. Populated whenever the provider has data for the entity."
+    )
     verified: bool = Field(description="True when the posting account is verified.")
     views: int = Field(description="Number of views on the reel.")
 
 
 class InstagramSearchData(BaseModel):
     items: list[InstagramSearchItem] = Field(
-        description="Matching Instagram profile records for the query."
+        description="Matching Instagram profile records for the query. Populated whenever the provider has data for the entity."
     )
 
 
@@ -562,8 +638,12 @@ class InstagramSearchItem(BaseModel):
         default=None,
         description="The number of accounts the account follows. May be 0 when the lane does not return it in search results.",
     )
-    handle: str = Field(description="The account's username, without the @ prefix.")
-    id: str = Field(description="The account's numeric Instagram user ID, as a string.")
+    handle: str = Field(
+        description="The account's username, without the @ prefix. Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="The account's numeric Instagram user ID, as a string. Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(
         default=None,
         description="URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
@@ -578,7 +658,7 @@ class InstagramSearchItem(BaseModel):
         description="The account's post count. May be 0 when the lane does not return it in search results.",
     )
     url: str = Field(
-        description="Canonical URL of the account's profile, with tracking query params stripped."
+        description="Canonical URL of the account's profile, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
     verified: bool | None = Field(
         default=None, description="Whether the account is verified."
@@ -586,37 +666,62 @@ class InstagramSearchItem(BaseModel):
 
 
 class InstagramSearchHashtagData(BaseModel):
-    posts: list[InstagramSearchHashtagPost]
+    posts: list[InstagramSearchHashtagPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramSearchHashtagPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     caption: str
-    display_url: str = Field(alias="displayUrl")
-    id: str
-    shortcode: str
+    display_url: str = Field(
+        alias="displayUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    shortcode: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     type_: str = Field(alias="type")
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramSearchProfilesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    profiles: list[InstagramSearchProfilesProfile]
+    profiles: list[InstagramSearchProfilesProfile] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramSearchProfilesProfile(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
-    bio: str
-    display_name: str = Field(alias="displayName")
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    bio: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    display_name: str = Field(
+        alias="displayName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     followers: int
     following: int
-    handle: str
-    id: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     posts: int
     private: bool
     verified: bool
@@ -624,7 +729,7 @@ class InstagramSearchProfilesProfile(BaseModel):
 
 class InstagramStoriesFullData(BaseModel):
     items: list[InstagramStoriesFullItem] = Field(
-        description="Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption."
+        description="Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption. Populated whenever the provider has data for the entity."
     )
 
 
@@ -655,7 +760,7 @@ class InstagramStoriesFullItem(BaseModel):
     )
     username: str | None = Field(
         default=None,
-        description="Owner username. Present whenever the upstream returns this record.",
+        description="Owner username. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     video_url: str | None = Field(
         default=None,
@@ -667,7 +772,7 @@ class InstagramStoriesFullItem(BaseModel):
 
 class InstagramStoriesThinData(BaseModel):
     items: list[InstagramStoriesThinItem] = Field(
-        description="The account's currently live stories, each with its media URL, owner, posting time, and permalink."
+        description="The account's currently live stories, each with its media URL, owner, posting time, and permalink. Populated whenever the provider has data for the entity."
     )
 
 
@@ -677,24 +782,28 @@ class InstagramStoriesThinItem(BaseModel):
     created_utc: float | None = Field(
         default=None, alias="createdUtc", description="Posting time (Unix seconds)."
     )
-    id: str = Field(description="Story identifier.")
+    id: str = Field(
+        description="Story identifier. Populated whenever the provider has data for the entity."
+    )
     media_url: str | None = Field(
         default=None,
         alias="mediaUrl",
-        description="Direct URL to the story image or video. Present whenever the upstream returns this record.",
+        description="Direct URL to the story image or video. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     permalink: str | None = Field(
         default=None,
-        description="Public link to the story. Present whenever the upstream returns this record.",
+        description="Public link to the story. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     username: str | None = Field(
         default=None,
-        description="Owner username. Present whenever the upstream returns this record.",
+        description="Owner username. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
 class InstagramTrendingReelsData(BaseModel):
-    reels: list[InstagramTrendingReelsReel]
+    reels: list[InstagramTrendingReelsReel] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramTrendingReelsReel(BaseModel):
@@ -702,67 +811,103 @@ class InstagramTrendingReelsReel(BaseModel):
 
     caption: str
     comments: int
-    handle: str
-    id: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     plays: int
-    shortcode: str
-    url: str
+    shortcode: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramUserHighlightsData(BaseModel):
-    highlights: list[InstagramUserHighlightsHighlight]
+    highlights: list[InstagramUserHighlightsHighlight] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramUserHighlightsHighlight(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    cover_url: str = Field(alias="coverUrl")
-    id: str
-    owner_handle: str = Field(alias="ownerHandle")
-    title: str
+    cover_url: str = Field(
+        alias="coverUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    owner_handle: str = Field(
+        alias="ownerHandle",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramUserPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    posts: list[InstagramUserPostsPost]
+    posts: list[InstagramUserPostsPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramUserPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     comments: int
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramUserReelsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    reels: list[InstagramUserReelsReel]
+    reels: list[InstagramUserReelsReel] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class InstagramUserReelsReel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     comments: int
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    shortcode: str
+    shortcode: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
@@ -781,7 +926,8 @@ class InstagramNamespace:
         """Instagram Reels by Audio
 
         List Instagram reels that use a given audio track by audio id, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -826,7 +972,8 @@ class InstagramNamespace:
 
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id, normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -847,7 +994,8 @@ class InstagramNamespace:
         """Instagram Profile Embed
 
         Fetch the public embed HTML for an Instagram profile by handle, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -868,7 +1016,8 @@ class InstagramNamespace:
         """Instagram Followers
 
         List the followers of any public Instagram account by username - follower
-        usernames, names, and profile details - at a flat per-request USD price.
+        usernames, names, and profile details. **Price:** $16.25 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.01625 per request.
 
@@ -912,7 +1061,8 @@ class InstagramNamespace:
         """Instagram Following
 
         List the accounts a public Instagram user follows - usernames, names, and
-        profile details - at a flat per-request USD price.
+        profile details. **Price:** $16.25 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.01625 per request.
 
@@ -956,7 +1106,9 @@ class InstagramNamespace:
         """Instagram Hashtag Analytics
 
         Get analytics for any Instagram hashtag - total post count, related
-        hashtags, and usage signals - normalized and priced per request in USD.
+        hashtags, and usage signals - normalized. **Price:** billed per result -
+        $1.00 per 1,000 requests base + $1.70 per 1,000 results, capped at $35.00
+        per 1,000 requests.
 
         Price: $0.001 per request plus $0.0017 per result.
 
@@ -977,7 +1129,9 @@ class InstagramNamespace:
         """Instagram Highlight Detail
 
         Fetch the details and media items of a single Instagram story highlight by
-        id, normalized across providers with transparent failover.
+        id, normalized across providers with transparent failover. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -998,7 +1152,9 @@ class InstagramNamespace:
         """Instagram Media Transcript
 
         Get the spoken-audio transcript text for an Instagram post or reel by URL,
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1020,6 +1176,8 @@ class InstagramNamespace:
 
         Fetch a single Instagram post or reel by URL (media URLs, like count, owner,
         type) as normalized JSON, across providers with transparent failover.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1040,7 +1198,9 @@ class InstagramNamespace:
         """Instagram Post Comments
 
         List the comments on an Instagram post or reel by URL with cursor pagination
-        (text, author, likes), normalized across providers.
+        (text, author, likes), normalized across providers. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1062,7 +1222,8 @@ class InstagramNamespace:
 
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle, normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1083,7 +1244,9 @@ class InstagramNamespace:
         """Instagram Reel Transcript
 
         Turn any public Instagram reel or video post into a full speech transcript,
-        with optional word-level timestamps - priced per request in USD.
+        with optional word-level timestamps. **Price:** billed per result - $5.00
+        per 1,000 requests base + $20.00 per 1,000 results, capped at $25.00 per
+        1,000 requests.
 
         Price: $0.005 per request plus $0.02 per result.
 
@@ -1105,7 +1268,8 @@ class InstagramNamespace:
 
         Search Instagram Reels by keyword and get matching reels - caption, views,
         likes, creator, and duration - normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1126,7 +1290,8 @@ class InstagramNamespace:
         """Instagram Search
 
         Search Instagram for users, hashtags, or places by keyword and get matching
-        results with names, counts, and links - flat per-request USD pricing.
+        results with names, counts, and links. **Price:** $3.25 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -1147,7 +1312,9 @@ class InstagramNamespace:
         """Instagram Hashtag Search
 
         List recent Instagram posts under a hashtag (caption, type, media URL),
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1168,7 +1335,8 @@ class InstagramNamespace:
         """Instagram Profile Search
 
         Search public Instagram profiles by a bio or caption keyword, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1213,9 +1381,9 @@ class InstagramNamespace:
 
         Fetch public Instagram accounts' currently live stories with the full record
         - media (image and video), type, dimensions, posting time, 24h expiry, and
-        caption. Priced per username (a flat run fee is shared across the batch), so
-        request several at once to lower the cost per account. Up to 100 usernames
-        per request.
+        caption. Up to 100 usernames per request. **Price:** billed per username -
+        $99.00 per 1,000 requests base + $3.00 per 1,000 usernames, capped at
+        $102.00 per 1,000 requests.
 
         Price: $0.099 per request plus $0.003 per username.
 
@@ -1238,6 +1406,8 @@ class InstagramNamespace:
         Fetch a public Instagram account's currently live stories - media URL,
         owner, and posting time - by username. Lightweight projection; for media
         type, dimensions, and the 24h expiry time use instagram.stories_full.
+        **Price:** $16.25 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.01625 per request.
 
@@ -1258,7 +1428,8 @@ class InstagramNamespace:
         """Instagram Trending Reels
 
         List currently trending Instagram reels, normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1279,7 +1450,8 @@ class InstagramNamespace:
         """Instagram User Highlights
 
         List an Instagram account's story highlight reels by handle, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1300,7 +1472,9 @@ class InstagramNamespace:
         """Instagram User Posts
 
         List an Instagram account's recent posts (likes, comments, captions) by
-        handle with cursor pagination, normalized across providers.
+        handle with cursor pagination, normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1344,7 +1518,9 @@ class InstagramNamespace:
         """Instagram User Reels
 
         List an Instagram account's reels by handle with cursor pagination (caption,
-        plays, likes, comments), normalized across providers.
+        plays, likes, comments), normalized across providers. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1395,7 +1571,8 @@ class AsyncInstagramNamespace:
         """Instagram Reels by Audio
 
         List Instagram reels that use a given audio track by audio id, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1440,7 +1617,8 @@ class AsyncInstagramNamespace:
 
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id, normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1461,7 +1639,8 @@ class AsyncInstagramNamespace:
         """Instagram Profile Embed
 
         Fetch the public embed HTML for an Instagram profile by handle, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1482,7 +1661,8 @@ class AsyncInstagramNamespace:
         """Instagram Followers
 
         List the followers of any public Instagram account by username - follower
-        usernames, names, and profile details - at a flat per-request USD price.
+        usernames, names, and profile details. **Price:** $16.25 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.01625 per request.
 
@@ -1526,7 +1706,8 @@ class AsyncInstagramNamespace:
         """Instagram Following
 
         List the accounts a public Instagram user follows - usernames, names, and
-        profile details - at a flat per-request USD price.
+        profile details. **Price:** $16.25 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.01625 per request.
 
@@ -1570,7 +1751,9 @@ class AsyncInstagramNamespace:
         """Instagram Hashtag Analytics
 
         Get analytics for any Instagram hashtag - total post count, related
-        hashtags, and usage signals - normalized and priced per request in USD.
+        hashtags, and usage signals - normalized. **Price:** billed per result -
+        $1.00 per 1,000 requests base + $1.70 per 1,000 results, capped at $35.00
+        per 1,000 requests.
 
         Price: $0.001 per request plus $0.0017 per result.
 
@@ -1591,7 +1774,9 @@ class AsyncInstagramNamespace:
         """Instagram Highlight Detail
 
         Fetch the details and media items of a single Instagram story highlight by
-        id, normalized across providers with transparent failover.
+        id, normalized across providers with transparent failover. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1612,7 +1797,9 @@ class AsyncInstagramNamespace:
         """Instagram Media Transcript
 
         Get the spoken-audio transcript text for an Instagram post or reel by URL,
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1634,6 +1821,8 @@ class AsyncInstagramNamespace:
 
         Fetch a single Instagram post or reel by URL (media URLs, like count, owner,
         type) as normalized JSON, across providers with transparent failover.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1654,7 +1843,9 @@ class AsyncInstagramNamespace:
         """Instagram Post Comments
 
         List the comments on an Instagram post or reel by URL with cursor pagination
-        (text, author, likes), normalized across providers.
+        (text, author, likes), normalized across providers. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1676,7 +1867,8 @@ class AsyncInstagramNamespace:
 
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle, normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1697,7 +1889,9 @@ class AsyncInstagramNamespace:
         """Instagram Reel Transcript
 
         Turn any public Instagram reel or video post into a full speech transcript,
-        with optional word-level timestamps - priced per request in USD.
+        with optional word-level timestamps. **Price:** billed per result - $5.00
+        per 1,000 requests base + $20.00 per 1,000 results, capped at $25.00 per
+        1,000 requests.
 
         Price: $0.005 per request plus $0.02 per result.
 
@@ -1719,7 +1913,8 @@ class AsyncInstagramNamespace:
 
         Search Instagram Reels by keyword and get matching reels - caption, views,
         likes, creator, and duration - normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1740,7 +1935,8 @@ class AsyncInstagramNamespace:
         """Instagram Search
 
         Search Instagram for users, hashtags, or places by keyword and get matching
-        results with names, counts, and links - flat per-request USD pricing.
+        results with names, counts, and links. **Price:** $3.25 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -1761,7 +1957,9 @@ class AsyncInstagramNamespace:
         """Instagram Hashtag Search
 
         List recent Instagram posts under a hashtag (caption, type, media URL),
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1782,7 +1980,8 @@ class AsyncInstagramNamespace:
         """Instagram Profile Search
 
         Search public Instagram profiles by a bio or caption keyword, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1827,9 +2026,9 @@ class AsyncInstagramNamespace:
 
         Fetch public Instagram accounts' currently live stories with the full record
         - media (image and video), type, dimensions, posting time, 24h expiry, and
-        caption. Priced per username (a flat run fee is shared across the batch), so
-        request several at once to lower the cost per account. Up to 100 usernames
-        per request.
+        caption. Up to 100 usernames per request. **Price:** billed per username -
+        $99.00 per 1,000 requests base + $3.00 per 1,000 usernames, capped at
+        $102.00 per 1,000 requests.
 
         Price: $0.099 per request plus $0.003 per username.
 
@@ -1852,6 +2051,8 @@ class AsyncInstagramNamespace:
         Fetch a public Instagram account's currently live stories - media URL,
         owner, and posting time - by username. Lightweight projection; for media
         type, dimensions, and the 24h expiry time use instagram.stories_full.
+        **Price:** $16.25 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.01625 per request.
 
@@ -1872,7 +2073,8 @@ class AsyncInstagramNamespace:
         """Instagram Trending Reels
 
         List currently trending Instagram reels, normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1893,7 +2095,8 @@ class AsyncInstagramNamespace:
         """Instagram User Highlights
 
         List an Instagram account's story highlight reels by handle, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1914,7 +2117,9 @@ class AsyncInstagramNamespace:
         """Instagram User Posts
 
         List an Instagram account's recent posts (likes, comments, captions) by
-        handle with cursor pagination, normalized across providers.
+        handle with cursor pagination, normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1958,7 +2163,9 @@ class AsyncInstagramNamespace:
         """Instagram User Reels
 
         List an Instagram account's reels by handle with cursor pagination (caption,
-        plays, likes, comments), normalized across providers.
+        plays, likes, comments), normalized across providers. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 

@@ -92,7 +92,7 @@ export interface RealtorSearchItem {
    */
   pricePerSqft?: number;
   /**
-   * Realtor.com property id (stable identifier for the listing).
+   * Realtor.com property id (stable identifier for the listing). Populated whenever the provider has data for the entity.
    */
   propertyId: string;
   /**
@@ -116,7 +116,7 @@ export interface RealtorSearchItem {
    */
   title?: string;
   /**
-   * Canonical Realtor.com listing detail page URL.
+   * Canonical Realtor.com listing detail page URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -131,7 +131,7 @@ export interface RealtorSearchItem {
  */
 export interface RealtorSearchData {
   /**
-   * Matching Realtor.com property listing records.
+   * Matching Realtor.com property listing records. Populated whenever the provider has data for the entity.
    */
   items: RealtorSearchItem[];
 }
@@ -146,7 +146,9 @@ export class RealtorNamespace {
   /**
    * Realtor.com Search
    *
-   * Search Realtor.com listings by location with optional price filters and get property records (price, address, beds, baths) as normalized JSON, priced per request in USD.
+   * Search Realtor.com listings by location with optional price filters and get property records (price, address, beds, baths) as normalized JSON.
+
+**Price:** billed per result - $5.00 per 1,000 requests base + $1.50 per 1,000 results, capped at $42.50 per 1,000 requests.
    *
    * Price: $0.005 per request plus $0.0015 per result.
    *

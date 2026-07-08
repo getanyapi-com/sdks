@@ -32,12 +32,12 @@ export interface PlaystoreReviewsInput {
 
 export interface PlaystoreReviewsItem {
   /**
-   * Reviewer display name.
+   * Reviewer display name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   author?: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
@@ -46,16 +46,16 @@ export interface PlaystoreReviewsItem {
    */
   helpfulVotes?: number;
   /**
-   * Review identifier.
+   * Review identifier. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   id?: string;
   /**
-   * Star rating, 1 to 5.
+   * Star rating, 1 to 5. Populated whenever the provider has data for the entity.
    */
   rating: number;
   /**
-   * Review body text.
+   * Review body text. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
@@ -74,7 +74,7 @@ export interface PlaystoreReviewsItem {
  */
 export interface PlaystoreReviewsData {
   /**
-   * Review records: star rating, review text, reviewer name, app version, helpfulness votes, and review date.
+   * Review records: star rating, review text, reviewer name, app version, helpfulness votes, and review date. Populated whenever the provider has data for the entity.
    */
   items: PlaystoreReviewsItem[];
 }
@@ -89,7 +89,9 @@ export class PlaystoreNamespace {
   /**
    * Google Play Reviews
    *
-   * Fetch Google Play reviews for any Android app by package name or store URL - ratings, review text, dates, and helpfulness votes, billed per request in USD.
+   * Fetch Google Play reviews for any Android app by package name or store URL - ratings, review text, dates, and helpfulness votes.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $0.11 per 1,000 results, capped at $11.00 per 1,000 requests.
    *
    * Price: $0.00011 per result.
    *

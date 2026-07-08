@@ -163,7 +163,7 @@ class SeoSearchVolumeInput(TypedDict, total=False):
 
 class SeoCompetitorsDomainData(BaseModel):
     competitors: list[SeoCompetitorsDomainCompetitor] = Field(
-        description="SEO competitor domain records."
+        description="SEO competitor domain records. Populated whenever the provider has data for the entity."
     )
 
 
@@ -173,11 +173,13 @@ class SeoCompetitorsDomainCompetitor(BaseModel):
     avg_position: float | None = Field(
         default=None,
         alias="avgPosition",
-        description="Average ranking position across shared keywords.",
+        description="Average ranking position across shared keywords. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    domain: str = Field(description="Competing domain.")
+    domain: str = Field(
+        description="Competing domain. Populated whenever the provider has data for the entity."
+    )
     intersections: int = Field(
-        description="Number of keywords shared with the target domain."
+        description="Number of keywords shared with the target domain. Populated whenever the provider has data for the entity."
     )
     organic_etv: float | None = Field(
         default=None,
@@ -192,13 +194,13 @@ class SeoCompetitorsDomainCompetitor(BaseModel):
     sum_position: int | None = Field(
         default=None,
         alias="sumPosition",
-        description="Sum of ranking positions across shared keywords.",
+        description="Sum of ranking positions across shared keywords. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
 class SeoDomainIntersectionData(BaseModel):
     keywords: list[SeoDomainIntersectionKeyword] = Field(
-        description="SEO keyword records both domains rank for."
+        description="SEO keyword records both domains rank for. Populated whenever the provider has data for the entity."
     )
 
 
@@ -210,12 +212,14 @@ class SeoDomainIntersectionKeyword(BaseModel):
     )
     first_rank: int = Field(
         alias="firstRank",
-        description="Absolute organic ranking position for the first domain.",
+        description="Absolute organic ranking position for the first domain. Populated whenever the provider has data for the entity.",
     )
     first_url: str | None = Field(
         default=None, alias="firstUrl", description="Ranking URL for the first domain."
     )
-    keyword: str = Field(description="Keyword phrase both domains rank for.")
+    keyword: str = Field(
+        description="Keyword phrase both domains rank for. Populated whenever the provider has data for the entity."
+    )
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
@@ -228,7 +232,7 @@ class SeoDomainIntersectionKeyword(BaseModel):
     )
     second_rank: int = Field(
         alias="secondRank",
-        description="Absolute organic ranking position for the second domain.",
+        description="Absolute organic ranking position for the second domain. Populated whenever the provider has data for the entity.",
     )
     second_url: str | None = Field(
         default=None,
@@ -245,7 +249,9 @@ class SeoDomainIntersectionKeyword(BaseModel):
 class SeoDomainRankOverviewData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    domain: str = Field(description="Analyzed domain.")
+    domain: str = Field(
+        description="Analyzed domain. Populated whenever the provider has data for the entity."
+    )
     language: str | None = Field(
         default=None, description="Language code the metrics are scoped to."
     )
@@ -255,32 +261,32 @@ class SeoDomainRankOverviewData(BaseModel):
     organic_keywords: int | None = Field(
         default=None,
         alias="organicKeywords",
-        description="Number of organic search results where the domain appears.",
+        description="Number of organic search results where the domain appears. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     organic_pos1: int | None = Field(
         default=None,
         alias="organicPos1",
-        description="Number of organic search results where the domain ranks first.",
+        description="Number of organic search results where the domain ranks first. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     organic_pos2_to3: int | None = Field(
         default=None,
         alias="organicPos2To3",
-        description="Number of organic search results where the domain ranks second or third.",
+        description="Number of organic search results where the domain ranks second or third. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     organic_pos4_to10: int | None = Field(
         default=None,
         alias="organicPos4To10",
-        description="Number of organic search results where the domain ranks fourth through tenth.",
+        description="Number of organic search results where the domain ranks fourth through tenth. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     organic_traffic: float | None = Field(
         default=None,
         alias="organicTraffic",
-        description="Estimated monthly organic search traffic.",
+        description="Estimated monthly organic search traffic. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     organic_traffic_cost_usd: float | None = Field(
         default=None,
         alias="organicTrafficCostUsd",
-        description="Estimated USD value of the organic search traffic.",
+        description="Estimated USD value of the organic search traffic. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     paid_keywords: int | None = Field(
         default=None,
@@ -316,49 +322,57 @@ class SeoDomainRankOverviewData(BaseModel):
 
 class SeoKeywordDifficultyData(BaseModel):
     difficulties: list[SeoKeywordDifficultyDifficultie] = Field(
-        description="SEO keyword difficulty records."
+        description="SEO keyword difficulty records. Populated whenever the provider has data for the entity."
     )
 
 
 class SeoKeywordDifficultyDifficultie(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    keyword: str = Field(description="Keyword phrase.")
+    keyword: str = Field(
+        description="Keyword phrase. Populated whenever the provider has data for the entity."
+    )
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale. Unknown keywords may return 0.",
+        description="Estimated organic ranking difficulty on a 0-100 scale. Omitted when the upstream has no difficulty for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
 class SeoKeywordIdeasData(BaseModel):
-    ideas: list[SeoKeywordIdeasIdea] = Field(description="SEO keyword idea records.")
+    ideas: list[SeoKeywordIdeasIdea] = Field(
+        description="SEO keyword idea records. Populated whenever the provider has data for the entity."
+    )
 
 
 class SeoKeywordIdeasIdea(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     competition: str | None = Field(
-        default=None, description="Paid-search competition level for the keyword idea."
+        default=None,
+        description="Paid-search competition level for the keyword idea. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     cpc: float | None = Field(
-        default=None, description="Average paid-search cost per click in USD."
+        default=None,
+        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    keyword: str = Field(description="Keyword idea phrase.")
+    keyword: str = Field(
+        description="Keyword idea phrase. Populated whenever the provider has data for the entity."
+    )
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale.",
+        description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_intent: str | None = Field(
         default=None,
         alias="searchIntent",
-        description="Primary SEO search intent for the keyword idea.",
+        description="Primary SEO search intent for the keyword idea. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
-        description="Average monthly search volume for the keyword idea.",
+        description="Average monthly search volume for the keyword idea. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     updated_utc: float | None = Field(
         default=None,
@@ -369,7 +383,7 @@ class SeoKeywordIdeasIdea(BaseModel):
 
 class SeoKeywordOverviewData(BaseModel):
     keywords: list[SeoKeywordOverviewKeyword] = Field(
-        description="SEO keyword metric records."
+        description="SEO keyword metric records. Populated whenever the provider has data for the entity."
     )
 
 
@@ -387,16 +401,20 @@ class SeoKeywordOverviewKeyword(BaseModel):
         description="Lower bound of the estimated paid-search top-of-page bid in USD.",
     )
     competition: str | None = Field(
-        default=None, description="Paid-search competition level for the keyword."
+        default=None,
+        description="Paid-search competition level for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     cpc: float | None = Field(
-        default=None, description="Average paid-search cost per click in USD."
+        default=None,
+        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    keyword: str = Field(description="Keyword phrase.")
+    keyword: str = Field(
+        description="Keyword phrase. Populated whenever the provider has data for the entity."
+    )
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale.",
+        description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     monthly_searches: list[SeoKeywordOverviewMonthlySearche] | None = Field(
         default=None,
@@ -406,12 +424,12 @@ class SeoKeywordOverviewKeyword(BaseModel):
     search_intent: str | None = Field(
         default=None,
         alias="searchIntent",
-        description="Primary SEO search intent for the keyword.",
+        description="Primary SEO search intent for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
-        description="Average monthly search volume for the keyword. Present whenever the upstream returns this record.",
+        description="Average monthly search volume for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     updated_utc: float | None = Field(
         default=None,
@@ -437,7 +455,7 @@ class SeoKeywordOverviewMonthlySearche(BaseModel):
 
 class SeoKeywordSuggestionsData(BaseModel):
     suggestions: list[SeoKeywordSuggestionsSuggestion] = Field(
-        description="SEO keyword suggestion records."
+        description="SEO keyword suggestion records. Populated whenever the provider has data for the entity."
     )
 
 
@@ -446,26 +464,29 @@ class SeoKeywordSuggestionsSuggestion(BaseModel):
 
     competition: str | None = Field(
         default=None,
-        description="Paid-search competition level for the keyword suggestion.",
+        description="Paid-search competition level for the keyword suggestion. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     cpc: float | None = Field(
-        default=None, description="Average paid-search cost per click in USD."
+        default=None,
+        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    keyword: str = Field(description="Keyword suggestion phrase.")
+    keyword: str = Field(
+        description="Keyword suggestion phrase. Populated whenever the provider has data for the entity."
+    )
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale.",
+        description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_intent: str | None = Field(
         default=None,
         alias="searchIntent",
-        description="Primary SEO search intent for the keyword suggestion.",
+        description="Primary SEO search intent for the keyword suggestion. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
-        description="Average monthly search volume for the keyword suggestion.",
+        description="Average monthly search volume for the keyword suggestion. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     updated_utc: float | None = Field(
         default=None,
@@ -475,14 +496,17 @@ class SeoKeywordSuggestionsSuggestion(BaseModel):
 
 
 class SeoLocalPackData(BaseModel):
-    places: list[SeoLocalPackPlace] = Field(description="SEO local pack place records.")
+    places: list[SeoLocalPackPlace] = Field(
+        description="SEO local pack place records. Populated whenever the provider has data for the entity."
+    )
 
 
 class SeoLocalPackPlace(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     address: str | None = Field(
-        default=None, description="Full formatted street address."
+        default=None,
+        description="Full formatted street address. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     category: str | None = Field(default=None, description="Primary place category.")
     claimed: bool | None = Field(
@@ -494,7 +518,9 @@ class SeoLocalPackPlace(BaseModel):
     longitude: float | None = Field(
         default=None, description="Longitude of the place in decimal degrees."
     )
-    name: str = Field(description="Place name.")
+    name: str = Field(
+        description="Place name. Populated whenever the provider has data for the entity."
+    )
     phone: str | None = Field(
         default=None, description="Business phone number, when listed."
     )
@@ -503,10 +529,11 @@ class SeoLocalPackPlace(BaseModel):
     )
     rank_absolute: int = Field(
         alias="rankAbsolute",
-        description="Absolute ranking position in the local pack results.",
+        description="Absolute ranking position in the local pack results. Populated whenever the provider has data for the entity.",
     )
     rating: float | None = Field(
-        default=None, description="Average star rating out of 5."
+        default=None,
+        description="Average star rating out of 5. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     reviews_count: int | None = Field(
         default=None, alias="reviewsCount", description="Total number of reviews."
@@ -518,7 +545,8 @@ class SeoRankedKeywordsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     ranked_keywords: list[SeoRankedKeywordsRankedKeyword] = Field(
-        alias="rankedKeywords", description="SEO ranked keyword records for the domain."
+        alias="rankedKeywords",
+        description="SEO ranked keyword records for the domain. Populated whenever the provider has data for the entity.",
     )
 
 
@@ -532,7 +560,9 @@ class SeoRankedKeywordsRankedKeyword(BaseModel):
         default=None,
         description="Estimated organic search traffic for the ranking URL.",
     )
-    keyword: str = Field(description="Keyword phrase the domain ranks for.")
+    keyword: str = Field(
+        description="Keyword phrase the domain ranks for. Populated whenever the provider has data for the entity."
+    )
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
@@ -540,12 +570,12 @@ class SeoRankedKeywordsRankedKeyword(BaseModel):
     )
     rank_absolute: int = Field(
         alias="rankAbsolute",
-        description="Absolute organic ranking position for the keyword.",
+        description="Absolute organic ranking position for the keyword. Populated whenever the provider has data for the entity.",
     )
     rank_group: int | None = Field(
         default=None,
         alias="rankGroup",
-        description="Grouped organic ranking position for the keyword.",
+        description="Grouped organic ranking position for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_intent: str | None = Field(
         default=None,
@@ -555,7 +585,7 @@ class SeoRankedKeywordsRankedKeyword(BaseModel):
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
-        description="Average monthly search volume for the keyword.",
+        description="Average monthly search volume for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     updated_utc: float | None = Field(
         default=None,
@@ -569,7 +599,8 @@ class SeoRelatedKeywordsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     related_keywords: list[SeoRelatedKeywordsRelatedKeyword] = Field(
-        alias="relatedKeywords", description="SEO related keyword records."
+        alias="relatedKeywords",
+        description="SEO related keyword records. Populated whenever the provider has data for the entity.",
     )
 
 
@@ -578,30 +609,33 @@ class SeoRelatedKeywordsRelatedKeyword(BaseModel):
 
     competition: str | None = Field(
         default=None,
-        description="Paid-search competition level for the related keyword.",
+        description="Paid-search competition level for the related keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     cpc: float | None = Field(
-        default=None, description="Average paid-search cost per click in USD."
+        default=None,
+        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     depth: int | None = Field(
         default=None,
-        description="Related-keyword graph depth from the seed keyword. Present whenever the upstream returns this record.",
+        description="Related-keyword graph depth from the seed keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    keyword: str = Field(description="Related keyword phrase.")
+    keyword: str = Field(
+        description="Related keyword phrase. Populated whenever the provider has data for the entity."
+    )
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale.",
+        description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_intent: str | None = Field(
         default=None,
         alias="searchIntent",
-        description="Primary SEO search intent for the related keyword.",
+        description="Primary SEO search intent for the related keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
-        description="Average monthly search volume for the related keyword.",
+        description="Average monthly search volume for the related keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     updated_utc: float | None = Field(
         default=None,
@@ -612,20 +646,24 @@ class SeoRelatedKeywordsRelatedKeyword(BaseModel):
 
 class SeoSearchIntentData(BaseModel):
     intents: list[SeoSearchIntentIntent] = Field(
-        description="SEO keyword search intent records."
+        description="SEO keyword search intent records. Populated whenever the provider has data for the entity."
     )
 
 
 class SeoSearchIntentIntent(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    intent: str = Field(description="Primary SEO search intent for the keyword.")
-    keyword: str = Field(description="Keyword phrase.")
+    intent: str = Field(
+        description="Primary SEO search intent for the keyword. Populated whenever the provider has data for the entity."
+    )
+    keyword: str = Field(
+        description="Keyword phrase. Populated whenever the provider has data for the entity."
+    )
 
 
 class SeoSearchVolumeData(BaseModel):
     keywords: list[SeoSearchVolumeKeyword] = Field(
-        description="SEO keyword search-volume records."
+        description="SEO keyword search-volume records. Populated whenever the provider has data for the entity."
     )
 
 
@@ -643,7 +681,8 @@ class SeoSearchVolumeKeyword(BaseModel):
         description="Lower bound of the estimated paid-search top-of-page bid in USD.",
     )
     competition: str | None = Field(
-        default=None, description="Paid-search competition level for the keyword."
+        default=None,
+        description="Paid-search competition level for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     competition_index: int | None = Field(
         default=None,
@@ -651,9 +690,12 @@ class SeoSearchVolumeKeyword(BaseModel):
         description="Paid-search competition index for the keyword.",
     )
     cpc: float | None = Field(
-        default=None, description="Average paid-search cost per click in USD."
+        default=None,
+        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    keyword: str = Field(description="Keyword phrase.")
+    keyword: str = Field(
+        description="Keyword phrase. Populated whenever the provider has data for the entity."
+    )
     monthly_searches: list[SeoSearchVolumeMonthlySearche] | None = Field(
         default=None,
         alias="monthlySearches",
@@ -662,7 +704,7 @@ class SeoSearchVolumeKeyword(BaseModel):
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
-        description="Average monthly search volume for the keyword. Present whenever the upstream returns this record.",
+        description="Average monthly search volume for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
@@ -696,7 +738,9 @@ class SeoNamespace:
         """SEO Competitor Domains
 
         Get AnyAPI SEO competitor domains for a target domain with shared keyword
-        counts and organic metrics as normalized JSON with USD pricing.
+        counts and organic metrics as normalized JSON. **Price:** billed per result
+        - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at
+        $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
@@ -717,7 +761,9 @@ class SeoNamespace:
         """SEO Domain Intersection
 
         Get AnyAPI SEO keyword overlap for two domains with each domain's rankings,
-        URLs, volume, CPC, and difficulty as normalized JSON with USD pricing.
+        URLs, volume, CPC, and difficulty as normalized JSON. **Price:** billed per
+        result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at
+        $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
@@ -738,7 +784,8 @@ class SeoNamespace:
         """SEO Domain Rank Overview
 
         Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as
-        normalized JSON with USD pricing.
+        normalized JSON. **Price:** $15.60 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.0156 per request.
 
@@ -759,7 +806,8 @@ class SeoNamespace:
         """SEO Keyword Difficulty
 
         Get AnyAPI SEO keyword difficulty scores for one or more keywords as
-        normalized JSON with USD pricing.
+        normalized JSON. **Price:** billed per keyword - $15.60 per 1,000 requests
+        base + $0.16 per 1,000 keywords, capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per keyword.
 
@@ -780,12 +828,14 @@ class SeoNamespace:
         """SEO Keyword Ideas
 
         Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition,
-        difficulty, and intent as normalized JSON with USD pricing.
+        difficulty, and intent as normalized JSON. **Price:** billed per result -
+        $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60
+        per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
         Example:
-            res = client.seo.keyword_ideas(keywords=["seo tools"], language="en", limit=5, location=2840)
+            res = client.seo.keyword_ideas(keywords=["project management software"], language="en", limit=5, location=2840)
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_ideas", dict(input), options
@@ -801,12 +851,14 @@ class SeoNamespace:
         """SEO Keyword Overview
 
         Get AnyAPI SEO keyword metrics including search volume, CPC, competition,
-        difficulty, and search intent as normalized JSON with USD pricing.
+        difficulty, and search intent as normalized JSON. **Price:** billed per
+        keyword - $15.60 per 1,000 requests base + $0.16 per 1,000 keywords, capped
+        at $127.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per keyword.
 
         Example:
-            res = client.seo.keyword_overview(keywords=["seo tools"], language="en", location=2840)
+            res = client.seo.keyword_overview(keywords=["project management software"], language="en", location=2840)
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_overview", dict(input), options
@@ -822,12 +874,14 @@ class SeoNamespace:
         """SEO Keyword Suggestions
 
         Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC,
-        competition, difficulty, and intent as normalized JSON with USD pricing.
+        competition, difficulty, and intent as normalized JSON. **Price:** billed
+        per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results,
+        capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
         Example:
-            res = client.seo.keyword_suggestions(keyword="seo tools", language="en", limit=5, location=2840)
+            res = client.seo.keyword_suggestions(keyword="project management software", language="en", limit=5, location=2840)
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_suggestions", dict(input), options
@@ -843,7 +897,8 @@ class SeoNamespace:
         """SEO Local Pack
 
         Search AnyAPI SEO local pack results with rankings, ratings, addresses, and
-        contact basics as normalized JSON with USD pricing.
+        contact basics as normalized JSON. **Price:** $2.60 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.0026 per request.
 
@@ -864,8 +919,9 @@ class SeoNamespace:
         """SEO Ranked Keywords
 
         Get AnyAPI SEO ranked keywords for a domain with rankings, traffic
-        estimates, volume, CPC, difficulty, and intent as normalized JSON with USD
-        pricing.
+        estimates, volume, CPC, difficulty, and intent as normalized JSON.
+        **Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per
+        1,000 results, capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
@@ -886,12 +942,14 @@ class SeoNamespace:
         """SEO Related Keywords
 
         Find AnyAPI SEO related keywords from a seed term with volume, CPC,
-        competition, difficulty, and intent as normalized JSON with USD pricing.
+        competition, difficulty, and intent as normalized JSON. **Price:** billed
+        per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results,
+        capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
         Example:
-            res = client.seo.related_keywords(keyword="seo tools", language="en", limit=5, location=2840)
+            res = client.seo.related_keywords(keyword="project management software", language="en", limit=5, location=2840)
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.related_keywords", dict(input), options
@@ -906,8 +964,9 @@ class SeoNamespace:
     ) -> RunResult[SeoSearchIntentData]:
         """SEO Search Intent
 
-        Classify AnyAPI SEO keyword search intent as normalized JSON with USD
-        pricing.
+        Classify AnyAPI SEO keyword search intent as normalized JSON. **Price:**
+        billed per keyword - $15.60 per 1,000 requests base + $0.16 per 1,000
+        keywords, capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per keyword.
 
@@ -928,7 +987,8 @@ class SeoNamespace:
         """SEO Search Volume
 
         Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and
-        monthly history as normalized JSON with USD pricing.
+        monthly history as normalized JSON. **Price:** $117.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.117 per request.
 
@@ -956,7 +1016,9 @@ class AsyncSeoNamespace:
         """SEO Competitor Domains
 
         Get AnyAPI SEO competitor domains for a target domain with shared keyword
-        counts and organic metrics as normalized JSON with USD pricing.
+        counts and organic metrics as normalized JSON. **Price:** billed per result
+        - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at
+        $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
@@ -977,7 +1039,9 @@ class AsyncSeoNamespace:
         """SEO Domain Intersection
 
         Get AnyAPI SEO keyword overlap for two domains with each domain's rankings,
-        URLs, volume, CPC, and difficulty as normalized JSON with USD pricing.
+        URLs, volume, CPC, and difficulty as normalized JSON. **Price:** billed per
+        result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at
+        $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
@@ -998,7 +1062,8 @@ class AsyncSeoNamespace:
         """SEO Domain Rank Overview
 
         Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as
-        normalized JSON with USD pricing.
+        normalized JSON. **Price:** $15.60 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.0156 per request.
 
@@ -1019,7 +1084,8 @@ class AsyncSeoNamespace:
         """SEO Keyword Difficulty
 
         Get AnyAPI SEO keyword difficulty scores for one or more keywords as
-        normalized JSON with USD pricing.
+        normalized JSON. **Price:** billed per keyword - $15.60 per 1,000 requests
+        base + $0.16 per 1,000 keywords, capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per keyword.
 
@@ -1040,12 +1106,14 @@ class AsyncSeoNamespace:
         """SEO Keyword Ideas
 
         Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition,
-        difficulty, and intent as normalized JSON with USD pricing.
+        difficulty, and intent as normalized JSON. **Price:** billed per result -
+        $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60
+        per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
         Example:
-            res = client.seo.keyword_ideas(keywords=["seo tools"], language="en", limit=5, location=2840)
+            res = client.seo.keyword_ideas(keywords=["project management software"], language="en", limit=5, location=2840)
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_ideas", dict(input), options
@@ -1061,12 +1129,14 @@ class AsyncSeoNamespace:
         """SEO Keyword Overview
 
         Get AnyAPI SEO keyword metrics including search volume, CPC, competition,
-        difficulty, and search intent as normalized JSON with USD pricing.
+        difficulty, and search intent as normalized JSON. **Price:** billed per
+        keyword - $15.60 per 1,000 requests base + $0.16 per 1,000 keywords, capped
+        at $127.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per keyword.
 
         Example:
-            res = client.seo.keyword_overview(keywords=["seo tools"], language="en", location=2840)
+            res = client.seo.keyword_overview(keywords=["project management software"], language="en", location=2840)
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_overview", dict(input), options
@@ -1082,12 +1152,14 @@ class AsyncSeoNamespace:
         """SEO Keyword Suggestions
 
         Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC,
-        competition, difficulty, and intent as normalized JSON with USD pricing.
+        competition, difficulty, and intent as normalized JSON. **Price:** billed
+        per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results,
+        capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
         Example:
-            res = client.seo.keyword_suggestions(keyword="seo tools", language="en", limit=5, location=2840)
+            res = client.seo.keyword_suggestions(keyword="project management software", language="en", limit=5, location=2840)
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_suggestions", dict(input), options
@@ -1103,7 +1175,8 @@ class AsyncSeoNamespace:
         """SEO Local Pack
 
         Search AnyAPI SEO local pack results with rankings, ratings, addresses, and
-        contact basics as normalized JSON with USD pricing.
+        contact basics as normalized JSON. **Price:** $2.60 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.0026 per request.
 
@@ -1124,8 +1197,9 @@ class AsyncSeoNamespace:
         """SEO Ranked Keywords
 
         Get AnyAPI SEO ranked keywords for a domain with rankings, traffic
-        estimates, volume, CPC, difficulty, and intent as normalized JSON with USD
-        pricing.
+        estimates, volume, CPC, difficulty, and intent as normalized JSON.
+        **Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per
+        1,000 results, capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
@@ -1146,12 +1220,14 @@ class AsyncSeoNamespace:
         """SEO Related Keywords
 
         Find AnyAPI SEO related keywords from a seed term with volume, CPC,
-        competition, difficulty, and intent as normalized JSON with USD pricing.
+        competition, difficulty, and intent as normalized JSON. **Price:** billed
+        per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results,
+        capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per result.
 
         Example:
-            res = client.seo.related_keywords(keyword="seo tools", language="en", limit=5, location=2840)
+            res = client.seo.related_keywords(keyword="project management software", language="en", limit=5, location=2840)
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.related_keywords", dict(input), options
@@ -1166,8 +1242,9 @@ class AsyncSeoNamespace:
     ) -> RunResult[SeoSearchIntentData]:
         """SEO Search Intent
 
-        Classify AnyAPI SEO keyword search intent as normalized JSON with USD
-        pricing.
+        Classify AnyAPI SEO keyword search intent as normalized JSON. **Price:**
+        billed per keyword - $15.60 per 1,000 requests base + $0.16 per 1,000
+        keywords, capped at $175.60 per 1,000 requests.
 
         Price: $0.0156 per request plus $0.00016 per keyword.
 
@@ -1188,7 +1265,8 @@ class AsyncSeoNamespace:
         """SEO Search Volume
 
         Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and
-        monthly history as normalized JSON with USD pricing.
+        monthly history as normalized JSON. **Price:** $117.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.117 per request.
 

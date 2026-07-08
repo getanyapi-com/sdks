@@ -35,7 +35,7 @@ class ZillowSearchInput(TypedDict, total=False):
 
 class ZillowPropertyData(BaseModel):
     items: list[ZillowPropertyItem] = Field(
-        description="The matched property record (single element for a property lookup)."
+        description="The matched property record (single element for a property lookup). Populated whenever the provider has data for the entity."
     )
 
 
@@ -96,15 +96,17 @@ class ZillowPropertyItem(BaseModel):
     title: str | None = Field(
         default=None, description="Street address line used as the property title."
     )
-    url: str = Field(description="Canonical Zillow property detail page URL.")
+    url: str = Field(
+        description="Canonical Zillow property detail page URL. Populated whenever the provider has data for the entity."
+    )
     zpid: str = Field(
-        description="Zillow property id (zpid), the stable identifier for the property."
+        description="Zillow property id (zpid), the stable identifier for the property. Populated whenever the provider has data for the entity."
     )
 
 
 class ZillowSearchData(BaseModel):
     items: list[ZillowSearchItem] = Field(
-        description="Property listing records matching the search: address, price, beds, baths, living area, property type, status, Zestimate, and coordinates."
+        description="Property listing records matching the search: address, price, beds, baths, living area, property type, status, Zestimate, and coordinates. Populated whenever the provider has data for the entity."
     )
 
 
@@ -124,7 +126,7 @@ class ZillowSearchItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="URL of the primary listing photo. Present whenever the upstream returns this record.",
+        description="URL of the primary listing photo. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     latitude: float | None = None
     living_area: float | None = Field(
@@ -156,15 +158,19 @@ class ZillowSearchItem(BaseModel):
     street_address: str | None = Field(
         default=None,
         alias="streetAddress",
-        description="Street address of the property. Present whenever the upstream returns this record.",
+        description="Street address of the property. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    url: str = Field(description="Absolute Zillow listing URL.")
+    url: str = Field(
+        description="Absolute Zillow listing URL. Populated whenever the provider has data for the entity."
+    )
     year_built: int | None = Field(default=None, alias="yearBuilt")
     zestimate: float | None = Field(
         default=None, description="Zillow estimated market value."
     )
     zipcode: str | None = None
-    zpid: str = Field(description="Zillow property id (zpid).")
+    zpid: str = Field(
+        description="Zillow property id (zpid). Populated whenever the provider has data for the entity."
+    )
 
 
 class ZillowNamespace:
@@ -182,8 +188,9 @@ class ZillowNamespace:
         """Zillow Property
 
         Fetch full details for a single Zillow property listing by URL (price, facts
-        and features, photos, and price/tax history) with transparent per-request
-        USD pricing.
+        and features, photos, and price/tax history). **Price:** billed per result -
+        $0.00 per 1,000 requests base + $2.40 per 1,000 results, capped at $2.40 per
+        1,000 requests.
 
         Price: $0.0024 per result.
 
@@ -205,8 +212,9 @@ class ZillowNamespace:
 
         Search Zillow for-sale, rental, or sold listings by location (city, ZIP, or
         address) and get matching properties (price, address, beds, baths, living
-        area, status, Zestimate) as normalized JSON with per-request USD pricing
-        that scales with the number of results.
+        area, status, Zestimate) as normalized JSON. **Price:** billed per result -
+        $0.50 per 1,000 requests base + $3.00 per 1,000 results, capped at $75.50
+        per 1,000 requests.
 
         Price: $0.0005 per request plus $0.003 per result.
 
@@ -234,8 +242,9 @@ class AsyncZillowNamespace:
         """Zillow Property
 
         Fetch full details for a single Zillow property listing by URL (price, facts
-        and features, photos, and price/tax history) with transparent per-request
-        USD pricing.
+        and features, photos, and price/tax history). **Price:** billed per result -
+        $0.00 per 1,000 requests base + $2.40 per 1,000 results, capped at $2.40 per
+        1,000 requests.
 
         Price: $0.0024 per result.
 
@@ -257,8 +266,9 @@ class AsyncZillowNamespace:
 
         Search Zillow for-sale, rental, or sold listings by location (city, ZIP, or
         address) and get matching properties (price, address, beds, baths, living
-        area, status, Zestimate) as normalized JSON with per-request USD pricing
-        that scales with the number of results.
+        area, status, Zestimate) as normalized JSON. **Price:** billed per result -
+        $0.50 per 1,000 requests base + $3.00 per 1,000 results, capped at $75.50
+        per 1,000 requests.
 
         Price: $0.0005 per request plus $0.003 per result.
 

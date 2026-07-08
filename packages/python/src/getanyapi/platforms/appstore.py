@@ -28,7 +28,7 @@ class AppstoreReviewsInput(TypedDict, total=False):
 
 class AppstoreReviewsData(BaseModel):
     items: list[AppstoreReviewsItem] = Field(
-        description="Review records: star rating, review title and text, reviewer nickname, app version, and review date."
+        description="Review records: star rating, review title and text, reviewer nickname, app version, and review date. Populated whenever the provider has data for the entity."
     )
 
 
@@ -37,12 +37,12 @@ class AppstoreReviewsItem(BaseModel):
 
     author: str | None = Field(
         default=None,
-        description="Reviewer nickname. Present whenever the upstream returns this record.",
+        description="Reviewer nickname. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     helpful_votes: int | None = Field(
         default=None,
@@ -51,10 +51,14 @@ class AppstoreReviewsItem(BaseModel):
     )
     id: str | None = Field(
         default=None,
-        description="Review identifier. Present whenever the upstream returns this record.",
+        description="Review identifier. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    rating: float = Field(description="Star rating, 1 to 5.")
-    text: str = Field(description="Review body text.")
+    rating: float = Field(
+        description="Star rating, 1 to 5. Populated whenever the provider has data for the entity."
+    )
+    text: str = Field(
+        description="Review body text. Populated whenever the provider has data for the entity."
+    )
     title: str | None = Field(default=None, description="Review title.")
     version: str | None = Field(
         default=None, description="App version the review was left on."
@@ -76,7 +80,9 @@ class AppstoreNamespace:
         """App Store Reviews
 
         Get App Store reviews for any iOS app by app ID, in any storefront country -
-        ratings, titles, and review text with transparent per-request USD pricing.
+        ratings, titles, and review text. **Price:** billed per result - $0.00 per
+        1,000 requests base + $0.10 per 1,000 results, capped at $10.00 per 1,000
+        requests.
 
         Price: $0.0001 per result.
 
@@ -104,7 +110,9 @@ class AsyncAppstoreNamespace:
         """App Store Reviews
 
         Get App Store reviews for any iOS app by app ID, in any storefront country -
-        ratings, titles, and review text with transparent per-request USD pricing.
+        ratings, titles, and review text. **Price:** billed per result - $0.00 per
+        1,000 requests base + $0.10 per 1,000 results, capped at $10.00 per 1,000
+        requests.
 
         Price: $0.0001 per result.
 

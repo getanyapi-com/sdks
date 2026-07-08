@@ -118,42 +118,58 @@ class TwitterCommunityData(BaseModel):
     )
     creator_handle: str = Field(
         alias="creatorHandle",
-        description="Handle of the account that created the community.",
+        description="Handle of the account that created the community. Populated whenever the provider has data for the entity.",
     )
-    description: str = Field(description="Community description text.")
-    id: str = Field(description="Community identifier.")
+    description: str = Field(
+        description="Community description text. Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Community identifier. Populated whenever the provider has data for the entity."
+    )
     join_policy: str = Field(
-        alias="joinPolicy", description='How members join, e.g. "open" or "restricted".'
+        alias="joinPolicy",
+        description='How members join, e.g. "open" or "restricted". Populated whenever the provider has data for the entity.',
     )
     member_count: int = Field(
         alias="memberCount", description="Number of members in the community."
     )
-    name: str = Field(description="Community name.")
+    name: str = Field(
+        description="Community name. Populated whenever the provider has data for the entity."
+    )
 
 
 class TwitterCommunityTweetsData(BaseModel):
-    tweets: list[TwitterCommunityTweetsTweet]
+    tweets: list[TwitterCommunityTweetsTweet] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TwitterCommunityTweetsTweet(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author_handle: str = Field(alias="authorHandle")
+    author_handle: str = Field(
+        alias="authorHandle",
+        description="Populated whenever the provider has data for the entity.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     favorite_count: int = Field(alias="favoriteCount")
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     quote_count: int = Field(alias="quoteCount")
     reply_count: int = Field(alias="replyCount")
     retweet_count: int = Field(alias="retweetCount")
-    text: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TwitterFollowersData(BaseModel):
     items: list[TwitterFollowersItem] = Field(
-        description="Follower records, normalized to a compact shape."
+        description="Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity."
     )
 
 
@@ -162,7 +178,7 @@ class TwitterFollowersItem(BaseModel):
 
     avatar_url: str = Field(
         alias="avatarUrl",
-        description="URL of the account's profile image (may be empty).",
+        description="URL of the account's profile image (may be empty). Populated whenever the provider has data for the entity.",
     )
     bio: str = Field(description="The account's profile bio/description.")
     followers: int = Field(description="How many followers this account has.")
@@ -170,14 +186,18 @@ class TwitterFollowersItem(BaseModel):
     location: str = Field(
         description="The account's self-reported location (may be empty)."
     )
-    name: str = Field(description="The account's display name.")
-    username: str = Field(description="The account's @ handle, without the @ prefix.")
+    name: str = Field(
+        description="The account's display name. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity."
+    )
     verified: bool = Field(description="Whether the account is verified.")
 
 
 class TwitterFollowingData(BaseModel):
     items: list[TwitterFollowingItem] = Field(
-        description="Followed-account records, normalized to a compact shape."
+        description="Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity."
     )
 
 
@@ -186,7 +206,7 @@ class TwitterFollowingItem(BaseModel):
 
     avatar_url: str = Field(
         alias="avatarUrl",
-        description="URL of the account's profile image (may be empty).",
+        description="URL of the account's profile image (may be empty). Populated whenever the provider has data for the entity.",
     )
     bio: str = Field(description="The account's profile bio/description.")
     followers: int = Field(description="How many followers this account has.")
@@ -194,27 +214,41 @@ class TwitterFollowingItem(BaseModel):
     location: str = Field(
         description="The account's self-reported location (may be empty)."
     )
-    name: str = Field(description="The account's display name.")
-    username: str = Field(description="The account's @ handle, without the @ prefix.")
+    name: str = Field(
+        description="The account's display name. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity."
+    )
     verified: bool = Field(description="Whether the account is verified.")
 
 
 class TwitterProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
-    bio: str
-    display_name: str = Field(alias="displayName")
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    bio: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    display_name: str = Field(
+        alias="displayName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     followers: int
     following: int
-    handle: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     tweets: int
     verified: bool
 
 
 class TwitterRepliesData(BaseModel):
     items: list[TwitterRepliesItem] = Field(
-        description="Reply records for the requested post."
+        description="Reply records for the requested post. Populated whenever the provider has data for the entity."
     )
 
 
@@ -235,7 +269,9 @@ class TwitterRepliesItem(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str = Field(description="The reply's numeric tweet ID, as a string.")
+    id: str = Field(
+        description="The reply's numeric tweet ID, as a string. Populated whenever the provider has data for the entity."
+    )
     like_count: int | None = Field(
         default=None, alias="likeCount", description="Number of likes on this reply."
     )
@@ -256,7 +292,7 @@ class TwitterRepliesItem(BaseModel):
         description="The reply's text. Empty for media-only replies with no text."
     )
     url: str = Field(
-        description="Canonical x.com URL of the reply, with tracking query params stripped."
+        description="Canonical x.com URL of the reply, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
     view_count: int | None = Field(
         default=None, alias="viewCount", description="Number of views of this reply."
@@ -265,7 +301,7 @@ class TwitterRepliesItem(BaseModel):
 
 class TwitterSearchData(BaseModel):
     items: list[TwitterSearchItem] = Field(
-        description="Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views)."
+        description="Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity."
     )
 
 
@@ -275,12 +311,12 @@ class TwitterSearchItem(BaseModel):
     author_name: str | None = Field(
         default=None,
         alias="authorName",
-        description="Present whenever the upstream returns this record.",
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_username: str | None = Field(
         default=None,
         alias="authorUsername",
-        description="Present whenever the upstream returns this record.",
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_verified: bool | None = Field(default=None, alias="authorVerified")
     bookmark_count: int | None = Field(default=None, alias="bookmarkCount")
@@ -288,35 +324,48 @@ class TwitterSearchItem(BaseModel):
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     is_reply: bool | None = Field(default=None, alias="isReply")
     lang: str | None = None
     like_count: int | None = Field(default=None, alias="likeCount")
     quote_count: int | None = Field(default=None, alias="quoteCount")
     reply_count: int | None = Field(default=None, alias="replyCount")
     retweet_count: int | None = Field(default=None, alias="retweetCount")
-    text: str
-    url: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     view_count: int | None = Field(default=None, alias="viewCount")
 
 
 class TwitterTweetData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author_id: str = Field(alias="authorId")
+    author_id: str = Field(
+        alias="authorId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     bookmarks: int
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     quotes: int
     replies: int
     retweets: int
-    text: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
@@ -334,7 +383,9 @@ class TwitterUserTweetsData(BaseModel):
         alias="nextCursor",
         description="Opaque cursor for the next page of tweets, or null when this lane has no more. Pass it back as cursor to continue.",
     )
-    tweets: list[TwitterUserTweetsTweet]
+    tweets: list[TwitterUserTweetsTweet] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TwitterUserTweetsTweet(BaseModel):
@@ -343,9 +394,11 @@ class TwitterUserTweetsTweet(BaseModel):
     bookmarks: int
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     is_pinned: bool = Field(alias="isPinned")
     is_reply: bool | None = Field(default=None, alias="isReply")
     lang: str | None = None
@@ -353,8 +406,12 @@ class TwitterUserTweetsTweet(BaseModel):
     quotes: int | None = None
     replies: int
     retweets: int
-    text: str
-    url: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
@@ -374,7 +431,8 @@ class TwitterNamespace:
 
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL, normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -395,7 +453,8 @@ class TwitterNamespace:
         """Twitter Community Tweets
 
         List recent tweets posted in a Twitter/X community by URL, normalized across
-        providers with transparent failover.
+        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -416,8 +475,9 @@ class TwitterNamespace:
         """X / Twitter Followers
 
         Fetch the follower list of any public X (Twitter) account by username - up
-        to 100,000 follower records per request with transparent per-result USD
-        pricing.
+        to 100,000 follower records per request. **Price:** billed per result -
+        $0.00 per 1,000 requests base + $0.15 per 1,000 results, capped at
+        $15,000.00 per 1,000 requests.
 
         Price: $0.00015 per result.
 
@@ -438,7 +498,9 @@ class TwitterNamespace:
         """X / Twitter Following
 
         List the accounts a public X (Twitter) account follows by username - up to
-        100,000 records per request with transparent per-result USD pricing.
+        100,000 records per request. **Price:** billed per result - $0.00 per 1,000
+        requests base + $0.15 per 1,000 results, capped at $15,000.00 per 1,000
+        requests.
 
         Price: $0.00015 per result.
 
@@ -460,7 +522,8 @@ class TwitterNamespace:
 
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
         verification) by handle, normalized across providers with transparent
-        failover.
+        failover. **Price:** $1.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -481,7 +544,9 @@ class TwitterNamespace:
         """X / Twitter Post Replies
 
         Fetch the replies to any X (Twitter) post URL as structured records -
-        author, text, and engagement - priced per request in USD.
+        author, text, and engagement. **Price:** billed per result - $2.50 per 1,000
+        requests base + $0.25 per 1,000 results, capped at $12.50 per 1,000
+        requests.
 
         Price: $0.0025 per request plus $0.00025 per result.
 
@@ -502,8 +567,9 @@ class TwitterNamespace:
         """X / Twitter Search
 
         Search X (Twitter) with full advanced-search syntax and get up to 50
-        structured tweets per request - text, author, and engagement - with
-        transparent per-request USD pricing.
+        structured tweets per request - text, author, and engagement. **Price:**
+        billed per result - $4.00 per 1,000 requests base + $0.20 per 1,000 results,
+        capped at $14.00 per 1,000 requests.
 
         Price: $0.004 per request plus $0.0002 per result.
 
@@ -525,7 +591,8 @@ class TwitterNamespace:
 
         Fetch a single Twitter/X tweet by URL with its full text and engagement
         counts (likes, retweets, replies, quotes, bookmarks, views), normalized
-        across providers.
+        across providers. **Price:** $2.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -546,7 +613,9 @@ class TwitterNamespace:
         """Twitter Tweet Transcript
 
         Extract the spoken transcript from a Twitter/X video tweet by URL,
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -569,7 +638,8 @@ class TwitterNamespace:
         Get an X (Twitter) account's latest tweets by handle, newest first
         (reverse-chronological, replies included) - not just the popular ones - up
         to 1000 per call, with engagement, views, and language, normalized across
-        providers with cursor pagination.
+        providers with cursor pagination. **Price:** $1.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -621,7 +691,8 @@ class AsyncTwitterNamespace:
 
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL, normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -642,7 +713,8 @@ class AsyncTwitterNamespace:
         """Twitter Community Tweets
 
         List recent tweets posted in a Twitter/X community by URL, normalized across
-        providers with transparent failover.
+        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -663,8 +735,9 @@ class AsyncTwitterNamespace:
         """X / Twitter Followers
 
         Fetch the follower list of any public X (Twitter) account by username - up
-        to 100,000 follower records per request with transparent per-result USD
-        pricing.
+        to 100,000 follower records per request. **Price:** billed per result -
+        $0.00 per 1,000 requests base + $0.15 per 1,000 results, capped at
+        $15,000.00 per 1,000 requests.
 
         Price: $0.00015 per result.
 
@@ -685,7 +758,9 @@ class AsyncTwitterNamespace:
         """X / Twitter Following
 
         List the accounts a public X (Twitter) account follows by username - up to
-        100,000 records per request with transparent per-result USD pricing.
+        100,000 records per request. **Price:** billed per result - $0.00 per 1,000
+        requests base + $0.15 per 1,000 results, capped at $15,000.00 per 1,000
+        requests.
 
         Price: $0.00015 per result.
 
@@ -707,7 +782,8 @@ class AsyncTwitterNamespace:
 
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
         verification) by handle, normalized across providers with transparent
-        failover.
+        failover. **Price:** $1.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -728,7 +804,9 @@ class AsyncTwitterNamespace:
         """X / Twitter Post Replies
 
         Fetch the replies to any X (Twitter) post URL as structured records -
-        author, text, and engagement - priced per request in USD.
+        author, text, and engagement. **Price:** billed per result - $2.50 per 1,000
+        requests base + $0.25 per 1,000 results, capped at $12.50 per 1,000
+        requests.
 
         Price: $0.0025 per request plus $0.00025 per result.
 
@@ -749,8 +827,9 @@ class AsyncTwitterNamespace:
         """X / Twitter Search
 
         Search X (Twitter) with full advanced-search syntax and get up to 50
-        structured tweets per request - text, author, and engagement - with
-        transparent per-request USD pricing.
+        structured tweets per request - text, author, and engagement. **Price:**
+        billed per result - $4.00 per 1,000 requests base + $0.20 per 1,000 results,
+        capped at $14.00 per 1,000 requests.
 
         Price: $0.004 per request plus $0.0002 per result.
 
@@ -772,7 +851,8 @@ class AsyncTwitterNamespace:
 
         Fetch a single Twitter/X tweet by URL with its full text and engagement
         counts (likes, retweets, replies, quotes, bookmarks, views), normalized
-        across providers.
+        across providers. **Price:** $2.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -793,7 +873,9 @@ class AsyncTwitterNamespace:
         """Twitter Tweet Transcript
 
         Extract the spoken transcript from a Twitter/X video tweet by URL,
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -816,7 +898,8 @@ class AsyncTwitterNamespace:
         Get an X (Twitter) account's latest tweets by handle, newest first
         (reverse-chronological, replies included) - not just the popular ones - up
         to 1000 per call, with engagement, views, and language, normalized across
-        providers with cursor pagination.
+        providers with cursor pagination. **Price:** $1.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.001 per request.
 

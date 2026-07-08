@@ -22,6 +22,9 @@ export interface HackernewsProfileInput {
 export interface HackernewsProfileData {
   bio: string;
   karma: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   username: string;
   [extra: string]: unknown;
 }
@@ -42,7 +45,7 @@ export interface HackernewsSearchInput {
 
 export interface HackernewsSearchResult {
   /**
-   * Submitting user's username.
+   * Submitting user's username. Populated whenever the provider has data for the entity.
    */
   author: string;
   /**
@@ -50,11 +53,11 @@ export interface HackernewsSearchResult {
    */
   comments: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Hacker News item id.
+   * Hacker News item id. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -62,7 +65,7 @@ export interface HackernewsSearchResult {
    */
   points: number;
   /**
-   * Story title.
+   * Story title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
@@ -77,7 +80,7 @@ export interface HackernewsSearchResult {
  */
 export interface HackernewsSearchData {
   /**
-   * Matching Hacker News stories.
+   * Matching Hacker News stories. Populated whenever the provider has data for the entity.
    */
   results: HackernewsSearchResult[];
 }
@@ -97,7 +100,7 @@ export interface HackernewsStoryInput {
  */
 export interface HackernewsStoryData {
   /**
-   * Submitting user's username.
+   * Submitting user's username. Populated whenever the provider has data for the entity.
    */
   author: string;
   /**
@@ -105,7 +108,7 @@ export interface HackernewsStoryData {
    */
   comments: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
@@ -113,7 +116,7 @@ export interface HackernewsStoryData {
    */
   points: number;
   /**
-   * Story title.
+   * Story title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
@@ -135,15 +138,15 @@ export interface HackernewsStoryCommentsInput {
 
 export interface HackernewsStoryCommentsComment {
   /**
-   * Commenting user's username.
+   * Commenting user's username. Populated whenever the provider has data for the entity.
    */
   author: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Hacker News comment id.
+   * Hacker News comment id. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -162,7 +165,7 @@ export interface HackernewsStoryCommentsComment {
  */
 export interface HackernewsStoryCommentsData {
   /**
-   * Comments on the story.
+   * Comments on the story. Populated whenever the provider has data for the entity.
    */
   comments: HackernewsStoryCommentsComment[];
 }
@@ -177,7 +180,9 @@ export class HackernewsNamespace {
   /**
    * Hacker News Profile
    *
-   * Get a Hacker News user's public profile by username - karma, bio, and account details as clean JSON, billed per request in USD.
+   * Get a Hacker News user's public profile by username - karma, bio, and account details as clean JSON.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -194,7 +199,9 @@ export class HackernewsNamespace {
   /**
    * Hacker News Search
    *
-   * Search Hacker News by keyword - matching stories with title, link, author, points, and comment count as clean JSON, billed per request in USD.
+   * Search Hacker News by keyword - matching stories with title, link, author, points, and comment count as clean JSON.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -211,7 +218,9 @@ export class HackernewsNamespace {
   /**
    * Hacker News Story
    *
-   * Get a Hacker News story by id - title, link, author, points, and comment count as clean JSON, billed per request in USD.
+   * Get a Hacker News story by id - title, link, author, points, and comment count as clean JSON.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -228,7 +237,9 @@ export class HackernewsNamespace {
   /**
    * Hacker News Story Comments
    *
-   * List the comments on a Hacker News story by id - text, author, and timestamp as clean JSON, billed per request in USD.
+   * List the comments on a Hacker News story by id - text, author, and timestamp as clean JSON.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *

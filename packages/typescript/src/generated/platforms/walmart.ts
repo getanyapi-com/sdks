@@ -30,7 +30,7 @@ export interface WalmartProductItem {
    */
   description?: string;
   /**
-   * Primary product image URL.
+   * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -39,7 +39,7 @@ export interface WalmartProductItem {
    */
   images?: string[];
   /**
-   * Walmart US item id (usItemId).
+   * Walmart US item id (usItemId). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   itemId?: string;
@@ -68,7 +68,7 @@ export interface WalmartProductItem {
    */
   sellerName?: string;
   /**
-   * Product title.
+   * Product title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
@@ -76,7 +76,7 @@ export interface WalmartProductItem {
    */
   upc?: string;
   /**
-   * Canonical Walmart product page URL (condition query param retained, as it selects the offer).
+   * Canonical Walmart product page URL (condition query param retained, as it selects the offer). Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -87,7 +87,7 @@ export interface WalmartProductItem {
  */
 export interface WalmartProductData {
   /**
-   * Product detail records (one per requested product URL).
+   * Product detail records (one per requested product URL). Populated whenever the provider has data for the entity.
    */
   items: WalmartProductItem[];
 }
@@ -102,7 +102,9 @@ export class WalmartNamespace {
   /**
    * Walmart Product
    *
-   * Fetch a Walmart product page by URL and get full product details - title, price, availability, ratings, images, and specs - in one normalized, flat-priced response.
+   * Fetch a Walmart product page by URL and get full product details - title, price, availability, ratings, images, and specs - in one normalized response.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $3.68 per 1,000 results, capped at $3.68 per 1,000 requests.
    *
    * Price: $0.00368 per result.
    *

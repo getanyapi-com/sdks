@@ -58,8 +58,13 @@ class ThreadsPostData(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    full_name: str = Field(alias="fullName", description="Display name of the author.")
-    id: str = Field(description="Post identifier.")
+    full_name: str = Field(
+        alias="fullName",
+        description="Display name of the author. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Post identifier. Populated whenever the provider has data for the entity."
+    )
     like_count: int = Field(
         alias="likeCount", description="Number of likes on the post."
     )
@@ -70,26 +75,42 @@ class ThreadsPostData(BaseModel):
     repost_count: int = Field(
         alias="repostCount", description="Number of reposts of the post."
     )
-    text: str = Field(description="Post text content.")
-    username: str = Field(description="Username of the author.")
+    text: str = Field(
+        description="Post text content. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the author. Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    biography: str
+    biography: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     follower_count: int = Field(alias="followerCount")
-    full_name: str = Field(alias="fullName")
-    id: str
+    full_name: str = Field(
+        alias="fullName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     is_private: bool = Field(alias="isPrivate")
     is_verified: bool = Field(alias="isVerified")
-    profile_pic_url: str = Field(alias="profilePicUrl")
-    username: str
+    profile_pic_url: str = Field(
+        alias="profilePicUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsSearchData(BaseModel):
     posts: list[ThreadsSearchPost] = Field(
-        description="Matching public post records: text, author, engagement counts, timestamp, and URL."
+        description="Matching public post records: text, author, engagement counts, timestamp, and URL. Populated whenever the provider has data for the entity."
     )
 
 
@@ -101,8 +122,13 @@ class ThreadsSearchPost(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    full_name: str = Field(alias="fullName", description="Display name of the author.")
-    id: str = Field(description="Post identifier.")
+    full_name: str = Field(
+        alias="fullName",
+        description="Display name of the author. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Post identifier. Populated whenever the provider has data for the entity."
+    )
     like_count: int = Field(
         alias="likeCount", description="Number of likes on the post."
     )
@@ -112,27 +138,47 @@ class ThreadsSearchPost(BaseModel):
     repost_count: int = Field(
         alias="repostCount", description="Number of reposts of the post."
     )
-    text: str = Field(description="Post text content.")
-    url: str = Field(description="Canonical URL of the post.")
-    username: str = Field(description="Username of the author.")
+    text: str = Field(
+        description="Post text content. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the author. Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsSearchUsersData(BaseModel):
-    users: list[ThreadsSearchUsersUser]
+    users: list[ThreadsSearchUsersUser] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsSearchUsersUser(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    full_name: str = Field(alias="fullName")
-    id: str
+    full_name: str = Field(
+        alias="fullName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     is_verified: bool = Field(alias="isVerified")
-    profile_pic_url: str = Field(alias="profilePicUrl")
-    username: str
+    profile_pic_url: str = Field(
+        alias="profilePicUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsUserPostsData(BaseModel):
-    posts: list[ThreadsUserPostsPost] = Field(description="The user's recent posts.")
+    posts: list[ThreadsUserPostsPost] = Field(
+        description="The user's recent posts. Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsUserPostsPost(BaseModel):
@@ -143,7 +189,9 @@ class ThreadsUserPostsPost(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str = Field(description="Post identifier.")
+    id: str = Field(
+        description="Post identifier. Populated whenever the provider has data for the entity."
+    )
     like_count: int = Field(
         alias="likeCount", description="Number of likes on the post."
     )
@@ -154,9 +202,15 @@ class ThreadsUserPostsPost(BaseModel):
     repost_count: int = Field(
         alias="repostCount", description="Number of reposts of the post."
     )
-    text: str = Field(description="Post text content.")
-    url: str = Field(description="Canonical URL of the post.")
-    username: str = Field(description="Username of the author.")
+    text: str = Field(
+        description="Post text content. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the author. Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsNamespace:
@@ -174,7 +228,8 @@ class ThreadsNamespace:
         """Threads Post
 
         Fetch a single Threads post by URL - text, author, engagement counts, and
-        timestamp - billed per request in USD.
+        timestamp. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -195,7 +250,8 @@ class ThreadsNamespace:
         """Threads Profile
 
         Fetch a Threads user's public profile (bio, follower count, verification,
-        profile picture) by username, billed per request in USD.
+        profile picture) by username. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -216,7 +272,8 @@ class ThreadsNamespace:
         """Threads Search
 
         Search public Threads posts by keyword or hashtag and get normalized post
-        records - text, author, and engagement - billed per request in USD.
+        records - text, author, and engagement. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -237,8 +294,8 @@ class ThreadsNamespace:
         """Threads User Search
 
         Search Threads users by name or username and get normalized profile records
-        - username, full name, verification, and picture - at a flat per-request USD
-        price.
+        - username, full name, verification, and picture. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -259,7 +316,8 @@ class ThreadsNamespace:
         """Threads User Posts
 
         List a Threads user's recent public posts by username - text, engagement
-        counts, and post URLs - at a flat per-request USD price.
+        counts, and post URLs. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -287,7 +345,8 @@ class AsyncThreadsNamespace:
         """Threads Post
 
         Fetch a single Threads post by URL - text, author, engagement counts, and
-        timestamp - billed per request in USD.
+        timestamp. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -308,7 +367,8 @@ class AsyncThreadsNamespace:
         """Threads Profile
 
         Fetch a Threads user's public profile (bio, follower count, verification,
-        profile picture) by username, billed per request in USD.
+        profile picture) by username. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -329,7 +389,8 @@ class AsyncThreadsNamespace:
         """Threads Search
 
         Search public Threads posts by keyword or hashtag and get normalized post
-        records - text, author, and engagement - billed per request in USD.
+        records - text, author, and engagement. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -350,8 +411,8 @@ class AsyncThreadsNamespace:
         """Threads User Search
 
         Search Threads users by name or username and get normalized profile records
-        - username, full name, verification, and picture - at a flat per-request USD
-        price.
+        - username, full name, verification, and picture. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -372,7 +433,8 @@ class AsyncThreadsNamespace:
         """Threads User Posts
 
         List a Threads user's recent public posts by username - text, engagement
-        counts, and post URLs - at a flat per-request USD price.
+        counts, and post URLs. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 

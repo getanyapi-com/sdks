@@ -37,7 +37,7 @@ export interface TrustpilotReviewsInput {
 
 export interface TrustpilotReviewsItem {
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
@@ -46,16 +46,16 @@ export interface TrustpilotReviewsItem {
    */
   rating: number;
   /**
-   * Review body text.
+   * Review body text. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Review title or headline.
+   * Review title or headline. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
-   * Canonical review URL.
+   * Canonical review URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   url?: string;
@@ -71,7 +71,7 @@ export interface TrustpilotReviewsItem {
  */
 export interface TrustpilotReviewsData {
   /**
-   * Review records: star rating, review title and text, date, reviewer name and country, and company reply when present.
+   * Review records: star rating, review title and text, date, reviewer name and country, and company reply when present. Populated whenever the provider has data for the entity.
    */
   items: TrustpilotReviewsItem[];
 }
@@ -86,7 +86,9 @@ export class TrustpilotNamespace {
   /**
    * Trustpilot Reviews
    *
-   * Pull Trustpilot reviews for any company by brand name - star ratings, review text, dates, and reviewer details as clean JSON, billed per request in USD.
+   * Pull Trustpilot reviews for any company by brand name - star ratings, review text, dates, and reviewer details as clean JSON.
+
+**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *

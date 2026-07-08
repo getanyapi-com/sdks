@@ -24,7 +24,7 @@ class WalmartProductInput(TypedDict, total=False):
 
 class WalmartProductData(BaseModel):
     items: list[WalmartProductItem] = Field(
-        description="Product detail records (one per requested product URL)."
+        description="Product detail records (one per requested product URL). Populated whenever the provider has data for the entity."
     )
 
 
@@ -43,7 +43,7 @@ class WalmartProductItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="Primary product image URL. Present whenever the upstream returns this record.",
+        description="Primary product image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     images: list[str] | None = Field(
         default=None, description="All product image URLs."
@@ -51,7 +51,7 @@ class WalmartProductItem(BaseModel):
     item_id: str | None = Field(
         default=None,
         alias="itemId",
-        description="Walmart US item id (usItemId). Present whenever the upstream returns this record.",
+        description="Walmart US item id (usItemId). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     model: str | None = Field(
         default=None, description="Manufacturer model number; empty when not reported."
@@ -77,12 +77,14 @@ class WalmartProductItem(BaseModel):
         alias="sellerName",
         description="Name of the seller fulfilling the offer.",
     )
-    title: str = Field(description="Product title.")
+    title: str = Field(
+        description="Product title. Populated whenever the provider has data for the entity."
+    )
     upc: str | None = Field(
         default=None, description="Universal Product Code; empty when not reported."
     )
     url: str = Field(
-        description="Canonical Walmart product page URL (condition query param retained, as it selects the offer)."
+        description="Canonical Walmart product page URL (condition query param retained, as it selects the offer). Populated whenever the provider has data for the entity."
     )
 
 
@@ -101,8 +103,9 @@ class WalmartNamespace:
         """Walmart Product
 
         Fetch a Walmart product page by URL and get full product details - title,
-        price, availability, ratings, images, and specs - in one normalized,
-        flat-priced response.
+        price, availability, ratings, images, and specs - in one normalized
+        response. **Price:** billed per result - $0.00 per 1,000 requests base +
+        $3.68 per 1,000 results, capped at $3.68 per 1,000 requests.
 
         Price: $0.00368 per result.
 
@@ -130,8 +133,9 @@ class AsyncWalmartNamespace:
         """Walmart Product
 
         Fetch a Walmart product page by URL and get full product details - title,
-        price, availability, ratings, images, and specs - in one normalized,
-        flat-priced response.
+        price, availability, ratings, images, and specs - in one normalized
+        response. **Price:** billed per result - $0.00 per 1,000 requests base +
+        $3.68 per 1,000 results, capped at $3.68 per 1,000 requests.
 
         Price: $0.00368 per result.
 

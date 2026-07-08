@@ -31,12 +31,21 @@ export interface GoogleAdsAdDetailsVariation {
  * The `data` payload of Google Ads Ad Details (google_ads.ad_details).
  */
 export interface GoogleAdsAdDetailsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   advertiserId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   creativeId: string;
   /**
    * ISO 8601 date.
    */
   firstShown: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   format: string;
   impressionsMax: number;
   impressionsMin: number;
@@ -44,6 +53,9 @@ export interface GoogleAdsAdDetailsData {
    * ISO 8601 date.
    */
   lastShown: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   variations: GoogleAdsAdDetailsVariation[];
 }
 
@@ -66,8 +78,17 @@ export interface GoogleAdsAdvertiserSearchAdvertiser {
    * Estimated number of ads for this advertiser/region.
    */
   adsEstimate: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   advertiserId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   region: string;
   [extra: string]: unknown;
 }
@@ -76,6 +97,9 @@ export interface GoogleAdsAdvertiserSearchAdvertiser {
  * The `data` payload of Google Ads Advertiser Search (google_ads.advertiser_search).
  */
 export interface GoogleAdsAdvertiserSearchData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   advertisers: GoogleAdsAdvertiserSearchAdvertiser[];
 }
 
@@ -122,14 +146,29 @@ export interface GoogleAdsCompanyAdsInput {
 }
 
 export interface GoogleAdsCompanyAdsAd {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   adUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   advertiserId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   advertiserName: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   creativeId: string;
   /**
    * ISO 8601 date.
    */
   firstShown: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   format: string;
   imageUrl: string;
   /**
@@ -143,6 +182,9 @@ export interface GoogleAdsCompanyAdsAd {
  * The `data` payload of Google Ads Company Ads (google_ads.company_ads).
  */
 export interface GoogleAdsCompanyAdsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   ads: GoogleAdsCompanyAdsAd[];
   /**
    * Estimated total number of ads.
@@ -168,7 +210,7 @@ export interface GoogleAdsSearchInput {
 
 export interface GoogleAdsSearchItem {
   /**
-   * Advertiser display name.
+   * Advertiser display name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   advertiser?: string;
@@ -185,7 +227,7 @@ export interface GoogleAdsSearchItem {
    */
   format?: string;
   /**
-   * Google Ads creative identifier.
+   * Google Ads creative identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -201,7 +243,7 @@ export interface GoogleAdsSearchItem {
    */
   previewUrl?: string;
   /**
-   * Ads Transparency Center URL for the creative.
+   * Ads Transparency Center URL for the creative. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -232,7 +274,7 @@ export interface GoogleAdsSearchVariation {
  */
 export interface GoogleAdsSearchData {
   /**
-   * Ad records from the Transparency Center: advertiser, ad format, creative details, preview URL, and first/last shown dates.
+   * Ad records from the Transparency Center: advertiser, ad format, creative details, preview URL, and first/last shown dates. Populated whenever the provider has data for the entity.
    */
   items: GoogleAdsSearchItem[];
 }
@@ -247,7 +289,9 @@ export class GoogleAdsNamespace {
   /**
    * Google Ads Ad Details
    *
-   * Look up a single Google Ads Transparency Center creative by URL and get its format, run dates, impression range, regions, and creative variations as clean JSON, billed per request in USD.
+   * Look up a single Google Ads Transparency Center creative by URL and get its format, run dates, impression range, regions, and creative variations as clean JSON.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -264,7 +308,9 @@ export class GoogleAdsNamespace {
   /**
    * Google Ads Advertiser Search
    *
-   * Search the Google Ads Transparency Center for advertisers by keyword and get matching advertiser IDs, regions, and estimated ad counts as clean JSON, billed per request in USD.
+   * Search the Google Ads Transparency Center for advertisers by keyword and get matching advertiser IDs, regions, and estimated ad counts as clean JSON.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -281,7 +327,9 @@ export class GoogleAdsNamespace {
   /**
    * Google Ads Company Ads
    *
-   * List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID - creative ID, format, ad URL, and first/last shown dates - with cursor pagination, billed per request in USD.
+   * List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID - creative ID, format, ad URL, and first/last shown dates - with cursor pagination.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -318,7 +366,9 @@ export class GoogleAdsNamespace {
   /**
    * Google Ads Transparency
    *
-   * Pull the ads an advertiser is currently running from the Google Ads Transparency Center - creative details, formats, and run dates - as clean JSON, billed per request in USD.
+   * Pull the ads an advertiser is currently running from the Google Ads Transparency Center - creative details, formats, and run dates - as clean JSON.
+
+**Price:** billed per result - $0.05 per 1,000 requests base + $1.30 per 1,000 results, capped at $26.05 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.0013 per result.
    *

@@ -23,22 +23,22 @@ export interface RednoteNoteInput {
  */
 export interface RednoteNoteData {
   /**
-   * URL of the author's avatar.
+   * URL of the author's avatar. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorImage?: string;
   /**
-   * Display name of the note author.
+   * Display name of the note author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorNickname?: string;
   /**
-   * Author's public RedNote ID.
+   * Author's public RedNote ID. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorRedId?: string;
   /**
-   * Identifier of the note author.
+   * Identifier of the note author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorUserId?: string;
@@ -51,22 +51,22 @@ export interface RednoteNoteData {
    */
   commentCount?: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
   /**
-   * Note body text.
+   * Note body text. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
-   * URL of the note cover image.
+   * URL of the note cover image. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
-   * Detected language of the note.
+   * Detected language of the note. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   language?: string;
@@ -75,7 +75,7 @@ export interface RednoteNoteData {
    */
   likeCount?: number;
   /**
-   * Note identifier.
+   * Note identifier. Populated whenever the provider has data for the entity.
    */
   noteId: string;
   /**
@@ -83,22 +83,22 @@ export interface RednoteNoteData {
    */
   shareCount?: number;
   /**
-   * Note title.
+   * Note title. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
-   * Note type, e.g. "normal" or "video".
+   * Note type, e.g. "normal" or "video". Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   type?: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   updatedUtc?: number;
   /**
-   * Canonical URL of the note.
+   * Canonical URL of the note. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   url?: string;
@@ -121,21 +121,21 @@ export interface RednoteNoteCommentsInput {
 
 export interface RednoteNoteCommentsComment {
   /**
-   * Comment identifier.
+   * Comment identifier. Populated whenever the provider has data for the entity.
    */
   commentId: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
   /**
-   * URL of the author's avatar.
+   * URL of the author's avatar. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
-   * IP-based location shown for the commenter.
+   * IP-based location shown for the commenter. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   ipLocation?: string;
@@ -144,17 +144,17 @@ export interface RednoteNoteCommentsComment {
    */
   likeCount?: number;
   /**
-   * Display name of the comment author.
+   * Display name of the comment author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   nickname?: string;
   /**
-   * Identifier of the note the comment belongs to.
+   * Identifier of the note the comment belongs to. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   noteId?: string;
   /**
-   * Author's public RedNote ID.
+   * Author's public RedNote ID. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   redId?: string;
@@ -163,12 +163,12 @@ export interface RednoteNoteCommentsComment {
    */
   replyCount?: number;
   /**
-   * Comment text content.
+   * Comment text content. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   text?: string;
   /**
-   * Identifier of the comment author.
+   * Identifier of the comment author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   userId?: string;
@@ -180,7 +180,7 @@ export interface RednoteNoteCommentsComment {
  */
 export interface RednoteNoteCommentsData {
   /**
-   * Comments on the note.
+   * Comments on the note. Populated whenever the provider has data for the entity.
    */
   comments: RednoteNoteCommentsComment[];
   /**
@@ -206,6 +206,7 @@ export interface RednoteProfileInput {
 export interface RednoteProfileData {
   collectedCount?: number;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   description?: string;
@@ -213,27 +214,35 @@ export interface RednoteProfileData {
   following?: number;
   gender?: number;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   likedCount?: number;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   location?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   nickname?: string;
   postedNotes?: number;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   redId?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   shareUrl?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   userId: string;
   verified?: boolean;
   verifyType?: number;
@@ -262,22 +271,22 @@ export interface RednoteSearchInput {
 
 export interface RednoteSearchNote {
   /**
-   * URL of the author's avatar.
+   * URL of the author's avatar. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorImage?: string;
   /**
-   * Display name of the note author.
+   * Display name of the note author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorNickname?: string;
   /**
-   * Author's public RedNote ID.
+   * Author's public RedNote ID. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorRedId?: string;
   /**
-   * Identifier of the note author.
+   * Identifier of the note author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorUserId?: string;
@@ -294,12 +303,12 @@ export interface RednoteSearchNote {
    */
   createdUtc?: number;
   /**
-   * Note body text.
+   * Note body text. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
-   * URL of the note cover image.
+   * URL of the note cover image. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -308,7 +317,7 @@ export interface RednoteSearchNote {
    */
   likeCount?: number;
   /**
-   * Note identifier.
+   * Note identifier. Populated whenever the provider has data for the entity.
    */
   noteId: string;
   /**
@@ -316,17 +325,17 @@ export interface RednoteSearchNote {
    */
   shareCount?: number;
   /**
-   * Note title.
+   * Note title. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
-   * Note type, e.g. "normal" or "video".
+   * Note type, e.g. "normal" or "video". Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   type?: string;
   /**
-   * Security token required to fetch the note's full detail.
+   * Security token required to fetch the note's full detail. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   xsecToken?: string;
@@ -342,7 +351,7 @@ export interface RednoteSearchData {
    */
   nextCursor: string;
   /**
-   * Notes matching the search.
+   * Notes matching the search. Populated whenever the provider has data for the entity.
    */
   notes: RednoteSearchNote[];
   [extra: string]: unknown;
@@ -364,29 +373,38 @@ export interface RednoteSearchUsersInput {
 
 export interface RednoteSearchUsersUser {
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   link?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   name?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   redId?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   subtitle?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   userId: string;
   verified?: boolean;
   verifyType?: number;
@@ -398,6 +416,9 @@ export interface RednoteSearchUsersUser {
  */
 export interface RednoteSearchUsersData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   users: RednoteSearchUsersUser[];
   [extra: string]: unknown;
 }
@@ -418,17 +439,17 @@ export interface RednoteUserNotesInput {
 
 export interface RednoteUserNotesNote {
   /**
-   * URL of the author's avatar.
+   * URL of the author's avatar. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorImage?: string;
   /**
-   * Display name of the note author.
+   * Display name of the note author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorNickname?: string;
   /**
-   * Identifier of the note author.
+   * Identifier of the note author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorUserId?: string;
@@ -445,12 +466,12 @@ export interface RednoteUserNotesNote {
    */
   createdUtc?: number;
   /**
-   * Note body text.
+   * Note body text. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
-   * URL of the note cover image.
+   * URL of the note cover image. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -459,7 +480,7 @@ export interface RednoteUserNotesNote {
    */
   likeCount?: number;
   /**
-   * Note identifier.
+   * Note identifier. Populated whenever the provider has data for the entity.
    */
   noteId: string;
   /**
@@ -467,12 +488,12 @@ export interface RednoteUserNotesNote {
    */
   shareCount?: number;
   /**
-   * Note title.
+   * Note title. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   title?: string;
   /**
-   * Note type, e.g. "normal" or "video".
+   * Note type, e.g. "normal" or "video". Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   type?: string;
@@ -488,7 +509,7 @@ export interface RednoteUserNotesData {
    */
   nextCursor: string;
   /**
-   * The user's notes.
+   * The user's notes. Populated whenever the provider has data for the entity.
    */
   notes: RednoteUserNotesNote[];
   [extra: string]: unknown;
@@ -505,6 +526,8 @@ export class RednoteNamespace {
    * RedNote (Xiaohongshu) Note
    *
    * Look up a RedNote (Xiaohongshu) note by note ID and return normalized note details.
+
+**Price:** $10.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01 per request.
    *
@@ -522,6 +545,8 @@ export class RednoteNamespace {
    * RedNote (Xiaohongshu) Note Comments
    *
    * List comments on a RedNote (Xiaohongshu) note and return normalized comment records with pagination.
+
+**Price:** $10.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01 per request.
    *
@@ -562,6 +587,8 @@ export class RednoteNamespace {
    * RedNote (Xiaohongshu) Profile
    *
    * Look up a RedNote (Xiaohongshu) profile by user ID and return normalized profile details.
+
+**Price:** $10.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01 per request.
    *
@@ -579,6 +606,8 @@ export class RednoteNamespace {
    * RedNote (Xiaohongshu) Search
    *
    * Search RedNote (Xiaohongshu) notes by keyword and return normalized note records with pagination.
+
+**Price:** $10.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01 per request.
    *
@@ -616,6 +645,8 @@ export class RednoteNamespace {
    * RedNote (Xiaohongshu) User Search
    *
    * Search RedNote (Xiaohongshu) users by keyword and return normalized user records with pagination.
+
+**Price:** $10.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01 per request.
    *
@@ -653,6 +684,8 @@ export class RednoteNamespace {
    * RedNote (Xiaohongshu) User Notes
    *
    * List notes posted by a RedNote (Xiaohongshu) user and return normalized note records with pagination.
+
+**Price:** $10.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01 per request.
    *

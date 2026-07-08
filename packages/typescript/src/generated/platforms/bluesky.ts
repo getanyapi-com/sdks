@@ -21,11 +21,11 @@ export interface BlueskyPostInput {
  */
 export interface BlueskyPostData {
   /**
-   * Handle of the account that authored the post.
+   * Handle of the account that authored the post. Populated whenever the provider has data for the entity.
    */
   authorHandle: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
@@ -41,7 +41,7 @@ export interface BlueskyPostData {
    */
   reposts: number;
   /**
-   * The post's text content.
+   * The post's text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   [extra: string]: unknown;
@@ -61,10 +61,19 @@ export interface BlueskyProfileInput {
  * The `data` payload of Bluesky Profile (bluesky.profile).
  */
 export interface BlueskyProfileData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   description: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayName: string;
   followers: number;
   following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
   postsCount: number;
   [extra: string]: unknown;
@@ -82,11 +91,11 @@ export interface BlueskyUserPostsInput {
 
 export interface BlueskyUserPostsPost {
   /**
-   * Handle of the account that authored the post.
+   * Handle of the account that authored the post. Populated whenever the provider has data for the entity.
    */
   authorHandle: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
@@ -102,7 +111,7 @@ export interface BlueskyUserPostsPost {
    */
   reposts: number;
   /**
-   * The post's text content.
+   * The post's text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   [extra: string]: unknown;
@@ -113,7 +122,7 @@ export interface BlueskyUserPostsPost {
  */
 export interface BlueskyUserPostsData {
   /**
-   * The account's recent posts.
+   * The account's recent posts. Populated whenever the provider has data for the entity.
    */
   posts: BlueskyUserPostsPost[];
 }
@@ -128,7 +137,9 @@ export class BlueskyNamespace {
   /**
    * Bluesky Post
    *
-   * Get a single Bluesky post by URL - text, author handle, like, reply, and repost counts as clean JSON, billed per request in USD.
+   * Get a single Bluesky post by URL - text, author handle, like, reply, and repost counts as clean JSON.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -145,7 +156,9 @@ export class BlueskyNamespace {
   /**
    * Bluesky Profile
    *
-   * Get a Bluesky user's public profile by handle - display name, bio, follower and post counts as clean JSON, billed per request in USD.
+   * Get a Bluesky user's public profile by handle - display name, bio, follower and post counts as clean JSON.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -162,7 +175,9 @@ export class BlueskyNamespace {
   /**
    * Bluesky User Posts
    *
-   * List a Bluesky account's recent posts (text, author handle, like, reply, and repost counts) by handle as clean JSON, normalized across providers, billed per request in USD.
+   * List a Bluesky account's recent posts (text, author handle, like, reply, and repost counts) by handle as clean JSON, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

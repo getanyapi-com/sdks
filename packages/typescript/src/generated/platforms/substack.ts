@@ -39,12 +39,12 @@ export interface SubstackPostsInput {
 
 export interface SubstackPostsItem {
   /**
-   * Handle of the post author.
+   * Handle of the post author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorHandle?: string;
   /**
-   * Display name of the post author.
+   * Display name of the post author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorName?: string;
@@ -53,17 +53,17 @@ export interface SubstackPostsItem {
    */
   commentCount?: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
   /**
-   * Post description or article HTML/summary.
+   * Post description or article HTML/summary. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   description?: string;
   /**
-   * Cover image URL.
+   * Cover image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -72,12 +72,12 @@ export interface SubstackPostsItem {
    */
   isPaid?: boolean;
   /**
-   * Substack post identifier.
+   * Substack post identifier. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   postId?: string;
   /**
-   * Post type (e.g. newsletter, podcast, thread).
+   * Post type (e.g. newsletter, podcast, thread). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   postType?: string;
@@ -86,16 +86,16 @@ export interface SubstackPostsItem {
    */
   reactionCount?: number;
   /**
-   * Post subtitle or deck.
+   * Post subtitle or deck. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   subtitle?: string;
   /**
-   * Post title.
+   * Post title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Canonical post URL.
+   * Canonical post URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -110,7 +110,7 @@ export interface SubstackPostsItem {
  */
 export interface SubstackPostsData {
   /**
-   * Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested.
+   * Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested. Populated whenever the provider has data for the entity.
    */
   items: SubstackPostsItem[];
 }
@@ -125,7 +125,9 @@ export class SubstackNamespace {
   /**
    * Substack Posts
    *
-   * Pull posts from any Substack publication by its URL - or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML. Priced per post returned.
+   * Pull posts from any Substack publication by its URL - or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.
+
+**Price:** billed per result - $5.00 per 1,000 requests base + $1.56 per 1,000 results, capped at $161.00 per 1,000 requests.
    *
    * Price: $0.005 per request plus $0.00156 per result.
    *

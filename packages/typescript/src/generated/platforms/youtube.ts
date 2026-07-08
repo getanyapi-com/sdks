@@ -27,9 +27,18 @@ export interface YoutubeChannelInput {
  */
 export interface YoutubeChannelData {
   avatarUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   channelId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   description: string;
   subscribers: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   videos: number;
   views: number;
@@ -55,11 +64,23 @@ export interface YoutubeChannelCommunityPostsInput {
 }
 
 export interface YoutubeChannelCommunityPostsPost {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   content: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   image: string;
   likeCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publishedTime: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -69,6 +90,9 @@ export interface YoutubeChannelCommunityPostsPost {
  */
 export interface YoutubeChannelCommunityPostsData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   posts: YoutubeChannelCommunityPostsPost[];
 }
 
@@ -91,10 +115,22 @@ export interface YoutubeChannelLivesInput {
 }
 
 export interface YoutubeChannelLivesLive {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   lengthText: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publishedTime: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -104,6 +140,9 @@ export interface YoutubeChannelLivesLive {
  * The `data` payload of YouTube Channel Live Streams (youtube.channel_lives).
  */
 export interface YoutubeChannelLivesData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   lives: YoutubeChannelLivesLive[];
   nextCursor: string;
 }
@@ -127,9 +166,18 @@ export interface YoutubeChannelPlaylistsInput {
 }
 
 export interface YoutubeChannelPlaylistsPlaylist {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   playlistUrl: string;
   thumbnail: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   videoCount: number;
   [extra: string]: unknown;
@@ -140,6 +188,9 @@ export interface YoutubeChannelPlaylistsPlaylist {
  */
 export interface YoutubeChannelPlaylistsData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   playlists: YoutubeChannelPlaylistsPlaylist[];
 }
 
@@ -168,9 +219,18 @@ export interface YoutubeChannelShortsInput {
 
 export interface YoutubeChannelShortsShort {
   duration: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -181,6 +241,9 @@ export interface YoutubeChannelShortsShort {
  */
 export interface YoutubeChannelShortsData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   shorts: YoutubeChannelShortsShort[];
 }
 
@@ -208,10 +271,22 @@ export interface YoutubeChannelVideosInput {
 }
 
 export interface YoutubeChannelVideosVideo {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   lengthText: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publishedTime: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -222,6 +297,9 @@ export interface YoutubeChannelVideosVideo {
  */
 export interface YoutubeChannelVideosData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videos: YoutubeChannelVideosVideo[];
 }
 
@@ -236,10 +314,22 @@ export interface YoutubeCommentRepliesInput {
 }
 
 export interface YoutubeCommentRepliesComment {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   authorName: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   content: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publishedTime: string;
   [extra: string]: unknown;
 }
@@ -248,6 +338,9 @@ export interface YoutubeCommentRepliesComment {
  * The `data` payload of YouTube Comment Replies (youtube.comment_replies).
  */
 export interface YoutubeCommentRepliesData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   comments: YoutubeCommentRepliesComment[];
   nextCursor: string;
 }
@@ -266,10 +359,25 @@ export interface YoutubeCommunityPostInput {
  * The `data` payload of YouTube Community Post (youtube.community_post).
  */
 export interface YoutubeCommunityPostData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   channelHandle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   channelTitle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   content: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publishedTime: string;
   [extra: string]: unknown;
 }
@@ -285,12 +393,27 @@ export interface YoutubePlaylistInput {
 }
 
 export interface YoutubePlaylistVideo {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   channel: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   lengthSeconds: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   lengthText: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   thumbnail: string;
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -299,9 +422,18 @@ export interface YoutubePlaylistVideo {
  * The `data` payload of YouTube Playlist (youtube.playlist).
  */
 export interface YoutubePlaylistData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   owner: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   totalVideos: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videos: YoutubePlaylistVideo[];
 }
 
@@ -331,11 +463,26 @@ export interface YoutubeSearchInput {
 }
 
 export interface YoutubeSearchVideo {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   channel: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   lengthText: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publishedTime: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -345,6 +492,9 @@ export interface YoutubeSearchVideo {
  * The `data` payload of YouTube Search (youtube.search).
  */
 export interface YoutubeSearchData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videos: YoutubeSearchVideo[];
 }
 
@@ -368,11 +518,26 @@ export interface YoutubeSearchHashtagInput {
 }
 
 export interface YoutubeSearchHashtagVideo {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   channelTitle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   lengthText: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publishedTime: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -383,6 +548,9 @@ export interface YoutubeSearchHashtagVideo {
  */
 export interface YoutubeSearchHashtagData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videos: YoutubeSearchHashtagVideo[];
 }
 
@@ -392,11 +560,26 @@ export interface YoutubeSearchHashtagData {
 export interface YoutubeTrendingShortsInput {}
 
 export interface YoutubeTrendingShortsShort {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   channelTitle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   duration: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -406,6 +589,9 @@ export interface YoutubeTrendingShortsShort {
  * The `data` payload of YouTube Trending Shorts (youtube.trending_shorts).
  */
 export interface YoutubeTrendingShortsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   shorts: YoutubeTrendingShortsShort[];
 }
 
@@ -428,7 +614,7 @@ export interface YoutubeVideoInput {
  */
 export interface YoutubeVideoData {
   /**
-   * Name of the channel that published the video.
+   * Name of the channel that published the video. Populated whenever the provider has data for the entity.
    */
   channel: string;
   /**
@@ -436,7 +622,7 @@ export interface YoutubeVideoData {
    */
   comments: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
@@ -444,7 +630,7 @@ export interface YoutubeVideoData {
    */
   durationMs: number;
   /**
-   * Unique identifier of the video.
+   * Unique identifier of the video. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -452,7 +638,7 @@ export interface YoutubeVideoData {
    */
   likes: number;
   /**
-   * Title of the video.
+   * Title of the video. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
@@ -481,11 +667,23 @@ export interface YoutubeVideoCommentsInput {
 }
 
 export interface YoutubeVideoCommentsComment {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   author: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publishedTime: string;
   replies: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -494,6 +692,9 @@ export interface YoutubeVideoCommentsComment {
  * The `data` payload of YouTube Video Comments (youtube.video_comments).
  */
 export interface YoutubeVideoCommentsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   comments: YoutubeVideoCommentsComment[];
   nextCursor: string;
 }
@@ -523,10 +724,19 @@ export interface YoutubeVideoSponsorsSuspectedSponsor {
  * The `data` payload of YouTube Video Sponsors (youtube.video_sponsors).
  */
 export interface YoutubeVideoSponsorsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   detectionStatus: string;
   isPaidPromotion: boolean;
   suspectedSponsors: YoutubeVideoSponsorsSuspectedSponsor[];
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   videoId: string;
 }
 
@@ -548,7 +758,13 @@ export interface YoutubeVideoTranscriptInput {
  * The `data` payload of YouTube Video Transcript (youtube.video_transcript).
  */
 export interface YoutubeVideoTranscriptData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   language: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   transcript: string;
   [extra: string]: unknown;
 }
@@ -564,6 +780,8 @@ export class YoutubeNamespace {
    * YouTube Channel
    *
    * Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -581,6 +799,8 @@ export class YoutubeNamespace {
    * YouTube Channel Community Posts
    *
    * List a YouTube channel's community posts by handle or channel ID with cursor pagination (text, likes, image, publish time), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -624,6 +844,8 @@ export class YoutubeNamespace {
    * YouTube Channel Live Streams
    *
    * List a YouTube channel's live and past-live streams by handle or channel ID with cursor pagination (title, views, length, publish time), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -664,6 +886,8 @@ export class YoutubeNamespace {
    * YouTube Channel Playlists
    *
    * List a YouTube channel's playlists by handle or channel ID with cursor pagination (title, video count, thumbnail), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -707,6 +931,8 @@ export class YoutubeNamespace {
    * YouTube Channel Shorts
    *
    * List a YouTube channel's Shorts by handle or channel ID with cursor pagination (title, views, likes, duration), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -747,6 +973,8 @@ export class YoutubeNamespace {
    * YouTube Channel Videos
    *
    * List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -787,6 +1015,8 @@ export class YoutubeNamespace {
    * YouTube Comment Replies
    *
    * List replies to a YouTube comment using a continuation token with cursor pagination (text, author, likes, publish time), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -804,6 +1034,8 @@ export class YoutubeNamespace {
    * YouTube Community Post
    *
    * Fetch a single YouTube community post by URL (text, images, channel, publish time), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -821,6 +1053,8 @@ export class YoutubeNamespace {
    * YouTube Playlist
    *
    * List every video in a YouTube playlist - title, length, and channel per video plus playlist owner and totals - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -838,6 +1072,8 @@ export class YoutubeNamespace {
    * YouTube Search
    *
    * Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON, across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -855,6 +1091,8 @@ export class YoutubeNamespace {
    * YouTube Hashtag Search
    *
    * Search YouTube videos by hashtag with cursor pagination (title, channel, views, length, publish time), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -895,6 +1133,8 @@ export class YoutubeNamespace {
    * YouTube Trending Shorts
    *
    * List currently trending YouTube Shorts (title, channel, views, likes, duration), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -912,6 +1152,8 @@ export class YoutubeNamespace {
    * YouTube Video
    *
    * Fetch a YouTube video's metadata (title, channel, views, likes, duration, publish date) by URL or ID, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -929,6 +1171,8 @@ export class YoutubeNamespace {
    * YouTube Video Comments
    *
    * List the comments on a YouTube video by URL with cursor pagination (text, author, likes, reply count), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -972,6 +1216,8 @@ export class YoutubeNamespace {
    * YouTube Video Sponsors
    *
    * Detect suspected sponsors and paid promotions in a YouTube video by URL (sponsor names, websites, confidence), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -989,6 +1235,8 @@ export class YoutubeNamespace {
    * YouTube Video Transcript
    *
    * Fetch the transcript/captions of a YouTube video by URL or ID, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

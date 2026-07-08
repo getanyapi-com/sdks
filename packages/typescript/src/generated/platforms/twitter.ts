@@ -27,19 +27,19 @@ export interface TwitterCommunityData {
    */
   createdUtc: number;
   /**
-   * Handle of the account that created the community.
+   * Handle of the account that created the community. Populated whenever the provider has data for the entity.
    */
   creatorHandle: string;
   /**
-   * Community description text.
+   * Community description text. Populated whenever the provider has data for the entity.
    */
   description: string;
   /**
-   * Community identifier.
+   * Community identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * How members join, e.g. "open" or "restricted".
+   * How members join, e.g. "open" or "restricted". Populated whenever the provider has data for the entity.
    */
   joinPolicy: string;
   /**
@@ -47,7 +47,7 @@ export interface TwitterCommunityData {
    */
   memberCount: number;
   /**
-   * Community name.
+   * Community name. Populated whenever the provider has data for the entity.
    */
   name: string;
   [extra: string]: unknown;
@@ -64,16 +64,25 @@ export interface TwitterCommunityTweetsInput {
 }
 
 export interface TwitterCommunityTweetsTweet {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   authorHandle: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   favoriteCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   quoteCount: number;
   replyCount: number;
   retweetCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -82,6 +91,9 @@ export interface TwitterCommunityTweetsTweet {
  * The `data` payload of Twitter Community Tweets (twitter.community_tweets).
  */
 export interface TwitterCommunityTweetsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   tweets: TwitterCommunityTweetsTweet[];
 }
 
@@ -103,7 +115,7 @@ export interface TwitterFollowersInput {
 
 export interface TwitterFollowersItem {
   /**
-   * URL of the account's profile image (may be empty).
+   * URL of the account's profile image (may be empty). Populated whenever the provider has data for the entity.
    */
   avatarUrl: string;
   /**
@@ -123,11 +135,11 @@ export interface TwitterFollowersItem {
    */
   location: string;
   /**
-   * The account's display name.
+   * The account's display name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
-   * The account's @ handle, without the @ prefix.
+   * The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity.
    */
   username: string;
   /**
@@ -142,7 +154,7 @@ export interface TwitterFollowersItem {
  */
 export interface TwitterFollowersData {
   /**
-   * Follower records, normalized to a compact shape.
+   * Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity.
    */
   items: TwitterFollowersItem[];
 }
@@ -165,7 +177,7 @@ export interface TwitterFollowingInput {
 
 export interface TwitterFollowingItem {
   /**
-   * URL of the account's profile image (may be empty).
+   * URL of the account's profile image (may be empty). Populated whenever the provider has data for the entity.
    */
   avatarUrl: string;
   /**
@@ -185,11 +197,11 @@ export interface TwitterFollowingItem {
    */
   location: string;
   /**
-   * The account's display name.
+   * The account's display name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
-   * The account's @ handle, without the @ prefix.
+   * The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity.
    */
   username: string;
   /**
@@ -204,7 +216,7 @@ export interface TwitterFollowingItem {
  */
 export interface TwitterFollowingData {
   /**
-   * Followed-account records, normalized to a compact shape.
+   * Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity.
    */
   items: TwitterFollowingItem[];
 }
@@ -223,11 +235,23 @@ export interface TwitterProfileInput {
  * The `data` payload of Twitter Profile (twitter.profile).
  */
 export interface TwitterProfileData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   bio: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayName: string;
   followers: number;
   following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
   tweets: number;
   verified: boolean;
@@ -263,7 +287,7 @@ export interface TwitterRepliesItem {
    */
   createdUtc: number;
   /**
-   * The reply's numeric tweet ID, as a string.
+   * The reply's numeric tweet ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -287,7 +311,7 @@ export interface TwitterRepliesItem {
    */
   text: string;
   /**
-   * Canonical x.com URL of the reply, with tracking query params stripped.
+   * Canonical x.com URL of the reply, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -302,7 +326,7 @@ export interface TwitterRepliesItem {
  */
 export interface TwitterRepliesData {
   /**
-   * Reply records for the requested post.
+   * Reply records for the requested post. Populated whenever the provider has data for the entity.
    */
   items: TwitterRepliesItem[];
 }
@@ -333,10 +357,12 @@ export interface TwitterSearchInput {
 
 export interface TwitterSearchItem {
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorName?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorUsername?: string;
@@ -344,10 +370,13 @@ export interface TwitterSearchItem {
   bookmarkCount?: number;
   conversationId?: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   isReply?: boolean;
   lang?: string;
@@ -355,7 +384,13 @@ export interface TwitterSearchItem {
   quoteCount?: number;
   replyCount?: number;
   retweetCount?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   viewCount?: number;
   [extra: string]: unknown;
@@ -366,7 +401,7 @@ export interface TwitterSearchItem {
  */
 export interface TwitterSearchData {
   /**
-   * Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views).
+   * Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity.
    */
   items: TwitterSearchItem[];
 }
@@ -385,17 +420,26 @@ export interface TwitterTweetInput {
  * The `data` payload of Twitter Tweet (twitter.tweet).
  */
 export interface TwitterTweetData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   authorId: string;
   bookmarks: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
   quotes: number;
   replies: number;
   retweets: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
   views: number;
   [extra: string]: unknown;
@@ -446,9 +490,12 @@ export interface TwitterUserTweetsInput {
 export interface TwitterUserTweetsTweet {
   bookmarks: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   isPinned: boolean;
   isReply?: boolean;
@@ -457,7 +504,13 @@ export interface TwitterUserTweetsTweet {
   quotes?: number;
   replies: number;
   retweets: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   views: number;
   [extra: string]: unknown;
@@ -471,6 +524,9 @@ export interface TwitterUserTweetsData {
    * Opaque cursor for the next page of tweets, or null when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   tweets: TwitterUserTweetsTweet[];
 }
 
@@ -485,6 +541,8 @@ export class TwitterNamespace {
    * Twitter Community
    *
    * Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -502,6 +560,8 @@ export class TwitterNamespace {
    * Twitter Community Tweets
    *
    * List recent tweets posted in a Twitter/X community by URL, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -518,7 +578,9 @@ export class TwitterNamespace {
   /**
    * X / Twitter Followers
    *
-   * Fetch the follower list of any public X (Twitter) account by username - up to 100,000 follower records per request with transparent per-result USD pricing.
+   * Fetch the follower list of any public X (Twitter) account by username - up to 100,000 follower records per request.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $0.15 per 1,000 results, capped at $15,000.00 per 1,000 requests.
    *
    * Price: $0.00015 per result.
    *
@@ -535,7 +597,9 @@ export class TwitterNamespace {
   /**
    * X / Twitter Following
    *
-   * List the accounts a public X (Twitter) account follows by username - up to 100,000 records per request with transparent per-result USD pricing.
+   * List the accounts a public X (Twitter) account follows by username - up to 100,000 records per request.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $0.15 per 1,000 results, capped at $15,000.00 per 1,000 requests.
    *
    * Price: $0.00015 per result.
    *
@@ -553,6 +617,8 @@ export class TwitterNamespace {
    * Twitter Profile
    *
    * Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle, normalized across providers with transparent failover.
+
+**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -569,7 +635,9 @@ export class TwitterNamespace {
   /**
    * X / Twitter Post Replies
    *
-   * Fetch the replies to any X (Twitter) post URL as structured records - author, text, and engagement - priced per request in USD.
+   * Fetch the replies to any X (Twitter) post URL as structured records - author, text, and engagement.
+
+**Price:** billed per result - $2.50 per 1,000 requests base + $0.25 per 1,000 results, capped at $12.50 per 1,000 requests.
    *
    * Price: $0.0025 per request plus $0.00025 per result.
    *
@@ -586,7 +654,9 @@ export class TwitterNamespace {
   /**
    * X / Twitter Search
    *
-   * Search X (Twitter) with full advanced-search syntax and get up to 50 structured tweets per request - text, author, and engagement - with transparent per-request USD pricing.
+   * Search X (Twitter) with full advanced-search syntax and get up to 50 structured tweets per request - text, author, and engagement.
+
+**Price:** billed per result - $4.00 per 1,000 requests base + $0.20 per 1,000 results, capped at $14.00 per 1,000 requests.
    *
    * Price: $0.004 per request plus $0.0002 per result.
    *
@@ -604,6 +674,8 @@ export class TwitterNamespace {
    * Twitter Tweet
    *
    * Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -621,6 +693,8 @@ export class TwitterNamespace {
    * Twitter Tweet Transcript
    *
    * Extract the spoken transcript from a Twitter/X video tweet by URL, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -638,6 +712,8 @@ export class TwitterNamespace {
    * Twitter User Tweets
    *
    * Get an X (Twitter) account's latest tweets by handle, newest first (reverse-chronological, replies included) - not just the popular ones - up to 1000 per call, with engagement, views, and language, normalized across providers with cursor pagination.
+
+**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *

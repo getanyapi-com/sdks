@@ -28,7 +28,7 @@ class PinterestSearchInput(TypedDict, total=False):
 
 class PinterestSearchData(BaseModel):
     items: list[PinterestSearchItem] = Field(
-        description="Matching Pinterest records: pin or board title, description, image/video URL, creator, and link."
+        description="Matching Pinterest records: pin or board title, description, image/video URL, creator, and link. Populated whenever the provider has data for the entity."
     )
 
 
@@ -37,7 +37,9 @@ class PinterestSearchItem(BaseModel):
 
     id: str
     title: str
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class PinterestNamespace:
@@ -55,7 +57,8 @@ class PinterestNamespace:
         """Pinterest Search
 
         Search Pinterest by keyword and get pin, video, board, or profile results
-        with titles, images, and links - flat per-request USD pricing.
+        with titles, images, and links. **Price:** $3.25 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -83,7 +86,8 @@ class AsyncPinterestNamespace:
         """Pinterest Search
 
         Search Pinterest by keyword and get pin, video, board, or profile results
-        with titles, images, and links - flat per-request USD pricing.
+        with titles, images, and links. **Price:** $3.25 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 

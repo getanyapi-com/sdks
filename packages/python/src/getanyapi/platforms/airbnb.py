@@ -34,7 +34,7 @@ class AirbnbSearchInput(TypedDict, total=False):
 
 class AirbnbSearchData(BaseModel):
     items: list[AirbnbSearchItem] = Field(
-        description="Listing records: name, nightly price, rating, location, host info, and availability details."
+        description="Listing records: name, nightly price, rating, location, host info, and availability details. Populated whenever the provider has data for the entity."
     )
 
 
@@ -42,10 +42,12 @@ class AirbnbSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     host_name: str | None = Field(default=None, alias="hostName")
-    id: str = Field(description="Airbnb listing identifier.")
+    id: str = Field(
+        description="Airbnb listing identifier. Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(
         default=None,
-        description="Primary listing image URL. Present whenever the upstream returns this record.",
+        description="Primary listing image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     is_available: bool | None = Field(default=None, alias="isAvailable")
     is_superhost: bool | None = Field(default=None, alias="isSuperhost")
@@ -60,8 +62,12 @@ class AirbnbSearchItem(BaseModel):
     )
     reviews_count: int | None = Field(default=None, alias="reviewsCount")
     room_type: str | None = Field(default=None, alias="roomType")
-    title: str
-    url: str
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class AirbnbNamespace:
@@ -79,7 +85,9 @@ class AirbnbNamespace:
         """Airbnb Search
 
         Search Airbnb listings by location and dates and get results (name, price,
-        rating, host) as normalized JSON with flat per-request USD pricing.
+        rating, host) as normalized JSON. **Price:** billed per result - $0.08 per
+        1,000 requests base + $1.50 per 1,000 results, capped at $30.08 per 1,000
+        requests.
 
         Price: $0.00008 per request plus $0.0015 per result.
 
@@ -107,7 +115,9 @@ class AsyncAirbnbNamespace:
         """Airbnb Search
 
         Search Airbnb listings by location and dates and get results (name, price,
-        rating, host) as normalized JSON with flat per-request USD pricing.
+        rating, host) as normalized JSON. **Price:** billed per result - $0.08 per
+        1,000 requests base + $1.50 per 1,000 results, capped at $30.08 per 1,000
+        requests.
 
         Price: $0.00008 per request plus $0.0015 per result.
 

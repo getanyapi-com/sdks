@@ -26,11 +26,11 @@ export interface SnapchatProfileItem {
    */
   category?: string;
   /**
-   * The profile's public display name.
+   * The profile's public display name. Populated whenever the provider has data for the entity.
    */
   displayName: string;
   /**
-   * The profile's Snapchat username (add-me handle).
+   * The profile's Snapchat username (add-me handle). Populated whenever the provider has data for the entity.
    */
   handle: string;
   /**
@@ -46,7 +46,7 @@ export interface SnapchatProfileItem {
    */
   subscribers?: number;
   /**
-   * Canonical public profile URL, with tracking query params stripped.
+   * Canonical public profile URL, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -77,7 +77,7 @@ export interface SnapchatProfileStorie {
  */
 export interface SnapchatProfileData {
   /**
-   * Profile record for the requested Snapchat username (one item).
+   * Profile record for the requested Snapchat username (one item). Populated whenever the provider has data for the entity.
    */
   items: SnapchatProfileItem[];
 }
@@ -92,7 +92,9 @@ export class SnapchatNamespace {
   /**
    * Snapchat Profile
    *
-   * Fetch a Snapchat user's public profile by username - display name, bio, subscriber count, and recent public content - with transparent per-request USD pricing.
+   * Fetch a Snapchat user's public profile by username - display name, bio, subscriber count, and recent public content.
+
+**Price:** billed per result - $1.00 per 1,000 requests base + $2.00 per 1,000 results, capped at $3.00 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.002 per result.
    *

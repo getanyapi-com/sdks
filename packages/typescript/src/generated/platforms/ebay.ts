@@ -34,12 +34,12 @@ export interface EbaySearchInput {
 export interface EbaySearchItem {
   condition?: string;
   /**
-   * Primary listing image URL.
+   * Primary listing image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
-   * eBay item identifier.
+   * eBay item identifier. Populated whenever the provider has data for the entity.
    */
   itemId: string;
   /**
@@ -59,7 +59,13 @@ export interface EbaySearchItem {
    * Shipping cost or free-delivery label.
    */
   shippingCost?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -69,7 +75,7 @@ export interface EbaySearchItem {
  */
 export interface EbaySearchData {
   /**
-   * Listing records: title, price, condition, shipping cost, seller info, image, and item URL.
+   * Listing records: title, price, condition, shipping cost, seller info, image, and item URL. Populated whenever the provider has data for the entity.
    */
   items: EbaySearchItem[];
 }
@@ -121,12 +127,12 @@ export interface EbaySoldListingsItem {
    */
   endedAt?: string;
   /**
-   * Primary listing image URL.
+   * Primary listing image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
-   * eBay item identifier.
+   * eBay item identifier. Populated whenever the provider has data for the entity.
    */
   itemId: string;
   listingType?: string;
@@ -136,11 +142,17 @@ export interface EbaySoldListingsItem {
    * Final sold price.
    */
   soldPrice?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   /**
    * Sold price plus shipping.
    */
   totalPrice?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -150,7 +162,7 @@ export interface EbaySoldListingsItem {
  */
 export interface EbaySoldListingsData {
   /**
-   * Sold listing records: title, sold price, sale date, condition, shipping, and item URL.
+   * Sold listing records: title, sold price, sale date, condition, shipping, and item URL. Populated whenever the provider has data for the entity.
    */
   items: EbaySoldListingsItem[];
 }
@@ -165,7 +177,9 @@ export class EbayNamespace {
   /**
    * eBay Search
    *
-   * Search eBay active listings by keyword and get title, price, condition, shipping, seller, and sold count in one normalized response. You are billed per result returned.
+   * Search eBay active listings by keyword and get title, price, condition, shipping, seller, and sold count in one normalized response.
+
+**Price:** billed per result - $1.00 per 1,000 requests base + $2.34 per 1,000 results, capped at $59.50 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.00234 per result.
    *
@@ -182,7 +196,9 @@ export class EbayNamespace {
   /**
    * eBay Sold Listings
    *
-   * Retrieve recently sold eBay listings for any keyword - sold price, sale date, condition, and item details - ideal for pricing research, at a flat per-request USD price.
+   * Retrieve recently sold eBay listings for any keyword - sold price, sale date, condition, and item details - ideal for pricing research.
+
+**Price:** billed per result - $0.05 per 1,000 requests base + $4.00 per 1,000 results, capped at $100.05 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.004 per result.
    *

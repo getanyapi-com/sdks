@@ -32,7 +32,7 @@ class RealtorSearchInput(TypedDict, total=False):
 
 class RealtorSearchData(BaseModel):
     items: list[RealtorSearchItem] = Field(
-        description="Matching Realtor.com property listing records."
+        description="Matching Realtor.com property listing records. Populated whenever the provider has data for the entity."
     )
 
 
@@ -90,7 +90,7 @@ class RealtorSearchItem(BaseModel):
     )
     property_id: str = Field(
         alias="propertyId",
-        description="Realtor.com property id (stable identifier for the listing).",
+        description="Realtor.com property id (stable identifier for the listing). Populated whenever the provider has data for the entity.",
     )
     property_type: str | None = Field(
         default=None,
@@ -110,7 +110,9 @@ class RealtorSearchItem(BaseModel):
         default=None,
         description="Human-readable street address line used as the listing title.",
     )
-    url: str = Field(description="Canonical Realtor.com listing detail page URL.")
+    url: str = Field(
+        description="Canonical Realtor.com listing detail page URL. Populated whenever the provider has data for the entity."
+    )
     year_built: float | None = Field(
         default=None, alias="yearBuilt", description="Year the property was built."
     )
@@ -131,8 +133,9 @@ class RealtorNamespace:
         """Realtor.com Search
 
         Search Realtor.com listings by location with optional price filters and get
-        property records (price, address, beds, baths) as normalized JSON, priced
-        per request in USD.
+        property records (price, address, beds, baths) as normalized JSON.
+        **Price:** billed per result - $5.00 per 1,000 requests base + $1.50 per
+        1,000 results, capped at $42.50 per 1,000 requests.
 
         Price: $0.005 per request plus $0.0015 per result.
 
@@ -160,8 +163,9 @@ class AsyncRealtorNamespace:
         """Realtor.com Search
 
         Search Realtor.com listings by location with optional price filters and get
-        property records (price, address, beds, baths) as normalized JSON, priced
-        per request in USD.
+        property records (price, address, beds, baths) as normalized JSON.
+        **Price:** billed per result - $5.00 per 1,000 requests base + $1.50 per
+        1,000 results, capped at $42.50 per 1,000 requests.
 
         Price: $0.005 per request plus $0.0015 per result.
 

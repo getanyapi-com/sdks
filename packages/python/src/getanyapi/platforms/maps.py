@@ -69,7 +69,7 @@ class MapsSearchInput(TypedDict, total=False):
 
 class MapsContactsData(BaseModel):
     items: list[MapsContactsItem] = Field(
-        description="Matching business records, each enriched with contact details scraped from the business website."
+        description="Matching business records, each enriched with contact details scraped from the business website. Populated whenever the provider has data for the entity."
     )
 
 
@@ -107,7 +107,9 @@ class MapsContactsItem(BaseModel):
     longitude: float | None = Field(
         default=None, description="Longitude of the business in decimal degrees."
     )
-    name: str = Field(description="Business name.")
+    name: str = Field(
+        description="Business name. Populated whenever the provider has data for the entity."
+    )
     phone: str | None = Field(
         default=None,
         description="Business phone number in E.164 format, when listed on Google Maps.",
@@ -118,7 +120,7 @@ class MapsContactsItem(BaseModel):
     )
     place_id: str = Field(
         alias="placeId",
-        description="Google Maps place id (stable identifier for the business).",
+        description="Google Maps place id (stable identifier for the business). Populated whenever the provider has data for the entity.",
     )
     postal_code: str | None = Field(
         default=None, alias="postalCode", description="Postal code of the business."
@@ -139,7 +141,9 @@ class MapsContactsItem(BaseModel):
         default=None,
         description="X/Twitter profile URLs found on the business website.",
     )
-    url: str = Field(description="Canonical Google Maps URL for the business.")
+    url: str = Field(
+        description="Canonical Google Maps URL for the business. Populated whenever the provider has data for the entity."
+    )
     website: str | None = Field(
         default=None, description="The business website URL, when listed."
     )
@@ -150,7 +154,7 @@ class MapsContactsItem(BaseModel):
 
 class MapsPlaceData(BaseModel):
     items: list[MapsPlaceItem] = Field(
-        description="The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched)."
+        description="The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched). Populated whenever the provider has data for the entity."
     )
 
 
@@ -159,11 +163,11 @@ class MapsPlaceItem(BaseModel):
 
     address: str | None = Field(
         default=None,
-        description="Full formatted street address. Present whenever the upstream returns this record.",
+        description="Full formatted street address. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     category: str | None = Field(
         default=None,
-        description="Primary Google Maps category (e.g. Coffee shop). Present whenever the upstream returns this record.",
+        description="Primary Google Maps category (e.g. Coffee shop). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     city: str | None = None
     country_code: str | None = Field(
@@ -177,12 +181,16 @@ class MapsPlaceItem(BaseModel):
         default=None, description="URL of the primary place photo."
     )
     latitude: float | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     longitude: float | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    name: str = Field(description="Business or place name.")
+    name: str = Field(
+        description="Business or place name. Populated whenever the provider has data for the entity."
+    )
     neighborhood: str | None = None
     permanently_closed: bool | None = Field(
         default=None,
@@ -193,7 +201,7 @@ class MapsPlaceItem(BaseModel):
     place_id: str | None = Field(
         default=None,
         alias="placeId",
-        description="Google Maps place id. Present whenever the upstream returns this record.",
+        description="Google Maps place id. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     plus_code: str | None = Field(
         default=None, alias="plusCode", description="Google Plus Code for the location."
@@ -212,7 +220,9 @@ class MapsPlaceItem(BaseModel):
     street: str | None = Field(
         default=None, description="Street portion of the address."
     )
-    url: str = Field(description="Google Maps URL for the place.")
+    url: str = Field(
+        description="Google Maps URL for the place. Populated whenever the provider has data for the entity."
+    )
     website: str | None = Field(default=None, description="Business website URL.")
 
 
@@ -222,7 +232,7 @@ class MapsPlaceHour(BaseModel):
 
 class MapsReviewsData(BaseModel):
     items: list[MapsReviewsItem] = Field(
-        description="Review records: reviewer, star rating, review text (empty when the reviewer left only a rating), publish date, likes, and owner response where present."
+        description="Review records: reviewer, star rating, review text (empty when the reviewer left only a rating), publish date, likes, and owner response where present. Populated whenever the provider has data for the entity."
     )
 
 
@@ -231,12 +241,12 @@ class MapsReviewsItem(BaseModel):
 
     author: str | None = Field(
         default=None,
-        description="Reviewer display name. Present whenever the upstream returns this record.",
+        description="Reviewer display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     is_local_guide: bool | None = Field(
         default=None,
@@ -262,7 +272,7 @@ class MapsReviewsItem(BaseModel):
     place_id: str | None = Field(
         default=None,
         alias="placeId",
-        description="Google Maps place id the review belongs to. Present whenever the upstream returns this record.",
+        description="Google Maps place id the review belongs to. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     published_ago: str | None = Field(
         default=None,
@@ -272,7 +282,10 @@ class MapsReviewsItem(BaseModel):
     rating: float | None = Field(
         default=None, description="Star rating the reviewer gave (1-5)."
     )
-    review_id: str = Field(alias="reviewId", description="Stable Google review id.")
+    review_id: str = Field(
+        alias="reviewId",
+        description="Stable Google review id. Populated whenever the provider has data for the entity.",
+    )
     reviewer_id: str | None = Field(
         default=None,
         alias="reviewerId",
@@ -289,13 +302,13 @@ class MapsReviewsItem(BaseModel):
     )
     url: str | None = Field(
         default=None,
-        description="Direct URL to the review on Google Maps. Present whenever the upstream returns this record.",
+        description="Direct URL to the review on Google Maps. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
 class MapsSearchData(BaseModel):
     items: list[MapsSearchItem] = Field(
-        description="Matching Google Maps place records."
+        description="Matching Google Maps place records. Populated whenever the provider has data for the entity."
     )
 
 
@@ -320,7 +333,9 @@ class MapsSearchItem(BaseModel):
     longitude: float | None = Field(
         default=None, description="Longitude of the place in decimal degrees."
     )
-    name: str = Field(description="Place name.")
+    name: str = Field(
+        description="Place name. Populated whenever the provider has data for the entity."
+    )
     permanently_closed: bool | None = Field(
         default=None,
         alias="permanentlyClosed",
@@ -331,7 +346,7 @@ class MapsSearchItem(BaseModel):
     )
     place_id: str = Field(
         alias="placeId",
-        description="Google Maps place id (stable identifier for the place).",
+        description="Google Maps place id (stable identifier for the place). Populated whenever the provider has data for the entity.",
     )
     postal_code: str | None = Field(
         default=None, alias="postalCode", description="Postal code of the place."
@@ -351,7 +366,9 @@ class MapsSearchItem(BaseModel):
         default=None, description="State or region the place is in."
     )
     street: str | None = Field(default=None, description="Street line of the address.")
-    url: str = Field(description="Canonical Google Maps URL for the place.")
+    url: str = Field(
+        description="Canonical Google Maps URL for the place. Populated whenever the provider has data for the entity."
+    )
     website: str | None = Field(
         default=None, description="The place's own website URL, when listed."
     )
@@ -373,7 +390,8 @@ class MapsNamespace:
 
         Search Google Maps for businesses and enrich each result with contact
         details (emails, phones, and social profiles from their websites), up to 20
-        records per request.
+        records per request. **Price:** billed per result - $0.05 per 1,000 requests
+        base + $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.003 per result.
 
@@ -392,8 +410,9 @@ class MapsNamespace:
 
         Look up a place on Google Maps by name or search query (optionally scoped to
         a location) and get the best-matching place with full details - address,
-        phone, website, rating, hours, and coordinates - as normalized JSON priced
-        per request in USD.
+        phone, website, rating, hours, and coordinates - as normalized JSON.
+        **Price:** billed per result - $3.00 per 1,000 requests base + $5.00 per
+        1,000 results, capped at $9.00 per 1,000 requests.
 
         Price: $0.003 per request plus $0.005 per result.
 
@@ -414,7 +433,9 @@ class MapsNamespace:
         """Google Maps Reviews
 
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
-        you need, in one flat-priced normalized response.
+        you need, in one normalized response. **Price:** billed per result - $0.05
+        per 1,000 requests base + $0.40 per 1,000 results, capped at $40.05 per
+        1,000 requests.
 
         Price: $0.00005 per request plus $0.0004 per result.
 
@@ -433,7 +454,8 @@ class MapsNamespace:
 
         Search Google Maps for places matching a query and location: up to 20
         normalized place records with ratings, addresses, and contact basics per
-        request.
+        request. **Price:** billed per result - $0.05 per 1,000 requests base +
+        $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.003 per result.
 
@@ -462,7 +484,8 @@ class AsyncMapsNamespace:
 
         Search Google Maps for businesses and enrich each result with contact
         details (emails, phones, and social profiles from their websites), up to 20
-        records per request.
+        records per request. **Price:** billed per result - $0.05 per 1,000 requests
+        base + $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.003 per result.
 
@@ -481,8 +504,9 @@ class AsyncMapsNamespace:
 
         Look up a place on Google Maps by name or search query (optionally scoped to
         a location) and get the best-matching place with full details - address,
-        phone, website, rating, hours, and coordinates - as normalized JSON priced
-        per request in USD.
+        phone, website, rating, hours, and coordinates - as normalized JSON.
+        **Price:** billed per result - $3.00 per 1,000 requests base + $5.00 per
+        1,000 results, capped at $9.00 per 1,000 requests.
 
         Price: $0.003 per request plus $0.005 per result.
 
@@ -503,7 +527,9 @@ class AsyncMapsNamespace:
         """Google Maps Reviews
 
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
-        you need, in one flat-priced normalized response.
+        you need, in one normalized response. **Price:** billed per result - $0.05
+        per 1,000 requests base + $0.40 per 1,000 results, capped at $40.05 per
+        1,000 requests.
 
         Price: $0.00005 per request plus $0.0004 per result.
 
@@ -522,7 +548,8 @@ class AsyncMapsNamespace:
 
         Search Google Maps for places matching a query and location: up to 20
         normalized place records with ratings, addresses, and contact basics per
-        request.
+        request. **Price:** billed per result - $0.05 per 1,000 requests base +
+        $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.003 per result.
 

@@ -28,17 +28,18 @@ export interface AmazonAsinsInput {
 
 export interface AmazonAsinsItem {
   /**
-   * Amazon Standard Identification Number.
+   * Amazon Standard Identification Number. Populated whenever the provider has data for the entity.
    */
   asin: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   brand?: string;
   condition?: string;
   currency?: string;
   /**
-   * Primary product image URL.
+   * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -53,7 +54,13 @@ export interface AmazonAsinsItem {
   rating?: number;
   reviewsCount?: number;
   sellerName?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -63,7 +70,7 @@ export interface AmazonAsinsItem {
  */
 export interface AmazonAsinsData {
   /**
-   * Product records: ASIN, title, brand, price, ratings, images, and attributes.
+   * Product records: ASIN, title, brand, price, ratings, images, and attributes. Populated whenever the provider has data for the entity.
    */
   items: AmazonAsinsItem[];
 }
@@ -85,7 +92,7 @@ export interface AmazonBestsellersInput {
 
 export interface AmazonBestsellersItem {
   /**
-   * Amazon Standard Identification Number.
+   * Amazon Standard Identification Number. Populated whenever the provider has data for the entity.
    */
   asin: string;
   /**
@@ -121,11 +128,11 @@ export interface AmazonBestsellersItem {
    */
   reviewsCount?: number;
   /**
-   * Product title.
+   * Product title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Canonical product detail page URL (tracking query params stripped).
+   * Canonical product detail page URL (tracking query params stripped). Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -136,7 +143,7 @@ export interface AmazonBestsellersItem {
  */
 export interface AmazonBestsellersData {
   /**
-   * Best-seller product records ordered by category rank.
+   * Best-seller product records ordered by category rank. Populated whenever the provider has data for the entity.
    */
   items: AmazonBestsellersItem[];
 }
@@ -153,11 +160,11 @@ export interface AmazonProductInput {
 
 export interface AmazonProductItem {
   /**
-   * Amazon Standard Identification Number.
+   * Amazon Standard Identification Number. Populated whenever the provider has data for the entity.
    */
   asin: string;
   /**
-   * Manufacturer or brand name.
+   * Manufacturer or brand name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   brand?: string;
@@ -182,7 +189,7 @@ export interface AmazonProductItem {
    */
   features?: string[];
   /**
-   * Primary product image URL.
+   * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -211,11 +218,11 @@ export interface AmazonProductItem {
    */
   sellerName?: string;
   /**
-   * Product title.
+   * Product title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Canonical product detail page URL (tracking query params stripped).
+   * Canonical product detail page URL (tracking query params stripped). Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -226,7 +233,7 @@ export interface AmazonProductItem {
  */
 export interface AmazonProductData {
   /**
-   * Product detail records (one per requested product URL).
+   * Product detail records (one per requested product URL). Populated whenever the provider has data for the entity.
    */
   items: AmazonProductItem[];
 }
@@ -298,7 +305,7 @@ export interface AmazonReviewsItem {
    */
   reviewer?: string;
   /**
-   * Full review body text.
+   * Full review body text. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
@@ -317,7 +324,7 @@ export interface AmazonReviewsItem {
  */
 export interface AmazonReviewsData {
   /**
-   * Customer review records.
+   * Customer review records. Populated whenever the provider has data for the entity.
    */
   items: AmazonReviewsItem[];
 }
@@ -339,7 +346,7 @@ export interface AmazonSearchInput {
 
 export interface AmazonSearchItem {
   /**
-   * Amazon Standard Identification Number; use it with the Amazon Products by ASIN SKU for full detail.
+   * Amazon Standard Identification Number; use it with the Amazon Products by ASIN SKU for full detail. Populated whenever the provider has data for the entity.
    */
   asin: string;
   /**
@@ -379,7 +386,7 @@ export interface AmazonSearchItem {
    */
   reviewsCount?: number;
   /**
-   * Product title.
+   * Product title. Populated whenever the provider has data for the entity.
    */
   title: string;
   [extra: string]: unknown;
@@ -390,7 +397,7 @@ export interface AmazonSearchItem {
  */
 export interface AmazonSearchData {
   /**
-   * Matching Amazon product records.
+   * Matching Amazon product records. Populated whenever the provider has data for the entity.
    */
   items: AmazonSearchItem[];
 }
@@ -405,7 +412,9 @@ export class AmazonNamespace {
   /**
    * Amazon Products by ASIN
    *
-   * Look up to 10 Amazon products in one call by ASIN - title, brand, price, ratings, images, and attributes - as normalized JSON with flat per-request USD pricing.
+   * Look up to 10 Amazon products in one call by ASIN - title, brand, price, ratings, images, and attributes - as normalized JSON.
+
+**Price:** billed per asin - $0.00 per 1,000 requests base + $3.50 per 1,000 asins, capped at $35.00 per 1,000 requests.
    *
    * Price: $0.0035 per asin.
    *
@@ -422,7 +431,9 @@ export class AmazonNamespace {
   /**
    * Amazon Bestsellers
    *
-   * List the top-ranked products of any Amazon Best Sellers category - rank, title, price, and rating - in one normalized, flat-priced request.
+   * List the top-ranked products of any Amazon Best Sellers category - rank, title, price, and rating - in one normalized request.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $4.10 per 1,000 results, capped at $82.00 per 1,000 requests.
    *
    * Price: $0.0041 per result.
    *
@@ -439,7 +450,9 @@ export class AmazonNamespace {
   /**
    * Amazon Product
    *
-   * Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL, with transparent per-request USD pricing.
+   * Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.
+
+**Price:** billed per result - $1.00 per 1,000 requests base + $8.10 per 1,000 results, capped at $9.10 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.0081 per result.
    *
@@ -456,7 +469,9 @@ export class AmazonNamespace {
   /**
    * Amazon Reviews
    *
-   * Pull up to 50 customer reviews for any Amazon product by ASIN or URL - rating, title, text, date, and verified-purchase badge - at a flat per-request USD price.
+   * Pull up to 50 customer reviews for any Amazon product by ASIN or URL - rating, title, text, date, and verified-purchase badge.
+
+**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *
@@ -473,7 +488,9 @@ export class AmazonNamespace {
   /**
    * Amazon Search
    *
-   * Search Amazon from any search or category URL and get up to 20 matching products - title, price, rating, and thumbnail - in one normalized, flat-priced response.
+   * Search Amazon from any search or category URL and get up to 20 matching products - title, price, rating, and thumbnail - in one normalized response.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $3.50 per 1,000 results, capped at $70.00 per 1,000 requests.
    *
    * Price: $0.0035 per result.
    *

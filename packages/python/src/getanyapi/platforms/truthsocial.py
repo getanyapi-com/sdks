@@ -42,38 +42,62 @@ class TruthsocialPostData(BaseModel):
     comments: int = Field(description="Number of comments on the post.")
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     display_name: str = Field(
-        alias="displayName", description="Display name of the author."
+        alias="displayName",
+        description="Display name of the author. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Post identifier.")
+    id: str = Field(
+        description="Post identifier. Populated whenever the provider has data for the entity."
+    )
     likes: int = Field(description="Number of likes on the post.")
     shares: int = Field(description="Number of reblogs of the post.")
-    text: str = Field(description="Post text content.")
-    username: str = Field(description="Username of the author.")
+    text: str = Field(
+        description="Post text content. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the author. Populated whenever the provider has data for the entity."
+    )
 
 
 class TruthsocialProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
-    bio: str
-    display_name: str = Field(alias="displayName")
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    bio: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    display_name: str = Field(
+        alias="displayName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     followers: int
     following: int
-    id: str
-    joined_at: str = Field(alias="joinedAt")
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    joined_at: str = Field(
+        alias="joinedAt",
+        description="Populated whenever the provider has data for the entity.",
+    )
     posts_count: int = Field(alias="postsCount")
     private: bool
-    url: str
-    username: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     verified: bool
 
 
 class TruthsocialUserPostsData(BaseModel):
     posts: list[TruthsocialUserPostsPost] = Field(
-        description="The user's recent posts."
+        description="The user's recent posts. Populated whenever the provider has data for the entity."
     )
 
 
@@ -83,13 +107,19 @@ class TruthsocialUserPostsPost(BaseModel):
     comments: int = Field(description="Number of comments on the post.")
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Post identifier.")
+    id: str = Field(
+        description="Post identifier. Populated whenever the provider has data for the entity."
+    )
     likes: int = Field(description="Number of likes on the post.")
     shares: int = Field(description="Number of reblogs of the post.")
-    text: str = Field(description="Post text content.")
-    url: str = Field(description="Canonical URL of the post.")
+    text: str = Field(
+        description="Post text content. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
 
 
 class TruthsocialNamespace:
@@ -107,7 +137,8 @@ class TruthsocialNamespace:
         """Truth Social Post
 
         Get a single Truth Social post by its URL - text, author, engagement (likes,
-        comments, shares), and timestamp as clean JSON, billed per request in USD.
+        comments, shares), and timestamp as clean JSON. **Price:** $3.25 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -128,8 +159,9 @@ class TruthsocialNamespace:
         """Truth Social Profile
 
         Get a Truth Social account's public profile by handle - display name, bio,
-        follower/following counts, and post count as clean JSON, billed per request
-        in USD.
+        follower/following counts, and post count as clean JSON. **Price:** $3.25
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.00325 per request.
 
@@ -150,8 +182,9 @@ class TruthsocialNamespace:
         """Truth Social User Posts
 
         List a Truth Social account's recent posts by handle - text, engagement
-        (likes, comments, shares), and timestamps as clean JSON, billed per request
-        in USD.
+        (likes, comments, shares), and timestamps as clean JSON. **Price:** $3.25
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.00325 per request.
 
@@ -179,7 +212,8 @@ class AsyncTruthsocialNamespace:
         """Truth Social Post
 
         Get a single Truth Social post by its URL - text, author, engagement (likes,
-        comments, shares), and timestamp as clean JSON, billed per request in USD.
+        comments, shares), and timestamp as clean JSON. **Price:** $3.25 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -200,8 +234,9 @@ class AsyncTruthsocialNamespace:
         """Truth Social Profile
 
         Get a Truth Social account's public profile by handle - display name, bio,
-        follower/following counts, and post count as clean JSON, billed per request
-        in USD.
+        follower/following counts, and post count as clean JSON. **Price:** $3.25
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.00325 per request.
 
@@ -222,8 +257,9 @@ class AsyncTruthsocialNamespace:
         """Truth Social User Posts
 
         List a Truth Social account's recent posts by handle - text, engagement
-        (likes, comments, shares), and timestamps as clean JSON, billed per request
-        in USD.
+        (likes, comments, shares), and timestamps as clean JSON. **Price:** $3.25
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.00325 per request.
 

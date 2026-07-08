@@ -110,7 +110,7 @@ export interface PersonSkipTraceItem {
    */
   streetAddress?: string;
   /**
-   * Source record URL for the matched person.
+   * Source record URL for the matched person. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -133,7 +133,7 @@ export interface PersonSkipTraceRelative {
  */
 export interface PersonSkipTraceData {
   /**
-   * Matched person records with identity, address, and contact details.
+   * Matched person records with identity, address, and contact details. Populated whenever the provider has data for the entity.
    */
   items: PersonSkipTraceItem[];
 }
@@ -149,6 +149,8 @@ export class PersonNamespace {
    * Skip Trace
    *
    * Skip-trace a person in the US by name, address, phone, or email and get back identity, address, and contact records in normalized JSON.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $7.00 per 1,000 results, capped at $7.00 per 1,000 requests.
    *
    * Price: $0.007 per result.
    *

@@ -44,31 +44,49 @@ class PandaexpressNutritionInput(TypedDict, total=False):
 
 class PandaexpressLocationsData(BaseModel):
     restaurants: list[PandaexpressLocationsRestaurant] = Field(
-        description="Nearby Panda Express restaurants, nearest first."
+        description="Nearby Panda Express restaurants, nearest first. Populated whenever the provider has data for the entity."
     )
 
 
 class PandaexpressLocationsRestaurant(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    address: str
+    address: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     can_deliver: bool = Field(alias="canDeliver")
     can_pickup: bool = Field(alias="canPickup")
-    city: str
+    city: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     distance_miles: float = Field(alias="distanceMiles")
-    id: int
+    id: int = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     is_open: bool = Field(alias="isOpen")
-    latitude: float
-    longitude: float
-    name: str
-    phone: str
-    state: str
-    zip: str
+    latitude: float = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    longitude: float = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    phone: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    state: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    zip: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class PandaexpressMenuData(BaseModel):
     categories: list[PandaexpressMenuCategorie] = Field(
-        description="Menu categories in display order."
+        description="Menu categories in display order. Populated whenever the provider has data for the entity."
     )
 
 
@@ -76,7 +94,9 @@ class PandaexpressMenuCategorie(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     items: list[PandaexpressMenuItem]
-    name: str
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class PandaexpressMenuItem(BaseModel):
@@ -85,7 +105,9 @@ class PandaexpressMenuItem(BaseModel):
     calories: int = Field(
         description="Base calories when published by the restaurant, else 0."
     )
-    description: str
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     name: str
     price_usd: float = Field(
         alias="priceUsd",
@@ -95,7 +117,7 @@ class PandaexpressMenuItem(BaseModel):
 
 class PandaexpressNutritionData(BaseModel):
     items: list[PandaexpressNutritionItem] = Field(
-        description="Matching menu items with official nutrition facts."
+        description="Matching menu items with official nutrition facts. Populated whenever the provider has data for the entity."
     )
 
 
@@ -105,7 +127,9 @@ class PandaexpressNutritionItem(BaseModel):
     calories: float
     cholesterol_mg: float = Field(alias="cholesterolMg")
     dietary_fiber_g: float = Field(alias="dietaryFiberG")
-    name: str
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     protein_g: float = Field(alias="proteinG")
     saturated_fat_g: float = Field(alias="saturatedFatG")
     serving_size_oz: float = Field(alias="servingSizeOz")
@@ -132,7 +156,8 @@ class PandaexpressNamespace:
 
         Find Panda Express restaurants near a latitude/longitude, sorted by
         distance, with address, phone, hours availability, and pickup/delivery
-        support. One call, billed per request in real dollars.
+        support. **Price:** $0.90 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.0009 per request.
 
@@ -154,7 +179,8 @@ class PandaexpressNamespace:
 
         Get the live menu for a Panda Express restaurant by id: categories with item
         names, descriptions, and USD prices. Pair with Panda Express Locations to
-        resolve a restaurant id. One call, billed per request in real dollars.
+        resolve a restaurant id. **Price:** $0.90 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.0009 per request.
 
@@ -175,8 +201,9 @@ class PandaexpressNamespace:
         """Panda Express Nutrition
 
         Look up official Panda Express nutrition facts by item name: serving size,
-        calories, fat, cholesterol, sodium, carbs, fiber, sugars, and protein. One
-        call, billed per request in real dollars.
+        calories, fat, cholesterol, sodium, carbs, fiber, sugars, and protein.
+        **Price:** $6.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.006 per request.
 
@@ -205,7 +232,8 @@ class AsyncPandaexpressNamespace:
 
         Find Panda Express restaurants near a latitude/longitude, sorted by
         distance, with address, phone, hours availability, and pickup/delivery
-        support. One call, billed per request in real dollars.
+        support. **Price:** $0.90 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.0009 per request.
 
@@ -227,7 +255,8 @@ class AsyncPandaexpressNamespace:
 
         Get the live menu for a Panda Express restaurant by id: categories with item
         names, descriptions, and USD prices. Pair with Panda Express Locations to
-        resolve a restaurant id. One call, billed per request in real dollars.
+        resolve a restaurant id. **Price:** $0.90 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.0009 per request.
 
@@ -248,8 +277,9 @@ class AsyncPandaexpressNamespace:
         """Panda Express Nutrition
 
         Look up official Panda Express nutrition facts by item name: serving size,
-        calories, fat, cholesterol, sodium, carbs, fiber, sugars, and protein. One
-        call, billed per request in real dollars.
+        calories, fat, cholesterol, sodium, carbs, fiber, sugars, and protein.
+        **Price:** $6.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.006 per request.
 

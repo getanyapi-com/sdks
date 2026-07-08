@@ -33,6 +33,7 @@ export interface IndeedJobsInput {
 export interface IndeedJobsItem {
   city?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   company?: string;
@@ -47,7 +48,7 @@ export interface IndeedJobsItem {
   description?: string;
   expired?: boolean;
   /**
-   * Indeed job key.
+   * Indeed job key. Populated whenever the provider has data for the entity.
    */
   jobId: string;
   postalCode?: string;
@@ -59,9 +60,12 @@ export interface IndeedJobsItem {
    */
   salaryUnit?: string;
   state?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   /**
-   * Indeed job posting URL.
+   * Indeed job posting URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -72,7 +76,7 @@ export interface IndeedJobsItem {
  */
 export interface IndeedJobsData {
   /**
-   * Job listing records: title, employer, location, salary when available, job type, posting date, and description.
+   * Job listing records: title, employer, location, salary when available, job type, posting date, and description. Populated whenever the provider has data for the entity.
    */
   items: IndeedJobsItem[];
 }
@@ -87,7 +91,9 @@ export class IndeedNamespace {
   /**
    * Indeed Jobs
    *
-   * Search Indeed job listings by keyword, location, and country - up to 20 normalized job records per request at a flat USD price.
+   * Search Indeed job listings by keyword, location, and country - up to 20 normalized job records per request.
+
+**Price:** billed per result - $0.80 per 1,000 requests base + $0.08 per 1,000 results, capped at $2.40 per 1,000 requests.
    *
    * Price: $0.0008 per request plus $0.00008 per result.
    *

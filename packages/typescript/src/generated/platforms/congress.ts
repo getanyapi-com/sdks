@@ -43,7 +43,7 @@ export interface CongressTradesItem {
    */
   amountRange?: string;
   /**
-   * Full name of the traded asset.
+   * Full name of the traded asset. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   assetName?: string;
@@ -52,16 +52,16 @@ export interface CongressTradesItem {
    */
   chamber?: string;
   /**
-   * Member's first name.
+   * Member's first name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   firstName?: string;
   /**
-   * Stable disclosure record identifier.
+   * Stable disclosure record identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * Member's last name.
+   * Member's last name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   lastName?: string;
@@ -78,7 +78,7 @@ export interface CongressTradesItem {
    */
   stateDistrict?: string;
   /**
-   * Stock ticker symbol of the traded asset.
+   * Stock ticker symbol of the traded asset. Populated whenever the provider has data for the entity.
    */
   symbol: string;
   /**
@@ -97,7 +97,7 @@ export interface CongressTradesItem {
  */
 export interface CongressTradesData {
   /**
-   * Disclosure records: member name and chamber, stock ticker, transaction type, amount range, and transaction/report dates.
+   * Disclosure records: member name and chamber, stock ticker, transaction type, amount range, and transaction/report dates. Populated whenever the provider has data for the entity.
    */
   items: CongressTradesItem[];
 }
@@ -112,7 +112,9 @@ export class CongressNamespace {
   /**
    * Congress Stock Trades
    *
-   * Get US Congress members' financial disclosures and stock trades - member, ticker, transaction type, amount range, and dates - filterable by member, ticker, or date range, billed per request in USD.
+   * Get US Congress members' financial disclosures and stock trades - member, ticker, transaction type, amount range, and dates - filterable by member, ticker, or date range.
+
+**Price:** billed per result - $1.00 per 1,000 requests base + $1.90 per 1,000 results, capped at $48.50 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.0019 per result.
    *

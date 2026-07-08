@@ -32,7 +32,7 @@ class TrustpilotReviewsInput(TypedDict, total=False):
 
 class TrustpilotReviewsData(BaseModel):
     items: list[TrustpilotReviewsItem] = Field(
-        description="Review records: star rating, review title and text, date, reviewer name and country, and company reply when present."
+        description="Review records: star rating, review title and text, date, reviewer name and country, and company reply when present. Populated whenever the provider has data for the entity."
     )
 
 
@@ -42,17 +42,19 @@ class TrustpilotReviewsItem(BaseModel):
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     rating: float = Field(description="Star rating (1-5).")
-    text: str = Field(description="Review body text.")
+    text: str = Field(
+        description="Review body text. Populated whenever the provider has data for the entity."
+    )
     title: str | None = Field(
         default=None,
-        description="Review title or headline. Present whenever the upstream returns this record.",
+        description="Review title or headline. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     url: str | None = Field(
         default=None,
-        description="Canonical review URL. Present whenever the upstream returns this record.",
+        description="Canonical review URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     verified: bool | None = Field(
         default=None, description="Whether the reviewer is verified."
@@ -74,7 +76,8 @@ class TrustpilotNamespace:
         """Trustpilot Reviews
 
         Pull Trustpilot reviews for any company by brand name - star ratings, review
-        text, dates, and reviewer details as clean JSON, billed per request in USD.
+        text, dates, and reviewer details as clean JSON. **Price:** $16.25 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.01625 per request.
 
@@ -102,7 +105,8 @@ class AsyncTrustpilotNamespace:
         """Trustpilot Reviews
 
         Pull Trustpilot reviews for any company by brand name - star ratings, review
-        text, dates, and reviewer details as clean JSON, billed per request in USD.
+        text, dates, and reviewer details as clean JSON. **Price:** $16.25 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.01625 per request.
 

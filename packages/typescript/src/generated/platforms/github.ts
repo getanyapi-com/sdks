@@ -27,12 +27,12 @@ export interface GithubRepositoryData {
    */
   archived?: boolean;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
   /**
-   * Name of the default branch.
+   * Name of the default branch. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   defaultBranch?: string;
@@ -49,7 +49,7 @@ export interface GithubRepositoryData {
    */
   forks?: number;
   /**
-   * Full repository name in owner/name form.
+   * Full repository name in owner/name form. Populated whenever the provider has data for the entity.
    */
   fullName: string;
   /**
@@ -65,7 +65,7 @@ export interface GithubRepositoryData {
    */
   license?: string;
   /**
-   * Repository short name (without owner).
+   * Repository short name (without owner). Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
@@ -73,12 +73,12 @@ export interface GithubRepositoryData {
    */
   openIssues?: number;
   /**
-   * Login of the repository owner (user or organization).
+   * Login of the repository owner (user or organization). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   owner?: string;
   /**
-   * Last push timestamp (ISO 8601).
+   * Last push timestamp (ISO 8601). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   pushedAt?: string;
@@ -91,12 +91,12 @@ export interface GithubRepositoryData {
    */
   topics?: string[];
   /**
-   * Last metadata update timestamp (ISO 8601).
+   * Last metadata update timestamp (ISO 8601). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   updatedAt?: string;
   /**
-   * Canonical URL of the repository.
+   * Canonical URL of the repository. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -121,13 +121,22 @@ export interface GithubTrendingDevelopersInput {
 }
 
 export interface GithubTrendingDevelopersDeveloper {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
   name: string;
   popularRepo: string;
   popularRepoDescription: string;
   popularRepoUrl: string;
   rank: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   username: string;
   [extra: string]: unknown;
 }
@@ -136,8 +145,14 @@ export interface GithubTrendingDevelopersDeveloper {
  * The `data` payload of GitHub Trending Developers (github.trending_developers).
  */
 export interface GithubTrendingDevelopersData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   developers: GithubTrendingDevelopersDeveloper[];
   language: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   since: string;
 }
 
@@ -160,11 +175,17 @@ export interface GithubTrendingRepositoriesInput {
 export interface GithubTrendingRepositoriesRepo {
   description: string;
   forks: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   fullName: string;
   language: string;
   rank: number;
   stars: number;
   starsToday: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -173,6 +194,9 @@ export interface GithubTrendingRepositoriesRepo {
  * The `data` payload of GitHub Trending Repositories (github.trending_repositories).
  */
 export interface GithubTrendingRepositoriesData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   repos: GithubTrendingRepositoriesRepo[];
 }
 
@@ -191,7 +215,7 @@ export interface GithubUserInput {
  */
 export interface GithubUserData {
   /**
-   * URL of the profile avatar image.
+   * URL of the profile avatar image. Populated whenever the provider has data for the entity.
    */
   avatarUrl: string;
   /**
@@ -207,7 +231,7 @@ export interface GithubUserData {
    */
   company?: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
@@ -224,11 +248,11 @@ export interface GithubUserData {
    */
   location?: string;
   /**
-   * GitHub username (handle).
+   * GitHub username (handle). Populated whenever the provider has data for the entity.
    */
   login: string;
   /**
-   * Display name, or empty string if unset.
+   * Display name, or empty string if unset. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
@@ -269,6 +293,9 @@ export interface GithubUserActivityInput {
 }
 
 export interface GithubUserActivityActivity {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   summary: string;
   [extra: string]: unknown;
 }
@@ -277,10 +304,19 @@ export interface GithubUserActivityActivity {
  * The `data` payload of GitHub User Activity (github.user_activity).
  */
 export interface GithubUserActivityData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   activity: GithubUserActivityActivity[];
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   month: string;
   nextCursor: string;
   noActivity: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   username: string;
   year: number;
 }
@@ -305,7 +341,7 @@ export interface GithubUserContributionsDay {
    */
   count: number;
   /**
-   * UTC epoch seconds at 00:00 UTC of the contribution day.
+   * UTC epoch seconds at 00:00 UTC of the contribution day. Populated whenever the provider has data for the entity.
    */
   dateUtc: number;
   /**
@@ -320,7 +356,7 @@ export interface GithubUserContributionsDay {
  */
 export interface GithubUserContributionsData {
   /**
-   * Per-day contribution buckets for the year.
+   * Per-day contribution buckets for the year. Populated whenever the provider has data for the entity.
    */
   days: GithubUserContributionsDay[];
   /**
@@ -328,7 +364,7 @@ export interface GithubUserContributionsData {
    */
   total: number;
   /**
-   * GitHub username the contribution graph belongs to.
+   * GitHub username the contribution graph belongs to. Populated whenever the provider has data for the entity.
    */
   username: string;
   /**
@@ -352,11 +388,23 @@ export interface GithubUserFollowersInput {
 }
 
 export interface GithubUserFollowersFollower {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
   id: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   login: string;
   siteAdmin: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   type: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -365,6 +413,9 @@ export interface GithubUserFollowersFollower {
  * The `data` payload of GitHub User Followers (github.user_followers).
  */
 export interface GithubUserFollowersData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   followers: GithubUserFollowersFollower[];
   nextCursor: string;
 }
@@ -384,11 +435,23 @@ export interface GithubUserFollowingInput {
 }
 
 export interface GithubUserFollowingFollowing {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
   id: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   login: string;
   siteAdmin: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   type: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -397,6 +460,9 @@ export interface GithubUserFollowingFollowing {
  * The `data` payload of GitHub User Following (github.user_following).
  */
 export interface GithubUserFollowingData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   following: GithubUserFollowingFollowing[];
   nextCursor: string;
 }
@@ -425,23 +491,23 @@ export interface GithubUserPullRequestsInput {
 
 export interface GithubUserPullRequestsPullRequest {
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Repository the pull request targets, in owner/name form.
+   * Repository the pull request targets, in owner/name form. Populated whenever the provider has data for the entity.
    */
   repo: string;
   /**
-   * Pull request state (e.g. open, closed, merged).
+   * Pull request state (e.g. open, closed, merged). Populated whenever the provider has data for the entity.
    */
   state: string;
   /**
-   * Pull request title.
+   * Pull request title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Canonical URL of the pull request.
+   * Canonical URL of the pull request. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -460,7 +526,7 @@ export interface GithubUserPullRequestsData {
    */
   nextCursor: string;
   /**
-   * The user's public pull requests for this page.
+   * The user's public pull requests for this page. Populated whenever the provider has data for the entity.
    */
   pullRequests: GithubUserPullRequestsPullRequest[];
 }
@@ -492,12 +558,21 @@ export interface GithubUserRepositoriesRepo {
   description: string;
   fork: boolean;
   forks: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   fullName: string;
   language: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   pushedAt: string;
   stars: number;
   updatedAt: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -508,6 +583,9 @@ export interface GithubUserRepositoriesRepo {
 export interface GithubUserRepositoriesData {
   hasMore: boolean;
   nextCursor: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   repos: GithubUserRepositoriesRepo[];
 }
 
@@ -522,6 +600,8 @@ export class GithubNamespace {
    * GitHub Repository
    *
    * Fetch a GitHub repository's metadata by URL - stars, forks, language, topics, license, and timestamps - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -539,6 +619,8 @@ export class GithubNamespace {
    * GitHub Trending Developers
    *
    * List trending GitHub developers - rank, username, name, avatar, and their most popular repository - optionally filtered by programming language and time range.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -556,6 +638,8 @@ export class GithubNamespace {
    * GitHub Trending Repositories
    *
    * List GitHub Trending repositories - rank, stars, stars gained today, language, and description - filterable by language and time window, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -573,6 +657,8 @@ export class GithubNamespace {
    * GitHub User
    *
    * Fetch a GitHub user's public profile by handle - name, bio, company, location, followers, and repo counts - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -590,6 +676,8 @@ export class GithubNamespace {
    * GitHub User Activity
    *
    * List a GitHub user's public contribution activity by handle - grouped monthly summaries of commits, pull requests, and issues with repository links - for a given year.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -630,6 +718,8 @@ export class GithubNamespace {
    * GitHub User Contributions
    *
    * Fetch a GitHub user's contribution graph for a year - total contributions plus per-day counts and heatmap intensity - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -647,6 +737,8 @@ export class GithubNamespace {
    * GitHub User Followers
    *
    * List a GitHub user's followers by handle - each follower's login, type, avatar, and profile URL - with pagination.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -690,6 +782,8 @@ export class GithubNamespace {
    * GitHub User Following
    *
    * List the GitHub users a given user follows by handle - each account's login, type, avatar, and profile URL - with pagination.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -733,6 +827,8 @@ export class GithubNamespace {
    * GitHub User Pull Requests
    *
    * List a GitHub user's public pull requests by handle - title, repository, state, creation date, and URL - with optional date filtering and pagination.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -776,6 +872,8 @@ export class GithubNamespace {
    * GitHub User Repositories
    *
    * List a GitHub user's public repositories - name, description, language, stars, and forks - with sorting and cursor pagination, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

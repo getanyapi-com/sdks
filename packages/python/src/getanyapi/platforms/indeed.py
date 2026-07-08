@@ -30,7 +30,7 @@ class IndeedJobsInput(TypedDict, total=False):
 
 class IndeedJobsData(BaseModel):
     items: list[IndeedJobsItem] = Field(
-        description="Job listing records: title, employer, location, salary when available, job type, posting date, and description."
+        description="Job listing records: title, employer, location, salary when available, job type, posting date, and description. Populated whenever the provider has data for the entity."
     )
 
 
@@ -39,7 +39,8 @@ class IndeedJobsItem(BaseModel):
 
     city: str | None = None
     company: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     country: str | None = None
     date_published: str | None = Field(
@@ -49,7 +50,10 @@ class IndeedJobsItem(BaseModel):
         default=None, description="Plain-text job description."
     )
     expired: bool | None = None
-    job_id: str = Field(alias="jobId", description="Indeed job key.")
+    job_id: str = Field(
+        alias="jobId",
+        description="Indeed job key. Populated whenever the provider has data for the entity.",
+    )
     postal_code: str | None = Field(default=None, alias="postalCode")
     salary_currency: str | None = Field(default=None, alias="salaryCurrency")
     salary_max: float | None = Field(default=None, alias="salaryMax")
@@ -60,8 +64,12 @@ class IndeedJobsItem(BaseModel):
         description="Salary period, e.g. YEAR or HOUR.",
     )
     state: str | None = None
-    title: str
-    url: str = Field(description="Indeed job posting URL.")
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Indeed job posting URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class IndeedNamespace:
@@ -76,7 +84,9 @@ class IndeedNamespace:
         """Indeed Jobs
 
         Search Indeed job listings by keyword, location, and country - up to 20
-        normalized job records per request at a flat USD price.
+        normalized job records per request. **Price:** billed per result - $0.80 per
+        1,000 requests base + $0.08 per 1,000 results, capped at $2.40 per 1,000
+        requests.
 
         Price: $0.0008 per request plus $0.00008 per result.
 
@@ -101,7 +111,9 @@ class AsyncIndeedNamespace:
         """Indeed Jobs
 
         Search Indeed job listings by keyword, location, and country - up to 20
-        normalized job records per request at a flat USD price.
+        normalized job records per request. **Price:** billed per result - $0.80 per
+        1,000 requests base + $0.08 per 1,000 results, capped at $2.40 per 1,000
+        requests.
 
         Price: $0.0008 per request plus $0.00008 per result.
 

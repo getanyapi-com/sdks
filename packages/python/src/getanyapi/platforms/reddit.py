@@ -90,27 +90,42 @@ class RedditSubredditSearchInput(TypedDict, total=False):
 
 
 class RedditPostCommentsData(BaseModel):
-    comments: list[RedditPostCommentsComment]
+    comments: list[RedditPostCommentsComment] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class RedditPostCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Commenter username, without the u/ prefix.")
-    body: str = Field(description="Comment text, as Markdown.")
+    author: str = Field(
+        description="Commenter username, without the u/ prefix. Populated whenever the provider has data for the entity."
+    )
+    body: str = Field(
+        description="Comment text, as Markdown. Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str = Field(description="Reddit comment ID (base-36, without the t1_ prefix).")
-    url: str = Field(description="Permalink to the comment on reddit.com.")
+    id: str = Field(
+        description="Reddit comment ID (base-36, without the t1_ prefix). Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Permalink to the comment on reddit.com. Populated whenever the provider has data for the entity."
+    )
 
 
 class RedditPostTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    language: str
-    post_id: str = Field(alias="postId")
+    language: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    post_id: str = Field(
+        alias="postId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     transcript: str
     transcript_not_available: bool = Field(alias="transcriptNotAvailable")
 
@@ -122,29 +137,39 @@ class RedditSearchData(BaseModel):
         alias="nextCursor",
         description="Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more results.",
     )
-    posts: list[RedditSearchPost]
+    posts: list[RedditSearchPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class RedditSearchPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Author username, without the u/ prefix.")
+    author: str = Field(
+        description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str = Field(description="Reddit post ID (base-36, without the t3_ prefix).")
+    id: str = Field(
+        description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
+    )
     num_comments: int = Field(
         alias="numComments", description="Total number of comments on the post."
     )
     permalink: str = Field(
-        description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it.'
+        description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it. Populated whenever the provider has data for the entity.'
     )
     score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
-    subreddit: str = Field(description="Subreddit name, without the r/ prefix.")
-    title: str = Field(description="Post title.")
+    subreddit: str = Field(
+        description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Post title. Populated whenever the provider has data for the entity."
+    )
     url: str = Field(
-        description="The post's destination link (the external URL for link posts, or the thread URL for self posts)."
+        description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity."
     )
 
 
@@ -157,12 +182,21 @@ class RedditSubredditDetailsData(BaseModel):
     )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    description: str = Field(description="Subreddit description text.")
-    icon_url: str = Field(alias="iconUrl", description="URL of the subreddit icon.")
-    id: str = Field(description='Reddit fullname, e.g. "t5_2qh1i".')
-    name: str = Field(description="Subreddit name (without the r/ prefix).")
+    description: str = Field(
+        description="Subreddit description text. Populated whenever the provider has data for the entity."
+    )
+    icon_url: str = Field(
+        alias="iconUrl",
+        description="URL of the subreddit icon. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description='Reddit fullname, e.g. "t5_2qh1i". Populated whenever the provider has data for the entity.'
+    )
+    name: str = Field(
+        description="Subreddit name (without the r/ prefix). Populated whenever the provider has data for the entity."
+    )
     weekly_active_users: int = Field(
         alias="weeklyActiveUsers",
         description="Number of users active in the past week.",
@@ -176,29 +210,39 @@ class RedditSubredditPostsData(BaseModel):
         alias="nextCursor",
         description="Cursor for the next page of results; pass it back as the `after` input to fetch the following page. Empty string when there are no more results.",
     )
-    posts: list[RedditSubredditPostsPost]
+    posts: list[RedditSubredditPostsPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class RedditSubredditPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Author username, without the u/ prefix.")
+    author: str = Field(
+        description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Reddit post ID (base-36, without the t3_ prefix).")
+    id: str = Field(
+        description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
+    )
     num_comments: int = Field(
         alias="numComments", description="Total number of comments on the post."
     )
     permalink: str = Field(
-        description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it.'
+        description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it. Populated whenever the provider has data for the entity.'
     )
     score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
-    subreddit: str = Field(description="Subreddit name, without the r/ prefix.")
-    title: str = Field(description="Post title.")
+    subreddit: str = Field(
+        description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Post title. Populated whenever the provider has data for the entity."
+    )
     url: str = Field(
-        description="The post's destination link (the external URL for link posts, or the thread URL for self posts)."
+        description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity."
     )
 
 
@@ -206,30 +250,40 @@ class RedditSubredditSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    posts: list[RedditSubredditSearchPost]
+    posts: list[RedditSubredditSearchPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class RedditSubredditSearchPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Author username, without the u/ prefix.")
+    author: str = Field(
+        description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="Post creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str = Field(description="Reddit post ID (base-36, without the t3_ prefix).")
+    id: str = Field(
+        description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
+    )
     nsfw: bool = Field(description="Whether the post is marked NSFW (over 18).")
     num_comments: int = Field(
         alias="numComments", description="Total number of comments on the post."
     )
     permalink: str = Field(
-        description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link.'
+        description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Populated whenever the provider has data for the entity.'
     )
     score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
-    subreddit: str = Field(description="Subreddit name, without the r/ prefix.")
-    title: str = Field(description="Post title.")
+    subreddit: str = Field(
+        description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Post title. Populated whenever the provider has data for the entity."
+    )
     url: str = Field(
-        description="The post's destination link (the external URL for link posts, or the thread URL for self posts)."
+        description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity."
     )
 
 
@@ -249,6 +303,8 @@ class RedditNamespace:
 
         List the top-level comments on a Reddit post by URL (author, body, score,
         timestamp), normalized across providers with transparent failover.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -269,7 +325,8 @@ class RedditNamespace:
         """Reddit Post Transcript
 
         Extract the spoken transcript from a Reddit video post by URL, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -290,7 +347,8 @@ class RedditNamespace:
         """Reddit Search
 
         Search Reddit posts across all subreddits by query, normalized across
-        providers with transparent failover.
+        providers with transparent failover. **Price:** $1.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -334,7 +392,9 @@ class RedditNamespace:
         """Reddit Subreddit Details
 
         Fetch a subreddit's metadata - weekly active users, description, and
-        category - normalized across providers with transparent failover.
+        category - normalized across providers with transparent failover. **Price:**
+        $1.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.001 per request.
 
@@ -355,7 +415,8 @@ class RedditNamespace:
         """Reddit Subreddit Posts
 
         Fetch posts from a subreddit listing (hot, new, or top), normalized across
-        providers with transparent failover.
+        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -376,7 +437,9 @@ class RedditNamespace:
         """Reddit Subreddit Search
 
         Search posts within a single subreddit by query, sort, and timeframe,
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -428,6 +491,8 @@ class AsyncRedditNamespace:
 
         List the top-level comments on a Reddit post by URL (author, body, score,
         timestamp), normalized across providers with transparent failover.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -448,7 +513,8 @@ class AsyncRedditNamespace:
         """Reddit Post Transcript
 
         Extract the spoken transcript from a Reddit video post by URL, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -469,7 +535,8 @@ class AsyncRedditNamespace:
         """Reddit Search
 
         Search Reddit posts across all subreddits by query, normalized across
-        providers with transparent failover.
+        providers with transparent failover. **Price:** $1.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -513,7 +580,9 @@ class AsyncRedditNamespace:
         """Reddit Subreddit Details
 
         Fetch a subreddit's metadata - weekly active users, description, and
-        category - normalized across providers with transparent failover.
+        category - normalized across providers with transparent failover. **Price:**
+        $1.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.001 per request.
 
@@ -534,7 +603,8 @@ class AsyncRedditNamespace:
         """Reddit Subreddit Posts
 
         Fetch posts from a subreddit listing (hot, new, or top), normalized across
-        providers with transparent failover.
+        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -555,7 +625,9 @@ class AsyncRedditNamespace:
         """Reddit Subreddit Search
 
         Search posts within a single subreddit by query, sort, and timeframe,
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 

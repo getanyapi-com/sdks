@@ -72,14 +72,24 @@ class GoogleAdsSearchInput(TypedDict, total=False):
 class GoogleAdsAdDetailsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    advertiser_id: str = Field(alias="advertiserId")
-    creative_id: str = Field(alias="creativeId")
+    advertiser_id: str = Field(
+        alias="advertiserId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    creative_id: str = Field(
+        alias="creativeId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     first_shown: str = Field(alias="firstShown", description="ISO 8601 date.")
-    format: str
+    format: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     impressions_max: int = Field(alias="impressionsMax")
     impressions_min: int = Field(alias="impressionsMin")
     last_shown: str = Field(alias="lastShown", description="ISO 8601 date.")
-    variations: list[GoogleAdsAdDetailsVariation]
+    variations: list[GoogleAdsAdDetailsVariation] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleAdsAdDetailsVariation(BaseModel):
@@ -93,7 +103,9 @@ class GoogleAdsAdDetailsVariation(BaseModel):
 
 
 class GoogleAdsAdvertiserSearchData(BaseModel):
-    advertisers: list[GoogleAdsAdvertiserSearchAdvertiser]
+    advertisers: list[GoogleAdsAdvertiserSearchAdvertiser] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleAdsAdvertiserSearchAdvertiser(BaseModel):
@@ -103,15 +115,24 @@ class GoogleAdsAdvertiserSearchAdvertiser(BaseModel):
         alias="adsEstimate",
         description="Estimated number of ads for this advertiser/region.",
     )
-    advertiser_id: str = Field(alias="advertiserId")
-    name: str
-    region: str
+    advertiser_id: str = Field(
+        alias="advertiserId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    region: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleAdsCompanyAdsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    ads: list[GoogleAdsCompanyAdsAd]
+    ads: list[GoogleAdsCompanyAdsAd] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     ads_estimate: int = Field(
         alias="adsEstimate", description="Estimated total number of ads."
     )
@@ -121,19 +142,33 @@ class GoogleAdsCompanyAdsData(BaseModel):
 class GoogleAdsCompanyAdsAd(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    ad_url: str = Field(alias="adUrl")
-    advertiser_id: str = Field(alias="advertiserId")
-    advertiser_name: str = Field(alias="advertiserName")
-    creative_id: str = Field(alias="creativeId")
+    ad_url: str = Field(
+        alias="adUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    advertiser_id: str = Field(
+        alias="advertiserId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    advertiser_name: str = Field(
+        alias="advertiserName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    creative_id: str = Field(
+        alias="creativeId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     first_shown: str = Field(alias="firstShown", description="ISO 8601 date.")
-    format: str
+    format: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     image_url: str = Field(alias="imageUrl")
     last_shown: str = Field(alias="lastShown", description="ISO 8601 date.")
 
 
 class GoogleAdsSearchData(BaseModel):
     items: list[GoogleAdsSearchItem] = Field(
-        description="Ad records from the Transparency Center: advertiser, ad format, creative details, preview URL, and first/last shown dates."
+        description="Ad records from the Transparency Center: advertiser, ad format, creative details, preview URL, and first/last shown dates. Populated whenever the provider has data for the entity."
     )
 
 
@@ -142,7 +177,7 @@ class GoogleAdsSearchItem(BaseModel):
 
     advertiser: str | None = Field(
         default=None,
-        description="Advertiser display name. Present whenever the upstream returns this record.",
+        description="Advertiser display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     advertiser_id: str | None = Field(
         default=None,
@@ -157,7 +192,9 @@ class GoogleAdsSearchItem(BaseModel):
     format: str | None = Field(
         default=None, description="Ad format, e.g. TEXT, IMAGE, VIDEO."
     )
-    id: str = Field(description="Google Ads creative identifier.")
+    id: str = Field(
+        description="Google Ads creative identifier. Populated whenever the provider has data for the entity."
+    )
     last_shown_utc: float | None = Field(
         default=None,
         alias="lastShownUtc",
@@ -173,7 +210,9 @@ class GoogleAdsSearchItem(BaseModel):
         alias="previewUrl",
         description="URL to a rendered preview of the creative.",
     )
-    url: str = Field(description="Ads Transparency Center URL for the creative.")
+    url: str = Field(
+        description="Ads Transparency Center URL for the creative. Populated whenever the provider has data for the entity."
+    )
     variations: list[GoogleAdsSearchVariation] | None = Field(
         default=None,
         description="Creative variations for the ad, each with image, headline, and body text where present.",
@@ -208,7 +247,8 @@ class GoogleAdsNamespace:
 
         Look up a single Google Ads Transparency Center creative by URL and get its
         format, run dates, impression range, regions, and creative variations as
-        clean JSON, billed per request in USD.
+        clean JSON. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -229,8 +269,9 @@ class GoogleAdsNamespace:
         """Google Ads Advertiser Search
 
         Search the Google Ads Transparency Center for advertisers by keyword and get
-        matching advertiser IDs, regions, and estimated ad counts as clean JSON,
-        billed per request in USD.
+        matching advertiser IDs, regions, and estimated ad counts as clean JSON.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -252,7 +293,8 @@ class GoogleAdsNamespace:
 
         List the ads a company is running from the Google Ads Transparency Center by
         domain or advertiser ID - creative ID, format, ad URL, and first/last shown
-        dates - with cursor pagination, billed per request in USD.
+        dates - with cursor pagination. **Price:** $2.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -297,7 +339,8 @@ class GoogleAdsNamespace:
 
         Pull the ads an advertiser is currently running from the Google Ads
         Transparency Center - creative details, formats, and run dates - as clean
-        JSON, billed per request in USD.
+        JSON. **Price:** billed per result - $0.05 per 1,000 requests base + $1.30
+        per 1,000 results, capped at $26.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.0013 per result.
 
@@ -326,7 +369,8 @@ class AsyncGoogleAdsNamespace:
 
         Look up a single Google Ads Transparency Center creative by URL and get its
         format, run dates, impression range, regions, and creative variations as
-        clean JSON, billed per request in USD.
+        clean JSON. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -347,8 +391,9 @@ class AsyncGoogleAdsNamespace:
         """Google Ads Advertiser Search
 
         Search the Google Ads Transparency Center for advertisers by keyword and get
-        matching advertiser IDs, regions, and estimated ad counts as clean JSON,
-        billed per request in USD.
+        matching advertiser IDs, regions, and estimated ad counts as clean JSON.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -370,7 +415,8 @@ class AsyncGoogleAdsNamespace:
 
         List the ads a company is running from the Google Ads Transparency Center by
         domain or advertiser ID - creative ID, format, ad URL, and first/last shown
-        dates - with cursor pagination, billed per request in USD.
+        dates - with cursor pagination. **Price:** $2.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -415,7 +461,8 @@ class AsyncGoogleAdsNamespace:
 
         Pull the ads an advertiser is currently running from the Google Ads
         Transparency Center - creative details, formats, and run dates - as clean
-        JSON, billed per request in USD.
+        JSON. **Price:** billed per result - $0.05 per 1,000 requests base + $1.30
+        per 1,000 results, capped at $26.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.0013 per result.
 

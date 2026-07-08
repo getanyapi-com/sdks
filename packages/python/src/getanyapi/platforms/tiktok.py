@@ -217,25 +217,46 @@ class TiktokVideoTranscriptInput(TypedDict, total=False):
 class TiktokAdLibraryAdData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    ad_id: str = Field(alias="adId")
-    ad_title: str = Field(alias="adTitle")
+    ad_id: str = Field(
+        alias="adId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    ad_title: str = Field(
+        alias="adTitle",
+        description="Populated whenever the provider has data for the entity.",
+    )
     brand_name: str = Field(alias="brandName")
     comments: int
     cost: float
-    cover_url: str = Field(alias="coverUrl")
+    cover_url: str = Field(
+        alias="coverUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     ctr: float
-    industry: str
-    landing_page: str = Field(alias="landingPage")
+    industry: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    landing_page: str = Field(
+        alias="landingPage",
+        description="Populated whenever the provider has data for the entity.",
+    )
     likes: int
-    objective: str
+    objective: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     shares: int
-    video_url: str = Field(alias="videoUrl")
+    video_url: str = Field(
+        alias="videoUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
 
 
 class TiktokAdLibrarySearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    ads: list[TiktokAdLibrarySearchAd]
+    ads: list[TiktokAdLibrarySearchAd] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     has_more: bool = Field(alias="hasMore")
     next_cursor: str = Field(alias="nextCursor")
     total: int
@@ -244,16 +265,32 @@ class TiktokAdLibrarySearchData(BaseModel):
 class TiktokAdLibrarySearchAd(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    ad_id: str = Field(alias="adId")
-    ad_title: str = Field(alias="adTitle")
+    ad_id: str = Field(
+        alias="adId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    ad_title: str = Field(
+        alias="adTitle",
+        description="Populated whenever the provider has data for the entity.",
+    )
     brand_name: str = Field(alias="brandName")
     cost: float
-    cover_url: str = Field(alias="coverUrl")
+    cover_url: str = Field(
+        alias="coverUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     ctr: float
-    industry: str
+    industry: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    objective: str
-    video_url: str = Field(alias="videoUrl")
+    objective: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    video_url: str = Field(
+        alias="videoUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
 
 
 class TiktokAudienceDemographicsData(BaseModel):
@@ -268,9 +305,16 @@ class TiktokAudienceDemographicsAudienceLocation(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     count: int
-    country: str
-    country_code: str = Field(alias="countryCode")
-    percentage: str
+    country: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    country_code: str = Field(
+        alias="countryCode",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    percentage: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokCommentRepliesData(BaseModel):
@@ -283,14 +327,20 @@ class TiktokCommentRepliesData(BaseModel):
 class TiktokCommentRepliesComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    text: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokFollowersData(BaseModel):
@@ -307,10 +357,19 @@ class TiktokFollowersFollower(BaseModel):
     avatar_url: str = Field(alias="avatarUrl")
     follower_count: int = Field(alias="followerCount")
     following_count: int = Field(alias="followingCount")
-    nickname: str
-    region: str
-    user_id: str = Field(alias="userId")
-    username: str
+    nickname: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    region: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    user_id: str = Field(
+        alias="userId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokFollowingData(BaseModel):
@@ -321,17 +380,26 @@ class TiktokFollowingFollowing(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     bio: str
-    display_name: str = Field(alias="displayName")
+    display_name: str = Field(
+        alias="displayName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     followers: int
-    handle: str
-    id: str
-    region: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    region: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     videos: int
 
 
 class TiktokHashtagVideosData(BaseModel):
     items: list[TiktokHashtagVideosItem] = Field(
-        description="Recent TikTok video records for the hashtag."
+        description="Recent TikTok video records for the hashtag. Populated whenever the provider has data for the entity."
     )
 
 
@@ -352,7 +420,9 @@ class TiktokHashtagVideosItem(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str = Field(description="The video's numeric TikTok ID, as a string.")
+    id: str = Field(
+        description="The video's numeric TikTok ID, as a string. Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(
         default=None,
         description="URL of the video's cover/thumbnail image, with tracking query params stripped. Empty when the upstream omits it.",
@@ -373,33 +443,56 @@ class TiktokHashtagVideosItem(BaseModel):
         description="The video caption text. Empty for videos with no caption.",
     )
     url: str = Field(
-        description="Canonical tiktok.com URL of the video, with tracking query params stripped."
+        description="Canonical tiktok.com URL of the video, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
 
 
 class TiktokLiveData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    cover_url: str = Field(alias="coverUrl")
-    display_name: str = Field(alias="displayName")
+    cover_url: str = Field(
+        alias="coverUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    display_name: str = Field(
+        alias="displayName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     enter_count: int = Field(alias="enterCount")
-    handle: str
-    room_id: str = Field(alias="roomId")
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    room_id: str = Field(
+        alias="roomId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     start_time: int = Field(alias="startTime")
     status: int
-    title: str
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     viewers: int
 
 
 class TiktokProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
-    bio: str
-    display_name: str = Field(alias="displayName")
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    bio: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    display_name: str = Field(
+        alias="displayName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     followers: int
     following: int
-    handle: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     verified: bool
     videos: int
@@ -408,9 +501,16 @@ class TiktokProfileData(BaseModel):
 class TiktokProfileRegionData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    handle: str
-    profile_url: str = Field(alias="profileUrl")
-    region: str
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    profile_url: str = Field(
+        alias="profileUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    region: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokProfileVideosData(BaseModel):
@@ -423,48 +523,68 @@ class TiktokProfileVideosData(BaseModel):
 class TiktokProfileVideosVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     comments: int
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
 class TiktokSearchHashtagData(BaseModel):
-    videos: list[TiktokSearchHashtagVideo]
+    videos: list[TiktokSearchHashtagVideo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokSearchHashtagVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
-    caption: str
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     comments: int
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     shares: int
     views: int
 
 
 class TiktokSearchKeywordData(BaseModel):
-    videos: list[TiktokSearchKeywordVideo]
+    videos: list[TiktokSearchKeywordVideo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokSearchKeywordVideo(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    caption: str
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     comments: int
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     region: str
     shares: int
@@ -474,21 +594,31 @@ class TiktokSearchKeywordVideo(BaseModel):
 class TiktokSearchTopData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    items: list[TiktokSearchTopItem]
+    items: list[TiktokSearchTopItem] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     next_cursor: str = Field(alias="nextCursor")
 
 
 class TiktokSearchTopItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
-    caption: str
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     comments: int
     content_type: str = Field(alias="contentType")
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     shares: int
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
@@ -496,7 +626,9 @@ class TiktokSearchUsersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    users: list[TiktokSearchUsersUser]
+    users: list[TiktokSearchUsersUser] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokSearchUsersUser(BaseModel):
@@ -504,22 +636,46 @@ class TiktokSearchUsersUser(BaseModel):
 
     followers: int
     following: int
-    handle: str
-    nickname: str
-    user_id: str = Field(alias="userId")
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    nickname: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    user_id: str = Field(
+        alias="userId",
+        description="Populated whenever the provider has data for the entity.",
+    )
 
 
 class TiktokSongData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    album: str
-    author: str
-    cover_url: str = Field(alias="coverUrl")
-    duration: int
+    album: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    cover_url: str = Field(
+        alias="coverUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    duration: int = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     is_original: bool = Field(alias="isOriginal")
-    share_url: str = Field(alias="shareUrl")
-    song_id: str = Field(alias="songId")
-    title: str
+    share_url: str = Field(
+        alias="shareUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    song_id: str = Field(
+        alias="songId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     video_count: int = Field(alias="videoCount")
 
 
@@ -528,51 +684,76 @@ class TiktokSongVideosData(BaseModel):
 
     has_more: int = Field(alias="hasMore")
     next_cursor: str = Field(alias="nextCursor")
-    videos: list[TiktokSongVideosVideo]
+    videos: list[TiktokSongVideosVideo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokSongVideosVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author_handle: str = Field(alias="authorHandle")
-    author_name: str = Field(alias="authorName")
+    author_handle: str = Field(
+        alias="authorHandle",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    author_name: str = Field(
+        alias="authorName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     comment_count: int = Field(alias="commentCount")
     create_time: int = Field(alias="createTime")
     description: str
     like_count: int = Field(alias="likeCount")
     play_count: int = Field(alias="playCount")
     share_count: int = Field(alias="shareCount")
-    video_id: str = Field(alias="videoId")
+    video_id: str = Field(
+        alias="videoId",
+        description="Populated whenever the provider has data for the entity.",
+    )
 
 
 class TiktokTrendingFeedData(BaseModel):
-    videos: list[TiktokTrendingFeedVideo]
+    videos: list[TiktokTrendingFeedVideo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokTrendingFeedVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     caption: str
     comments: int
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
-    region: str
+    region: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     shares: int
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
 class TiktokVideoData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    caption: str
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     comments: int
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     region: str
     saves: int
@@ -590,22 +771,30 @@ class TiktokVideoCommentsData(BaseModel):
 class TiktokVideoCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     replies: int
-    text: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokVideoTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     language: str
-    transcript: str
+    transcript: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokNamespace:
@@ -624,7 +813,8 @@ class TiktokNamespace:
 
         Fetch full details for a single TikTok ad - brand, title, spend, CTR,
         objectives, landing page, and video info - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -646,7 +836,8 @@ class TiktokNamespace:
 
         Search TikTok's ad library by keyword - top ads with brand, title, spend,
         CTR, likes, and video info - normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -690,7 +881,9 @@ class TiktokNamespace:
         """TikTok Audience Demographics
 
         Get the audience country breakdown (follower count and share per country)
-        for a TikTok creator by handle, normalized across providers.
+        for a TikTok creator by handle, normalized across providers. **Price:**
+        $16.25 per 1,000 requests (flat per request - same cost regardless of
+        results returned).
 
         Price: $0.01625 per request.
 
@@ -711,7 +904,8 @@ class TiktokNamespace:
         """TikTok Comment Replies
 
         List the replies to a TikTok comment with cursor pagination (text, author,
-        likes), normalized across providers.
+        likes), normalized across providers. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -755,7 +949,8 @@ class TiktokNamespace:
         """TikTok Followers
 
         List the followers of a TikTok account by username, returning each
-        follower's profile basics, with transparent per-request USD pricing.
+        follower's profile basics. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -799,7 +994,9 @@ class TiktokNamespace:
         """TikTok Following
 
         List the accounts a TikTok user follows (handle, display name, follower
-        count, bio) by username, normalized across providers.
+        count, bio) by username, normalized across providers. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -820,7 +1017,8 @@ class TiktokNamespace:
         """TikTok Hashtag Videos
 
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
-        shares), normalized output with transparent per-request USD pricing.
+        shares), normalized output. **Price:** $3.25 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -838,7 +1036,9 @@ class TiktokNamespace:
         """TikTok Live
 
         Check whether a TikTok creator is live and get the current live room (title,
-        viewers, start time) by handle, normalized across providers.
+        viewers, start time) by handle, normalized across providers. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -860,7 +1060,8 @@ class TiktokNamespace:
 
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle, normalized across providers with transparent
-        failover.
+        failover. **Price:** $1.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -881,7 +1082,8 @@ class TiktokNamespace:
         """TikTok Profile Region
 
         Resolve the home region (country) of a TikTok creator by handle, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -902,7 +1104,9 @@ class TiktokNamespace:
         """TikTok Profile Videos
 
         List a TikTok creator's recent videos (views, likes, comments) by handle
-        with cursor pagination, normalized across providers.
+        with cursor pagination, normalized across providers. **Price:** $1.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.001 per request.
 
@@ -947,7 +1151,8 @@ class TiktokNamespace:
 
         Search TikTok by hashtag and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON, across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -969,7 +1174,8 @@ class TiktokNamespace:
 
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON, across providers with transparent
-        failover.
+        failover. **Price:** $1.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -990,7 +1196,9 @@ class TiktokNamespace:
         """TikTok Top Search
 
         Search TikTok's top results for a keyword (caption, views, likes, comments,
-        shares) with cursor pagination, normalized across providers.
+        shares) with cursor pagination, normalized across providers. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1034,7 +1242,8 @@ class TiktokNamespace:
         """TikTok User Search
 
         Search TikTok accounts by keyword (handle, nickname, follower count) with
-        cursor pagination, normalized across providers.
+        cursor pagination, normalized across providers. **Price:** $1.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -1076,7 +1285,8 @@ class TiktokNamespace:
 
         Fetch details for a TikTok song or sound - title, author, duration, cover
         art, and how many videos use it - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1098,7 +1308,8 @@ class TiktokNamespace:
 
         List TikTok videos that use a given song or sound - with descriptions,
         authors, and engagement stats - normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1143,6 +1354,8 @@ class TiktokNamespace:
 
         Get TikTok's trending feed for a region (caption, views, likes, comments,
         author) as normalized JSON, across providers with transparent failover.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1164,7 +1377,8 @@ class TiktokNamespace:
 
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves), normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $1.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -1185,7 +1399,9 @@ class TiktokNamespace:
         """TikTok Video Comments
 
         List the comments on a TikTok video by URL with cursor pagination (text,
-        author, likes, reply count), normalized across providers.
+        author, likes, reply count), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1229,7 +1445,8 @@ class TiktokNamespace:
         """TikTok Video Transcript
 
         Fetch the spoken-word transcript of a TikTok video by URL, normalized across
-        providers with transparent failover.
+        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1258,7 +1475,8 @@ class AsyncTiktokNamespace:
 
         Fetch full details for a single TikTok ad - brand, title, spend, CTR,
         objectives, landing page, and video info - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1280,7 +1498,8 @@ class AsyncTiktokNamespace:
 
         Search TikTok's ad library by keyword - top ads with brand, title, spend,
         CTR, likes, and video info - normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1324,7 +1543,9 @@ class AsyncTiktokNamespace:
         """TikTok Audience Demographics
 
         Get the audience country breakdown (follower count and share per country)
-        for a TikTok creator by handle, normalized across providers.
+        for a TikTok creator by handle, normalized across providers. **Price:**
+        $16.25 per 1,000 requests (flat per request - same cost regardless of
+        results returned).
 
         Price: $0.01625 per request.
 
@@ -1345,7 +1566,8 @@ class AsyncTiktokNamespace:
         """TikTok Comment Replies
 
         List the replies to a TikTok comment with cursor pagination (text, author,
-        likes), normalized across providers.
+        likes), normalized across providers. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1389,7 +1611,8 @@ class AsyncTiktokNamespace:
         """TikTok Followers
 
         List the followers of a TikTok account by username, returning each
-        follower's profile basics, with transparent per-request USD pricing.
+        follower's profile basics. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1433,7 +1656,9 @@ class AsyncTiktokNamespace:
         """TikTok Following
 
         List the accounts a TikTok user follows (handle, display name, follower
-        count, bio) by username, normalized across providers.
+        count, bio) by username, normalized across providers. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1454,7 +1679,8 @@ class AsyncTiktokNamespace:
         """TikTok Hashtag Videos
 
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
-        shares), normalized output with transparent per-request USD pricing.
+        shares), normalized output. **Price:** $3.25 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -1472,7 +1698,9 @@ class AsyncTiktokNamespace:
         """TikTok Live
 
         Check whether a TikTok creator is live and get the current live room (title,
-        viewers, start time) by handle, normalized across providers.
+        viewers, start time) by handle, normalized across providers. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1494,7 +1722,8 @@ class AsyncTiktokNamespace:
 
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle, normalized across providers with transparent
-        failover.
+        failover. **Price:** $1.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -1515,7 +1744,8 @@ class AsyncTiktokNamespace:
         """TikTok Profile Region
 
         Resolve the home region (country) of a TikTok creator by handle, normalized
-        across providers with transparent failover.
+        across providers with transparent failover. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1536,7 +1766,9 @@ class AsyncTiktokNamespace:
         """TikTok Profile Videos
 
         List a TikTok creator's recent videos (views, likes, comments) by handle
-        with cursor pagination, normalized across providers.
+        with cursor pagination, normalized across providers. **Price:** $1.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.001 per request.
 
@@ -1581,7 +1813,8 @@ class AsyncTiktokNamespace:
 
         Search TikTok by hashtag and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON, across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1603,7 +1836,8 @@ class AsyncTiktokNamespace:
 
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON, across providers with transparent
-        failover.
+        failover. **Price:** $1.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -1624,7 +1858,9 @@ class AsyncTiktokNamespace:
         """TikTok Top Search
 
         Search TikTok's top results for a keyword (caption, views, likes, comments,
-        shares) with cursor pagination, normalized across providers.
+        shares) with cursor pagination, normalized across providers. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1668,7 +1904,8 @@ class AsyncTiktokNamespace:
         """TikTok User Search
 
         Search TikTok accounts by keyword (handle, nickname, follower count) with
-        cursor pagination, normalized across providers.
+        cursor pagination, normalized across providers. **Price:** $1.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -1710,7 +1947,8 @@ class AsyncTiktokNamespace:
 
         Fetch details for a TikTok song or sound - title, author, duration, cover
         art, and how many videos use it - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1732,7 +1970,8 @@ class AsyncTiktokNamespace:
 
         List TikTok videos that use a given song or sound - with descriptions,
         authors, and engagement stats - normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1777,6 +2016,8 @@ class AsyncTiktokNamespace:
 
         Get TikTok's trending feed for a region (caption, views, likes, comments,
         author) as normalized JSON, across providers with transparent failover.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1798,7 +2039,8 @@ class AsyncTiktokNamespace:
 
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves), normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $1.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -1819,7 +2061,9 @@ class AsyncTiktokNamespace:
         """TikTok Video Comments
 
         List the comments on a TikTok video by URL with cursor pagination (text,
-        author, likes, reply count), normalized across providers.
+        author, likes, reply count), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1863,7 +2107,8 @@ class AsyncTiktokNamespace:
         """TikTok Video Transcript
 
         Fetch the spoken-word transcript of a TikTok video by URL, normalized across
-        providers with transparent failover.
+        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 

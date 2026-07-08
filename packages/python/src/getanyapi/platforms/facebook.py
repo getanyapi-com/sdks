@@ -297,12 +297,13 @@ class FacebookAdDetailsData(BaseModel):
         default=None, description="Whether the ad is currently running."
     )
     ad_archive_id: str = Field(
-        alias="adArchiveId", description="Ad Library archive ID (stable identity)."
+        alias="adArchiveId",
+        description="Ad Library archive ID (stable identity). Populated whenever the provider has data for the entity.",
     )
     cta_text: str | None = Field(
         default=None,
         alias="ctaText",
-        description="Call-to-action label. Present whenever the upstream returns this record.",
+        description="Call-to-action label. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     currency: str | None = Field(
         default=None, description="Spend currency, may be empty."
@@ -310,7 +311,7 @@ class FacebookAdDetailsData(BaseModel):
     display_format: str | None = Field(
         default=None,
         alias="displayFormat",
-        description="Ad creative format. Present whenever the upstream returns this record.",
+        description="Ad creative format. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     end_date: int | None = Field(
         default=None, alias="endDate", description="Run end, epoch seconds."
@@ -318,42 +319,48 @@ class FacebookAdDetailsData(BaseModel):
     link_url: str | None = Field(
         default=None,
         alias="linkUrl",
-        description="Creative destination URL. Present whenever the upstream returns this record.",
+        description="Creative destination URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     page_id: str = Field(
-        alias="pageId", description="Advertiser page ID (stable identity)."
+        alias="pageId",
+        description="Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.",
     )
     page_name: str | None = Field(
         default=None,
         alias="pageName",
-        description="Advertiser page name. Present whenever the upstream returns this record.",
+        description="Advertiser page name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     platforms: list[str] | None = Field(
         default=None,
-        description="Publisher platforms the ad runs on. Present whenever the upstream returns this record.",
+        description="Publisher platforms the ad runs on. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     start_date: int | None = Field(
         default=None,
         alias="startDate",
-        description="Run start, epoch seconds. Present whenever the upstream returns this record.",
+        description="Run start, epoch seconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     text: str | None = Field(
         default=None,
-        description="Ad body text. Present whenever the upstream returns this record.",
+        description="Ad body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     title: str | None = Field(
         default=None,
-        description="Creative title. Present whenever the upstream returns this record.",
+        description="Creative title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
 class FacebookAdTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    ad_id: str = Field(alias="adId")
+    ad_id: str = Field(
+        alias="adId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     transcript: str = Field(description="Transcribed ad audio text.")
     transcript_available: bool = Field(alias="transcriptAvailable")
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookAdsSearchData(BaseModel):
@@ -371,18 +378,47 @@ class FacebookAdsSearchAd(BaseModel):
     ad_count: int = Field(
         alias="adCount", description="Number of ads in this campaign (collation count)."
     )
-    cta_text: str = Field(alias="ctaText")
-    cta_type: str = Field(alias="ctaType")
-    display_format: str = Field(alias="displayFormat")
+    cta_text: str = Field(
+        alias="ctaText",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    cta_type: str = Field(
+        alias="ctaType",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    display_format: str = Field(
+        alias="displayFormat",
+        description="Populated whenever the provider has data for the entity.",
+    )
     end_date: int = Field(alias="endDate", description="Epoch seconds.")
-    id: str = Field(description="Ad Library archive ID.")
-    link_url: str = Field(alias="linkUrl")
-    page_id: str = Field(alias="pageId")
-    page_name: str = Field(alias="pageName")
-    platforms: list[str]
-    start_date: int = Field(alias="startDate", description="Epoch seconds.")
-    text: str = Field(description="Ad body text.")
-    title: str
+    id: str = Field(
+        description="Ad Library archive ID. Populated whenever the provider has data for the entity."
+    )
+    link_url: str = Field(
+        alias="linkUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    page_name: str = Field(
+        alias="pageName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    platforms: list[str] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    start_date: int = Field(
+        alias="startDate",
+        description="Epoch seconds. Populated whenever the provider has data for the entity.",
+    )
+    text: str = Field(
+        description="Ad body text. Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookCommentRepliesData(BaseModel):
@@ -397,7 +433,7 @@ class FacebookCommentRepliesData(BaseModel):
         description="Cursor for the next page of replies; empty when there are no more.",
     )
     replies: list[FacebookCommentRepliesReplie] = Field(
-        description="Replies to the comment."
+        description="Replies to the comment. Populated whenever the provider has data for the entity."
     )
 
 
@@ -405,17 +441,19 @@ class FacebookCommentRepliesReplie(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     author_id: str = Field(
-        alias="authorId", description="Identifier of the reply author."
+        alias="authorId",
+        description="Identifier of the reply author. Populated whenever the provider has data for the entity.",
     )
     author_name: str = Field(
-        alias="authorName", description="Display name of the reply author."
+        alias="authorName",
+        description="Display name of the reply author. Populated whenever the provider has data for the entity.",
     )
     author_profile_picture: str = Field(
         alias="authorProfilePicture", description="URL of the author's profile picture."
     )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     expansion_token: str | None = Field(
         default=None,
@@ -423,16 +461,21 @@ class FacebookCommentRepliesReplie(BaseModel):
         description="Token used to expand nested replies, when present.",
     )
     feedback_id: str = Field(
-        alias="feedbackId", description="Facebook feedback identifier for the reply."
+        alias="feedbackId",
+        description="Facebook feedback identifier for the reply. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Reply identifier.")
+    id: str = Field(
+        description="Reply identifier. Populated whenever the provider has data for the entity."
+    )
     reaction_count: int = Field(
         alias="reactionCount", description="Number of reactions on the reply."
     )
     reply_count: int = Field(
         alias="replyCount", description="Number of replies nested under this reply."
     )
-    text: str = Field(description="Reply text content.")
+    text: str = Field(
+        description="Reply text content. Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookCompanyAdsData(BaseModel):
@@ -450,33 +493,70 @@ class FacebookCompanyAdsAd(BaseModel):
         alias="adCount", description="Number of ads in this campaign (collation count)."
     )
     currency: str
-    display_format: str = Field(alias="displayFormat")
+    display_format: str = Field(
+        alias="displayFormat",
+        description="Populated whenever the provider has data for the entity.",
+    )
     end_date: int = Field(alias="endDate", description="Epoch seconds.")
-    id: str = Field(description="Ad Library archive ID.")
-    page_id: str = Field(alias="pageId")
-    page_name: str = Field(alias="pageName")
-    platforms: list[str]
-    start_date: int = Field(alias="startDate", description="Epoch seconds.")
-    text: str = Field(description="Ad body text.")
+    id: str = Field(
+        description="Ad Library archive ID. Populated whenever the provider has data for the entity."
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    page_name: str = Field(
+        alias="pageName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    platforms: list[str] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    start_date: int = Field(
+        alias="startDate",
+        description="Epoch seconds. Populated whenever the provider has data for the entity.",
+    )
+    text: str = Field(
+        description="Ad body text. Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookEventDetailsData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    city: str
-    cover_photo_url: str = Field(alias="coverPhotoUrl")
-    day_time_sentence: str = Field(alias="dayTimeSentence")
-    description: str
+    city: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    cover_photo_url: str = Field(
+        alias="coverPhotoUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    day_time_sentence: str = Field(
+        alias="dayTimeSentence",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     end_time: str = Field(alias="endTime")
     going_count: int = Field(alias="goingCount")
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     interested_count: int = Field(alias="interestedCount")
     is_canceled: bool = Field(alias="isCanceled")
     is_online: bool = Field(alias="isOnline")
-    location_name: str = Field(alias="locationName")
-    name: str
+    location_name: str = Field(
+        alias="locationName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     start_time: str = Field(alias="startTime")
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookEventsData(BaseModel):
@@ -489,15 +569,30 @@ class FacebookEventsData(BaseModel):
 class FacebookEventsEvent(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    day_time_sentence: str = Field(alias="dayTimeSentence")
+    day_time_sentence: str = Field(
+        alias="dayTimeSentence",
+        description="Populated whenever the provider has data for the entity.",
+    )
     going_count: int = Field(alias="goingCount")
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     interested_count: int = Field(alias="interestedCount")
     is_online: bool = Field(alias="isOnline")
-    name: str
-    place_name: str = Field(alias="placeName")
-    start_timestamp: int = Field(alias="startTimestamp")
-    url: str
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    place_name: str = Field(
+        alias="placeName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    start_timestamp: int = Field(
+        alias="startTimestamp",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookEventsSearchData(BaseModel):
@@ -510,37 +605,59 @@ class FacebookEventsSearchData(BaseModel):
 class FacebookEventsSearchEvent(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    cover_image: str = Field(alias="coverImage")
-    day_time_sentence: str = Field(alias="dayTimeSentence")
+    cover_image: str = Field(
+        alias="coverImage",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    day_time_sentence: str = Field(
+        alias="dayTimeSentence",
+        description="Populated whenever the provider has data for the entity.",
+    )
     going_count: int = Field(alias="goingCount")
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     interested_count: int = Field(alias="interestedCount")
     is_online: bool = Field(alias="isOnline")
     is_past: bool = Field(alias="isPast")
-    name: str
-    place_name: str = Field(alias="placeName")
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    place_name: str = Field(
+        alias="placeName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     price_range_text: str = Field(alias="priceRangeText")
-    start_timestamp: int = Field(alias="startTimestamp")
-    url: str
+    start_timestamp: int = Field(
+        alias="startTimestamp",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookFollowersData(BaseModel):
     items: list[FacebookFollowersItem] = Field(
-        description="Follower or following records for the target page/profile."
+        description="Follower or following records for the target page/profile. Populated whenever the provider has data for the entity."
     )
 
 
 class FacebookFollowersItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str = Field(description="The account's numeric Facebook ID, as a string.")
+    id: str = Field(
+        description="The account's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(
         default=None,
         description="URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
     )
-    name: str = Field(description="The account's public display name.")
+    name: str = Field(
+        description="The account's public display name. Populated whenever the provider has data for the entity."
+    )
     url: str = Field(
-        description="Canonical URL of the account's Facebook profile, with tracking query params stripped."
+        description="Canonical URL of the account's Facebook profile, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
 
 
@@ -548,21 +665,38 @@ class FacebookGroupPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    posts: list[FacebookGroupPostsPost]
+    posts: list[FacebookGroupPostsPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookGroupPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author_id: str = Field(alias="authorId")
-    author_name: str = Field(alias="authorName")
+    author_id: str = Field(
+        alias="authorId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    author_name: str = Field(
+        alias="authorName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     comment_count: int = Field(alias="commentCount")
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     permalink: str
-    publish_time: int = Field(alias="publishTime")
+    publish_time: int = Field(
+        alias="publishTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
     reaction_count: int = Field(alias="reactionCount")
-    text: str
-    url: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookMarketplaceData(BaseModel):
@@ -576,31 +710,74 @@ class FacebookMarketplaceData(BaseModel):
 class FacebookMarketplaceListing(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     is_sold: bool = Field(alias="isSold")
-    location_name: str = Field(alias="locationName")
-    photo_url: str = Field(alias="photoUrl")
-    price_amount: float = Field(alias="priceAmount")
-    price_formatted: str = Field(alias="priceFormatted")
-    title: str
-    url: str
+    location_name: str = Field(
+        alias="locationName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    photo_url: str = Field(
+        alias="photoUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price_amount: float = Field(
+        alias="priceAmount",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price_formatted: str = Field(
+        alias="priceFormatted",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookMarketplaceItemData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    category_id: str = Field(alias="categoryId")
-    creation_time: str = Field(alias="creationTime")
-    currency: str
-    description: str
-    id: str
+    category_id: str = Field(
+        alias="categoryId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    creation_time: str = Field(
+        alias="creationTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    currency: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     is_live: bool = Field(alias="isLive")
     is_sold: bool = Field(alias="isSold")
-    location_text: str = Field(alias="locationText")
-    price_amount: float = Field(alias="priceAmount")
-    price_formatted: str = Field(alias="priceFormatted")
-    title: str
-    url: str
+    location_text: str = Field(
+        alias="locationText",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price_amount: float = Field(
+        alias="priceAmount",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price_formatted: str = Field(
+        alias="priceFormatted",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookMarketplaceLocationSearchData(BaseModel):
@@ -610,18 +787,34 @@ class FacebookMarketplaceLocationSearchData(BaseModel):
 class FacebookMarketplaceLocationSearchLocation(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    city: str
-    latitude: float
-    longitude: float
-    name: str
-    page_id: str = Field(alias="pageId")
-    postal_code: str = Field(alias="postalCode")
-    subtitle: str
+    city: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    latitude: float = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    longitude: float = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    postal_code: str = Field(
+        alias="postalCode",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    subtitle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookPageContactData(BaseModel):
     items: list[FacebookPageContactItem] = Field(
-        description="Contact record for the requested Facebook Page (one item)."
+        description="Contact record for the requested Facebook Page (one item). Populated whenever the provider has data for the entity."
     )
 
 
@@ -634,7 +827,7 @@ class FacebookPageContactItem(BaseModel):
     )
     category: str | None = Field(
         default=None,
-        description='The page\'s primary category (e.g. "Seafood Restaurant"). Present whenever the upstream returns this record.',
+        description='The page\'s primary category (e.g. "Seafood Restaurant"). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
     )
     email: str | None = Field(
         default=None,
@@ -651,9 +844,11 @@ class FacebookPageContactItem(BaseModel):
         default=None,
         description="The page's public phone number. Empty when the page lists none.",
     )
-    title: str = Field(description="The page's public name.")
+    title: str = Field(
+        description="The page's public name. Populated whenever the provider has data for the entity."
+    )
     url: str = Field(
-        description="Canonical URL of the Facebook Page, with tracking query params stripped."
+        description="Canonical URL of the Facebook Page, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
     website: str | None = Field(
         default=None,
@@ -666,30 +861,50 @@ class FacebookPhotosData(BaseModel):
 
     next_cursor: str = Field(alias="nextCursor")
     next_page_id: str = Field(alias="nextPageId")
-    photos: list[FacebookPhotosPhoto]
+    photos: list[FacebookPhotosPhoto] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookPhotosPhoto(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str
-    id: str
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     image_height: int = Field(alias="imageHeight")
-    image_url: str = Field(alias="imageUrl")
+    image_url: str = Field(
+        alias="imageUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     image_width: int = Field(alias="imageWidth")
-    photo_id: str = Field(alias="photoId")
-    thumbnail: str
-    url: str
+    photo_id: str = Field(
+        alias="photoId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    thumbnail: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookPostData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     comments: int
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     likes: int
     shares: int
-    text: str
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     views: int
 
 
@@ -697,7 +912,7 @@ class FacebookPostCommentsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     comments: list[FacebookPostCommentsComment] = Field(
-        description="Comments on the post."
+        description="Comments on the post. Populated whenever the provider has data for the entity."
     )
     next_cursor: str = Field(
         alias="nextCursor",
@@ -708,15 +923,21 @@ class FacebookPostCommentsData(BaseModel):
 class FacebookPostCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Display name of the comment author.")
+    author: str = Field(
+        description="Display name of the comment author. Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Comment identifier.")
+    id: str = Field(
+        description="Comment identifier. Populated whenever the provider has data for the entity."
+    )
     reactions: int = Field(description="Number of reactions on the comment.")
     replies: int = Field(description="Number of replies to the comment.")
-    text: str = Field(description="Comment text content.")
+    text: str = Field(
+        description="Comment text content. Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookPostTranscriptData(BaseModel):
@@ -729,17 +950,26 @@ class FacebookProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     about: str
-    avatar_url: str = Field(alias="avatarUrl")
-    category: str
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    category: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     followers: int
     likes: int
-    name: str
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookProfileEventsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    events: list[FacebookProfileEventsEvent]
+    events: list[FacebookProfileEventsEvent] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     has_next_page: bool = Field(alias="hasNextPage")
     next_cursor: str = Field(alias="nextCursor")
     total_count: int = Field(alias="totalCount")
@@ -749,46 +979,75 @@ class FacebookProfileEventsEvent(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     city: str
-    creator_name: str = Field(alias="creatorName")
+    creator_name: str = Field(
+        alias="creatorName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     day_time_sentence: str = Field(alias="dayTimeSentence")
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     is_canceled: bool = Field(alias="isCanceled")
     is_online: bool = Field(alias="isOnline")
     is_past: bool = Field(alias="isPast")
-    name: str
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     place_name: str = Field(alias="placeName")
     start_timestamp: int = Field(alias="startTimestamp")
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookProfilePostsData(BaseModel):
-    posts: list[FacebookProfilePostsPost]
+    posts: list[FacebookProfilePostsPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookProfilePostsPost(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    author: str
-    id: str
-    text: str
-    url: str
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookProfileReelsData(BaseModel):
-    reels: list[FacebookProfileReelsReel] = Field(description="The profile's reels.")
+    reels: list[FacebookProfileReelsReel] = Field(
+        description="The profile's reels. Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookProfileReelsReel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str = Field(description="Reel caption text.")
+    caption: str = Field(
+        description="Reel caption text. Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Reel identifier.")
-    thumbnail: str = Field(description="URL of the reel thumbnail image.")
-    url: str = Field(description="Canonical URL of the reel.")
+    id: str = Field(
+        description="Reel identifier. Populated whenever the provider has data for the entity."
+    )
+    thumbnail: str = Field(
+        description="URL of the reel thumbnail image. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the reel. Populated whenever the provider has data for the entity."
+    )
     views: int = Field(description="Number of views on the reel.")
 
 
@@ -799,22 +1058,46 @@ class FacebookSearchCompaniesData(BaseModel):
 class FacebookSearchCompaniesCompanie(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    category: str
+    category: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     country: str
-    entity_type: str = Field(alias="entityType")
-    ig_followers: int = Field(alias="igFollowers")
-    ig_username: str = Field(alias="igUsername")
-    image_url: str = Field(alias="imageUrl")
+    entity_type: str = Field(
+        alias="entityType",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    ig_followers: int = Field(
+        alias="igFollowers",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    ig_username: str = Field(
+        alias="igUsername",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    image_url: str = Field(
+        alias="imageUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     likes: int
-    name: str
-    page_alias: str = Field(alias="pageAlias")
-    page_id: str = Field(alias="pageId")
-    verification: str
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    page_alias: str = Field(
+        alias="pageAlias",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    verification: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookSearchPagesData(BaseModel):
     items: list[FacebookSearchPagesItem] = Field(
-        description="Matching Facebook Page records for the query."
+        description="Matching Facebook Page records for the query. Populated whenever the provider has data for the entity."
     )
 
 
@@ -828,7 +1111,9 @@ class FacebookSearchPagesItem(BaseModel):
     followers: int | None = Field(
         default=None, description="The page's follower count."
     )
-    id: str = Field(description="The page's numeric Facebook ID, as a string.")
+    id: str = Field(
+        description="The page's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(
         default=None,
         description="URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
@@ -838,9 +1123,11 @@ class FacebookSearchPagesItem(BaseModel):
         default=None,
         description="The page's public phone number. Empty when the upstream omits it.",
     )
-    title: str = Field(description="The page's public name.")
+    title: str = Field(
+        description="The page's public name. Populated whenever the provider has data for the entity."
+    )
     url: str = Field(
-        description="Canonical URL of the Facebook Page, with tracking query params stripped."
+        description="Canonical URL of the Facebook Page, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
     website: str | None = Field(
         default=None,
@@ -850,7 +1137,7 @@ class FacebookSearchPagesItem(BaseModel):
 
 class FacebookSearchPostsData(BaseModel):
     items: list[FacebookSearchPostsItem] = Field(
-        description="Matching public Facebook post records for the query."
+        description="Matching public Facebook post records for the query. Populated whenever the provider has data for the entity."
     )
 
 
@@ -876,7 +1163,9 @@ class FacebookSearchPostsItem(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str = Field(description="The post's numeric Facebook ID, as a string.")
+    id: str = Field(
+        description="The post's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(
         default=None,
         description="URL of the post's primary image, with tracking query params stripped. Empty for text-only or video posts.",
@@ -895,7 +1184,7 @@ class FacebookSearchPostsItem(BaseModel):
         description="The post's text/message. Empty for media-only posts with no caption."
     )
     url: str = Field(
-        description="Canonical URL of the post, with tracking query params stripped."
+        description="Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
 
 
@@ -914,8 +1203,9 @@ class FacebookNamespace:
         """Facebook Ad Details
 
         Look up a single Meta Ad Library ad by ID or URL and get the advertiser,
-        creative text, call-to-action, platforms, and run dates as clean JSON,
-        billed per request in USD.
+        creative text, call-to-action, platforms, and run dates as clean JSON.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -936,7 +1226,8 @@ class FacebookNamespace:
         """Facebook Ad Transcript
 
         Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or
-        URL, billed per request in USD.
+        URL. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -958,7 +1249,8 @@ class FacebookNamespace:
 
         Search the Meta Ad Library by keyword and get matching ads - advertiser,
         creative text, CTA, platforms, and run dates - with cursor pagination and
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1002,7 +1294,8 @@ class FacebookNamespace:
         """Facebook Comment Replies
 
         List the replies to a Facebook post comment - text, author, reactions, and
-        timestamps - as normalized JSON at a flat USD price per request.
+        timestamps - as normalized JSON at a. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1046,8 +1339,9 @@ class FacebookNamespace:
         """Facebook Company Ads
 
         List the Meta Ad Library ads a company is running by page ID or company name
-        - creative text, format, platforms, and run dates - with cursor pagination,
-        billed per request in USD.
+        - creative text, format, platforms, and run dates - with cursor pagination.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1091,8 +1385,9 @@ class FacebookNamespace:
         """Facebook Event Details
 
         Fetch full details for a single Facebook event by ID or URL - name,
-        schedule, venue, hosts, and attendance - as normalized JSON at a flat USD
-        price per request.
+        schedule, venue, hosts, and attendance - as normalized JSON at a. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1113,8 +1408,9 @@ class FacebookNamespace:
         """Facebook Events
 
         List public Facebook events for a city or place by its events-page URL -
-        event name, date, venue, and attendance - as normalized JSON at a flat USD
-        price per request.
+        event name, date, venue, and attendance - as normalized JSON at a.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1158,8 +1454,9 @@ class FacebookNamespace:
         """Facebook Events Search
 
         Search public Facebook events by keyword and get structured event records -
-        name, schedule, venue, pricing, and attendance - as normalized JSON at a
-        flat USD price per request.
+        name, schedule, venue, pricing, and attendance - as normalized JSON at a.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1203,7 +1500,9 @@ class FacebookNamespace:
         """Facebook Followers
 
         List the public followers - or accounts followed - of any Facebook page or
-        profile URL as normalized JSON records, priced per request in USD.
+        profile URL as normalized JSON records. **Price:** billed per result - $0.00
+        per 1,000 requests base + $6.00 per 1,000 results, capped at $120.00 per
+        1,000 requests.
 
         Price: $0.006 per result.
 
@@ -1224,7 +1523,8 @@ class FacebookNamespace:
         """Facebook Group Posts
 
         Fetch recent posts from any public Facebook group by URL - text, author,
-        reactions, and comment counts - at a flat per-request USD price.
+        reactions, and comment counts. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1268,8 +1568,9 @@ class FacebookNamespace:
         """Facebook Marketplace
 
         Search Facebook Marketplace listings by keyword near a location - title,
-        price, location, and image - as normalized JSON at a flat USD price per
-        request.
+        price, location, and image - as normalized JSON at a. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1313,8 +1614,9 @@ class FacebookNamespace:
         """Facebook Marketplace Item
 
         Fetch full details for a single Facebook Marketplace listing by ID or URL -
-        title, price, location, photos, and attributes - as normalized JSON at a
-        flat USD price per request.
+        title, price, location, photos, and attributes - as normalized JSON at a.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1335,7 +1637,8 @@ class FacebookNamespace:
         """Facebook Marketplace Location Search
 
         Resolve a place name to Facebook Marketplace locations with coordinates and
-        metadata as normalized JSON at a flat USD price per request.
+        metadata as normalized JSON at a. **Price:** $2.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1356,7 +1659,8 @@ class FacebookNamespace:
         """Facebook Page Contact Info
 
         Look up a Facebook Page's public contact details - email, phone, website,
-        and address - by page URL or ID, with transparent per-request USD pricing.
+        and address - by page URL or ID. **Price:** $2.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1377,8 +1681,9 @@ class FacebookNamespace:
         """Facebook Page Photos
 
         Fetch recent photos posted by any public Facebook page or profile - image
-        URLs, captions, and dimensions - as normalized JSON at a flat USD price per
-        request.
+        URLs, captions, and dimensions - as normalized JSON at a. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1422,7 +1727,9 @@ class FacebookNamespace:
         """Facebook Post
 
         Fetch a single Facebook post by URL with its text and engagement counts
-        (likes, comments, shares, views), normalized across providers.
+        (likes, comments, shares, views), normalized across providers. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1443,7 +1750,9 @@ class FacebookNamespace:
         """Facebook Post Comments
 
         List the comments on a Facebook post by URL with cursor pagination (text,
-        author, reactions, reply count), normalized across providers.
+        author, reactions, reply count), normalized across providers. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1487,7 +1796,8 @@ class FacebookNamespace:
         """Facebook Post Transcript
 
         Get the spoken-word transcript of any public Facebook video post by URL as
-        normalized JSON at a flat USD price per request.
+        normalized JSON at a. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1508,7 +1818,8 @@ class FacebookNamespace:
         """Facebook Profile
 
         Fetch a Facebook page's public profile (likes, followers, category, about)
-        by URL or handle, normalized across providers.
+        by URL or handle, normalized across providers. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1529,8 +1840,9 @@ class FacebookNamespace:
         """Facebook Page Events
 
         List upcoming and past events hosted by any public Facebook page by URL -
-        name, schedule, venue, and host - as normalized JSON at a flat USD price per
-        request.
+        name, schedule, venue, and host - as normalized JSON at a. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1574,7 +1886,9 @@ class FacebookNamespace:
         """Facebook Profile Posts
 
         List a Facebook page's recent posts by URL or page id with cursor pagination
-        (text, author, permalink), normalized across providers.
+        (text, author, permalink), normalized across providers. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1595,7 +1909,9 @@ class FacebookNamespace:
         """Facebook Profile Reels
 
         List a Facebook page's reels by URL with cursor pagination (caption, view
-        count, permalink, thumbnail), normalized across providers.
+        count, permalink, thumbnail), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1616,8 +1932,9 @@ class FacebookNamespace:
         """Facebook Company Search
 
         Search the Meta Ad Library for advertisers by keyword and get matching pages
-        - page ID, category, verification, follower counts, and linked Instagram -
-        billed per request in USD.
+        - page ID, category, verification, follower counts, and linked Instagram.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1638,8 +1955,9 @@ class FacebookNamespace:
         """Facebook Page Search
 
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
-        structured page profiles (name, category, followers, contact details) at a
-        flat USD price per request.
+        structured page profiles (name, category, followers, contact details) at a.
+        **Price:** billed per result - $1.00 per 1,000 requests base + $11.00 per
+        1,000 results, capped at $111.00 per 1,000 requests.
 
         Price: $0.001 per request plus $0.011 per result.
 
@@ -1660,8 +1978,9 @@ class FacebookNamespace:
         """Facebook Post Search
 
         Search public Facebook posts by keyword, optionally filtered by location,
-        and get structured post records (text, author, engagement) with transparent
-        per-request USD pricing.
+        and get structured post records (text, author, engagement). **Price:**
+        billed per result - $0.00 per 1,000 requests base + $3.00 per 1,000 results,
+        capped at $60.00 per 1,000 requests.
 
         Price: $0.003 per result.
 
@@ -1689,8 +2008,9 @@ class AsyncFacebookNamespace:
         """Facebook Ad Details
 
         Look up a single Meta Ad Library ad by ID or URL and get the advertiser,
-        creative text, call-to-action, platforms, and run dates as clean JSON,
-        billed per request in USD.
+        creative text, call-to-action, platforms, and run dates as clean JSON.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1711,7 +2031,8 @@ class AsyncFacebookNamespace:
         """Facebook Ad Transcript
 
         Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or
-        URL, billed per request in USD.
+        URL. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1733,7 +2054,8 @@ class AsyncFacebookNamespace:
 
         Search the Meta Ad Library by keyword and get matching ads - advertiser,
         creative text, CTA, platforms, and run dates - with cursor pagination and
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1777,7 +2099,8 @@ class AsyncFacebookNamespace:
         """Facebook Comment Replies
 
         List the replies to a Facebook post comment - text, author, reactions, and
-        timestamps - as normalized JSON at a flat USD price per request.
+        timestamps - as normalized JSON at a. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1821,8 +2144,9 @@ class AsyncFacebookNamespace:
         """Facebook Company Ads
 
         List the Meta Ad Library ads a company is running by page ID or company name
-        - creative text, format, platforms, and run dates - with cursor pagination,
-        billed per request in USD.
+        - creative text, format, platforms, and run dates - with cursor pagination.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1866,8 +2190,9 @@ class AsyncFacebookNamespace:
         """Facebook Event Details
 
         Fetch full details for a single Facebook event by ID or URL - name,
-        schedule, venue, hosts, and attendance - as normalized JSON at a flat USD
-        price per request.
+        schedule, venue, hosts, and attendance - as normalized JSON at a. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1888,8 +2213,9 @@ class AsyncFacebookNamespace:
         """Facebook Events
 
         List public Facebook events for a city or place by its events-page URL -
-        event name, date, venue, and attendance - as normalized JSON at a flat USD
-        price per request.
+        event name, date, venue, and attendance - as normalized JSON at a.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1933,8 +2259,9 @@ class AsyncFacebookNamespace:
         """Facebook Events Search
 
         Search public Facebook events by keyword and get structured event records -
-        name, schedule, venue, pricing, and attendance - as normalized JSON at a
-        flat USD price per request.
+        name, schedule, venue, pricing, and attendance - as normalized JSON at a.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1978,7 +2305,9 @@ class AsyncFacebookNamespace:
         """Facebook Followers
 
         List the public followers - or accounts followed - of any Facebook page or
-        profile URL as normalized JSON records, priced per request in USD.
+        profile URL as normalized JSON records. **Price:** billed per result - $0.00
+        per 1,000 requests base + $6.00 per 1,000 results, capped at $120.00 per
+        1,000 requests.
 
         Price: $0.006 per result.
 
@@ -1999,7 +2328,8 @@ class AsyncFacebookNamespace:
         """Facebook Group Posts
 
         Fetch recent posts from any public Facebook group by URL - text, author,
-        reactions, and comment counts - at a flat per-request USD price.
+        reactions, and comment counts. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2043,8 +2373,9 @@ class AsyncFacebookNamespace:
         """Facebook Marketplace
 
         Search Facebook Marketplace listings by keyword near a location - title,
-        price, location, and image - as normalized JSON at a flat USD price per
-        request.
+        price, location, and image - as normalized JSON at a. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -2088,8 +2419,9 @@ class AsyncFacebookNamespace:
         """Facebook Marketplace Item
 
         Fetch full details for a single Facebook Marketplace listing by ID or URL -
-        title, price, location, photos, and attributes - as normalized JSON at a
-        flat USD price per request.
+        title, price, location, photos, and attributes - as normalized JSON at a.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -2110,7 +2442,8 @@ class AsyncFacebookNamespace:
         """Facebook Marketplace Location Search
 
         Resolve a place name to Facebook Marketplace locations with coordinates and
-        metadata as normalized JSON at a flat USD price per request.
+        metadata as normalized JSON at a. **Price:** $2.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2131,7 +2464,8 @@ class AsyncFacebookNamespace:
         """Facebook Page Contact Info
 
         Look up a Facebook Page's public contact details - email, phone, website,
-        and address - by page URL or ID, with transparent per-request USD pricing.
+        and address - by page URL or ID. **Price:** $2.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2152,8 +2486,9 @@ class AsyncFacebookNamespace:
         """Facebook Page Photos
 
         Fetch recent photos posted by any public Facebook page or profile - image
-        URLs, captions, and dimensions - as normalized JSON at a flat USD price per
-        request.
+        URLs, captions, and dimensions - as normalized JSON at a. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -2197,7 +2532,9 @@ class AsyncFacebookNamespace:
         """Facebook Post
 
         Fetch a single Facebook post by URL with its text and engagement counts
-        (likes, comments, shares, views), normalized across providers.
+        (likes, comments, shares, views), normalized across providers. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -2218,7 +2555,9 @@ class AsyncFacebookNamespace:
         """Facebook Post Comments
 
         List the comments on a Facebook post by URL with cursor pagination (text,
-        author, reactions, reply count), normalized across providers.
+        author, reactions, reply count), normalized across providers. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -2262,7 +2601,8 @@ class AsyncFacebookNamespace:
         """Facebook Post Transcript
 
         Get the spoken-word transcript of any public Facebook video post by URL as
-        normalized JSON at a flat USD price per request.
+        normalized JSON at a. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2283,7 +2623,8 @@ class AsyncFacebookNamespace:
         """Facebook Profile
 
         Fetch a Facebook page's public profile (likes, followers, category, about)
-        by URL or handle, normalized across providers.
+        by URL or handle, normalized across providers. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2304,8 +2645,9 @@ class AsyncFacebookNamespace:
         """Facebook Page Events
 
         List upcoming and past events hosted by any public Facebook page by URL -
-        name, schedule, venue, and host - as normalized JSON at a flat USD price per
-        request.
+        name, schedule, venue, and host - as normalized JSON at a. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -2349,7 +2691,9 @@ class AsyncFacebookNamespace:
         """Facebook Profile Posts
 
         List a Facebook page's recent posts by URL or page id with cursor pagination
-        (text, author, permalink), normalized across providers.
+        (text, author, permalink), normalized across providers. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -2370,7 +2714,9 @@ class AsyncFacebookNamespace:
         """Facebook Profile Reels
 
         List a Facebook page's reels by URL with cursor pagination (caption, view
-        count, permalink, thumbnail), normalized across providers.
+        count, permalink, thumbnail), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -2391,8 +2737,9 @@ class AsyncFacebookNamespace:
         """Facebook Company Search
 
         Search the Meta Ad Library for advertisers by keyword and get matching pages
-        - page ID, category, verification, follower counts, and linked Instagram -
-        billed per request in USD.
+        - page ID, category, verification, follower counts, and linked Instagram.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -2413,8 +2760,9 @@ class AsyncFacebookNamespace:
         """Facebook Page Search
 
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
-        structured page profiles (name, category, followers, contact details) at a
-        flat USD price per request.
+        structured page profiles (name, category, followers, contact details) at a.
+        **Price:** billed per result - $1.00 per 1,000 requests base + $11.00 per
+        1,000 results, capped at $111.00 per 1,000 requests.
 
         Price: $0.001 per request plus $0.011 per result.
 
@@ -2435,8 +2783,9 @@ class AsyncFacebookNamespace:
         """Facebook Post Search
 
         Search public Facebook posts by keyword, optionally filtered by location,
-        and get structured post records (text, author, engagement) with transparent
-        per-request USD pricing.
+        and get structured post records (text, author, engagement). **Price:**
+        billed per result - $0.00 per 1,000 requests base + $3.00 per 1,000 results,
+        capped at $60.00 per 1,000 requests.
 
         Price: $0.003 per result.
 

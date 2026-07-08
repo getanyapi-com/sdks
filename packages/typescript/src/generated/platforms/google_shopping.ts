@@ -50,7 +50,7 @@ export interface GoogleShoppingSearchItem {
    */
   discountPercent?: string;
   /**
-   * Primary product image URL.
+   * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -87,11 +87,11 @@ export interface GoogleShoppingSearchItem {
    */
   seller?: string;
   /**
-   * Product title.
+   * Product title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Google Shopping product page URL (query retained; it encodes the product identity).
+   * Google Shopping product page URL (query retained; it encodes the product identity). Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -102,7 +102,7 @@ export interface GoogleShoppingSearchItem {
  */
 export interface GoogleShoppingSearchData {
   /**
-   * Matching Google Shopping product offers.
+   * Matching Google Shopping product offers. Populated whenever the provider has data for the entity.
    */
   items: GoogleShoppingSearchItem[];
 }
@@ -117,7 +117,9 @@ export class GoogleShoppingNamespace {
   /**
    * Google Shopping Search
    *
-   * Search Google Shopping by keyword and get up to 10 product offers - title, price, store, rating, and link - localized by country and language, at a flat per-request USD price.
+   * Search Google Shopping by keyword and get up to 10 product offers - title, price, store, rating, and link - localized by country and language.
+
+**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *

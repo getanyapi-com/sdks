@@ -156,14 +156,28 @@ class LinkedinSearchProfilesInput(TypedDict, total=False):
 class LinkedinAdData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    ad_type: str = Field(alias="adType")
-    advertiser: str
-    advertiser_linkedin_page: str = Field(alias="advertiserLinkedinPage")
-    cta: str
-    description: str
+    ad_type: str = Field(
+        alias="adType",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    advertiser: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    advertiser_linkedin_page: str = Field(
+        alias="advertiserLinkedinPage",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    cta: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     destination_url: str = Field(alias="destinationUrl")
     end_date: str = Field(alias="endDate", description="ISO 8601 date.")
-    headline: str
+    headline: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     id: str
     image: str
     start_date: str = Field(alias="startDate", description="ISO 8601 date.")
@@ -172,7 +186,7 @@ class LinkedinAdData(BaseModel):
 
 class LinkedinAdsData(BaseModel):
     items: list[LinkedinAdsItem] = Field(
-        description="Ad records from the LinkedIn Ad Library."
+        description="Ad records from the LinkedIn Ad Library. Populated whenever the provider has data for the entity."
     )
 
 
@@ -181,7 +195,7 @@ class LinkedinAdsItem(BaseModel):
 
     advertiser: str | None = Field(
         default=None,
-        description="Advertiser (company) name. Present whenever the upstream returns this record.",
+        description="Advertiser (company) name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     advertiser_logo: str | None = Field(
         default=None, alias="advertiserLogo", description="Advertiser logo image URL."
@@ -189,16 +203,22 @@ class LinkedinAdsItem(BaseModel):
     format: str | None = Field(
         default=None, description="Ad format (e.g. SINGLE_IMAGE, VIDEO)."
     )
-    id: str = Field(description="LinkedIn ad id.")
+    id: str = Field(
+        description="LinkedIn ad id. Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(default=None, description="Ad creative image URL.")
     text: str | None = Field(default=None, description="Ad creative body text.")
-    url: str = Field(description="Canonical LinkedIn Ad Library detail URL.")
+    url: str = Field(
+        description="Canonical LinkedIn Ad Library detail URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinAdsSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    ads: list[LinkedinAdsSearchAd]
+    ads: list[LinkedinAdsSearchAd] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     next_cursor: str = Field(alias="nextCursor")
     total_ads: int = Field(alias="totalAds")
 
@@ -206,15 +226,22 @@ class LinkedinAdsSearchData(BaseModel):
 class LinkedinAdsSearchAd(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    ad_type: str = Field(alias="adType")
-    advertiser: str
+    ad_type: str = Field(
+        alias="adType",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    advertiser: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     advertiser_linkedin_page: str = Field(alias="advertiserLinkedinPage")
     cta: str
     description: str
     destination_url: str = Field(alias="destinationUrl")
     end_date: str = Field(alias="endDate")
     headline: str
-    id: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     start_date: str = Field(alias="startDate")
     total_impressions: str = Field(alias="totalImpressions")
 
@@ -222,18 +249,29 @@ class LinkedinAdsSearchAd(BaseModel):
 class LinkedinCompanyData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    description: str
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     employee_count: int = Field(alias="employeeCount")
-    industry: str
-    logo_url: str = Field(alias="logoUrl")
+    industry: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    logo_url: str = Field(
+        alias="logoUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     name: str
-    tagline: str
-    website: str
+    tagline: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    website: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinCompanyEmployeesData(BaseModel):
     items: list[LinkedinCompanyEmployeesItem] = Field(
-        description="Employee records for the company."
+        description="Employee records for the company. Populated whenever the provider has data for the entity."
     )
 
 
@@ -245,7 +283,7 @@ class LinkedinCompanyEmployeesItem(BaseModel):
     )
     handle: str | None = Field(
         default=None,
-        description="Public profile identifier (the vanity slug in the URL). Present whenever the upstream returns this record.",
+        description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(default=None, description="Profile picture URL.")
     job_title: str | None = Field(
@@ -262,14 +300,16 @@ class LinkedinCompanyEmployeesItem(BaseModel):
     )
     name: str | None = Field(
         default=None,
-        description="Full name. Present whenever the upstream returns this record.",
+        description="Full name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    url: str = Field(description="Canonical LinkedIn profile URL.")
+    url: str = Field(
+        description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinCompanyPostsData(BaseModel):
     posts: list[LinkedinCompanyPostsPost] = Field(
-        description="The company's recent posts."
+        description="The company's recent posts. Populated whenever the provider has data for the entity."
     )
 
 
@@ -278,16 +318,22 @@ class LinkedinCompanyPostsPost(BaseModel):
 
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Unique identifier of the post.")
-    text: str = Field(description="Text content of the post.")
-    url: str = Field(description="Canonical URL of the post.")
+    id: str = Field(
+        description="Unique identifier of the post. Populated whenever the provider has data for the entity."
+    )
+    text: str = Field(
+        description="Text content of the post. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinEmailData(BaseModel):
     items: list[LinkedinEmailItem] = Field(
-        description="Email lookup records for the LinkedIn profile."
+        description="Email lookup records for the LinkedIn profile. Populated whenever the provider has data for the entity."
     )
 
 
@@ -295,7 +341,9 @@ class LinkedinEmailItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     company: str | None = Field(default=None, description="Current company name.")
-    email: str = Field(description="Discovered work email address.")
+    email: str = Field(
+        description="Discovered work email address. Populated whenever the provider has data for the entity."
+    )
     first_name: str | None = Field(
         default=None, alias="firstName", description="First name."
     )
@@ -306,12 +354,14 @@ class LinkedinEmailItem(BaseModel):
     linkedin_url: str | None = Field(
         default=None,
         alias="linkedinUrl",
-        description="Canonical LinkedIn profile URL. Present whenever the upstream returns this record.",
+        description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     location: str | None = Field(
         default=None, description="Current location (city, region, country)."
     )
-    name: str = Field(description="Full name on the LinkedIn profile.")
+    name: str = Field(
+        description="Full name on the LinkedIn profile. Populated whenever the provider has data for the entity."
+    )
     phone: str | None = Field(default=None, description="Phone number, when available.")
     seniority: str | None = Field(
         default=None, description="Seniority level (e.g. entry, senior)."
@@ -321,7 +371,7 @@ class LinkedinEmailItem(BaseModel):
 
 class LinkedinJobsData(BaseModel):
     items: list[LinkedinJobsItem] = Field(
-        description="Job listing records for the search."
+        description="Job listing records for the search. Populated whenever the provider has data for the entity."
     )
 
 
@@ -330,7 +380,7 @@ class LinkedinJobsItem(BaseModel):
 
     company: str | None = Field(
         default=None,
-        description="Hiring company name. Present whenever the upstream returns this record.",
+        description="Hiring company name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     company_url: str | None = Field(
         default=None, alias="companyUrl", description="Canonical LinkedIn company URL."
@@ -346,35 +396,47 @@ class LinkedinJobsItem(BaseModel):
     id: str | None = Field(default=None, description="LinkedIn job listing id.")
     location: str | None = Field(
         default=None,
-        description="Job location (city, region). Present whenever the upstream returns this record.",
+        description="Job location (city, region). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     seniority: str | None = Field(
         default=None,
         description="Seniority / experience level (e.g. Entry level, Mid-Senior, Not Applicable).",
     )
-    title: str = Field(description="Job title.")
-    url: str = Field(description="Canonical LinkedIn job listing URL.")
+    title: str = Field(
+        description="Job title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical LinkedIn job listing URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Name of the post author.")
+    author: str = Field(
+        description="Name of the post author. Populated whenever the provider has data for the entity."
+    )
     comments: int = Field(description="Number of comments on the post.")
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     likes: int = Field(description="Number of likes on the post.")
-    text: str = Field(description="Text content of the post.")
+    text: str = Field(
+        description="Text content of the post. Populated whenever the provider has data for the entity."
+    )
     title: str = Field(description="Title of the post.")
-    url: str = Field(description="Canonical URL of the post.")
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinPostTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    transcript: str
+    transcript: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     transcript_not_available: bool = Field(alias="transcriptNotAvailable")
     url: str
 
@@ -384,20 +446,23 @@ class LinkedinProfileData(BaseModel):
 
     about: str = Field(description="About/summary text of the profile.")
     articles: list[LinkedinProfileArticle] = Field(
-        description="The profile's published articles."
+        description="The profile's published articles. Populated whenever the provider has data for the entity."
     )
     avatar_url: str = Field(
         alias="avatarUrl", description="URL of the profile avatar image."
     )
-    education: list[LinkedinProfileEducation] = Field(description="Education entries.")
+    education: list[LinkedinProfileEducation] = Field(
+        description="Education entries. Populated whenever the provider has data for the entity."
+    )
     experience: list[LinkedinProfileExperience] = Field(
-        description="Work experience entries."
+        description="Work experience entries. Populated whenever the provider has data for the entity."
     )
     followers: int = Field(description="Number of followers.")
     location: str = Field(description="Location of the profile owner.")
     name: str = Field(description="Full name of the profile owner.")
     recent_posts: list[LinkedinProfileRecentPost] = Field(
-        alias="recentPosts", description="The profile's recent posts."
+        alias="recentPosts",
+        description="The profile's recent posts. Populated whenever the provider has data for the entity.",
     )
 
 
@@ -461,7 +526,7 @@ class LinkedinProfileRecentPost(BaseModel):
 
 class LinkedinSearchCompaniesData(BaseModel):
     items: list[LinkedinSearchCompaniesItem] = Field(
-        description="Matching company records."
+        description="Matching company records. Populated whenever the provider has data for the entity."
     )
 
 
@@ -479,19 +544,25 @@ class LinkedinSearchCompaniesItem(BaseModel):
     handle: str | None = Field(
         default=None, description="Company universal name (the vanity slug in the URL)."
     )
-    id: str = Field(description="LinkedIn company id.")
+    id: str = Field(
+        description="LinkedIn company id. Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(default=None, description="Company logo image URL.")
     industry: str | None = Field(default=None, description="Company industry.")
     location: str | None = Field(
         default=None, description="Company location as a single string (city, region)."
     )
-    name: str = Field(description="Company name.")
-    url: str = Field(description="Canonical LinkedIn company URL.")
+    name: str = Field(
+        description="Company name. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical LinkedIn company URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinSearchPostsData(BaseModel):
     posts: list[LinkedinSearchPostsPost] = Field(
-        description="Posts matching the search query."
+        description="Posts matching the search query. Populated whenever the provider has data for the entity."
     )
 
 
@@ -500,15 +571,19 @@ class LinkedinSearchPostsPost(BaseModel):
 
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    text: str = Field(description="Text content of the post.")
-    url: str = Field(description="Canonical URL of the post.")
+    text: str = Field(
+        description="Text content of the post. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinSearchProfilesData(BaseModel):
     items: list[LinkedinSearchProfilesItem] = Field(
-        description="Matched profile records."
+        description="Matched profile records. Populated whenever the provider has data for the entity."
     )
 
 
@@ -534,11 +609,11 @@ class LinkedinSearchProfilesItem(BaseModel):
     )
     handle: str | None = Field(
         default=None,
-        description="Public profile identifier (the vanity slug in the URL). Present whenever the upstream returns this record.",
+        description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     headline: str | None = Field(
         default=None,
-        description="Profile headline (the tagline under the name). Present whenever the upstream returns this record.",
+        description="Profile headline (the tagline under the name). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     id: str = Field(description="LinkedIn member URN id for the profile.")
     image: str | None = Field(default=None, description="Profile picture URL.")
@@ -549,7 +624,9 @@ class LinkedinSearchProfilesItem(BaseModel):
         default=None,
         description="Member's location as a single string (city, region, country).",
     )
-    url: str = Field(description="Canonical LinkedIn profile URL.")
+    url: str = Field(
+        description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinSearchProfilesCurrentPosition(BaseModel):
@@ -577,7 +654,8 @@ class LinkedinNamespace:
 
         Look up a single LinkedIn Ad Library ad by URL and get the advertiser,
         headline, creative text, format, CTA, targeting, run dates, and impressions
-        as clean JSON, billed per request in USD.
+        as clean JSON. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -598,7 +676,9 @@ class LinkedinNamespace:
         """LinkedIn Ads Library
 
         Search the LinkedIn Ad Library by search URL and list the matching ads
-        (advertiser, creative text, format), priced per request in USD.
+        (advertiser, creative text, format). **Price:** billed per result - $0.05
+        per 1,000 requests base + $1.50 per 1,000 results, capped at $30.05 per
+        1,000 requests.
 
         Price: $0.00005 per request plus $0.0015 per result.
 
@@ -620,7 +700,8 @@ class LinkedinNamespace:
 
         Search the LinkedIn Ad Library by company or keyword and list matching ads -
         advertiser, headline, creative text, format, CTA, and run dates - with
-        pagination, billed per request in USD.
+        pagination. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -642,7 +723,8 @@ class LinkedinNamespace:
 
         Fetch a LinkedIn company page (description, employee count, industry,
         website, logo) by company URL, normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -663,7 +745,9 @@ class LinkedinNamespace:
         """LinkedIn Company Employees
 
         List the employees of a LinkedIn company by name or company URL, with
-        optional job-title filtering and transparent per-request USD pricing.
+        optional job-title filtering. **Price:** billed per result - $0.00 per 1,000
+        requests base + $10.00 per 1,000 results, capped at $100.00 per 1,000
+        requests.
 
         Price: $0.01 per result.
 
@@ -684,7 +768,9 @@ class LinkedinNamespace:
         """LinkedIn Company Posts
 
         List a LinkedIn company page's recent posts by URL with page pagination
-        (text, link, publish date), normalized across providers.
+        (text, link, publish date), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -704,8 +790,9 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinEmailData]:
         """LinkedIn Email Finder
 
-        Find the verified work email behind a LinkedIn profile URL or ID, with
-        transparent per-request USD pricing.
+        Find the verified work email behind a LinkedIn profile URL or ID. **Price:**
+        billed per result - $0.00 per 1,000 requests base + $0.70 per 1,000 results,
+        capped at $0.70 per 1,000 requests.
 
         Price: $0.0007 per result.
 
@@ -726,7 +813,8 @@ class LinkedinNamespace:
         """LinkedIn Jobs
 
         Search LinkedIn job listings by title and location - up to 25 normalized job
-        records per request at a flat USD price.
+        records per request. **Price:** $1.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -747,7 +835,9 @@ class LinkedinNamespace:
         """LinkedIn Post
 
         Fetch a single LinkedIn post or article by URL (title, text, author, like
-        and comment counts, publish date), normalized across providers.
+        and comment counts, publish date), normalized across providers. **Price:**
+        $1.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.001 per request.
 
@@ -767,8 +857,9 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinPostTranscriptData]:
         """LinkedIn Post Transcript
 
-        Get the spoken transcript of a LinkedIn video post by URL, with transparent
-        per-request USD pricing.
+        Get the spoken transcript of a LinkedIn video post by URL. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -790,6 +881,8 @@ class LinkedinNamespace:
 
         Fetch a LinkedIn member's public profile by URL: name, location, followers,
         about, plus experience, education, recent posts, and published articles.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -810,8 +903,9 @@ class LinkedinNamespace:
         """LinkedIn Company Search
 
         Search LinkedIn companies by keyword with optional location filtering,
-        returning normalized company records with transparent per-request USD
-        pricing.
+        returning normalized company records. **Price:** billed per result - $1.00
+        per 1,000 requests base + $4.00 per 1,000 results, capped at $81.00 per
+        1,000 requests.
 
         Price: $0.001 per request plus $0.004 per result.
 
@@ -832,7 +926,9 @@ class LinkedinNamespace:
         """LinkedIn Post Search
 
         Search public LinkedIn posts by keyword (text, link, publish date),
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -855,7 +951,8 @@ class LinkedinNamespace:
         Search LinkedIn profiles by keyword with optional location and job-title
         filters. Each match returns a full profile record: name, headline, location,
         current position, work experience, and education, plus the profile URL,
-        handle, and id. Flat USD price per request.
+        handle, and id. **Price:** $32.50 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.0325 per request.
 
@@ -881,7 +978,8 @@ class AsyncLinkedinNamespace:
 
         Look up a single LinkedIn Ad Library ad by URL and get the advertiser,
         headline, creative text, format, CTA, targeting, run dates, and impressions
-        as clean JSON, billed per request in USD.
+        as clean JSON. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -902,7 +1000,9 @@ class AsyncLinkedinNamespace:
         """LinkedIn Ads Library
 
         Search the LinkedIn Ad Library by search URL and list the matching ads
-        (advertiser, creative text, format), priced per request in USD.
+        (advertiser, creative text, format). **Price:** billed per result - $0.05
+        per 1,000 requests base + $1.50 per 1,000 results, capped at $30.05 per
+        1,000 requests.
 
         Price: $0.00005 per request plus $0.0015 per result.
 
@@ -924,7 +1024,8 @@ class AsyncLinkedinNamespace:
 
         Search the LinkedIn Ad Library by company or keyword and list matching ads -
         advertiser, headline, creative text, format, CTA, and run dates - with
-        pagination, billed per request in USD.
+        pagination. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -946,7 +1047,8 @@ class AsyncLinkedinNamespace:
 
         Fetch a LinkedIn company page (description, employee count, industry,
         website, logo) by company URL, normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -967,7 +1069,9 @@ class AsyncLinkedinNamespace:
         """LinkedIn Company Employees
 
         List the employees of a LinkedIn company by name or company URL, with
-        optional job-title filtering and transparent per-request USD pricing.
+        optional job-title filtering. **Price:** billed per result - $0.00 per 1,000
+        requests base + $10.00 per 1,000 results, capped at $100.00 per 1,000
+        requests.
 
         Price: $0.01 per result.
 
@@ -988,7 +1092,9 @@ class AsyncLinkedinNamespace:
         """LinkedIn Company Posts
 
         List a LinkedIn company page's recent posts by URL with page pagination
-        (text, link, publish date), normalized across providers.
+        (text, link, publish date), normalized across providers. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1008,8 +1114,9 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinEmailData]:
         """LinkedIn Email Finder
 
-        Find the verified work email behind a LinkedIn profile URL or ID, with
-        transparent per-request USD pricing.
+        Find the verified work email behind a LinkedIn profile URL or ID. **Price:**
+        billed per result - $0.00 per 1,000 requests base + $0.70 per 1,000 results,
+        capped at $0.70 per 1,000 requests.
 
         Price: $0.0007 per result.
 
@@ -1030,7 +1137,8 @@ class AsyncLinkedinNamespace:
         """LinkedIn Jobs
 
         Search LinkedIn job listings by title and location - up to 25 normalized job
-        records per request at a flat USD price.
+        records per request. **Price:** $1.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -1051,7 +1159,9 @@ class AsyncLinkedinNamespace:
         """LinkedIn Post
 
         Fetch a single LinkedIn post or article by URL (title, text, author, like
-        and comment counts, publish date), normalized across providers.
+        and comment counts, publish date), normalized across providers. **Price:**
+        $1.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.001 per request.
 
@@ -1071,8 +1181,9 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinPostTranscriptData]:
         """LinkedIn Post Transcript
 
-        Get the spoken transcript of a LinkedIn video post by URL, with transparent
-        per-request USD pricing.
+        Get the spoken transcript of a LinkedIn video post by URL. **Price:** $2.00
+        per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1094,6 +1205,8 @@ class AsyncLinkedinNamespace:
 
         Fetch a LinkedIn member's public profile by URL: name, location, followers,
         about, plus experience, education, recent posts, and published articles.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -1114,8 +1227,9 @@ class AsyncLinkedinNamespace:
         """LinkedIn Company Search
 
         Search LinkedIn companies by keyword with optional location filtering,
-        returning normalized company records with transparent per-request USD
-        pricing.
+        returning normalized company records. **Price:** billed per result - $1.00
+        per 1,000 requests base + $4.00 per 1,000 results, capped at $81.00 per
+        1,000 requests.
 
         Price: $0.001 per request plus $0.004 per result.
 
@@ -1136,7 +1250,9 @@ class AsyncLinkedinNamespace:
         """LinkedIn Post Search
 
         Search public LinkedIn posts by keyword (text, link, publish date),
-        normalized across providers with transparent failover.
+        normalized across providers with transparent failover. **Price:** $2.00 per
+        1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -1159,7 +1275,8 @@ class AsyncLinkedinNamespace:
         Search LinkedIn profiles by keyword with optional location and job-title
         filters. Each match returns a full profile record: name, headline, location,
         current position, work experience, and education, plus the profile URL,
-        handle, and id. Flat USD price per request.
+        handle, and id. **Price:** $32.50 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.0325 per request.
 

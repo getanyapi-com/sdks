@@ -37,7 +37,7 @@ class SemrushOverviewInput(TypedDict, total=False):
 
 class SemrushKeywordsData(BaseModel):
     items: list[SemrushKeywordsItem] = Field(
-        description="Keyword-research records: search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords for the researched term."
+        description="Keyword-research records: search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords for the researched term. Populated whenever the provider has data for the entity."
     )
 
 
@@ -56,9 +56,11 @@ class SemrushKeywordsItem(BaseModel):
     )
     intents: list[str] | None = Field(
         default=None,
-        description="Search-intent labels for the keyword (e.g. commercial, informational). Present whenever the upstream returns this record.",
+        description="Search-intent labels for the keyword (e.g. commercial, informational). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    keyword: str = Field(description="The researched search term.")
+    keyword: str = Field(
+        description="The researched search term. Populated whenever the provider has data for the entity."
+    )
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
@@ -71,7 +73,7 @@ class SemrushKeywordsItem(BaseModel):
     )
     questions: list[SemrushKeywordsQuestion] | None = Field(
         default=None,
-        description="Question-phrased keyword variations with their own volume and difficulty. Present whenever the upstream returns this record.",
+        description="Question-phrased keyword variations with their own volume and difficulty. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     referring_domains_median: int | None = Field(
         default=None,
@@ -81,7 +83,7 @@ class SemrushKeywordsItem(BaseModel):
     related_keywords: list[SemrushKeywordsRelatedKeyword] | None = Field(
         default=None,
         alias="relatedKeywords",
-        description="Related keyword suggestions with their own volume and difficulty. Present whenever the upstream returns this record.",
+        description="Related keyword suggestions with their own volume and difficulty. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     search_volume: int | None = Field(
         default=None,
@@ -124,7 +126,7 @@ class SemrushKeywordsRelatedKeyword(BaseModel):
 
 class SemrushOverviewData(BaseModel):
     items: list[SemrushOverviewItem] = Field(
-        description="Domain overview records: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords."
+        description="Domain overview records: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords. Populated whenever the provider has data for the entity."
     )
 
 
@@ -148,7 +150,9 @@ class SemrushOverviewItem(BaseModel):
         default=None,
         description="Two-letter Semrush regional database the metrics are scoped to.",
     )
-    domain: str = Field(description="The analyzed domain.")
+    domain: str = Field(
+        description="The analyzed domain. Populated whenever the provider has data for the entity."
+    )
     follow_backlinks: int | None = Field(
         default=None,
         alias="followBacklinks",
@@ -217,7 +221,7 @@ class SemrushOverviewItem(BaseModel):
     top_keywords: list[SemrushOverviewTopKeyword] | None = Field(
         default=None,
         alias="topKeywords",
-        description="The domain's top organic keywords with position, volume, and value. Present whenever the upstream returns this record.",
+        description="The domain's top organic keywords with position, volume, and value. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     total_traffic: int | None = Field(
         default=None,
@@ -272,7 +276,8 @@ class SemrushNamespace:
 
         Semrush keyword research for any term: monthly search volume, CPC,
         competition, keyword difficulty, plus related keywords and question
-        keywords. Transparent per-request USD pricing.
+        keywords. **Price:** billed per result - $0.00 per 1,000 requests base +
+        $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
 
         Price: $0.015 per result.
 
@@ -294,7 +299,8 @@ class SemrushNamespace:
 
         a Semrush SEO overview for any domain: Authority Score, organic and paid
         traffic, keyword and backlink counts, top country, and the domain's top
-        organic keywords. Transparent per-request USD pricing.
+        organic keywords. **Price:** billed per result - $0.00 per 1,000 requests
+        base + $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
 
         Price: $0.015 per result.
 
@@ -323,7 +329,8 @@ class AsyncSemrushNamespace:
 
         Semrush keyword research for any term: monthly search volume, CPC,
         competition, keyword difficulty, plus related keywords and question
-        keywords. Transparent per-request USD pricing.
+        keywords. **Price:** billed per result - $0.00 per 1,000 requests base +
+        $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
 
         Price: $0.015 per result.
 
@@ -345,7 +352,8 @@ class AsyncSemrushNamespace:
 
         a Semrush SEO overview for any domain: Authority Score, organic and paid
         traffic, keyword and backlink counts, top country, and the domain's top
-        organic keywords. Transparent per-request USD pricing.
+        organic keywords. **Price:** billed per result - $0.00 per 1,000 requests
+        base + $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
 
         Price: $0.015 per result.
 

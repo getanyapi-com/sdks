@@ -28,7 +28,7 @@ class SocialFinderInput(TypedDict, total=False):
 
 class SocialFinderData(BaseModel):
     items: list[SocialFinderItem] = Field(
-        description="Profile match records: the queried profile name, the social network, and the matching profile URL when one was found."
+        description="Profile match records: the queried profile name, the social network, and the matching profile URL when one was found. Populated whenever the provider has data for the entity."
     )
 
 
@@ -38,10 +38,10 @@ class SocialFinderItem(BaseModel):
     input_profile_name: str | None = Field(
         default=None,
         alias="inputProfileName",
-        description="The name that was searched for. Present whenever the upstream returns this record.",
+        description="The name that was searched for. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     social: str = Field(
-        description="The social network checked (e.g. discord, facebook, github)."
+        description="The social network checked (e.g. discord, facebook, github). Populated whenever the provider has data for the entity."
     )
     social_profile_url: str = Field(
         alias="socialProfileUrl",
@@ -64,7 +64,9 @@ class SocialNamespace:
         """Social Profile Finder
 
         Find a person's or brand's profiles across major social networks from a
-        single name, returned as normalized JSON with flat per-request USD pricing.
+        single name, returned as normalized JSON. **Price:** billed per result -
+        $1.00 per 1,000 requests base + $2.00 per 1,000 results, capped at $21.00
+        per 1,000 requests.
 
         Price: $0.001 per request plus $0.002 per result.
 
@@ -92,7 +94,9 @@ class AsyncSocialNamespace:
         """Social Profile Finder
 
         Find a person's or brand's profiles across major social networks from a
-        single name, returned as normalized JSON with flat per-request USD pricing.
+        single name, returned as normalized JSON. **Price:** billed per result -
+        $1.00 per 1,000 requests base + $2.00 per 1,000 results, capped at $21.00
+        per 1,000 requests.
 
         Price: $0.001 per request plus $0.002 per result.
 

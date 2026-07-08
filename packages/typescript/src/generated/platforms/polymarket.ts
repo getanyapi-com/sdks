@@ -49,7 +49,7 @@ export interface PolymarketMarketsItem {
    */
   eventTitle?: string;
   /**
-   * Polymarket market identifier.
+   * Polymarket market identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -69,11 +69,11 @@ export interface PolymarketMarketsItem {
    */
   status?: string;
   /**
-   * The market question.
+   * The market question. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Polymarket URL for the market event.
+   * Polymarket URL for the market event. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -104,7 +104,7 @@ export interface PolymarketMarketsOutcome {
  */
 export interface PolymarketMarketsData {
   /**
-   * Prediction-market records: market question, outcomes with current prices, volume, liquidity, and end date.
+   * Prediction-market records: market question, outcomes with current prices, volume, liquidity, and end date. Populated whenever the provider has data for the entity.
    */
   items: PolymarketMarketsItem[];
 }
@@ -119,7 +119,9 @@ export class PolymarketNamespace {
   /**
    * Polymarket Markets
    *
-   * Discover Polymarket prediction markets - question, outcome prices, volume, liquidity, and end dates - by keyword or sorted by activity, as normalized JSON billed per request in USD.
+   * Discover Polymarket prediction markets - question, outcome prices, volume, liquidity, and end dates - by keyword or sorted by activity, as normalized JSON.
+
+**Price:** billed per result - $105.00 per 1,000 requests base + $0.60 per 1,000 results, capped at $120.00 per 1,000 requests.
    *
    * Price: $0.105 per request plus $0.0006 per result.
    *

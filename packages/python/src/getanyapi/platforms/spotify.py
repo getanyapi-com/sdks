@@ -85,14 +85,30 @@ class SpotifyTrackInput(TypedDict, total=False):
 class SpotifyAlbumData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    id: str
-    label: str
-    name: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    label: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     popularity: int
-    release_date: str = Field(alias="releaseDate")
-    tracks: list[SpotifyAlbumTrack]
-    type_: str = Field(alias="type")
-    uri: str
+    release_date: str = Field(
+        alias="releaseDate",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    tracks: list[SpotifyAlbumTrack] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    type_: str = Field(
+        alias="type",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    uri: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class SpotifyAlbumTrack(BaseModel):
@@ -107,19 +123,35 @@ class SpotifyAlbumTrack(BaseModel):
 class SpotifyArtistData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    albums: list[SpotifyArtistAlbum]
-    top_tracks: list[SpotifyArtistTopTrack] = Field(alias="topTracks")
+    albums: list[SpotifyArtistAlbum] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    top_tracks: list[SpotifyArtistTopTrack] = Field(
+        alias="topTracks",
+        description="Populated whenever the provider has data for the entity.",
+    )
 
 
 class SpotifyArtistAlbum(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    id: str
-    name: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     track_count: int = Field(alias="trackCount")
-    type_: str = Field(alias="type")
-    uri: str
-    year: int
+    type_: str = Field(
+        alias="type",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    uri: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    year: int = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class SpotifyArtistTopTrack(BaseModel):
@@ -133,7 +165,7 @@ class SpotifyArtistTopTrack(BaseModel):
 
 class SpotifyPlayCountData(BaseModel):
     items: list[SpotifyPlayCountItem] = Field(
-        description="Play-count records for the requested Spotify entity (one per track)."
+        description="Play-count records for the requested Spotify entity (one per track). Populated whenever the provider has data for the entity."
     )
 
 
@@ -153,10 +185,15 @@ class SpotifyPlayCountItem(BaseModel):
     duration_ms: int | None = Field(
         default=None, alias="durationMs", description="Track duration in milliseconds."
     )
-    id: str = Field(description="The Spotify entity ID.")
-    name: str = Field(description="The track (or entity) name.")
+    id: str = Field(
+        description="The Spotify entity ID. Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="The track (or entity) name. Populated whenever the provider has data for the entity."
+    )
     play_count: int = Field(
-        alias="playCount", description="Total number of streams/plays for the track."
+        alias="playCount",
+        description="Total number of streams/plays for the track. Populated whenever the provider has data for the entity.",
     )
     type_: str | None = Field(
         default=None,
@@ -164,7 +201,7 @@ class SpotifyPlayCountItem(BaseModel):
         description='The Spotify entity type (e.g. "track").',
     )
     url: str = Field(
-        description="Canonical open.spotify.com URL for the entity, with tracking query params stripped."
+        description="Canonical open.spotify.com URL for the entity, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
 
 
@@ -172,18 +209,30 @@ class SpotifyPodcastData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     average_rating: float = Field(alias="averageRating")
-    description: str
-    id: str
-    name: str
-    publisher: str
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    publisher: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     total_ratings: int = Field(alias="totalRatings")
-    uri: str
+    uri: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class SpotifyPodcastEpisodesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    episodes: list[SpotifyPodcastEpisodesEpisode]
+    episodes: list[SpotifyPodcastEpisodesEpisode] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     next_cursor: str = Field(alias="nextCursor")
     total_count: int = Field(alias="totalCount")
 
@@ -191,19 +240,38 @@ class SpotifyPodcastEpisodesData(BaseModel):
 class SpotifyPodcastEpisodesEpisode(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    description: str
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     duration_ms: int = Field(alias="durationMs")
-    id: str
-    name: str
-    release_date: str = Field(alias="releaseDate")
-    uri: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    release_date: str = Field(
+        alias="releaseDate",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    uri: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class SpotifySearchData(BaseModel):
-    albums: list[SpotifySearchAlbum]
-    artists: list[SpotifySearchArtist]
-    podcasts: list[SpotifySearchPodcast]
-    tracks: list[SpotifySearchTrack]
+    albums: list[SpotifySearchAlbum] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    artists: list[SpotifySearchArtist] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    podcasts: list[SpotifySearchPodcast] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    tracks: list[SpotifySearchTrack] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class SpotifySearchAlbum(BaseModel):
@@ -235,22 +303,43 @@ class SpotifySearchPodcast(BaseModel):
 class SpotifySearchTrack(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    id: str
-    name: str
-    uri: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    uri: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class SpotifyTrackData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    duration_ms: int = Field(alias="durationMs")
-    id: str
-    name: str
+    duration_ms: int = Field(
+        alias="durationMs",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     playcount: int
     popularity: int
-    share_url: str = Field(alias="shareUrl")
-    track_number: int = Field(alias="trackNumber")
-    uri: str
+    share_url: str = Field(
+        alias="shareUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    track_number: int = Field(
+        alias="trackNumber",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    uri: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class SpotifyNamespace:
@@ -268,7 +357,8 @@ class SpotifyNamespace:
         """Spotify Album
 
         Fetch a Spotify album's tracklist, play counts, label, and release details
-        by album URL or ID, with transparent per-request USD pricing.
+        by album URL or ID. **Price:** $2.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -289,7 +379,8 @@ class SpotifyNamespace:
         """Spotify Artist
 
         Fetch a Spotify artist's discography (albums, singles, top tracks) and
-        metadata by artist URL or ID, with transparent per-request USD pricing.
+        metadata by artist URL or ID. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -309,8 +400,9 @@ class SpotifyNamespace:
     ) -> RunResult[SpotifyPlayCountData]:
         """Spotify Play Count
 
-        Fetch stream counts and stats for a Spotify track, album, or artist URL,
-        with transparent per-request USD pricing.
+        Fetch stream counts and stats for a Spotify track, album, or artist URL.
+        **Price:** billed per result - $0.00 per 1,000 requests base + $3.00 per
+        1,000 results, capped at $3.00 per 1,000 requests.
 
         Price: $0.003 per result.
 
@@ -331,7 +423,8 @@ class SpotifyNamespace:
         """Spotify Podcast
 
         Fetch a Spotify podcast show's name, publisher, description, rating, and
-        topics by show URL or ID, with transparent per-request USD pricing.
+        topics by show URL or ID. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -352,8 +445,8 @@ class SpotifyNamespace:
         """Spotify Podcast Episodes
 
         List a Spotify podcast show's episodes with titles, durations, descriptions,
-        and release dates by show URL or ID, with transparent per-request USD
-        pricing.
+        and release dates by show URL or ID. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -397,7 +490,8 @@ class SpotifyNamespace:
         """Spotify Search
 
         Search Spotify for matching tracks, albums, artists, podcasts, and playlists
-        by keyword, with transparent per-request USD pricing.
+        by keyword. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -418,7 +512,8 @@ class SpotifyNamespace:
         """Spotify Track
 
         Fetch a Spotify track's play count, popularity, duration, and album details
-        by track URL or ID, with transparent per-request USD pricing.
+        by track URL or ID. **Price:** $2.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -446,7 +541,8 @@ class AsyncSpotifyNamespace:
         """Spotify Album
 
         Fetch a Spotify album's tracklist, play counts, label, and release details
-        by album URL or ID, with transparent per-request USD pricing.
+        by album URL or ID. **Price:** $2.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -467,7 +563,8 @@ class AsyncSpotifyNamespace:
         """Spotify Artist
 
         Fetch a Spotify artist's discography (albums, singles, top tracks) and
-        metadata by artist URL or ID, with transparent per-request USD pricing.
+        metadata by artist URL or ID. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -487,8 +584,9 @@ class AsyncSpotifyNamespace:
     ) -> RunResult[SpotifyPlayCountData]:
         """Spotify Play Count
 
-        Fetch stream counts and stats for a Spotify track, album, or artist URL,
-        with transparent per-request USD pricing.
+        Fetch stream counts and stats for a Spotify track, album, or artist URL.
+        **Price:** billed per result - $0.00 per 1,000 requests base + $3.00 per
+        1,000 results, capped at $3.00 per 1,000 requests.
 
         Price: $0.003 per result.
 
@@ -509,7 +607,8 @@ class AsyncSpotifyNamespace:
         """Spotify Podcast
 
         Fetch a Spotify podcast show's name, publisher, description, rating, and
-        topics by show URL or ID, with transparent per-request USD pricing.
+        topics by show URL or ID. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -530,8 +629,8 @@ class AsyncSpotifyNamespace:
         """Spotify Podcast Episodes
 
         List a Spotify podcast show's episodes with titles, durations, descriptions,
-        and release dates by show URL or ID, with transparent per-request USD
-        pricing.
+        and release dates by show URL or ID. **Price:** $2.00 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -575,7 +674,8 @@ class AsyncSpotifyNamespace:
         """Spotify Search
 
         Search Spotify for matching tracks, albums, artists, podcasts, and playlists
-        by keyword, with transparent per-request USD pricing.
+        by keyword. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -596,7 +696,8 @@ class AsyncSpotifyNamespace:
         """Spotify Track
 
         Fetch a Spotify track's play count, popularity, duration, and album details
-        by track URL or ID, with transparent per-request USD pricing.
+        by track URL or ID. **Price:** $2.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.002 per request.
 

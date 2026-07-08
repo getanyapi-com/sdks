@@ -50,59 +50,75 @@ class HackernewsProfileData(BaseModel):
 
     bio: str
     karma: int
-    username: str
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class HackernewsSearchData(BaseModel):
     results: list[HackernewsSearchResult] = Field(
-        description="Matching Hacker News stories."
+        description="Matching Hacker News stories. Populated whenever the provider has data for the entity."
     )
 
 
 class HackernewsSearchResult(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Submitting user's username.")
+    author: str = Field(
+        description="Submitting user's username. Populated whenever the provider has data for the entity."
+    )
     comments: int = Field(description="Number of comments on the story.")
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Hacker News item id.")
+    id: str = Field(
+        description="Hacker News item id. Populated whenever the provider has data for the entity."
+    )
     points: int = Field(description="Story score (upvotes).")
-    title: str = Field(description="Story title.")
+    title: str = Field(
+        description="Story title. Populated whenever the provider has data for the entity."
+    )
     url: str = Field(description="Story link.")
 
 
 class HackernewsStoryData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Submitting user's username.")
+    author: str = Field(
+        description="Submitting user's username. Populated whenever the provider has data for the entity."
+    )
     comments: int = Field(description="Number of comments on the story.")
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     points: int = Field(description="Story score (upvotes).")
-    title: str = Field(description="Story title.")
+    title: str = Field(
+        description="Story title. Populated whenever the provider has data for the entity."
+    )
     url: str = Field(description="Story link.")
 
 
 class HackernewsStoryCommentsData(BaseModel):
     comments: list[HackernewsStoryCommentsComment] = Field(
-        description="Comments on the story."
+        description="Comments on the story. Populated whenever the provider has data for the entity."
     )
 
 
 class HackernewsStoryCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    author: str = Field(description="Commenting user's username.")
+    author: str = Field(
+        description="Commenting user's username. Populated whenever the provider has data for the entity."
+    )
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Hacker News comment id.")
+    id: str = Field(
+        description="Hacker News comment id. Populated whenever the provider has data for the entity."
+    )
     parent_id: str = Field(
         alias="parentId",
         description="Id of the parent item (story or comment) this reply belongs to.",
@@ -125,7 +141,8 @@ class HackernewsNamespace:
         """Hacker News Profile
 
         Get a Hacker News user's public profile by username - karma, bio, and
-        account details as clean JSON, billed per request in USD.
+        account details as clean JSON. **Price:** $3.25 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -146,7 +163,8 @@ class HackernewsNamespace:
         """Hacker News Search
 
         Search Hacker News by keyword - matching stories with title, link, author,
-        points, and comment count as clean JSON, billed per request in USD.
+        points, and comment count as clean JSON. **Price:** $3.25 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -167,7 +185,8 @@ class HackernewsNamespace:
         """Hacker News Story
 
         Get a Hacker News story by id - title, link, author, points, and comment
-        count as clean JSON, billed per request in USD.
+        count as clean JSON. **Price:** $3.25 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -188,7 +207,8 @@ class HackernewsNamespace:
         """Hacker News Story Comments
 
         List the comments on a Hacker News story by id - text, author, and timestamp
-        as clean JSON, billed per request in USD.
+        as clean JSON. **Price:** $3.25 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -216,7 +236,8 @@ class AsyncHackernewsNamespace:
         """Hacker News Profile
 
         Get a Hacker News user's public profile by username - karma, bio, and
-        account details as clean JSON, billed per request in USD.
+        account details as clean JSON. **Price:** $3.25 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -237,7 +258,8 @@ class AsyncHackernewsNamespace:
         """Hacker News Search
 
         Search Hacker News by keyword - matching stories with title, link, author,
-        points, and comment count as clean JSON, billed per request in USD.
+        points, and comment count as clean JSON. **Price:** $3.25 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -258,7 +280,8 @@ class AsyncHackernewsNamespace:
         """Hacker News Story
 
         Get a Hacker News story by id - title, link, author, points, and comment
-        count as clean JSON, billed per request in USD.
+        count as clean JSON. **Price:** $3.25 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.00325 per request.
 
@@ -279,7 +302,8 @@ class AsyncHackernewsNamespace:
         """Hacker News Story Comments
 
         List the comments on a Hacker News story by id - text, author, and timestamp
-        as clean JSON, billed per request in USD.
+        as clean JSON. **Price:** $3.25 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.00325 per request.
 

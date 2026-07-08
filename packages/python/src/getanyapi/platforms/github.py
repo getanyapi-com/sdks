@@ -124,12 +124,12 @@ class GithubRepositoryData(BaseModel):
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     default_branch: str | None = Field(
         default=None,
         alias="defaultBranch",
-        description="Name of the default branch. Present whenever the upstream returns this record.",
+        description="Name of the default branch. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     description: str | None = Field(
         default=None, description="Short repository description, or null if none."
@@ -139,7 +139,8 @@ class GithubRepositoryData(BaseModel):
     )
     forks: int | None = Field(default=None, description="Number of forks.")
     full_name: str = Field(
-        alias="fullName", description="Full repository name in owner/name form."
+        alias="fullName",
+        description="Full repository name in owner/name form. Populated whenever the provider has data for the entity.",
     )
     homepage: str | None = Field(
         default=None, description="Project homepage URL, or null if none."
@@ -150,7 +151,9 @@ class GithubRepositoryData(BaseModel):
     license: str | None = Field(
         default=None, description="License name, or null if unlicensed."
     )
-    name: str = Field(description="Repository short name (without owner).")
+    name: str = Field(
+        description="Repository short name (without owner). Populated whenever the provider has data for the entity."
+    )
     open_issues: int | None = Field(
         default=None,
         alias="openIssues",
@@ -158,45 +161,60 @@ class GithubRepositoryData(BaseModel):
     )
     owner: str | None = Field(
         default=None,
-        description="Login of the repository owner (user or organization). Present whenever the upstream returns this record.",
+        description="Login of the repository owner (user or organization). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     pushed_at: str | None = Field(
         default=None,
         alias="pushedAt",
-        description="Last push timestamp (ISO 8601). Present whenever the upstream returns this record.",
+        description="Last push timestamp (ISO 8601). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     stars: int | None = Field(default=None, description="Number of stargazers.")
     topics: list[str] | None = Field(default=None, description="Repository topic tags.")
     updated_at: str | None = Field(
         default=None,
         alias="updatedAt",
-        description="Last metadata update timestamp (ISO 8601). Present whenever the upstream returns this record.",
+        description="Last metadata update timestamp (ISO 8601). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    url: str = Field(description="Canonical URL of the repository.")
+    url: str = Field(
+        description="Canonical URL of the repository. Populated whenever the provider has data for the entity."
+    )
     watchers: int | None = Field(default=None, description="Number of watchers.")
 
 
 class GithubTrendingDevelopersData(BaseModel):
-    developers: list[GithubTrendingDevelopersDeveloper]
+    developers: list[GithubTrendingDevelopersDeveloper] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     language: str
-    since: str
+    since: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubTrendingDevelopersDeveloper(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     name: str
     popular_repo: str = Field(alias="popularRepo")
     popular_repo_description: str = Field(alias="popularRepoDescription")
     popular_repo_url: str = Field(alias="popularRepoUrl")
     rank: int
-    url: str
-    username: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubTrendingRepositoriesData(BaseModel):
-    repos: list[GithubTrendingRepositoriesRepo]
+    repos: list[GithubTrendingRepositoriesRepo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubTrendingRepositoriesRepo(BaseModel):
@@ -204,19 +222,25 @@ class GithubTrendingRepositoriesRepo(BaseModel):
 
     description: str
     forks: int
-    full_name: str = Field(alias="fullName")
+    full_name: str = Field(
+        alias="fullName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     language: str
     rank: int
     stars: int
     stars_today: int = Field(alias="starsToday")
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubUserData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     avatar_url: str = Field(
-        alias="avatarUrl", description="URL of the profile avatar image."
+        alias="avatarUrl",
+        description="URL of the profile avatar image. Populated whenever the provider has data for the entity.",
     )
     bio: str = Field(description="Profile bio text.")
     blog: str | None = Field(
@@ -228,15 +252,19 @@ class GithubUserData(BaseModel):
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     followers: int = Field(description="Number of followers.")
     following: int = Field(description="Number of accounts the user follows.")
     location: str | None = Field(
         default=None, description="Location listed on the profile."
     )
-    login: str = Field(description="GitHub username (handle).")
-    name: str = Field(description="Display name, or empty string if unset.")
+    login: str = Field(
+        description="GitHub username (handle). Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Display name, or empty string if unset. Populated whenever the provider has data for the entity."
+    )
     public_gists: int | None = Field(
         default=None, alias="publicGists", description="Count of public gists."
     )
@@ -254,27 +282,35 @@ class GithubUserData(BaseModel):
 class GithubUserActivityData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    activity: list[GithubUserActivityActivity]
-    month: str
+    activity: list[GithubUserActivityActivity] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    month: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     next_cursor: str = Field(alias="nextCursor")
     no_activity: bool = Field(alias="noActivity")
-    username: str
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     year: int
 
 
 class GithubUserActivityActivity(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    summary: str
+    summary: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubUserContributionsData(BaseModel):
     days: list[GithubUserContributionsDay] = Field(
-        description="Per-day contribution buckets for the year."
+        description="Per-day contribution buckets for the year. Populated whenever the provider has data for the entity."
     )
     total: int = Field(description="Total contributions across the year.")
     username: str = Field(
-        description="GitHub username the contribution graph belongs to."
+        description="GitHub username the contribution graph belongs to. Populated whenever the provider has data for the entity."
     )
     year: int = Field(description="Calendar year of the contribution graph.")
 
@@ -285,7 +321,7 @@ class GithubUserContributionsDay(BaseModel):
     count: int = Field(description="Number of contributions on this day.")
     date_utc: float = Field(
         alias="dateUtc",
-        description="UTC epoch seconds at 00:00 UTC of the contribution day.",
+        description="UTC epoch seconds at 00:00 UTC of the contribution day. Populated whenever the provider has data for the entity.",
     )
     intensity: int = Field(description="Heatmap level 0-4.")
 
@@ -293,37 +329,61 @@ class GithubUserContributionsDay(BaseModel):
 class GithubUserFollowersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    followers: list[GithubUserFollowersFollower]
+    followers: list[GithubUserFollowersFollower] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     next_cursor: str = Field(alias="nextCursor")
 
 
 class GithubUserFollowersFollower(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     id: int
-    login: str
+    login: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     site_admin: bool = Field(alias="siteAdmin")
-    type_: str = Field(alias="type")
-    url: str
+    type_: str = Field(
+        alias="type",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubUserFollowingData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    following: list[GithubUserFollowingFollowing]
+    following: list[GithubUserFollowingFollowing] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     next_cursor: str = Field(alias="nextCursor")
 
 
 class GithubUserFollowingFollowing(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(alias="avatarUrl")
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     id: int
-    login: str
+    login: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     site_admin: bool = Field(alias="siteAdmin")
-    type_: str = Field(alias="type")
-    url: str
+    type_: str = Field(
+        alias="type",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubUserPullRequestsData(BaseModel):
@@ -339,7 +399,7 @@ class GithubUserPullRequestsData(BaseModel):
     )
     pull_requests: list[GithubUserPullRequestsPullRequest] = Field(
         alias="pullRequests",
-        description="The user's public pull requests for this page.",
+        description="The user's public pull requests for this page. Populated whenever the provider has data for the entity.",
     )
 
 
@@ -348,14 +408,20 @@ class GithubUserPullRequestsPullRequest(BaseModel):
 
     created_utc: float = Field(
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     repo: str = Field(
-        description="Repository the pull request targets, in owner/name form."
+        description="Repository the pull request targets, in owner/name form. Populated whenever the provider has data for the entity."
     )
-    state: str = Field(description="Pull request state (e.g. open, closed, merged).")
-    title: str = Field(description="Pull request title.")
-    url: str = Field(description="Canonical URL of the pull request.")
+    state: str = Field(
+        description="Pull request state (e.g. open, closed, merged). Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Pull request title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the pull request. Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubUserRepositoriesData(BaseModel):
@@ -363,7 +429,9 @@ class GithubUserRepositoriesData(BaseModel):
 
     has_more: bool = Field(alias="hasMore")
     next_cursor: int = Field(alias="nextCursor")
-    repos: list[GithubUserRepositoriesRepo]
+    repos: list[GithubUserRepositoriesRepo] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubUserRepositoriesRepo(BaseModel):
@@ -373,13 +441,20 @@ class GithubUserRepositoriesRepo(BaseModel):
     description: str
     fork: bool
     forks: int
-    full_name: str = Field(alias="fullName")
+    full_name: str = Field(
+        alias="fullName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     language: str
-    name: str
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     pushed_at: str = Field(alias="pushedAt")
     stars: int
     updated_at: str = Field(alias="updatedAt")
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GithubNamespace:
@@ -398,7 +473,8 @@ class GithubNamespace:
 
         Fetch a GitHub repository's metadata by URL - stars, forks, language,
         topics, license, and timestamps - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -420,7 +496,8 @@ class GithubNamespace:
 
         List trending GitHub developers - rank, username, name, avatar, and their
         most popular repository - optionally filtered by programming language and
-        time range.
+        time range. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -442,7 +519,8 @@ class GithubNamespace:
 
         List GitHub Trending repositories - rank, stars, stars gained today,
         language, and description - filterable by language and time window,
-        normalized across providers.
+        normalized across providers. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -461,7 +539,8 @@ class GithubNamespace:
 
         Fetch a GitHub user's public profile by handle - name, bio, company,
         location, followers, and repo counts - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -483,7 +562,8 @@ class GithubNamespace:
 
         List a GitHub user's public contribution activity by handle - grouped
         monthly summaries of commits, pull requests, and issues with repository
-        links - for a given year.
+        links - for a given year. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -528,7 +608,8 @@ class GithubNamespace:
 
         Fetch a GitHub user's contribution graph for a year - total contributions
         plus per-day counts and heatmap intensity - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -549,7 +630,8 @@ class GithubNamespace:
         """GitHub User Followers
 
         List a GitHub user's followers by handle - each follower's login, type,
-        avatar, and profile URL - with pagination.
+        avatar, and profile URL - with pagination. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -593,7 +675,8 @@ class GithubNamespace:
         """GitHub User Following
 
         List the GitHub users a given user follows by handle - each account's login,
-        type, avatar, and profile URL - with pagination.
+        type, avatar, and profile URL - with pagination. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -638,6 +721,8 @@ class GithubNamespace:
 
         List a GitHub user's public pull requests by handle - title, repository,
         state, creation date, and URL - with optional date filtering and pagination.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -682,7 +767,8 @@ class GithubNamespace:
 
         List a GitHub user's public repositories - name, description, language,
         stars, and forks - with sorting and cursor pagination, normalized across
-        providers.
+        providers. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -711,7 +797,8 @@ class AsyncGithubNamespace:
 
         Fetch a GitHub repository's metadata by URL - stars, forks, language,
         topics, license, and timestamps - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -733,7 +820,8 @@ class AsyncGithubNamespace:
 
         List trending GitHub developers - rank, username, name, avatar, and their
         most popular repository - optionally filtered by programming language and
-        time range.
+        time range. **Price:** $2.00 per 1,000 requests (flat per request - same
+        cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -755,7 +843,8 @@ class AsyncGithubNamespace:
 
         List GitHub Trending repositories - rank, stars, stars gained today,
         language, and description - filterable by language and time window,
-        normalized across providers.
+        normalized across providers. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -774,7 +863,8 @@ class AsyncGithubNamespace:
 
         Fetch a GitHub user's public profile by handle - name, bio, company,
         location, followers, and repo counts - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -796,7 +886,8 @@ class AsyncGithubNamespace:
 
         List a GitHub user's public contribution activity by handle - grouped
         monthly summaries of commits, pull requests, and issues with repository
-        links - for a given year.
+        links - for a given year. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -841,7 +932,8 @@ class AsyncGithubNamespace:
 
         Fetch a GitHub user's contribution graph for a year - total contributions
         plus per-day counts and heatmap intensity - normalized across providers with
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -862,7 +954,8 @@ class AsyncGithubNamespace:
         """GitHub User Followers
 
         List a GitHub user's followers by handle - each follower's login, type,
-        avatar, and profile URL - with pagination.
+        avatar, and profile URL - with pagination. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -906,7 +999,8 @@ class AsyncGithubNamespace:
         """GitHub User Following
 
         List the GitHub users a given user follows by handle - each account's login,
-        type, avatar, and profile URL - with pagination.
+        type, avatar, and profile URL - with pagination. **Price:** $2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -951,6 +1045,8 @@ class AsyncGithubNamespace:
 
         List a GitHub user's public pull requests by handle - title, repository,
         state, creation date, and URL - with optional date filtering and pagination.
+        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
+        of results returned).
 
         Price: $0.002 per request.
 
@@ -995,7 +1091,8 @@ class AsyncGithubNamespace:
 
         List a GitHub user's public repositories - name, description, language,
         stars, and forks - with sorting and cursor pagination, normalized across
-        providers.
+        providers. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 

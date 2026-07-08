@@ -32,7 +32,7 @@ class DexscreenerTokensInput(TypedDict, total=False):
 
 class DexscreenerTokensData(BaseModel):
     items: list[DexscreenerTokensItem] = Field(
-        description="Token listing records: token name and symbol, price, liquidity, volume, transaction/maker counts, price change, market cap, and the DEX Screener pair URL."
+        description="Token listing records: token name and symbol, price, liquidity, volume, transaction/maker counts, price change, market cap, and the DEX Screener pair URL. Populated whenever the provider has data for the entity."
     )
 
 
@@ -58,14 +58,16 @@ class DexscreenerTokensItem(BaseModel):
     )
     name: str | None = Field(
         default=None,
-        description="Token full name. Present whenever the upstream returns this record.",
+        description="Token full name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     pool_address: str | None = Field(
         default=None,
         alias="poolAddress",
         description="On-chain address of the liquidity pool.",
     )
-    price: float = Field(description="Current token price in USD.")
+    price: float = Field(
+        description="Current token price in USD. Populated whenever the provider has data for the entity."
+    )
     price_change1h: float | None = Field(
         default=None,
         alias="priceChange1h",
@@ -76,7 +78,9 @@ class DexscreenerTokensItem(BaseModel):
         alias="priceChange24h",
         description="Fractional price change over the past 24 hours.",
     )
-    symbol: str = Field(description="Token ticker symbol.")
+    symbol: str = Field(
+        description="Token ticker symbol. Populated whenever the provider has data for the entity."
+    )
     transaction_count: int | None = Field(
         default=None,
         alias="transactionCount",
@@ -84,7 +88,7 @@ class DexscreenerTokensItem(BaseModel):
     )
     url: str | None = Field(
         default=None,
-        description="DEX Screener URL for the trading pair. Present whenever the upstream returns this record.",
+        description="DEX Screener URL for the trading pair. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     volume_usd: float | None = Field(
         default=None,
@@ -109,7 +113,8 @@ class DexscreenerNamespace:
 
         List trending tokens on any blockchain from DEX Screener - price, liquidity,
         volume, transactions, and market cap - sorted how you want, as normalized
-        JSON with transparent per-request USD pricing.
+        JSON. **Price:** billed per result - $20.00 per 1,000 requests base + $1.50
+        per 1,000 results, capped at $57.50 per 1,000 requests.
 
         Price: $0.02 per request plus $0.0015 per result.
 
@@ -138,7 +143,8 @@ class AsyncDexscreenerNamespace:
 
         List trending tokens on any blockchain from DEX Screener - price, liquidity,
         volume, transactions, and market cap - sorted how you want, as normalized
-        JSON with transparent per-request USD pricing.
+        JSON. **Price:** billed per result - $20.00 per 1,000 requests base + $1.50
+        per 1,000 results, capped at $57.50 per 1,000 requests.
 
         Price: $0.02 per request plus $0.0015 per result.
 

@@ -34,7 +34,7 @@ class CongressTradesInput(TypedDict, total=False):
 
 class CongressTradesData(BaseModel):
     items: list[CongressTradesItem] = Field(
-        description="Disclosure records: member name and chamber, stock ticker, transaction type, amount range, and transaction/report dates."
+        description="Disclosure records: member name and chamber, stock ticker, transaction type, amount range, and transaction/report dates. Populated whenever the provider has data for the entity."
     )
 
 
@@ -49,7 +49,7 @@ class CongressTradesItem(BaseModel):
     asset_name: str | None = Field(
         default=None,
         alias="assetName",
-        description="Full name of the traded asset. Present whenever the upstream returns this record.",
+        description="Full name of the traded asset. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     chamber: str | None = Field(
         default=None, description="Congressional chamber, e.g. House or Senate."
@@ -57,13 +57,15 @@ class CongressTradesItem(BaseModel):
     first_name: str | None = Field(
         default=None,
         alias="firstName",
-        description="Member's first name. Present whenever the upstream returns this record.",
+        description="Member's first name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    id: str = Field(description="Stable disclosure record identifier.")
+    id: str = Field(
+        description="Stable disclosure record identifier. Populated whenever the provider has data for the entity."
+    )
     last_name: str | None = Field(
         default=None,
         alias="lastName",
-        description="Member's last name. Present whenever the upstream returns this record.",
+        description="Member's last name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     owner: str | None = Field(
         default=None,
@@ -79,7 +81,9 @@ class CongressTradesItem(BaseModel):
         alias="stateDistrict",
         description="Member's state and district, e.g. PA11.",
     )
-    symbol: str = Field(description="Stock ticker symbol of the traded asset.")
+    symbol: str = Field(
+        description="Stock ticker symbol of the traded asset. Populated whenever the provider has data for the entity."
+    )
     traded_utc: float | None = Field(
         default=None,
         alias="tradedUtc",
@@ -108,7 +112,9 @@ class CongressNamespace:
 
         Get US Congress members' financial disclosures and stock trades - member,
         ticker, transaction type, amount range, and dates - filterable by member,
-        ticker, or date range, billed per request in USD.
+        ticker, or date range. **Price:** billed per result - $1.00 per 1,000
+        requests base + $1.90 per 1,000 results, capped at $48.50 per 1,000
+        requests.
 
         Price: $0.001 per request plus $0.0019 per result.
 
@@ -137,7 +143,9 @@ class AsyncCongressNamespace:
 
         Get US Congress members' financial disclosures and stock trades - member,
         ticker, transaction type, amount range, and dates - filterable by member,
-        ticker, or date range, billed per request in USD.
+        ticker, or date range. **Price:** billed per result - $1.00 per 1,000
+        requests base + $1.90 per 1,000 results, capped at $48.50 per 1,000
+        requests.
 
         Price: $0.001 per request plus $0.0019 per result.
 

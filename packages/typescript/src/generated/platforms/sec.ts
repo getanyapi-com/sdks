@@ -35,16 +35,16 @@ export interface SecFilingsInput {
 
 export interface SecFilingsItem {
   /**
-   * SEC accession number uniquely identifying the filing.
+   * SEC accession number uniquely identifying the filing. Populated whenever the provider has data for the entity.
    */
   accessionNumber: string;
   /**
-   * SEC Central Index Key for the filer.
+   * SEC Central Index Key for the filer. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   cik?: string;
   /**
-   * Filer company name.
+   * Filer company name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   companyName?: string;
@@ -53,7 +53,7 @@ export interface SecFilingsItem {
    */
   description?: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the filing was filed.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the filing was filed. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   filedUtc?: number;
@@ -62,7 +62,7 @@ export interface SecFilingsItem {
    */
   filingUrl?: string;
   /**
-   * SEC form type, e.g. 10-K, 10-Q, 8-K.
+   * SEC form type, e.g. 10-K, 10-Q, 8-K. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   form?: string;
@@ -75,7 +75,7 @@ export interface SecFilingsItem {
    */
   ticker?: string;
   /**
-   * Direct link to the primary filing document on sec.gov.
+   * Direct link to the primary filing document on sec.gov. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -86,7 +86,7 @@ export interface SecFilingsItem {
  */
 export interface SecFilingsData {
   /**
-   * Filing records: company and CIK, form type, filing date, accession number, and document links.
+   * Filing records: company and CIK, form type, filing date, accession number, and document links. Populated whenever the provider has data for the entity.
    */
   items: SecFilingsItem[];
 }
@@ -101,7 +101,9 @@ export class SecNamespace {
   /**
    * SEC EDGAR Filings
    *
-   * List a public company's SEC EDGAR filings - form type, filing date, accession number, and document links - by ticker, company name, or CIK, with optional form-type and date filters, billed per request in USD.
+   * List a public company's SEC EDGAR filings - form type, filing date, accession number, and document links - by ticker, company name, or CIK, with optional form-type and date filters.
+
+**Price:** billed per result - $2.00 per 1,000 requests base + $0.40 per 1,000 results, capped at $12.00 per 1,000 requests.
    *
    * Price: $0.002 per request plus $0.0004 per result.
    *

@@ -24,7 +24,7 @@ class WhatsappValidateInput(TypedDict, total=False):
 
 class WhatsappValidateData(BaseModel):
     items: list[WhatsappValidateItem] = Field(
-        description="Validation records for the phone number."
+        description="Validation records for the phone number. Populated whenever the provider has data for the entity."
     )
 
 
@@ -43,7 +43,7 @@ class WhatsappValidateItem(BaseModel):
         description="True when the number is a valid, reachable WhatsApp account.",
     )
     phone: str = Field(
-        description="The phone number that was checked, in international format."
+        description="The phone number that was checked, in international format. Populated whenever the provider has data for the entity."
     )
 
 
@@ -61,8 +61,9 @@ class WhatsappNamespace:
     ) -> RunResult[WhatsappValidateData]:
         """WhatsApp Number Validator
 
-        Check whether a phone number is registered on WhatsApp, with transparent
-        per-request USD pricing.
+        Check whether a phone number is registered on WhatsApp. **Price:** billed
+        per result - $3.50 per 1,000 requests base + $1.00 per 1,000 results, capped
+        at $4.50 per 1,000 requests.
 
         Price: $0.0035 per request plus $0.001 per result.
 
@@ -89,8 +90,9 @@ class AsyncWhatsappNamespace:
     ) -> RunResult[WhatsappValidateData]:
         """WhatsApp Number Validator
 
-        Check whether a phone number is registered on WhatsApp, with transparent
-        per-request USD pricing.
+        Check whether a phone number is registered on WhatsApp. **Price:** billed
+        per result - $3.50 per 1,000 requests base + $1.00 per 1,000 results, capped
+        at $4.50 per 1,000 requests.
 
         Price: $0.0035 per request plus $0.001 per result.
 

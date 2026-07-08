@@ -31,7 +31,7 @@ class EmailVerifyInput(TypedDict, total=False):
 
 class EmailFindData(BaseModel):
     items: list[EmailFindItem] = Field(
-        description="Email lookup records: the discovered email address, verification status, and the matched person and company details."
+        description="Email lookup records: the discovered email address, verification status, and the matched person and company details. Populated whenever the provider has data for the entity."
     )
 
 
@@ -40,17 +40,19 @@ class EmailFindItem(BaseModel):
 
     domain: str | None = None
     email: str = Field(
-        description="Discovered email address, or empty when none was found."
+        description="Discovered email address, or empty when none was found. Populated whenever the provider has data for the entity."
     )
     first_name: str | None = Field(default=None, alias="firstName")
     is_deliverable: bool | None = Field(default=None, alias="isDeliverable")
     last_name: str | None = Field(default=None, alias="lastName")
-    status: str = Field(description="Lookup status (e.g. found, not_found).")
+    status: str = Field(
+        description="Lookup status (e.g. found, not_found). Populated whenever the provider has data for the entity."
+    )
 
 
 class EmailVerifyData(BaseModel):
     items: list[EmailVerifyItem] = Field(
-        description="Verification records: the email address with its deliverability verdict and syntax, domain, and mailbox check details."
+        description="Verification records: the email address with its deliverability verdict and syntax, domain, and mailbox check details. Populated whenever the provider has data for the entity."
     )
 
 
@@ -62,7 +64,9 @@ class EmailVerifyItem(BaseModel):
     )
     disposable: bool | None = None
     domain: str | None = None
-    email: str
+    email: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     free: bool | None = Field(default=None, description="Free email provider.")
     reason: str | None = None
     role: bool | None = Field(
@@ -70,7 +74,7 @@ class EmailVerifyItem(BaseModel):
     )
     score: int | None = Field(default=None, description="Confidence score (0-100).")
     status: str = Field(
-        description="Deliverability verdict (e.g. valid, risky, invalid)."
+        description="Deliverability verdict (e.g. valid, risky, invalid). Populated whenever the provider has data for the entity."
     )
 
 
@@ -85,8 +89,9 @@ class EmailNamespace:
     ) -> RunResult[EmailFindData]:
         """Email Finder
 
-        Find a person's work email address from their name and company domain, with
-        transparent per-request USD pricing.
+        Find a person's work email address from their name and company domain.
+        **Price:** billed per result - $5.00 per 1,000 requests base + $8.00 per
+        1,000 results, capped at $13.00 per 1,000 requests.
 
         Price: $0.005 per request plus $0.008 per result.
 
@@ -107,7 +112,9 @@ class EmailNamespace:
         """Email Verifier
 
         Verify any email address for deliverability - syntax, domain, and mailbox
-        checks in one normalized response, priced per request in USD.
+        checks in one normalized response. **Price:** billed per result - $0.00 per
+        1,000 requests base + $0.80 per 1,000 results, capped at $0.80 per 1,000
+        requests.
 
         Price: $0.0008 per result.
 
@@ -131,8 +138,9 @@ class AsyncEmailNamespace:
     ) -> RunResult[EmailFindData]:
         """Email Finder
 
-        Find a person's work email address from their name and company domain, with
-        transparent per-request USD pricing.
+        Find a person's work email address from their name and company domain.
+        **Price:** billed per result - $5.00 per 1,000 requests base + $8.00 per
+        1,000 results, capped at $13.00 per 1,000 requests.
 
         Price: $0.005 per request plus $0.008 per result.
 
@@ -153,7 +161,9 @@ class AsyncEmailNamespace:
         """Email Verifier
 
         Verify any email address for deliverability - syntax, domain, and mailbox
-        checks in one normalized response, priced per request in USD.
+        checks in one normalized response. **Price:** billed per result - $0.00 per
+        1,000 requests base + $0.80 per 1,000 results, capped at $0.80 per 1,000
+        requests.
 
         Price: $0.0008 per result.
 

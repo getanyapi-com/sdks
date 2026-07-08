@@ -26,7 +26,7 @@ class AlibabaSearchInput(TypedDict, total=False):
 
 class AlibabaSearchData(BaseModel):
     items: list[AlibabaSearchItem] = Field(
-        description="Matching Alibaba wholesale listings."
+        description="Matching Alibaba wholesale listings. Populated whenever the provider has data for the entity."
     )
 
 
@@ -71,10 +71,10 @@ class AlibabaSearchItem(BaseModel):
         description='Gold Supplier tenure text, e.g. "3 yrs"; empty when not a Gold Supplier.',
     )
     title: str = Field(
-        description="Listing title as shown on Alibaba (may contain the supplier's inline markup)."
+        description="Listing title as shown on Alibaba (may contain the supplier's inline markup). Populated whenever the provider has data for the entity."
     )
     url: str = Field(
-        description="Canonical product detail page URL (tracking query params stripped)."
+        description="Canonical product detail page URL (tracking query params stripped). Populated whenever the provider has data for the entity."
     )
 
 
@@ -93,8 +93,9 @@ class AlibabaNamespace:
         """Alibaba Search
 
         Search Alibaba by keyword and get up to 25 wholesale listings - title, price
-        range, minimum order, and supplier - in one normalized, flat-priced
-        response.
+        range, minimum order, and supplier - in one normalized response. **Price:**
+        billed per result - $0.00 per 1,000 requests base + $1.20 per 1,000 results,
+        capped at $30.00 per 1,000 requests.
 
         Price: $0.0012 per result.
 
@@ -122,8 +123,9 @@ class AsyncAlibabaNamespace:
         """Alibaba Search
 
         Search Alibaba by keyword and get up to 25 wholesale listings - title, price
-        range, minimum order, and supplier - in one normalized, flat-priced
-        response.
+        range, minimum order, and supplier - in one normalized response. **Price:**
+        billed per result - $0.00 per 1,000 requests base + $1.20 per 1,000 results,
+        capped at $30.00 per 1,000 requests.
 
         Price: $0.0012 per result.
 

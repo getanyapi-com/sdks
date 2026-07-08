@@ -26,7 +26,7 @@ class RedfinSearchInput(TypedDict, total=False):
 
 class RedfinSearchData(BaseModel):
     items: list[RedfinSearchItem] = Field(
-        description="Matching Redfin home listing records."
+        description="Matching Redfin home listing records. Populated whenever the provider has data for the entity."
     )
 
 
@@ -73,7 +73,7 @@ class RedfinSearchItem(BaseModel):
     )
     property_id: str = Field(
         alias="propertyId",
-        description="Redfin property id (stable identifier for the home).",
+        description="Redfin property id (stable identifier for the home). Populated whenever the provider has data for the entity.",
     )
     sold_utc: float | None = Field(
         default=None,
@@ -92,7 +92,9 @@ class RedfinSearchItem(BaseModel):
     title: str | None = Field(
         default=None, description="Street address line used as the listing title."
     )
-    url: str = Field(description="Canonical Redfin listing detail page URL.")
+    url: str = Field(
+        description="Canonical Redfin listing detail page URL. Populated whenever the provider has data for the entity."
+    )
     year_built: float | None = Field(
         default=None, alias="yearBuilt", description="Year the home was built."
     )
@@ -113,8 +115,9 @@ class RedfinNamespace:
         """Redfin Search
 
         Run a Redfin map search by URL and get matching home listings (price,
-        address, beds, baths, status) as normalized JSON with flat per-request USD
-        pricing.
+        address, beds, baths, status) as normalized JSON. **Price:** billed per
+        result - $2.70 per 1,000 requests base + $0.43 per 1,000 results, capped at
+        $13.45 per 1,000 requests.
 
         Price: $0.0027 per request plus $0.00043 per result.
 
@@ -142,8 +145,9 @@ class AsyncRedfinNamespace:
         """Redfin Search
 
         Run a Redfin map search by URL and get matching home listings (price,
-        address, beds, baths, status) as normalized JSON with flat per-request USD
-        pricing.
+        address, beds, baths, status) as normalized JSON. **Price:** billed per
+        result - $2.70 per 1,000 requests base + $0.43 per 1,000 results, capped at
+        $13.45 per 1,000 requests.
 
         Price: $0.0027 per request plus $0.00043 per result.
 

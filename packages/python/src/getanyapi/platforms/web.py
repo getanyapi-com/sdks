@@ -53,19 +53,25 @@ class WebScreenshotInput(TypedDict, total=False):
 
 class WebCrawlData(BaseModel):
     items: list[WebCrawlItem] = Field(
-        description="Crawled page records: URL, page title, and extracted text content for each page."
+        description="Crawled page records: URL, page title, and extracted text content for each page. Populated whenever the provider has data for the entity."
     )
 
 
 class WebCrawlItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    domain: str
-    text: str
+    domain: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class WebMapData(BaseModel):
-    results: list[WebMapResult]
+    results: list[WebMapResult] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class WebMapResult(BaseModel):
@@ -73,21 +79,27 @@ class WebMapResult(BaseModel):
 
     description: str
     title: str
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class WebScrapeData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     description: str
-    markdown: str
+    markdown: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     title: str
-    url: str
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class WebScreenshotData(BaseModel):
     items: list[WebScreenshotItem] = Field(
-        description="Screenshot records: the requested page URL and a link to the captured image."
+        description="Screenshot records: the requested page URL and a link to the captured image. Populated whenever the provider has data for the entity."
     )
 
 
@@ -96,9 +108,11 @@ class WebScreenshotItem(BaseModel):
 
     image: str | None = Field(
         default=None,
-        description="Link to the captured screenshot image. Present whenever the upstream returns this record.",
+        description="Link to the captured screenshot image. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    url: str = Field(description="The final page URL that was captured.")
+    url: str = Field(
+        description="The final page URL that was captured. Populated whenever the provider has data for the entity."
+    )
 
 
 class WebNamespace:
@@ -114,6 +128,8 @@ class WebNamespace:
 
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response - ideal for feeding sites into LLMs and search indexes.
+        **Price:** billed per result - $1.50 per 1,000 requests base + $3.00 per
+        1,000 results, capped at $31.50 per 1,000 requests.
 
         Price: $0.0015 per request plus $0.003 per result.
 
@@ -131,7 +147,8 @@ class WebNamespace:
         """Web Map
 
         Map an entire website into a clean list of its URLs (with titles and
-        descriptions) in a single call. Billed per request in real dollars.
+        descriptions) in a single call. **Price:** $0.90 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.0009 per request.
 
@@ -149,7 +166,8 @@ class WebNamespace:
         """Web Scrape
 
         Scrape any web page and get its main content back as clean Markdown plus
-        title and metadata. One call, billed per request in real dollars.
+        title and metadata. **Price:** $0.90 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.0009 per request.
 
@@ -169,8 +187,9 @@ class WebNamespace:
     ) -> RunResult[WebScreenshotData]:
         """Website Screenshot
 
-        Capture a real-browser screenshot of any web page URL, with transparent
-        per-request USD pricing.
+        Capture a real-browser screenshot of any web page URL. **Price:** billed per
+        result - $0.00 per 1,000 requests base + $1.58 per 1,000 results, capped at
+        $1.58 per 1,000 requests.
 
         Price: $0.00158 per result.
 
@@ -196,6 +215,8 @@ class AsyncWebNamespace:
 
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response - ideal for feeding sites into LLMs and search indexes.
+        **Price:** billed per result - $1.50 per 1,000 requests base + $3.00 per
+        1,000 results, capped at $31.50 per 1,000 requests.
 
         Price: $0.0015 per request plus $0.003 per result.
 
@@ -213,7 +234,8 @@ class AsyncWebNamespace:
         """Web Map
 
         Map an entire website into a clean list of its URLs (with titles and
-        descriptions) in a single call. Billed per request in real dollars.
+        descriptions) in a single call. **Price:** $0.90 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
 
         Price: $0.0009 per request.
 
@@ -231,7 +253,8 @@ class AsyncWebNamespace:
         """Web Scrape
 
         Scrape any web page and get its main content back as clean Markdown plus
-        title and metadata. One call, billed per request in real dollars.
+        title and metadata. **Price:** $0.90 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.0009 per request.
 
@@ -251,8 +274,9 @@ class AsyncWebNamespace:
     ) -> RunResult[WebScreenshotData]:
         """Website Screenshot
 
-        Capture a real-browser screenshot of any web page URL, with transparent
-        per-request USD pricing.
+        Capture a real-browser screenshot of any web page URL. **Price:** billed per
+        result - $0.00 per 1,000 requests base + $1.58 per 1,000 results, capped at
+        $1.58 per 1,000 requests.
 
         Price: $0.00158 per result.
 

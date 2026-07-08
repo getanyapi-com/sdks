@@ -20,16 +20,34 @@ export interface LinkedinAdInput {
  * The `data` payload of LinkedIn Ad Details (linkedin.ad).
  */
 export interface LinkedinAdData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   adType: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   advertiser: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   advertiserLinkedinPage: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   cta: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   description: string;
   destinationUrl: string;
   /**
    * ISO 8601 date.
    */
   endDate: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   headline: string;
   id: string;
   image: string;
@@ -61,7 +79,7 @@ export interface LinkedinAdsInput {
  */
 export interface LinkedinAdsItem {
   /**
-   * Advertiser (company) name.
+   * Advertiser (company) name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   advertiser?: string;
@@ -74,7 +92,7 @@ export interface LinkedinAdsItem {
    */
   format?: string;
   /**
-   * LinkedIn ad id.
+   * LinkedIn ad id. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -86,7 +104,7 @@ export interface LinkedinAdsItem {
    */
   text?: string;
   /**
-   * Canonical LinkedIn Ad Library detail URL.
+   * Canonical LinkedIn Ad Library detail URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -97,7 +115,7 @@ export interface LinkedinAdsItem {
  */
 export interface LinkedinAdsData {
   /**
-   * Ad records from the LinkedIn Ad Library.
+   * Ad records from the LinkedIn Ad Library. Populated whenever the provider has data for the entity.
    */
   items: LinkedinAdsItem[];
 }
@@ -137,7 +155,13 @@ export interface LinkedinAdsSearchInput {
 }
 
 export interface LinkedinAdsSearchAd {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   adType: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   advertiser: string;
   advertiserLinkedinPage: string;
   cta: string;
@@ -145,6 +169,9 @@ export interface LinkedinAdsSearchAd {
   destinationUrl: string;
   endDate: string;
   headline: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   startDate: string;
   totalImpressions: string;
@@ -155,6 +182,9 @@ export interface LinkedinAdsSearchAd {
  * The `data` payload of LinkedIn Ad Search (linkedin.ads_search).
  */
 export interface LinkedinAdsSearchData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   ads: LinkedinAdsSearchAd[];
   nextCursor: string;
   totalAds: number;
@@ -174,12 +204,27 @@ export interface LinkedinCompanyInput {
  * The `data` payload of LinkedIn Company (linkedin.company).
  */
 export interface LinkedinCompanyData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   description: string;
   employeeCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   industry: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   logoUrl: string;
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   tagline: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   website: string;
   [extra: string]: unknown;
 }
@@ -212,7 +257,7 @@ export interface LinkedinCompanyEmployeesItem {
    */
   firstName?: string;
   /**
-   * Public profile identifier (the vanity slug in the URL).
+   * Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   handle?: string;
@@ -233,12 +278,12 @@ export interface LinkedinCompanyEmployeesItem {
    */
   location?: string;
   /**
-   * Full name.
+   * Full name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   name?: string;
   /**
-   * Canonical LinkedIn profile URL.
+   * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -249,7 +294,7 @@ export interface LinkedinCompanyEmployeesItem {
  */
 export interface LinkedinCompanyEmployeesData {
   /**
-   * Employee records for the company.
+   * Employee records for the company. Populated whenever the provider has data for the entity.
    */
   items: LinkedinCompanyEmployeesItem[];
 }
@@ -271,19 +316,19 @@ export interface LinkedinCompanyPostsInput {
 
 export interface LinkedinCompanyPostsPost {
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Unique identifier of the post.
+   * Unique identifier of the post. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * Text content of the post.
+   * Text content of the post. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Canonical URL of the post.
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -294,7 +339,7 @@ export interface LinkedinCompanyPostsPost {
  */
 export interface LinkedinCompanyPostsData {
   /**
-   * The company's recent posts.
+   * The company's recent posts. Populated whenever the provider has data for the entity.
    */
   posts: LinkedinCompanyPostsPost[];
 }
@@ -318,7 +363,7 @@ export interface LinkedinEmailItem {
    */
   company?: string;
   /**
-   * Discovered work email address.
+   * Discovered work email address. Populated whenever the provider has data for the entity.
    */
   email: string;
   /**
@@ -334,7 +379,7 @@ export interface LinkedinEmailItem {
    */
   lastName?: string;
   /**
-   * Canonical LinkedIn profile URL.
+   * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   linkedinUrl?: string;
@@ -343,7 +388,7 @@ export interface LinkedinEmailItem {
    */
   location?: string;
   /**
-   * Full name on the LinkedIn profile.
+   * Full name on the LinkedIn profile. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
@@ -366,7 +411,7 @@ export interface LinkedinEmailItem {
  */
 export interface LinkedinEmailData {
   /**
-   * Email lookup records for the LinkedIn profile.
+   * Email lookup records for the LinkedIn profile. Populated whenever the provider has data for the entity.
    */
   items: LinkedinEmailItem[];
 }
@@ -395,7 +440,7 @@ export interface LinkedinJobsInput {
  */
 export interface LinkedinJobsItem {
   /**
-   * Hiring company name.
+   * Hiring company name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   company?: string;
@@ -416,7 +461,7 @@ export interface LinkedinJobsItem {
    */
   id?: string;
   /**
-   * Job location (city, region).
+   * Job location (city, region). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   location?: string;
@@ -425,11 +470,11 @@ export interface LinkedinJobsItem {
    */
   seniority?: string;
   /**
-   * Job title.
+   * Job title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Canonical LinkedIn job listing URL.
+   * Canonical LinkedIn job listing URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -440,7 +485,7 @@ export interface LinkedinJobsItem {
  */
 export interface LinkedinJobsData {
   /**
-   * Job listing records for the search.
+   * Job listing records for the search. Populated whenever the provider has data for the entity.
    */
   items: LinkedinJobsItem[];
 }
@@ -460,7 +505,7 @@ export interface LinkedinPostInput {
  */
 export interface LinkedinPostData {
   /**
-   * Name of the post author.
+   * Name of the post author. Populated whenever the provider has data for the entity.
    */
   author: string;
   /**
@@ -468,7 +513,7 @@ export interface LinkedinPostData {
    */
   comments: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
@@ -476,7 +521,7 @@ export interface LinkedinPostData {
    */
   likes: number;
   /**
-   * Text content of the post.
+   * Text content of the post. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
@@ -484,7 +529,7 @@ export interface LinkedinPostData {
    */
   title: string;
   /**
-   * Canonical URL of the post.
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -504,6 +549,9 @@ export interface LinkedinPostTranscriptInput {
  * The `data` payload of LinkedIn Post Transcript (linkedin.post_transcript).
  */
 export interface LinkedinPostTranscriptData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   transcript: string;
   transcriptNotAvailable: boolean;
   url: string;
@@ -609,7 +657,7 @@ export interface LinkedinProfileData {
    */
   about: string;
   /**
-   * The profile's published articles.
+   * The profile's published articles. Populated whenever the provider has data for the entity.
    */
   articles: LinkedinProfileArticle[];
   /**
@@ -617,11 +665,11 @@ export interface LinkedinProfileData {
    */
   avatarUrl: string;
   /**
-   * Education entries.
+   * Education entries. Populated whenever the provider has data for the entity.
    */
   education: LinkedinProfileEducation[];
   /**
-   * Work experience entries.
+   * Work experience entries. Populated whenever the provider has data for the entity.
    */
   experience: LinkedinProfileExperience[];
   /**
@@ -637,7 +685,7 @@ export interface LinkedinProfileData {
    */
   name: string;
   /**
-   * The profile's recent posts.
+   * The profile's recent posts. Populated whenever the provider has data for the entity.
    */
   recentPosts: LinkedinProfileRecentPost[];
   [extra: string]: unknown;
@@ -679,7 +727,7 @@ export interface LinkedinSearchCompaniesItem {
    */
   handle?: string;
   /**
-   * LinkedIn company id.
+   * LinkedIn company id. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -695,11 +743,11 @@ export interface LinkedinSearchCompaniesItem {
    */
   location?: string;
   /**
-   * Company name.
+   * Company name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
-   * Canonical LinkedIn company URL.
+   * Canonical LinkedIn company URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -710,7 +758,7 @@ export interface LinkedinSearchCompaniesItem {
  */
 export interface LinkedinSearchCompaniesData {
   /**
-   * Matching company records.
+   * Matching company records. Populated whenever the provider has data for the entity.
    */
   items: LinkedinSearchCompaniesItem[];
 }
@@ -737,15 +785,15 @@ export interface LinkedinSearchPostsInput {
 
 export interface LinkedinSearchPostsPost {
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Text content of the post.
+   * Text content of the post. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Canonical URL of the post.
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -756,7 +804,7 @@ export interface LinkedinSearchPostsPost {
  */
 export interface LinkedinSearchPostsData {
   /**
-   * Posts matching the search query.
+   * Posts matching the search query. Populated whenever the provider has data for the entity.
    */
   posts: LinkedinSearchPostsPost[];
 }
@@ -809,12 +857,12 @@ export interface LinkedinSearchProfilesItem {
    */
   firstName?: string;
   /**
-   * Public profile identifier (the vanity slug in the URL).
+   * Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   handle?: string;
   /**
-   * Profile headline (the tagline under the name).
+   * Profile headline (the tagline under the name). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   headline?: string;
@@ -835,7 +883,7 @@ export interface LinkedinSearchProfilesItem {
    */
   location?: string;
   /**
-   * Canonical LinkedIn profile URL.
+   * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -858,7 +906,7 @@ export interface LinkedinSearchProfilesExperience {
  */
 export interface LinkedinSearchProfilesData {
   /**
-   * Matched profile records.
+   * Matched profile records. Populated whenever the provider has data for the entity.
    */
   items: LinkedinSearchProfilesItem[];
 }
@@ -873,7 +921,9 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Ad Details
    *
-   * Look up a single LinkedIn Ad Library ad by URL and get the advertiser, headline, creative text, format, CTA, targeting, run dates, and impressions as clean JSON, billed per request in USD.
+   * Look up a single LinkedIn Ad Library ad by URL and get the advertiser, headline, creative text, format, CTA, targeting, run dates, and impressions as clean JSON.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -890,7 +940,9 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Ads Library
    *
-   * Search the LinkedIn Ad Library by search URL and list the matching ads (advertiser, creative text, format), priced per request in USD.
+   * Search the LinkedIn Ad Library by search URL and list the matching ads (advertiser, creative text, format).
+
+**Price:** billed per result - $0.05 per 1,000 requests base + $1.50 per 1,000 results, capped at $30.05 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.0015 per result.
    *
@@ -907,7 +959,9 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Ad Search
    *
-   * Search the LinkedIn Ad Library by company or keyword and list matching ads - advertiser, headline, creative text, format, CTA, and run dates - with pagination, billed per request in USD.
+   * Search the LinkedIn Ad Library by company or keyword and list matching ads - advertiser, headline, creative text, format, CTA, and run dates - with pagination.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -925,6 +979,8 @@ export class LinkedinNamespace {
    * LinkedIn Company
    *
    * Fetch a LinkedIn company page (description, employee count, industry, website, logo) by company URL, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -941,7 +997,9 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Company Employees
    *
-   * List the employees of a LinkedIn company by name or company URL, with optional job-title filtering and transparent per-request USD pricing.
+   * List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $10.00 per 1,000 results, capped at $100.00 per 1,000 requests.
    *
    * Price: $0.01 per result.
    *
@@ -959,6 +1017,8 @@ export class LinkedinNamespace {
    * LinkedIn Company Posts
    *
    * List a LinkedIn company page's recent posts by URL with page pagination (text, link, publish date), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -975,7 +1035,9 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Email Finder
    *
-   * Find the verified work email behind a LinkedIn profile URL or ID, with transparent per-request USD pricing.
+   * Find the verified work email behind a LinkedIn profile URL or ID.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $0.70 per 1,000 results, capped at $0.70 per 1,000 requests.
    *
    * Price: $0.0007 per result.
    *
@@ -992,7 +1054,9 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Jobs
    *
-   * Search LinkedIn job listings by title and location - up to 25 normalized job records per request at a flat USD price.
+   * Search LinkedIn job listings by title and location - up to 25 normalized job records per request.
+
+**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -1010,6 +1074,8 @@ export class LinkedinNamespace {
    * LinkedIn Post
    *
    * Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date), normalized across providers.
+
+**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -1026,7 +1092,9 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Post Transcript
    *
-   * Get the spoken transcript of a LinkedIn video post by URL, with transparent per-request USD pricing.
+   * Get the spoken transcript of a LinkedIn video post by URL.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1044,6 +1112,8 @@ export class LinkedinNamespace {
    * LinkedIn Profile
    *
    * Fetch a LinkedIn member's public profile by URL: name, location, followers, about, plus experience, education, recent posts, and published articles.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1060,7 +1130,9 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Company Search
    *
-   * Search LinkedIn companies by keyword with optional location filtering, returning normalized company records with transparent per-request USD pricing.
+   * Search LinkedIn companies by keyword with optional location filtering, returning normalized company records.
+
+**Price:** billed per result - $1.00 per 1,000 requests base + $4.00 per 1,000 results, capped at $81.00 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.004 per result.
    *
@@ -1078,6 +1150,8 @@ export class LinkedinNamespace {
    * LinkedIn Post Search
    *
    * Search public LinkedIn posts by keyword (text, link, publish date), normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1094,7 +1168,9 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Profile Search
    *
-   * Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, and education, plus the profile URL, handle, and id. Flat USD price per request.
+   * Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, and education, plus the profile URL, handle, and id.
+
+**Price:** $32.50 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0325 per request.
    *

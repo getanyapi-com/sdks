@@ -71,7 +71,7 @@ export interface RedfinSearchItem {
    */
   pricePerSqft?: number;
   /**
-   * Redfin property id (stable identifier for the home).
+   * Redfin property id (stable identifier for the home). Populated whenever the provider has data for the entity.
    */
   propertyId: string;
   /**
@@ -95,7 +95,7 @@ export interface RedfinSearchItem {
    */
   title?: string;
   /**
-   * Canonical Redfin listing detail page URL.
+   * Canonical Redfin listing detail page URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -110,7 +110,7 @@ export interface RedfinSearchItem {
  */
 export interface RedfinSearchData {
   /**
-   * Matching Redfin home listing records.
+   * Matching Redfin home listing records. Populated whenever the provider has data for the entity.
    */
   items: RedfinSearchItem[];
 }
@@ -125,7 +125,9 @@ export class RedfinNamespace {
   /**
    * Redfin Search
    *
-   * Run a Redfin map search by URL and get matching home listings (price, address, beds, baths, status) as normalized JSON with flat per-request USD pricing.
+   * Run a Redfin map search by URL and get matching home listings (price, address, beds, baths, status) as normalized JSON.
+
+**Price:** billed per result - $2.70 per 1,000 requests base + $0.43 per 1,000 results, capped at $13.45 per 1,000 requests.
    *
    * Price: $0.0027 per request plus $0.00043 per result.
    *

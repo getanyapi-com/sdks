@@ -44,7 +44,7 @@ export interface AhrefsBacklinksItem {
    */
   title?: string;
   /**
-   * URL of the referring page that contains the link.
+   * URL of the referring page that contains the link. Populated whenever the provider has data for the entity.
    */
   urlFrom: string;
   /**
@@ -59,7 +59,7 @@ export interface AhrefsBacklinksItem {
  */
 export interface AhrefsBacklinksData {
   /**
-   * Referring pages that link to the domain or URL.
+   * Referring pages that link to the domain or URL. Populated whenever the provider has data for the entity.
    */
   items: AhrefsBacklinksItem[];
 }
@@ -85,7 +85,7 @@ export interface AhrefsKeywordIdeasItem {
    */
   country?: string;
   /**
-   * Related keyword suggestions for the seed term.
+   * Related keyword suggestions for the seed term. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   ideas?: AhrefsKeywordIdeasIdea[];
@@ -94,7 +94,7 @@ export interface AhrefsKeywordIdeasItem {
    */
   searchEngine?: string;
   /**
-   * The seed keyword the suggestions were expanded from.
+   * The seed keyword the suggestions were expanded from. Populated whenever the provider has data for the entity.
    */
   sourceKeyword: string;
   [extra: string]: unknown;
@@ -106,7 +106,7 @@ export interface AhrefsKeywordIdeasIdea {
    */
   difficulty?: string;
   /**
-   * The suggested related keyword.
+   * The suggested related keyword. Populated whenever the provider has data for the entity.
    */
   keyword: string;
   /**
@@ -125,7 +125,7 @@ export interface AhrefsKeywordIdeasIdea {
  */
 export interface AhrefsKeywordIdeasData {
   /**
-   * Keyword-idea records: the seed keyword and its related keyword suggestions, each with an Ahrefs difficulty and search-volume bucket.
+   * Keyword-idea records: the seed keyword and its related keyword suggestions, each with an Ahrefs difficulty and search-volume bucket. Populated whenever the provider has data for the entity.
    */
   items: AhrefsKeywordIdeasItem[];
 }
@@ -154,6 +154,9 @@ export interface AhrefsKeywordsItem {
    * Ahrefs Keyword Difficulty, 0-100.
    */
   difficulty?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   keyword: string;
   /**
    * Estimated number of referring domains a page needs to rank in the top 10 for this keyword.
@@ -167,7 +170,7 @@ export interface AhrefsKeywordsItem {
  */
 export interface AhrefsKeywordsData {
   /**
-   * Keyword-difficulty records: the difficulty score and the referring-domain gap needed to rank in the top 10.
+   * Keyword-difficulty records: the difficulty score and the referring-domain gap needed to rank in the top 10. Populated whenever the provider has data for the entity.
    */
   items: AhrefsKeywordsItem[];
 }
@@ -202,7 +205,7 @@ export interface AhrefsOverviewItem {
    */
   dofollowReferringDomainsPct?: number;
   /**
-   * The domain or URL the metrics are scoped to.
+   * The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity.
    */
   domain: string;
   /**
@@ -225,7 +228,7 @@ export interface AhrefsOverviewItem {
  */
 export interface AhrefsOverviewData {
   /**
-   * Domain authority records: the requested domain plus its Domain Rating, total backlinks, and referring-domain counts.
+   * Domain authority records: the requested domain plus its Domain Rating, total backlinks, and referring-domain counts. Populated whenever the provider has data for the entity.
    */
   items: AhrefsOverviewItem[];
 }
@@ -240,7 +243,9 @@ export class AhrefsNamespace {
   /**
    * Ahrefs Backlinks
    *
-   * Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title. Transparent per-request USD pricing.
+   * Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title.
+
+**Price:** $19.50 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0195 per request.
    *
@@ -257,7 +262,9 @@ export class AhrefsNamespace {
   /**
    * Ahrefs Keyword Ideas
    *
-   * Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket. Transparent per-request USD pricing.
+   * Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket.
+
+**Price:** billed per result - $1.50 per 1,000 requests base + $18.00 per 1,000 results, capped at $19.50 per 1,000 requests.
    *
    * Price: $0.0015 per request plus $0.018 per result.
    *
@@ -274,7 +281,9 @@ export class AhrefsNamespace {
   /**
    * Ahrefs Keyword Difficulty
    *
-   * Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON with transparent per-request USD pricing.
+   * Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON.
+
+**Price:** billed per result - $1.50 per 1,000 requests base + $18.00 per 1,000 results, capped at $19.50 per 1,000 requests.
    *
    * Price: $0.0015 per request plus $0.018 per result.
    *
@@ -291,7 +300,9 @@ export class AhrefsNamespace {
   /**
    * Ahrefs Domain Overview
    *
-   * Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON with transparent per-request USD pricing.
+   * Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON.
+
+**Price:** billed per result - $1.50 per 1,000 requests base + $18.00 per 1,000 results, capped at $19.50 per 1,000 requests.
    *
    * Price: $0.0015 per request plus $0.018 per result.
    *

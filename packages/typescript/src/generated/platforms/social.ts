@@ -27,12 +27,12 @@ export interface SocialFinderInput {
 
 export interface SocialFinderItem {
   /**
-   * The name that was searched for.
+   * The name that was searched for. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   inputProfileName?: string;
   /**
-   * The social network checked (e.g. discord, facebook, github).
+   * The social network checked (e.g. discord, facebook, github). Populated whenever the provider has data for the entity.
    */
   social: string;
   /**
@@ -47,7 +47,7 @@ export interface SocialFinderItem {
  */
 export interface SocialFinderData {
   /**
-   * Profile match records: the queried profile name, the social network, and the matching profile URL when one was found.
+   * Profile match records: the queried profile name, the social network, and the matching profile URL when one was found. Populated whenever the provider has data for the entity.
    */
   items: SocialFinderItem[];
 }
@@ -62,7 +62,9 @@ export class SocialNamespace {
   /**
    * Social Profile Finder
    *
-   * Find a person's or brand's profiles across major social networks from a single name, returned as normalized JSON with flat per-request USD pricing.
+   * Find a person's or brand's profiles across major social networks from a single name, returned as normalized JSON.
+
+**Price:** billed per result - $1.00 per 1,000 requests base + $2.00 per 1,000 results, capped at $21.00 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.002 per result.
    *

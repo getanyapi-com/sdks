@@ -28,7 +28,7 @@ class UpworkJobsInput(TypedDict, total=False):
 
 class UpworkJobsData(BaseModel):
     items: list[UpworkJobsItem] = Field(
-        description="Job records: title, description, budget or hourly rate, required skills, posted date, and client details."
+        description="Job records: title, description, budget or hourly rate, required skills, posted date, and client details. Populated whenever the provider has data for the entity."
     )
 
 
@@ -56,14 +56,17 @@ class UpworkJobsItem(BaseModel):
     )
     description: str | None = Field(
         default=None,
-        description="Full job posting description text. Present whenever the upstream returns this record.",
+        description="Full job posting description text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     experience_level: str | None = Field(
         default=None,
         alias="experienceLevel",
         description="Required experience level (e.g. Entry, Intermediate, Expert).",
     )
-    job_id: str = Field(alias="jobId", description="Upwork job identifier.")
+    job_id: str = Field(
+        alias="jobId",
+        description="Upwork job identifier. Populated whenever the provider has data for the entity.",
+    )
     job_type: str | None = Field(
         default=None, alias="jobType", description="Fixed or Hourly."
     )
@@ -76,8 +79,12 @@ class UpworkJobsItem(BaseModel):
         default=None, description="Number of proposals submitted."
     )
     tags: list[str] | None = Field(default=None, description="Skill tags.")
-    title: str = Field(description="Job posting title.")
-    url: str = Field(description="Upwork job posting URL.")
+    title: str = Field(
+        description="Job posting title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Upwork job posting URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class UpworkNamespace:
@@ -91,8 +98,9 @@ class UpworkNamespace:
     ) -> RunResult[UpworkJobsData]:
         """Upwork Jobs
 
-        Search Upwork job postings by keyword - up to 25 fresh listings per request
-        with transparent per-request USD pricing.
+        Search Upwork job postings by keyword - up to 25 fresh listings per request.
+        **Price:** billed per result - $0.00 per 1,000 requests base + $3.30 per
+        1,000 results, capped at $82.50 per 1,000 requests.
 
         Price: $0.0033 per result.
 
@@ -116,8 +124,9 @@ class AsyncUpworkNamespace:
     ) -> RunResult[UpworkJobsData]:
         """Upwork Jobs
 
-        Search Upwork job postings by keyword - up to 25 fresh listings per request
-        with transparent per-request USD pricing.
+        Search Upwork job postings by keyword - up to 25 fresh listings per request.
+        **Price:** billed per result - $0.00 per 1,000 requests base + $3.30 per
+        1,000 results, capped at $82.50 per 1,000 requests.
 
         Price: $0.0033 per result.
 

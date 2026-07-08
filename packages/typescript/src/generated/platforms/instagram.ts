@@ -25,7 +25,13 @@ export interface InstagramAudioReelsInput {
 export interface InstagramAudioReelsReel {
   code: string;
   comments: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
   plays: number;
@@ -38,6 +44,9 @@ export interface InstagramAudioReelsReel {
 export interface InstagramAudioReelsData {
   hasMore: boolean;
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   reels: InstagramAudioReelsReel[];
 }
 
@@ -55,14 +64,26 @@ export interface InstagramBasicProfileInput {
  * The `data` payload of Instagram Basic Profile (instagram.basic_profile).
  */
 export interface InstagramBasicProfileData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
   bio: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayName: string;
   externalUrl: string;
   followers: number;
   following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
   private: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   userId: string;
   verified: boolean;
   [extra: string]: unknown;
@@ -82,6 +103,9 @@ export interface InstagramEmbedInput {
  * The `data` payload of Instagram Profile Embed (instagram.embed).
  */
 export interface InstagramEmbedData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   html: string;
   [extra: string]: unknown;
 }
@@ -111,11 +135,11 @@ export interface InstagramFollowersInput {
 
 export interface InstagramFollowersItem {
   /**
-   * The follower's username, without the @ prefix.
+   * The follower's username, without the @ prefix. Populated whenever the provider has data for the entity.
    */
   handle: string;
   /**
-   * The follower's numeric Instagram user ID, as a string.
+   * The follower's numeric Instagram user ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -146,7 +170,7 @@ export interface InstagramFollowersItem {
  */
 export interface InstagramFollowersData {
   /**
-   * Follower records for the target account.
+   * Follower records for the target account. Populated whenever the provider has data for the entity.
    */
   items: InstagramFollowersItem[];
   /**
@@ -180,11 +204,11 @@ export interface InstagramFollowingInput {
 
 export interface InstagramFollowingItem {
   /**
-   * The followed account's username, without the @ prefix.
+   * The followed account's username, without the @ prefix. Populated whenever the provider has data for the entity.
    */
   handle: string;
   /**
-   * The followed account's numeric Instagram user ID, as a string.
+   * The followed account's numeric Instagram user ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -215,7 +239,7 @@ export interface InstagramFollowingItem {
  */
 export interface InstagramFollowingData {
   /**
-   * Records for the accounts the target user follows.
+   * Records for the accounts the target user follows. Populated whenever the provider has data for the entity.
    */
   items: InstagramFollowingItem[];
   /**
@@ -242,11 +266,12 @@ export interface InstagramHashtagAnalyticsInput {
 export interface InstagramHashtagAnalyticsItem {
   difficulty?: string;
   /**
+   * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   id?: string;
   /**
-   * Hashtag (without #).
+   * Hashtag (without #). Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
@@ -254,10 +279,13 @@ export interface InstagramHashtagAnalyticsItem {
    */
   postsCount?: number;
   /**
-   * Human-formatted post count (e.g. 793.54 M).
+   * Human-formatted post count (e.g. 793.54 M). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   postsFormatted?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -267,7 +295,7 @@ export interface InstagramHashtagAnalyticsItem {
  */
 export interface InstagramHashtagAnalyticsData {
   /**
-   * Hashtag analytics records: hashtag name, total post count, and related hashtag suggestions.
+   * Hashtag analytics records: hashtag name, total post count, and related hashtag suggestions. Populated whenever the provider has data for the entity.
    */
   items: InstagramHashtagAnalyticsItem[];
 }
@@ -287,7 +315,7 @@ export interface InstagramHighlightDetailInput {
  */
 export interface InstagramHighlightDetailData {
   /**
-   * URL of the highlight cover image.
+   * URL of the highlight cover image. Populated whenever the provider has data for the entity.
    */
   coverUrl: string;
   /**
@@ -295,7 +323,7 @@ export interface InstagramHighlightDetailData {
    */
   createdUtc: number;
   /**
-   * Highlight identifier.
+   * Highlight identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -303,11 +331,11 @@ export interface InstagramHighlightDetailData {
    */
   mediaCount: number;
   /**
-   * Handle of the account that owns the highlight.
+   * Handle of the account that owns the highlight. Populated whenever the provider has data for the entity.
    */
   ownerHandle: string;
   /**
-   * Highlight title.
+   * Highlight title. Populated whenever the provider has data for the entity.
    */
   title: string;
   [extra: string]: unknown;
@@ -324,8 +352,17 @@ export interface InstagramMediaTranscriptInput {
 }
 
 export interface InstagramMediaTranscriptTranscript {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   shortcode: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -334,6 +371,9 @@ export interface InstagramMediaTranscriptTranscript {
  * The `data` payload of Instagram Media Transcript (instagram.media_transcript).
  */
 export interface InstagramMediaTranscriptData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   transcripts: InstagramMediaTranscriptTranscript[];
 }
 
@@ -351,9 +391,18 @@ export interface InstagramPostInput {
  * The `data` payload of Instagram Post (instagram.post).
  */
 export interface InstagramPostData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   owner: string;
   shortcode: string;
   type: string;
@@ -376,13 +425,22 @@ export interface InstagramPostCommentsInput {
 }
 
 export interface InstagramPostCommentsComment {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   author: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
   verified: boolean;
   [extra: string]: unknown;
@@ -392,6 +450,9 @@ export interface InstagramPostCommentsComment {
  * The `data` payload of Instagram Post Comments (instagram.post_comments).
  */
 export interface InstagramPostCommentsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   comments: InstagramPostCommentsComment[];
 }
 
@@ -409,11 +470,23 @@ export interface InstagramProfileInput {
  * The `data` payload of Instagram Profile (instagram.profile).
  */
 export interface InstagramProfileData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   bio: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayName: string;
   followers: number;
   following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
   posts: number;
   verified: boolean;
@@ -453,7 +526,7 @@ export interface InstagramReelTranscriptItem {
    */
   durationSeconds?: number;
   /**
-   * The reel's numeric Instagram media ID, as a string.
+   * The reel's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -473,11 +546,11 @@ export interface InstagramReelTranscriptItem {
    */
   segments?: InstagramReelTranscriptSegment[];
   /**
-   * The full speech transcript. Empty when the reel has no detectable spoken audio.
+   * The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Canonical URL of the reel, with tracking query params stripped.
+   * Canonical URL of the reel, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -508,7 +581,7 @@ export interface InstagramReelTranscriptSegment {
  */
 export interface InstagramReelTranscriptData {
   /**
-   * Transcript record for the requested reel (one item), with the full transcript text, timed segments, and source video metadata.
+   * Transcript record for the requested reel (one item), with the full transcript text, timed segments, and source video metadata. Populated whenever the provider has data for the entity.
    */
   items: InstagramReelTranscriptItem[];
 }
@@ -537,7 +610,7 @@ export interface InstagramReelsSearchInput {
 
 export interface InstagramReelsSearchReel {
   /**
-   * Reel caption text.
+   * Reel caption text. Populated whenever the provider has data for the entity.
    */
   caption: string;
   /**
@@ -569,19 +642,19 @@ export interface InstagramReelsSearchReel {
    */
   plays: number;
   /**
-   * Instagram media shortcode.
+   * Instagram media shortcode. Populated whenever the provider has data for the entity.
    */
   shortcode: string;
   /**
-   * URL of the reel thumbnail image.
+   * URL of the reel thumbnail image. Populated whenever the provider has data for the entity.
    */
   thumbnail: string;
   /**
-   * Canonical URL of the reel.
+   * Canonical URL of the reel. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
-   * Username of the account that posted the reel.
+   * Username of the account that posted the reel. Populated whenever the provider has data for the entity.
    */
   username: string;
   /**
@@ -600,7 +673,7 @@ export interface InstagramReelsSearchReel {
  */
 export interface InstagramReelsSearchData {
   /**
-   * Reels matching the search.
+   * Reels matching the search. Populated whenever the provider has data for the entity.
    */
   reels: InstagramReelsSearchReel[];
 }
@@ -640,11 +713,11 @@ export interface InstagramSearchItem {
    */
   following?: number;
   /**
-   * The account's username, without the @ prefix.
+   * The account's username, without the @ prefix. Populated whenever the provider has data for the entity.
    */
   handle: string;
   /**
-   * The account's numeric Instagram user ID, as a string.
+   * The account's numeric Instagram user ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -660,7 +733,7 @@ export interface InstagramSearchItem {
    */
   postsCount?: number;
   /**
-   * Canonical URL of the account's profile, with tracking query params stripped.
+   * Canonical URL of the account's profile, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -675,7 +748,7 @@ export interface InstagramSearchItem {
  */
 export interface InstagramSearchData {
   /**
-   * Matching Instagram profile records for the query.
+   * Matching Instagram profile records for the query. Populated whenever the provider has data for the entity.
    */
   items: InstagramSearchItem[];
 }
@@ -700,10 +773,22 @@ export interface InstagramSearchHashtagInput {
 
 export interface InstagramSearchHashtagPost {
   caption: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   shortcode: string;
   type: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -712,6 +797,9 @@ export interface InstagramSearchHashtagPost {
  * The `data` payload of Instagram Hashtag Search (instagram.search_hashtag).
  */
 export interface InstagramSearchHashtagData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   posts: InstagramSearchHashtagPost[];
 }
 
@@ -730,12 +818,27 @@ export interface InstagramSearchProfilesInput {
 }
 
 export interface InstagramSearchProfilesProfile {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   bio: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayName: string;
   followers: number;
   following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   posts: number;
   private: boolean;
@@ -748,6 +851,9 @@ export interface InstagramSearchProfilesProfile {
  */
 export interface InstagramSearchProfilesData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   profiles: InstagramSearchProfilesProfile[];
 }
 
@@ -795,7 +901,7 @@ export interface InstagramStoriesFullItem {
    */
   mediaType?: number;
   /**
-   * Owner username.
+   * Owner username. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   username?: string;
@@ -815,7 +921,7 @@ export interface InstagramStoriesFullItem {
  */
 export interface InstagramStoriesFullData {
   /**
-   * Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption.
+   * Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption. Populated whenever the provider has data for the entity.
    */
   items: InstagramStoriesFullItem[];
 }
@@ -836,21 +942,21 @@ export interface InstagramStoriesThinItem {
    */
   createdUtc?: number;
   /**
-   * Story identifier.
+   * Story identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * Direct URL to the story image or video.
+   * Direct URL to the story image or video. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   mediaUrl?: string;
   /**
-   * Public link to the story.
+   * Public link to the story. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   permalink?: string;
   /**
-   * Owner username.
+   * Owner username. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   username?: string;
@@ -862,7 +968,7 @@ export interface InstagramStoriesThinItem {
  */
 export interface InstagramStoriesThinData {
   /**
-   * The account's currently live stories, each with its media URL, owner, posting time, and permalink.
+   * The account's currently live stories, each with its media URL, owner, posting time, and permalink. Populated whenever the provider has data for the entity.
    */
   items: InstagramStoriesThinItem[];
 }
@@ -875,11 +981,23 @@ export interface InstagramTrendingReelsInput {}
 export interface InstagramTrendingReelsReel {
   caption: string;
   comments: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   handle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
   plays: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   shortcode: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -888,6 +1006,9 @@ export interface InstagramTrendingReelsReel {
  * The `data` payload of Instagram Trending Reels (instagram.trending_reels).
  */
 export interface InstagramTrendingReelsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   reels: InstagramTrendingReelsReel[];
 }
 
@@ -906,9 +1027,21 @@ export interface InstagramUserHighlightsInput {
 }
 
 export interface InstagramUserHighlightsHighlight {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   coverUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   ownerHandle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   [extra: string]: unknown;
 }
@@ -917,6 +1050,9 @@ export interface InstagramUserHighlightsHighlight {
  * The `data` payload of Instagram User Highlights (instagram.user_highlights).
  */
 export interface InstagramUserHighlightsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   highlights: InstagramUserHighlightsHighlight[];
 }
 
@@ -935,14 +1071,23 @@ export interface InstagramUserPostsInput {
 }
 
 export interface InstagramUserPostsPost {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   caption: string;
   comments: number;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -952,6 +1097,9 @@ export interface InstagramUserPostsPost {
  */
 export interface InstagramUserPostsData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   posts: InstagramUserPostsPost[];
 }
 
@@ -974,14 +1122,23 @@ export interface InstagramUserReelsInput {
 }
 
 export interface InstagramUserReelsReel {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   caption: string;
   comments: number;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   shortcode: string;
   views: number;
   [extra: string]: unknown;
@@ -992,6 +1149,9 @@ export interface InstagramUserReelsReel {
  */
 export interface InstagramUserReelsData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   reels: InstagramUserReelsReel[];
 }
 
@@ -1006,6 +1166,8 @@ export class InstagramNamespace {
    * Instagram Reels by Audio
    *
    * List Instagram reels that use a given audio track by audio id, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1046,6 +1208,8 @@ export class InstagramNamespace {
    * Instagram Basic Profile
    *
    * Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1063,6 +1227,8 @@ export class InstagramNamespace {
    * Instagram Profile Embed
    *
    * Fetch the public embed HTML for an Instagram profile by handle, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1079,7 +1245,9 @@ export class InstagramNamespace {
   /**
    * Instagram Followers
    *
-   * List the followers of any public Instagram account by username - follower usernames, names, and profile details - at a flat per-request USD price.
+   * List the followers of any public Instagram account by username - follower usernames, names, and profile details.
+
+**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *
@@ -1116,7 +1284,9 @@ export class InstagramNamespace {
   /**
    * Instagram Following
    *
-   * List the accounts a public Instagram user follows - usernames, names, and profile details - at a flat per-request USD price.
+   * List the accounts a public Instagram user follows - usernames, names, and profile details.
+
+**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *
@@ -1153,7 +1323,9 @@ export class InstagramNamespace {
   /**
    * Instagram Hashtag Analytics
    *
-   * Get analytics for any Instagram hashtag - total post count, related hashtags, and usage signals - normalized and priced per request in USD.
+   * Get analytics for any Instagram hashtag - total post count, related hashtags, and usage signals - normalized.
+
+**Price:** billed per result - $1.00 per 1,000 requests base + $1.70 per 1,000 results, capped at $35.00 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.0017 per result.
    *
@@ -1171,6 +1343,8 @@ export class InstagramNamespace {
    * Instagram Highlight Detail
    *
    * Fetch the details and media items of a single Instagram story highlight by id, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1188,6 +1362,8 @@ export class InstagramNamespace {
    * Instagram Media Transcript
    *
    * Get the spoken-audio transcript text for an Instagram post or reel by URL, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1205,6 +1381,8 @@ export class InstagramNamespace {
    * Instagram Post
    *
    * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON, across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1222,6 +1400,8 @@ export class InstagramNamespace {
    * Instagram Post Comments
    *
    * List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1239,6 +1419,8 @@ export class InstagramNamespace {
    * Instagram Profile
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1255,7 +1437,9 @@ export class InstagramNamespace {
   /**
    * Instagram Reel Transcript
    *
-   * Turn any public Instagram reel or video post into a full speech transcript, with optional word-level timestamps - priced per request in USD.
+   * Turn any public Instagram reel or video post into a full speech transcript, with optional word-level timestamps.
+
+**Price:** billed per result - $5.00 per 1,000 requests base + $20.00 per 1,000 results, capped at $25.00 per 1,000 requests.
    *
    * Price: $0.005 per request plus $0.02 per result.
    *
@@ -1273,6 +1457,8 @@ export class InstagramNamespace {
    * Instagram Reels Search
    *
    * Search Instagram Reels by keyword and get matching reels - caption, views, likes, creator, and duration - normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1289,7 +1475,9 @@ export class InstagramNamespace {
   /**
    * Instagram Search
    *
-   * Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links - flat per-request USD pricing.
+   * Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -1307,6 +1495,8 @@ export class InstagramNamespace {
    * Instagram Hashtag Search
    *
    * List recent Instagram posts under a hashtag (caption, type, media URL), normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1324,6 +1514,8 @@ export class InstagramNamespace {
    * Instagram Profile Search
    *
    * Search public Instagram profiles by a bio or caption keyword, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1366,7 +1558,9 @@ export class InstagramNamespace {
   /**
    * Instagram Stories (full)
    *
-   * Fetch public Instagram accounts' currently live stories with the full record - media (image and video), type, dimensions, posting time, 24h expiry, and caption. Priced per username (a flat run fee is shared across the batch), so request several at once to lower the cost per account. Up to 100 usernames per request.
+   * Fetch public Instagram accounts' currently live stories with the full record - media (image and video), type, dimensions, posting time, 24h expiry, and caption. Up to 100 usernames per request.
+
+**Price:** billed per username - $99.00 per 1,000 requests base + $3.00 per 1,000 usernames, capped at $102.00 per 1,000 requests.
    *
    * Price: $0.099 per request plus $0.003 per username.
    *
@@ -1384,6 +1578,8 @@ export class InstagramNamespace {
    * Instagram Stories (basic)
    *
    * Fetch a public Instagram account's currently live stories - media URL, owner, and posting time - by username. Lightweight projection; for media type, dimensions, and the 24h expiry time use instagram.stories_full.
+
+**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *
@@ -1401,6 +1597,8 @@ export class InstagramNamespace {
    * Instagram Trending Reels
    *
    * List currently trending Instagram reels, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1418,6 +1616,8 @@ export class InstagramNamespace {
    * Instagram User Highlights
    *
    * List an Instagram account's story highlight reels by handle, normalized across providers with transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1435,6 +1635,8 @@ export class InstagramNamespace {
    * Instagram User Posts
    *
    * List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1472,6 +1674,8 @@ export class InstagramNamespace {
    * Instagram User Reels
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

@@ -25,15 +25,15 @@ export interface TruthsocialPostData {
    */
   comments: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Display name of the author.
+   * Display name of the author. Populated whenever the provider has data for the entity.
    */
   displayName: string;
   /**
-   * Post identifier.
+   * Post identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -45,11 +45,11 @@ export interface TruthsocialPostData {
    */
   shares: number;
   /**
-   * Post text content.
+   * Post text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Username of the author.
+   * Username of the author. Populated whenever the provider has data for the entity.
    */
   username: string;
   [extra: string]: unknown;
@@ -69,16 +69,37 @@ export interface TruthsocialProfileInput {
  * The `data` payload of Truth Social Profile (truthsocial.profile).
  */
 export interface TruthsocialProfileData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   bio: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayName: string;
   followers: number;
   following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   joinedAt: string;
   postsCount: number;
   private: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   username: string;
   verified: boolean;
   [extra: string]: unknown;
@@ -100,11 +121,11 @@ export interface TruthsocialUserPostsPost {
    */
   comments: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Post identifier.
+   * Post identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -116,11 +137,11 @@ export interface TruthsocialUserPostsPost {
    */
   shares: number;
   /**
-   * Post text content.
+   * Post text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Canonical URL of the post.
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -131,7 +152,7 @@ export interface TruthsocialUserPostsPost {
  */
 export interface TruthsocialUserPostsData {
   /**
-   * The user's recent posts.
+   * The user's recent posts. Populated whenever the provider has data for the entity.
    */
   posts: TruthsocialUserPostsPost[];
 }
@@ -146,7 +167,9 @@ export class TruthsocialNamespace {
   /**
    * Truth Social Post
    *
-   * Get a single Truth Social post by its URL - text, author, engagement (likes, comments, shares), and timestamp as clean JSON, billed per request in USD.
+   * Get a single Truth Social post by its URL - text, author, engagement (likes, comments, shares), and timestamp as clean JSON.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -163,7 +186,9 @@ export class TruthsocialNamespace {
   /**
    * Truth Social Profile
    *
-   * Get a Truth Social account's public profile by handle - display name, bio, follower/following counts, and post count as clean JSON, billed per request in USD.
+   * Get a Truth Social account's public profile by handle - display name, bio, follower/following counts, and post count as clean JSON.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -180,7 +205,9 @@ export class TruthsocialNamespace {
   /**
    * Truth Social User Posts
    *
-   * List a Truth Social account's recent posts by handle - text, engagement (likes, comments, shares), and timestamps as clean JSON, billed per request in USD.
+   * List a Truth Social account's recent posts by handle - text, engagement (likes, comments, shares), and timestamps as clean JSON.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *

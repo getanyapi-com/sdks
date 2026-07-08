@@ -34,13 +34,34 @@ export interface SpotifyAlbumTrack {
  * The `data` payload of Spotify Album (spotify.album).
  */
 export interface SpotifyAlbumData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   label: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   popularity: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   releaseDate: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   tracks: SpotifyAlbumTrack[];
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   type: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   uri: string;
 }
 
@@ -59,11 +80,26 @@ export interface SpotifyArtistInput {
 }
 
 export interface SpotifyArtistAlbum {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   trackCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   type: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   uri: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   year: number;
   [extra: string]: unknown;
 }
@@ -80,7 +116,13 @@ export interface SpotifyArtistTopTrack {
  * The `data` payload of Spotify Artist (spotify.artist).
  */
 export interface SpotifyArtistData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   albums: SpotifyArtistAlbum[];
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   topTracks: SpotifyArtistTopTrack[];
 }
 
@@ -108,15 +150,15 @@ export interface SpotifyPlayCountItem {
    */
   durationMs?: number;
   /**
-   * The Spotify entity ID.
+   * The Spotify entity ID. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * The track (or entity) name.
+   * The track (or entity) name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
-   * Total number of streams/plays for the track.
+   * Total number of streams/plays for the track. Populated whenever the provider has data for the entity.
    */
   playCount: number;
   /**
@@ -124,7 +166,7 @@ export interface SpotifyPlayCountItem {
    */
   type?: string;
   /**
-   * Canonical open.spotify.com URL for the entity, with tracking query params stripped.
+   * Canonical open.spotify.com URL for the entity, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -135,7 +177,7 @@ export interface SpotifyPlayCountItem {
  */
 export interface SpotifyPlayCountData {
   /**
-   * Play-count records for the requested Spotify entity (one per track).
+   * Play-count records for the requested Spotify entity (one per track). Populated whenever the provider has data for the entity.
    */
   items: SpotifyPlayCountItem[];
 }
@@ -159,11 +201,26 @@ export interface SpotifyPodcastInput {
  */
 export interface SpotifyPodcastData {
   averageRating: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   description: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publisher: string;
   totalRatings: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   uri: string;
   [extra: string]: unknown;
 }
@@ -187,11 +244,26 @@ export interface SpotifyPodcastEpisodesInput {
 }
 
 export interface SpotifyPodcastEpisodesEpisode {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   description: string;
   durationMs: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   releaseDate: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   uri: string;
   [extra: string]: unknown;
 }
@@ -200,6 +272,9 @@ export interface SpotifyPodcastEpisodesEpisode {
  * The `data` payload of Spotify Podcast Episodes (spotify.podcast_episodes).
  */
 export interface SpotifyPodcastEpisodesData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   episodes: SpotifyPodcastEpisodesEpisode[];
   nextCursor: string;
   totalCount: number;
@@ -239,8 +314,17 @@ export interface SpotifySearchPodcast {
 }
 
 export interface SpotifySearchTrack {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   uri: string;
   [extra: string]: unknown;
 }
@@ -249,9 +333,21 @@ export interface SpotifySearchTrack {
  * The `data` payload of Spotify Search (spotify.search).
  */
 export interface SpotifySearchData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   albums: SpotifySearchAlbum[];
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   artists: SpotifySearchArtist[];
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   podcasts: SpotifySearchPodcast[];
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   tracks: SpotifySearchTrack[];
 }
 
@@ -273,13 +369,31 @@ export interface SpotifyTrackInput {
  * The `data` payload of Spotify Track (spotify.track).
  */
 export interface SpotifyTrackData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   durationMs: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   playcount: number;
   popularity: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   shareUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   trackNumber: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   uri: string;
   [extra: string]: unknown;
 }
@@ -294,7 +408,9 @@ export class SpotifyNamespace {
   /**
    * Spotify Album
    *
-   * Fetch a Spotify album's tracklist, play counts, label, and release details by album URL or ID, with transparent per-request USD pricing.
+   * Fetch a Spotify album's tracklist, play counts, label, and release details by album URL or ID.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -311,7 +427,9 @@ export class SpotifyNamespace {
   /**
    * Spotify Artist
    *
-   * Fetch a Spotify artist's discography (albums, singles, top tracks) and metadata by artist URL or ID, with transparent per-request USD pricing.
+   * Fetch a Spotify artist's discography (albums, singles, top tracks) and metadata by artist URL or ID.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -328,7 +446,9 @@ export class SpotifyNamespace {
   /**
    * Spotify Play Count
    *
-   * Fetch stream counts and stats for a Spotify track, album, or artist URL, with transparent per-request USD pricing.
+   * Fetch stream counts and stats for a Spotify track, album, or artist URL.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $3.00 per 1,000 results, capped at $3.00 per 1,000 requests.
    *
    * Price: $0.003 per result.
    *
@@ -345,7 +465,9 @@ export class SpotifyNamespace {
   /**
    * Spotify Podcast
    *
-   * Fetch a Spotify podcast show's name, publisher, description, rating, and topics by show URL or ID, with transparent per-request USD pricing.
+   * Fetch a Spotify podcast show's name, publisher, description, rating, and topics by show URL or ID.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -362,7 +484,9 @@ export class SpotifyNamespace {
   /**
    * Spotify Podcast Episodes
    *
-   * List a Spotify podcast show's episodes with titles, durations, descriptions, and release dates by show URL or ID, with transparent per-request USD pricing.
+   * List a Spotify podcast show's episodes with titles, durations, descriptions, and release dates by show URL or ID.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -405,7 +529,9 @@ export class SpotifyNamespace {
   /**
    * Spotify Search
    *
-   * Search Spotify for matching tracks, albums, artists, podcasts, and playlists by keyword, with transparent per-request USD pricing.
+   * Search Spotify for matching tracks, albums, artists, podcasts, and playlists by keyword.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -422,7 +548,9 @@ export class SpotifyNamespace {
   /**
    * Spotify Track
    *
-   * Fetch a Spotify track's play count, popularity, duration, and album details by track URL or ID, with transparent per-request USD pricing.
+   * Fetch a Spotify track's play count, popularity, duration, and album details by track URL or ID.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

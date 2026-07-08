@@ -32,7 +32,7 @@ class SubstackPostsInput(TypedDict, total=False):
 
 class SubstackPostsData(BaseModel):
     items: list[SubstackPostsItem] = Field(
-        description="Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested."
+        description="Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested. Populated whenever the provider has data for the entity."
     )
 
 
@@ -42,12 +42,12 @@ class SubstackPostsItem(BaseModel):
     author_handle: str | None = Field(
         default=None,
         alias="authorHandle",
-        description="Handle of the post author. Present whenever the upstream returns this record.",
+        description="Handle of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_name: str | None = Field(
         default=None,
         alias="authorName",
-        description="Display name of the post author. Present whenever the upstream returns this record.",
+        description="Display name of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     comment_count: int | None = Field(
         default=None,
@@ -57,15 +57,15 @@ class SubstackPostsItem(BaseModel):
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     description: str | None = Field(
         default=None,
-        description="Post description or article HTML/summary. Present whenever the upstream returns this record.",
+        description="Post description or article HTML/summary. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
-        description="Cover image URL. Present whenever the upstream returns this record.",
+        description="Cover image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     is_paid: bool | None = Field(
         default=None,
@@ -75,12 +75,12 @@ class SubstackPostsItem(BaseModel):
     post_id: str | None = Field(
         default=None,
         alias="postId",
-        description="Substack post identifier. Present whenever the upstream returns this record.",
+        description="Substack post identifier. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     post_type: str | None = Field(
         default=None,
         alias="postType",
-        description="Post type (e.g. newsletter, podcast, thread). Present whenever the upstream returns this record.",
+        description="Post type (e.g. newsletter, podcast, thread). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     reaction_count: int | None = Field(
         default=None,
@@ -89,10 +89,14 @@ class SubstackPostsItem(BaseModel):
     )
     subtitle: str | None = Field(
         default=None,
-        description="Post subtitle or deck. Present whenever the upstream returns this record.",
+        description="Post subtitle or deck. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    title: str = Field(description="Post title.")
-    url: str = Field(description="Canonical post URL.")
+    title: str = Field(
+        description="Post title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical post URL. Populated whenever the provider has data for the entity."
+    )
     wordcount: int | None = Field(
         default=None, description="Approximate word count of the article."
     )
@@ -115,7 +119,9 @@ class SubstackNamespace:
         Pull posts from any Substack publication by its URL - or pass a single post
         URL (…/p/slug) to fetch just that one article. Returns title, subtitle,
         publish date, paywall status, word count, engagement (reactions, comments,
-        restacks), author profile, and full article HTML. Priced per post returned.
+        restacks), author profile, and full article HTML. **Price:** billed per
+        result - $5.00 per 1,000 requests base + $1.56 per 1,000 results, capped at
+        $161.00 per 1,000 requests.
 
         Price: $0.005 per request plus $0.00156 per result.
 
@@ -145,7 +151,9 @@ class AsyncSubstackNamespace:
         Pull posts from any Substack publication by its URL - or pass a single post
         URL (…/p/slug) to fetch just that one article. Returns title, subtitle,
         publish date, paywall status, word count, engagement (reactions, comments,
-        restacks), author profile, and full article HTML. Priced per post returned.
+        restacks), author profile, and full article HTML. **Price:** billed per
+        result - $5.00 per 1,000 requests base + $1.56 per 1,000 results, capped at
+        $161.00 per 1,000 requests.
 
         Price: $0.005 per request plus $0.00156 per result.
 

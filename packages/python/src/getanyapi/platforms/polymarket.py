@@ -39,7 +39,7 @@ class PolymarketMarketsInput(TypedDict, total=False):
 
 class PolymarketMarketsData(BaseModel):
     items: list[PolymarketMarketsItem] = Field(
-        description="Prediction-market records: market question, outcomes with current prices, volume, liquidity, and end date."
+        description="Prediction-market records: market question, outcomes with current prices, volume, liquidity, and end date. Populated whenever the provider has data for the entity."
     )
 
 
@@ -56,7 +56,9 @@ class PolymarketMarketsItem(BaseModel):
         alias="eventTitle",
         description="Title of the parent event grouping this market.",
     )
-    id: str = Field(description="Polymarket market identifier.")
+    id: str = Field(
+        description="Polymarket market identifier. Populated whenever the provider has data for the entity."
+    )
     image: str | None = Field(default=None, description="Event image URL.")
     liquidity_usd: float | None = Field(
         default=None, alias="liquidityUsd", description="Available liquidity in USD."
@@ -67,8 +69,12 @@ class PolymarketMarketsItem(BaseModel):
     status: str | None = Field(
         default=None, description="Market status, e.g. active or closed."
     )
-    title: str = Field(description="The market question.")
-    url: str = Field(description="Polymarket URL for the market event.")
+    title: str = Field(
+        description="The market question. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Polymarket URL for the market event. Populated whenever the provider has data for the entity."
+    )
     volume24h_usd: float | None = Field(
         default=None,
         alias="volume24hUsd",
@@ -105,7 +111,8 @@ class PolymarketNamespace:
 
         Discover Polymarket prediction markets - question, outcome prices, volume,
         liquidity, and end dates - by keyword or sorted by activity, as normalized
-        JSON billed per request in USD.
+        JSON. **Price:** billed per result - $105.00 per 1,000 requests base + $0.60
+        per 1,000 results, capped at $120.00 per 1,000 requests.
 
         Price: $0.105 per request plus $0.0006 per result.
 
@@ -134,7 +141,8 @@ class AsyncPolymarketNamespace:
 
         Discover Polymarket prediction markets - question, outcome prices, volume,
         liquidity, and end dates - by keyword or sorted by activity, as normalized
-        JSON billed per request in USD.
+        JSON. **Price:** billed per result - $105.00 per 1,000 requests base + $0.60
+        per 1,000 results, capped at $120.00 per 1,000 requests.
 
         Price: $0.105 per request plus $0.0006 per result.
 

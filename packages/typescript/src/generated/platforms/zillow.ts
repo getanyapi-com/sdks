@@ -90,11 +90,11 @@ export interface ZillowPropertyItem {
    */
   title?: string;
   /**
-   * Canonical Zillow property detail page URL.
+   * Canonical Zillow property detail page URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
-   * Zillow property id (zpid), the stable identifier for the property.
+   * Zillow property id (zpid), the stable identifier for the property. Populated whenever the provider has data for the entity.
    */
   zpid: string;
   [extra: string]: unknown;
@@ -105,7 +105,7 @@ export interface ZillowPropertyItem {
  */
 export interface ZillowPropertyData {
   /**
-   * The matched property record (single element for a property lookup).
+   * The matched property record (single element for a property lookup). Populated whenever the provider has data for the entity.
    */
   items: ZillowPropertyItem[];
 }
@@ -150,7 +150,7 @@ export interface ZillowSearchItem {
    */
   daysOnZillow?: number;
   /**
-   * URL of the primary listing photo.
+   * URL of the primary listing photo. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
@@ -185,12 +185,12 @@ export interface ZillowSearchItem {
    */
   status?: string;
   /**
-   * Street address of the property.
+   * Street address of the property. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   streetAddress?: string;
   /**
-   * Absolute Zillow listing URL.
+   * Absolute Zillow listing URL. Populated whenever the provider has data for the entity.
    */
   url: string;
   yearBuilt?: number;
@@ -200,7 +200,7 @@ export interface ZillowSearchItem {
   zestimate?: number;
   zipcode?: string;
   /**
-   * Zillow property id (zpid).
+   * Zillow property id (zpid). Populated whenever the provider has data for the entity.
    */
   zpid: string;
   [extra: string]: unknown;
@@ -211,7 +211,7 @@ export interface ZillowSearchItem {
  */
 export interface ZillowSearchData {
   /**
-   * Property listing records matching the search: address, price, beds, baths, living area, property type, status, Zestimate, and coordinates.
+   * Property listing records matching the search: address, price, beds, baths, living area, property type, status, Zestimate, and coordinates. Populated whenever the provider has data for the entity.
    */
   items: ZillowSearchItem[];
 }
@@ -226,7 +226,9 @@ export class ZillowNamespace {
   /**
    * Zillow Property
    *
-   * Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history) with transparent per-request USD pricing.
+   * Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history).
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $2.40 per 1,000 results, capped at $2.40 per 1,000 requests.
    *
    * Price: $0.0024 per result.
    *
@@ -243,7 +245,9 @@ export class ZillowNamespace {
   /**
    * Zillow Search
    *
-   * Search Zillow for-sale, rental, or sold listings by location (city, ZIP, or address) and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON with per-request USD pricing that scales with the number of results.
+   * Search Zillow for-sale, rental, or sold listings by location (city, ZIP, or address) and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.
+
+**Price:** billed per result - $0.50 per 1,000 requests base + $3.00 per 1,000 results, capped at $75.50 per 1,000 requests.
    *
    * Price: $0.0005 per request plus $0.003 per result.
    *

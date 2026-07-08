@@ -79,22 +79,22 @@ class RednoteNoteData(BaseModel):
     author_image: str | None = Field(
         default=None,
         alias="authorImage",
-        description="URL of the author's avatar. Present whenever the upstream returns this record.",
+        description="URL of the author's avatar. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_nickname: str | None = Field(
         default=None,
         alias="authorNickname",
-        description="Display name of the note author. Present whenever the upstream returns this record.",
+        description="Display name of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_red_id: str | None = Field(
         default=None,
         alias="authorRedId",
-        description="Author's public RedNote ID. Present whenever the upstream returns this record.",
+        description="Author's public RedNote ID. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_user_id: str | None = Field(
         default=None,
         alias="authorUserId",
-        description="Identifier of the note author. Present whenever the upstream returns this record.",
+        description="Identifier of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     collect_count: int | None = Field(
         default=None,
@@ -109,24 +109,27 @@ class RednoteNoteData(BaseModel):
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     description: str | None = Field(
         default=None,
-        description="Note body text. Present whenever the upstream returns this record.",
+        description="Note body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
-        description="URL of the note cover image. Present whenever the upstream returns this record.",
+        description="URL of the note cover image. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     language: str | None = Field(
         default=None,
-        description="Detected language of the note. Present whenever the upstream returns this record.",
+        description="Detected language of the note. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     like_count: int | None = Field(
         default=None, alias="likeCount", description="Number of likes on the note."
     )
-    note_id: str = Field(alias="noteId", description="Note identifier.")
+    note_id: str = Field(
+        alias="noteId",
+        description="Note identifier. Populated whenever the provider has data for the entity.",
+    )
     share_count: int | None = Field(
         default=None,
         alias="shareCount",
@@ -134,21 +137,21 @@ class RednoteNoteData(BaseModel):
     )
     title: str | None = Field(
         default=None,
-        description="Note title. Present whenever the upstream returns this record.",
+        description="Note title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     type_: str | None = Field(
         default=None,
         alias="type",
-        description='Note type, e.g. "normal" or "video". Present whenever the upstream returns this record.',
+        description='Note type, e.g. "normal" or "video". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
     )
     updated_utc: float | None = Field(
         default=None,
         alias="updatedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     url: str | None = Field(
         default=None,
-        description="Canonical URL of the note. Present whenever the upstream returns this record.",
+        description="Canonical URL of the note. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
@@ -156,7 +159,7 @@ class RednoteNoteCommentsData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     comments: list[RednoteNoteCommentsComment] = Field(
-        description="Comments on the note."
+        description="Comments on the note. Populated whenever the provider has data for the entity."
     )
     next_cursor: str = Field(
         alias="nextCursor",
@@ -167,37 +170,40 @@ class RednoteNoteCommentsData(BaseModel):
 class RednoteNoteCommentsComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    comment_id: str = Field(alias="commentId", description="Comment identifier.")
+    comment_id: str = Field(
+        alias="commentId",
+        description="Comment identifier. Populated whenever the provider has data for the entity.",
+    )
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
-        description="URL of the author's avatar. Present whenever the upstream returns this record.",
+        description="URL of the author's avatar. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     ip_location: str | None = Field(
         default=None,
         alias="ipLocation",
-        description="IP-based location shown for the commenter. Present whenever the upstream returns this record.",
+        description="IP-based location shown for the commenter. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     like_count: int | None = Field(
         default=None, alias="likeCount", description="Number of likes on the comment."
     )
     nickname: str | None = Field(
         default=None,
-        description="Display name of the comment author. Present whenever the upstream returns this record.",
+        description="Display name of the comment author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     note_id: str | None = Field(
         default=None,
         alias="noteId",
-        description="Identifier of the note the comment belongs to. Present whenever the upstream returns this record.",
+        description="Identifier of the note the comment belongs to. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     red_id: str | None = Field(
         default=None,
         alias="redId",
-        description="Author's public RedNote ID. Present whenever the upstream returns this record.",
+        description="Author's public RedNote ID. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     reply_count: int | None = Field(
         default=None,
@@ -206,12 +212,12 @@ class RednoteNoteCommentsComment(BaseModel):
     )
     text: str | None = Field(
         default=None,
-        description="Comment text content. Present whenever the upstream returns this record.",
+        description="Comment text content. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     user_id: str | None = Field(
         default=None,
         alias="userId",
-        description="Identifier of the comment author. Present whenever the upstream returns this record.",
+        description="Identifier of the comment author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
@@ -220,33 +226,40 @@ class RednoteProfileData(BaseModel):
 
     collected_count: int | None = Field(default=None, alias="collectedCount")
     description: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     followers: int | None = None
     following: int | None = None
     gender: int | None = None
     image: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     liked_count: int | None = Field(default=None, alias="likedCount")
     location: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     nickname: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     posted_notes: int | None = Field(default=None, alias="postedNotes")
     red_id: str | None = Field(
         default=None,
         alias="redId",
-        description="Present whenever the upstream returns this record.",
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     share_url: str | None = Field(
         default=None,
         alias="shareUrl",
-        description="Present whenever the upstream returns this record.",
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    user_id: str = Field(alias="userId")
+    user_id: str = Field(
+        alias="userId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     verified: bool | None = None
     verify_type: int | None = Field(default=None, alias="verifyType")
 
@@ -258,7 +271,9 @@ class RednoteSearchData(BaseModel):
         alias="nextCursor",
         description="Cursor for the next page of results; empty when there are no more.",
     )
-    notes: list[RednoteSearchNote] = Field(description="Notes matching the search.")
+    notes: list[RednoteSearchNote] = Field(
+        description="Notes matching the search. Populated whenever the provider has data for the entity."
+    )
 
 
 class RednoteSearchNote(BaseModel):
@@ -267,22 +282,22 @@ class RednoteSearchNote(BaseModel):
     author_image: str | None = Field(
         default=None,
         alias="authorImage",
-        description="URL of the author's avatar. Present whenever the upstream returns this record.",
+        description="URL of the author's avatar. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_nickname: str | None = Field(
         default=None,
         alias="authorNickname",
-        description="Display name of the note author. Present whenever the upstream returns this record.",
+        description="Display name of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_red_id: str | None = Field(
         default=None,
         alias="authorRedId",
-        description="Author's public RedNote ID. Present whenever the upstream returns this record.",
+        description="Author's public RedNote ID. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_user_id: str | None = Field(
         default=None,
         alias="authorUserId",
-        description="Identifier of the note author. Present whenever the upstream returns this record.",
+        description="Identifier of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     collect_count: int | None = Field(
         default=None,
@@ -301,16 +316,19 @@ class RednoteSearchNote(BaseModel):
     )
     description: str | None = Field(
         default=None,
-        description="Note body text. Present whenever the upstream returns this record.",
+        description="Note body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
-        description="URL of the note cover image. Present whenever the upstream returns this record.",
+        description="URL of the note cover image. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     like_count: int | None = Field(
         default=None, alias="likeCount", description="Number of likes on the note."
     )
-    note_id: str = Field(alias="noteId", description="Note identifier.")
+    note_id: str = Field(
+        alias="noteId",
+        description="Note identifier. Populated whenever the provider has data for the entity.",
+    )
     share_count: int | None = Field(
         default=None,
         alias="shareCount",
@@ -318,17 +336,17 @@ class RednoteSearchNote(BaseModel):
     )
     title: str | None = Field(
         default=None,
-        description="Note title. Present whenever the upstream returns this record.",
+        description="Note title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     type_: str | None = Field(
         default=None,
         alias="type",
-        description='Note type, e.g. "normal" or "video". Present whenever the upstream returns this record.',
+        description='Note type, e.g. "normal" or "video". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
     )
     xsec_token: str | None = Field(
         default=None,
         alias="xsecToken",
-        description="Security token required to fetch the note's full detail. Present whenever the upstream returns this record.",
+        description="Security token required to fetch the note's full detail. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
@@ -336,33 +354,43 @@ class RednoteSearchUsersData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    users: list[RednoteSearchUsersUser]
+    users: list[RednoteSearchUsersUser] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class RednoteSearchUsersUser(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     description: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     link: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     name: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     red_id: str | None = Field(
         default=None,
         alias="redId",
-        description="Present whenever the upstream returns this record.",
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     subtitle: str | None = Field(
-        default=None, description="Present whenever the upstream returns this record."
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    user_id: str = Field(alias="userId")
+    user_id: str = Field(
+        alias="userId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     verified: bool | None = None
     verify_type: int | None = Field(default=None, alias="verifyType")
 
@@ -374,7 +402,9 @@ class RednoteUserNotesData(BaseModel):
         alias="nextCursor",
         description="Cursor for the next page of results; empty when there are no more.",
     )
-    notes: list[RednoteUserNotesNote] = Field(description="The user's notes.")
+    notes: list[RednoteUserNotesNote] = Field(
+        description="The user's notes. Populated whenever the provider has data for the entity."
+    )
 
 
 class RednoteUserNotesNote(BaseModel):
@@ -383,17 +413,17 @@ class RednoteUserNotesNote(BaseModel):
     author_image: str | None = Field(
         default=None,
         alias="authorImage",
-        description="URL of the author's avatar. Present whenever the upstream returns this record.",
+        description="URL of the author's avatar. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_nickname: str | None = Field(
         default=None,
         alias="authorNickname",
-        description="Display name of the note author. Present whenever the upstream returns this record.",
+        description="Display name of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_user_id: str | None = Field(
         default=None,
         alias="authorUserId",
-        description="Identifier of the note author. Present whenever the upstream returns this record.",
+        description="Identifier of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     collect_count: int | None = Field(
         default=None,
@@ -412,16 +442,19 @@ class RednoteUserNotesNote(BaseModel):
     )
     description: str | None = Field(
         default=None,
-        description="Note body text. Present whenever the upstream returns this record.",
+        description="Note body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
-        description="URL of the note cover image. Present whenever the upstream returns this record.",
+        description="URL of the note cover image. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     like_count: int | None = Field(
         default=None, alias="likeCount", description="Number of likes on the note."
     )
-    note_id: str = Field(alias="noteId", description="Note identifier.")
+    note_id: str = Field(
+        alias="noteId",
+        description="Note identifier. Populated whenever the provider has data for the entity.",
+    )
     share_count: int | None = Field(
         default=None,
         alias="shareCount",
@@ -429,12 +462,12 @@ class RednoteUserNotesNote(BaseModel):
     )
     title: str | None = Field(
         default=None,
-        description="Note title. Present whenever the upstream returns this record.",
+        description="Note title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     type_: str | None = Field(
         default=None,
         alias="type",
-        description='Note type, e.g. "normal" or "video". Present whenever the upstream returns this record.',
+        description='Note type, e.g. "normal" or "video". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
     )
 
 
@@ -453,7 +486,8 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) Note
 
         Look up a RedNote (Xiaohongshu) note by note ID and return normalized note
-        details.
+        details. **Price:** $10.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -474,7 +508,8 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) Note Comments
 
         List comments on a RedNote (Xiaohongshu) note and return normalized comment
-        records with pagination.
+        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -518,7 +553,8 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) Profile
 
         Look up a RedNote (Xiaohongshu) profile by user ID and return normalized
-        profile details.
+        profile details. **Price:** $10.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -539,7 +575,8 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) Search
 
         Search RedNote (Xiaohongshu) notes by keyword and return normalized note
-        records with pagination.
+        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -583,7 +620,8 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) User Search
 
         Search RedNote (Xiaohongshu) users by keyword and return normalized user
-        records with pagination.
+        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -627,7 +665,8 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) User Notes
 
         List notes posted by a RedNote (Xiaohongshu) user and return normalized note
-        records with pagination.
+        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -678,7 +717,8 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) Note
 
         Look up a RedNote (Xiaohongshu) note by note ID and return normalized note
-        details.
+        details. **Price:** $10.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -699,7 +739,8 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) Note Comments
 
         List comments on a RedNote (Xiaohongshu) note and return normalized comment
-        records with pagination.
+        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -743,7 +784,8 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) Profile
 
         Look up a RedNote (Xiaohongshu) profile by user ID and return normalized
-        profile details.
+        profile details. **Price:** $10.00 per 1,000 requests (flat per request -
+        same cost regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -764,7 +806,8 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) Search
 
         Search RedNote (Xiaohongshu) notes by keyword and return normalized note
-        records with pagination.
+        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -808,7 +851,8 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) User Search
 
         Search RedNote (Xiaohongshu) users by keyword and return normalized user
-        records with pagination.
+        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.01 per request.
 
@@ -852,7 +896,8 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) User Notes
 
         List notes posted by a RedNote (Xiaohongshu) user and return normalized note
-        records with pagination.
+        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.01 per request.
 

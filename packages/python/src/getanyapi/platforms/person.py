@@ -30,7 +30,7 @@ class PersonSkipTraceInput(TypedDict, total=False):
 
 class PersonSkipTraceData(BaseModel):
     items: list[PersonSkipTraceItem] = Field(
-        description="Matched person records with identity, address, and contact details."
+        description="Matched person records with identity, address, and contact details. Populated whenever the provider has data for the entity."
     )
 
 
@@ -82,7 +82,9 @@ class PersonSkipTraceItem(BaseModel):
     street_address: str | None = Field(
         default=None, alias="streetAddress", description="Current street address."
     )
-    url: str = Field(description="Source record URL for the matched person.")
+    url: str = Field(
+        description="Source record URL for the matched person. Populated whenever the provider has data for the entity."
+    )
 
 
 class PersonSkipTraceAssociate(BaseModel):
@@ -137,7 +139,9 @@ class PersonNamespace:
         """Skip Trace
 
         Skip-trace a person in the US by name, address, phone, or email and get back
-        identity, address, and contact records in normalized JSON.
+        identity, address, and contact records in normalized JSON. **Price:** billed
+        per result - $0.00 per 1,000 requests base + $7.00 per 1,000 results, capped
+        at $7.00 per 1,000 requests.
 
         Price: $0.007 per result.
 
@@ -165,7 +169,9 @@ class AsyncPersonNamespace:
         """Skip Trace
 
         Skip-trace a person in the US by name, address, phone, or email and get back
-        identity, address, and contact records in normalized JSON.
+        identity, address, and contact records in normalized JSON. **Price:** billed
+        per result - $0.00 per 1,000 requests base + $7.00 per 1,000 results, capped
+        at $7.00 per 1,000 requests.
 
         Price: $0.007 per result.
 

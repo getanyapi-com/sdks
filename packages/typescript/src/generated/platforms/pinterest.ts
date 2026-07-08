@@ -30,6 +30,9 @@ export interface PinterestSearchInput {
 export interface PinterestSearchItem {
   id: string;
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -39,7 +42,7 @@ export interface PinterestSearchItem {
  */
 export interface PinterestSearchData {
   /**
-   * Matching Pinterest records: pin or board title, description, image/video URL, creator, and link.
+   * Matching Pinterest records: pin or board title, description, image/video URL, creator, and link. Populated whenever the provider has data for the entity.
    */
   items: PinterestSearchItem[];
 }
@@ -54,7 +57,9 @@ export class PinterestNamespace {
   /**
    * Pinterest Search
    *
-   * Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links - flat per-request USD pricing.
+   * Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.
+
+**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *

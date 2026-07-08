@@ -31,11 +31,11 @@ export interface FacebookAdDetailsData {
    */
   active?: boolean;
   /**
-   * Ad Library archive ID (stable identity).
+   * Ad Library archive ID (stable identity). Populated whenever the provider has data for the entity.
    */
   adArchiveId: string;
   /**
-   * Call-to-action label.
+   * Call-to-action label. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   ctaText?: string;
@@ -44,7 +44,7 @@ export interface FacebookAdDetailsData {
    */
   currency?: string;
   /**
-   * Ad creative format.
+   * Ad creative format. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   displayFormat?: string;
@@ -53,36 +53,36 @@ export interface FacebookAdDetailsData {
    */
   endDate?: number;
   /**
-   * Creative destination URL.
+   * Creative destination URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   linkUrl?: string;
   /**
-   * Advertiser page ID (stable identity).
+   * Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.
    */
   pageId: string;
   /**
-   * Advertiser page name.
+   * Advertiser page name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   pageName?: string;
   /**
-   * Publisher platforms the ad runs on.
+   * Publisher platforms the ad runs on. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   platforms?: string[];
   /**
-   * Run start, epoch seconds.
+   * Run start, epoch seconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   startDate?: number;
   /**
-   * Ad body text.
+   * Ad body text. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   text?: string;
   /**
-   * Creative title.
+   * Creative title. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   title?: string;
@@ -107,12 +107,18 @@ export interface FacebookAdTranscriptInput {
  * The `data` payload of Facebook Ad Transcript (facebook.ad_transcript).
  */
 export interface FacebookAdTranscriptData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   adId: string;
   /**
    * Transcribed ad audio text.
    */
   transcript: string;
   transcriptAvailable: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -152,29 +158,53 @@ export interface FacebookAdsSearchAd {
    * Number of ads in this campaign (collation count).
    */
   adCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   ctaText: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   ctaType: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayFormat: string;
   /**
    * Epoch seconds.
    */
   endDate: number;
   /**
-   * Ad Library archive ID.
+   * Ad Library archive ID. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   linkUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   pageId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   pageName: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   platforms: string[];
   /**
-   * Epoch seconds.
+   * Epoch seconds. Populated whenever the provider has data for the entity.
    */
   startDate: number;
   /**
-   * Ad body text.
+   * Ad body text. Populated whenever the provider has data for the entity.
    */
   text: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
   [extra: string]: unknown;
 }
@@ -208,11 +238,11 @@ export interface FacebookCommentRepliesInput {
 
 export interface FacebookCommentRepliesReplie {
   /**
-   * Identifier of the reply author.
+   * Identifier of the reply author. Populated whenever the provider has data for the entity.
    */
   authorId: string;
   /**
-   * Display name of the reply author.
+   * Display name of the reply author. Populated whenever the provider has data for the entity.
    */
   authorName: string;
   /**
@@ -220,7 +250,7 @@ export interface FacebookCommentRepliesReplie {
    */
   authorProfilePicture: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
@@ -228,11 +258,11 @@ export interface FacebookCommentRepliesReplie {
    */
   expansionToken?: string;
   /**
-   * Facebook feedback identifier for the reply.
+   * Facebook feedback identifier for the reply. Populated whenever the provider has data for the entity.
    */
   feedbackId: string;
   /**
-   * Reply identifier.
+   * Reply identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -244,7 +274,7 @@ export interface FacebookCommentRepliesReplie {
    */
   replyCount: number;
   /**
-   * Reply text content.
+   * Reply text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   [extra: string]: unknown;
@@ -263,7 +293,7 @@ export interface FacebookCommentRepliesData {
    */
   nextCursor: string;
   /**
-   * Replies to the comment.
+   * Replies to the comment. Populated whenever the provider has data for the entity.
    */
   replies: FacebookCommentRepliesReplie[];
 }
@@ -307,24 +337,36 @@ export interface FacebookCompanyAdsAd {
    */
   adCount: number;
   currency: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   displayFormat: string;
   /**
    * Epoch seconds.
    */
   endDate: number;
   /**
-   * Ad Library archive ID.
+   * Ad Library archive ID. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   pageId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   pageName: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   platforms: string[];
   /**
-   * Epoch seconds.
+   * Epoch seconds. Populated whenever the provider has data for the entity.
    */
   startDate: number;
   /**
-   * Ad body text.
+   * Ad body text. Populated whenever the provider has data for the entity.
    */
   text: string;
   [extra: string]: unknown;
@@ -356,19 +398,43 @@ export interface FacebookEventDetailsInput {
  * The `data` payload of Facebook Event Details (facebook.event_details).
  */
 export interface FacebookEventDetailsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   city: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   coverPhotoUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   dayTimeSentence: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   description: string;
   endTime: string;
   goingCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   interestedCount: number;
   isCanceled: boolean;
   isOnline: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   locationName: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   startTime: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -393,14 +459,32 @@ export interface FacebookEventsInput {
 }
 
 export interface FacebookEventsEvent {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   dayTimeSentence: string;
   goingCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   interestedCount: number;
   isOnline: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   placeName: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   startTimestamp: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -428,17 +512,38 @@ export interface FacebookEventsSearchInput {
 }
 
 export interface FacebookEventsSearchEvent {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   coverImage: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   dayTimeSentence: string;
   goingCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   interestedCount: number;
   isOnline: boolean;
   isPast: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   placeName: string;
   priceRangeText: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   startTimestamp: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -473,7 +578,7 @@ export interface FacebookFollowersInput {
 
 export interface FacebookFollowersItem {
   /**
-   * The account's numeric Facebook ID, as a string.
+   * The account's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -481,11 +586,11 @@ export interface FacebookFollowersItem {
    */
   image?: string;
   /**
-   * The account's public display name.
+   * The account's public display name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
-   * Canonical URL of the account's Facebook profile, with tracking query params stripped.
+   * Canonical URL of the account's Facebook profile, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -496,7 +601,7 @@ export interface FacebookFollowersItem {
  */
 export interface FacebookFollowersData {
   /**
-   * Follower or following records for the target page/profile.
+   * Follower or following records for the target page/profile. Populated whenever the provider has data for the entity.
    */
   items: FacebookFollowersItem[];
 }
@@ -525,14 +630,32 @@ export interface FacebookGroupPostsInput {
 }
 
 export interface FacebookGroupPostsPost {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   authorId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   authorName: string;
   commentCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   permalink: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   publishTime: number;
   reactionCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -542,6 +665,9 @@ export interface FacebookGroupPostsPost {
  */
 export interface FacebookGroupPostsData {
   nextCursor: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   posts: FacebookGroupPostsPost[];
 }
 
@@ -578,13 +704,34 @@ export interface FacebookMarketplaceInput {
 }
 
 export interface FacebookMarketplaceListing {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   isSold: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   locationName: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   photoUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   priceAmount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   priceFormatted: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -616,17 +763,47 @@ export interface FacebookMarketplaceItemInput {
  * The `data` payload of Facebook Marketplace Item (facebook.marketplace_item).
  */
 export interface FacebookMarketplaceItemData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   categoryId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   creationTime: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   currency: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   description: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   isLive: boolean;
   isSold: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   locationText: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   priceAmount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   priceFormatted: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -642,12 +819,33 @@ export interface FacebookMarketplaceLocationSearchInput {
 }
 
 export interface FacebookMarketplaceLocationSearchLocation {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   city: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   latitude: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   longitude: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   pageId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   postalCode: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   subtitle: string;
   [extra: string]: unknown;
 }
@@ -680,7 +878,7 @@ export interface FacebookPageContactItem {
    */
   address?: string;
   /**
-   * The page's primary category (e.g. "Seafood Restaurant").
+   * The page's primary category (e.g. "Seafood Restaurant"). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   category?: string;
@@ -701,11 +899,11 @@ export interface FacebookPageContactItem {
    */
   phone?: string;
   /**
-   * The page's public name.
+   * The page's public name. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Canonical URL of the Facebook Page, with tracking query params stripped.
+   * Canonical URL of the Facebook Page, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -720,7 +918,7 @@ export interface FacebookPageContactItem {
  */
 export interface FacebookPageContactData {
   /**
-   * Contact record for the requested Facebook Page (one item).
+   * Contact record for the requested Facebook Page (one item). Populated whenever the provider has data for the entity.
    */
   items: FacebookPageContactItem[];
 }
@@ -740,13 +938,31 @@ export interface FacebookPhotosInput {
 }
 
 export interface FacebookPhotosPhoto {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   caption: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   imageHeight: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   imageUrl: string;
   imageWidth: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   photoId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   thumbnail: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -757,6 +973,9 @@ export interface FacebookPhotosPhoto {
 export interface FacebookPhotosData {
   nextCursor: string;
   nextPageId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   photos: FacebookPhotosPhoto[];
 }
 
@@ -775,9 +994,15 @@ export interface FacebookPostInput {
  */
 export interface FacebookPostData {
   comments: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   likes: number;
   shares: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
   views: number;
   [extra: string]: unknown;
@@ -803,15 +1028,15 @@ export interface FacebookPostCommentsInput {
 
 export interface FacebookPostCommentsComment {
   /**
-   * Display name of the comment author.
+   * Display name of the comment author. Populated whenever the provider has data for the entity.
    */
   author: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Comment identifier.
+   * Comment identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -823,7 +1048,7 @@ export interface FacebookPostCommentsComment {
    */
   replies: number;
   /**
-   * Comment text content.
+   * Comment text content. Populated whenever the provider has data for the entity.
    */
   text: string;
   [extra: string]: unknown;
@@ -834,7 +1059,7 @@ export interface FacebookPostCommentsComment {
  */
 export interface FacebookPostCommentsData {
   /**
-   * Comments on the post.
+   * Comments on the post. Populated whenever the provider has data for the entity.
    */
   comments: FacebookPostCommentsComment[];
   /**
@@ -880,10 +1105,19 @@ export interface FacebookProfileInput {
  */
 export interface FacebookProfileData {
   about: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   avatarUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   category: string;
   followers: number;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   [extra: string]: unknown;
 }
@@ -904,15 +1138,27 @@ export interface FacebookProfileEventsInput {
 
 export interface FacebookProfileEventsEvent {
   city: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   creatorName: string;
   dayTimeSentence: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
   isCanceled: boolean;
   isOnline: boolean;
   isPast: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   placeName: string;
   startTimestamp: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -921,6 +1167,9 @@ export interface FacebookProfileEventsEvent {
  * The `data` payload of Facebook Page Events (facebook.profile_events).
  */
 export interface FacebookProfileEventsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   events: FacebookProfileEventsEvent[];
   hasNextPage: boolean;
   nextCursor: string;
@@ -946,9 +1195,21 @@ export interface FacebookProfilePostsInput {
 }
 
 export interface FacebookProfilePostsPost {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   author: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -957,6 +1218,9 @@ export interface FacebookProfilePostsPost {
  * The `data` payload of Facebook Profile Posts (facebook.profile_posts).
  */
 export interface FacebookProfilePostsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   posts: FacebookProfilePostsPost[];
 }
 
@@ -976,23 +1240,23 @@ export interface FacebookProfileReelsInput {
 
 export interface FacebookProfileReelsReel {
   /**
-   * Reel caption text.
+   * Reel caption text. Populated whenever the provider has data for the entity.
    */
   caption: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**
-   * Reel identifier.
+   * Reel identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * URL of the reel thumbnail image.
+   * URL of the reel thumbnail image. Populated whenever the provider has data for the entity.
    */
   thumbnail: string;
   /**
-   * Canonical URL of the reel.
+   * Canonical URL of the reel. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -1007,7 +1271,7 @@ export interface FacebookProfileReelsReel {
  */
 export interface FacebookProfileReelsData {
   /**
-   * The profile's reels.
+   * The profile's reels. Populated whenever the provider has data for the entity.
    */
   reels: FacebookProfileReelsReel[];
 }
@@ -1023,16 +1287,43 @@ export interface FacebookSearchCompaniesInput {
 }
 
 export interface FacebookSearchCompaniesCompanie {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   category: string;
   country: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   entityType: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   igFollowers: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   igUsername: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   imageUrl: string;
   likes: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   pageAlias: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   pageId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   verification: string;
   [extra: string]: unknown;
 }
@@ -1073,7 +1364,7 @@ export interface FacebookSearchPagesItem {
    */
   followers?: number;
   /**
-   * The page's numeric Facebook ID, as a string.
+   * The page's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -1089,11 +1380,11 @@ export interface FacebookSearchPagesItem {
    */
   phone?: string;
   /**
-   * The page's public name.
+   * The page's public name. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Canonical URL of the Facebook Page, with tracking query params stripped.
+   * Canonical URL of the Facebook Page, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
@@ -1108,7 +1399,7 @@ export interface FacebookSearchPagesItem {
  */
 export interface FacebookSearchPagesData {
   /**
-   * Matching Facebook Page records for the query.
+   * Matching Facebook Page records for the query. Populated whenever the provider has data for the entity.
    */
   items: FacebookSearchPagesItem[];
 }
@@ -1150,7 +1441,7 @@ export interface FacebookSearchPostsItem {
    */
   createdUtc: number;
   /**
-   * The post's numeric Facebook ID, as a string.
+   * The post's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -1170,7 +1461,7 @@ export interface FacebookSearchPostsItem {
    */
   text: string;
   /**
-   * Canonical URL of the post, with tracking query params stripped.
+   * Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -1181,7 +1472,7 @@ export interface FacebookSearchPostsItem {
  */
 export interface FacebookSearchPostsData {
   /**
-   * Matching public Facebook post records for the query.
+   * Matching public Facebook post records for the query. Populated whenever the provider has data for the entity.
    */
   items: FacebookSearchPostsItem[];
 }
@@ -1196,7 +1487,9 @@ export class FacebookNamespace {
   /**
    * Facebook Ad Details
    *
-   * Look up a single Meta Ad Library ad by ID or URL and get the advertiser, creative text, call-to-action, platforms, and run dates as clean JSON, billed per request in USD.
+   * Look up a single Meta Ad Library ad by ID or URL and get the advertiser, creative text, call-to-action, platforms, and run dates as clean JSON.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1213,7 +1506,9 @@ export class FacebookNamespace {
   /**
    * Facebook Ad Transcript
    *
-   * Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or URL, billed per request in USD.
+   * Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or URL.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1231,6 +1526,8 @@ export class FacebookNamespace {
    * Facebook Ad Search
    *
    * Search the Meta Ad Library by keyword and get matching ads - advertiser, creative text, CTA, platforms, and run dates - with cursor pagination and transparent failover.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1267,7 +1564,9 @@ export class FacebookNamespace {
   /**
    * Facebook Comment Replies
    *
-   * List the replies to a Facebook post comment - text, author, reactions, and timestamps - as normalized JSON at a flat USD price per request.
+   * List the replies to a Facebook post comment - text, author, reactions, and timestamps - as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1310,7 +1609,9 @@ export class FacebookNamespace {
   /**
    * Facebook Company Ads
    *
-   * List the Meta Ad Library ads a company is running by page ID or company name - creative text, format, platforms, and run dates - with cursor pagination, billed per request in USD.
+   * List the Meta Ad Library ads a company is running by page ID or company name - creative text, format, platforms, and run dates - with cursor pagination.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1347,7 +1648,9 @@ export class FacebookNamespace {
   /**
    * Facebook Event Details
    *
-   * Fetch full details for a single Facebook event by ID or URL - name, schedule, venue, hosts, and attendance - as normalized JSON at a flat USD price per request.
+   * Fetch full details for a single Facebook event by ID or URL - name, schedule, venue, hosts, and attendance - as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1364,7 +1667,9 @@ export class FacebookNamespace {
   /**
    * Facebook Events
    *
-   * List public Facebook events for a city or place by its events-page URL - event name, date, venue, and attendance - as normalized JSON at a flat USD price per request.
+   * List public Facebook events for a city or place by its events-page URL - event name, date, venue, and attendance - as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1401,7 +1706,9 @@ export class FacebookNamespace {
   /**
    * Facebook Events Search
    *
-   * Search public Facebook events by keyword and get structured event records - name, schedule, venue, pricing, and attendance - as normalized JSON at a flat USD price per request.
+   * Search public Facebook events by keyword and get structured event records - name, schedule, venue, pricing, and attendance - as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1441,7 +1748,9 @@ export class FacebookNamespace {
   /**
    * Facebook Followers
    *
-   * List the public followers - or accounts followed - of any Facebook page or profile URL as normalized JSON records, priced per request in USD.
+   * List the public followers - or accounts followed - of any Facebook page or profile URL as normalized JSON records.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $6.00 per 1,000 results, capped at $120.00 per 1,000 requests.
    *
    * Price: $0.006 per result.
    *
@@ -1458,7 +1767,9 @@ export class FacebookNamespace {
   /**
    * Facebook Group Posts
    *
-   * Fetch recent posts from any public Facebook group by URL - text, author, reactions, and comment counts - at a flat per-request USD price.
+   * Fetch recent posts from any public Facebook group by URL - text, author, reactions, and comment counts.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1495,7 +1806,9 @@ export class FacebookNamespace {
   /**
    * Facebook Marketplace
    *
-   * Search Facebook Marketplace listings by keyword near a location - title, price, location, and image - as normalized JSON at a flat USD price per request.
+   * Search Facebook Marketplace listings by keyword near a location - title, price, location, and image - as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1535,7 +1848,9 @@ export class FacebookNamespace {
   /**
    * Facebook Marketplace Item
    *
-   * Fetch full details for a single Facebook Marketplace listing by ID or URL - title, price, location, photos, and attributes - as normalized JSON at a flat USD price per request.
+   * Fetch full details for a single Facebook Marketplace listing by ID or URL - title, price, location, photos, and attributes - as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1552,7 +1867,9 @@ export class FacebookNamespace {
   /**
    * Facebook Marketplace Location Search
    *
-   * Resolve a place name to Facebook Marketplace locations with coordinates and metadata as normalized JSON at a flat USD price per request.
+   * Resolve a place name to Facebook Marketplace locations with coordinates and metadata as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1573,7 +1890,9 @@ export class FacebookNamespace {
   /**
    * Facebook Page Contact Info
    *
-   * Look up a Facebook Page's public contact details - email, phone, website, and address - by page URL or ID, with transparent per-request USD pricing.
+   * Look up a Facebook Page's public contact details - email, phone, website, and address - by page URL or ID.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1590,7 +1909,9 @@ export class FacebookNamespace {
   /**
    * Facebook Page Photos
    *
-   * Fetch recent photos posted by any public Facebook page or profile - image URLs, captions, and dimensions - as normalized JSON at a flat USD price per request.
+   * Fetch recent photos posted by any public Facebook page or profile - image URLs, captions, and dimensions - as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1628,6 +1949,8 @@ export class FacebookNamespace {
    * Facebook Post
    *
    * Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1645,6 +1968,8 @@ export class FacebookNamespace {
    * Facebook Post Comments
    *
    * List the comments on a Facebook post by URL with cursor pagination (text, author, reactions, reply count), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1687,7 +2012,9 @@ export class FacebookNamespace {
   /**
    * Facebook Post Transcript
    *
-   * Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON at a flat USD price per request.
+   * Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1705,6 +2032,8 @@ export class FacebookNamespace {
    * Facebook Profile
    *
    * Fetch a Facebook page's public profile (likes, followers, category, about) by URL or handle, normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1721,7 +2050,9 @@ export class FacebookNamespace {
   /**
    * Facebook Page Events
    *
-   * List upcoming and past events hosted by any public Facebook page by URL - name, schedule, venue, and host - as normalized JSON at a flat USD price per request.
+   * List upcoming and past events hosted by any public Facebook page by URL - name, schedule, venue, and host - as normalized JSON at a.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1765,6 +2096,8 @@ export class FacebookNamespace {
    * Facebook Profile Posts
    *
    * List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, permalink), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1782,6 +2115,8 @@ export class FacebookNamespace {
    * Facebook Profile Reels
    *
    * List a Facebook page's reels by URL with cursor pagination (caption, view count, permalink, thumbnail), normalized across providers.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1798,7 +2133,9 @@ export class FacebookNamespace {
   /**
    * Facebook Company Search
    *
-   * Search the Meta Ad Library for advertisers by keyword and get matching pages - page ID, category, verification, follower counts, and linked Instagram - billed per request in USD.
+   * Search the Meta Ad Library for advertisers by keyword and get matching pages - page ID, category, verification, follower counts, and linked Instagram.
+
+**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1815,7 +2152,9 @@ export class FacebookNamespace {
   /**
    * Facebook Page Search
    *
-   * Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details) at a flat USD price per request.
+   * Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details) at a.
+
+**Price:** billed per result - $1.00 per 1,000 requests base + $11.00 per 1,000 results, capped at $111.00 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.011 per result.
    *
@@ -1832,7 +2171,9 @@ export class FacebookNamespace {
   /**
    * Facebook Post Search
    *
-   * Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement) with transparent per-request USD pricing.
+   * Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $3.00 per 1,000 results, capped at $60.00 per 1,000 requests.
    *
    * Price: $0.003 per result.
    *

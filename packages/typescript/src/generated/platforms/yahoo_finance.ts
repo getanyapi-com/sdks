@@ -38,7 +38,7 @@ export interface YahooFinanceQuoteItem {
    */
   marketCap?: number;
   /**
-   * The security's display name, e.g. "Apple Inc.".
+   * The security's display name, e.g. "Apple Inc.". Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   name?: string;
@@ -47,11 +47,11 @@ export interface YahooFinanceQuoteItem {
    */
   previousClose?: number;
   /**
-   * The latest trade price in the security's native currency.
+   * The latest trade price in the security's native currency. Populated whenever the provider has data for the entity.
    */
   price: number;
   /**
-   * The resolved ticker symbol for the quote, e.g. "AAPL".
+   * The resolved ticker symbol for the quote, e.g. "AAPL". Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   symbol?: string;
@@ -67,7 +67,7 @@ export interface YahooFinanceQuoteItem {
  */
 export interface YahooFinanceQuoteData {
   /**
-   * Quote records for the ticker: current price, day range, volume, and market cap.
+   * Quote records for the ticker: current price, day range, volume, and market cap. Populated whenever the provider has data for the entity.
    */
   items: YahooFinanceQuoteItem[];
 }
@@ -82,7 +82,9 @@ export class YahooFinanceNamespace {
   /**
    * Yahoo Finance Quote
    *
-   * Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote (price, market cap, volume, and key stats) as normalized JSON with transparent per-request USD pricing.
+   * Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote (price, market cap, volume, and key stats) as normalized JSON.
+
+**Price:** billed per result - $0.05 per 1,000 requests base + $0.90 per 1,000 results, capped at $0.95 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.0009 per result.
    *

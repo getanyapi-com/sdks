@@ -22,7 +22,13 @@ export interface WebCrawlInput {
 }
 
 export interface WebCrawlItem {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   domain: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   text: string;
   [extra: string]: unknown;
 }
@@ -32,7 +38,7 @@ export interface WebCrawlItem {
  */
 export interface WebCrawlData {
   /**
-   * Crawled page records: URL, page title, and extracted text content for each page.
+   * Crawled page records: URL, page title, and extracted text content for each page. Populated whenever the provider has data for the entity.
    */
   items: WebCrawlItem[];
 }
@@ -60,6 +66,9 @@ export interface WebMapInput {
 export interface WebMapResult {
   description: string;
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -68,6 +77,9 @@ export interface WebMapResult {
  * The `data` payload of Web Map (web.map).
  */
 export interface WebMapData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   results: WebMapResult[];
 }
 
@@ -87,8 +99,14 @@ export interface WebScrapeInput {
  */
 export interface WebScrapeData {
   description: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   markdown: string;
   title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   url: string;
   [extra: string]: unknown;
 }
@@ -110,12 +128,12 @@ export interface WebScreenshotInput {
 
 export interface WebScreenshotItem {
   /**
-   * Link to the captured screenshot image.
+   * Link to the captured screenshot image. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
-   * The final page URL that was captured.
+   * The final page URL that was captured. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -126,7 +144,7 @@ export interface WebScreenshotItem {
  */
 export interface WebScreenshotData {
   /**
-   * Screenshot records: the requested page URL and a link to the captured image.
+   * Screenshot records: the requested page URL and a link to the captured image. Populated whenever the provider has data for the entity.
    */
   items: WebScreenshotItem[];
 }
@@ -142,6 +160,8 @@ export class WebNamespace {
    * Website Crawl
    *
    * Crawl a website and get clean text content from up to 10 pages in one normalized response - ideal for feeding sites into LLMs and search indexes.
+
+**Price:** billed per result - $1.50 per 1,000 requests base + $3.00 per 1,000 results, capped at $31.50 per 1,000 requests.
    *
    * Price: $0.0015 per request plus $0.003 per result.
    *
@@ -158,7 +178,9 @@ export class WebNamespace {
   /**
    * Web Map
    *
-   * Map an entire website into a clean list of its URLs (with titles and descriptions) in a single call. Billed per request in real dollars.
+   * Map an entire website into a clean list of its URLs (with titles and descriptions) in a single call.
+
+**Price:** $0.90 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0009 per request.
    *
@@ -175,7 +197,9 @@ export class WebNamespace {
   /**
    * Web Scrape
    *
-   * Scrape any web page and get its main content back as clean Markdown plus title and metadata. One call, billed per request in real dollars.
+   * Scrape any web page and get its main content back as clean Markdown plus title and metadata.
+
+**Price:** $0.90 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0009 per request.
    *
@@ -192,7 +216,9 @@ export class WebNamespace {
   /**
    * Website Screenshot
    *
-   * Capture a real-browser screenshot of any web page URL, with transparent per-request USD pricing.
+   * Capture a real-browser screenshot of any web page URL.
+
+**Price:** billed per result - $0.00 per 1,000 requests base + $1.58 per 1,000 results, capped at $1.58 per 1,000 requests.
    *
    * Price: $0.00158 per result.
    *

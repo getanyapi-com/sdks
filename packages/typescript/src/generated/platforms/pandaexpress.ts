@@ -33,18 +33,45 @@ export interface PandaexpressLocationsInput {
 }
 
 export interface PandaexpressLocationsRestaurant {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   address: string;
   canDeliver: boolean;
   canPickup: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   city: string;
   distanceMiles: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   id: number;
   isOpen: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   latitude: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   longitude: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   phone: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   state: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   zip: string;
   [extra: string]: unknown;
 }
@@ -54,7 +81,7 @@ export interface PandaexpressLocationsRestaurant {
  */
 export interface PandaexpressLocationsData {
   /**
-   * Nearby Panda Express restaurants, nearest first.
+   * Nearby Panda Express restaurants, nearest first. Populated whenever the provider has data for the entity.
    */
   restaurants: PandaexpressLocationsRestaurant[];
 }
@@ -69,8 +96,14 @@ export interface PandaexpressMenuInput {
   restaurantId: string;
 }
 
+/**
+ * Populated whenever the provider has data for the entity.
+ */
 export interface PandaexpressMenuCategorie {
   items: PandaexpressMenuItem[];
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   [extra: string]: unknown;
 }
@@ -80,6 +113,9 @@ export interface PandaexpressMenuItem {
    * Base calories when published by the restaurant, else 0.
    */
   calories: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   description: string;
   name: string;
   /**
@@ -94,7 +130,7 @@ export interface PandaexpressMenuItem {
  */
 export interface PandaexpressMenuData {
   /**
-   * Menu categories in display order.
+   * Menu categories in display order. Populated whenever the provider has data for the entity.
    */
   categories: PandaexpressMenuCategorie[];
 }
@@ -113,6 +149,9 @@ export interface PandaexpressNutritionItem {
   calories: number;
   cholesterolMg: number;
   dietaryFiberG: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
   name: string;
   proteinG: number;
   saturatedFatG: number;
@@ -130,7 +169,7 @@ export interface PandaexpressNutritionItem {
  */
 export interface PandaexpressNutritionData {
   /**
-   * Matching menu items with official nutrition facts.
+   * Matching menu items with official nutrition facts. Populated whenever the provider has data for the entity.
    */
   items: PandaexpressNutritionItem[];
 }
@@ -145,7 +184,9 @@ export class PandaexpressNamespace {
   /**
    * Panda Express Locations
    *
-   * Find Panda Express restaurants near a latitude/longitude, sorted by distance, with address, phone, hours availability, and pickup/delivery support. One call, billed per request in real dollars.
+   * Find Panda Express restaurants near a latitude/longitude, sorted by distance, with address, phone, hours availability, and pickup/delivery support.
+
+**Price:** $0.90 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0009 per request.
    *
@@ -162,7 +203,9 @@ export class PandaexpressNamespace {
   /**
    * Panda Express Menu
    *
-   * Get the live menu for a Panda Express restaurant by id: categories with item names, descriptions, and USD prices. Pair with Panda Express Locations to resolve a restaurant id. One call, billed per request in real dollars.
+   * Get the live menu for a Panda Express restaurant by id: categories with item names, descriptions, and USD prices. Pair with Panda Express Locations to resolve a restaurant id.
+
+**Price:** $0.90 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0009 per request.
    *
@@ -179,7 +222,9 @@ export class PandaexpressNamespace {
   /**
    * Panda Express Nutrition
    *
-   * Look up official Panda Express nutrition facts by item name: serving size, calories, fat, cholesterol, sodium, carbs, fiber, sugars, and protein. One call, billed per request in real dollars.
+   * Look up official Panda Express nutrition facts by item name: serving size, calories, fat, cholesterol, sodium, carbs, fiber, sugars, and protein.
+
+**Price:** $6.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.006 per request.
    *

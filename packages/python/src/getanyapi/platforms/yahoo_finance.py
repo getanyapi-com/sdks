@@ -24,7 +24,7 @@ class YahooFinanceQuoteInput(TypedDict, total=False):
 
 class YahooFinanceQuoteData(BaseModel):
     items: list[YahooFinanceQuoteItem] = Field(
-        description="Quote records for the ticker: current price, day range, volume, and market cap."
+        description="Quote records for the ticker: current price, day range, volume, and market cap. Populated whenever the provider has data for the entity."
     )
 
 
@@ -56,7 +56,7 @@ class YahooFinanceQuoteItem(BaseModel):
     )
     name: str | None = Field(
         default=None,
-        description='The security\'s display name, e.g. "Apple Inc.". Present whenever the upstream returns this record.',
+        description='The security\'s display name, e.g. "Apple Inc.". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
     )
     previous_close: float | None = Field(
         default=None,
@@ -64,11 +64,11 @@ class YahooFinanceQuoteItem(BaseModel):
         description="The previous session's closing price.",
     )
     price: float = Field(
-        description="The latest trade price in the security's native currency."
+        description="The latest trade price in the security's native currency. Populated whenever the provider has data for the entity."
     )
     symbol: str | None = Field(
         default=None,
-        description='The resolved ticker symbol for the quote, e.g. "AAPL". Present whenever the upstream returns this record.',
+        description='The resolved ticker symbol for the quote, e.g. "AAPL". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
     )
     volume: int | None = Field(
         default=None, description="Number of shares traded during the current session."
@@ -90,8 +90,9 @@ class YahooFinanceNamespace:
         """Yahoo Finance Quote
 
         Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote
-        (price, market cap, volume, and key stats) as normalized JSON with
-        transparent per-request USD pricing.
+        (price, market cap, volume, and key stats) as normalized JSON. **Price:**
+        billed per result - $0.05 per 1,000 requests base + $0.90 per 1,000 results,
+        capped at $0.95 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.0009 per result.
 
@@ -119,8 +120,9 @@ class AsyncYahooFinanceNamespace:
         """Yahoo Finance Quote
 
         Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote
-        (price, market cap, volume, and key stats) as normalized JSON with
-        transparent per-request USD pricing.
+        (price, market cap, volume, and key stats) as normalized JSON. **Price:**
+        billed per result - $0.05 per 1,000 requests base + $0.90 per 1,000 results,
+        capped at $0.95 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.0009 per result.
 

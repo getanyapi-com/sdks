@@ -26,7 +26,7 @@ class FiverrSearchInput(TypedDict, total=False):
 
 class FiverrSearchData(BaseModel):
     items: list[FiverrSearchItem] = Field(
-        description="Gig records from the search or category URL. Operators may return additional fields beyond those documented here."
+        description="Gig records from the search or category URL. Operators may return additional fields beyond those documented here. Populated whenever the provider has data for the entity."
     )
 
 
@@ -34,9 +34,13 @@ class FiverrSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     duration: int | None = Field(default=None, description="Delivery time in days.")
-    gig_id: str = Field(alias="gigId", description="Stable Fiverr gig identifier.")
+    gig_id: str = Field(
+        alias="gigId",
+        description="Stable Fiverr gig identifier. Populated whenever the provider has data for the entity.",
+    )
     gig_url: str = Field(
-        alias="gigUrl", description="Canonical Fiverr URL for the gig."
+        alias="gigUrl",
+        description="Canonical Fiverr URL for the gig. Populated whenever the provider has data for the entity.",
     )
     image: str | None = Field(default=None, description="Primary gig thumbnail URL.")
     price: float | None = Field(default=None, description="Starting price in USD.")
@@ -61,7 +65,9 @@ class FiverrSearchItem(BaseModel):
     seller_url: str | None = Field(
         default=None, alias="sellerUrl", description="Seller profile URL."
     )
-    title: str = Field(description="Gig headline.")
+    title: str = Field(
+        description="Gig headline. Populated whenever the provider has data for the entity."
+    )
 
 
 class FiverrNamespace:
@@ -79,8 +85,9 @@ class FiverrNamespace:
         """Fiverr Gig Search
 
         Extract Fiverr gig listings from any search or category URL - titles,
-        sellers, ratings, and pricing as structured JSON with transparent
-        per-request USD pricing.
+        sellers, ratings, and pricing as structured JSON. **Price:** billed per
+        result - $0.00 per 1,000 requests base + $1.50 per 1,000 results, capped at
+        $30.00 per 1,000 requests.
 
         Price: $0.0015 per result.
 
@@ -108,8 +115,9 @@ class AsyncFiverrNamespace:
         """Fiverr Gig Search
 
         Extract Fiverr gig listings from any search or category URL - titles,
-        sellers, ratings, and pricing as structured JSON with transparent
-        per-request USD pricing.
+        sellers, ratings, and pricing as structured JSON. **Price:** billed per
+        result - $0.00 per 1,000 requests base + $1.50 per 1,000 results, capped at
+        $30.00 per 1,000 requests.
 
         Price: $0.0015 per result.
 

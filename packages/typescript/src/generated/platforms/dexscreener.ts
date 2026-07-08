@@ -56,7 +56,7 @@ export interface DexscreenerTokensItem {
    */
   marketCapUsd?: number;
   /**
-   * Token full name.
+   * Token full name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   name?: string;
@@ -65,7 +65,7 @@ export interface DexscreenerTokensItem {
    */
   poolAddress?: string;
   /**
-   * Current token price in USD.
+   * Current token price in USD. Populated whenever the provider has data for the entity.
    */
   price: number;
   /**
@@ -77,7 +77,7 @@ export interface DexscreenerTokensItem {
    */
   priceChange24h?: number;
   /**
-   * Token ticker symbol.
+   * Token ticker symbol. Populated whenever the provider has data for the entity.
    */
   symbol: string;
   /**
@@ -85,7 +85,7 @@ export interface DexscreenerTokensItem {
    */
   transactionCount?: number;
   /**
-   * DEX Screener URL for the trading pair.
+   * DEX Screener URL for the trading pair. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   url?: string;
@@ -101,7 +101,7 @@ export interface DexscreenerTokensItem {
  */
 export interface DexscreenerTokensData {
   /**
-   * Token listing records: token name and symbol, price, liquidity, volume, transaction/maker counts, price change, market cap, and the DEX Screener pair URL.
+   * Token listing records: token name and symbol, price, liquidity, volume, transaction/maker counts, price change, market cap, and the DEX Screener pair URL. Populated whenever the provider has data for the entity.
    */
   items: DexscreenerTokensItem[];
 }
@@ -116,7 +116,9 @@ export class DexscreenerNamespace {
   /**
    * DEX Screener Tokens
    *
-   * List trending tokens on any blockchain from DEX Screener - price, liquidity, volume, transactions, and market cap - sorted how you want, as normalized JSON with transparent per-request USD pricing.
+   * List trending tokens on any blockchain from DEX Screener - price, liquidity, volume, transactions, and market cap - sorted how you want, as normalized JSON.
+
+**Price:** billed per result - $20.00 per 1,000 requests base + $1.50 per 1,000 results, capped at $57.50 per 1,000 requests.
    *
    * Price: $0.02 per request plus $0.0015 per result.
    *

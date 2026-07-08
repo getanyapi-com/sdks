@@ -97,16 +97,31 @@ class TiktokShopUserShowcaseInput(TypedDict, total=False):
 class TiktokShopProductData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    currency: str
-    original_price: str = Field(alias="originalPrice")
-    price: str
-    product_id: str = Field(alias="productId")
+    currency: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    original_price: str = Field(
+        alias="originalPrice",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    product_id: str = Field(
+        alias="productId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     rating: float
     review_count: int = Field(alias="reviewCount")
     seller_location: str = Field(alias="sellerLocation")
-    seller_name: str = Field(alias="sellerName")
+    seller_name: str = Field(
+        alias="sellerName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     sold_count: int = Field(alias="soldCount")
-    title: str
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokShopProductReviewsData(BaseModel):
@@ -118,7 +133,7 @@ class TiktokShopProductReviewsData(BaseModel):
     )
     rating: float = Field(description="Overall product score (1-5).")
     reviews: list[TiktokShopProductReviewsReview] = Field(
-        description="Product reviews."
+        description="Product reviews. Populated whenever the provider has data for the entity."
     )
     total_reviews: int = Field(
         alias="totalReviews", description="Total number of reviews for the product."
@@ -130,15 +145,23 @@ class TiktokShopProductReviewsReview(BaseModel):
 
     country: str = Field(description="Reviewer's country code.")
     created_utc: float = Field(
-        alias="createdUtc", description="Review time as epoch milliseconds."
+        alias="createdUtc",
+        description="Review time as epoch milliseconds. Populated whenever the provider has data for the entity.",
     )
-    id: str = Field(description="Review identifier.")
+    id: str = Field(
+        description="Review identifier. Populated whenever the provider has data for the entity."
+    )
     rating: float = Field(description="Star rating for this review (1-5).")
     reviewer_name: str = Field(
-        alias="reviewerName", description="Display name of the reviewer."
+        alias="reviewerName",
+        description="Display name of the reviewer. Populated whenever the provider has data for the entity.",
     )
-    sku: str = Field(description='Variant bought, e.g. "Color: Black".')
-    text: str = Field(description="Review text content.")
+    sku: str = Field(
+        description='Variant bought, e.g. "Color: Black". Populated whenever the provider has data for the entity.'
+    )
+    text: str = Field(
+        description="Review text content. Populated whenever the provider has data for the entity."
+    )
     verified_purchase: bool = Field(
         alias="verifiedPurchase",
         description="True when the review is from a verified purchase.",
@@ -147,7 +170,7 @@ class TiktokShopProductReviewsReview(BaseModel):
 
 class TiktokShopSearchData(BaseModel):
     items: list[TiktokShopSearchItem] = Field(
-        description="Product records matching the search query: id, title, price, sales count, rating, seller, and product URL."
+        description="Product records matching the search query: id, title, price, sales count, rating, seller, and product URL. Populated whenever the provider has data for the entity."
     )
 
 
@@ -163,7 +186,10 @@ class TiktokShopSearchItem(BaseModel):
         description="Pre-discount list price (0 when not on sale).",
     )
     price: float | None = Field(default=None, description="Current sale price.")
-    product_id: str = Field(alias="productId", description="TikTok Shop product id.")
+    product_id: str = Field(
+        alias="productId",
+        description="TikTok Shop product id. Populated whenever the provider has data for the entity.",
+    )
     rating: float | None = Field(default=None, description="Average review score.")
     shop_name: str | None = Field(
         default=None, alias="shopName", description="Seller shop name."
@@ -171,10 +197,12 @@ class TiktokShopSearchItem(BaseModel):
     sold_count: int | None = Field(
         default=None, alias="soldCount", description="Units sold."
     )
-    title: str = Field(description="Product title.")
+    title: str = Field(
+        description="Product title. Populated whenever the provider has data for the entity."
+    )
     url: str | None = Field(
         default=None,
-        description="Canonical product detail page URL. Present whenever the upstream returns this record.",
+        description="Canonical product detail page URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
 
 
@@ -184,8 +212,13 @@ class TiktokShopShopProductsData(BaseModel):
     has_more: bool = Field(alias="hasMore")
     next_cursor: str = Field(alias="nextCursor")
     product_count: int = Field(alias="productCount")
-    products: list[TiktokShopShopProductsProduct]
-    shop_name: str = Field(alias="shopName")
+    products: list[TiktokShopShopProductsProduct] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    shop_name: str = Field(
+        alias="shopName",
+        description="Populated whenever the provider has data for the entity.",
+    )
     shop_rating: float = Field(alias="shopRating")
     sold_count: int = Field(alias="soldCount")
 
@@ -196,34 +229,53 @@ class TiktokShopShopProductsProduct(BaseModel):
     currency: str
     original_price: float = Field(alias="originalPrice")
     price: float
-    product_id: str = Field(alias="productId")
+    product_id: str = Field(
+        alias="productId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     rating: float
     review_count: int = Field(alias="reviewCount")
     sold_count: int = Field(alias="soldCount")
-    title: str
-    url: str
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokShopUserShowcaseData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     next_cursor: str = Field(alias="nextCursor")
-    products: list[TiktokShopUserShowcaseProduct]
+    products: list[TiktokShopUserShowcaseProduct] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokShopUserShowcaseProduct(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     currency: str
-    image_url: str = Field(alias="imageUrl")
+    image_url: str = Field(
+        alias="imageUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
     original_price: str = Field(alias="originalPrice")
     price: str
-    product_id: str = Field(alias="productId")
+    product_id: str = Field(
+        alias="productId",
+        description="Populated whenever the provider has data for the entity.",
+    )
     rating: float
     review_count: int = Field(alias="reviewCount")
     sold_count: int = Field(alias="soldCount")
-    title: str
-    url: str
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokShopNamespace:
@@ -241,7 +293,8 @@ class TiktokShopNamespace:
         """TikTok Shop Product
 
         Fetch TikTok Shop product details - title, price, sales, seller, and ratings
-        - from a product URL, with transparent per-request USD pricing.
+        - from a product URL. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -263,7 +316,8 @@ class TiktokShopNamespace:
 
         Fetch customer reviews for a TikTok Shop product by URL - rating, text,
         reviewer, country, and verified-purchase flag - normalized across providers
-        with transparent failover.
+        with transparent failover. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -284,7 +338,9 @@ class TiktokShopNamespace:
         """TikTok Shop Search
 
         Search TikTok Shop products by keyword across 15 countries: price, sales,
-        rating, and seller info per product, in one normalized response.
+        rating, and seller info per product, in one normalized response. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -306,7 +362,8 @@ class TiktokShopNamespace:
 
         List every product of a TikTok Shop store by URL - title, price, sales, and
         rating per product plus shop-level stats - with cursor pagination and
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -351,7 +408,8 @@ class TiktokShopNamespace:
 
         List the TikTok Shop products a creator showcases - title, price, rating,
         and sales per product - normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -402,7 +460,8 @@ class AsyncTiktokShopNamespace:
         """TikTok Shop Product
 
         Fetch TikTok Shop product details - title, price, sales, seller, and ratings
-        - from a product URL, with transparent per-request USD pricing.
+        - from a product URL. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -424,7 +483,8 @@ class AsyncTiktokShopNamespace:
 
         Fetch customer reviews for a TikTok Shop product by URL - rating, text,
         reviewer, country, and verified-purchase flag - normalized across providers
-        with transparent failover.
+        with transparent failover. **Price:** $2.00 per 1,000 requests (flat per
+        request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -445,7 +505,9 @@ class AsyncTiktokShopNamespace:
         """TikTok Shop Search
 
         Search TikTok Shop products by keyword across 15 countries: price, sales,
-        rating, and seller info per product, in one normalized response.
+        rating, and seller info per product, in one normalized response. **Price:**
+        $2.00 per 1,000 requests (flat per request - same cost regardless of results
+        returned).
 
         Price: $0.002 per request.
 
@@ -467,7 +529,8 @@ class AsyncTiktokShopNamespace:
 
         List every product of a TikTok Shop store by URL - title, price, sales, and
         rating per product plus shop-level stats - with cursor pagination and
-        transparent failover.
+        transparent failover. **Price:** $2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -512,7 +575,8 @@ class AsyncTiktokShopNamespace:
 
         List the TikTok Shop products a creator showcases - title, price, rating,
         and sales per product - normalized across providers with transparent
-        failover.
+        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
