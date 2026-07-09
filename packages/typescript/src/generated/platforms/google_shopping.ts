@@ -119,7 +119,7 @@ export class GoogleShoppingNamespace {
    *
    * Search Google Shopping by keyword and get up to 10 product offers - title, price, store, rating, and link - localized by country and language.
 
-**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *

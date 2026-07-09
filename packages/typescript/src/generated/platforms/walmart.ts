@@ -104,7 +104,7 @@ export class WalmartNamespace {
    *
    * Fetch a Walmart product page by URL and get full product details - title, price, availability, ratings, images, and specs - in one normalized response.
 
-**Price:** billed per result - $0.00 per 1,000 requests base + $3.68 per 1,000 results, capped at $3.68 per 1,000 requests.
+**Price:** billed per result - \$3.68 per 1,000 results, capped at \$3.68 per 1,000 requests.
    *
    * Price: $0.00368 per result.
    *

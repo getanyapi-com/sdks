@@ -110,8 +110,8 @@ class YelpNamespace:
 
         Search Yelp for businesses by keyword and location: up to 20 listings with
         ratings, categories, and core business info per request. **Price:** billed
-        per result - $40.00 per 1,000 requests base + $0.75 per 1,000 results,
-        capped at $55.00 per 1,000 requests.
+        per result - \$40.00 per 1,000 requests base + \$0.75 per 1,000 results,
+        capped at \$55.00 per 1,000 requests.
 
         Price: $0.04 per request plus $0.00075 per result.
 
@@ -137,8 +137,8 @@ class AsyncYelpNamespace:
 
         Search Yelp for businesses by keyword and location: up to 20 listings with
         ratings, categories, and core business info per request. **Price:** billed
-        per result - $40.00 per 1,000 requests base + $0.75 per 1,000 results,
-        capped at $55.00 per 1,000 requests.
+        per result - \$40.00 per 1,000 requests base + \$0.75 per 1,000 results,
+        capped at \$55.00 per 1,000 requests.
 
         Price: $0.04 per request plus $0.00075 per result.
 

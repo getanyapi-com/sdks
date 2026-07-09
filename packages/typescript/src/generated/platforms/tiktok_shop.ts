@@ -354,7 +354,7 @@ export class TiktokShopNamespace {
    *
    * Fetch TikTok Shop product details - title, price, sales, seller, and ratings - from a product URL.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -373,7 +373,7 @@ export class TiktokShopNamespace {
    *
    * Fetch customer reviews for a TikTok Shop product by URL - rating, text, reviewer, country, and verified-purchase flag - normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -392,7 +392,7 @@ export class TiktokShopNamespace {
    *
    * Search TikTok Shop products by keyword across 15 countries: price, sales, rating, and seller info per product, in one normalized response.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -411,7 +411,7 @@ export class TiktokShopNamespace {
    *
    * List every product of a TikTok Shop store by URL - title, price, sales, and rating per product plus shop-level stats - with cursor pagination and transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -456,7 +456,7 @@ export class TiktokShopNamespace {
    *
    * List the TikTok Shop products a creator showcases - title, price, rating, and sales per product - normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

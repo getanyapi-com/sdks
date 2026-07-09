@@ -354,8 +354,7 @@ class AmazonNamespace:
 
         Look up to 10 Amazon products in one call by ASIN - title, brand, price,
         ratings, images, and attributes - as normalized JSON. **Price:** billed per
-        asin - $0.00 per 1,000 requests base + $3.50 per 1,000 asins, capped at
-        $35.00 per 1,000 requests.
+        asin - \$3.50 per 1,000 asins, capped at \$35.00 per 1,000 requests.
 
         Price: $0.0035 per asin.
 
@@ -377,8 +376,7 @@ class AmazonNamespace:
 
         List the top-ranked products of any Amazon Best Sellers category - rank,
         title, price, and rating - in one normalized request. **Price:** billed per
-        result - $0.00 per 1,000 requests base + $4.10 per 1,000 results, capped at
-        $82.00 per 1,000 requests.
+        result - \$4.10 per 1,000 results, capped at \$82.00 per 1,000 requests.
 
         Price: $0.0041 per result.
 
@@ -400,8 +398,8 @@ class AmazonNamespace:
 
         Fetch full Amazon product details (title, brand, price when in stock,
         images, ratings, review count, variants, and attributes) from a product URL.
-        **Price:** billed per result - $1.00 per 1,000 requests base + $8.10 per
-        1,000 results, capped at $9.10 per 1,000 requests.
+        **Price:** billed per result - \$1.00 per 1,000 requests base + \$8.10 per
+        1,000 results, capped at \$9.10 per 1,000 requests.
 
         Price: $0.001 per request plus $0.0081 per result.
 
@@ -422,7 +420,7 @@ class AmazonNamespace:
         """Amazon Reviews
 
         Pull up to 50 customer reviews for any Amazon product by ASIN or URL -
-        rating, title, text, date, and verified-purchase badge. **Price:** $16.25
+        rating, title, text, date, and verified-purchase badge. **Price:** \$16.25
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -446,8 +444,8 @@ class AmazonNamespace:
 
         Search Amazon from any search or category URL and get up to 20 matching
         products - title, price, rating, and thumbnail - in one normalized response.
-        **Price:** billed per result - $0.00 per 1,000 requests base + $3.50 per
-        1,000 results, capped at $70.00 per 1,000 requests.
+        **Price:** billed per result - \$3.50 per 1,000 results, capped at \$70.00
+        per 1,000 requests.
 
         Price: $0.0035 per result.
 
@@ -476,8 +474,7 @@ class AsyncAmazonNamespace:
 
         Look up to 10 Amazon products in one call by ASIN - title, brand, price,
         ratings, images, and attributes - as normalized JSON. **Price:** billed per
-        asin - $0.00 per 1,000 requests base + $3.50 per 1,000 asins, capped at
-        $35.00 per 1,000 requests.
+        asin - \$3.50 per 1,000 asins, capped at \$35.00 per 1,000 requests.
 
         Price: $0.0035 per asin.
 
@@ -499,8 +496,7 @@ class AsyncAmazonNamespace:
 
         List the top-ranked products of any Amazon Best Sellers category - rank,
         title, price, and rating - in one normalized request. **Price:** billed per
-        result - $0.00 per 1,000 requests base + $4.10 per 1,000 results, capped at
-        $82.00 per 1,000 requests.
+        result - \$4.10 per 1,000 results, capped at \$82.00 per 1,000 requests.
 
         Price: $0.0041 per result.
 
@@ -522,8 +518,8 @@ class AsyncAmazonNamespace:
 
         Fetch full Amazon product details (title, brand, price when in stock,
         images, ratings, review count, variants, and attributes) from a product URL.
-        **Price:** billed per result - $1.00 per 1,000 requests base + $8.10 per
-        1,000 results, capped at $9.10 per 1,000 requests.
+        **Price:** billed per result - \$1.00 per 1,000 requests base + \$8.10 per
+        1,000 results, capped at \$9.10 per 1,000 requests.
 
         Price: $0.001 per request plus $0.0081 per result.
 
@@ -544,7 +540,7 @@ class AsyncAmazonNamespace:
         """Amazon Reviews
 
         Pull up to 50 customer reviews for any Amazon product by ASIN or URL -
-        rating, title, text, date, and verified-purchase badge. **Price:** $16.25
+        rating, title, text, date, and verified-purchase badge. **Price:** \$16.25
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -568,8 +564,8 @@ class AsyncAmazonNamespace:
 
         Search Amazon from any search or category URL and get up to 20 matching
         products - title, price, rating, and thumbnail - in one normalized response.
-        **Price:** billed per result - $0.00 per 1,000 requests base + $3.50 per
-        1,000 results, capped at $70.00 per 1,000 requests.
+        **Price:** billed per result - \$3.50 per 1,000 results, capped at \$70.00
+        per 1,000 requests.
 
         Price: $0.0035 per result.
 

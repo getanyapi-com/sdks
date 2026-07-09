@@ -1021,9 +1021,9 @@
           "fromCredits": 6000,
           "baseCredits": 0,
           "perItemCredits": 300,
-          "uptimePct": 86.66666666666667,
-          "latencyP50Ms": 7720,
-          "requests": 45
+          "uptimePct": 86.95652173913044,
+          "latencyP50Ms": 7718,
+          "requests": 46
         }
       ]
     },
@@ -1310,8 +1310,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2872,
-          "requests": 42
+          "latencyP50Ms": 2788,
+          "requests": 48
         },
         {
           "fromCredits": 7500,
@@ -1339,7 +1339,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 708,
-          "requests": 1226
+          "requests": 1274
         }
       ]
     },
@@ -1530,7 +1530,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 1812,
-          "requests": 49
+          "requests": 51
         }
       ]
     },
@@ -1826,7 +1826,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 2929,
-          "requests": 27
+          "requests": 37
         },
         {
           "fromCredits": 200,
@@ -1883,9 +1883,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 93.48441926345609,
-          "latencyP50Ms": 5616,
-          "requests": 354
+          "uptimePct": 93.22916666666667,
+          "latencyP50Ms": 5619,
+          "requests": 385
         }
       ]
     },
@@ -1951,9 +1951,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 97.22222222222223,
-          "latencyP50Ms": 19159,
-          "requests": 36
+          "uptimePct": 97.29729729729729,
+          "latencyP50Ms": 19232,
+          "requests": 37
         },
         {
           "fromCredits": 325,
@@ -2163,9 +2163,9 @@
       "slug": "linkedin.company",
       "category": "social",
       "name": "LinkedIn Company",
-      "description": "Fetch a LinkedIn company page (description, employee count, industry, website, logo) by company URL, normalized across providers with transparent failover.",
-      "fromCredits": 200,
-      "baseCredits": 0,
+      "description": "Fetch a full LinkedIn company page by URL: name, description, industry, employee count and range, follower count, founded year, headquarters and office locations, funding data, tagline, logo, website, and specialities.",
+      "fromCredits": 400,
+      "baseCredits": 400,
       "perItemCredits": 0,
       "tryEligible": true,
       "providers": [
@@ -2173,8 +2173,8 @@
       ],
       "quotes": [
         {
-          "fromCredits": 200,
-          "baseCredits": 0,
+          "fromCredits": 400,
+          "baseCredits": 400,
           "perItemCredits": 0
         }
       ]
@@ -2206,7 +2206,27 @@
       "slug": "linkedin.company_posts",
       "category": "social",
       "name": "LinkedIn Company Posts",
-      "description": "List a LinkedIn company page's recent posts by URL with page pagination (text, link, publish date), normalized across providers.",
+      "description": "List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.",
+      "fromCredits": 8755,
+      "baseCredits": 5,
+      "perItemCredits": 175,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 8755,
+          "baseCredits": 5,
+          "perItemCredits": 175
+        }
+      ]
+    },
+    {
+      "slug": "linkedin.company_posts_thin",
+      "category": "social",
+      "name": "LinkedIn Company Posts (basic)",
+      "description": "Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.",
       "fromCredits": 200,
       "baseCredits": 0,
       "perItemCredits": 0,
@@ -2218,10 +2238,27 @@
         {
           "fromCredits": 200,
           "baseCredits": 0,
-          "perItemCredits": 0,
-          "uptimePct": 100,
-          "latencyP50Ms": 3706,
-          "requests": 36
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "linkedin.company_thin",
+      "category": "social",
+      "name": "LinkedIn Company (basic)",
+      "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.",
+      "fromCredits": 200,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 200,
+          "baseCredits": 0,
+          "perItemCredits": 0
         }
       ]
     },
@@ -2229,19 +2266,19 @@
       "slug": "linkedin.email",
       "category": "social",
       "name": "LinkedIn Email Finder",
-      "description": "Find the verified work email behind a LinkedIn profile URL or ID.",
-      "fromCredits": 70,
-      "baseCredits": 0,
-      "perItemCredits": 70,
+      "description": "Find the deliverability-validated work email behind a LinkedIn profile URL or public ID. Returns each discovered email with its deliverability, validation status, and quality score, plus the person's name and headline.",
+      "fromCredits": 1000,
+      "baseCredits": 1000,
+      "perItemCredits": 0,
       "tryEligible": true,
       "providers": [
         "AnyAPI"
       ],
       "quotes": [
         {
-          "fromCredits": 70,
-          "baseCredits": 0,
-          "perItemCredits": 70,
+          "fromCredits": 1000,
+          "baseCredits": 1000,
+          "perItemCredits": 0,
           "uptimePct": 42.857142857142854,
           "latencyP50Ms": 3995,
           "requests": 35
@@ -2252,7 +2289,27 @@
       "slug": "linkedin.jobs",
       "category": "data",
       "name": "LinkedIn Jobs",
-      "description": "Search LinkedIn job listings by title and location - up to 25 normalized job records per request.",
+      "description": "Search LinkedIn job listings by title and location - full records with description, salary, applicant count, seniority, company details, and benefits. Up to 25 jobs per request.",
+      "fromCredits": 2600,
+      "baseCredits": 100,
+      "perItemCredits": 100,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 2600,
+          "baseCredits": 100,
+          "perItemCredits": 100
+        }
+      ]
+    },
+    {
+      "slug": "linkedin.jobs_thin",
+      "category": "data",
+      "name": "LinkedIn Jobs (index)",
+      "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.",
       "fromCredits": 100,
       "baseCredits": 0,
       "perItemCredits": 0,
@@ -2265,11 +2322,6 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0
-        },
-        {
-          "fromCredits": 880,
-          "baseCredits": 80,
-          "perItemCredits": 32
         }
       ]
     },
@@ -2302,6 +2354,46 @@
       ]
     },
     {
+      "slug": "linkedin.post_comments",
+      "category": "social",
+      "name": "LinkedIn Post Comments",
+      "description": "List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.",
+      "fromCredits": 20000,
+      "baseCredits": 0,
+      "perItemCredits": 200,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 20000,
+          "baseCredits": 0,
+          "perItemCredits": 200
+        }
+      ]
+    },
+    {
+      "slug": "linkedin.post_reactions",
+      "category": "social",
+      "name": "LinkedIn Post Reactions",
+      "description": "List who reacted to a LinkedIn post - reactor name, profile URL, job title, and reaction type. Lead-gen grade.",
+      "fromCredits": 20000,
+      "baseCredits": 0,
+      "perItemCredits": 200,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 20000,
+          "baseCredits": 0,
+          "perItemCredits": 200
+        }
+      ]
+    },
+    {
       "slug": "linkedin.post_transcript",
       "category": "social",
       "name": "LinkedIn Post Transcript",
@@ -2325,7 +2417,27 @@
       "slug": "linkedin.profile",
       "category": "social",
       "name": "LinkedIn Profile",
-      "description": "Fetch a LinkedIn member's public profile by URL: name, location, followers, about, plus experience, education, recent posts, and published articles.",
+      "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
+      "fromCredits": 400,
+      "baseCredits": 400,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 400,
+          "baseCredits": 400,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "linkedin.profile_thin",
+      "category": "social",
+      "name": "LinkedIn Profile (basic)",
+      "description": "Lightweight profile: name, avatar, location, followers, and a basic experience/education list (company + dates only, no job titles, descriptions, or skills; past companies may be redacted). For full experience detail, skills, certifications, connections, and verified flags use linkedin.profile.",
       "fromCredits": 200,
       "baseCredits": 0,
       "perItemCredits": 0,
@@ -2337,10 +2449,7 @@
         {
           "fromCredits": 200,
           "baseCredits": 0,
-          "perItemCredits": 0,
-          "uptimePct": 81.81818181818181,
-          "latencyP50Ms": 2375,
-          "requests": 55
+          "perItemCredits": 0
         }
       ]
     },
@@ -2381,9 +2490,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 95.83333333333333,
-          "latencyP50Ms": 13511,
-          "requests": 51
+          "uptimePct": 91.17647058823529,
+          "latencyP50Ms": 14220,
+          "requests": 71
         },
         {
           "fromCredits": 400,
@@ -2396,7 +2505,50 @@
       "slug": "linkedin.search_profiles",
       "category": "social",
       "name": "LinkedIn Profile Search",
-      "description": "Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, and education, plus the profile URL, handle, and id.",
+      "description": "Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.",
+      "fromCredits": 18000,
+      "baseCredits": 8000,
+      "perItemCredits": 400,
+      "tryEligible": false,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 18000,
+          "baseCredits": 8000,
+          "perItemCredits": 400,
+          "uptimePct": 100,
+          "latencyP50Ms": 9855,
+          "requests": 21
+        }
+      ]
+    },
+    {
+      "slug": "linkedin.search_profiles_email",
+      "category": "social",
+      "name": "LinkedIn Profile Search + Email",
+      "description": "People search returning a full profile AND a verified work email for each hit. Search LinkedIn profiles by keyword with optional location and job-title filters; each match returns the full profile record (name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id) together with an emails array carrying the discovered work email and its deliverability. For a full profile without email use linkedin.search_profiles; for a cheaper name/headline/URL-only search use linkedin.search_profiles_thin.",
+      "fromCredits": 30500,
+      "baseCredits": 8000,
+      "perItemCredits": 900,
+      "tryEligible": false,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 30500,
+          "baseCredits": 8000,
+          "perItemCredits": 900
+        }
+      ]
+    },
+    {
+      "slug": "linkedin.search_profiles_thin",
+      "category": "social",
+      "name": "LinkedIn Profile Search (basic)",
+      "description": "Cheap people search: name/handle, headline, VANITY profile URL, location. No full profile or email - for full profiles per hit use linkedin.search_profiles, add emails with linkedin.search_profiles_email.",
       "fromCredits": 3250,
       "baseCredits": 0,
       "perItemCredits": 0,
@@ -2409,14 +2561,6 @@
           "fromCredits": 3250,
           "baseCredits": 0,
           "perItemCredits": 0
-        },
-        {
-          "fromCredits": 20600,
-          "baseCredits": 8000,
-          "perItemCredits": 1260,
-          "uptimePct": 100,
-          "latencyP50Ms": 9855,
-          "requests": 21
         }
       ]
     },
@@ -2458,8 +2602,8 @@
           "baseCredits": 300,
           "perItemCredits": 500,
           "uptimePct": 100,
-          "latencyP50Ms": 17341,
-          "requests": 55
+          "latencyP50Ms": 17434,
+          "requests": 57
         }
       ]
     },
@@ -2688,9 +2832,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.54493742889647,
-          "latencyP50Ms": 2730,
-          "requests": 894
+          "uptimePct": 99.5475113122172,
+          "latencyP50Ms": 2731,
+          "requests": 899
         },
         {
           "fromCredits": 325,
@@ -2736,9 +2880,9 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.67948717948718,
-          "latencyP50Ms": 2690,
-          "requests": 314
+          "uptimePct": 99.72972972972973,
+          "latencyP50Ms": 2670,
+          "requests": 372
         },
         {
           "fromCredits": 200,
@@ -2806,8 +2950,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2015,
-          "requests": 220
+          "latencyP50Ms": 1998,
+          "requests": 297
         }
       ]
     },
@@ -3095,7 +3239,10 @@
         {
           "fromCredits": 1560,
           "baseCredits": 1560,
-          "perItemCredits": 0
+          "perItemCredits": 0,
+          "uptimePct": 100,
+          "latencyP50Ms": 258,
+          "requests": 28
         }
       ]
     },
@@ -3815,8 +3962,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 518,
-          "requests": 81
+          "latencyP50Ms": 537,
+          "requests": 229
         },
         {
           "fromCredits": 200,
@@ -3876,8 +4023,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2360,
-          "requests": 78
+          "latencyP50Ms": 2506,
+          "requests": 190
         },
         {
           "fromCredits": 200,
@@ -3910,7 +4057,10 @@
         {
           "fromCredits": 200,
           "baseCredits": 0,
-          "perItemCredits": 0
+          "perItemCredits": 0,
+          "uptimePct": 98.70967741935483,
+          "latencyP50Ms": 4120,
+          "requests": 155
         },
         {
           "fromCredits": 325,
@@ -3967,8 +4117,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 3544,
-          "requests": 351
+          "latencyP50Ms": 3684,
+          "requests": 515
         },
         {
           "fromCredits": 325,
@@ -3995,16 +4145,16 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1559,
-          "requests": 25
+          "latencyP50Ms": 1546,
+          "requests": 31
         },
         {
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1788,
-          "requests": 121
+          "latencyP50Ms": 1790,
+          "requests": 124
         },
         {
           "fromCredits": 325,
@@ -4156,8 +4306,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2240,
-          "requests": 66
+          "latencyP50Ms": 2319,
+          "requests": 83
         },
         {
           "fromCredits": 3250,
@@ -4525,8 +4675,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1321,
-          "requests": 79
+          "latencyP50Ms": 1343,
+          "requests": 95
         },
         {
           "fromCredits": 200,
@@ -4580,9 +4730,9 @@
           "fromCredits": 1400,
           "baseCredits": 400,
           "perItemCredits": 20,
-          "uptimePct": 97.8395061728395,
-          "latencyP50Ms": 19641,
-          "requests": 326
+          "uptimePct": 98.14814814814815,
+          "latencyP50Ms": 19560,
+          "requests": 380
         }
       ]
     },
@@ -4653,17 +4803,17 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 55.81395348837209,
-          "latencyP50Ms": 954,
-          "requests": 48
+          "uptimePct": 64.15094339622641,
+          "latencyP50Ms": 1792,
+          "requests": 58
         },
         {
           "fromCredits": 20000,
           "baseCredits": 0,
           "perItemCredits": 20,
           "uptimePct": 100,
-          "latencyP50Ms": 15664,
-          "requests": 354
+          "latencyP50Ms": 15691,
+          "requests": 470
         }
       ]
     },
@@ -4764,9 +4914,9 @@
           "fromCredits": 90,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 71.22507122507122,
-          "latencyP50Ms": 602,
-          "requests": 354
+          "uptimePct": 71.15902964959568,
+          "latencyP50Ms": 586,
+          "requests": 374
         }
       ]
     },
@@ -5084,8 +5234,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1494,
-          "requests": 505
+          "latencyP50Ms": 1504,
+          "requests": 520
         },
         {
           "fromCredits": 325,
@@ -5158,7 +5308,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 1566,
-          "requests": 37
+          "requests": 51
         }
       ]
     },

@@ -247,7 +247,7 @@ class GoogleAdsNamespace:
 
         Look up a single Google Ads Transparency Center creative by URL and get its
         format, run dates, impression range, regions, and creative variations as
-        clean JSON. **Price:** $2.00 per 1,000 requests (flat per request - same
+        clean JSON. **Price:** \$2.00 per 1,000 requests (flat per request - same
         cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -270,8 +270,8 @@ class GoogleAdsNamespace:
 
         Search the Google Ads Transparency Center for advertisers by keyword and get
         matching advertiser IDs, regions, and estimated ad counts as clean JSON.
-        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
-        of results returned).
+        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -293,7 +293,7 @@ class GoogleAdsNamespace:
 
         List the ads a company is running from the Google Ads Transparency Center by
         domain or advertiser ID - creative ID, format, ad URL, and first/last shown
-        dates - with cursor pagination. **Price:** $2.00 per 1,000 requests (flat
+        dates - with cursor pagination. **Price:** \$2.00 per 1,000 requests (flat
         per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -339,8 +339,8 @@ class GoogleAdsNamespace:
 
         Pull the ads an advertiser is currently running from the Google Ads
         Transparency Center - creative details, formats, and run dates - as clean
-        JSON. **Price:** billed per result - $0.05 per 1,000 requests base + $1.30
-        per 1,000 results, capped at $26.05 per 1,000 requests.
+        JSON. **Price:** billed per result - \$0.05 per 1,000 requests base + \$1.30
+        per 1,000 results, capped at \$26.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.0013 per result.
 
@@ -369,7 +369,7 @@ class AsyncGoogleAdsNamespace:
 
         Look up a single Google Ads Transparency Center creative by URL and get its
         format, run dates, impression range, regions, and creative variations as
-        clean JSON. **Price:** $2.00 per 1,000 requests (flat per request - same
+        clean JSON. **Price:** \$2.00 per 1,000 requests (flat per request - same
         cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -392,8 +392,8 @@ class AsyncGoogleAdsNamespace:
 
         Search the Google Ads Transparency Center for advertisers by keyword and get
         matching advertiser IDs, regions, and estimated ad counts as clean JSON.
-        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
-        of results returned).
+        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -415,7 +415,7 @@ class AsyncGoogleAdsNamespace:
 
         List the ads a company is running from the Google Ads Transparency Center by
         domain or advertiser ID - creative ID, format, ad URL, and first/last shown
-        dates - with cursor pagination. **Price:** $2.00 per 1,000 requests (flat
+        dates - with cursor pagination. **Price:** \$2.00 per 1,000 requests (flat
         per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -461,8 +461,8 @@ class AsyncGoogleAdsNamespace:
 
         Pull the ads an advertiser is currently running from the Google Ads
         Transparency Center - creative details, formats, and run dates - as clean
-        JSON. **Price:** billed per result - $0.05 per 1,000 requests base + $1.30
-        per 1,000 results, capped at $26.05 per 1,000 requests.
+        JSON. **Price:** billed per result - \$0.05 per 1,000 requests base + \$1.30
+        per 1,000 results, capped at \$26.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.0013 per result.
 

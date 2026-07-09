@@ -84,9 +84,9 @@ class IndeedNamespace:
         """Indeed Jobs
 
         Search Indeed job listings by keyword, location, and country - up to 20
-        normalized job records per request. **Price:** billed per result - $0.80 per
-        1,000 requests base + $0.08 per 1,000 results, capped at $2.40 per 1,000
-        requests.
+        normalized job records per request. **Price:** billed per result - \$0.80
+        per 1,000 requests base + \$0.08 per 1,000 results, capped at \$2.40 per
+        1,000 requests.
 
         Price: $0.0008 per request plus $0.00008 per result.
 
@@ -111,9 +111,9 @@ class AsyncIndeedNamespace:
         """Indeed Jobs
 
         Search Indeed job listings by keyword, location, and country - up to 20
-        normalized job records per request. **Price:** billed per result - $0.80 per
-        1,000 requests base + $0.08 per 1,000 results, capped at $2.40 per 1,000
-        requests.
+        normalized job records per request. **Price:** billed per result - \$0.80
+        per 1,000 requests base + \$0.08 per 1,000 results, capped at \$2.40 per
+        1,000 requests.
 
         Price: $0.0008 per request plus $0.00008 per result.
 

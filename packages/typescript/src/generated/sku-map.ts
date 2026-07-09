@@ -250,22 +250,38 @@ import type {
   LinkedinCompanyInput,
   LinkedinCompanyPostsData,
   LinkedinCompanyPostsInput,
+  LinkedinCompanyPostsThinData,
+  LinkedinCompanyPostsThinInput,
+  LinkedinCompanyThinData,
+  LinkedinCompanyThinInput,
   LinkedinEmailData,
   LinkedinEmailInput,
   LinkedinJobsData,
   LinkedinJobsInput,
+  LinkedinJobsThinData,
+  LinkedinJobsThinInput,
+  LinkedinPostCommentsData,
+  LinkedinPostCommentsInput,
   LinkedinPostData,
   LinkedinPostInput,
+  LinkedinPostReactionsData,
+  LinkedinPostReactionsInput,
   LinkedinPostTranscriptData,
   LinkedinPostTranscriptInput,
   LinkedinProfileData,
   LinkedinProfileInput,
+  LinkedinProfileThinData,
+  LinkedinProfileThinInput,
   LinkedinSearchCompaniesData,
   LinkedinSearchCompaniesInput,
   LinkedinSearchPostsData,
   LinkedinSearchPostsInput,
   LinkedinSearchProfilesData,
+  LinkedinSearchProfilesEmailData,
+  LinkedinSearchProfilesEmailInput,
   LinkedinSearchProfilesInput,
+  LinkedinSearchProfilesThinData,
+  LinkedinSearchProfilesThinInput,
 } from "./platforms/linkedin.js";
 import type {
   MapsContactsData,
@@ -1088,6 +1104,16 @@ export interface SkuMap {
     data: LinkedinCompanyPostsData;
     result: RunResult<LinkedinCompanyPostsData>;
   };
+  "linkedin.company_posts_thin": {
+    input: LinkedinCompanyPostsThinInput;
+    data: LinkedinCompanyPostsThinData;
+    result: RunResult<LinkedinCompanyPostsThinData>;
+  };
+  "linkedin.company_thin": {
+    input: LinkedinCompanyThinInput;
+    data: LinkedinCompanyThinData;
+    result: RunResult<LinkedinCompanyThinData>;
+  };
   "linkedin.email": {
     input: LinkedinEmailInput;
     data: LinkedinEmailData;
@@ -1098,10 +1124,25 @@ export interface SkuMap {
     data: LinkedinJobsData;
     result: RunResult<LinkedinJobsData>;
   };
+  "linkedin.jobs_thin": {
+    input: LinkedinJobsThinInput;
+    data: LinkedinJobsThinData;
+    result: RunResult<LinkedinJobsThinData>;
+  };
   "linkedin.post": {
     input: LinkedinPostInput;
     data: LinkedinPostData;
     result: RunResult<LinkedinPostData>;
+  };
+  "linkedin.post_comments": {
+    input: LinkedinPostCommentsInput;
+    data: LinkedinPostCommentsData;
+    result: RunResult<LinkedinPostCommentsData>;
+  };
+  "linkedin.post_reactions": {
+    input: LinkedinPostReactionsInput;
+    data: LinkedinPostReactionsData;
+    result: RunResult<LinkedinPostReactionsData>;
   };
   "linkedin.post_transcript": {
     input: LinkedinPostTranscriptInput;
@@ -1112,6 +1153,11 @@ export interface SkuMap {
     input: LinkedinProfileInput;
     data: LinkedinProfileData;
     result: RunResult<LinkedinProfileData>;
+  };
+  "linkedin.profile_thin": {
+    input: LinkedinProfileThinInput;
+    data: LinkedinProfileThinData;
+    result: RunResult<LinkedinProfileThinData>;
   };
   "linkedin.search_companies": {
     input: LinkedinSearchCompaniesInput;
@@ -1127,6 +1173,16 @@ export interface SkuMap {
     input: LinkedinSearchProfilesInput;
     data: LinkedinSearchProfilesData;
     result: RunResult<LinkedinSearchProfilesData>;
+  };
+  "linkedin.search_profiles_email": {
+    input: LinkedinSearchProfilesEmailInput;
+    data: LinkedinSearchProfilesEmailData;
+    result: RunResult<LinkedinSearchProfilesEmailData>;
+  };
+  "linkedin.search_profiles_thin": {
+    input: LinkedinSearchProfilesThinInput;
+    data: LinkedinSearchProfilesThinData;
+    result: RunResult<LinkedinSearchProfilesThinData>;
   };
   "maps.contacts": {
     input: MapsContactsInput;

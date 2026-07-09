@@ -86,8 +86,7 @@ class CoinmarketcapNamespace:
 
         Get the current top cryptocurrencies from CoinMarketCap - rank, price,
         market cap, volume, and 24h change - as normalized JSON. **Price:** billed
-        per result - $0.00 per 1,000 requests base + $1.80 per 1,000 results, capped
-        at $45.00 per 1,000 requests.
+        per result - \$1.80 per 1,000 results, capped at \$45.00 per 1,000 requests.
 
         Price: $0.0018 per result.
 
@@ -116,8 +115,7 @@ class AsyncCoinmarketcapNamespace:
 
         Get the current top cryptocurrencies from CoinMarketCap - rank, price,
         market cap, volume, and 24h change - as normalized JSON. **Price:** billed
-        per result - $0.00 per 1,000 requests base + $1.80 per 1,000 results, capped
-        at $45.00 per 1,000 requests.
+        per result - \$1.80 per 1,000 results, capped at \$45.00 per 1,000 requests.
 
         Price: $0.0018 per result.
 

@@ -388,7 +388,7 @@ export class RedditNamespace {
    *
    * List the top-level comments on a Reddit post by URL (author, body, score, timestamp), normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -407,7 +407,7 @@ export class RedditNamespace {
    *
    * Extract the spoken transcript from a Reddit video post by URL, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -426,7 +426,7 @@ export class RedditNamespace {
    *
    * Search Reddit posts across all subreddits by query, normalized across providers with transparent failover.
 
-**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -465,7 +465,7 @@ export class RedditNamespace {
    *
    * Fetch a subreddit's metadata - weekly active users, description, and category - normalized across providers with transparent failover.
 
-**Price:** $1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -484,7 +484,7 @@ export class RedditNamespace {
    *
    * Fetch posts from a subreddit listing (hot, new, or top), normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -503,7 +503,7 @@ export class RedditNamespace {
    *
    * Search posts within a single subreddit by query, sort, and timeframe, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

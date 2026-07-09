@@ -486,7 +486,7 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) Note
 
         Look up a RedNote (Xiaohongshu) note by note ID and return normalized note
-        details. **Price:** $10.00 per 1,000 requests (flat per request - same cost
+        details. **Price:** \$10.00 per 1,000 requests (flat per request - same cost
         regardless of results returned).
 
         Price: $0.01 per request.
@@ -508,7 +508,7 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) Note Comments
 
         List comments on a RedNote (Xiaohongshu) note and return normalized comment
-        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        records with pagination. **Price:** \$10.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.01 per request.
@@ -553,7 +553,7 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) Profile
 
         Look up a RedNote (Xiaohongshu) profile by user ID and return normalized
-        profile details. **Price:** $10.00 per 1,000 requests (flat per request -
+        profile details. **Price:** \$10.00 per 1,000 requests (flat per request -
         same cost regardless of results returned).
 
         Price: $0.01 per request.
@@ -575,7 +575,7 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) Search
 
         Search RedNote (Xiaohongshu) notes by keyword and return normalized note
-        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        records with pagination. **Price:** \$10.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.01 per request.
@@ -620,7 +620,7 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) User Search
 
         Search RedNote (Xiaohongshu) users by keyword and return normalized user
-        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        records with pagination. **Price:** \$10.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.01 per request.
@@ -665,7 +665,7 @@ class RednoteNamespace:
         """RedNote (Xiaohongshu) User Notes
 
         List notes posted by a RedNote (Xiaohongshu) user and return normalized note
-        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        records with pagination. **Price:** \$10.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.01 per request.
@@ -717,7 +717,7 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) Note
 
         Look up a RedNote (Xiaohongshu) note by note ID and return normalized note
-        details. **Price:** $10.00 per 1,000 requests (flat per request - same cost
+        details. **Price:** \$10.00 per 1,000 requests (flat per request - same cost
         regardless of results returned).
 
         Price: $0.01 per request.
@@ -739,7 +739,7 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) Note Comments
 
         List comments on a RedNote (Xiaohongshu) note and return normalized comment
-        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        records with pagination. **Price:** \$10.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.01 per request.
@@ -784,7 +784,7 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) Profile
 
         Look up a RedNote (Xiaohongshu) profile by user ID and return normalized
-        profile details. **Price:** $10.00 per 1,000 requests (flat per request -
+        profile details. **Price:** \$10.00 per 1,000 requests (flat per request -
         same cost regardless of results returned).
 
         Price: $0.01 per request.
@@ -806,7 +806,7 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) Search
 
         Search RedNote (Xiaohongshu) notes by keyword and return normalized note
-        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        records with pagination. **Price:** \$10.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.01 per request.
@@ -851,7 +851,7 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) User Search
 
         Search RedNote (Xiaohongshu) users by keyword and return normalized user
-        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        records with pagination. **Price:** \$10.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.01 per request.
@@ -896,7 +896,7 @@ class AsyncRednoteNamespace:
         """RedNote (Xiaohongshu) User Notes
 
         List notes posted by a RedNote (Xiaohongshu) user and return normalized note
-        records with pagination. **Price:** $10.00 per 1,000 requests (flat per
+        records with pagination. **Price:** \$10.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.01 per request.

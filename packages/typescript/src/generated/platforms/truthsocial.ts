@@ -169,7 +169,7 @@ export class TruthsocialNamespace {
    *
    * Get a single Truth Social post by its URL - text, author, engagement (likes, comments, shares), and timestamp as clean JSON.
 
-**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -188,7 +188,7 @@ export class TruthsocialNamespace {
    *
    * Get a Truth Social account's public profile by handle - display name, bio, follower/following counts, and post count as clean JSON.
 
-**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -207,7 +207,7 @@ export class TruthsocialNamespace {
    *
    * List a Truth Social account's recent posts by handle - text, engagement (likes, comments, shares), and timestamps as clean JSON.
 
-**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *

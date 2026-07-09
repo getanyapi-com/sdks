@@ -62,8 +62,8 @@ class WhatsappNamespace:
         """WhatsApp Number Validator
 
         Check whether a phone number is registered on WhatsApp. **Price:** billed
-        per result - $3.50 per 1,000 requests base + $1.00 per 1,000 results, capped
-        at $4.50 per 1,000 requests.
+        per result - \$3.50 per 1,000 requests base + \$1.00 per 1,000 results,
+        capped at \$4.50 per 1,000 requests.
 
         Price: $0.0035 per request plus $0.001 per result.
 
@@ -91,8 +91,8 @@ class AsyncWhatsappNamespace:
         """WhatsApp Number Validator
 
         Check whether a phone number is registered on WhatsApp. **Price:** billed
-        per result - $3.50 per 1,000 requests base + $1.00 per 1,000 results, capped
-        at $4.50 per 1,000 requests.
+        per result - \$3.50 per 1,000 requests base + \$1.00 per 1,000 results,
+        capped at \$4.50 per 1,000 requests.
 
         Price: $0.0035 per request plus $0.001 per result.
 

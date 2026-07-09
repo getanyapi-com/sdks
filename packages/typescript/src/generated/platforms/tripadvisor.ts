@@ -192,7 +192,7 @@ export class TripadvisorNamespace {
    *
    * Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL - rating, text, date, and trip details as normalized JSON.
 
-**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -211,7 +211,7 @@ export class TripadvisorNamespace {
    *
    * Search Tripadvisor for hotels, restaurants, and attractions in any destination and get rich place records (ratings, review counts, contact details, pricing) as normalized JSON.
 
-**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *

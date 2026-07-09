@@ -91,7 +91,7 @@ export class AlibabaNamespace {
    *
    * Search Alibaba by keyword and get up to 25 wholesale listings - title, price range, minimum order, and supplier - in one normalized response.
 
-**Price:** billed per result - $0.00 per 1,000 requests base + $1.20 per 1,000 results, capped at $30.00 per 1,000 requests.
+**Price:** billed per result - \$1.20 per 1,000 results, capped at \$30.00 per 1,000 requests.
    *
    * Price: $0.0012 per result.
    *

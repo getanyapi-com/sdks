@@ -179,7 +179,7 @@ export class EbayNamespace {
    *
    * Search eBay active listings by keyword and get title, price, condition, shipping, seller, and sold count in one normalized response.
 
-**Price:** billed per result - $1.00 per 1,000 requests base + $2.34 per 1,000 results, capped at $59.50 per 1,000 requests.
+**Price:** billed per result - \$1.00 per 1,000 requests base + \$2.34 per 1,000 results, capped at \$59.50 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.00234 per result.
    *
@@ -198,7 +198,7 @@ export class EbayNamespace {
    *
    * Retrieve recently sold eBay listings for any keyword - sold price, sale date, condition, and item details - ideal for pricing research.
 
-**Price:** billed per result - $0.05 per 1,000 requests base + $4.00 per 1,000 results, capped at $100.05 per 1,000 requests.
+**Price:** billed per result - \$0.05 per 1,000 requests base + \$4.00 per 1,000 results, capped at \$100.05 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.004 per result.
    *

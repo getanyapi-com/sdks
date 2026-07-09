@@ -129,7 +129,7 @@ export class GoogleFinanceNamespace {
    *
    * Fetch a live quote for any stock, index, ETF, mutual fund, currency pair, or crypto symbol: name, current price, the absolute and percent change on the day, quote currency, exchange and market state, plus intraday and reference figures (open, day high/low, previous close, volume, market cap, and the 52-week range).
 
-**Price:** billed per result - $0.50 per 1,000 requests base + $1.50 per 1,000 results, capped at $2.00 per 1,000 requests.
+**Price:** billed per result - \$0.50 per 1,000 requests base + \$1.50 per 1,000 results, capped at \$2.00 per 1,000 requests.
    *
    * Price: $0.0005 per request plus $0.0015 per result.
    *

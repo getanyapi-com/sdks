@@ -390,8 +390,9 @@ class MapsNamespace:
 
         Search Google Maps for businesses and enrich each result with contact
         details (emails, phones, and social profiles from their websites), up to 20
-        records per request. **Price:** billed per result - $0.05 per 1,000 requests
-        base + $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
+        records per request. **Price:** billed per result - \$0.05 per 1,000
+        requests base + \$3.00 per 1,000 results, capped at \$60.05 per 1,000
+        requests.
 
         Price: $0.00005 per request plus $0.003 per result.
 
@@ -411,8 +412,8 @@ class MapsNamespace:
         Look up a place on Google Maps by name or search query (optionally scoped to
         a location) and get the best-matching place with full details - address,
         phone, website, rating, hours, and coordinates - as normalized JSON.
-        **Price:** billed per result - $3.00 per 1,000 requests base + $5.00 per
-        1,000 results, capped at $9.00 per 1,000 requests.
+        **Price:** billed per result - \$3.00 per 1,000 requests base + \$5.00 per
+        1,000 results, capped at \$9.00 per 1,000 requests.
 
         Price: $0.003 per request plus $0.005 per result.
 
@@ -433,8 +434,8 @@ class MapsNamespace:
         """Google Maps Reviews
 
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
-        you need, in one normalized response. **Price:** billed per result - $0.05
-        per 1,000 requests base + $0.40 per 1,000 results, capped at $40.05 per
+        you need, in one normalized response. **Price:** billed per result - \$0.05
+        per 1,000 requests base + \$0.40 per 1,000 results, capped at \$40.05 per
         1,000 requests.
 
         Price: $0.00005 per request plus $0.0004 per result.
@@ -454,8 +455,8 @@ class MapsNamespace:
 
         Search Google Maps for places matching a query and location: up to 20
         normalized place records with ratings, addresses, and contact basics per
-        request. **Price:** billed per result - $0.05 per 1,000 requests base +
-        $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
+        request. **Price:** billed per result - \$0.05 per 1,000 requests base +
+        \$3.00 per 1,000 results, capped at \$60.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.003 per result.
 
@@ -484,8 +485,9 @@ class AsyncMapsNamespace:
 
         Search Google Maps for businesses and enrich each result with contact
         details (emails, phones, and social profiles from their websites), up to 20
-        records per request. **Price:** billed per result - $0.05 per 1,000 requests
-        base + $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
+        records per request. **Price:** billed per result - \$0.05 per 1,000
+        requests base + \$3.00 per 1,000 results, capped at \$60.05 per 1,000
+        requests.
 
         Price: $0.00005 per request plus $0.003 per result.
 
@@ -505,8 +507,8 @@ class AsyncMapsNamespace:
         Look up a place on Google Maps by name or search query (optionally scoped to
         a location) and get the best-matching place with full details - address,
         phone, website, rating, hours, and coordinates - as normalized JSON.
-        **Price:** billed per result - $3.00 per 1,000 requests base + $5.00 per
-        1,000 results, capped at $9.00 per 1,000 requests.
+        **Price:** billed per result - \$3.00 per 1,000 requests base + \$5.00 per
+        1,000 results, capped at \$9.00 per 1,000 requests.
 
         Price: $0.003 per request plus $0.005 per result.
 
@@ -527,8 +529,8 @@ class AsyncMapsNamespace:
         """Google Maps Reviews
 
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
-        you need, in one normalized response. **Price:** billed per result - $0.05
-        per 1,000 requests base + $0.40 per 1,000 results, capped at $40.05 per
+        you need, in one normalized response. **Price:** billed per result - \$0.05
+        per 1,000 requests base + \$0.40 per 1,000 results, capped at \$40.05 per
         1,000 requests.
 
         Price: $0.00005 per request plus $0.0004 per result.
@@ -548,8 +550,8 @@ class AsyncMapsNamespace:
 
         Search Google Maps for places matching a query and location: up to 20
         normalized place records with ratings, addresses, and contact basics per
-        request. **Price:** billed per result - $0.05 per 1,000 requests base +
-        $3.00 per 1,000 results, capped at $60.05 per 1,000 requests.
+        request. **Price:** billed per result - \$0.05 per 1,000 requests base +
+        \$3.00 per 1,000 results, capped at \$60.05 per 1,000 requests.
 
         Price: $0.00005 per request plus $0.003 per result.
 

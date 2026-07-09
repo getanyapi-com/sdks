@@ -88,7 +88,7 @@ export class TrustpilotNamespace {
    *
    * Pull Trustpilot reviews for any company by brand name - star ratings, review text, dates, and reviewer details as clean JSON.
 
-**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *

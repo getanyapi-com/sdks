@@ -228,7 +228,7 @@ export class ZillowNamespace {
    *
    * Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history).
 
-**Price:** billed per result - $0.00 per 1,000 requests base + $2.40 per 1,000 results, capped at $2.40 per 1,000 requests.
+**Price:** billed per result - \$2.40 per 1,000 results, capped at \$2.40 per 1,000 requests.
    *
    * Price: $0.0024 per result.
    *
@@ -247,7 +247,7 @@ export class ZillowNamespace {
    *
    * Search Zillow for-sale, rental, or sold listings by location (city, ZIP, or address) and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.
 
-**Price:** billed per result - $0.50 per 1,000 requests base + $3.00 per 1,000 results, capped at $75.50 per 1,000 requests.
+**Price:** billed per result - \$0.50 per 1,000 requests base + \$3.00 per 1,000 results, capped at \$75.50 per 1,000 requests.
    *
    * Price: $0.0005 per request plus $0.003 per result.
    *

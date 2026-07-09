@@ -87,7 +87,7 @@ export class AppstoreNamespace {
    *
    * Get App Store reviews for any iOS app by app ID, in any storefront country - ratings, titles, and review text.
 
-**Price:** billed per result - $0.00 per 1,000 requests base + $0.10 per 1,000 results, capped at $10.00 per 1,000 requests.
+**Price:** billed per result - \$0.10 per 1,000 results, capped at \$10.00 per 1,000 requests.
    *
    * Price: $0.0001 per result.
    *

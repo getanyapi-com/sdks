@@ -94,7 +94,7 @@ export class SnapchatNamespace {
    *
    * Fetch a Snapchat user's public profile by username - display name, bio, subscriber count, and recent public content.
 
-**Price:** billed per result - $1.00 per 1,000 requests base + $2.00 per 1,000 results, capped at $3.00 per 1,000 requests.
+**Price:** billed per result - \$1.00 per 1,000 requests base + \$2.00 per 1,000 results, capped at \$3.00 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.002 per result.
    *

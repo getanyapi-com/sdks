@@ -57,7 +57,7 @@ class PinterestNamespace:
         """Pinterest Search
 
         Search Pinterest by keyword and get pin, video, board, or profile results
-        with titles, images, and links. **Price:** $3.25 per 1,000 requests (flat
+        with titles, images, and links. **Price:** \$3.25 per 1,000 requests (flat
         per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
@@ -86,7 +86,7 @@ class AsyncPinterestNamespace:
         """Pinterest Search
 
         Search Pinterest by keyword and get pin, video, board, or profile results
-        with titles, images, and links. **Price:** $3.25 per 1,000 requests (flat
+        with titles, images, and links. **Price:** \$3.25 per 1,000 requests (flat
         per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.

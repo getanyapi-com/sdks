@@ -127,7 +127,7 @@ export class SubstackNamespace {
    *
    * Pull posts from any Substack publication by its URL - or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.
 
-**Price:** billed per result - $5.00 per 1,000 requests base + $1.56 per 1,000 results, capped at $161.00 per 1,000 requests.
+**Price:** billed per result - \$5.00 per 1,000 requests base + \$1.56 per 1,000 results, capped at \$161.00 per 1,000 requests.
    *
    * Price: $0.005 per request plus $0.00156 per result.
    *

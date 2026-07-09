@@ -95,8 +95,8 @@ class SecNamespace:
 
         List a public company's SEC EDGAR filings - form type, filing date,
         accession number, and document links - by ticker, company name, or CIK, with
-        optional form-type and date filters. **Price:** billed per result - $2.00
-        per 1,000 requests base + $0.40 per 1,000 results, capped at $12.00 per
+        optional form-type and date filters. **Price:** billed per result - \$2.00
+        per 1,000 requests base + \$0.40 per 1,000 results, capped at \$12.00 per
         1,000 requests.
 
         Price: $0.002 per request plus $0.0004 per result.
@@ -123,8 +123,8 @@ class AsyncSecNamespace:
 
         List a public company's SEC EDGAR filings - form type, filing date,
         accession number, and document links - by ticker, company name, or CIK, with
-        optional form-type and date filters. **Price:** billed per result - $2.00
-        per 1,000 requests base + $0.40 per 1,000 results, capped at $12.00 per
+        optional form-type and date filters. **Price:** billed per result - \$2.00
+        per 1,000 requests base + \$0.40 per 1,000 results, capped at \$12.00 per
         1,000 requests.
 
         Price: $0.002 per request plus $0.0004 per result.

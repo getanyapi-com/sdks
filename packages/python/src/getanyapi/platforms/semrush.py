@@ -276,8 +276,8 @@ class SemrushNamespace:
 
         Semrush keyword research for any term: monthly search volume, CPC,
         competition, keyword difficulty, plus related keywords and question
-        keywords. **Price:** billed per result - $0.00 per 1,000 requests base +
-        $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
+        keywords. **Price:** billed per result - \$15.00 per 1,000 results, capped
+        at \$15.00 per 1,000 requests.
 
         Price: $0.015 per result.
 
@@ -299,8 +299,8 @@ class SemrushNamespace:
 
         a Semrush SEO overview for any domain: Authority Score, organic and paid
         traffic, keyword and backlink counts, top country, and the domain's top
-        organic keywords. **Price:** billed per result - $0.00 per 1,000 requests
-        base + $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
+        organic keywords. **Price:** billed per result - \$15.00 per 1,000 results,
+        capped at \$15.00 per 1,000 requests.
 
         Price: $0.015 per result.
 
@@ -329,8 +329,8 @@ class AsyncSemrushNamespace:
 
         Semrush keyword research for any term: monthly search volume, CPC,
         competition, keyword difficulty, plus related keywords and question
-        keywords. **Price:** billed per result - $0.00 per 1,000 requests base +
-        $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
+        keywords. **Price:** billed per result - \$15.00 per 1,000 results, capped
+        at \$15.00 per 1,000 requests.
 
         Price: $0.015 per result.
 
@@ -352,8 +352,8 @@ class AsyncSemrushNamespace:
 
         a Semrush SEO overview for any domain: Authority Score, organic and paid
         traffic, keyword and backlink counts, top country, and the domain's top
-        organic keywords. **Price:** billed per result - $0.00 per 1,000 requests
-        base + $15.00 per 1,000 results, capped at $15.00 per 1,000 requests.
+        organic keywords. **Price:** billed per result - \$15.00 per 1,000 results,
+        capped at \$15.00 per 1,000 requests.
 
         Price: $0.015 per result.
 

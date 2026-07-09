@@ -303,8 +303,8 @@ class RedditNamespace:
 
         List the top-level comments on a Reddit post by URL (author, body, score,
         timestamp), normalized across providers with transparent failover.
-        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
-        of results returned).
+        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -325,7 +325,7 @@ class RedditNamespace:
         """Reddit Post Transcript
 
         Extract the spoken transcript from a Reddit video post by URL, normalized
-        across providers with transparent failover. **Price:** $2.00 per 1,000
+        across providers with transparent failover. **Price:** \$2.00 per 1,000
         requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -347,7 +347,7 @@ class RedditNamespace:
         """Reddit Search
 
         Search Reddit posts across all subreddits by query, normalized across
-        providers with transparent failover. **Price:** $1.00 per 1,000 requests
+        providers with transparent failover. **Price:** \$1.00 per 1,000 requests
         (flat per request - same cost regardless of results returned).
 
         Price: $0.001 per request.
@@ -393,8 +393,8 @@ class RedditNamespace:
 
         Fetch a subreddit's metadata - weekly active users, description, and
         category - normalized across providers with transparent failover. **Price:**
-        $1.00 per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        \$1.00 per 1,000 requests (flat per request - same cost regardless of
+        results returned).
 
         Price: $0.001 per request.
 
@@ -415,7 +415,7 @@ class RedditNamespace:
         """Reddit Subreddit Posts
 
         Fetch posts from a subreddit listing (hot, new, or top), normalized across
-        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        providers with transparent failover. **Price:** \$2.00 per 1,000 requests
         (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -437,7 +437,7 @@ class RedditNamespace:
         """Reddit Subreddit Search
 
         Search posts within a single subreddit by query, sort, and timeframe,
-        normalized across providers with transparent failover. **Price:** $2.00 per
+        normalized across providers with transparent failover. **Price:** \$2.00 per
         1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -491,8 +491,8 @@ class AsyncRedditNamespace:
 
         List the top-level comments on a Reddit post by URL (author, body, score,
         timestamp), normalized across providers with transparent failover.
-        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
-        of results returned).
+        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -513,7 +513,7 @@ class AsyncRedditNamespace:
         """Reddit Post Transcript
 
         Extract the spoken transcript from a Reddit video post by URL, normalized
-        across providers with transparent failover. **Price:** $2.00 per 1,000
+        across providers with transparent failover. **Price:** \$2.00 per 1,000
         requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -535,7 +535,7 @@ class AsyncRedditNamespace:
         """Reddit Search
 
         Search Reddit posts across all subreddits by query, normalized across
-        providers with transparent failover. **Price:** $1.00 per 1,000 requests
+        providers with transparent failover. **Price:** \$1.00 per 1,000 requests
         (flat per request - same cost regardless of results returned).
 
         Price: $0.001 per request.
@@ -581,8 +581,8 @@ class AsyncRedditNamespace:
 
         Fetch a subreddit's metadata - weekly active users, description, and
         category - normalized across providers with transparent failover. **Price:**
-        $1.00 per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        \$1.00 per 1,000 requests (flat per request - same cost regardless of
+        results returned).
 
         Price: $0.001 per request.
 
@@ -603,7 +603,7 @@ class AsyncRedditNamespace:
         """Reddit Subreddit Posts
 
         Fetch posts from a subreddit listing (hot, new, or top), normalized across
-        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        providers with transparent failover. **Price:** \$2.00 per 1,000 requests
         (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -625,7 +625,7 @@ class AsyncRedditNamespace:
         """Reddit Subreddit Search
 
         Search posts within a single subreddit by query, sort, and timeframe,
-        normalized across providers with transparent failover. **Price:** $2.00 per
+        normalized across providers with transparent failover. **Price:** \$2.00 per
         1,000 requests (flat per request - same cost regardless of results
         returned).
 

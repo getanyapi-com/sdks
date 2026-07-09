@@ -84,7 +84,7 @@ export class YahooFinanceNamespace {
    *
    * Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote (price, market cap, volume, and key stats) as normalized JSON.
 
-**Price:** billed per result - $0.05 per 1,000 requests base + $0.90 per 1,000 results, capped at $0.95 per 1,000 requests.
+**Price:** billed per result - \$0.05 per 1,000 requests base + \$0.90 per 1,000 results, capped at \$0.95 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.0009 per result.
    *

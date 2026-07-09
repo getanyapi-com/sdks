@@ -145,8 +145,8 @@ class GoogleNamespace:
         """Google Images
 
         Run a Google Images search and get structured results - image URLs,
-        dimensions, titles, and source pages. **Price:** billed per result - $0.05
-        per 1,000 requests base + $2.40 per 1,000 results, capped at $48.05 per
+        dimensions, titles, and source pages. **Price:** billed per result - \$0.05
+        per 1,000 requests base + \$2.40 per 1,000 results, capped at \$48.05 per
         1,000 requests.
 
         Price: $0.00005 per request plus $0.0024 per result.
@@ -165,7 +165,7 @@ class GoogleNamespace:
         """Google News
 
         Search Google News by keyword and get fresh articles - headlines, sources,
-        links, and publish times - as clean JSON. **Price:** $3.25 per 1,000
+        links, and publish times - as clean JSON. **Price:** \$3.25 per 1,000
         requests (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
@@ -187,7 +187,7 @@ class GoogleNamespace:
         """Google Search
 
         Run a Google web search and get the organic results (title, link, snippet,
-        position) as clean JSON. **Price:** $0.99 per 1,000 requests (flat per
+        position) as clean JSON. **Price:** \$0.99 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.00099 per request.
@@ -216,8 +216,8 @@ class AsyncGoogleNamespace:
         """Google Images
 
         Run a Google Images search and get structured results - image URLs,
-        dimensions, titles, and source pages. **Price:** billed per result - $0.05
-        per 1,000 requests base + $2.40 per 1,000 results, capped at $48.05 per
+        dimensions, titles, and source pages. **Price:** billed per result - \$0.05
+        per 1,000 requests base + \$2.40 per 1,000 results, capped at \$48.05 per
         1,000 requests.
 
         Price: $0.00005 per request plus $0.0024 per result.
@@ -236,7 +236,7 @@ class AsyncGoogleNamespace:
         """Google News
 
         Search Google News by keyword and get fresh articles - headlines, sources,
-        links, and publish times - as clean JSON. **Price:** $3.25 per 1,000
+        links, and publish times - as clean JSON. **Price:** \$3.25 per 1,000
         requests (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
@@ -258,7 +258,7 @@ class AsyncGoogleNamespace:
         """Google Search
 
         Run a Google web search and get the organic results (title, link, snippet,
-        position) as clean JSON. **Price:** $0.99 per 1,000 requests (flat per
+        position) as clean JSON. **Price:** \$0.99 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.00099 per request.

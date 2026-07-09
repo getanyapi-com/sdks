@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, TYPE_CHECKING
+from typing import Any, Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -71,8 +71,24 @@ class LinkedinCompanyEmployeesInput(TypedDict, total=False):
 class LinkedinCompanyPostsInput(TypedDict, total=False):
     """Input for LinkedIn Company Posts."""
 
+    limit: NotRequired[int]
+    """Maximum number of posts to return. Range: 1 to 50. Default: 10."""
+    url: Required[str]
+    """Full LinkedIn company page URL."""
+
+
+class LinkedinCompanyPostsThinInput(TypedDict, total=False):
+    """Input for LinkedIn Company Posts (basic)."""
+
     page: NotRequired[int]
     """Page number for pagination. Minimum: 1."""
+    url: Required[str]
+    """Full LinkedIn company page URL."""
+
+
+class LinkedinCompanyThinInput(TypedDict, total=False):
+    """Input for LinkedIn Company (basic)."""
+
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -81,7 +97,7 @@ class LinkedinEmailInput(TypedDict, total=False):
     """Input for LinkedIn Email Finder."""
 
     profileUrl: Required[str]
-    """LinkedIn profile URL or public ID to find the work email for."""
+    """LinkedIn profile URL or public identifier (the last part of the URL) to find the deliverability-validated work email for."""
 
 
 class LinkedinJobsInput(TypedDict, total=False):
@@ -89,6 +105,17 @@ class LinkedinJobsInput(TypedDict, total=False):
 
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
+    location: NotRequired[str]
+    """City, region, or country to search within (e.g. United States, San Francisco)."""
+    query: Required[str]
+    """Job title or keywords to search. Supports LinkedIn boolean operators."""
+
+
+class LinkedinJobsThinInput(TypedDict, total=False):
+    """Input for LinkedIn Jobs (index)."""
+
+    limit: NotRequired[int]
+    """Maximum number of results to return (1-25, default 25). Range: 1 to 25."""
     location: NotRequired[str]
     """City, region, or country to search within."""
     query: Required[str]
@@ -102,6 +129,24 @@ class LinkedinPostInput(TypedDict, total=False):
     """Full LinkedIn post or article URL."""
 
 
+class LinkedinPostCommentsInput(TypedDict, total=False):
+    """Input for LinkedIn Post Comments."""
+
+    limit: NotRequired[int]
+    """Maximum number of comments to return. You are billed per comment returned, so a lower limit costs less. Range: 1 to 100. Default: 100."""
+    url: Required[str]
+    """Full URL of the LinkedIn post to list comments for."""
+
+
+class LinkedinPostReactionsInput(TypedDict, total=False):
+    """Input for LinkedIn Post Reactions."""
+
+    limit: NotRequired[int]
+    """Maximum number of reactions to return (1-100, default 100). You are billed per reaction returned, so a lower limit costs less. Range: 1 to 100."""
+    url: Required[str]
+    """URL of the LinkedIn post to list reactions for (a /posts/...-activity-... or /feed/update/urn:li:activity:... link)."""
+
+
 class LinkedinPostTranscriptInput(TypedDict, total=False):
     """Input for LinkedIn Post Transcript."""
 
@@ -111,6 +156,13 @@ class LinkedinPostTranscriptInput(TypedDict, total=False):
 
 class LinkedinProfileInput(TypedDict, total=False):
     """Input for LinkedIn Profile."""
+
+    url: Required[str]
+    """Full LinkedIn profile URL."""
+
+
+class LinkedinProfileThinInput(TypedDict, total=False):
+    """Input for LinkedIn Profile (basic)."""
 
     url: Required[str]
     """Full LinkedIn profile URL."""
@@ -146,9 +198,29 @@ class LinkedinSearchProfilesInput(TypedDict, total=False):
     jobTitle: NotRequired[str]
     """Optional current job title filter (e.g. 'Software Engineer')."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less. Range: 1 to 10."""
+    """Maximum number of full profiles to return (1-25, default 10). You are billed per profile returned, so a lower limit costs less. Range: 1 to 25."""
     location: NotRequired[str]
     """Optional location filter (e.g. 'San Francisco')."""
+    query: Required[str]
+    """Search query for LinkedIn profiles - a role, name, or keywords (e.g. 'Marketing Manager')."""
+
+
+class LinkedinSearchProfilesEmailInput(TypedDict, total=False):
+    """Input for LinkedIn Profile Search + Email."""
+
+    jobTitle: NotRequired[str]
+    """Optional current job title filter (e.g. 'Software Engineer')."""
+    limit: NotRequired[int]
+    """Maximum number of full profiles (with email) to return (1-25, default 10). You are billed per profile returned, so a lower limit costs less. Range: 1 to 25."""
+    location: NotRequired[str]
+    """Optional location filter (e.g. 'San Francisco')."""
+    query: Required[str]
+    """Search query for LinkedIn profiles: a role, name, or keywords (e.g. 'Marketing Manager')."""
+
+
+class LinkedinSearchProfilesThinInput(TypedDict, total=False):
+    """Input for LinkedIn Profile Search (basic)."""
+
     query: Required[str]
     """Search query for LinkedIn profiles - a role, name, or keywords (e.g. 'Marketing Manager')."""
 
@@ -249,23 +321,113 @@ class LinkedinAdsSearchAd(BaseModel):
 class LinkedinCompanyData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    company_type: str | None = Field(
+        default=None,
+        alias="companyType",
+        description="Company type, e.g. Privately Held, Public Company.",
+    )
     description: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Company about/description text. Populated whenever the provider has data for the entity."
     )
-    employee_count: int = Field(alias="employeeCount")
-    industry: str = Field(
-        description="Populated whenever the provider has data for the entity."
+    employee_count: int = Field(
+        alias="employeeCount",
+        description="Reported total employee count. Populated whenever the provider has data for the entity.",
     )
-    logo_url: str = Field(
-        alias="logoUrl",
-        description="Populated whenever the provider has data for the entity.",
+    employee_count_range: LinkedinCompanyEmployeeCountRange | None = Field(
+        default=None,
+        alias="employeeCountRange",
+        description="LinkedIn size bucket the company falls in.",
     )
-    name: str
-    tagline: str = Field(
-        description="Populated whenever the provider has data for the entity."
+    follower_count: int = Field(
+        alias="followerCount",
+        description="LinkedIn page follower count. Populated whenever the provider has data for the entity.",
     )
-    website: str = Field(
-        description="Populated whenever the provider has data for the entity."
+    founded_on: LinkedinCompanyFoundedOn | None = Field(
+        default=None,
+        alias="foundedOn",
+        description="Founding date (year populated when known).",
+    )
+    funding_data: LinkedinCompanyFundingData | None = Field(
+        default=None,
+        alias="fundingData",
+        description="Funding summary sourced from Crunchbase, when available.",
+    )
+    industry: str = Field(description="Primary industry.")
+    locations: list[LinkedinCompanyLocation] | None = Field(
+        default=None, description="Company office locations, including headquarters."
+    )
+    logo_url: str = Field(alias="logoUrl", description="Company logo image URL.")
+    name: str = Field(description="Company name.")
+    page_verified: bool | None = Field(
+        default=None,
+        alias="pageVerified",
+        description="Whether LinkedIn has verified the company page.",
+    )
+    similar_organizations: list[Any] | None = Field(
+        default=None,
+        alias="similarOrganizations",
+        description="Similar organizations surfaced by LinkedIn.",
+    )
+    specialities: list[Any] | None = Field(
+        default=None, description="Company-declared specialities."
+    )
+    tagline: str = Field(description="Company tagline/slogan.")
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="LinkedIn universal (vanity) name for the company.",
+    )
+    website: str = Field(description="Company website URL.")
+
+
+class LinkedinCompanyEmployeeCountRange(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    end: int | None = Field(
+        default=None, description="Upper bound of the employee-count bucket."
+    )
+    start: int | None = Field(
+        default=None, description="Lower bound of the employee-count bucket."
+    )
+
+
+class LinkedinCompanyFoundedOn(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    year: int | None = Field(default=None, description="Year the company was founded.")
+
+
+class LinkedinCompanyFundingData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_crunchbase_url: str | None = Field(
+        default=None,
+        alias="companyCrunchbaseUrl",
+        description="Crunchbase profile URL for the company.",
+    )
+    last_funding_type: str | None = Field(
+        default=None,
+        alias="lastFundingType",
+        description="Type of the most recent funding round.",
+    )
+    num_funding_rounds: int | None = Field(
+        default=None,
+        alias="numFundingRounds",
+        description="Total number of funding rounds.",
+    )
+
+
+class LinkedinCompanyLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    city: str | None = Field(default=None, description="City.")
+    country: str | None = Field(default=None, description="ISO country code.")
+    headquarter: bool | None = Field(
+        default=None, description="True when this location is the headquarters."
+    )
+    line1: str | None = Field(default=None, description="Street address line.")
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal code."
     )
 
 
@@ -308,12 +470,121 @@ class LinkedinCompanyEmployeesItem(BaseModel):
 
 
 class LinkedinCompanyPostsData(BaseModel):
-    posts: list[LinkedinCompanyPostsPost] = Field(
+    items: list[LinkedinCompanyPostsItem] = Field(
         description="The company's recent posts. Populated whenever the provider has data for the entity."
     )
 
 
-class LinkedinCompanyPostsPost(BaseModel):
+class LinkedinCompanyPostsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: LinkedinCompanyPostsAuthor | None = Field(
+        default=None, description="The post author (a company or a profile)."
+    )
+    content_attributes: list[LinkedinCompanyPostsContentAttribute] | None = Field(
+        default=None,
+        alias="contentAttributes",
+        description="Inline mentions and entity references in the post text.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    engagement: LinkedinCompanyPostsEngagement | None = Field(
+        default=None, description="Engagement metrics for the post."
+    )
+    id: str = Field(
+        description="Unique identifier of the post. Populated whenever the provider has data for the entity."
+    )
+    post_images: list[LinkedinCompanyPostsPostImage] | None = Field(
+        default=None, alias="postImages", description="Images attached to the post."
+    )
+    post_video: LinkedinCompanyPostsPostVideo | None = Field(
+        default=None,
+        alias="postVideo",
+        description="Video attached to the post, or null when absent.",
+    )
+    text: str = Field(description="Full text content of the post.")
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinCompanyPostsAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    followers: str | None = Field(
+        default=None,
+        description="Author follower count as displayed text (e.g. '1,543,793 followers').",
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn URL of the author.",
+    )
+    name: str | None = Field(default=None, description="Display name of the author.")
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Author kind, e.g. 'company' or 'profile'.",
+    )
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="URL-safe company/profile handle, when present.",
+    )
+
+
+class LinkedinCompanyPostsContentAttribute(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinCompanyPostsEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    comments: int | None = Field(
+        default=None, description="Number of comments on the post."
+    )
+    likes: int | None = Field(
+        default=None,
+        description="Total reaction count on the post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    reactions: list[LinkedinCompanyPostsReaction] | None = Field(
+        default=None, description="Per-reaction-type breakdown of the reaction total."
+    )
+    shares: int | None = Field(
+        default=None, description="Number of shares/reposts of the post."
+    )
+
+
+class LinkedinCompanyPostsReaction(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    count: int | None = Field(
+        default=None, description="Number of reactions of this type."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Reaction type, e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION.",
+    )
+
+
+class LinkedinCompanyPostsPostImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinCompanyPostsPostVideo(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinCompanyPostsThinData(BaseModel):
+    items: list[LinkedinCompanyPostsThinItem] = Field(
+        description="The company's recent posts. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinCompanyPostsThinItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     created_utc: float = Field(
@@ -331,51 +602,174 @@ class LinkedinCompanyPostsPost(BaseModel):
     )
 
 
-class LinkedinEmailData(BaseModel):
-    items: list[LinkedinEmailItem] = Field(
-        description="Email lookup records for the LinkedIn profile. Populated whenever the provider has data for the entity."
-    )
-
-
-class LinkedinEmailItem(BaseModel):
+class LinkedinCompanyThinData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    company: str | None = Field(default=None, description="Current company name.")
-    email: str = Field(
-        description="Discovered work email address. Populated whenever the provider has data for the entity."
+    description: str = Field(
+        description="Company about/description text. Populated whenever the provider has data for the entity."
+    )
+    employee_count: int = Field(
+        alias="employeeCount", description="Reported employee count."
+    )
+    industry: str = Field(
+        description="Primary industry. Populated whenever the provider has data for the entity."
+    )
+    logo_url: str = Field(
+        alias="logoUrl",
+        description="Company logo image URL. Populated whenever the provider has data for the entity.",
+    )
+    name: str = Field(description="Company name.")
+    tagline: str = Field(
+        description="Company tagline/slogan. Populated whenever the provider has data for the entity."
+    )
+    website: str = Field(
+        description="Company website URL. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinEmailData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    emails: list[LinkedinEmailEmail] = Field(
+        description="Deliverability-validated work emails discovered for the profile. Populated whenever the provider has data for the entity."
     )
     first_name: str | None = Field(
-        default=None, alias="firstName", description="First name."
+        default=None,
+        alias="firstName",
+        description="First name on the LinkedIn profile.",
     )
     headline: str | None = Field(default=None, description="Profile headline.")
     last_name: str | None = Field(
-        default=None, alias="lastName", description="Last name."
+        default=None, alias="lastName", description="Last name on the LinkedIn profile."
     )
     linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="Canonical LinkedIn profile URL."
+    )
+
+
+class LinkedinEmailEmail(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    deliverable: bool | None = Field(
         default=None,
-        alias="linkedinUrl",
-        description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="True when the email passed deliverability checks (including SMTP).",
     )
-    location: str | None = Field(
-        default=None, description="Current location (city, region, country)."
+    email: str = Field(
+        description="Discovered work email address. Populated whenever the provider has data for the entity."
     )
-    name: str = Field(
-        description="Full name on the LinkedIn profile. Populated whenever the provider has data for the entity."
+    quality_score: int | None = Field(
+        default=None,
+        alias="qualityScore",
+        description="Confidence score for the email, 0-100.",
     )
-    phone: str | None = Field(default=None, description="Phone number, when available.")
-    seniority: str | None = Field(
-        default=None, description="Seniority level (e.g. entry, senior)."
+    status: str | None = Field(
+        default=None, description="Validation status of the email (e.g. valid)."
     )
-    title: str | None = Field(default=None, description="Current job title.")
+    valid_email_server: bool | None = Field(
+        default=None,
+        alias="validEmailServer",
+        description="True when the domain has a valid mail server.",
+    )
 
 
 class LinkedinJobsData(BaseModel):
     items: list[LinkedinJobsItem] = Field(
-        description="Job listing records for the search. Populated whenever the provider has data for the entity."
+        description="Full job listing records for the search. Populated whenever the provider has data for the entity."
     )
 
 
 class LinkedinJobsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    applicants: int | None = Field(
+        default=None,
+        description="Number of applicants reported by LinkedIn. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    apply_url: str | None = Field(
+        default=None,
+        alias="applyUrl",
+        description="External company apply URL when the job applies off-site.",
+    )
+    benefits: list[str] | None = Field(default=None, description="Listed benefits.")
+    company: LinkedinJobsCompany | None = Field(
+        default=None, description="Hiring company details."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the job was posted. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    description_text: str | None = Field(
+        default=None,
+        alias="descriptionText",
+        description="Full job description as plain text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    easy_apply_url: str | None = Field(
+        default=None,
+        alias="easyApplyUrl",
+        description="LinkedIn Easy Apply URL when available.",
+    )
+    employment_type: str | None = Field(
+        default=None,
+        alias="employmentType",
+        description="Employment type (e.g. full_time, contract, part_time).",
+    )
+    experience_level: str | None = Field(
+        default=None,
+        alias="experienceLevel",
+        description="Seniority / experience level (e.g. Mid-Senior level, Entry level).",
+    )
+    id: str | None = Field(default=None, description="LinkedIn job listing id.")
+    industries: list[str] | None = Field(
+        default=None, description="Industries associated with the role."
+    )
+    location: str | None = Field(
+        default=None, description="Job location (city, region, or country)."
+    )
+    salary: LinkedinJobsSalary | None = Field(
+        default=None, description="Salary range when disclosed by the poster."
+    )
+    title: str = Field(description="Job title.")
+    url: str = Field(description="Canonical LinkedIn job listing URL.")
+    workplace_type: str | None = Field(
+        default=None,
+        alias="workplaceType",
+        description="Workplace type (e.g. remote, on_site, hybrid).",
+    )
+
+
+class LinkedinJobsCompany(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="Canonical LinkedIn company URL."
+    )
+    logo: str | None = Field(default=None, description="Company logo image URL.")
+    name: str | None = Field(default=None, description="Company name.")
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="Company LinkedIn universal (vanity) name.",
+    )
+
+
+class LinkedinJobsSalary(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    max: float | None = Field(default=None, description="Maximum salary.")
+    min: float | None = Field(default=None, description="Minimum salary.")
+    text: str | None = Field(
+        default=None, description="Salary as displayed (e.g. '300,000 - 330,000 USD')."
+    )
+
+
+class LinkedinJobsThinData(BaseModel):
+    items: list[LinkedinJobsThinItem] = Field(
+        description="Job listing index records for the search. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinJobsThinItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     company: str | None = Field(
@@ -390,17 +784,10 @@ class LinkedinJobsItem(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    description: str | None = Field(
-        default=None, description="Full job description text."
-    )
     id: str | None = Field(default=None, description="LinkedIn job listing id.")
     location: str | None = Field(
         default=None,
         description="Job location (city, region). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    seniority: str | None = Field(
-        default=None,
-        description="Seniority / experience level (e.g. Entry level, Mid-Senior, Not Applicable).",
     )
     title: str = Field(
         description="Job title. Populated whenever the provider has data for the entity."
@@ -431,6 +818,124 @@ class LinkedinPostData(BaseModel):
     )
 
 
+class LinkedinPostCommentsData(BaseModel):
+    items: list[LinkedinPostCommentsItem] = Field(
+        description="The post's comments. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinPostCommentsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    actor: LinkedinPostCommentsActor | None = Field(
+        default=None, description="The commenter (a profile or a company)."
+    )
+    commentary: str = Field(
+        description="Full text of the comment. Populated whenever the provider has data for the entity."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    edited: bool | None = Field(
+        default=None, description="Whether the comment has been edited."
+    )
+    engagement: LinkedinPostCommentsEngagement | None = Field(
+        default=None, description="Engagement metrics for the comment."
+    )
+    id: str = Field(
+        description="Unique identifier of the comment. Populated whenever the provider has data for the entity."
+    )
+    pinned: bool | None = Field(
+        default=None, description="Whether the comment is pinned on the post."
+    )
+    url: str | None = Field(
+        default=None, description="Canonical permalink URL of the comment."
+    )
+
+
+class LinkedinPostCommentsActor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    image: str | None = Field(
+        default=None, description="Profile picture URL of the commenter."
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn URL of the commenter.",
+    )
+    name: str | None = Field(default=None, description="Display name of the commenter.")
+    position: str | None = Field(
+        default=None, description="Commenter's headline or job title as displayed."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Commenter kind, e.g. 'profile' or 'company'.",
+    )
+
+
+class LinkedinPostCommentsEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    comments: int | None = Field(
+        default=None, description="Number of replies to the comment."
+    )
+    likes: int | None = Field(
+        default=None, description="Number of likes on the comment."
+    )
+
+
+class LinkedinPostReactionsData(BaseModel):
+    items: list[LinkedinPostReactionsItem] = Field(
+        description="Reactions on the post, one record per reactor."
+    )
+
+
+class LinkedinPostReactionsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    actor: LinkedinPostReactionsActor = Field(
+        description="The reactor - the person or company that reacted."
+    )
+    post_id: str | None = Field(
+        default=None,
+        alias="postId",
+        description="LinkedIn URN of the post that was reacted to.",
+    )
+    reaction_type: str = Field(
+        alias="reactionType",
+        description="Reaction kind (e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION, ENTERTAINMENT).",
+    )
+
+
+class LinkedinPostReactionsActor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str | None = Field(
+        default=None, description="LinkedIn member or company id of the reactor."
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn profile or company URL of the reactor.",
+    )
+    name: str = Field(
+        description="Full name of the reactor (or company name). Populated whenever the provider has data for the entity."
+    )
+    picture_url: str | None = Field(
+        default=None,
+        alias="pictureUrl",
+        description="Profile picture URL of the reactor.",
+    )
+    position: str | None = Field(
+        default=None,
+        description="Reactor's current job title / headline (or follower count for a company).",
+    )
+
+
 class LinkedinPostTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -444,29 +949,228 @@ class LinkedinPostTranscriptData(BaseModel):
 class LinkedinProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    about: str | None = Field(
+        default=None, description="About/summary text of the profile."
+    )
+    certifications: list[LinkedinProfileCertification] | None = Field(
+        default=None, description="Licenses and certifications."
+    )
+    connections_count: int | None = Field(
+        default=None, alias="connectionsCount", description="Number of connections."
+    )
+    current_position: list[LinkedinProfileCurrentPosition] | None = Field(
+        default=None,
+        alias="currentPosition",
+        description="The member's current role(s).",
+    )
+    education: list[LinkedinProfileEducation] | None = Field(
+        default=None, description="Education entries."
+    )
+    experience: list[LinkedinProfileExperience] | None = Field(
+        default=None,
+        description="Full work experience with titles, descriptions, dates, and per-role skills. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    first_name: str = Field(
+        alias="firstName", description="First name of the profile owner."
+    )
+    follower_count: int | None = Field(
+        default=None, alias="followerCount", description="Number of followers."
+    )
+    headline: str = Field(
+        description="Professional headline shown under the name. Populated whenever the provider has data for the entity."
+    )
+    honors_and_awards: list[LinkedinProfileHonorsAndAward] | None = Field(
+        default=None, alias="honorsAndAwards", description="Honors and awards."
+    )
+    languages: list[Any] | None = Field(
+        default=None, description="Languages, as returned by LinkedIn when present."
+    )
+    last_name: str = Field(
+        alias="lastName", description="Last name of the profile owner."
+    )
+    location: str | None = Field(
+        default=None, description="Location of the profile owner."
+    )
+    open_to_work: bool | None = Field(
+        default=None,
+        alias="openToWork",
+        description="Whether the member is open to work.",
+    )
+    photo: str | None = Field(default=None, description="URL of the profile photo.")
+    premium: bool | None = Field(
+        default=None, description="Whether the member has LinkedIn Premium."
+    )
+    projects: list[Any] | None = Field(
+        default=None, description="Projects, as returned by LinkedIn when present."
+    )
+    public_identifier: str | None = Field(
+        default=None,
+        alias="publicIdentifier",
+        description="LinkedIn public identifier (the /in/ handle).",
+    )
+    publications: list[LinkedinProfilePublication] | None = Field(
+        default=None, description="Publications."
+    )
+    skills: list[LinkedinProfileSkill] | None = Field(
+        default=None, description="Endorsed skills."
+    )
+    top_skills: list[Any] | None = Field(
+        default=None,
+        alias="topSkills",
+        description="The member's top skills, as free-form strings when present.",
+    )
+    url: str = Field(description="Canonical LinkedIn profile URL.")
+    verified: bool | None = Field(
+        default=None, description="Whether the profile is identity-verified."
+    )
+
+
+class LinkedinProfileCertification(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    issued_at: str | None = Field(
+        default=None, alias="issuedAt", description="Issue date text."
+    )
+    issued_by: str | None = Field(
+        default=None, alias="issuedBy", description="Issuing organization."
+    )
+    title: str | None = Field(default=None, description="Certification title.")
+
+
+class LinkedinProfileCurrentPosition(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_linkedin_url: str | None = Field(
+        default=None, alias="companyLinkedinUrl", description="Company LinkedIn URL."
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Company name."
+    )
+    duration: str | None = Field(
+        default=None, description="Human-readable tenure, e.g. '12 yrs 6 mos'."
+    )
+    location: str | None = Field(default=None, description="Role location.")
+    position: str | None = Field(default=None, description="Job title.")
+
+
+class LinkedinProfileEducation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    degree: str | None = Field(default=None, description="Degree earned.")
+    end_date: str | None = Field(
+        default=None, alias="endDate", description="End date text."
+    )
+    field_of_study: str | None = Field(
+        default=None, alias="fieldOfStudy", description="Field of study."
+    )
+    school: str = Field(description="School name.")
+    school_url: str | None = Field(
+        default=None, alias="schoolUrl", description="School LinkedIn URL."
+    )
+    start_date: str | None = Field(
+        default=None, alias="startDate", description="Start date text."
+    )
+
+
+class LinkedinProfileExperience(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_linkedin_url: str | None = Field(
+        default=None, alias="companyLinkedinUrl", description="Company LinkedIn URL."
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Company name."
+    )
+    description: str | None = Field(default=None, description="Role description.")
+    duration: str | None = Field(
+        default=None, description="Human-readable tenure, e.g. '3 yrs 2 mos'."
+    )
+    employment_type: str | None = Field(
+        default=None,
+        alias="employmentType",
+        description="Employment type, e.g. 'Full-time'.",
+    )
+    end_date: str | None = Field(
+        default=None, alias="endDate", description="End date text, e.g. 'Present'."
+    )
+    location: str | None = Field(default=None, description="Role location.")
+    position: str = Field(
+        description="Job title. Populated whenever the provider has data for the entity."
+    )
+    skills: list[Any] | None = Field(
+        default=None, description="Skills associated with this role."
+    )
+    start_date: str | None = Field(
+        default=None, alias="startDate", description="Start date text, e.g. 'Feb 2014'."
+    )
+    workplace_type: str | None = Field(
+        default=None,
+        alias="workplaceType",
+        description="Workplace type, e.g. 'Remote' or 'On-site'.",
+    )
+
+
+class LinkedinProfileHonorsAndAward(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    description: str | None = Field(default=None, description="Award description.")
+    issued_at: str | None = Field(
+        default=None, alias="issuedAt", description="Issue date text."
+    )
+    issued_by: str | None = Field(
+        default=None, alias="issuedBy", description="Issuing organization."
+    )
+    title: str | None = Field(default=None, description="Award title.")
+
+
+class LinkedinProfilePublication(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    description: str | None = Field(
+        default=None, description="Publication description."
+    )
+    published_text: str | None = Field(
+        default=None,
+        alias="publishedText",
+        description="Publisher and/or date text as shown on LinkedIn.",
+    )
+    title: str | None = Field(default=None, description="Publication title.")
+
+
+class LinkedinProfileSkill(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    endorsements: str | None = Field(
+        default=None, description="Endorsement count text, e.g. '99+ endorsements'."
+    )
+    name: str | None = Field(default=None, description="Skill name.")
+
+
+class LinkedinProfileThinData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
     about: str = Field(description="About/summary text of the profile.")
-    articles: list[LinkedinProfileArticle] = Field(
-        description="The profile's published articles. Populated whenever the provider has data for the entity."
+    articles: list[LinkedinProfileThinArticle] = Field(
+        description="The profile's published articles."
     )
     avatar_url: str = Field(
         alias="avatarUrl", description="URL of the profile avatar image."
     )
-    education: list[LinkedinProfileEducation] = Field(
-        description="Education entries. Populated whenever the provider has data for the entity."
+    education: list[LinkedinProfileThinEducation] = Field(
+        description="Education entries."
     )
-    experience: list[LinkedinProfileExperience] = Field(
-        description="Work experience entries. Populated whenever the provider has data for the entity."
+    experience: list[LinkedinProfileThinExperience] = Field(
+        description="Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity."
     )
     followers: int = Field(description="Number of followers.")
     location: str = Field(description="Location of the profile owner.")
     name: str = Field(description="Full name of the profile owner.")
-    recent_posts: list[LinkedinProfileRecentPost] = Field(
-        alias="recentPosts",
-        description="The profile's recent posts. Populated whenever the provider has data for the entity.",
+    recent_posts: list[LinkedinProfileThinRecentPost] = Field(
+        alias="recentPosts", description="The profile's recent posts."
     )
 
 
-class LinkedinProfileArticle(BaseModel):
+class LinkedinProfileThinArticle(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     created_utc: float | None = Field(
@@ -478,7 +1182,7 @@ class LinkedinProfileArticle(BaseModel):
     url: str | None = Field(default=None, description="Canonical URL of the article.")
 
 
-class LinkedinProfileEducation(BaseModel):
+class LinkedinProfileThinEducation(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     end_date: str | None = Field(
@@ -493,7 +1197,7 @@ class LinkedinProfileEducation(BaseModel):
     )
 
 
-class LinkedinProfileExperience(BaseModel):
+class LinkedinProfileThinExperience(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     company: str = Field(description="Name of the company.")
@@ -508,7 +1212,7 @@ class LinkedinProfileExperience(BaseModel):
     )
 
 
-class LinkedinProfileRecentPost(BaseModel):
+class LinkedinProfileThinRecentPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     activity_type: str | None = Field(
@@ -594,15 +1298,15 @@ class LinkedinSearchProfilesItem(BaseModel):
     current_position: list[LinkedinSearchProfilesCurrentPosition] | None = Field(
         default=None,
         alias="currentPosition",
-        description="Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile and lane.",
+        description="Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile.",
     )
     education: list[LinkedinSearchProfilesEducation] | None = Field(
         default=None,
-        description="Education history. Each entry is an open object with school, degree, and field of study; shape can vary by profile and lane.",
+        description="Education history. Each entry is an open object with school, degree, and field of study; shape can vary by profile.",
     )
     experience: list[LinkedinSearchProfilesExperience] | None = Field(
         default=None,
-        description="Full work history. Each entry is an open object with the position title, company, dates, and location; shape can vary by profile and lane.",
+        description="Full work history. Each entry is an open object with the position title, company, dates, and location; shape can vary by profile. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     first_name: str | None = Field(
         default=None, alias="firstName", description="Member's first name."
@@ -624,6 +1328,19 @@ class LinkedinSearchProfilesItem(BaseModel):
         default=None,
         description="Member's location as a single string (city, region, country).",
     )
+    open_to_work: bool | None = Field(
+        default=None,
+        alias="openToWork",
+        description="Whether the member has the Open to Work flag set.",
+    )
+    premium: bool | None = Field(
+        default=None,
+        description="Whether the member has a LinkedIn Premium subscription.",
+    )
+    skills: list[LinkedinSearchProfilesSkill] | None = Field(
+        default=None,
+        description="Listed skills. Each entry is an open object with the skill name and endorsement summary.",
+    )
     url: str = Field(
         description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
     )
@@ -641,6 +1358,126 @@ class LinkedinSearchProfilesExperience(BaseModel):
     model_config = ConfigDict(extra="allow")
 
 
+class LinkedinSearchProfilesSkill(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEmailData(BaseModel):
+    items: list[LinkedinSearchProfilesEmailItem] = Field(
+        description="Matched profile records, each with a discovered work email. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchProfilesEmailItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    about: str | None = Field(default=None, description="Profile about / summary text.")
+    current_position: list[LinkedinSearchProfilesEmailCurrentPosition] | None = Field(
+        default=None,
+        alias="currentPosition",
+        description="Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile.",
+    )
+    education: list[LinkedinSearchProfilesEmailEducation] | None = Field(
+        default=None,
+        description="Education history. Each entry is an open object with school, degree, and field of study; shape can vary by profile.",
+    )
+    emails: list[LinkedinSearchProfilesEmailEmail] | None = Field(
+        default=None,
+        description="Discovered work email(s) for the member. Each entry is an open object with the email address plus deliverability signals (deliverable, disposable, catchAllDomain, validEmailServer, qualityScore, status); may be empty when no email could be verified. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    experience: list[LinkedinSearchProfilesEmailExperience] | None = Field(
+        default=None,
+        description="Full work history. Each entry is an open object with the position title, company, dates, and location; shape can vary by profile. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="Member's first name."
+    )
+    handle: str | None = Field(
+        default=None,
+        description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    headline: str | None = Field(
+        default=None,
+        description="Profile headline (the tagline under the name). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(description="LinkedIn member URN id for the profile.")
+    image: str | None = Field(default=None, description="Profile picture URL.")
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Member's last name."
+    )
+    location: str | None = Field(
+        default=None,
+        description="Member's location as a single string (city, region, country).",
+    )
+    open_to_work: bool | None = Field(
+        default=None,
+        alias="openToWork",
+        description="Whether the member has the Open to Work flag set.",
+    )
+    premium: bool | None = Field(
+        default=None,
+        description="Whether the member has a LinkedIn Premium subscription.",
+    )
+    skills: list[LinkedinSearchProfilesEmailSkill] | None = Field(
+        default=None,
+        description="Listed skills. Each entry is an open object with the skill name and endorsement summary.",
+    )
+    url: str = Field(
+        description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchProfilesEmailCurrentPosition(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEmailEducation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEmailEmail(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEmailExperience(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEmailSkill(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesThinData(BaseModel):
+    items: list[LinkedinSearchProfilesThinItem] = Field(
+        description="Matched profile records (basic fields only). Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchProfilesThinItem(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    handle: str | None = Field(
+        default=None,
+        description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    headline: str | None = Field(
+        default=None,
+        description="Profile headline (the tagline under the name). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn member URN id for the profile."
+    )
+    image: str | None = Field(default=None, description="Profile picture URL.")
+    location: str | None = Field(
+        default=None,
+        description="Member's location as a single string (city, region, country).",
+    )
+    name: str | None = Field(default=None, description="Member's display name.")
+    url: str = Field(
+        description="Canonical LinkedIn vanity profile URL. Populated whenever the provider has data for the entity."
+    )
+
+
 class LinkedinNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
@@ -654,7 +1491,7 @@ class LinkedinNamespace:
 
         Look up a single LinkedIn Ad Library ad by URL and get the advertiser,
         headline, creative text, format, CTA, targeting, run dates, and impressions
-        as clean JSON. **Price:** $2.00 per 1,000 requests (flat per request - same
+        as clean JSON. **Price:** \$2.00 per 1,000 requests (flat per request - same
         cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -676,8 +1513,8 @@ class LinkedinNamespace:
         """LinkedIn Ads Library
 
         Search the LinkedIn Ad Library by search URL and list the matching ads
-        (advertiser, creative text, format). **Price:** billed per result - $0.05
-        per 1,000 requests base + $1.50 per 1,000 results, capped at $30.05 per
+        (advertiser, creative text, format). **Price:** billed per result - \$0.05
+        per 1,000 requests base + \$1.50 per 1,000 results, capped at \$30.05 per
         1,000 requests.
 
         Price: $0.00005 per request plus $0.0015 per result.
@@ -700,7 +1537,7 @@ class LinkedinNamespace:
 
         Search the LinkedIn Ad Library by company or keyword and list matching ads -
         advertiser, headline, creative text, format, CTA, and run dates - with
-        pagination. **Price:** $2.00 per 1,000 requests (flat per request - same
+        pagination. **Price:** \$2.00 per 1,000 requests (flat per request - same
         cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -721,12 +1558,13 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinCompanyData]:
         """LinkedIn Company
 
-        Fetch a LinkedIn company page (description, employee count, industry,
-        website, logo) by company URL, normalized across providers with transparent
-        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        Fetch a full LinkedIn company page by URL: name, description, industry,
+        employee count and range, follower count, founded year, headquarters and
+        office locations, funding data, tagline, logo, website, and specialities.
+        **Price:** \$4.00 per 1,000 requests (flat per request - same cost
         regardless of results returned).
 
-        Price: $0.002 per request.
+        Price: $0.004 per request.
 
         Example:
             res = client.linkedin.company(url="https://www.linkedin.com/company/stripe")
@@ -745,9 +1583,8 @@ class LinkedinNamespace:
         """LinkedIn Company Employees
 
         List the employees of a LinkedIn company by name or company URL, with
-        optional job-title filtering. **Price:** billed per result - $0.00 per 1,000
-        requests base + $10.00 per 1,000 results, capped at $100.00 per 1,000
-        requests.
+        optional job-title filtering. **Price:** billed per result - \$10.00 per
+        1,000 results, capped at \$100.00 per 1,000 requests.
 
         Price: $0.01 per result.
 
@@ -767,20 +1604,66 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinCompanyPostsData]:
         """LinkedIn Company Posts
 
-        List a LinkedIn company page's recent posts by URL with page pagination
-        (text, link, publish date), normalized across providers. **Price:** $2.00
+        List a LinkedIn company page's recent posts by URL: full text, canonical
+        link, publish date, author, engagement counts with a per-reaction breakdown,
+        and attached media. **Price:** billed per result - \$0.05 per 1,000 requests
+        base + \$1.75 per 1,000 results, capped at \$87.55 per 1,000 requests.
+
+        Price: $0.00005 per request plus $0.00175 per result.
+
+        Example:
+            res = client.linkedin.company_posts(limit=10, url="https://www.linkedin.com/company/stripe")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.company_posts", dict(input), options
+        )
+        return RunResult[LinkedinCompanyPostsData].model_validate(raw)
+
+    def company_posts_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinCompanyPostsThinInput],
+    ) -> RunResult[LinkedinCompanyPostsThinData]:
+        """LinkedIn Company Posts (basic)
+
+        Post text and link only. No engagement counts, author details, media, or
+        reaction breakdown - for those use linkedin.company_posts. **Price:** \$2.00
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 
         Price: $0.002 per request.
 
         Example:
-            res = client.linkedin.company_posts(url="https://www.linkedin.com/company/stripe")
+            res = client.linkedin.company_posts_thin(url="https://www.linkedin.com/company/stripe")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
-            "linkedin.company_posts", dict(input), options
+            "linkedin.company_posts_thin", dict(input), options
         )
-        return RunResult[LinkedinCompanyPostsData].model_validate(raw)
+        return RunResult[LinkedinCompanyPostsThinData].model_validate(raw)
+
+    def company_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinCompanyThinInput],
+    ) -> RunResult[LinkedinCompanyThinData]:
+        """LinkedIn Company (basic)
+
+        Basic company: name, description, employee count, industry, logo, website,
+        tagline. No follower count, founded year, office locations, or funding data
+        - for those use linkedin.company. **Price:** \$2.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.company_thin", dict(input), options
+        )
+        return RunResult[LinkedinCompanyThinData].model_validate(raw)
 
     def email(
         self,
@@ -790,11 +1673,13 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinEmailData]:
         """LinkedIn Email Finder
 
-        Find the verified work email behind a LinkedIn profile URL or ID. **Price:**
-        billed per result - $0.00 per 1,000 requests base + $0.70 per 1,000 results,
-        capped at $0.70 per 1,000 requests.
+        Find the deliverability-validated work email behind a LinkedIn profile URL
+        or public ID. Returns each discovered email with its deliverability,
+        validation status, and quality score, plus the person's name and headline.
+        **Price:** \$10.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
-        Price: $0.0007 per result.
+        Price: $0.01 per request.
 
         Example:
             res = client.linkedin.email(profileUrl="https://www.linkedin.com/in/satyanadella")
@@ -812,19 +1697,44 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinJobsData]:
         """LinkedIn Jobs
 
-        Search LinkedIn job listings by title and location - up to 25 normalized job
-        records per request. **Price:** $1.00 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        Search LinkedIn job listings by title and location - full records with
+        description, salary, applicant count, seniority, company details, and
+        benefits. Up to 25 jobs per request. **Price:** billed per result - \$1.00
+        per 1,000 requests base + \$1.00 per 1,000 results, capped at \$26.00 per
+        1,000 requests.
 
-        Price: $0.001 per request.
+        Price: $0.001 per request plus $0.001 per result.
 
         Example:
-            res = client.linkedin.jobs(limit=3, location="San Francisco", query="software engineer")
+            res = client.linkedin.jobs(limit=3, location="United States", query="software engineer")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs", dict(input), options
         )
         return RunResult[LinkedinJobsData].model_validate(raw)
+
+    def jobs_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinJobsThinInput],
+    ) -> RunResult[LinkedinJobsThinData]:
+        """LinkedIn Jobs (index)
+
+        Cheap job index: title, company, location, posted date, URL. No description,
+        salary, applicant counts, or seniority - for those use linkedin.jobs.
+        **Price:** \$1.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
+
+        Price: $0.001 per request.
+
+        Example:
+            res = client.linkedin.jobs_thin(limit=3, location="San Francisco", query="software engineer")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.jobs_thin", dict(input), options
+        )
+        return RunResult[LinkedinJobsThinData].model_validate(raw)
 
     def post(
         self,
@@ -836,8 +1746,8 @@ class LinkedinNamespace:
 
         Fetch a single LinkedIn post or article by URL (title, text, author, like
         and comment counts, publish date), normalized across providers. **Price:**
-        $1.00 per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        \$1.00 per 1,000 requests (flat per request - same cost regardless of
+        results returned).
 
         Price: $0.001 per request.
 
@@ -849,6 +1759,50 @@ class LinkedinNamespace:
         )
         return RunResult[LinkedinPostData].model_validate(raw)
 
+    def post_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinPostCommentsInput],
+    ) -> RunResult[LinkedinPostCommentsData]:
+        """LinkedIn Post Comments
+
+        List comments on a LinkedIn post - full text, commenter name/URL/job title,
+        timestamps, and engagement. **Price:** billed per result - \$2.00 per 1,000
+        results, capped at \$200.00 per 1,000 requests.
+
+        Price: $0.002 per result.
+
+        Example:
+            res = client.linkedin.post_comments(limit=10, url="https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.post_comments", dict(input), options
+        )
+        return RunResult[LinkedinPostCommentsData].model_validate(raw)
+
+    def post_reactions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinPostReactionsInput],
+    ) -> RunResult[LinkedinPostReactionsData]:
+        """LinkedIn Post Reactions
+
+        List who reacted to a LinkedIn post - reactor name, profile URL, job title,
+        and reaction type. Lead-gen grade. **Price:** billed per result - \$2.00 per
+        1,000 results, capped at \$200.00 per 1,000 requests.
+
+        Price: $0.002 per result.
+
+        Example:
+            res = client.linkedin.post_reactions(limit=5, url="https://www.linkedin.com/posts/satyanadella_today-were-bringing-skills-to-copilot-for-activity-7475945433668694017--kvG")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.post_reactions", dict(input), options
+        )
+        return RunResult[LinkedinPostReactionsData].model_validate(raw)
+
     def post_transcript(
         self,
         *,
@@ -857,7 +1811,7 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinPostTranscriptData]:
         """LinkedIn Post Transcript
 
-        Get the spoken transcript of a LinkedIn video post by URL. **Price:** $2.00
+        Get the spoken transcript of a LinkedIn video post by URL. **Price:** \$2.00
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -879,12 +1833,15 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinProfileData]:
         """LinkedIn Profile
 
-        Fetch a LinkedIn member's public profile by URL: name, location, followers,
-        about, plus experience, education, recent posts, and published articles.
-        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
-        of results returned).
+        Fetch a rich LinkedIn member profile by URL: name, headline, avatar,
+        location, connections and followers, current position, and full work
+        experience with job titles, descriptions, dates, employment/workplace type,
+        and per-role skills, plus education, skills, certifications, honors and
+        awards, languages, projects, publications, and verified/premium/open-to-work
+        flags. **Price:** \$4.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
-        Price: $0.002 per request.
+        Price: $0.004 per request.
 
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/williamhgates")
@@ -893,6 +1850,31 @@ class LinkedinNamespace:
             "linkedin.profile", dict(input), options
         )
         return RunResult[LinkedinProfileData].model_validate(raw)
+
+    def profile_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfileThinInput],
+    ) -> RunResult[LinkedinProfileThinData]:
+        """LinkedIn Profile (basic)
+
+        Lightweight profile: name, avatar, location, followers, and a basic
+        experience/education list (company + dates only, no job titles,
+        descriptions, or skills; past companies may be redacted). For full
+        experience detail, skills, certifications, connections, and verified flags
+        use linkedin.profile. **Price:** \$2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_thin", dict(input), options
+        )
+        return RunResult[LinkedinProfileThinData].model_validate(raw)
 
     def search_companies(
         self,
@@ -903,8 +1885,8 @@ class LinkedinNamespace:
         """LinkedIn Company Search
 
         Search LinkedIn companies by keyword with optional location filtering,
-        returning normalized company records. **Price:** billed per result - $1.00
-        per 1,000 requests base + $4.00 per 1,000 results, capped at $81.00 per
+        returning normalized company records. **Price:** billed per result - \$1.00
+        per 1,000 requests base + \$4.00 per 1,000 results, capped at \$81.00 per
         1,000 requests.
 
         Price: $0.001 per request plus $0.004 per result.
@@ -926,7 +1908,7 @@ class LinkedinNamespace:
         """LinkedIn Post Search
 
         Search public LinkedIn posts by keyword (text, link, publish date),
-        normalized across providers with transparent failover. **Price:** $2.00 per
+        normalized across providers with transparent failover. **Price:** \$2.00 per
         1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -950,11 +1932,14 @@ class LinkedinNamespace:
 
         Search LinkedIn profiles by keyword with optional location and job-title
         filters. Each match returns a full profile record: name, headline, location,
-        current position, work experience, and education, plus the profile URL,
-        handle, and id. **Price:** $32.50 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        current position, work experience, education, and skills, plus the profile
+        URL, handle, and id. For a cheaper name/headline/URL-only search use
+        linkedin.search_profiles_thin; add emails with
+        linkedin.search_profiles_email. **Price:** billed per result - \$80.00 per
+        1,000 requests base + \$4.00 per 1,000 results, capped at \$180.00 per 1,000
+        requests.
 
-        Price: $0.0325 per request.
+        Price: $0.08 per request plus $0.004 per result.
 
         Example:
             res = client.linkedin.search_profiles(limit=3, query="recruiter")
@@ -963,6 +1948,59 @@ class LinkedinNamespace:
             "linkedin.search_profiles", dict(input), options
         )
         return RunResult[LinkedinSearchProfilesData].model_validate(raw)
+
+    def search_profiles_email(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchProfilesEmailInput],
+    ) -> RunResult[LinkedinSearchProfilesEmailData]:
+        """LinkedIn Profile Search + Email
+
+        People search returning a full profile AND a verified work email for each
+        hit. Search LinkedIn profiles by keyword with optional location and
+        job-title filters; each match returns the full profile record (name,
+        headline, location, current position, work experience, education, and
+        skills, plus the profile URL, handle, and id) together with an emails array
+        carrying the discovered work email and its deliverability. For a full
+        profile without email use linkedin.search_profiles; for a cheaper
+        name/headline/URL-only search use linkedin.search_profiles_thin. **Price:**
+        billed per result - \$80.00 per 1,000 requests base + \$9.00 per 1,000
+        results, capped at \$305.00 per 1,000 requests.
+
+        Price: $0.08 per request plus $0.009 per result.
+
+        Example:
+            res = client.linkedin.search_profiles_email(limit=3, query="recruiter")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_profiles_email", dict(input), options
+        )
+        return RunResult[LinkedinSearchProfilesEmailData].model_validate(raw)
+
+    def search_profiles_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchProfilesThinInput],
+    ) -> RunResult[LinkedinSearchProfilesThinData]:
+        """LinkedIn Profile Search (basic)
+
+        Cheap people search: name/handle, headline, VANITY profile URL, location. No
+        full profile or email - for full profiles per hit use
+        linkedin.search_profiles, add emails with linkedin.search_profiles_email.
+        **Price:** \$32.50 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
+
+        Price: $0.0325 per request.
+
+        Example:
+            res = client.linkedin.search_profiles_thin(query="recruiter")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_profiles_thin", dict(input), options
+        )
+        return RunResult[LinkedinSearchProfilesThinData].model_validate(raw)
 
 
 class AsyncLinkedinNamespace:
@@ -978,7 +2016,7 @@ class AsyncLinkedinNamespace:
 
         Look up a single LinkedIn Ad Library ad by URL and get the advertiser,
         headline, creative text, format, CTA, targeting, run dates, and impressions
-        as clean JSON. **Price:** $2.00 per 1,000 requests (flat per request - same
+        as clean JSON. **Price:** \$2.00 per 1,000 requests (flat per request - same
         cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -1000,8 +2038,8 @@ class AsyncLinkedinNamespace:
         """LinkedIn Ads Library
 
         Search the LinkedIn Ad Library by search URL and list the matching ads
-        (advertiser, creative text, format). **Price:** billed per result - $0.05
-        per 1,000 requests base + $1.50 per 1,000 results, capped at $30.05 per
+        (advertiser, creative text, format). **Price:** billed per result - \$0.05
+        per 1,000 requests base + \$1.50 per 1,000 results, capped at \$30.05 per
         1,000 requests.
 
         Price: $0.00005 per request plus $0.0015 per result.
@@ -1024,7 +2062,7 @@ class AsyncLinkedinNamespace:
 
         Search the LinkedIn Ad Library by company or keyword and list matching ads -
         advertiser, headline, creative text, format, CTA, and run dates - with
-        pagination. **Price:** $2.00 per 1,000 requests (flat per request - same
+        pagination. **Price:** \$2.00 per 1,000 requests (flat per request - same
         cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -1045,12 +2083,13 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinCompanyData]:
         """LinkedIn Company
 
-        Fetch a LinkedIn company page (description, employee count, industry,
-        website, logo) by company URL, normalized across providers with transparent
-        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        Fetch a full LinkedIn company page by URL: name, description, industry,
+        employee count and range, follower count, founded year, headquarters and
+        office locations, funding data, tagline, logo, website, and specialities.
+        **Price:** \$4.00 per 1,000 requests (flat per request - same cost
         regardless of results returned).
 
-        Price: $0.002 per request.
+        Price: $0.004 per request.
 
         Example:
             res = client.linkedin.company(url="https://www.linkedin.com/company/stripe")
@@ -1069,9 +2108,8 @@ class AsyncLinkedinNamespace:
         """LinkedIn Company Employees
 
         List the employees of a LinkedIn company by name or company URL, with
-        optional job-title filtering. **Price:** billed per result - $0.00 per 1,000
-        requests base + $10.00 per 1,000 results, capped at $100.00 per 1,000
-        requests.
+        optional job-title filtering. **Price:** billed per result - \$10.00 per
+        1,000 results, capped at \$100.00 per 1,000 requests.
 
         Price: $0.01 per result.
 
@@ -1091,20 +2129,66 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinCompanyPostsData]:
         """LinkedIn Company Posts
 
-        List a LinkedIn company page's recent posts by URL with page pagination
-        (text, link, publish date), normalized across providers. **Price:** $2.00
+        List a LinkedIn company page's recent posts by URL: full text, canonical
+        link, publish date, author, engagement counts with a per-reaction breakdown,
+        and attached media. **Price:** billed per result - \$0.05 per 1,000 requests
+        base + \$1.75 per 1,000 results, capped at \$87.55 per 1,000 requests.
+
+        Price: $0.00005 per request plus $0.00175 per result.
+
+        Example:
+            res = client.linkedin.company_posts(limit=10, url="https://www.linkedin.com/company/stripe")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.company_posts", dict(input), options
+        )
+        return RunResult[LinkedinCompanyPostsData].model_validate(raw)
+
+    async def company_posts_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinCompanyPostsThinInput],
+    ) -> RunResult[LinkedinCompanyPostsThinData]:
+        """LinkedIn Company Posts (basic)
+
+        Post text and link only. No engagement counts, author details, media, or
+        reaction breakdown - for those use linkedin.company_posts. **Price:** \$2.00
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 
         Price: $0.002 per request.
 
         Example:
-            res = client.linkedin.company_posts(url="https://www.linkedin.com/company/stripe")
+            res = client.linkedin.company_posts_thin(url="https://www.linkedin.com/company/stripe")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
-            "linkedin.company_posts", dict(input), options
+            "linkedin.company_posts_thin", dict(input), options
         )
-        return RunResult[LinkedinCompanyPostsData].model_validate(raw)
+        return RunResult[LinkedinCompanyPostsThinData].model_validate(raw)
+
+    async def company_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinCompanyThinInput],
+    ) -> RunResult[LinkedinCompanyThinData]:
+        """LinkedIn Company (basic)
+
+        Basic company: name, description, employee count, industry, logo, website,
+        tagline. No follower count, founded year, office locations, or funding data
+        - for those use linkedin.company. **Price:** \$2.00 per 1,000 requests (flat
+        per request - same cost regardless of results returned).
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.company_thin", dict(input), options
+        )
+        return RunResult[LinkedinCompanyThinData].model_validate(raw)
 
     async def email(
         self,
@@ -1114,11 +2198,13 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinEmailData]:
         """LinkedIn Email Finder
 
-        Find the verified work email behind a LinkedIn profile URL or ID. **Price:**
-        billed per result - $0.00 per 1,000 requests base + $0.70 per 1,000 results,
-        capped at $0.70 per 1,000 requests.
+        Find the deliverability-validated work email behind a LinkedIn profile URL
+        or public ID. Returns each discovered email with its deliverability,
+        validation status, and quality score, plus the person's name and headline.
+        **Price:** \$10.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
-        Price: $0.0007 per result.
+        Price: $0.01 per request.
 
         Example:
             res = client.linkedin.email(profileUrl="https://www.linkedin.com/in/satyanadella")
@@ -1136,19 +2222,44 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinJobsData]:
         """LinkedIn Jobs
 
-        Search LinkedIn job listings by title and location - up to 25 normalized job
-        records per request. **Price:** $1.00 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        Search LinkedIn job listings by title and location - full records with
+        description, salary, applicant count, seniority, company details, and
+        benefits. Up to 25 jobs per request. **Price:** billed per result - \$1.00
+        per 1,000 requests base + \$1.00 per 1,000 results, capped at \$26.00 per
+        1,000 requests.
 
-        Price: $0.001 per request.
+        Price: $0.001 per request plus $0.001 per result.
 
         Example:
-            res = client.linkedin.jobs(limit=3, location="San Francisco", query="software engineer")
+            res = client.linkedin.jobs(limit=3, location="United States", query="software engineer")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs", dict(input), options
         )
         return RunResult[LinkedinJobsData].model_validate(raw)
+
+    async def jobs_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinJobsThinInput],
+    ) -> RunResult[LinkedinJobsThinData]:
+        """LinkedIn Jobs (index)
+
+        Cheap job index: title, company, location, posted date, URL. No description,
+        salary, applicant counts, or seniority - for those use linkedin.jobs.
+        **Price:** \$1.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
+
+        Price: $0.001 per request.
+
+        Example:
+            res = client.linkedin.jobs_thin(limit=3, location="San Francisco", query="software engineer")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.jobs_thin", dict(input), options
+        )
+        return RunResult[LinkedinJobsThinData].model_validate(raw)
 
     async def post(
         self,
@@ -1160,8 +2271,8 @@ class AsyncLinkedinNamespace:
 
         Fetch a single LinkedIn post or article by URL (title, text, author, like
         and comment counts, publish date), normalized across providers. **Price:**
-        $1.00 per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        \$1.00 per 1,000 requests (flat per request - same cost regardless of
+        results returned).
 
         Price: $0.001 per request.
 
@@ -1173,6 +2284,50 @@ class AsyncLinkedinNamespace:
         )
         return RunResult[LinkedinPostData].model_validate(raw)
 
+    async def post_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinPostCommentsInput],
+    ) -> RunResult[LinkedinPostCommentsData]:
+        """LinkedIn Post Comments
+
+        List comments on a LinkedIn post - full text, commenter name/URL/job title,
+        timestamps, and engagement. **Price:** billed per result - \$2.00 per 1,000
+        results, capped at \$200.00 per 1,000 requests.
+
+        Price: $0.002 per result.
+
+        Example:
+            res = client.linkedin.post_comments(limit=10, url="https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.post_comments", dict(input), options
+        )
+        return RunResult[LinkedinPostCommentsData].model_validate(raw)
+
+    async def post_reactions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinPostReactionsInput],
+    ) -> RunResult[LinkedinPostReactionsData]:
+        """LinkedIn Post Reactions
+
+        List who reacted to a LinkedIn post - reactor name, profile URL, job title,
+        and reaction type. Lead-gen grade. **Price:** billed per result - \$2.00 per
+        1,000 results, capped at \$200.00 per 1,000 requests.
+
+        Price: $0.002 per result.
+
+        Example:
+            res = client.linkedin.post_reactions(limit=5, url="https://www.linkedin.com/posts/satyanadella_today-were-bringing-skills-to-copilot-for-activity-7475945433668694017--kvG")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.post_reactions", dict(input), options
+        )
+        return RunResult[LinkedinPostReactionsData].model_validate(raw)
+
     async def post_transcript(
         self,
         *,
@@ -1181,7 +2336,7 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinPostTranscriptData]:
         """LinkedIn Post Transcript
 
-        Get the spoken transcript of a LinkedIn video post by URL. **Price:** $2.00
+        Get the spoken transcript of a LinkedIn video post by URL. **Price:** \$2.00
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -1203,12 +2358,15 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinProfileData]:
         """LinkedIn Profile
 
-        Fetch a LinkedIn member's public profile by URL: name, location, followers,
-        about, plus experience, education, recent posts, and published articles.
-        **Price:** $2.00 per 1,000 requests (flat per request - same cost regardless
-        of results returned).
+        Fetch a rich LinkedIn member profile by URL: name, headline, avatar,
+        location, connections and followers, current position, and full work
+        experience with job titles, descriptions, dates, employment/workplace type,
+        and per-role skills, plus education, skills, certifications, honors and
+        awards, languages, projects, publications, and verified/premium/open-to-work
+        flags. **Price:** \$4.00 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
 
-        Price: $0.002 per request.
+        Price: $0.004 per request.
 
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/williamhgates")
@@ -1217,6 +2375,31 @@ class AsyncLinkedinNamespace:
             "linkedin.profile", dict(input), options
         )
         return RunResult[LinkedinProfileData].model_validate(raw)
+
+    async def profile_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfileThinInput],
+    ) -> RunResult[LinkedinProfileThinData]:
+        """LinkedIn Profile (basic)
+
+        Lightweight profile: name, avatar, location, followers, and a basic
+        experience/education list (company + dates only, no job titles,
+        descriptions, or skills; past companies may be redacted). For full
+        experience detail, skills, certifications, connections, and verified flags
+        use linkedin.profile. **Price:** \$2.00 per 1,000 requests (flat per request
+        - same cost regardless of results returned).
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_thin", dict(input), options
+        )
+        return RunResult[LinkedinProfileThinData].model_validate(raw)
 
     async def search_companies(
         self,
@@ -1227,8 +2410,8 @@ class AsyncLinkedinNamespace:
         """LinkedIn Company Search
 
         Search LinkedIn companies by keyword with optional location filtering,
-        returning normalized company records. **Price:** billed per result - $1.00
-        per 1,000 requests base + $4.00 per 1,000 results, capped at $81.00 per
+        returning normalized company records. **Price:** billed per result - \$1.00
+        per 1,000 requests base + \$4.00 per 1,000 results, capped at \$81.00 per
         1,000 requests.
 
         Price: $0.001 per request plus $0.004 per result.
@@ -1250,7 +2433,7 @@ class AsyncLinkedinNamespace:
         """LinkedIn Post Search
 
         Search public LinkedIn posts by keyword (text, link, publish date),
-        normalized across providers with transparent failover. **Price:** $2.00 per
+        normalized across providers with transparent failover. **Price:** \$2.00 per
         1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -1274,11 +2457,14 @@ class AsyncLinkedinNamespace:
 
         Search LinkedIn profiles by keyword with optional location and job-title
         filters. Each match returns a full profile record: name, headline, location,
-        current position, work experience, and education, plus the profile URL,
-        handle, and id. **Price:** $32.50 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        current position, work experience, education, and skills, plus the profile
+        URL, handle, and id. For a cheaper name/headline/URL-only search use
+        linkedin.search_profiles_thin; add emails with
+        linkedin.search_profiles_email. **Price:** billed per result - \$80.00 per
+        1,000 requests base + \$4.00 per 1,000 results, capped at \$180.00 per 1,000
+        requests.
 
-        Price: $0.0325 per request.
+        Price: $0.08 per request plus $0.004 per result.
 
         Example:
             res = client.linkedin.search_profiles(limit=3, query="recruiter")
@@ -1287,3 +2473,56 @@ class AsyncLinkedinNamespace:
             "linkedin.search_profiles", dict(input), options
         )
         return RunResult[LinkedinSearchProfilesData].model_validate(raw)
+
+    async def search_profiles_email(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchProfilesEmailInput],
+    ) -> RunResult[LinkedinSearchProfilesEmailData]:
+        """LinkedIn Profile Search + Email
+
+        People search returning a full profile AND a verified work email for each
+        hit. Search LinkedIn profiles by keyword with optional location and
+        job-title filters; each match returns the full profile record (name,
+        headline, location, current position, work experience, education, and
+        skills, plus the profile URL, handle, and id) together with an emails array
+        carrying the discovered work email and its deliverability. For a full
+        profile without email use linkedin.search_profiles; for a cheaper
+        name/headline/URL-only search use linkedin.search_profiles_thin. **Price:**
+        billed per result - \$80.00 per 1,000 requests base + \$9.00 per 1,000
+        results, capped at \$305.00 per 1,000 requests.
+
+        Price: $0.08 per request plus $0.009 per result.
+
+        Example:
+            res = client.linkedin.search_profiles_email(limit=3, query="recruiter")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_profiles_email", dict(input), options
+        )
+        return RunResult[LinkedinSearchProfilesEmailData].model_validate(raw)
+
+    async def search_profiles_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchProfilesThinInput],
+    ) -> RunResult[LinkedinSearchProfilesThinData]:
+        """LinkedIn Profile Search (basic)
+
+        Cheap people search: name/handle, headline, VANITY profile URL, location. No
+        full profile or email - for full profiles per hit use
+        linkedin.search_profiles, add emails with linkedin.search_profiles_email.
+        **Price:** \$32.50 per 1,000 requests (flat per request - same cost
+        regardless of results returned).
+
+        Price: $0.0325 per request.
+
+        Example:
+            res = client.linkedin.search_profiles_thin(query="recruiter")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_profiles_thin", dict(input), options
+        )
+        return RunResult[LinkedinSearchProfilesThinData].model_validate(raw)

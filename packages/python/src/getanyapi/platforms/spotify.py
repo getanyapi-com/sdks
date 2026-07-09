@@ -357,7 +357,7 @@ class SpotifyNamespace:
         """Spotify Album
 
         Fetch a Spotify album's tracklist, play counts, label, and release details
-        by album URL or ID. **Price:** $2.00 per 1,000 requests (flat per request -
+        by album URL or ID. **Price:** \$2.00 per 1,000 requests (flat per request -
         same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -379,7 +379,7 @@ class SpotifyNamespace:
         """Spotify Artist
 
         Fetch a Spotify artist's discography (albums, singles, top tracks) and
-        metadata by artist URL or ID. **Price:** $2.00 per 1,000 requests (flat per
+        metadata by artist URL or ID. **Price:** \$2.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -401,8 +401,8 @@ class SpotifyNamespace:
         """Spotify Play Count
 
         Fetch stream counts and stats for a Spotify track, album, or artist URL.
-        **Price:** billed per result - $0.00 per 1,000 requests base + $3.00 per
-        1,000 results, capped at $3.00 per 1,000 requests.
+        **Price:** billed per result - \$3.00 per 1,000 results, capped at \$3.00
+        per 1,000 requests.
 
         Price: $0.003 per result.
 
@@ -423,7 +423,7 @@ class SpotifyNamespace:
         """Spotify Podcast
 
         Fetch a Spotify podcast show's name, publisher, description, rating, and
-        topics by show URL or ID. **Price:** $2.00 per 1,000 requests (flat per
+        topics by show URL or ID. **Price:** \$2.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -445,7 +445,7 @@ class SpotifyNamespace:
         """Spotify Podcast Episodes
 
         List a Spotify podcast show's episodes with titles, durations, descriptions,
-        and release dates by show URL or ID. **Price:** $2.00 per 1,000 requests
+        and release dates by show URL or ID. **Price:** \$2.00 per 1,000 requests
         (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -490,7 +490,7 @@ class SpotifyNamespace:
         """Spotify Search
 
         Search Spotify for matching tracks, albums, artists, podcasts, and playlists
-        by keyword. **Price:** $2.00 per 1,000 requests (flat per request - same
+        by keyword. **Price:** \$2.00 per 1,000 requests (flat per request - same
         cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -512,7 +512,7 @@ class SpotifyNamespace:
         """Spotify Track
 
         Fetch a Spotify track's play count, popularity, duration, and album details
-        by track URL or ID. **Price:** $2.00 per 1,000 requests (flat per request -
+        by track URL or ID. **Price:** \$2.00 per 1,000 requests (flat per request -
         same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -541,7 +541,7 @@ class AsyncSpotifyNamespace:
         """Spotify Album
 
         Fetch a Spotify album's tracklist, play counts, label, and release details
-        by album URL or ID. **Price:** $2.00 per 1,000 requests (flat per request -
+        by album URL or ID. **Price:** \$2.00 per 1,000 requests (flat per request -
         same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -563,7 +563,7 @@ class AsyncSpotifyNamespace:
         """Spotify Artist
 
         Fetch a Spotify artist's discography (albums, singles, top tracks) and
-        metadata by artist URL or ID. **Price:** $2.00 per 1,000 requests (flat per
+        metadata by artist URL or ID. **Price:** \$2.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -585,8 +585,8 @@ class AsyncSpotifyNamespace:
         """Spotify Play Count
 
         Fetch stream counts and stats for a Spotify track, album, or artist URL.
-        **Price:** billed per result - $0.00 per 1,000 requests base + $3.00 per
-        1,000 results, capped at $3.00 per 1,000 requests.
+        **Price:** billed per result - \$3.00 per 1,000 results, capped at \$3.00
+        per 1,000 requests.
 
         Price: $0.003 per result.
 
@@ -607,7 +607,7 @@ class AsyncSpotifyNamespace:
         """Spotify Podcast
 
         Fetch a Spotify podcast show's name, publisher, description, rating, and
-        topics by show URL or ID. **Price:** $2.00 per 1,000 requests (flat per
+        topics by show URL or ID. **Price:** \$2.00 per 1,000 requests (flat per
         request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -629,7 +629,7 @@ class AsyncSpotifyNamespace:
         """Spotify Podcast Episodes
 
         List a Spotify podcast show's episodes with titles, durations, descriptions,
-        and release dates by show URL or ID. **Price:** $2.00 per 1,000 requests
+        and release dates by show URL or ID. **Price:** \$2.00 per 1,000 requests
         (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -674,7 +674,7 @@ class AsyncSpotifyNamespace:
         """Spotify Search
 
         Search Spotify for matching tracks, albums, artists, podcasts, and playlists
-        by keyword. **Price:** $2.00 per 1,000 requests (flat per request - same
+        by keyword. **Price:** \$2.00 per 1,000 requests (flat per request - same
         cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -696,7 +696,7 @@ class AsyncSpotifyNamespace:
         """Spotify Track
 
         Fetch a Spotify track's play count, popularity, duration, and album details
-        by track URL or ID. **Price:** $2.00 per 1,000 requests (flat per request -
+        by track URL or ID. **Price:** \$2.00 per 1,000 requests (flat per request -
         same cost regardless of results returned).
 
         Price: $0.002 per request.

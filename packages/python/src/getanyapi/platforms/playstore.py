@@ -85,8 +85,7 @@ class PlaystoreNamespace:
 
         Fetch Google Play reviews for any Android app by package name or store URL -
         ratings, review text, dates, and helpfulness votes. **Price:** billed per
-        result - $0.00 per 1,000 requests base + $0.11 per 1,000 results, capped at
-        $11.00 per 1,000 requests.
+        result - \$0.11 per 1,000 results, capped at \$11.00 per 1,000 requests.
 
         Price: $0.00011 per result.
 
@@ -115,8 +114,7 @@ class AsyncPlaystoreNamespace:
 
         Fetch Google Play reviews for any Android app by package name or store URL -
         ratings, review text, dates, and helpfulness votes. **Price:** billed per
-        result - $0.00 per 1,000 requests base + $0.11 per 1,000 results, capped at
-        $11.00 per 1,000 requests.
+        result - \$0.11 per 1,000 results, capped at \$11.00 per 1,000 requests.
 
         Price: $0.00011 per result.
 

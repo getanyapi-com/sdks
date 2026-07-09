@@ -127,7 +127,7 @@ export class RedfinNamespace {
    *
    * Run a Redfin map search by URL and get matching home listings (price, address, beds, baths, status) as normalized JSON.
 
-**Price:** billed per result - $2.70 per 1,000 requests base + $0.43 per 1,000 results, capped at $13.45 per 1,000 requests.
+**Price:** billed per result - \$2.70 per 1,000 requests base + \$0.43 per 1,000 results, capped at \$13.45 per 1,000 requests.
    *
    * Price: $0.0027 per request plus $0.00043 per result.
    *

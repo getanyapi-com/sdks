@@ -1167,7 +1167,7 @@ export class InstagramNamespace {
    *
    * List Instagram reels that use a given audio track by audio id, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1209,7 +1209,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1228,7 +1228,7 @@ export class InstagramNamespace {
    *
    * Fetch the public embed HTML for an Instagram profile by handle, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1247,7 +1247,7 @@ export class InstagramNamespace {
    *
    * List the followers of any public Instagram account by username - follower usernames, names, and profile details.
 
-**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *
@@ -1286,7 +1286,7 @@ export class InstagramNamespace {
    *
    * List the accounts a public Instagram user follows - usernames, names, and profile details.
 
-**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *
@@ -1325,7 +1325,7 @@ export class InstagramNamespace {
    *
    * Get analytics for any Instagram hashtag - total post count, related hashtags, and usage signals - normalized.
 
-**Price:** billed per result - $1.00 per 1,000 requests base + $1.70 per 1,000 results, capped at $35.00 per 1,000 requests.
+**Price:** billed per result - \$1.00 per 1,000 requests base + \$1.70 per 1,000 results, capped at \$35.00 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.0017 per result.
    *
@@ -1344,7 +1344,7 @@ export class InstagramNamespace {
    *
    * Fetch the details and media items of a single Instagram story highlight by id, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1363,7 +1363,7 @@ export class InstagramNamespace {
    *
    * Get the spoken-audio transcript text for an Instagram post or reel by URL, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1382,7 +1382,7 @@ export class InstagramNamespace {
    *
    * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON, across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1401,7 +1401,7 @@ export class InstagramNamespace {
    *
    * List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes), normalized across providers.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1420,7 +1420,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1439,7 +1439,7 @@ export class InstagramNamespace {
    *
    * Turn any public Instagram reel or video post into a full speech transcript, with optional word-level timestamps.
 
-**Price:** billed per result - $5.00 per 1,000 requests base + $20.00 per 1,000 results, capped at $25.00 per 1,000 requests.
+**Price:** billed per result - \$5.00 per 1,000 requests base + \$20.00 per 1,000 results, capped at \$25.00 per 1,000 requests.
    *
    * Price: $0.005 per request plus $0.02 per result.
    *
@@ -1458,7 +1458,7 @@ export class InstagramNamespace {
    *
    * Search Instagram Reels by keyword and get matching reels - caption, views, likes, creator, and duration - normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1477,7 +1477,7 @@ export class InstagramNamespace {
    *
    * Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.
 
-**Price:** $3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00325 per request.
    *
@@ -1496,7 +1496,7 @@ export class InstagramNamespace {
    *
    * List recent Instagram posts under a hashtag (caption, type, media URL), normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1515,7 +1515,7 @@ export class InstagramNamespace {
    *
    * Search public Instagram profiles by a bio or caption keyword, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1560,7 +1560,7 @@ export class InstagramNamespace {
    *
    * Fetch public Instagram accounts' currently live stories with the full record - media (image and video), type, dimensions, posting time, 24h expiry, and caption. Up to 100 usernames per request.
 
-**Price:** billed per username - $99.00 per 1,000 requests base + $3.00 per 1,000 usernames, capped at $102.00 per 1,000 requests.
+**Price:** billed per username - \$99.00 per 1,000 requests base + \$3.00 per 1,000 usernames, capped at \$102.00 per 1,000 requests.
    *
    * Price: $0.099 per request plus $0.003 per username.
    *
@@ -1579,7 +1579,7 @@ export class InstagramNamespace {
    *
    * Fetch a public Instagram account's currently live stories - media URL, owner, and posting time - by username. Lightweight projection; for media type, dimensions, and the 24h expiry time use instagram.stories_full.
 
-**Price:** $16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *
@@ -1598,7 +1598,7 @@ export class InstagramNamespace {
    *
    * List currently trending Instagram reels, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1617,7 +1617,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's story highlight reels by handle, normalized across providers with transparent failover.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1636,7 +1636,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination, normalized across providers.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -1675,7 +1675,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments), normalized across providers.
 
-**Price:** $2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *

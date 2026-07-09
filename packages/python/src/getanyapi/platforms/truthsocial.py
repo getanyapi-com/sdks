@@ -137,7 +137,7 @@ class TruthsocialNamespace:
         """Truth Social Post
 
         Get a single Truth Social post by its URL - text, author, engagement (likes,
-        comments, shares), and timestamp as clean JSON. **Price:** $3.25 per 1,000
+        comments, shares), and timestamp as clean JSON. **Price:** \$3.25 per 1,000
         requests (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
@@ -159,7 +159,7 @@ class TruthsocialNamespace:
         """Truth Social Profile
 
         Get a Truth Social account's public profile by handle - display name, bio,
-        follower/following counts, and post count as clean JSON. **Price:** $3.25
+        follower/following counts, and post count as clean JSON. **Price:** \$3.25
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -182,7 +182,7 @@ class TruthsocialNamespace:
         """Truth Social User Posts
 
         List a Truth Social account's recent posts by handle - text, engagement
-        (likes, comments, shares), and timestamps as clean JSON. **Price:** $3.25
+        (likes, comments, shares), and timestamps as clean JSON. **Price:** \$3.25
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -212,7 +212,7 @@ class AsyncTruthsocialNamespace:
         """Truth Social Post
 
         Get a single Truth Social post by its URL - text, author, engagement (likes,
-        comments, shares), and timestamp as clean JSON. **Price:** $3.25 per 1,000
+        comments, shares), and timestamp as clean JSON. **Price:** \$3.25 per 1,000
         requests (flat per request - same cost regardless of results returned).
 
         Price: $0.00325 per request.
@@ -234,7 +234,7 @@ class AsyncTruthsocialNamespace:
         """Truth Social Profile
 
         Get a Truth Social account's public profile by handle - display name, bio,
-        follower/following counts, and post count as clean JSON. **Price:** $3.25
+        follower/following counts, and post count as clean JSON. **Price:** \$3.25
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -257,7 +257,7 @@ class AsyncTruthsocialNamespace:
         """Truth Social User Posts
 
         List a Truth Social account's recent posts by handle - text, engagement
-        (likes, comments, shares), and timestamps as clean JSON. **Price:** $3.25
+        (likes, comments, shares), and timestamps as clean JSON. **Price:** \$3.25
         per 1,000 requests (flat per request - same cost regardless of results
         returned).
 

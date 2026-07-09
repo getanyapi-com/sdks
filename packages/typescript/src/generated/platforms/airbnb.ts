@@ -102,7 +102,7 @@ export class AirbnbNamespace {
    *
    * Search Airbnb listings by location and dates and get results (name, price, rating, host) as normalized JSON.
 
-**Price:** billed per result - $0.08 per 1,000 requests base + $1.50 per 1,000 results, capped at $30.08 per 1,000 requests.
+**Price:** billed per result - \$0.08 per 1,000 requests base + \$1.50 per 1,000 results, capped at \$30.08 per 1,000 requests.
    *
    * Price: $0.00008 per request plus $0.0015 per result.
    *

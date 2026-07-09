@@ -90,8 +90,8 @@ class EmailNamespace:
         """Email Finder
 
         Find a person's work email address from their name and company domain.
-        **Price:** billed per result - $5.00 per 1,000 requests base + $8.00 per
-        1,000 results, capped at $13.00 per 1,000 requests.
+        **Price:** billed per result - \$5.00 per 1,000 requests base + \$8.00 per
+        1,000 results, capped at \$13.00 per 1,000 requests.
 
         Price: $0.005 per request plus $0.008 per result.
 
@@ -112,9 +112,8 @@ class EmailNamespace:
         """Email Verifier
 
         Verify any email address for deliverability - syntax, domain, and mailbox
-        checks in one normalized response. **Price:** billed per result - $0.00 per
-        1,000 requests base + $0.80 per 1,000 results, capped at $0.80 per 1,000
-        requests.
+        checks in one normalized response. **Price:** billed per result - \$0.80 per
+        1,000 results, capped at \$0.80 per 1,000 requests.
 
         Price: $0.0008 per result.
 
@@ -139,8 +138,8 @@ class AsyncEmailNamespace:
         """Email Finder
 
         Find a person's work email address from their name and company domain.
-        **Price:** billed per result - $5.00 per 1,000 requests base + $8.00 per
-        1,000 results, capped at $13.00 per 1,000 requests.
+        **Price:** billed per result - \$5.00 per 1,000 requests base + \$8.00 per
+        1,000 results, capped at \$13.00 per 1,000 requests.
 
         Price: $0.005 per request plus $0.008 per result.
 
@@ -161,9 +160,8 @@ class AsyncEmailNamespace:
         """Email Verifier
 
         Verify any email address for deliverability - syntax, domain, and mailbox
-        checks in one normalized response. **Price:** billed per result - $0.00 per
-        1,000 requests base + $0.80 per 1,000 results, capped at $0.80 per 1,000
-        requests.
+        checks in one normalized response. **Price:** billed per result - \$0.80 per
+        1,000 results, capped at \$0.80 per 1,000 requests.
 
         Price: $0.0008 per result.
 

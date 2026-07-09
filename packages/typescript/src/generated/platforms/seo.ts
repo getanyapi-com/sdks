@@ -912,7 +912,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO competitor domains for a target domain with shared keyword counts and organic metrics as normalized JSON.
 
-**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
+**Price:** billed per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at \$175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
@@ -931,7 +931,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO keyword overlap for two domains with each domain's rankings, URLs, volume, CPC, and difficulty as normalized JSON.
 
-**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
+**Price:** billed per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at \$175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
@@ -950,7 +950,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as normalized JSON.
 
-**Price:** $15.60 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$15.60 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0156 per request.
    *
@@ -969,7 +969,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO keyword difficulty scores for one or more keywords as normalized JSON.
 
-**Price:** billed per keyword - $15.60 per 1,000 requests base + $0.16 per 1,000 keywords, capped at $175.60 per 1,000 requests.
+**Price:** billed per keyword - \$15.60 per 1,000 requests base + \$0.16 per 1,000 keywords, capped at \$175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per keyword.
    *
@@ -988,7 +988,7 @@ export class SeoNamespace {
    *
    * Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON.
 
-**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
+**Price:** billed per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at \$175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
@@ -1007,7 +1007,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO keyword metrics including search volume, CPC, competition, difficulty, and search intent as normalized JSON.
 
-**Price:** billed per keyword - $15.60 per 1,000 requests base + $0.16 per 1,000 keywords, capped at $127.60 per 1,000 requests.
+**Price:** billed per keyword - \$15.60 per 1,000 requests base + \$0.16 per 1,000 keywords, capped at \$127.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per keyword.
    *
@@ -1026,7 +1026,7 @@ export class SeoNamespace {
    *
    * Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC, competition, difficulty, and intent as normalized JSON.
 
-**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
+**Price:** billed per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at \$175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
@@ -1045,7 +1045,7 @@ export class SeoNamespace {
    *
    * Search AnyAPI SEO local pack results with rankings, ratings, addresses, and contact basics as normalized JSON.
 
-**Price:** $2.60 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$2.60 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0026 per request.
    *
@@ -1064,7 +1064,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO ranked keywords for a domain with rankings, traffic estimates, volume, CPC, difficulty, and intent as normalized JSON.
 
-**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
+**Price:** billed per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at \$175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
@@ -1083,7 +1083,7 @@ export class SeoNamespace {
    *
    * Find AnyAPI SEO related keywords from a seed term with volume, CPC, competition, difficulty, and intent as normalized JSON.
 
-**Price:** billed per result - $15.60 per 1,000 requests base + $0.16 per 1,000 results, capped at $175.60 per 1,000 requests.
+**Price:** billed per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at \$175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per result.
    *
@@ -1102,7 +1102,7 @@ export class SeoNamespace {
    *
    * Classify AnyAPI SEO keyword search intent as normalized JSON.
 
-**Price:** billed per keyword - $15.60 per 1,000 requests base + $0.16 per 1,000 keywords, capped at $175.60 per 1,000 requests.
+**Price:** billed per keyword - \$15.60 per 1,000 requests base + \$0.16 per 1,000 keywords, capped at \$175.60 per 1,000 requests.
    *
    * Price: $0.0156 per request plus $0.00016 per keyword.
    *
@@ -1121,7 +1121,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and monthly history as normalized JSON.
 
-**Price:** $117.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$117.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.117 per request.
    *

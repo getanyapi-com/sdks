@@ -64,7 +64,7 @@ export class SocialNamespace {
    *
    * Find a person's or brand's profiles across major social networks from a single name, returned as normalized JSON.
 
-**Price:** billed per result - $1.00 per 1,000 requests base + $2.00 per 1,000 results, capped at $21.00 per 1,000 requests.
+**Price:** billed per result - \$1.00 per 1,000 requests base + \$2.00 per 1,000 results, capped at \$21.00 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.002 per result.
    *

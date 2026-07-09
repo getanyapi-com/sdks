@@ -1972,6 +1972,7 @@
         "name": "sample",
         "description": "sample",
         "employeeCount": 1,
+        "followerCount": 1,
         "industry": "sample",
         "website": "sample",
         "tagline": "sample",
@@ -2003,7 +2004,7 @@
     "output": {
       "found": true,
       "data": {
-        "posts": [
+        "items": [
           {
             "id": "sample",
             "url": "sample",
@@ -2018,13 +2019,49 @@
     "costUsd": 0.001,
     "items": 1
   },
-  "linkedin.email": {
+  "linkedin.company_posts_thin": {
     "output": {
       "found": true,
       "data": {
         "items": [
           {
-            "name": "sample",
+            "id": "sample",
+            "url": "sample",
+            "text": "sample",
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.company_thin": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "description": "sample",
+        "employeeCount": 1,
+        "industry": "sample",
+        "website": "sample",
+        "tagline": "sample",
+        "logoUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.email": {
+    "output": {
+      "found": true,
+      "data": {
+        "emails": [
+          {
             "email": "sample",
             "_extra": "passthrough"
           }
@@ -2036,6 +2073,23 @@
     "items": 1
   },
   "linkedin.jobs": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.jobs_thin": {
     "output": {
       "found": true,
       "data": {
@@ -2070,6 +2124,43 @@
     "costUsd": 0.001,
     "items": 1
   },
+  "linkedin.post_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "commentary": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.post_reactions": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "reactionType": "sample",
+            "actor": {
+              "name": "sample",
+              "_extra": "passthrough"
+            },
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
   "linkedin.post_transcript": {
     "output": {
       "found": true,
@@ -2085,6 +2176,21 @@
     "items": 1
   },
   "linkedin.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "firstName": "sample",
+        "lastName": "sample",
+        "headline": "sample",
+        "url": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.profile_thin": {
     "output": {
       "found": true,
       "data": {
@@ -2167,6 +2273,39 @@
         "items": [
           {
             "id": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.search_profiles_email": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "linkedin.search_profiles_thin": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
             "url": "sample",
             "_extra": "passthrough"
           }

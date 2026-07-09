@@ -140,8 +140,7 @@ class PersonNamespace:
 
         Skip-trace a person in the US by name, address, phone, or email and get back
         identity, address, and contact records in normalized JSON. **Price:** billed
-        per result - $0.00 per 1,000 requests base + $7.00 per 1,000 results, capped
-        at $7.00 per 1,000 requests.
+        per result - \$7.00 per 1,000 results, capped at \$7.00 per 1,000 requests.
 
         Price: $0.007 per result.
 
@@ -170,8 +169,7 @@ class AsyncPersonNamespace:
 
         Skip-trace a person in the US by name, address, phone, or email and get back
         identity, address, and contact records in normalized JSON. **Price:** billed
-        per result - $0.00 per 1,000 requests base + $7.00 per 1,000 results, capped
-        at $7.00 per 1,000 requests.
+        per result - \$7.00 per 1,000 results, capped at \$7.00 per 1,000 requests.
 
         Price: $0.007 per result.
 

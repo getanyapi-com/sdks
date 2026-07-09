@@ -109,7 +109,7 @@ export class BookingNamespace {
    *
    * Search Booking.com stays by destination and dates and get hotel results (name, price, review score, location) as normalized JSON.
 
-**Price:** billed per result - $2.00 per 1,000 requests base + $4.50 per 1,000 results, capped at $92.00 per 1,000 requests.
+**Price:** billed per result - \$2.00 per 1,000 requests base + \$4.50 per 1,000 results, capped at \$92.00 per 1,000 requests.
    *
    * Price: $0.002 per request plus $0.0045 per result.
    *

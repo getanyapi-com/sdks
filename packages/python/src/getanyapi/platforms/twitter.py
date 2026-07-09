@@ -431,7 +431,7 @@ class TwitterNamespace:
 
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL, normalized across providers with transparent
-        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        failover. **Price:** \$2.00 per 1,000 requests (flat per request - same cost
         regardless of results returned).
 
         Price: $0.002 per request.
@@ -453,7 +453,7 @@ class TwitterNamespace:
         """Twitter Community Tweets
 
         List recent tweets posted in a Twitter/X community by URL, normalized across
-        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        providers with transparent failover. **Price:** \$2.00 per 1,000 requests
         (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -476,8 +476,7 @@ class TwitterNamespace:
 
         Fetch the follower list of any public X (Twitter) account by username - up
         to 100,000 follower records per request. **Price:** billed per result -
-        $0.00 per 1,000 requests base + $0.15 per 1,000 results, capped at
-        $15,000.00 per 1,000 requests.
+        \$0.15 per 1,000 results, capped at \$15,000.00 per 1,000 requests.
 
         Price: $0.00015 per result.
 
@@ -498,9 +497,8 @@ class TwitterNamespace:
         """X / Twitter Following
 
         List the accounts a public X (Twitter) account follows by username - up to
-        100,000 records per request. **Price:** billed per result - $0.00 per 1,000
-        requests base + $0.15 per 1,000 results, capped at $15,000.00 per 1,000
-        requests.
+        100,000 records per request. **Price:** billed per result - \$0.15 per 1,000
+        results, capped at \$15,000.00 per 1,000 requests.
 
         Price: $0.00015 per result.
 
@@ -522,7 +520,7 @@ class TwitterNamespace:
 
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
         verification) by handle, normalized across providers with transparent
-        failover. **Price:** $1.00 per 1,000 requests (flat per request - same cost
+        failover. **Price:** \$1.00 per 1,000 requests (flat per request - same cost
         regardless of results returned).
 
         Price: $0.001 per request.
@@ -544,8 +542,8 @@ class TwitterNamespace:
         """X / Twitter Post Replies
 
         Fetch the replies to any X (Twitter) post URL as structured records -
-        author, text, and engagement. **Price:** billed per result - $2.50 per 1,000
-        requests base + $0.25 per 1,000 results, capped at $12.50 per 1,000
+        author, text, and engagement. **Price:** billed per result - \$2.50 per
+        1,000 requests base + \$0.25 per 1,000 results, capped at \$12.50 per 1,000
         requests.
 
         Price: $0.0025 per request plus $0.00025 per result.
@@ -568,8 +566,8 @@ class TwitterNamespace:
 
         Search X (Twitter) with full advanced-search syntax and get up to 50
         structured tweets per request - text, author, and engagement. **Price:**
-        billed per result - $4.00 per 1,000 requests base + $0.20 per 1,000 results,
-        capped at $14.00 per 1,000 requests.
+        billed per result - \$4.00 per 1,000 requests base + \$0.20 per 1,000
+        results, capped at \$14.00 per 1,000 requests.
 
         Price: $0.004 per request plus $0.0002 per result.
 
@@ -591,7 +589,7 @@ class TwitterNamespace:
 
         Fetch a single Twitter/X tweet by URL with its full text and engagement
         counts (likes, retweets, replies, quotes, bookmarks, views), normalized
-        across providers. **Price:** $2.00 per 1,000 requests (flat per request -
+        across providers. **Price:** \$2.00 per 1,000 requests (flat per request -
         same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -613,7 +611,7 @@ class TwitterNamespace:
         """Twitter Tweet Transcript
 
         Extract the spoken transcript from a Twitter/X video tweet by URL,
-        normalized across providers with transparent failover. **Price:** $2.00 per
+        normalized across providers with transparent failover. **Price:** \$2.00 per
         1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -638,7 +636,7 @@ class TwitterNamespace:
         Get an X (Twitter) account's latest tweets by handle, newest first
         (reverse-chronological, replies included) - not just the popular ones - up
         to 1000 per call, with engagement, views, and language, normalized across
-        providers with cursor pagination. **Price:** $1.00 per 1,000 requests (flat
+        providers with cursor pagination. **Price:** \$1.00 per 1,000 requests (flat
         per request - same cost regardless of results returned).
 
         Price: $0.001 per request.
@@ -691,7 +689,7 @@ class AsyncTwitterNamespace:
 
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL, normalized across providers with transparent
-        failover. **Price:** $2.00 per 1,000 requests (flat per request - same cost
+        failover. **Price:** \$2.00 per 1,000 requests (flat per request - same cost
         regardless of results returned).
 
         Price: $0.002 per request.
@@ -713,7 +711,7 @@ class AsyncTwitterNamespace:
         """Twitter Community Tweets
 
         List recent tweets posted in a Twitter/X community by URL, normalized across
-        providers with transparent failover. **Price:** $2.00 per 1,000 requests
+        providers with transparent failover. **Price:** \$2.00 per 1,000 requests
         (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -736,8 +734,7 @@ class AsyncTwitterNamespace:
 
         Fetch the follower list of any public X (Twitter) account by username - up
         to 100,000 follower records per request. **Price:** billed per result -
-        $0.00 per 1,000 requests base + $0.15 per 1,000 results, capped at
-        $15,000.00 per 1,000 requests.
+        \$0.15 per 1,000 results, capped at \$15,000.00 per 1,000 requests.
 
         Price: $0.00015 per result.
 
@@ -758,9 +755,8 @@ class AsyncTwitterNamespace:
         """X / Twitter Following
 
         List the accounts a public X (Twitter) account follows by username - up to
-        100,000 records per request. **Price:** billed per result - $0.00 per 1,000
-        requests base + $0.15 per 1,000 results, capped at $15,000.00 per 1,000
-        requests.
+        100,000 records per request. **Price:** billed per result - \$0.15 per 1,000
+        results, capped at \$15,000.00 per 1,000 requests.
 
         Price: $0.00015 per result.
 
@@ -782,7 +778,7 @@ class AsyncTwitterNamespace:
 
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
         verification) by handle, normalized across providers with transparent
-        failover. **Price:** $1.00 per 1,000 requests (flat per request - same cost
+        failover. **Price:** \$1.00 per 1,000 requests (flat per request - same cost
         regardless of results returned).
 
         Price: $0.001 per request.
@@ -804,8 +800,8 @@ class AsyncTwitterNamespace:
         """X / Twitter Post Replies
 
         Fetch the replies to any X (Twitter) post URL as structured records -
-        author, text, and engagement. **Price:** billed per result - $2.50 per 1,000
-        requests base + $0.25 per 1,000 results, capped at $12.50 per 1,000
+        author, text, and engagement. **Price:** billed per result - \$2.50 per
+        1,000 requests base + \$0.25 per 1,000 results, capped at \$12.50 per 1,000
         requests.
 
         Price: $0.0025 per request plus $0.00025 per result.
@@ -828,8 +824,8 @@ class AsyncTwitterNamespace:
 
         Search X (Twitter) with full advanced-search syntax and get up to 50
         structured tweets per request - text, author, and engagement. **Price:**
-        billed per result - $4.00 per 1,000 requests base + $0.20 per 1,000 results,
-        capped at $14.00 per 1,000 requests.
+        billed per result - \$4.00 per 1,000 requests base + \$0.20 per 1,000
+        results, capped at \$14.00 per 1,000 requests.
 
         Price: $0.004 per request plus $0.0002 per result.
 
@@ -851,7 +847,7 @@ class AsyncTwitterNamespace:
 
         Fetch a single Twitter/X tweet by URL with its full text and engagement
         counts (likes, retweets, replies, quotes, bookmarks, views), normalized
-        across providers. **Price:** $2.00 per 1,000 requests (flat per request -
+        across providers. **Price:** \$2.00 per 1,000 requests (flat per request -
         same cost regardless of results returned).
 
         Price: $0.002 per request.
@@ -873,7 +869,7 @@ class AsyncTwitterNamespace:
         """Twitter Tweet Transcript
 
         Extract the spoken transcript from a Twitter/X video tweet by URL,
-        normalized across providers with transparent failover. **Price:** $2.00 per
+        normalized across providers with transparent failover. **Price:** \$2.00 per
         1,000 requests (flat per request - same cost regardless of results
         returned).
 
@@ -898,7 +894,7 @@ class AsyncTwitterNamespace:
         Get an X (Twitter) account's latest tweets by handle, newest first
         (reverse-chronological, replies included) - not just the popular ones - up
         to 1000 per call, with engagement, views, and language, normalized across
-        providers with cursor pagination. **Price:** $1.00 per 1,000 requests (flat
+        providers with cursor pagination. **Price:** \$1.00 per 1,000 requests (flat
         per request - same cost regardless of results returned).
 
         Price: $0.001 per request.

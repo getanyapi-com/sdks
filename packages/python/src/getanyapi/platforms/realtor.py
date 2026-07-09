@@ -134,8 +134,8 @@ class RealtorNamespace:
 
         Search Realtor.com listings by location with optional price filters and get
         property records (price, address, beds, baths) as normalized JSON.
-        **Price:** billed per result - $5.00 per 1,000 requests base + $1.50 per
-        1,000 results, capped at $42.50 per 1,000 requests.
+        **Price:** billed per result - \$5.00 per 1,000 requests base + \$1.50 per
+        1,000 results, capped at \$42.50 per 1,000 requests.
 
         Price: $0.005 per request plus $0.0015 per result.
 
@@ -164,8 +164,8 @@ class AsyncRealtorNamespace:
 
         Search Realtor.com listings by location with optional price filters and get
         property records (price, address, beds, baths) as normalized JSON.
-        **Price:** billed per result - $5.00 per 1,000 requests base + $1.50 per
-        1,000 results, capped at $42.50 per 1,000 requests.
+        **Price:** billed per result - \$5.00 per 1,000 requests base + \$1.50 per
+        1,000 results, capped at \$42.50 per 1,000 requests.
 
         Price: $0.005 per request plus $0.0015 per result.
 

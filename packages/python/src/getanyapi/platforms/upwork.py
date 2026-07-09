@@ -99,8 +99,8 @@ class UpworkNamespace:
         """Upwork Jobs
 
         Search Upwork job postings by keyword - up to 25 fresh listings per request.
-        **Price:** billed per result - $0.00 per 1,000 requests base + $3.30 per
-        1,000 results, capped at $82.50 per 1,000 requests.
+        **Price:** billed per result - \$3.30 per 1,000 results, capped at \$82.50
+        per 1,000 requests.
 
         Price: $0.0033 per result.
 
@@ -125,8 +125,8 @@ class AsyncUpworkNamespace:
         """Upwork Jobs
 
         Search Upwork job postings by keyword - up to 25 fresh listings per request.
-        **Price:** billed per result - $0.00 per 1,000 requests base + $3.30 per
-        1,000 results, capped at $82.50 per 1,000 requests.
+        **Price:** billed per result - \$3.30 per 1,000 results, capped at \$82.50
+        per 1,000 requests.
 
         Price: $0.0033 per result.
 

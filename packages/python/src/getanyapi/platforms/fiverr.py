@@ -86,8 +86,7 @@ class FiverrNamespace:
 
         Extract Fiverr gig listings from any search or category URL - titles,
         sellers, ratings, and pricing as structured JSON. **Price:** billed per
-        result - $0.00 per 1,000 requests base + $1.50 per 1,000 results, capped at
-        $30.00 per 1,000 requests.
+        result - \$1.50 per 1,000 results, capped at \$30.00 per 1,000 requests.
 
         Price: $0.0015 per result.
 
@@ -116,8 +115,7 @@ class AsyncFiverrNamespace:
 
         Extract Fiverr gig listings from any search or category URL - titles,
         sellers, ratings, and pricing as structured JSON. **Price:** billed per
-        result - $0.00 per 1,000 requests base + $1.50 per 1,000 results, capped at
-        $30.00 per 1,000 requests.
+        result - \$1.50 per 1,000 results, capped at \$30.00 per 1,000 requests.
 
         Price: $0.0015 per result.
 
