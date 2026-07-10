@@ -1199,6 +1199,23 @@
     "costUsd": 0.001,
     "items": 1
   },
+  "google.autocomplete": {
+    "output": {
+      "found": true,
+      "data": {
+        "query": "sample",
+        "suggestions": [
+          {
+            "value": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
   "google.images": {
     "output": {
       "found": true,
@@ -1207,6 +1224,24 @@
           {
             "url": "sample",
             "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google.lens": {
+    "output": {
+      "found": true,
+      "data": {
+        "url": "sample",
+        "results": [
+          {
+            "title": "sample",
+            "link": "https://example.com/x",
             "_extra": "passthrough"
           }
         ]
@@ -1233,6 +1268,43 @@
     "costUsd": 0.001,
     "items": 1
   },
+  "google.patents": {
+    "output": {
+      "found": true,
+      "data": {
+        "query": "sample",
+        "results": [
+          {
+            "title": "sample",
+            "link": "https://example.com/x",
+            "publicationNumber": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google.scholar": {
+    "output": {
+      "found": true,
+      "data": {
+        "query": "sample",
+        "results": [
+          {
+            "title": "sample",
+            "link": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
   "google.search": {
     "output": {
       "found": true,
@@ -1244,6 +1316,24 @@
             "link": "sample",
             "snippet": "sample",
             "position": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "google.videos": {
+    "output": {
+      "found": true,
+      "data": {
+        "query": "sample",
+        "results": [
+          {
+            "title": "sample",
+            "link": "https://example.com/x",
             "_extra": "passthrough"
           }
         ]

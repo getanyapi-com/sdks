@@ -155,12 +155,22 @@ import type {
   GlassdoorJobsInput,
 } from "./platforms/glassdoor.js";
 import type {
+  GoogleAutocompleteData,
+  GoogleAutocompleteInput,
   GoogleImagesData,
   GoogleImagesInput,
+  GoogleLensData,
+  GoogleLensInput,
   GoogleNewsData,
   GoogleNewsInput,
+  GooglePatentsData,
+  GooglePatentsInput,
+  GoogleScholarData,
+  GoogleScholarInput,
   GoogleSearchData,
   GoogleSearchInput,
+  GoogleVideosData,
+  GoogleVideosInput,
 } from "./platforms/google.js";
 import type {
   GoogleAdsAdDetailsData,
@@ -894,20 +904,45 @@ export interface SkuMap {
     data: GlassdoorJobsData;
     result: RunResult<GlassdoorJobsData>;
   };
+  "google.autocomplete": {
+    input: GoogleAutocompleteInput;
+    data: GoogleAutocompleteData;
+    result: RunResult<GoogleAutocompleteData>;
+  };
   "google.images": {
     input: GoogleImagesInput;
     data: GoogleImagesData;
     result: RunResult<GoogleImagesData>;
+  };
+  "google.lens": {
+    input: GoogleLensInput;
+    data: GoogleLensData;
+    result: RunResult<GoogleLensData>;
   };
   "google.news": {
     input: GoogleNewsInput;
     data: GoogleNewsData;
     result: RunResult<GoogleNewsData>;
   };
+  "google.patents": {
+    input: GooglePatentsInput;
+    data: GooglePatentsData;
+    result: RunResult<GooglePatentsData>;
+  };
+  "google.scholar": {
+    input: GoogleScholarInput;
+    data: GoogleScholarData;
+    result: RunResult<GoogleScholarData>;
+  };
   "google.search": {
     input: GoogleSearchInput;
     data: GoogleSearchData;
     result: RunResult<GoogleSearchData>;
+  };
+  "google.videos": {
+    input: GoogleVideosInput;
+    data: GoogleVideosData;
+    result: RunResult<GoogleVideosData>;
   };
   "google_ads.ad_details": {
     input: GoogleAdsAdDetailsInput;

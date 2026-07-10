@@ -9812,17 +9812,119 @@
       }
     },
     {
+      "slug": "google.autocomplete",
+      "platform": "google",
+      "action": "autocomplete",
+      "operationId": "google_autocomplete",
+      "name": "Google Autocomplete",
+      "category": "search",
+      "description": "Get Google search autocomplete suggestions for a partial query (keyword ideas).\n\n**Price:** \\$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.00099,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "google",
+      "tsMethod": "autocomplete",
+      "tsIterMethod": null,
+      "pyNamespace": "google",
+      "pyMethod": "autocomplete",
+      "pyIterMethod": null,
+      "inputTypeName": "GoogleAutocompleteInput",
+      "outputTypeName": "GoogleAutocompleteData",
+      "example": {
+        "query": "best coff"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "gl": {
+            "kind": "string",
+            "description": "Two-letter country code for result localization (e.g. us, gb, de).",
+            "enum": null,
+            "default": "us",
+            "format": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "The partial Google search query.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "query": {
+              "kind": "string",
+              "description": "The partial query that was searched.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "suggestions": {
+              "kind": "array",
+              "description": "Autocomplete suggestion records. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "value": {
+                    "kind": "string",
+                    "description": "Suggested query text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "value"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "value"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "query",
+            "suggestions"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "suggestions"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "google.images",
       "platform": "google",
       "action": "images",
       "operationId": "google_images",
       "name": "Google Images",
       "category": "search",
-      "description": "Run a Google Images search and get structured results - image URLs, dimensions, titles, and source pages.\n\n**Price:** billed per result - \\$0.05 per 1,000 requests base + \\$2.40 per 1,000 results, capped at \\$48.05 per 1,000 requests.",
+      "description": "Run a Google Images search and get structured results - image URLs, dimensions, titles, and source pages.\n\n**Price:** \\$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).",
       "pricing": {
-        "priceUsd": 0.04805,
-        "baseUsd": 0.00005,
-        "perItemUsd": 0.0024,
+        "priceUsd": 0.00099,
+        "baseUsd": null,
+        "perItemUsd": 0,
         "perItemUnit": null
       },
       "tsNamespace": "google",
@@ -9842,7 +9944,7 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20). Price is flat per request.",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -9953,15 +10055,140 @@
       }
     },
     {
+      "slug": "google.lens",
+      "platform": "google",
+      "action": "lens",
+      "operationId": "google_lens",
+      "name": "Google Lens",
+      "category": "search",
+      "description": "Reverse image search: find web pages and visual matches for an image URL.\n\n**Price:** \\$2.97 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.00297,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "google",
+      "tsMethod": "lens",
+      "tsIterMethod": null,
+      "pyNamespace": "google",
+      "pyMethod": "lens",
+      "pyIterMethod": null,
+      "inputTypeName": "GoogleLensInput",
+      "outputTypeName": "GoogleLensData",
+      "example": {
+        "url": "https://i.imgur.com/HBrB8p0.png"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "url": {
+            "kind": "string",
+            "description": "Public URL of the image to search with.",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "results": {
+              "kind": "array",
+              "description": "Visual match result records. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "image": {
+                    "kind": "string",
+                    "description": "Matched image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "link": {
+                    "kind": "string",
+                    "description": "URL to the matching web page. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "source": {
+                    "kind": "string",
+                    "description": "Source site name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "thumbnailUrl": {
+                    "kind": "string",
+                    "description": "Thumbnail image URL for the match.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Title of the matching web page. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title",
+                  "link"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "link",
+                  "title"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "url": {
+              "kind": "string",
+              "description": "The input image URL that was searched.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "url",
+            "results"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "results"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "google.news",
       "platform": "google",
       "action": "news",
       "operationId": "google_news",
       "name": "Google News",
       "category": "search",
-      "description": "Search Google News by keyword and get fresh articles - headlines, sources, links, and publish times - as clean JSON.\n\n**Price:** \\$3.25 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "description": "Search Google News by keyword and get fresh articles - headlines, sources, links, and publish times - as clean JSON.\n\n**Price:** \\$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.00099,
         "baseUsd": null,
         "perItemUsd": 0,
         "perItemUnit": null
@@ -9993,13 +10220,6 @@
             "description": "News search query; supports operators like '-', 'OR', and 'site:' (e.g. bitcoin site:cnn.com).",
             "enum": null,
             "default": null,
-            "format": null
-          },
-          "region": {
-            "kind": "string",
-            "description": "Region and language for the search as COUNTRY:lang (e.g. US:en).",
-            "enum": null,
-            "default": "US:en",
             "format": null
           },
           "timeframe": {
@@ -10084,6 +10304,322 @@
           "mustPopulate": [
             "items"
           ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "google.patents",
+      "platform": "google",
+      "action": "patents",
+      "operationId": "google_patents",
+      "name": "Google Patents",
+      "category": "search",
+      "description": "Search Google Patents with title, patent number, inventor, assignee, key dates, and PDF link.\n\n**Price:** \\$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.00099,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "google",
+      "tsMethod": "patents",
+      "tsIterMethod": null,
+      "pyNamespace": "google",
+      "pyMethod": "patents",
+      "pyIterMethod": null,
+      "inputTypeName": "GooglePatentsInput",
+      "outputTypeName": "GooglePatentsData",
+      "example": {
+        "query": "wireless charging"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "query": {
+            "kind": "string",
+            "description": "The Google Patents search query.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "query": {
+              "kind": "string",
+              "description": "The query that was searched.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "results": {
+              "kind": "array",
+              "description": "Patent result records.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "assignee": {
+                    "kind": "string",
+                    "description": "Patent assignee.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "filedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "grantedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "First patent figure thumbnail image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "inventor": {
+                    "kind": "string",
+                    "description": "Named inventor or inventors.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "link": {
+                    "kind": "string",
+                    "description": "URL to the patent. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "pdfUrl": {
+                    "kind": "string",
+                    "description": "URL to an available patent PDF.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "priorityUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "publicationNumber": {
+                    "kind": "string",
+                    "description": "Patent publication number (e.g. US11303135B2). Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "publishedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Short patent description snippet.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Patent title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title",
+                  "link",
+                  "publicationNumber"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "link",
+                  "publicationNumber",
+                  "title"
+                ]
+              },
+              "mustPopulate": false
+            }
+          },
+          "required": [
+            "query",
+            "results"
+          ],
+          "open": false
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "google.scholar",
+      "platform": "google",
+      "action": "scholar",
+      "operationId": "google_scholar",
+      "name": "Google Scholar",
+      "category": "search",
+      "description": "Search Google Scholar for academic papers with title, authors, citation count, and PDF link.\n\n**Price:** \\$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.00099,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "google",
+      "tsMethod": "scholar",
+      "tsIterMethod": null,
+      "pyNamespace": "google",
+      "pyMethod": "scholar",
+      "pyIterMethod": null,
+      "inputTypeName": "GoogleScholarInput",
+      "outputTypeName": "GoogleScholarData",
+      "example": {
+        "query": "attention is all you need"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "query": {
+            "kind": "string",
+            "description": "The Google Scholar search query.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "query": {
+              "kind": "string",
+              "description": "The query that was searched.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "results": {
+              "kind": "array",
+              "description": "Academic paper result records.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "citedBy": {
+                    "kind": "integer",
+                    "description": "Number of citations reported by Google Scholar.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Serper result identifier.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "link": {
+                    "kind": "string",
+                    "description": "URL to the paper. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "pdfUrl": {
+                    "kind": "string",
+                    "description": "URL to an available PDF.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "publicationInfo": {
+                    "kind": "string",
+                    "description": "Authors, venue, and publication year.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Short paper description snippet.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Paper title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "year": {
+                    "kind": "integer",
+                    "description": "Publication year.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "title",
+                  "link"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "link",
+                  "title"
+                ]
+              },
+              "mustPopulate": false
+            }
+          },
+          "required": [
+            "query",
+            "results"
+          ],
+          "open": false
         }
       },
       "pagination": {
@@ -10196,6 +10732,145 @@
                 "mustPopulate": [
                   "link",
                   "snippet",
+                  "title"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "query",
+            "results"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "results"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "google.videos",
+      "platform": "google",
+      "action": "videos",
+      "operationId": "google_videos",
+      "name": "Google Videos",
+      "category": "search",
+      "description": "Search Google for video results (YouTube and others) with title, link, thumbnail, and source.\n\n**Price:** \\$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.00099,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "google",
+      "tsMethod": "videos",
+      "tsIterMethod": null,
+      "pyNamespace": "google",
+      "pyMethod": "videos",
+      "pyIterMethod": null,
+      "inputTypeName": "GoogleVideosInput",
+      "outputTypeName": "GoogleVideosData",
+      "example": {
+        "query": "lofi hip hop"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "gl": {
+            "kind": "string",
+            "description": "Two-letter country code for result localization (e.g. us, gb, de).",
+            "enum": null,
+            "default": "us",
+            "format": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "The video search query.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "query": {
+              "kind": "string",
+              "description": "The query that was searched.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "results": {
+              "kind": "array",
+              "description": "Video result records. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "image": {
+                    "kind": "string",
+                    "description": "Thumbnail image URL for the video.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "link": {
+                    "kind": "string",
+                    "description": "URL to the video. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based rank in the result list.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Short description snippet.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "source": {
+                    "kind": "string",
+                    "description": "Host platform (e.g. YouTube, Vimeo).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Video title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title",
+                  "link"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "link",
                   "title"
                 ]
               },

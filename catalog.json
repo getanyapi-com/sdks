@@ -1273,31 +1273,11 @@
       ]
     },
     {
-      "slug": "google.images",
+      "slug": "google.autocomplete",
       "category": "search",
-      "name": "Google Images",
-      "description": "Run a Google Images search and get structured results — image URLs, dimensions, titles, and source pages.",
-      "fromCredits": 4805,
-      "baseCredits": 5,
-      "perItemCredits": 240,
-      "tryEligible": true,
-      "providers": [
-        "AnyAPI"
-      ],
-      "quotes": [
-        {
-          "fromCredits": 4805,
-          "baseCredits": 5,
-          "perItemCredits": 240
-        }
-      ]
-    },
-    {
-      "slug": "google.news",
-      "category": "search",
-      "name": "Google News",
-      "description": "Search Google News by keyword and get fresh articles — headlines, sources, links, and publish times — as clean JSON.",
-      "fromCredits": 325,
+      "name": "Google Autocomplete",
+      "description": "Get Google search autocomplete suggestions for a partial query (keyword ideas).",
+      "fromCredits": 99,
       "baseCredits": 0,
       "perItemCredits": 0,
       "tryEligible": true,
@@ -1306,17 +1286,109 @@
       ],
       "quotes": [
         {
-          "fromCredits": 325,
+          "fromCredits": 99,
           "baseCredits": 0,
-          "perItemCredits": 0,
-          "uptimePct": 100,
-          "latencyP50Ms": 2788,
-          "requests": 48
-        },
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "google.images",
+      "category": "search",
+      "name": "Google Images",
+      "description": "Run a Google Images search and get structured results — image URLs, dimensions, titles, and source pages.",
+      "fromCredits": 99,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
         {
-          "fromCredits": 7500,
+          "fromCredits": 99,
           "baseCredits": 0,
-          "perItemCredits": 375
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "google.lens",
+      "category": "search",
+      "name": "Google Lens",
+      "description": "Reverse image search: find web pages and visual matches for an image URL.",
+      "fromCredits": 297,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 297,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "google.news",
+      "category": "search",
+      "name": "Google News",
+      "description": "Search Google News by keyword and get fresh articles — headlines, sources, links, and publish times — as clean JSON.",
+      "fromCredits": 99,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 99,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "google.patents",
+      "category": "search",
+      "name": "Google Patents",
+      "description": "Search Google Patents with title, patent number, inventor, assignee, key dates, and PDF link.",
+      "fromCredits": 99,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 99,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "google.scholar",
+      "category": "search",
+      "name": "Google Scholar",
+      "description": "Search Google Scholar for academic papers with title, authors, citation count, and PDF link.",
+      "fromCredits": 99,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 99,
+          "baseCredits": 0,
+          "perItemCredits": 0
         }
       ]
     },
@@ -1338,8 +1410,28 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 708,
-          "requests": 1274
+          "latencyP50Ms": 705,
+          "requests": 1509
+        }
+      ]
+    },
+    {
+      "slug": "google.videos",
+      "category": "search",
+      "name": "Google Videos",
+      "description": "Search Google for video results (YouTube and others) with title, link, thumbnail, and source.",
+      "fromCredits": 99,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 99,
+          "baseCredits": 0,
+          "perItemCredits": 0
         }
       ]
     },
@@ -1527,10 +1619,7 @@
         {
           "fromCredits": 325,
           "baseCredits": 0,
-          "perItemCredits": 0,
-          "uptimePct": 100,
-          "latencyP50Ms": 1812,
-          "requests": 51
+          "perItemCredits": 0
         }
       ]
     },
@@ -1825,8 +1914,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2929,
-          "requests": 37
+          "latencyP50Ms": 2930,
+          "requests": 40
         },
         {
           "fromCredits": 200,
@@ -1883,9 +1972,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 93.22916666666667,
-          "latencyP50Ms": 5619,
-          "requests": 385
+          "uptimePct": 93.39853300733496,
+          "latencyP50Ms": 5606,
+          "requests": 410
         }
       ]
     },
@@ -1951,9 +2040,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 97.29729729729729,
-          "latencyP50Ms": 19232,
-          "requests": 37
+          "uptimePct": 96,
+          "latencyP50Ms": 14958,
+          "requests": 100
         },
         {
           "fromCredits": 325,
@@ -2061,8 +2150,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2559,
-          "requests": 589
+          "latencyP50Ms": 2037,
+          "requests": 2120
         },
         {
           "fromCredits": 200,
@@ -2196,9 +2285,9 @@
           "fromCredits": 10000,
           "baseCredits": 0,
           "perItemCredits": 1000,
-          "uptimePct": 70.96774193548387,
-          "latencyP50Ms": 8008,
-          "requests": 32
+          "uptimePct": 75.67567567567568,
+          "latencyP50Ms": 7220,
+          "requests": 38
         }
       ]
     },
@@ -2490,9 +2579,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 91.17647058823529,
-          "latencyP50Ms": 14220,
-          "requests": 71
+          "uptimePct": 92.85714285714286,
+          "latencyP50Ms": 13691,
+          "requests": 87
         },
         {
           "fromCredits": 400,
@@ -2519,8 +2608,8 @@
           "baseCredits": 8000,
           "perItemCredits": 400,
           "uptimePct": 100,
-          "latencyP50Ms": 9855,
-          "requests": 21
+          "latencyP50Ms": 11134,
+          "requests": 22
         }
       ]
     },
@@ -2602,8 +2691,8 @@
           "baseCredits": 300,
           "perItemCredits": 500,
           "uptimePct": 100,
-          "latencyP50Ms": 17434,
-          "requests": 57
+          "latencyP50Ms": 17360,
+          "requests": 63
         }
       ]
     },
@@ -2832,9 +2921,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.5475113122172,
-          "latencyP50Ms": 2731,
-          "requests": 899
+          "uptimePct": 99.56140350877193,
+          "latencyP50Ms": 2749,
+          "requests": 927
         },
         {
           "fromCredits": 325,
@@ -2880,17 +2969,17 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.72972972972973,
-          "latencyP50Ms": 2670,
-          "requests": 372
+          "uptimePct": 99.81238273921201,
+          "latencyP50Ms": 2768,
+          "requests": 536
         },
         {
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.04458598726114,
-          "latencyP50Ms": 8380,
-          "requests": 314
+          "uptimePct": 99.04761904761905,
+          "latencyP50Ms": 8370,
+          "requests": 315
         },
         {
           "fromCredits": 325,
@@ -2950,8 +3039,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1998,
-          "requests": 297
+          "latencyP50Ms": 2098,
+          "requests": 772
         }
       ]
     },
@@ -2973,8 +3062,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1501,
-          "requests": 80
+          "latencyP50Ms": 1462,
+          "requests": 96
         },
         {
           "fromCredits": 325,
@@ -3199,7 +3288,10 @@
         {
           "fromCredits": 17560,
           "baseCredits": 1560,
-          "perItemCredits": 16
+          "perItemCredits": 16,
+          "uptimePct": 100,
+          "latencyP50Ms": 1092,
+          "requests": 52
         }
       ]
     },
@@ -3241,8 +3333,8 @@
           "baseCredits": 1560,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 258,
-          "requests": 28
+          "latencyP50Ms": 261,
+          "requests": 229
         }
       ]
     },
@@ -3910,7 +4002,10 @@
         {
           "fromCredits": 325,
           "baseCredits": 0,
-          "perItemCredits": 0
+          "perItemCredits": 0,
+          "uptimePct": 100,
+          "latencyP50Ms": 4480,
+          "requests": 34
         },
         {
           "fromCredits": 6000,
@@ -3961,9 +4056,9 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 100,
-          "latencyP50Ms": 537,
-          "requests": 229
+          "uptimePct": 99.74489795918367,
+          "latencyP50Ms": 499,
+          "requests": 784
         },
         {
           "fromCredits": 200,
@@ -3971,7 +4066,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 1227,
-          "requests": 36
+          "requests": 38
         },
         {
           "fromCredits": 325,
@@ -4022,17 +4117,17 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 100,
-          "latencyP50Ms": 2506,
-          "requests": 190
+          "uptimePct": 99.35863174772848,
+          "latencyP50Ms": 2495,
+          "requests": 1871
         },
         {
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2731,
-          "requests": 1824
+          "latencyP50Ms": 2734,
+          "requests": 1836
         },
         {
           "fromCredits": 325,
@@ -4117,8 +4212,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 3684,
-          "requests": 515
+          "latencyP50Ms": 3678,
+          "requests": 536
         },
         {
           "fromCredits": 325,
@@ -4145,8 +4240,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1546,
-          "requests": 31
+          "latencyP50Ms": 1552,
+          "requests": 34
         },
         {
           "fromCredits": 200,
@@ -4306,8 +4401,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2319,
-          "requests": 83
+          "latencyP50Ms": 2332,
+          "requests": 86
         },
         {
           "fromCredits": 3250,
@@ -4675,8 +4770,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1343,
-          "requests": 95
+          "latencyP50Ms": 1338,
+          "requests": 110
         },
         {
           "fromCredits": 200,
@@ -4730,9 +4825,9 @@
           "fromCredits": 1400,
           "baseCredits": 400,
           "perItemCredits": 20,
-          "uptimePct": 98.14814814814815,
-          "latencyP50Ms": 19560,
-          "requests": 380
+          "uptimePct": 98.40182648401826,
+          "latencyP50Ms": 19717,
+          "requests": 440
         }
       ]
     },
@@ -4803,17 +4898,17 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 64.15094339622641,
-          "latencyP50Ms": 1792,
-          "requests": 58
+          "uptimePct": 53.08641975308642,
+          "latencyP50Ms": 1323,
+          "requests": 87
         },
         {
           "fromCredits": 20000,
           "baseCredits": 0,
           "perItemCredits": 20,
           "uptimePct": 100,
-          "latencyP50Ms": 15691,
-          "requests": 470
+          "latencyP50Ms": 15704,
+          "requests": 519
         }
       ]
     },
@@ -4914,9 +5009,9 @@
           "fromCredits": 90,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 71.15902964959568,
-          "latencyP50Ms": 586,
-          "requests": 374
+          "uptimePct": 75,
+          "latencyP50Ms": 554,
+          "requests": 435
         }
       ]
     },
@@ -5018,8 +5113,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1228,
-          "requests": 236
+          "latencyP50Ms": 1267,
+          "requests": 284
         },
         {
           "fromCredits": 325,
@@ -5234,8 +5329,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1504,
-          "requests": 520
+          "latencyP50Ms": 1536,
+          "requests": 563
         },
         {
           "fromCredits": 325,

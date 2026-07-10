@@ -7,11 +7,48 @@ import type {
 } from "../../core/index.js";
 
 /**
+ * Input for Google Autocomplete (google.autocomplete).
+ */
+export interface GoogleAutocompleteInput {
+  /**
+   * Two-letter country code for result localization (e.g. us, gb, de).
+   * Default: us.
+   */
+  gl?: string;
+  /**
+   * The partial Google search query.
+   */
+  query: string;
+}
+
+export interface GoogleAutocompleteSuggestion {
+  /**
+   * Suggested query text. Populated whenever the provider has data for the entity.
+   */
+  value: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Autocomplete (google.autocomplete).
+ */
+export interface GoogleAutocompleteData {
+  /**
+   * The partial query that was searched.
+   */
+  query: string;
+  /**
+   * Autocomplete suggestion records. Populated whenever the provider has data for the entity.
+   */
+  suggestions: GoogleAutocompleteSuggestion[];
+}
+
+/**
  * Input for Google Images (google.images).
  */
 export interface GoogleImagesInput {
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20). Price is flat per request.
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
@@ -66,6 +103,58 @@ export interface GoogleImagesData {
 }
 
 /**
+ * Input for Google Lens (google.lens).
+ */
+export interface GoogleLensInput {
+  /**
+   * Public URL of the image to search with.
+   * Format: uri.
+   */
+  url: string;
+}
+
+export interface GoogleLensResult {
+  /**
+   * Matched image URL.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * URL to the matching web page. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  link: string;
+  /**
+   * Source site name.
+   */
+  source?: string;
+  /**
+   * Thumbnail image URL for the match.
+   * Format: uri.
+   */
+  thumbnailUrl?: string;
+  /**
+   * Title of the matching web page. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Lens (google.lens).
+ */
+export interface GoogleLensData {
+  /**
+   * Visual match result records. Populated whenever the provider has data for the entity.
+   */
+  results: GoogleLensResult[];
+  /**
+   * The input image URL that was searched.
+   */
+  url: string;
+}
+
+/**
  * Input for Google News (google.news).
  */
 export interface GoogleNewsInput {
@@ -78,11 +167,6 @@ export interface GoogleNewsInput {
    * News search query; supports operators like '-', 'OR', and 'site:' (e.g. bitcoin site:cnn.com).
    */
   query: string;
-  /**
-   * Region and language for the search as COUNTRY:lang (e.g. US:en).
-   * Default: US:en.
-   */
-  region?: string;
   /**
    * Time window for results: 1h, 1d, 7d, 1y, or all (e.g. 1d).
    * Default: 7d.
@@ -124,6 +208,147 @@ export interface GoogleNewsData {
    * Article records: headline, source name, article link, and publish time. Populated whenever the provider has data for the entity.
    */
   items: GoogleNewsItem[];
+}
+
+/**
+ * Input for Google Patents (google.patents).
+ */
+export interface GooglePatentsInput {
+  /**
+   * The Google Patents search query.
+   */
+  query: string;
+}
+
+export interface GooglePatentsResult {
+  /**
+   * Patent assignee.
+   */
+  assignee?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  filedUtc?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  grantedUtc?: number;
+  /**
+   * First patent figure thumbnail image URL.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * Named inventor or inventors.
+   */
+  inventor?: string;
+  /**
+   * URL to the patent. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  link: string;
+  /**
+   * URL to an available patent PDF.
+   * Format: uri.
+   */
+  pdfUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  priorityUtc?: number;
+  /**
+   * Patent publication number (e.g. US11303135B2). Populated whenever the provider has data for the entity.
+   */
+  publicationNumber: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  publishedUtc?: number;
+  /**
+   * Short patent description snippet.
+   */
+  snippet?: string;
+  /**
+   * Patent title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Patents (google.patents).
+ */
+export interface GooglePatentsData {
+  /**
+   * The query that was searched.
+   */
+  query: string;
+  /**
+   * Patent result records.
+   */
+  results: GooglePatentsResult[];
+}
+
+/**
+ * Input for Google Scholar (google.scholar).
+ */
+export interface GoogleScholarInput {
+  /**
+   * The Google Scholar search query.
+   */
+  query: string;
+}
+
+export interface GoogleScholarResult {
+  /**
+   * Number of citations reported by Google Scholar.
+   */
+  citedBy?: number;
+  /**
+   * Serper result identifier.
+   */
+  id?: string;
+  /**
+   * URL to the paper. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  link: string;
+  /**
+   * URL to an available PDF.
+   * Format: uri.
+   */
+  pdfUrl?: string;
+  /**
+   * Authors, venue, and publication year.
+   */
+  publicationInfo?: string;
+  /**
+   * Short paper description snippet.
+   */
+  snippet?: string;
+  /**
+   * Paper title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Publication year.
+   */
+  year?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Scholar (google.scholar).
+ */
+export interface GoogleScholarData {
+  /**
+   * The query that was searched.
+   */
+  query: string;
+  /**
+   * Academic paper result records.
+   */
+  results: GoogleScholarResult[];
 }
 
 /**
@@ -170,6 +395,65 @@ export interface GoogleSearchData {
 }
 
 /**
+ * Input for Google Videos (google.videos).
+ */
+export interface GoogleVideosInput {
+  /**
+   * Two-letter country code for result localization (e.g. us, gb, de).
+   * Default: us.
+   */
+  gl?: string;
+  /**
+   * The video search query.
+   */
+  query: string;
+}
+
+export interface GoogleVideosResult {
+  /**
+   * Thumbnail image URL for the video.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * URL to the video. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  link: string;
+  /**
+   * 1-based rank in the result list.
+   */
+  position?: number;
+  /**
+   * Short description snippet.
+   */
+  snippet?: string;
+  /**
+   * Host platform (e.g. YouTube, Vimeo).
+   */
+  source?: string;
+  /**
+   * Video title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Videos (google.videos).
+ */
+export interface GoogleVideosData {
+  /**
+   * The query that was searched.
+   */
+  query: string;
+  /**
+   * Video result records. Populated whenever the provider has data for the entity.
+   */
+  results: GoogleVideosResult[];
+}
+
+/**
  * Typed methods for the google platform. Attached to the AnyAPI client as
  * `client.google`.
  */
@@ -177,13 +461,32 @@ export class GoogleNamespace {
   constructor(private readonly _core: ClientCore) {}
 
   /**
+   * Google Autocomplete
+   *
+   * Get Google search autocomplete suggestions for a partial query (keyword ideas).
+
+**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
+   *
+   * Price: $0.00099 per request.
+   *
+   * @example
+   * const res = await client.google.autocomplete({ query: "best coff" });
+   */
+  autocomplete(
+    input: GoogleAutocompleteInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleAutocompleteData>> {
+    return this._core.run("google.autocomplete", input, options);
+  }
+
+  /**
    * Google Images
    *
    * Run a Google Images search and get structured results - image URLs, dimensions, titles, and source pages.
 
-**Price:** billed per result - \$0.05 per 1,000 requests base + \$2.40 per 1,000 results, capped at \$48.05 per 1,000 requests.
+**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
-   * Price: $0.00005 per request plus $0.0024 per result.
+   * Price: $0.00099 per request.
    *
    * @example
    * const res = await client.google.images({ query: "golden retriever", limit: 5 });
@@ -196,13 +499,32 @@ export class GoogleNamespace {
   }
 
   /**
+   * Google Lens
+   *
+   * Reverse image search: find web pages and visual matches for an image URL.
+
+**Price:** \$2.97 per 1,000 requests (flat per request - same cost regardless of results returned).
+   *
+   * Price: $0.00297 per request.
+   *
+   * @example
+   * const res = await client.google.lens({ url: "https://i.imgur.com/HBrB8p0.png" });
+   */
+  lens(
+    input: GoogleLensInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleLensData>> {
+    return this._core.run("google.lens", input, options);
+  }
+
+  /**
    * Google News
    *
    * Search Google News by keyword and get fresh articles - headlines, sources, links, and publish times - as clean JSON.
 
-**Price:** \$3.25 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
-   * Price: $0.00325 per request.
+   * Price: $0.00099 per request.
    *
    * @example
    * const res = await client.google.news({ query: "openai", limit: 5 });
@@ -212,6 +534,44 @@ export class GoogleNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<GoogleNewsData>> {
     return this._core.run("google.news", input, options);
+  }
+
+  /**
+   * Google Patents
+   *
+   * Search Google Patents with title, patent number, inventor, assignee, key dates, and PDF link.
+
+**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
+   *
+   * Price: $0.00099 per request.
+   *
+   * @example
+   * const res = await client.google.patents({ query: "wireless charging" });
+   */
+  patents(
+    input: GooglePatentsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GooglePatentsData>> {
+    return this._core.run("google.patents", input, options);
+  }
+
+  /**
+   * Google Scholar
+   *
+   * Search Google Scholar for academic papers with title, authors, citation count, and PDF link.
+
+**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
+   *
+   * Price: $0.00099 per request.
+   *
+   * @example
+   * const res = await client.google.scholar({ query: "attention is all you need" });
+   */
+  scholar(
+    input: GoogleScholarInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleScholarData>> {
+    return this._core.run("google.scholar", input, options);
   }
 
   /**
@@ -231,5 +591,24 @@ export class GoogleNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<GoogleSearchData>> {
     return this._core.run("google.search", input, options);
+  }
+
+  /**
+   * Google Videos
+   *
+   * Search Google for video results (YouTube and others) with title, link, thumbnail, and source.
+
+**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
+   *
+   * Price: $0.00099 per request.
+   *
+   * @example
+   * const res = await client.google.videos({ query: "lofi hip hop" });
+   */
+  videos(
+    input: GoogleVideosInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleVideosData>> {
+    return this._core.run("google.videos", input, options);
   }
 }
