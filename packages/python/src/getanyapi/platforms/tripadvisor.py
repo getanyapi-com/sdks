@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -18,8 +18,12 @@ if TYPE_CHECKING:
 class TripadvisorReviewsInput(TypedDict, total=False):
     """Input for Tripadvisor Reviews."""
 
+    languages: NotRequired[list[str]]
+    """Only return reviews in these ISO 639-1 languages (e.g. ["en", "es"]); omit for all languages."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    ratings: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
+    """Only return reviews whose bubble rating is in this set (e.g. ["5", "4"] for 4 and 5 star reviews); omit for all ratings."""
     since: NotRequired[str]
     """Only return reviews newer than this date, YYYY-MM-DD or a relative window like '3 months' (e.g. 2026-01-01)."""
     url: Required[str]
@@ -31,6 +35,12 @@ class TripadvisorSearchInput(TypedDict, total=False):
 
     currency: NotRequired[str]
     """ISO currency code for prices (e.g. USD, EUR). Default: USD."""
+    includeAttractions: NotRequired[bool]
+    """Include attractions and things to do in the results; set false to exclude them (e.g. false). Defaults to true. Default: true."""
+    includeHotels: NotRequired[bool]
+    """Include hotels in the results; set false to exclude them (e.g. false). Defaults to true. Default: true."""
+    includeRestaurants: NotRequired[bool]
+    """Include restaurants in the results; set false to exclude them (e.g. false). Defaults to true. Default: true."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     query: Required[str]

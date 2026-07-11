@@ -17,6 +17,10 @@ export interface SubstackPostsInput {
    */
   contentType?: "all" | "newsletter" | "podcast" | "thread";
   /**
+   * Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2024-12-31). Applied within the most recent 'limit' posts scanned.
+   */
+  endDate?: string;
+  /**
    * Include the full article body as HTML. Set false for metadata only (e.g. false).
    * Default: true.
    */
@@ -31,6 +35,10 @@ export interface SubstackPostsInput {
    * Default: false.
    */
   onlyFree?: boolean;
+  /**
+   * Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2024-01-01). Applied within the most recent 'limit' posts scanned, so raise 'limit' to reach older date ranges.
+   */
+  startDate?: string;
   /**
    * Either a Substack publication URL / custom domain to fetch its recent posts (e.g. https://www.astralcodexten.com), OR a single post URL to fetch just that one article with full content (e.g. https://www.astralcodexten.com/p/your-book-review).
    */

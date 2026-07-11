@@ -11,10 +11,18 @@ import type {
  */
 export interface TripadvisorReviewsInput {
   /**
+   * Only return reviews in these ISO 639-1 languages (e.g. ["en", "es"]); omit for all languages.
+   */
+  languages?: string[];
+  /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
+  /**
+   * Only return reviews whose bubble rating is in this set (e.g. ["5", "4"] for 4 and 5 star reviews); omit for all ratings.
+   */
+  ratings?: ("1" | "2" | "3" | "4" | "5")[];
   /**
    * Only return reviews newer than this date, YYYY-MM-DD or a relative window like '3 months' (e.g. 2026-01-01).
    */
@@ -71,6 +79,21 @@ export interface TripadvisorSearchInput {
    * Default: USD.
    */
   currency?: string;
+  /**
+   * Include attractions and things to do in the results; set false to exclude them (e.g. false). Defaults to true.
+   * Default: true.
+   */
+  includeAttractions?: boolean;
+  /**
+   * Include hotels in the results; set false to exclude them (e.g. false). Defaults to true.
+   * Default: true.
+   */
+  includeHotels?: boolean;
+  /**
+   * Include restaurants in the results; set false to exclude them (e.g. false). Defaults to true.
+   * Default: true.
+   */
+  includeRestaurants?: boolean;
   /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.

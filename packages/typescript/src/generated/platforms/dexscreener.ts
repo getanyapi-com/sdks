@@ -20,6 +20,84 @@ export interface DexscreenerTokensInput {
    */
   limit?: number;
   /**
+   * Only include tokens whose 24-hour price change is at most this many percent (e.g. -20 means -20%). Negative values allowed. Omit to skip this filter.
+   */
+  max24HChg?: number;
+  /**
+   * Only include tokens with at most this many 24-hour transactions (buys plus sells). Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  max24HTxns?: number;
+  /**
+   * Only include tokens with at most this much 24-hour trading volume, in USD. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  max24HVol?: number;
+  /**
+   * Only include token pairs at most this old, in hours. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  maxAge?: number;
+  /**
+   * Only include tokens with at most this fully diluted valuation (FDV), in USD. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  maxFdv?: number;
+  /**
+   * Only include tokens with at most this much pool liquidity, in USD. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  maxLiq?: number;
+  /**
+   * Only include tokens with at most this market capitalization, in USD. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  maxMarketCap?: number;
+  /**
+   * Only include tokens with at least this many 24-hour buy transactions. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  min24HBuys?: number;
+  /**
+   * Only include tokens whose 24-hour price change is at least this many percent (e.g. 10 means +10%). Negative values allowed. Omit to skip this filter.
+   */
+  min24HChg?: number;
+  /**
+   * Only include tokens with at least this many 24-hour sell transactions. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  min24HSells?: number;
+  /**
+   * Only include tokens with at least this many 24-hour transactions (buys plus sells). Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  min24HTxns?: number;
+  /**
+   * Only include tokens with at least this much 24-hour trading volume, in USD. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  min24HVol?: number;
+  /**
+   * Only include token pairs at least this old, in hours. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  minAge?: number;
+  /**
+   * Only include tokens with at least this fully diluted valuation (FDV), in USD. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  minFdv?: number;
+  /**
+   * Only include tokens with at least this much pool liquidity, in USD. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  minLiq?: number;
+  /**
+   * Only include tokens with at least this market capitalization, in USD. Omit to skip this filter.
+   * Range: minimum 0.
+   */
+  minMarketCap?: number;
+  /**
    * Sort direction: desc or asc (e.g. desc).
    */
   order?: string;
@@ -123,7 +201,7 @@ export class DexscreenerNamespace {
    * Price: $0.02 per request plus $0.0015 per result.
    *
    * @example
-   * const res = await client.dexscreener.tokens({ chain: "solana", limit: 5 });
+   * const res = await client.dexscreener.tokens({ chain: "solana", limit: 5, min24HVol: 100000 });
    */
   tokens(
     input: DexscreenerTokensInput,

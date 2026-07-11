@@ -11,19 +11,46 @@ import type {
  */
 export interface UpworkJobsInput {
   /**
+   * Filter by required experience level.
+   * One of: entry, intermediate, expert.
+   */
+  experienceLevel?: "entry" | "intermediate" | "expert";
+  /**
+   * Budget range [min, max] in USD for fixed-price jobs (e.g. [500, 5000]).
+   */
+  fixedPriceRange?: number[];
+  /**
+   * Hourly rate range [min, max] in USD/hour for hourly jobs (e.g. [20, 50]).
+   */
+  hourlyRateRange?: number[];
+  /**
+   * Filter by payment type: fixed-price or hourly jobs.
+   * One of: fixed, hourly.
+   */
+  jobType?: "fixed" | "hourly";
+  /**
    * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
    */
   limit?: number;
+  /**
+   * Filter by client location - a region, subregion, or country (e.g. United States, Europe).
+   */
+  location?: string;
+  /**
+   * When true, only return jobs from clients with a verified payment method.
+   */
+  paymentVerified?: boolean;
   /**
    * Keywords to search Upwork jobs for (e.g. react developer).
    */
   query: string;
   /**
    * Sort order for listings: newest or relevance (e.g. newest).
+   * One of: newest, relevance.
    * Default: newest.
    */
-  sort?: string;
+  sort?: "newest" | "relevance";
 }
 
 export interface UpworkJobsItem {
@@ -114,7 +141,7 @@ export class UpworkNamespace {
    * Price: $0.0033 per result.
    *
    * @example
-   * const res = await client.upwork.jobs({ query: "web developer", limit: 10 });
+   * const res = await client.upwork.jobs({ query: "web developer", jobType: "fixed", limit: 10 });
    */
   jobs(
     input: UpworkJobsInput,

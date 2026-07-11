@@ -20,6 +20,8 @@ class GoogleAutocompleteInput(TypedDict, total=False):
 
     gl: NotRequired[str]
     """Two-letter country code for result localization (e.g. us, gb, de). Default: us."""
+    hl: NotRequired[str]
+    """Two-letter interface and results language code for the suggestions (e.g. en, es, de). Default: en."""
     query: Required[str]
     """The partial Google search query."""
 
@@ -27,10 +29,20 @@ class GoogleAutocompleteInput(TypedDict, total=False):
 class GoogleImagesInput(TypedDict, total=False):
     """Input for Google Images."""
 
+    autocorrect: NotRequired[bool]
+    """Toggle Google spelling autocorrect (default true). Set false to search the exact query without correction."""
+    gl: NotRequired[str]
+    """Two-letter country code for result localization (e.g. us, gb, de). Default: us."""
+    hl: NotRequired[str]
+    """Two-letter interface and results language code (e.g. en, es, de). Default: en."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-20, default 20). Price is flat per request. Range: 1 to 20."""
+    """Maximum number of images to return (1-100, default 20). Requests for 10 results or fewer are billed at a lower rate than larger requests. Range: 1 to 100. Default: 20."""
+    location: NotRequired[str]
+    """Fine-grained location for result localization, given as a canonical Google location string (e.g. 'New York, United States', 'London, United Kingdom'). More specific than the country-level gl."""
     query: Required[str]
     """Image search query (e.g. golden gate bridge at sunset)."""
+    timeframe: NotRequired[str]
+    """Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction)."""
 
 
 class GoogleLensInput(TypedDict, total=False):
@@ -43,8 +55,14 @@ class GoogleLensInput(TypedDict, total=False):
 class GoogleNewsInput(TypedDict, total=False):
     """Input for Google News."""
 
+    gl: NotRequired[str]
+    """Two-letter country code for result localization (e.g. us, gb, de). Default: us."""
+    hl: NotRequired[str]
+    """Two-letter interface and results language code (e.g. en, es, de). Default: en."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    """Requested article count (1-20, default 20). Google News returns its latest matching articles and may return more or fewer than requested. Price is flat per request. Range: 1 to 20."""
+    location: NotRequired[str]
+    """Fine-grained location for result localization, given as a canonical Google location string (e.g. 'New York, United States', 'London, United Kingdom'). More specific than the country-level gl."""
     query: Required[str]
     """News search query; supports operators like '-', 'OR', and 'site:' (e.g. bitcoin site:cnn.com)."""
     timeframe: NotRequired[str]
@@ -68,19 +86,37 @@ class GoogleScholarInput(TypedDict, total=False):
 class GoogleSearchInput(TypedDict, total=False):
     """Input for Google Search."""
 
+    autocorrect: NotRequired[bool]
+    """Toggle Google spelling autocorrect (default true). Set false to search the exact query without correction."""
     gl: NotRequired[str]
     """Two-letter country code for result localization (e.g. us, gb, de). Default: us."""
+    hl: NotRequired[str]
+    """Two-letter interface and results language code (e.g. en, es, de). Default: en."""
+    limit: NotRequired[int]
+    """Maximum number of organic results to return (1-100, default 10). Google may return fewer if the query is narrow. Price is flat per request. Range: 1 to 100. Default: 10."""
+    location: NotRequired[str]
+    """Fine-grained location for result localization, given as a canonical Google location string (e.g. 'New York, United States', 'London, United Kingdom'). More specific than the country-level gl."""
     query: Required[str]
     """The Google search query."""
+    timeframe: NotRequired[str]
+    """Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction)."""
 
 
 class GoogleVideosInput(TypedDict, total=False):
     """Input for Google Videos."""
 
+    autocorrect: NotRequired[bool]
+    """Toggle Google spelling autocorrect (default true). Set false to search the exact query without correction."""
     gl: NotRequired[str]
     """Two-letter country code for result localization (e.g. us, gb, de). Default: us."""
+    hl: NotRequired[str]
+    """Two-letter interface and results language code (e.g. en, es, de). Default: en."""
+    location: NotRequired[str]
+    """Fine-grained location for result localization, given as a canonical Google location string (e.g. 'New York, United States', 'London, United Kingdom'). More specific than the country-level gl."""
     query: Required[str]
     """The video search query."""
+    timeframe: NotRequired[str]
+    """Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction)."""
 
 
 class GoogleAutocompleteData(BaseModel):
@@ -361,13 +397,14 @@ class GoogleNamespace:
         """Google Images
 
         Run a Google Images search and get structured results - image URLs,
-        dimensions, titles, and source pages. **Price:** \$0.99 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        dimensions, titles, and source pages. **Price:** billed per result - \$0.99
+        per 1,000 requests base + \$0.09 per 1,000 results, capped at \$1.98 per
+        1,000 requests.
 
-        Price: $0.00099 per request.
+        Price: $0.00099 per request plus $0.00009 per result.
 
         Example:
-            res = client.google.images(limit=5, query="golden retriever")
+            res = client.google.images(gl="us", hl="en", limit=5, query="golden retriever")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.images", dict(input), options
@@ -405,7 +442,7 @@ class GoogleNamespace:
         Price: $0.00099 per request.
 
         Example:
-            res = client.google.news(limit=5, query="openai")
+            res = client.google.news(gl="us", hl="en", query="openai")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.news", dict(input), options
@@ -471,7 +508,7 @@ class GoogleNamespace:
         Price: $0.00099 per request.
 
         Example:
-            res = client.google.search(query="best coffee maker")
+            res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.search", dict(input), options
@@ -493,7 +530,7 @@ class GoogleNamespace:
         Price: $0.00099 per request.
 
         Example:
-            res = client.google.videos(query="lofi hip hop")
+            res = client.google.videos(gl="us", hl="en", query="lofi hip hop")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.videos", dict(input), options
@@ -538,13 +575,14 @@ class AsyncGoogleNamespace:
         """Google Images
 
         Run a Google Images search and get structured results - image URLs,
-        dimensions, titles, and source pages. **Price:** \$0.99 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        dimensions, titles, and source pages. **Price:** billed per result - \$0.99
+        per 1,000 requests base + \$0.09 per 1,000 results, capped at \$1.98 per
+        1,000 requests.
 
-        Price: $0.00099 per request.
+        Price: $0.00099 per request plus $0.00009 per result.
 
         Example:
-            res = client.google.images(limit=5, query="golden retriever")
+            res = client.google.images(gl="us", hl="en", limit=5, query="golden retriever")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.images", dict(input), options
@@ -582,7 +620,7 @@ class AsyncGoogleNamespace:
         Price: $0.00099 per request.
 
         Example:
-            res = client.google.news(limit=5, query="openai")
+            res = client.google.news(gl="us", hl="en", query="openai")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.news", dict(input), options
@@ -648,7 +686,7 @@ class AsyncGoogleNamespace:
         Price: $0.00099 per request.
 
         Example:
-            res = client.google.search(query="best coffee maker")
+            res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.search", dict(input), options
@@ -670,7 +708,7 @@ class AsyncGoogleNamespace:
         Price: $0.00099 per request.
 
         Example:
-            res = client.google.videos(query="lofi hip hop")
+            res = client.google.videos(gl="us", hl="en", query="lofi hip hop")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.videos", dict(input), options

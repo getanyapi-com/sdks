@@ -64,13 +64,92 @@ export interface TiktokAdLibraryAdData {
  */
 export interface TiktokAdLibrarySearchInput {
   /**
+   * Ad format filter.
+   * One of: spark_ads, non_spark_ads.
+   */
+  adFormat?: "spark_ads" | "non_spark_ads";
+  /**
+   * Ad language filter.
+   * One of: en, es, ar, vi, th, de, id, pt, fr, ms, nl, ja, it, ro, zh-Hant, ko.
+   */
+  adLanguage?:
+    | "en"
+    | "es"
+    | "ar"
+    | "vi"
+    | "th"
+    | "de"
+    | "id"
+    | "pt"
+    | "fr"
+    | "ms"
+    | "nl"
+    | "ja"
+    | "it"
+    | "ro"
+    | "zh-Hant"
+    | "ko";
+  /**
+   * Filter to a specific advertiser by name (searches the public TikTok Ads Library by advertiser).
+   */
+  advertiserName?: string;
+  /**
    * Page number for pagination (defaults to 1).
    */
   cursor?: string;
   /**
+   * Video duration bucket filter.
+   * One of: under_10s, 10_20s, 20_30s, 30_40s, 40_50s, over_50s.
+   */
+  duration?:
+    "under_10s" | "10_20s" | "20_30s" | "30_40s" | "40_50s" | "over_50s";
+  /**
+   * Advertiser industry filter.
+   * One of: apparel_accessories, appliances, apps, baby_kids_maternity, beauty_personal_care, business_services, ecommerce_non_app, education, financial_services, food_beverage, games, health, home_improvement, household_products, life_services, news_entertainment, pets, sports_outdoor, tech_electronics, travel, vehicle_transportation.
+   */
+  industry?:
+    | "apparel_accessories"
+    | "appliances"
+    | "apps"
+    | "baby_kids_maternity"
+    | "beauty_personal_care"
+    | "business_services"
+    | "ecommerce_non_app"
+    | "education"
+    | "financial_services"
+    | "food_beverage"
+    | "games"
+    | "health"
+    | "home_improvement"
+    | "household_products"
+    | "life_services"
+    | "news_entertainment"
+    | "pets"
+    | "sports_outdoor"
+    | "tech_electronics"
+    | "travel"
+    | "vehicle_transportation";
+  /**
+   * Likes percentile bucket filter (top_1_20 is the top-performing 20 percent).
+   * One of: top_1_20, top_21_40, top_41_60, top_61_80, top_81_100.
+   */
+  likes?: "top_1_20" | "top_21_40" | "top_41_60" | "top_61_80" | "top_81_100";
+  /**
    * Results per page, max 50 (defaults to 20).
    */
   limit?: string;
+  /**
+   * Campaign objective filter.
+   * One of: app_installs, conversions, lead_generation, product_sales, reach, traffic, video_views.
+   */
+  objective?:
+    | "app_installs"
+    | "conversions"
+    | "lead_generation"
+    | "product_sales"
+    | "reach"
+    | "traffic"
+    | "video_views";
   /**
    * Sort metric: for_you, impression, play_2s_rate, play_6s_rate, cvr, ctr, or like.
    */
@@ -510,6 +589,10 @@ export interface TiktokProfileVideosVideo {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Absent when the upstream provides no cover.
+   */
+  image?: string;
   likes: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -900,6 +983,10 @@ export interface TiktokVideoData {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Absent when the upstream provides no cover.
+   */
+  image?: string;
   likes: number;
   region: string;
   saves: number;
@@ -1010,7 +1097,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.adLibrarySearch({ query: "spotify" });
+   * const res = await client.tiktok.adLibrarySearch({ query: "spotify", objective: "conversions" });
    */
   adLibrarySearch(
     input: TiktokAdLibrarySearchInput,

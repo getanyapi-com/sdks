@@ -18,14 +18,26 @@ if TYPE_CHECKING:
 class EbaySearchInput(TypedDict, total=False):
     """Input for eBay Search."""
 
+    condition: NotRequired[
+        list[Literal["new", "open_box", "refurbished", "used", "for_parts"]]
+    ]
+    """Filter by one or more item conditions; omit for all conditions (e.g. ["new", "open_box"])."""
     limit: NotRequired[int]
     """Maximum number of results to return (1 to 25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
+    listingType: NotRequired[Literal["all", "auction", "buy_it_now"]]
+    """Restrict to a listing format; omit or use all for both (e.g. buy_it_now for fixed-price only)."""
     maxPrice: NotRequired[int]
     """Optional maximum item price in USD. Minimum: 0."""
     minPrice: NotRequired[int]
     """Optional minimum item price in USD. Minimum: 0."""
     query: Required[str]
     """Search keywords, e.g. "nintendo switch" or "vintage levis 501"."""
+    sort: NotRequired[
+        Literal[
+            "best_match", "ending_soonest", "newly_listed", "price_low", "price_high"
+        ]
+    ]
+    """Result sort order; omit for eBay's Best Match (e.g. price_low sorts by lowest price plus shipping first)."""
 
 
 class EbaySoldListingsInput(TypedDict, total=False):
@@ -37,6 +49,10 @@ class EbaySoldListingsInput(TypedDict, total=False):
     """How many days back to include sold listings, 1-90 (e.g. 30). Default: 30."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
+    maxPrice: NotRequired[float]
+    """Optional maximum sold price in the site currency (e.g. 500). Minimum: 0."""
+    minPrice: NotRequired[float]
+    """Optional minimum sold price in the site currency (e.g. 200). Minimum: 0."""
     query: Required[str]
     """Search keyword for sold items (e.g. iphone 13 pro)."""
     site: NotRequired[
@@ -52,6 +68,16 @@ class EbaySoldListingsInput(TypedDict, total=False):
         ]
     ]
     """eBay country site to search (e.g. ebay.co.uk). Default: ebay.com."""
+    sort: NotRequired[
+        Literal[
+            "ended_recently",
+            "newly_listed",
+            "price_low",
+            "price_high",
+            "distance_nearest",
+        ]
+    ]
+    """Result sort order; omit for eBay's default ended-recently (e.g. price_high sorts by highest total price first)."""
 
 
 class EbaySearchData(BaseModel):
@@ -144,15 +170,16 @@ class EbayNamespace:
     ) -> RunResult[EbaySearchData]:
         """eBay Search
 
-        Search eBay active listings by keyword and get title, price, condition,
-        shipping, seller, and sold count in one normalized response. **Price:**
+        Search eBay active listings by keyword with optional price-range,
+        item-condition, listing-type, and sort filters and get title, price,
+        condition, shipping, and seller in one normalized response. **Price:**
         billed per result - \$1.00 per 1,000 requests base + \$2.34 per 1,000
         results, capped at \$59.50 per 1,000 requests.
 
         Price: $0.001 per request plus $0.00234 per result.
 
         Example:
-            res = client.ebay.search(limit=3, query="nintendo switch")
+            res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.search", dict(input), options
@@ -167,15 +194,16 @@ class EbayNamespace:
     ) -> RunResult[EbaySoldListingsData]:
         """eBay Sold Listings
 
-        Retrieve recently sold eBay listings for any keyword - sold price, sale
-        date, condition, and item details - ideal for pricing research. **Price:**
-        billed per result - \$0.05 per 1,000 requests base + \$4.00 per 1,000
-        results, capped at \$100.05 per 1,000 requests.
+        Retrieve recently sold eBay listings for any keyword with optional
+        price-range and sort filters (sold price, sale date, condition, item
+        details); ideal for pricing research. **Price:** billed per result - \$0.05
+        per 1,000 requests base + \$4.00 per 1,000 results, capped at \$100.05 per
+        1,000 requests.
 
         Price: $0.00005 per request plus $0.004 per result.
 
         Example:
-            res = client.ebay.sold_listings(limit=3, query="nintendo switch")
+            res = client.ebay.sold_listings(limit=3, query="nintendo switch", sort="price_high")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.sold_listings", dict(input), options
@@ -194,15 +222,16 @@ class AsyncEbayNamespace:
     ) -> RunResult[EbaySearchData]:
         """eBay Search
 
-        Search eBay active listings by keyword and get title, price, condition,
-        shipping, seller, and sold count in one normalized response. **Price:**
+        Search eBay active listings by keyword with optional price-range,
+        item-condition, listing-type, and sort filters and get title, price,
+        condition, shipping, and seller in one normalized response. **Price:**
         billed per result - \$1.00 per 1,000 requests base + \$2.34 per 1,000
         results, capped at \$59.50 per 1,000 requests.
 
         Price: $0.001 per request plus $0.00234 per result.
 
         Example:
-            res = client.ebay.search(limit=3, query="nintendo switch")
+            res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.search", dict(input), options
@@ -217,15 +246,16 @@ class AsyncEbayNamespace:
     ) -> RunResult[EbaySoldListingsData]:
         """eBay Sold Listings
 
-        Retrieve recently sold eBay listings for any keyword - sold price, sale
-        date, condition, and item details - ideal for pricing research. **Price:**
-        billed per result - \$0.05 per 1,000 requests base + \$4.00 per 1,000
-        results, capped at \$100.05 per 1,000 requests.
+        Retrieve recently sold eBay listings for any keyword with optional
+        price-range and sort filters (sold price, sale date, condition, item
+        details); ideal for pricing research. **Price:** billed per result - \$0.05
+        per 1,000 requests base + \$4.00 per 1,000 results, capped at \$100.05 per
+        1,000 requests.
 
         Price: $0.00005 per request plus $0.004 per result.
 
         Example:
-            res = client.ebay.sold_listings(limit=3, query="nintendo switch")
+            res = client.ebay.sold_listings(limit=3, query="nintendo switch", sort="price_high")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.sold_listings", dict(input), options

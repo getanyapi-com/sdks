@@ -120,6 +120,10 @@ export interface GoogleAdsCompanyAdsInput {
    */
   domain?: string;
   /**
+   * Only return ads first shown on or before this date, format YYYY-MM-DD (e.g. 2024-12-31).
+   */
+  endDate?: string;
+  /**
    * Ad format filter.
    * One of: text, image, video.
    */
@@ -138,6 +142,10 @@ export interface GoogleAdsCompanyAdsInput {
    * Two-letter country code to scope results (e.g. "US", "AU").
    */
   region?: string;
+  /**
+   * Only return ads first shown on or after this date, format YYYY-MM-DD (e.g. 2024-01-01).
+   */
+  startDate?: string;
   /**
    * Search topic. "political" requires a region.
    * One of: all, political.

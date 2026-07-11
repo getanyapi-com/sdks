@@ -27,6 +27,15 @@ export interface SeoCompetitorsDomainInput {
    */
   location?: number;
   /**
+   * Sort order for the returned competitors: by shared keyword count (intersections), organic keyword count, organic traffic value (etv), or average position. Omit for the default order.
+   * One of: intersections_desc, organic_keywords_desc, organic_etv_desc, avg_position_asc.
+   */
+  orderBy?:
+    | "intersections_desc"
+    | "organic_keywords_desc"
+    | "organic_etv_desc"
+    | "avg_position_asc";
+  /**
    * Domain to analyze, without a protocol or leading www.
    */
   target: string;
@@ -77,12 +86,16 @@ export interface SeoCompetitorsDomainData {
  */
 export interface SeoDomainIntersectionInput {
   /**
+   * When true (the default), return keywords both domains rank for (overlap). When false, return keywords the first domain ranks for that the second domain does NOT (the content-gap query); in that mode secondRank and secondUrl are absent.
+   */
+  intersections?: boolean;
+  /**
    * Language code for SEO overlap metrics.
    * Default: en.
    */
   language?: string;
   /**
-   * Maximum number of overlapping keywords to return. You are billed per returned result, so a lower limit costs less.
+   * Maximum number of keywords to return. You are billed per returned result, so a lower limit costs less.
    * Range: minimum 1, maximum 1000.
    * Default: 10.
    */
@@ -92,6 +105,16 @@ export interface SeoDomainIntersectionInput {
    * Default: 2840.
    */
   location?: number;
+  /**
+   * Sort order for the returned keywords: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order.
+   * One of: volume_desc, volume_asc, cpc_desc, difficulty_asc, difficulty_desc.
+   */
+  orderBy?:
+    | "volume_desc"
+    | "volume_asc"
+    | "cpc_desc"
+    | "difficulty_asc"
+    | "difficulty_desc";
   /**
    * First domain to compare, without a protocol or leading www.
    */
@@ -128,11 +151,11 @@ export interface SeoDomainIntersectionKeyword {
    */
   searchVolume?: number;
   /**
-   * Absolute organic ranking position for the second domain. Populated whenever the provider has data for the entity.
+   * Absolute organic ranking position for the second domain. Absent when intersections is false (the second domain does not rank for this keyword).
    */
-  secondRank: number;
+  secondRank?: number;
   /**
-   * Ranking URL for the second domain.
+   * Ranking URL for the second domain. Absent when intersections is false.
    */
   secondUrl?: string;
   /**
@@ -293,6 +316,10 @@ export interface SeoKeywordDifficultyData {
  */
 export interface SeoKeywordIdeasInput {
   /**
+   * When true, generate only close variants of the seed keywords; when false (the default), generate a broader set of related ideas.
+   */
+  closelyVariants?: boolean;
+  /**
    * Seed SEO keywords used to generate related keyword ideas.
    */
   keywords: string[];
@@ -312,6 +339,16 @@ export interface SeoKeywordIdeasInput {
    * Default: 2840.
    */
   location?: number;
+  /**
+   * Sort order for the returned ideas: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order.
+   * One of: volume_desc, volume_asc, cpc_desc, difficulty_asc, difficulty_desc.
+   */
+  orderBy?:
+    | "volume_desc"
+    | "volume_asc"
+    | "cpc_desc"
+    | "difficulty_asc"
+    | "difficulty_desc";
 }
 
 export interface SeoKeywordIdeasIdea {
@@ -461,6 +498,10 @@ export interface SeoKeywordOverviewData {
  */
 export interface SeoKeywordSuggestionsInput {
   /**
+   * When true, only return suggestions that contain the exact seed phrase; when false (the default), allow reordered and partial-match suggestions.
+   */
+  exactMatch?: boolean;
+  /**
    * Seed SEO keyword used to generate keyword suggestions.
    */
   keyword: string;
@@ -480,6 +521,16 @@ export interface SeoKeywordSuggestionsInput {
    * Default: 2840.
    */
   location?: number;
+  /**
+   * Sort order for the returned suggestions: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order.
+   * One of: volume_desc, volume_asc, cpc_desc, difficulty_asc, difficulty_desc.
+   */
+  orderBy?:
+    | "volume_desc"
+    | "volume_asc"
+    | "cpc_desc"
+    | "difficulty_asc"
+    | "difficulty_desc";
 }
 
 export interface SeoKeywordSuggestionsSuggestion {
@@ -549,9 +600,13 @@ export interface SeoLocalPackInput {
    */
   limit?: number;
   /**
-   * Local pack search location name, formatted like City,Region,Country; for example, New York,New York,United States.
+   * Local pack search location name, formatted like City,Region,Country; for example, New York,New York,United States. Supply either location or locationCoordinate, not both.
    */
-  location: string;
+  location?: string;
+  /**
+   * Precise geo target as latitude,longitude or latitude,longitude,radius (radius in meters); for example, 40.7580,-73.9855 or 40.7580,-73.9855,1000. Supply either location or locationCoordinate, not both.
+   */
+  locationCoordinate?: string;
 }
 
 export interface SeoLocalPackPlace {
@@ -639,6 +694,11 @@ export interface SeoRankedKeywordsInput {
    */
   location?: number;
   /**
+   * Sort order for the returned ranked keywords: by SERP position (ascending for best rankings first), search volume, or estimated traffic value (etv). Omit for the default order.
+   * One of: position_asc, position_desc, volume_desc, etv_desc.
+   */
+  orderBy?: "position_asc" | "position_desc" | "volume_desc" | "etv_desc";
+  /**
    * Domain to analyze, without a protocol or leading www.
    */
   target: string;
@@ -705,6 +765,11 @@ export interface SeoRankedKeywordsData {
  */
 export interface SeoRelatedKeywordsInput {
   /**
+   * Depth of the related-keyword expansion (0-4). Higher depth explores a broader keyword tree; the number of returned results, and therefore the price, is still capped by limit.
+   * Range: minimum 0, maximum 4.
+   */
+  depth?: number;
+  /**
    * Seed SEO keyword used to find related keywords.
    */
   keyword: string;
@@ -724,6 +789,16 @@ export interface SeoRelatedKeywordsInput {
    * Default: 2840.
    */
   location?: number;
+  /**
+   * Sort order for the returned related keywords: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order.
+   * One of: volume_desc, volume_asc, cpc_desc, difficulty_asc, difficulty_desc.
+   */
+  orderBy?:
+    | "volume_desc"
+    | "volume_asc"
+    | "cpc_desc"
+    | "difficulty_asc"
+    | "difficulty_desc";
 }
 
 export interface SeoRelatedKeywordsRelatedKeyword {
@@ -820,6 +895,14 @@ export interface SeoSearchIntentData {
  */
 export interface SeoSearchVolumeInput {
   /**
+   * Start of the historical monthly-searches window, formatted YYYY-MM-DD. Cannot be more than four years before today. Omit for the default trailing window.
+   */
+  dateFrom?: string;
+  /**
+   * End of the historical monthly-searches window, formatted YYYY-MM-DD. Omit for the default trailing window.
+   */
+  dateTo?: string;
+  /**
    * SEO keyword phrases to retrieve search-volume metrics for.
    */
   keywords: string[];
@@ -833,6 +916,10 @@ export interface SeoSearchVolumeInput {
    * Default: 2840.
    */
   location?: number;
+  /**
+   * When true, include Google search-partner network volume in the reported numbers; when false (the default), count Google search only.
+   */
+  searchPartners?: boolean;
 }
 
 export interface SeoSearchVolumeKeyword {
@@ -1050,7 +1137,7 @@ export class SeoNamespace {
    * Price: $0.0026 per request.
    *
    * @example
-   * const res = await client.seo.localPack({ keyword: "coffee shop", location: "New York,New York,United States", language: "en", limit: 5 });
+   * const res = await client.seo.localPack({ keyword: "coffee shop", language: "en", limit: 5, location: "New York,New York,United States" });
    */
   localPack(
     input: SeoLocalPackInput,

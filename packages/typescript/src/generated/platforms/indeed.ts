@@ -25,6 +25,11 @@ export interface IndeedJobsInput {
    */
   location?: string;
   /**
+   * Only return jobs posted within this window: 24h (past day) or week (past 7 days). Omit for all dates.
+   * One of: 24h, week.
+   */
+  postedLimit?: "24h" | "week";
+  /**
    * Job search keywords (e.g. software engineer).
    */
   query: string;

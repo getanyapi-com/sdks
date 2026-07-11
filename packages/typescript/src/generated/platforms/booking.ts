@@ -11,6 +11,11 @@ import type {
  */
 export interface BookingSearchInput {
   /**
+   * Number of adult guests (e.g. 2).
+   * Range: minimum 1.
+   */
+  adults?: number;
+  /**
    * Check-in date in YYYY-MM-DD format (e.g. 2026-07-01). Defaults to tomorrow.
    */
   checkIn?: string;
@@ -18,6 +23,11 @@ export interface BookingSearchInput {
    * Check-out date in YYYY-MM-DD format (e.g. 2026-07-05). Defaults to the day after check-in.
    */
   checkOut?: string;
+  /**
+   * Number of child guests (e.g. 1).
+   * Range: minimum 0.
+   */
+  children?: number;
   /**
    * Currency code for prices (e.g. EUR).
    * Default: USD.
@@ -32,6 +42,11 @@ export interface BookingSearchInput {
    * Destination city to search for stays in (e.g. Paris).
    */
   query: string;
+  /**
+   * Number of rooms to book (e.g. 1).
+   * Range: minimum 1.
+   */
+  rooms?: number;
 }
 
 export interface BookingSearchItem {
@@ -107,14 +122,14 @@ export class BookingNamespace {
   /**
    * Booking.com Search
    *
-   * Search Booking.com stays by destination and dates and get hotel results (name, price, review score, location) as normalized JSON.
+   * Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.
 
 **Price:** billed per result - \$2.00 per 1,000 requests base + \$4.50 per 1,000 results, capped at \$92.00 per 1,000 requests.
    *
    * Price: $0.002 per request plus $0.0045 per result.
    *
    * @example
-   * const res = await client.booking.search({ query: "New York", checkIn: "2026-09-01", checkOut: "2026-09-03", limit: 3 });
+   * const res = await client.booking.search({ query: "New York", adults: 2, checkIn: "2026-09-01", checkOut: "2026-09-03", limit: 3 });
    */
   search(
     input: BookingSearchInput,

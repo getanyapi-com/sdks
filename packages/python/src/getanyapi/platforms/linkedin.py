@@ -71,8 +71,16 @@ class LinkedinCompanyEmployeesInput(TypedDict, total=False):
 class LinkedinCompanyPostsInput(TypedDict, total=False):
     """Input for LinkedIn Company Posts."""
 
+    includeQuotePosts: NotRequired[bool]
+    """Include quote posts (posts shared with an added comment). Defaults to true; set false to exclude them."""
+    includeReposts: NotRequired[bool]
+    """Include reposts (posts shared without an added comment). Defaults to true; set false to exclude them."""
     limit: NotRequired[int]
     """Maximum number of posts to return. Range: 1 to 50. Default: 10."""
+    postedLimit: NotRequired[
+        Literal["any", "1h", "24h", "week", "month", "3months", "6months", "year"]
+    ]
+    """Only return posts published within this window (default any)."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -103,23 +111,69 @@ class LinkedinEmailInput(TypedDict, total=False):
 class LinkedinJobsInput(TypedDict, total=False):
     """Input for LinkedIn Jobs."""
 
+    company: NotRequired[str]
+    """Filter to a specific company by name (e.g. Google)."""
+    easyApply: NotRequired[bool]
+    """When true, only return jobs offering LinkedIn Easy Apply."""
+    employmentType: NotRequired[
+        Literal["full-time", "part-time", "contract", "internship", "temporary"]
+    ]
+    """Filter by employment type."""
+    experienceLevel: NotRequired[
+        Literal[
+            "internship", "entry", "associate", "mid-senior", "director", "executive"
+        ]
+    ]
+    """Filter by required seniority/experience level."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
     location: NotRequired[str]
     """City, region, or country to search within (e.g. United States, San Francisco)."""
+    postedLimit: NotRequired[Literal["1h", "24h", "week", "month"]]
+    """Only jobs posted within this window (past hour, 24 hours, week, or month)."""
     query: Required[str]
     """Job title or keywords to search. Supports LinkedIn boolean operators."""
+    salary: NotRequired[
+        Literal[
+            "40k+", "60k+", "80k+", "100k+", "120k+", "140k+", "160k+", "180k+", "200k+"
+        ]
+    ]
+    """Filter by minimum base salary band (US dollars)."""
+    sortBy: NotRequired[Literal["date", "relevance"]]
+    """Sort order: most recent (date) or best match (relevance)."""
+    under10Applicants: NotRequired[bool]
+    """When true, only return jobs with fewer than 10 applicants (lower competition)."""
+    workplaceType: NotRequired[Literal["remote", "hybrid", "onsite"]]
+    """Filter by workplace type (remote, hybrid, or onsite)."""
 
 
 class LinkedinJobsThinInput(TypedDict, total=False):
     """Input for LinkedIn Jobs (index)."""
 
+    companyId: NotRequired[str]
+    """Filter to a specific company by its LinkedIn numeric company id."""
+    employmentType: NotRequired[
+        Literal["full-time", "part-time", "contract", "internship", "temporary"]
+    ]
+    """Filter by employment type."""
+    experienceLevel: NotRequired[
+        Literal[
+            "internship", "entry", "associate", "mid-senior", "director", "executive"
+        ]
+    ]
+    """Filter by required seniority/experience level."""
+    geoId: NotRequired[str]
+    """LinkedIn geo id to target a precise location (e.g. 103644278 for the United States); more exact than the free-text location."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). Range: 1 to 25."""
     location: NotRequired[str]
     """City, region, or country to search within."""
+    postedLimit: NotRequired[Literal["24h", "week", "month"]]
+    """Only jobs posted within this window (past 24 hours, week, or month)."""
     query: Required[str]
     """Job title or keywords to search."""
+    workplaceType: NotRequired[Literal["remote", "hybrid", "onsite"]]
+    """Filter by workplace type (remote, hybrid, or onsite)."""
 
 
 class LinkedinPostInput(TypedDict, total=False):
@@ -134,6 +188,10 @@ class LinkedinPostCommentsInput(TypedDict, total=False):
 
     limit: NotRequired[int]
     """Maximum number of comments to return. You are billed per comment returned, so a lower limit costs less. Range: 1 to 100. Default: 100."""
+    postedLimit: NotRequired[
+        Literal["any", "24h", "week", "month", "3months", "6months", "year"]
+    ]
+    """Only return comments posted within this window (default any)."""
     url: Required[str]
     """Full URL of the LinkedIn post to list comments for."""
 
@@ -195,27 +253,329 @@ class LinkedinSearchPostsInput(TypedDict, total=False):
 class LinkedinSearchProfilesInput(TypedDict, total=False):
     """Input for LinkedIn Profile Search."""
 
+    companyHeadcount: NotRequired[
+        list[Literal["A", "B", "C", "D", "E", "F", "G", "H", "I"]]
+    ]
+    """Filter by current company size (employee count). Codes: A=Self-Employed, B=1-10, C=11-50, D=51-200, E=201-500, F=501-1,000, G=1,001-5,000, H=5,001-10,000, I=10,001+."""
+    companyHeadquarterLocations: NotRequired[list[str]]
+    """Filter by the location of the person's current company headquarters, by place name (e.g. ['United States'])."""
+    currentCompanies: NotRequired[list[str]]
+    """Filter to people who currently work at any of these companies, by name (e.g. ['Google','Meta']). Multiple names widen the match (OR)."""
+    excludeCompanyHeadquarterLocations: NotRequired[list[str]]
+    """Exclude people whose current company is headquartered in any of these locations."""
+    excludeCurrentCompanies: NotRequired[list[str]]
+    """Exclude people who currently work at any of these companies, by name."""
+    excludeCurrentJobTitles: NotRequired[list[str]]
+    """Exclude people whose current job title matches any of these."""
+    excludeFunctionIds: NotRequired[
+        list[
+            Literal[
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+            ]
+        ]
+    ]
+    """Exclude these job functions (same codes as functionIds)."""
+    excludeLocations: NotRequired[list[str]]
+    """Exclude people in any of these locations, by place name."""
+    excludePastCompanies: NotRequired[list[str]]
+    """Exclude people who previously worked at any of these companies, by name."""
+    excludePastJobTitles: NotRequired[list[str]]
+    """Exclude people who held any of these past job titles."""
+    excludeSchools: NotRequired[list[str]]
+    """Exclude people who attended any of these schools, by name."""
+    excludeSeniorityLevelIds: NotRequired[
+        list[
+            Literal[
+                "100", "110", "120", "130", "200", "210", "220", "300", "310", "320"
+            ]
+        ]
+    ]
+    """Exclude these seniority levels (same codes as seniorityLevelIds)."""
+    firstNames: NotRequired[list[str]]
+    """Filter to people whose first name matches any of these."""
+    functionIds: NotRequired[
+        list[
+            Literal[
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+            ]
+        ]
+    ]
+    """Filter by job function. Codes: 1=Accounting, 2=Administrative, 3=Arts and Design, 4=Business Development, 5=Community and Social Services, 6=Consulting, 7=Education, 8=Engineering, 9=Entrepreneurship, 10=Finance, 11=Healthcare Services, 12=Human Resources, 13=Information Technology, 14=Legal, 15=Marketing, 16=Media and Communication, 17=Military and Protective Services, 18=Operations, 19=Product Management, 20=Program and Project Management, 21=Purchasing, 22=Quality Assurance, 23=Real Estate, 24=Research, 25=Sales, 26=Customer Success and Support."""
     jobTitle: NotRequired[str]
     """Optional current job title filter (e.g. 'Software Engineer')."""
+    lastNames: NotRequired[list[str]]
+    """Filter to people whose last name matches any of these."""
     limit: NotRequired[int]
     """Maximum number of full profiles to return (1-25, default 10). You are billed per profile returned, so a lower limit costs less. Range: 1 to 25."""
     location: NotRequired[str]
     """Optional location filter (e.g. 'San Francisco')."""
+    pastCompanies: NotRequired[list[str]]
+    """Filter to people who previously worked at any of these companies, by name."""
+    pastJobTitles: NotRequired[list[str]]
+    """Filter by a past job title the person held (e.g. ['Product Manager'])."""
+    profileLanguages: NotRequired[
+        list[
+            Literal[
+                "Arabic",
+                "English",
+                "Spanish",
+                "Portuguese",
+                "Chinese",
+                "French",
+                "Italian",
+                "Russian",
+                "German",
+                "Dutch",
+                "Turkish",
+                "Tagalog",
+                "Polish",
+                "Korean",
+                "Japanese",
+                "Malay",
+                "Norwegian",
+                "Danish",
+                "Romanian",
+                "Swedish",
+                "Bahasa Indonesia",
+                "Czech",
+            ]
+        ]
+    ]
+    """Filter by the profile's primary language."""
     query: Required[str]
-    """Search query for LinkedIn profiles - a role, name, or keywords (e.g. 'Marketing Manager')."""
+    """Search query for LinkedIn profiles: a role, name, or keywords (e.g. 'Marketing Manager')."""
+    recentlyChangedJobs: NotRequired[bool]
+    """When true, only return people who recently changed jobs (a strong sales/recruiting signal)."""
+    recentlyPostedOnLinkedIn: NotRequired[bool]
+    """When true, only return people who recently posted on LinkedIn (an activity signal)."""
+    schools: NotRequired[list[str]]
+    """Filter to people who attended any of these schools, by name."""
+    seniorityLevelIds: NotRequired[
+        list[
+            Literal[
+                "100", "110", "120", "130", "200", "210", "220", "300", "310", "320"
+            ]
+        ]
+    ]
+    """Filter by seniority level. Codes: 100=In Training, 110=Entry Level, 120=Senior, 130=Strategic, 200=Entry Level Manager, 210=Experienced Manager, 220=Director, 300=Vice President, 310=CXO, 320=Owner/Partner."""
+    yearsAtCurrentCompanyIds: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
+    """Filter by tenure at the current company. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years."""
+    yearsOfExperienceIds: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
+    """Filter by total years of experience. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years."""
 
 
 class LinkedinSearchProfilesEmailInput(TypedDict, total=False):
     """Input for LinkedIn Profile Search + Email."""
 
+    companyHeadcount: NotRequired[
+        list[Literal["A", "B", "C", "D", "E", "F", "G", "H", "I"]]
+    ]
+    """Filter by current company size (employee count). Codes: A=Self-Employed, B=1-10, C=11-50, D=51-200, E=201-500, F=501-1,000, G=1,001-5,000, H=5,001-10,000, I=10,001+."""
+    companyHeadquarterLocations: NotRequired[list[str]]
+    """Filter by the location of the person's current company headquarters, by place name (e.g. ['United States'])."""
+    currentCompanies: NotRequired[list[str]]
+    """Filter to people who currently work at any of these companies, by name (e.g. ['Google','Meta']). Multiple names widen the match (OR)."""
+    excludeCompanyHeadquarterLocations: NotRequired[list[str]]
+    """Exclude people whose current company is headquartered in any of these locations."""
+    excludeCurrentCompanies: NotRequired[list[str]]
+    """Exclude people who currently work at any of these companies, by name."""
+    excludeCurrentJobTitles: NotRequired[list[str]]
+    """Exclude people whose current job title matches any of these."""
+    excludeFunctionIds: NotRequired[
+        list[
+            Literal[
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+            ]
+        ]
+    ]
+    """Exclude these job functions (same codes as functionIds)."""
+    excludeLocations: NotRequired[list[str]]
+    """Exclude people in any of these locations, by place name."""
+    excludePastCompanies: NotRequired[list[str]]
+    """Exclude people who previously worked at any of these companies, by name."""
+    excludePastJobTitles: NotRequired[list[str]]
+    """Exclude people who held any of these past job titles."""
+    excludeSchools: NotRequired[list[str]]
+    """Exclude people who attended any of these schools, by name."""
+    excludeSeniorityLevelIds: NotRequired[
+        list[
+            Literal[
+                "100", "110", "120", "130", "200", "210", "220", "300", "310", "320"
+            ]
+        ]
+    ]
+    """Exclude these seniority levels (same codes as seniorityLevelIds)."""
+    firstNames: NotRequired[list[str]]
+    """Filter to people whose first name matches any of these."""
+    functionIds: NotRequired[
+        list[
+            Literal[
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+            ]
+        ]
+    ]
+    """Filter by job function. Codes: 1=Accounting, 2=Administrative, 3=Arts and Design, 4=Business Development, 5=Community and Social Services, 6=Consulting, 7=Education, 8=Engineering, 9=Entrepreneurship, 10=Finance, 11=Healthcare Services, 12=Human Resources, 13=Information Technology, 14=Legal, 15=Marketing, 16=Media and Communication, 17=Military and Protective Services, 18=Operations, 19=Product Management, 20=Program and Project Management, 21=Purchasing, 22=Quality Assurance, 23=Real Estate, 24=Research, 25=Sales, 26=Customer Success and Support."""
     jobTitle: NotRequired[str]
     """Optional current job title filter (e.g. 'Software Engineer')."""
+    lastNames: NotRequired[list[str]]
+    """Filter to people whose last name matches any of these."""
     limit: NotRequired[int]
     """Maximum number of full profiles (with email) to return (1-25, default 10). You are billed per profile returned, so a lower limit costs less. Range: 1 to 25."""
     location: NotRequired[str]
     """Optional location filter (e.g. 'San Francisco')."""
+    pastCompanies: NotRequired[list[str]]
+    """Filter to people who previously worked at any of these companies, by name."""
+    pastJobTitles: NotRequired[list[str]]
+    """Filter by a past job title the person held (e.g. ['Product Manager'])."""
+    profileLanguages: NotRequired[
+        list[
+            Literal[
+                "Arabic",
+                "English",
+                "Spanish",
+                "Portuguese",
+                "Chinese",
+                "French",
+                "Italian",
+                "Russian",
+                "German",
+                "Dutch",
+                "Turkish",
+                "Tagalog",
+                "Polish",
+                "Korean",
+                "Japanese",
+                "Malay",
+                "Norwegian",
+                "Danish",
+                "Romanian",
+                "Swedish",
+                "Bahasa Indonesia",
+                "Czech",
+            ]
+        ]
+    ]
+    """Filter by the profile's primary language."""
     query: Required[str]
     """Search query for LinkedIn profiles: a role, name, or keywords (e.g. 'Marketing Manager')."""
+    recentlyChangedJobs: NotRequired[bool]
+    """When true, only return people who recently changed jobs (a strong sales/recruiting signal)."""
+    recentlyPostedOnLinkedIn: NotRequired[bool]
+    """When true, only return people who recently posted on LinkedIn (an activity signal)."""
+    schools: NotRequired[list[str]]
+    """Filter to people who attended any of these schools, by name."""
+    seniorityLevelIds: NotRequired[
+        list[
+            Literal[
+                "100", "110", "120", "130", "200", "210", "220", "300", "310", "320"
+            ]
+        ]
+    ]
+    """Filter by seniority level. Codes: 100=In Training, 110=Entry Level, 120=Senior, 130=Strategic, 200=Entry Level Manager, 210=Experienced Manager, 220=Director, 300=Vice President, 310=CXO, 320=Owner/Partner."""
+    yearsAtCurrentCompanyIds: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
+    """Filter by tenure at the current company. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years."""
+    yearsOfExperienceIds: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
+    """Filter by total years of experience. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years."""
 
 
 class LinkedinSearchProfilesThinInput(TypedDict, total=False):
@@ -1706,7 +2066,7 @@ class LinkedinNamespace:
         Price: $0.001 per request plus $0.001 per result.
 
         Example:
-            res = client.linkedin.jobs(limit=3, location="United States", query="software engineer")
+            res = client.linkedin.jobs(limit=3, location="United States", query="software engineer", workplaceType="remote")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs", dict(input), options
@@ -1729,7 +2089,7 @@ class LinkedinNamespace:
         Price: $0.001 per request.
 
         Example:
-            res = client.linkedin.jobs_thin(limit=3, location="San Francisco", query="software engineer")
+            res = client.linkedin.jobs_thin(limit=3, location="United States", query="software engineer", workplaceType="remote")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs_thin", dict(input), options
@@ -1942,7 +2302,7 @@ class LinkedinNamespace:
         Price: $0.08 per request plus $0.004 per result.
 
         Example:
-            res = client.linkedin.search_profiles(limit=3, query="recruiter")
+            res = client.linkedin.search_profiles(currentCompanies=["Google"], limit=3, query="engineer")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles", dict(input), options
@@ -1971,7 +2331,7 @@ class LinkedinNamespace:
         Price: $0.08 per request plus $0.009 per result.
 
         Example:
-            res = client.linkedin.search_profiles_email(limit=3, query="recruiter")
+            res = client.linkedin.search_profiles_email(companyHeadcount=["B"], limit=5, query="founder")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles_email", dict(input), options
@@ -2231,7 +2591,7 @@ class AsyncLinkedinNamespace:
         Price: $0.001 per request plus $0.001 per result.
 
         Example:
-            res = client.linkedin.jobs(limit=3, location="United States", query="software engineer")
+            res = client.linkedin.jobs(limit=3, location="United States", query="software engineer", workplaceType="remote")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs", dict(input), options
@@ -2254,7 +2614,7 @@ class AsyncLinkedinNamespace:
         Price: $0.001 per request.
 
         Example:
-            res = client.linkedin.jobs_thin(limit=3, location="San Francisco", query="software engineer")
+            res = client.linkedin.jobs_thin(limit=3, location="United States", query="software engineer", workplaceType="remote")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs_thin", dict(input), options
@@ -2467,7 +2827,7 @@ class AsyncLinkedinNamespace:
         Price: $0.08 per request plus $0.004 per result.
 
         Example:
-            res = client.linkedin.search_profiles(limit=3, query="recruiter")
+            res = client.linkedin.search_profiles(currentCompanies=["Google"], limit=3, query="engineer")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles", dict(input), options
@@ -2496,7 +2856,7 @@ class AsyncLinkedinNamespace:
         Price: $0.08 per request plus $0.009 per result.
 
         Example:
-            res = client.linkedin.search_profiles_email(limit=3, query="recruiter")
+            res = client.linkedin.search_profiles_email(companyHeadcount=["B"], limit=5, query="founder")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles_email", dict(input), options

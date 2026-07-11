@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Any, Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -27,10 +27,14 @@ class WebCrawlInput(TypedDict, total=False):
 class WebMapInput(TypedDict, total=False):
     """Input for Web Map."""
 
+    includeSubdomains: NotRequired[bool]
+    """When true (upstream default), include URLs on subdomains of the target (for example docs.example.com when mapping example.com). Set false to return only URLs on the exact host."""
     limit: NotRequired[int]
     """Maximum number of links to return. Default: 100."""
     search: NotRequired[str]
     """Optional term that orders the returned links by relevance."""
+    sitemap: NotRequired[Literal["include", "skip", "only"]]
+    """How to use the site's sitemap.xml when discovering URLs. 'include' (upstream default) merges sitemap URLs with links found by crawling; 'only' returns just the URLs listed in the sitemap (fastest and most authoritative); 'skip' ignores the sitemap and discovers URLs by crawling links. Omit to use 'include'."""
     url: Required[str]
     """The base URL of the site to map into a list of links."""
 
@@ -38,8 +42,22 @@ class WebMapInput(TypedDict, total=False):
 class WebScrapeInput(TypedDict, total=False):
     """Input for Web Scrape."""
 
+    blockAds: NotRequired[bool]
+    """When true (upstream default), strip ad and cookie-consent elements before capture. Set false to keep them."""
+    excludeTags: NotRequired[list[str]]
+    """CSS selectors to drop before capture (for example ["nav", "footer", ".ads"]). Applied after includeTags."""
+    formats: NotRequired[list[Literal["markdown", "html", "rawHtml"]]]
+    """Which representations of the page to return. Any combination of: markdown (clean main content), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to markdown only."""
+    includeTags: NotRequired[list[str]]
+    """CSS selectors to keep. When set, only content matching these selectors is captured (for example ["article", "main"] or ["#content"])."""
+    mobile: NotRequired[bool]
+    """When true, render the page with a mobile viewport and user agent instead of desktop. Some sites serve materially different content to mobile."""
+    onlyMainContent: NotRequired[bool]
+    """When true (default) return only the main article content, stripping navigation, headers, footers, and other boilerplate. Set false to capture the full page. Default: true."""
     url: Required[str]
     """The URL of the page to scrape."""
+    waitFor: NotRequired[int]
+    """Milliseconds to wait for the page to finish rendering before capture. Use this for JavaScript-heavy pages or single-page apps whose content loads after the initial paint. Capped at 15000 to stay within the request timeout. Range: 0 to 15000."""
 
 
 class WebScreenshotInput(TypedDict, total=False):
@@ -85,15 +103,24 @@ class WebMapResult(BaseModel):
 
 
 class WebScrapeData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    description: str
-    markdown: str = Field(
-        description="Populated whenever the provider has data for the entity."
+    description: str = Field(description="The page meta description.")
+    html: str | None = Field(
+        default=None,
+        description="The cleaned page HTML. Present only when 'html' is among the requested formats.",
     )
-    title: str
+    markdown: str = Field(
+        description="The page content as clean Markdown. Present when 'markdown' is among the requested formats (the default). Populated whenever the provider has data for the entity."
+    )
+    raw_html: str | None = Field(
+        default=None,
+        alias="rawHtml",
+        description="The verbatim page HTML before cleaning. Present only when 'rawHtml' is among the requested formats.",
+    )
+    title: str = Field(description="The page title from its metadata.")
     url: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="The canonical source URL of the scraped page. Populated whenever the provider has data for the entity."
     )
 
 
@@ -153,7 +180,7 @@ class WebNamespace:
         Price: $0.0009 per request.
 
         Example:
-            res = client.web.map(url="https://example.com")
+            res = client.web.map(search="domain", url="https://www.iana.org")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.map", dict(input), options
@@ -165,14 +192,14 @@ class WebNamespace:
     ) -> RunResult[WebScrapeData]:
         """Web Scrape
 
-        Scrape any web page and get its main content back as clean Markdown plus
-        title and metadata. **Price:** \$0.90 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        Scrape any web page and get its content back as clean Markdown (or HTML, or
+        raw HTML) plus title and metadata. **Price:** \$0.90 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.0009 per request.
 
         Example:
-            res = client.web.scrape(url="https://example.com")
+            res = client.web.scrape(formats=["markdown", "html", "rawHtml"], onlyMainContent=True, url="https://example.com")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options
@@ -239,7 +266,7 @@ class AsyncWebNamespace:
         Price: $0.0009 per request.
 
         Example:
-            res = client.web.map(url="https://example.com")
+            res = client.web.map(search="domain", url="https://www.iana.org")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.map", dict(input), options
@@ -251,14 +278,14 @@ class AsyncWebNamespace:
     ) -> RunResult[WebScrapeData]:
         """Web Scrape
 
-        Scrape any web page and get its main content back as clean Markdown plus
-        title and metadata. **Price:** \$0.90 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        Scrape any web page and get its content back as clean Markdown (or HTML, or
+        raw HTML) plus title and metadata. **Price:** \$0.90 per 1,000 requests
+        (flat per request - same cost regardless of results returned).
 
         Price: $0.0009 per request.
 
         Example:
-            res = client.web.scrape(url="https://example.com")
+            res = client.web.scrape(formats=["markdown", "html", "rawHtml"], onlyMainContent=True, url="https://example.com")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options

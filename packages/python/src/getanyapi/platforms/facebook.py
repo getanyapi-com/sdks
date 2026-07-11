@@ -42,16 +42,26 @@ class FacebookAdTranscriptInput(TypedDict, total=False):
 class FacebookAdsSearchInput(TypedDict, total=False):
     """Input for Facebook Ad Search."""
 
+    adType: NotRequired[Literal["all", "political_and_issue_ads"]]
+    """Restrict to all ads (default) or only political and issue ads."""
     country: NotRequired[str]
     """Two-letter country code to scope results. Omit for all countries."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor."""
+    endDate: NotRequired[str]
+    """Filter to ads with impressions on or before this date, in YYYY-MM-DD format."""
     mediaType: NotRequired[
         Literal["ALL", "IMAGE", "VIDEO", "MEME", "IMAGE_AND_MEME", "NONE"]
     ]
     """Creative media type filter."""
     query: Required[str]
     """Keyword to search the Meta Ad Library for (e.g. "protein powder")."""
+    searchType: NotRequired[Literal["keyword_unordered", "keyword_exact_phrase"]]
+    """Match mode for the query: loose keyword match (keyword_unordered, the default) or exact phrase (keyword_exact_phrase)."""
+    sortBy: NotRequired[Literal["impressions", "recent"]]
+    """Sort order: impressions (highest first, the default) or recent (most recent)."""
+    startDate: NotRequired[str]
+    """Filter to ads with impressions on or after this date, in YYYY-MM-DD format."""
     status: NotRequired[Literal["ALL", "ACTIVE", "INACTIVE"]]
     """Ad status filter. Default: ACTIVE."""
 
@@ -76,12 +86,20 @@ class FacebookCompanyAdsInput(TypedDict, total=False):
     """Two-letter country code to scope results. Defaults to all countries."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor."""
+    endDate: NotRequired[str]
+    """Filter to ads with impressions on or before this date, in YYYY-MM-DD format."""
+    language: NotRequired[str]
+    """Two-letter language code to filter ads (e.g. "EN", "ES", "FR")."""
     mediaType: NotRequired[
         Literal["ALL", "IMAGE", "VIDEO", "MEME", "IMAGE_AND_MEME", "NONE"]
     ]
     """Creative media type filter."""
     pageId: NotRequired[str]
     """Company's Ad Library page ID. Provide either pageId or companyName."""
+    sortBy: NotRequired[Literal["impressions", "recent"]]
+    """Sort order: impressions (highest first, the default) or recent (most recent)."""
+    startDate: NotRequired[str]
+    """Filter to ads with impressions on or after this date, in YYYY-MM-DD format."""
     status: NotRequired[Literal["ALL", "ACTIVE", "INACTIVE"]]
     """Ad status filter. Defaults to ACTIVE."""
 
@@ -144,12 +162,26 @@ class FacebookGroupPostsInput(TypedDict, total=False):
 class FacebookMarketplaceInput(TypedDict, total=False):
     """Input for Facebook Marketplace."""
 
+    availability: NotRequired[Literal["available", "sold", "all"]]
+    """Filter by availability: available (default), sold, or all (e.g. sold)."""
+    condition: NotRequired[Literal["new", "used_like_new", "used_good", "used_fair"]]
+    """Only return listings in this condition (e.g. used_good)."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response to fetch the next page."""
+    dateListed: NotRequired[
+        Literal["all", "last_24_hours", "last_7_days", "last_30_days"]
+    ]
+    """Only return listings posted within this window (e.g. last_7_days)."""
+    deliveryMethod: NotRequired[Literal["all", "local_pickup", "shipping"]]
+    """Only return listings offering this delivery method (e.g. shipping)."""
     lat: Required[str]
     """Latitude of the search location (e.g. '30.2677')."""
     lng: Required[str]
     """Longitude of the search location (e.g. '-97.7475')."""
+    priceMax: NotRequired[int]
+    """Maximum listing price in whole currency units, e.g. 500 for $500. Facebook may mix in a few suggested listings outside the range. Minimum: 0."""
+    priceMin: NotRequired[int]
+    """Minimum listing price in whole currency units, e.g. 100 for $100. Facebook may mix in a few suggested listings outside the range. Minimum: 0."""
     query: Required[str]
     """Search keyword for Marketplace listings (e.g. 'bike')."""
     sort: NotRequired[
@@ -282,12 +314,16 @@ class FacebookSearchPagesInput(TypedDict, total=False):
 class FacebookSearchPostsInput(TypedDict, total=False):
     """Input for Facebook Post Search."""
 
+    endDate: NotRequired[str]
+    """Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2024-12-31)."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     location: NotRequired[str]
     """Optional location to narrow results; include both city and country for best matches (e.g. 'Paris, France')."""
     query: Required[str]
     """Keyword or phrase to search Facebook posts for (e.g. 'product launch')."""
+    startDate: NotRequired[str]
+    """Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2024-01-01)."""
 
 
 class FacebookAdDetailsData(BaseModel):
@@ -1255,7 +1291,7 @@ class FacebookNamespace:
         Price: $0.002 per request.
 
         Example:
-            res = client.facebook.ads_search(country="US", query="nike")
+            res = client.facebook.ads_search(country="US", query="nike", searchType="keyword_exact_phrase")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ads_search", dict(input), options
@@ -1346,7 +1382,7 @@ class FacebookNamespace:
         Price: $0.002 per request.
 
         Example:
-            res = client.facebook.company_ads(companyName="nike")
+            res = client.facebook.company_ads(companyName="nike", sortBy="recent")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.company_ads", dict(input), options
@@ -1566,15 +1602,15 @@ class FacebookNamespace:
     ) -> RunResult[FacebookMarketplaceData]:
         """Facebook Marketplace
 
-        Search Facebook Marketplace listings by keyword near a location - title,
-        price, location, and image - as normalized JSON at a. **Price:** \$2.00 per
-        1,000 requests (flat per request - same cost regardless of results
-        returned).
+        Search Facebook Marketplace listings by keyword near a location, with price,
+        condition, delivery, recency, and availability filters - title, price,
+        location, and image - as normalized JSON. **Price:** \$2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
         Example:
-            res = client.facebook.marketplace(lat="30.2677", lng="-97.7475", query="bike")
+            res = client.facebook.marketplace(lat="30.2677", lng="-97.7475", priceMax=500, priceMin=100, query="bike")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.marketplace", dict(input), options
@@ -2059,7 +2095,7 @@ class AsyncFacebookNamespace:
         Price: $0.002 per request.
 
         Example:
-            res = client.facebook.ads_search(country="US", query="nike")
+            res = client.facebook.ads_search(country="US", query="nike", searchType="keyword_exact_phrase")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ads_search", dict(input), options
@@ -2150,7 +2186,7 @@ class AsyncFacebookNamespace:
         Price: $0.002 per request.
 
         Example:
-            res = client.facebook.company_ads(companyName="nike")
+            res = client.facebook.company_ads(companyName="nike", sortBy="recent")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.company_ads", dict(input), options
@@ -2370,15 +2406,15 @@ class AsyncFacebookNamespace:
     ) -> RunResult[FacebookMarketplaceData]:
         """Facebook Marketplace
 
-        Search Facebook Marketplace listings by keyword near a location - title,
-        price, location, and image - as normalized JSON at a. **Price:** \$2.00 per
-        1,000 requests (flat per request - same cost regardless of results
-        returned).
+        Search Facebook Marketplace listings by keyword near a location, with price,
+        condition, delivery, recency, and availability filters - title, price,
+        location, and image - as normalized JSON. **Price:** \$2.00 per 1,000
+        requests (flat per request - same cost regardless of results returned).
 
         Price: $0.002 per request.
 
         Example:
-            res = client.facebook.marketplace(lat="30.2677", lng="-97.7475", query="bike")
+            res = client.facebook.marketplace(lat="30.2677", lng="-97.7475", priceMax=500, priceMin=100, query="bike")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.marketplace", dict(input), options

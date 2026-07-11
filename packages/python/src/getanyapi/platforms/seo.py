@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -24,6 +24,15 @@ class SeoCompetitorsDomainInput(TypedDict, total=False):
     """Maximum number of competitor domains to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
     location: NotRequired[int]
     """Location code for SEO competitor metrics. The default is the United States. Default: 2840."""
+    orderBy: NotRequired[
+        Literal[
+            "intersections_desc",
+            "organic_keywords_desc",
+            "organic_etv_desc",
+            "avg_position_asc",
+        ]
+    ]
+    """Sort order for the returned competitors: by shared keyword count (intersections), organic keyword count, organic traffic value (etv), or average position. Omit for the default order."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
 
@@ -31,12 +40,20 @@ class SeoCompetitorsDomainInput(TypedDict, total=False):
 class SeoDomainIntersectionInput(TypedDict, total=False):
     """Input for SEO Domain Intersection."""
 
+    intersections: NotRequired[bool]
+    """When true (the default), return keywords both domains rank for (overlap). When false, return keywords the first domain ranks for that the second domain does NOT (the content-gap query); in that mode secondRank and secondUrl are absent."""
     language: NotRequired[str]
     """Language code for SEO overlap metrics. Default: en."""
     limit: NotRequired[int]
-    """Maximum number of overlapping keywords to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    """Maximum number of keywords to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
     location: NotRequired[int]
     """Location code for SEO overlap metrics. The default is the United States. Default: 2840."""
+    orderBy: NotRequired[
+        Literal[
+            "volume_desc", "volume_asc", "cpc_desc", "difficulty_asc", "difficulty_desc"
+        ]
+    ]
+    """Sort order for the returned keywords: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
     target1: Required[str]
     """First domain to compare, without a protocol or leading www."""
     target2: Required[str]
@@ -68,6 +85,8 @@ class SeoKeywordDifficultyInput(TypedDict, total=False):
 class SeoKeywordIdeasInput(TypedDict, total=False):
     """Input for SEO Keyword Ideas."""
 
+    closelyVariants: NotRequired[bool]
+    """When true, generate only close variants of the seed keywords; when false (the default), generate a broader set of related ideas."""
     keywords: Required[list[str]]
     """Seed SEO keywords used to generate related keyword ideas."""
     language: NotRequired[str]
@@ -76,6 +95,12 @@ class SeoKeywordIdeasInput(TypedDict, total=False):
     """Maximum number of keyword ideas to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 5."""
     location: NotRequired[int]
     """Location code for SEO metrics. The default is the United States. Default: 2840."""
+    orderBy: NotRequired[
+        Literal[
+            "volume_desc", "volume_asc", "cpc_desc", "difficulty_asc", "difficulty_desc"
+        ]
+    ]
+    """Sort order for the returned ideas: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
 
 
 class SeoKeywordOverviewInput(TypedDict, total=False):
@@ -92,6 +117,8 @@ class SeoKeywordOverviewInput(TypedDict, total=False):
 class SeoKeywordSuggestionsInput(TypedDict, total=False):
     """Input for SEO Keyword Suggestions."""
 
+    exactMatch: NotRequired[bool]
+    """When true, only return suggestions that contain the exact seed phrase; when false (the default), allow reordered and partial-match suggestions."""
     keyword: Required[str]
     """Seed SEO keyword used to generate keyword suggestions."""
     language: NotRequired[str]
@@ -100,6 +127,12 @@ class SeoKeywordSuggestionsInput(TypedDict, total=False):
     """Maximum number of keyword suggestions to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 5."""
     location: NotRequired[int]
     """Location code for SEO metrics. The default is the United States. Default: 2840."""
+    orderBy: NotRequired[
+        Literal[
+            "volume_desc", "volume_asc", "cpc_desc", "difficulty_asc", "difficulty_desc"
+        ]
+    ]
+    """Sort order for the returned suggestions: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
 
 
 class SeoLocalPackInput(TypedDict, total=False):
@@ -111,8 +144,10 @@ class SeoLocalPackInput(TypedDict, total=False):
     """Language code for SEO local pack results. Default: en."""
     limit: NotRequired[int]
     """Maximum number of local pack places to return. Billing is flat per request. Range: 1 to 100. Default: 20."""
-    location: Required[str]
-    """Local pack search location name, formatted like City,Region,Country; for example, New York,New York,United States."""
+    location: NotRequired[str]
+    """Local pack search location name, formatted like City,Region,Country; for example, New York,New York,United States. Supply either location or locationCoordinate, not both."""
+    locationCoordinate: NotRequired[str]
+    """Precise geo target as latitude,longitude or latitude,longitude,radius (radius in meters); for example, 40.7580,-73.9855 or 40.7580,-73.9855,1000. Supply either location or locationCoordinate, not both."""
 
 
 class SeoRankedKeywordsInput(TypedDict, total=False):
@@ -124,6 +159,10 @@ class SeoRankedKeywordsInput(TypedDict, total=False):
     """Maximum number of ranked keywords to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
     location: NotRequired[int]
     """Location code for SEO ranking metrics. The default is the United States. Default: 2840."""
+    orderBy: NotRequired[
+        Literal["position_asc", "position_desc", "volume_desc", "etv_desc"]
+    ]
+    """Sort order for the returned ranked keywords: by SERP position (ascending for best rankings first), search volume, or estimated traffic value (etv). Omit for the default order."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
 
@@ -131,6 +170,8 @@ class SeoRankedKeywordsInput(TypedDict, total=False):
 class SeoRelatedKeywordsInput(TypedDict, total=False):
     """Input for SEO Related Keywords."""
 
+    depth: NotRequired[int]
+    """Depth of the related-keyword expansion (0-4). Higher depth explores a broader keyword tree; the number of returned results, and therefore the price, is still capped by limit. Range: 0 to 4."""
     keyword: Required[str]
     """Seed SEO keyword used to find related keywords."""
     language: NotRequired[str]
@@ -139,6 +180,12 @@ class SeoRelatedKeywordsInput(TypedDict, total=False):
     """Maximum number of related keywords to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 5."""
     location: NotRequired[int]
     """Location code for SEO metrics. The default is the United States. Default: 2840."""
+    orderBy: NotRequired[
+        Literal[
+            "volume_desc", "volume_asc", "cpc_desc", "difficulty_asc", "difficulty_desc"
+        ]
+    ]
+    """Sort order for the returned related keywords: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
 
 
 class SeoSearchIntentInput(TypedDict, total=False):
@@ -153,12 +200,18 @@ class SeoSearchIntentInput(TypedDict, total=False):
 class SeoSearchVolumeInput(TypedDict, total=False):
     """Input for SEO Search Volume."""
 
+    dateFrom: NotRequired[str]
+    """Start of the historical monthly-searches window, formatted YYYY-MM-DD. Cannot be more than four years before today. Omit for the default trailing window."""
+    dateTo: NotRequired[str]
+    """End of the historical monthly-searches window, formatted YYYY-MM-DD. Omit for the default trailing window."""
     keywords: Required[list[str]]
     """SEO keyword phrases to retrieve search-volume metrics for."""
     language: NotRequired[str]
     """Language code for SEO search-volume metrics. Default: en."""
     location: NotRequired[int]
     """Location code for SEO search-volume metrics. The default is the United States. Default: 2840."""
+    searchPartners: NotRequired[bool]
+    """When true, include Google search-partner network volume in the reported numbers; when false (the default), count Google search only."""
 
 
 class SeoCompetitorsDomainData(BaseModel):
@@ -230,14 +283,15 @@ class SeoDomainIntersectionKeyword(BaseModel):
         alias="searchVolume",
         description="Average monthly search volume for the keyword.",
     )
-    second_rank: int = Field(
+    second_rank: int | None = Field(
+        default=None,
         alias="secondRank",
-        description="Absolute organic ranking position for the second domain. Populated whenever the provider has data for the entity.",
+        description="Absolute organic ranking position for the second domain. Absent when intersections is false (the second domain does not rank for this keyword).",
     )
     second_url: str | None = Field(
         default=None,
         alias="secondUrl",
-        description="Ranking URL for the second domain.",
+        description="Ranking URL for the second domain. Absent when intersections is false.",
     )
     updated_utc: float | None = Field(
         default=None,

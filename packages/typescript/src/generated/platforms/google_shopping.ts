@@ -11,6 +11,11 @@ import type {
  */
 export interface GoogleShoppingSearchInput {
   /**
+   * Only return products in this condition (e.g. "USED"); defaults to any condition.
+   * One of: ANY, NEW, USED, REFURBISHED.
+   */
+  condition?: "ANY" | "NEW" | "USED" | "REFURBISHED";
+  /**
    * ISO 3166-1 alpha-2 country code for localized results (e.g. "us", "gb", "de").
    * Default: us.
    */

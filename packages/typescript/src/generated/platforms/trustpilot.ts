@@ -15,6 +15,14 @@ export interface TrustpilotReviewsInput {
    */
   company: string;
   /**
+   * Only return reviews from reviewers in these ISO 3166-1 alpha-2 countries (e.g. ["US", "GB"]); omit for all countries.
+   */
+  countries?: string[];
+  /**
+   * Only return reviews in these ISO 639-1 languages (e.g. ["en", "de"]); omit for all languages.
+   */
+  languages?: string[];
+  /**
    * Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 50.
    */
@@ -28,6 +36,10 @@ export interface TrustpilotReviewsInput {
    * Limit reviews to a single star rating from 1 to 5 (e.g. 5); omit for all ratings.
    */
   stars?: string;
+  /**
+   * Only return reviews on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01).
+   */
+  startDate?: string;
   /**
    * Set true to return only verified reviews (e.g. true).
    * Default: false.

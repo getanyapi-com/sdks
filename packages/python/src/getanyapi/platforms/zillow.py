@@ -25,12 +25,87 @@ class ZillowPropertyInput(TypedDict, total=False):
 class ZillowSearchInput(TypedDict, total=False):
     """Input for Zillow Search."""
 
+    daysOnZillow: NotRequired[
+        Literal[
+            "1_day",
+            "1_week",
+            "2_weeks",
+            "1_month",
+            "3_months",
+            "6_months",
+            "12_months",
+            "24_months",
+            "36_months",
+        ]
+    ]
+    """Only include listings on Zillow at most this long (e.g. 1_week)."""
+    homeTypes: NotRequired[
+        list[
+            Literal[
+                "singleFamily",
+                "multiFamily",
+                "townhome",
+                "condo",
+                "apartment",
+                "manufactured",
+                "land",
+            ]
+        ]
+    ]
+    """Filter by property type; omit for any. Rentals support only singleFamily, multiFamily, townhome, and condo (e.g. ["singleFamily", "condo"])."""
+    includeAcceptingBackupOffers: NotRequired[bool]
+    """Include listings accepting backup offers, which Zillow excludes by default (e.g. true)."""
+    includePendingAndUnderContract: NotRequired[bool]
+    """Include pending and under-contract listings, which Zillow excludes by default (e.g. true)."""
+    includeRoomForRent: NotRequired[bool]
+    """Include room-for-rent listings in rent searches; when omitted or false only entire places are returned (e.g. true)."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
+    listingTypes: NotRequired[
+        list[
+            Literal[
+                "fsba",
+                "fsbo",
+                "newConstruction",
+                "comingSoon",
+                "auction",
+                "foreclosure",
+                "foreclosed",
+                "preforeclosure",
+            ]
+        ]
+    ]
+    """Listing types to include for buy searches; omit for all standard types. fsba = agent listed, fsbo = for sale by owner. Ignored for rent and sold (e.g. ["newConstruction"])."""
     location: Required[str]
-    """Location to search: city, ZIP code, neighborhood, or address (e.g. 'Austin, TX' or '78701')."""
+    """Region-level location to search: ZIP code, city and state, county, or neighborhood (e.g. 'Austin, TX' or '78701'). Street addresses are not supported; use the property's ZIP code instead."""
+    maxBedrooms: NotRequired[int]
+    """Maximum number of bedrooms (e.g. 5). Minimum: 0."""
+    maxLivingAreaSqft: NotRequired[int]
+    """Maximum living area in square feet (e.g. 3000). Minimum: 0."""
+    maxPrice: NotRequired[int]
+    """Maximum price in USD: monthly rent for rentals, total price for buy/sold (e.g. 750000). Minimum: 0."""
+    minBedrooms: NotRequired[int]
+    """Minimum number of bedrooms (e.g. 3). Minimum: 0."""
+    minLivingAreaSqft: NotRequired[int]
+    """Minimum living area in square feet (e.g. 1500). Minimum: 0."""
+    minPrice: NotRequired[int]
+    """Minimum price in USD: monthly rent for rentals, total price for buy/sold (e.g. 250000). Minimum: 0."""
     operation: NotRequired[Literal["buy", "rent", "sold"]]
     """Listing type: buy (for sale), rent, or sold. Default: buy."""
+    showOnlyPriceReductions: NotRequired[bool]
+    """Only show listings with a price reduction. Buy searches only; ignored for rentals (e.g. true)."""
+    sortBy: NotRequired[
+        Literal[
+            "newest",
+            "recentlyChanged",
+            "price_high",
+            "price_low",
+            "bedrooms",
+            "bathrooms",
+            "rentalPriorityScore",
+        ]
+    ]
+    """Sort order for results; omit for Zillow's default relevance. rentalPriorityScore applies to rent searches only (e.g. newest)."""
 
 
 class ZillowPropertyData(BaseModel):
@@ -209,16 +284,17 @@ class ZillowNamespace:
     ) -> RunResult[ZillowSearchData]:
         """Zillow Search
 
-        Search Zillow for-sale, rental, or sold listings by location (city, ZIP, or
-        address) and get matching properties (price, address, beds, baths, living
-        area, status, Zestimate) as normalized JSON. **Price:** billed per result -
-        \$0.50 per 1,000 requests base + \$3.00 per 1,000 results, capped at \$75.50
-        per 1,000 requests.
+        Search Zillow for-sale, rental, or sold listings by region-level location
+        (city, ZIP, county, or neighborhood) with optional price, bedroom,
+        living-area, home-type, recency, and sort filters and get matching
+        properties (price, address, beds, baths, living area, status, Zestimate) as
+        normalized JSON. **Price:** billed per result - \$0.50 per 1,000 requests
+        base + \$3.00 per 1,000 results, capped at \$75.50 per 1,000 requests.
 
         Price: $0.0005 per request plus $0.003 per result.
 
         Example:
-            res = client.zillow.search(limit=3, location="Austin, TX", operation="buy")
+            res = client.zillow.search(limit=3, location="Austin, TX", maxPrice=900000, minBedrooms=3, operation="buy")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "zillow.search", dict(input), options
@@ -262,16 +338,17 @@ class AsyncZillowNamespace:
     ) -> RunResult[ZillowSearchData]:
         """Zillow Search
 
-        Search Zillow for-sale, rental, or sold listings by location (city, ZIP, or
-        address) and get matching properties (price, address, beds, baths, living
-        area, status, Zestimate) as normalized JSON. **Price:** billed per result -
-        \$0.50 per 1,000 requests base + \$3.00 per 1,000 results, capped at \$75.50
-        per 1,000 requests.
+        Search Zillow for-sale, rental, or sold listings by region-level location
+        (city, ZIP, county, or neighborhood) with optional price, bedroom,
+        living-area, home-type, recency, and sort filters and get matching
+        properties (price, address, beds, baths, living area, status, Zestimate) as
+        normalized JSON. **Price:** billed per result - \$0.50 per 1,000 requests
+        base + \$3.00 per 1,000 results, capped at \$75.50 per 1,000 requests.
 
         Price: $0.0005 per request plus $0.003 per result.
 
         Example:
-            res = client.zillow.search(limit=3, location="Austin, TX", operation="buy")
+            res = client.zillow.search(limit=3, location="Austin, TX", maxPrice=900000, minBedrooms=3, operation="buy")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "zillow.search", dict(input), options

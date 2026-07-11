@@ -46,6 +46,8 @@ class GoogleAdsCompanyAdsInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's nextCursor."""
     domain: NotRequired[str]
     """Company domain (e.g. "lululemon.com"). Provide either domain or advertiserId."""
+    endDate: NotRequired[str]
+    """Only return ads first shown on or before this date, format YYYY-MM-DD (e.g. 2024-12-31)."""
     format: NotRequired[Literal["text", "image", "video"]]
     """Ad format filter."""
     platform: NotRequired[
@@ -56,6 +58,8 @@ class GoogleAdsCompanyAdsInput(TypedDict, total=False):
     """Platform filter."""
     region: NotRequired[str]
     """Two-letter country code to scope results (e.g. "US", "AU")."""
+    startDate: NotRequired[str]
+    """Only return ads first shown on or after this date, format YYYY-MM-DD (e.g. 2024-01-01)."""
     topic: NotRequired[Literal["all", "political"]]
     """Search topic. "political" requires a region."""
 

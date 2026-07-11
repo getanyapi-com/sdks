@@ -11,6 +11,10 @@ import type {
  */
 export interface MapsContactsInput {
   /**
+   * Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["dentist", "orthodontist"]). Omit to include all categories.
+   */
+  categoryFilterWords?: string[];
+  /**
    * Two-letter language code for the results (e.g. en).
    * Default: en.
    */
@@ -25,9 +29,20 @@ export interface MapsContactsInput {
    */
   location: string;
   /**
+   * Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter.
+   * One of: two, twoAndHalf, three, threeAndHalf, four, fourAndHalf.
+   */
+  placeMinimumStars?:
+    "two" | "twoAndHalf" | "three" | "threeAndHalf" | "four" | "fourAndHalf";
+  /**
    * What you would type in the Google Maps search bar (e.g. dentist).
    */
   query: string;
+  /**
+   * Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Contact enrichment pulls emails and social profiles from a place's website, so withWebsite targets leads that can be enriched.
+   * One of: allPlaces, withWebsite, withoutWebsite.
+   */
+  website?: "allPlaces" | "withWebsite" | "withoutWebsite";
 }
 
 export interface MapsContactsItem {
@@ -149,6 +164,10 @@ export interface MapsContactsData {
  */
 export interface MapsPlaceInput {
   /**
+   * Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop"]). Omit to allow any category.
+   */
+  categoryFilterWords?: string[];
+  /**
    * Two-letter language code for the result details (e.g. en).
    * Default: en.
    */
@@ -158,9 +177,20 @@ export interface MapsPlaceInput {
    */
   location?: string;
   /**
+   * Only match a place with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter.
+   * One of: two, twoAndHalf, three, threeAndHalf, four, fourAndHalf.
+   */
+  placeMinimumStars?:
+    "two" | "twoAndHalf" | "three" | "threeAndHalf" | "four" | "fourAndHalf";
+  /**
    * The business name or search text to look up, as you would type it into the Google Maps search bar (e.g. Blue Bottle Coffee).
    */
   query: string;
+  /**
+   * Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none).
+   * One of: allPlaces, withWebsite, withoutWebsite.
+   */
+  website?: "allPlaces" | "withWebsite" | "withoutWebsite";
 }
 
 export interface MapsPlaceItem {
@@ -284,6 +314,15 @@ export interface MapsReviewsInput {
    */
   placeId: string;
   /**
+   * Only return reviews posted within this window: 24h (past 24 hours), week (past 7 days), month (past month), or year (past year). Omit for no recency filter.
+   * One of: 24h, week, month, year.
+   */
+  postedLimit?: "24h" | "week" | "month" | "year";
+  /**
+   * Only return reviews whose text contains this keyword or phrase (case-insensitive). Omit to return all reviews (e.g. parking).
+   */
+  reviewsFilterString?: string;
+  /**
    * Order in which reviews are returned (e.g. newest).
    * One of: newest, mostRelevant, highestRanking, lowestRanking.
    * Default: newest.
@@ -374,6 +413,10 @@ export interface MapsReviewsData {
  */
 export interface MapsSearchInput {
   /**
+   * Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop", "restaurant"]). Omit to include all categories.
+   */
+  categoryFilterWords?: string[];
+  /**
    * Two-letter language code for the results (e.g. en).
    * Default: en.
    */
@@ -388,9 +431,20 @@ export interface MapsSearchInput {
    */
   location: string;
   /**
+   * Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter.
+   * One of: two, twoAndHalf, three, threeAndHalf, four, fourAndHalf.
+   */
+  placeMinimumStars?:
+    "two" | "twoAndHalf" | "three" | "threeAndHalf" | "four" | "fourAndHalf";
+  /**
    * What you would type in the Google Maps search bar (e.g. coffee shop).
    */
   query: string;
+  /**
+   * Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one).
+   * One of: allPlaces, withWebsite, withoutWebsite.
+   */
+  website?: "allPlaces" | "withWebsite" | "withoutWebsite";
 }
 
 export interface MapsSearchItem {
@@ -504,7 +558,7 @@ export class MapsNamespace {
    * Price: $0.00005 per request plus $0.003 per result.
    *
    * @example
-   * const res = await client.maps.contacts({ location: "Austin, TX", query: "coffee shop", limit: 3 });
+   * const res = await client.maps.contacts({ location: "Austin, TX", query: "coffee shop", limit: 3, placeMinimumStars: "four", website: "withWebsite" });
    */
   contacts(
     input: MapsContactsInput,
@@ -523,7 +577,7 @@ export class MapsNamespace {
    * Price: $0.003 per request plus $0.005 per result.
    *
    * @example
-   * const res = await client.maps.place({ query: "Blue Bottle Coffee", location: "San Francisco, CA" });
+   * const res = await client.maps.place({ query: "Blue Bottle Coffee", location: "San Francisco, CA", website: "withWebsite" });
    */
   place(
     input: MapsPlaceInput,
@@ -542,7 +596,7 @@ export class MapsNamespace {
    * Price: $0.00005 per request plus $0.0004 per result.
    *
    * @example
-   * const res = await client.maps.reviews({ placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4", limit: 3 });
+   * const res = await client.maps.reviews({ placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4", limit: 3, postedLimit: "year" });
    */
   reviews(
     input: MapsReviewsInput,
@@ -561,7 +615,7 @@ export class MapsNamespace {
    * Price: $0.00005 per request plus $0.003 per result.
    *
    * @example
-   * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3 });
+   * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3, placeMinimumStars: "four", website: "withWebsite" });
    */
   search(
     input: MapsSearchInput,

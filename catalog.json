@@ -84,7 +84,7 @@
       "slug": "airbnb.search",
       "category": "travel",
       "name": "Airbnb Search",
-      "description": "Search Airbnb listings by location and dates and get results (name, price, rating, host) as normalized JSON.",
+      "description": "Search Airbnb listings by location and dates with optional price, beds/bedrooms/bathrooms, and guest-party filters and get results (name, total-stay price label, rating, host) as normalized JSON.",
       "fromCredits": 3008,
       "baseCredits": 8,
       "perItemCredits": 150,
@@ -330,7 +330,7 @@
       "slug": "booking.search",
       "category": "travel",
       "name": "Booking.com Search",
-      "description": "Search Booking.com stays by destination and dates and get hotel results (name, price, review score, location) as normalized JSON.",
+      "description": "Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.",
       "fromCredits": 9200,
       "baseCredits": 200,
       "perItemCredits": 450,
@@ -410,7 +410,7 @@
       "slug": "ebay.search",
       "category": "shop",
       "name": "eBay Search",
-      "description": "Search eBay active listings by keyword and get title, price, condition, shipping, seller, and sold count in one normalized response.",
+      "description": "Search eBay active listings by keyword with optional price-range, item-condition, listing-type, and sort filters and get title, price, condition, shipping, and seller in one normalized response.",
       "fromCredits": 5950,
       "baseCredits": 100,
       "perItemCredits": 234,
@@ -430,7 +430,7 @@
       "slug": "ebay.sold_listings",
       "category": "shop",
       "name": "eBay Sold Listings",
-      "description": "Retrieve recently sold eBay listings for any keyword — sold price, sale date, condition, and item details — ideal for pricing research.",
+      "description": "Retrieve recently sold eBay listings for any keyword with optional price-range and sort filters (sold price, sale date, condition, item details); ideal for pricing research.",
       "fromCredits": 10005,
       "baseCredits": 5,
       "perItemCredits": 400,
@@ -693,7 +693,7 @@
       "slug": "facebook.marketplace",
       "category": "social",
       "name": "Facebook Marketplace",
-      "description": "Search Facebook Marketplace listings by keyword near a location — title, price, location, and image — as normalized JSON at a.",
+      "description": "Search Facebook Marketplace listings by keyword near a location, with price, condition, delivery, recency, and availability filters — title, price, location, and image — as normalized JSON.",
       "fromCredits": 200,
       "baseCredits": 0,
       "perItemCredits": 0,
@@ -1256,7 +1256,7 @@
       "slug": "glassdoor.jobs",
       "category": "data",
       "name": "Glassdoor Jobs",
-      "description": "Fetch job listings from any Glassdoor company or job search page URL — up to 20 normalized job records per request.",
+      "description": "Search Glassdoor job listings by keyword and location, or scrape any Glassdoor company or job search page URL - up to 20 normalized job records per request.",
       "fromCredits": 10000,
       "baseCredits": 500,
       "perItemCredits": 475,
@@ -1297,18 +1297,18 @@
       "category": "search",
       "name": "Google Images",
       "description": "Run a Google Images search and get structured results — image URLs, dimensions, titles, and source pages.",
-      "fromCredits": 99,
-      "baseCredits": 0,
-      "perItemCredits": 0,
+      "fromCredits": 198,
+      "baseCredits": 99,
+      "perItemCredits": 9,
       "tryEligible": true,
       "providers": [
         "AnyAPI"
       ],
       "quotes": [
         {
-          "fromCredits": 99,
-          "baseCredits": 0,
-          "perItemCredits": 0
+          "fromCredits": 198,
+          "baseCredits": 99,
+          "perItemCredits": 9
         }
       ]
     },
@@ -1410,8 +1410,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 705,
-          "requests": 1509
+          "latencyP50Ms": 706,
+          "requests": 1842
         }
       ]
     },
@@ -1619,7 +1619,10 @@
         {
           "fromCredits": 325,
           "baseCredits": 0,
-          "perItemCredits": 0
+          "perItemCredits": 0,
+          "uptimePct": 100,
+          "latencyP50Ms": 126,
+          "requests": 21
         }
       ]
     },
@@ -1914,8 +1917,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2930,
-          "requests": 40
+          "latencyP50Ms": 3000,
+          "requests": 54
         },
         {
           "fromCredits": 200,
@@ -1972,9 +1975,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 93.39853300733496,
-          "latencyP50Ms": 5606,
-          "requests": 410
+          "uptimePct": 93.44660194174757,
+          "latencyP50Ms": 5614,
+          "requests": 413
         }
       ]
     },
@@ -2150,8 +2153,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2037,
-          "requests": 2120
+          "latencyP50Ms": 2038,
+          "requests": 2134
         },
         {
           "fromCredits": 200,
@@ -2691,8 +2694,8 @@
           "baseCredits": 300,
           "perItemCredits": 500,
           "uptimePct": 100,
-          "latencyP50Ms": 17360,
-          "requests": 63
+          "latencyP50Ms": 17397,
+          "requests": 78
         }
       ]
     },
@@ -2888,7 +2891,7 @@
       "slug": "realtor.search",
       "category": "data",
       "name": "Realtor.com Search",
-      "description": "Search Realtor.com listings by location with optional price filters and get property records (price, address, beds, baths) as normalized JSON.",
+      "description": "Search Realtor.com listings by location with optional price, property-type, beds/baths, listing-status, and keyword filters and get property records (price, address, beds, baths) as normalized JSON.",
       "fromCredits": 4250,
       "baseCredits": 500,
       "perItemCredits": 150,
@@ -2969,9 +2972,9 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.81238273921201,
-          "latencyP50Ms": 2768,
-          "requests": 536
+          "uptimePct": 99.83388704318936,
+          "latencyP50Ms": 2761,
+          "requests": 605
         },
         {
           "fromCredits": 200,
@@ -3039,8 +3042,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2098,
-          "requests": 772
+          "latencyP50Ms": 2101,
+          "requests": 939
         }
       ]
     },
@@ -3290,8 +3293,8 @@
           "baseCredits": 1560,
           "perItemCredits": 16,
           "uptimePct": 100,
-          "latencyP50Ms": 1092,
-          "requests": 52
+          "latencyP50Ms": 970,
+          "requests": 83
         }
       ]
     },
@@ -3333,8 +3336,8 @@
           "baseCredits": 1560,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 261,
-          "requests": 229
+          "latencyP50Ms": 264,
+          "requests": 429
         }
       ]
     },
@@ -3977,7 +3980,10 @@
         {
           "fromCredits": 200,
           "baseCredits": 0,
-          "perItemCredits": 0
+          "perItemCredits": 0,
+          "uptimePct": 100,
+          "latencyP50Ms": 2140,
+          "requests": 20
         },
         {
           "fromCredits": 325,
@@ -4056,9 +4062,9 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.74489795918367,
-          "latencyP50Ms": 499,
-          "requests": 784
+          "uptimePct": 99.79402677651905,
+          "latencyP50Ms": 496,
+          "requests": 972
         },
         {
           "fromCredits": 200,
@@ -4066,7 +4072,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 1227,
-          "requests": 38
+          "requests": 39
         },
         {
           "fromCredits": 325,
@@ -4117,9 +4123,9 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.35863174772848,
-          "latencyP50Ms": 2495,
-          "requests": 1871
+          "uptimePct": 99.41747572815534,
+          "latencyP50Ms": 2502,
+          "requests": 2060
         },
         {
           "fromCredits": 200,
@@ -4153,9 +4159,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 98.70967741935483,
-          "latencyP50Ms": 4120,
-          "requests": 155
+          "uptimePct": 98.75,
+          "latencyP50Ms": 4127,
+          "requests": 160
         },
         {
           "fromCredits": 325,
@@ -4212,8 +4218,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 3678,
-          "requests": 536
+          "latencyP50Ms": 3684,
+          "requests": 548
         },
         {
           "fromCredits": 325,
@@ -4240,16 +4246,16 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1552,
-          "requests": 34
+          "latencyP50Ms": 1530,
+          "requests": 55
         },
         {
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1790,
-          "requests": 124
+          "latencyP50Ms": 1837,
+          "requests": 132
         },
         {
           "fromCredits": 325,
@@ -4402,7 +4408,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 2332,
-          "requests": 86
+          "requests": 138
         },
         {
           "fromCredits": 3250,
@@ -4770,8 +4776,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1338,
-          "requests": 110
+          "latencyP50Ms": 1345,
+          "requests": 141
         },
         {
           "fromCredits": 200,
@@ -4812,7 +4818,7 @@
       "slug": "twitter.search",
       "category": "social",
       "name": "X / Twitter Search",
-      "description": "Search X (Twitter) with full advanced-search syntax and get up to 50 structured tweets per request — text, author, and engagement.",
+      "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get up to 50 structured tweets per request: text, author, and engagement.",
       "fromCredits": 1400,
       "baseCredits": 400,
       "perItemCredits": 20,
@@ -4825,9 +4831,9 @@
           "fromCredits": 1400,
           "baseCredits": 400,
           "perItemCredits": 20,
-          "uptimePct": 98.40182648401826,
-          "latencyP50Ms": 19717,
-          "requests": 440
+          "uptimePct": 98.44444444444444,
+          "latencyP50Ms": 19682,
+          "requests": 452
         }
       ]
     },
@@ -4907,8 +4913,8 @@
           "baseCredits": 0,
           "perItemCredits": 20,
           "uptimePct": 100,
-          "latencyP50Ms": 15704,
-          "requests": 519
+          "latencyP50Ms": 15724,
+          "requests": 724
         }
       ]
     },
@@ -4996,7 +5002,7 @@
       "slug": "web.scrape",
       "category": "search",
       "name": "Web Scrape",
-      "description": "Scrape any web page and get its main content back as clean Markdown plus title and metadata.",
+      "description": "Scrape any web page and get its content back as clean Markdown (or HTML, or raw HTML) plus title and metadata.",
       "fromCredits": 90,
       "baseCredits": 0,
       "perItemCredits": 0,
@@ -5009,9 +5015,9 @@
           "fromCredits": 90,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 75,
-          "latencyP50Ms": 554,
-          "requests": 435
+          "uptimePct": 75.04655493482309,
+          "latencyP50Ms": 542,
+          "requests": 540
         }
       ]
     },
@@ -5113,8 +5119,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1267,
-          "requests": 284
+          "latencyP50Ms": 1279,
+          "requests": 293
         },
         {
           "fromCredits": 325,
@@ -5235,9 +5241,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 97.91666666666667,
-          "latencyP50Ms": 8044,
-          "requests": 48
+          "uptimePct": 98.24561403508773,
+          "latencyP50Ms": 8190,
+          "requests": 57
         },
         {
           "fromCredits": 325,
@@ -5329,8 +5335,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1536,
-          "requests": 563
+          "latencyP50Ms": 1546,
+          "requests": 573
         },
         {
           "fromCredits": 325,
@@ -5499,7 +5505,7 @@
       "slug": "zillow.search",
       "category": "data",
       "name": "Zillow Search",
-      "description": "Search Zillow for-sale, rental, or sold listings by location (city, ZIP, or address) and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.",
+      "description": "Search Zillow for-sale, rental, or sold listings by region-level location (city, ZIP, county, or neighborhood) with optional price, bedroom, living-area, home-type, recency, and sort filters and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.",
       "fromCredits": 7550,
       "baseCredits": 50,
       "perItemCredits": 300,

@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -24,6 +24,8 @@ class IndeedJobsInput(TypedDict, total=False):
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     location: NotRequired[str]
     """City, state, zip, or 'remote'."""
+    postedLimit: NotRequired[Literal["24h", "week"]]
+    """Only return jobs posted within this window: 24h (past day) or week (past 7 days). Omit for all dates."""
     query: Required[str]
     """Job search keywords (e.g. software engineer)."""
 

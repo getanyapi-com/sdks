@@ -45,10 +45,16 @@ class AmazonProductInput(TypedDict, total=False):
 class AmazonReviewsInput(TypedDict, total=False):
     """Input for Amazon Reviews."""
 
+    endDate: NotRequired[str]
+    """Only return reviews on or before this date, inclusive, in YYYY-MM-DD format (e.g. 2026-06-30)."""
+    keywords: NotRequired[list[str]]
+    """Only return reviews whose text contains one of these keywords (e.g. ["battery", "screen"])."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less. Range: 1 to 50."""
     product: Required[str]
     """Amazon product ASIN or full product URL (e.g. B07CMS5Q6P)."""
+    ratings: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
+    """Only return reviews whose star rating is in this set (e.g. ["5", "4"] for 4 and 5 star reviews); omit for all ratings."""
     region: NotRequired[
         Literal[
             "amazon.com",
@@ -78,6 +84,10 @@ class AmazonReviewsInput(TypedDict, total=False):
     """Amazon marketplace domain the product ASIN belongs to (e.g. amazon.co.uk). Default: amazon.com."""
     sort: NotRequired[Literal["helpful", "recent"]]
     """Review sort order: most helpful first or most recent first (e.g. recent). Default: helpful."""
+    startDate: NotRequired[str]
+    """Only return reviews on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01)."""
+    verifiedOnly: NotRequired[bool]
+    """Set true to return only verified-purchase reviews (e.g. true). Default: false."""
 
 
 class AmazonSearchInput(TypedDict, total=False):

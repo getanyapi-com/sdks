@@ -6,7 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing_extensions import NotRequired, Required, TypedDict, Unpack
+from typing_extensions import NotRequired, TypedDict, Unpack
 
 from ..types import RequestOptions, RunResult
 
@@ -18,6 +18,8 @@ if TYPE_CHECKING:
 class SecFilingsInput(TypedDict, total=False):
     """Input for SEC EDGAR Filings."""
 
+    companyName: NotRequired[str]
+    """Company name to search for (partial match supported, e.g. 'Tesla' or 'Berkshire'). Use this when you do not have the ticker symbol. If both ticker and companyName are given, ticker takes precedence."""
     dateFrom: NotRequired[str]
     """Only return filings filed on or after this date, in YYYY-MM-DD format (e.g. 2025-01-01)."""
     dateTo: NotRequired[str]
@@ -26,8 +28,8 @@ class SecFilingsInput(TypedDict, total=False):
     """Filter filings by SEC form type (e.g. 10-K, 10-Q, 8-K, 4, DEF 14A, S-1, 13F-HR); omit for all forms."""
     limit: NotRequired[int]
     """Maximum number of filings to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
-    ticker: Required[str]
-    """Company stock ticker symbol, e.g. AAPL, MSFT, or TSLA."""
+    ticker: NotRequired[str]
+    """Company stock ticker symbol, e.g. AAPL, MSFT, or TSLA. Provide either ticker or companyName; ticker is the more precise lookup."""
 
 
 class SecFilingsData(BaseModel):

@@ -18,6 +18,8 @@ if TYPE_CHECKING:
 class GoogleShoppingSearchInput(TypedDict, total=False):
     """Input for Google Shopping Search."""
 
+    condition: NotRequired[Literal["ANY", "NEW", "USED", "REFURBISHED"]]
+    """Only return products in this condition (e.g. "USED"); defaults to any condition."""
     country: NotRequired[str]
     """ISO 3166-1 alpha-2 country code for localized results (e.g. "us", "gb", "de"). Default: us."""
     language: NotRequired[str]

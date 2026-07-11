@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -18,16 +18,48 @@ if TYPE_CHECKING:
 class RealtorSearchInput(TypedDict, total=False):
     """Input for Realtor.com Search."""
 
+    bathsMin: NotRequired[int]
+    """Minimum number of bathrooms (e.g. 2). Minimum: 0."""
+    bedsMin: NotRequired[int]
+    """Minimum number of bedrooms (e.g. 3). Minimum: 0."""
+    keyword: NotRequired[str]
+    """Free-text keyword that must appear in the listing description (e.g. 'pool')."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
     location: Required[str]
     """City, ZIP code, neighborhood or state to search (e.g. Las Vegas, NV)."""
     priceMax: NotRequired[int]
-    """Maximum listing price in USD (e.g. 750000)."""
+    """Maximum listing price in USD (e.g. 750000). Minimum: 0."""
     priceMin: NotRequired[int]
-    """Minimum listing price in USD (e.g. 250000)."""
-    searchMode: NotRequired[str]
+    """Minimum listing price in USD (e.g. 250000). Minimum: 0."""
+    propertyTypes: NotRequired[
+        list[
+            Literal[
+                "single_family",
+                "townhomes",
+                "condo_townhome",
+                "multi_family",
+                "land",
+                "farm",
+                "manufactured",
+                "mobile",
+                "apartment",
+                "coop",
+                "duplex_triplex",
+            ]
+        ]
+    ]
+    """Filter by one or more property types; omit for all types (e.g. ["single_family", "townhomes"])."""
+    searchMode: NotRequired[Literal["for_sale", "sold"]]
     """Listing type to search: for_sale or sold (e.g. for_sale). Default: for_sale."""
+    searchStatuses: NotRequired[
+        list[
+            Literal[
+                "for_sale", "ready_to_build", "pending", "coming_soon", "contingent"
+            ]
+        ]
+    ]
+    """Listing statuses to include in for_sale mode; omit for active For Sale + Ready to Build. Ignored in sold mode (e.g. ["for_sale", "pending"])."""
 
 
 class RealtorSearchData(BaseModel):
@@ -103,8 +135,14 @@ class RealtorSearchItem(BaseModel):
     state: str | None = Field(
         default=None, description="Two-letter state code the property is in."
     )
-    status: str | None = Field(
-        default=None, description="Listing status (e.g. for_sale, sold)."
+    status: (
+        Literal[
+            "for_sale", "ready_to_build", "sold", "pending", "contingent", "coming_soon"
+        ]
+        | None
+    ) = Field(
+        default=None,
+        description="Display listing status, including ready-to-build, pending, contingent, and coming-soon sub-statuses when present.",
     )
     title: str | None = Field(
         default=None,
@@ -132,15 +170,16 @@ class RealtorNamespace:
     ) -> RunResult[RealtorSearchData]:
         """Realtor.com Search
 
-        Search Realtor.com listings by location with optional price filters and get
-        property records (price, address, beds, baths) as normalized JSON.
-        **Price:** billed per result - \$5.00 per 1,000 requests base + \$1.50 per
-        1,000 results, capped at \$42.50 per 1,000 requests.
+        Search Realtor.com listings by location with optional price, property-type,
+        beds/baths, listing-status, and keyword filters and get property records
+        (price, address, beds, baths) as normalized JSON. **Price:** billed per
+        result - \$5.00 per 1,000 requests base + \$1.50 per 1,000 results, capped
+        at \$42.50 per 1,000 requests.
 
         Price: $0.005 per request plus $0.0015 per result.
 
         Example:
-            res = client.realtor.search(limit=3, location="Austin, TX")
+            res = client.realtor.search(bedsMin=4, limit=3, location="Austin, TX", propertyTypes=["single_family"], searchStatuses=["pending"])
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "realtor.search", dict(input), options
@@ -162,15 +201,16 @@ class AsyncRealtorNamespace:
     ) -> RunResult[RealtorSearchData]:
         """Realtor.com Search
 
-        Search Realtor.com listings by location with optional price filters and get
-        property records (price, address, beds, baths) as normalized JSON.
-        **Price:** billed per result - \$5.00 per 1,000 requests base + \$1.50 per
-        1,000 results, capped at \$42.50 per 1,000 requests.
+        Search Realtor.com listings by location with optional price, property-type,
+        beds/baths, listing-status, and keyword filters and get property records
+        (price, address, beds, baths) as normalized JSON. **Price:** billed per
+        result - \$5.00 per 1,000 requests base + \$1.50 per 1,000 results, capped
+        at \$42.50 per 1,000 requests.
 
         Price: $0.005 per request plus $0.0015 per result.
 
         Example:
-            res = client.realtor.search(limit=3, location="Austin, TX")
+            res = client.realtor.search(bedsMin=4, limit=3, location="Austin, TX", propertyTypes=["single_family"], searchStatuses=["pending"])
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "realtor.search", dict(input), options

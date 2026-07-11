@@ -11,6 +11,10 @@ import type {
  */
 export interface SecFilingsInput {
   /**
+   * Company name to search for (partial match supported, e.g. 'Tesla' or 'Berkshire'). Use this when you do not have the ticker symbol. If both ticker and companyName are given, ticker takes precedence.
+   */
+  companyName?: string;
+  /**
    * Only return filings filed on or after this date, in YYYY-MM-DD format (e.g. 2025-01-01).
    */
   dateFrom?: string;
@@ -28,9 +32,9 @@ export interface SecFilingsInput {
    */
   limit?: number;
   /**
-   * Company stock ticker symbol, e.g. AAPL, MSFT, or TSLA.
+   * Company stock ticker symbol, e.g. AAPL, MSFT, or TSLA. Provide either ticker or companyName; ticker is the more precise lookup.
    */
-  ticker: string;
+  ticker?: string;
 }
 
 export interface SecFilingsItem {
@@ -108,7 +112,7 @@ export class SecNamespace {
    * Price: $0.002 per request plus $0.0004 per result.
    *
    * @example
-   * const res = await client.sec.filings({ ticker: "AAPL", limit: 3 });
+   * const res = await client.sec.filings({ limit: 3, ticker: "AAPL" });
    */
   filings(
     input: SecFilingsInput,

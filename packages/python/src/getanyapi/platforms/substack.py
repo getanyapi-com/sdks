@@ -20,12 +20,16 @@ class SubstackPostsInput(TypedDict, total=False):
 
     contentType: NotRequired[Literal["all", "newsletter", "podcast", "thread"]]
     """Restrict to a single post type, or 'all' (e.g. newsletter). Default: all."""
+    endDate: NotRequired[str]
+    """Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2024-12-31). Applied within the most recent 'limit' posts scanned."""
     includeContent: NotRequired[bool]
     """Include the full article body as HTML. Set false for metadata only (e.g. false). Default: true."""
     limit: NotRequired[int]
     """Maximum number of recent posts to return when given a publication URL (1-100, default 25); ignored for a single post URL, which always returns that one post. You are billed per post returned, so a lower limit costs less. Range: 1 to 100."""
     onlyFree: NotRequired[bool]
     """Return only free (non-paywalled) posts (e.g. true). Default: false."""
+    startDate: NotRequired[str]
+    """Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2024-01-01). Applied within the most recent 'limit' posts scanned, so raise 'limit' to reach older date ranges."""
     url: Required[str]
     """Either a Substack publication URL / custom domain to fetch its recent posts (e.g. https://www.astralcodexten.com), OR a single post URL to fetch just that one article with full content (e.g. https://www.astralcodexten.com/p/your-book-review)."""
 

@@ -762,6 +762,12 @@ export interface InstagramSearchHashtagInput {
    */
   cursor?: string;
   /**
+   * Restrict results to posts published within this window.
+   * One of: last-hour, last-day, last-week, last-month, last-year.
+   */
+  datePosted?:
+    "last-hour" | "last-day" | "last-week" | "last-month" | "last-year";
+  /**
    * Hashtag to search, without the leading #.
    */
   hashtag: string;

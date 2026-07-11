@@ -128,6 +128,11 @@ export interface FacebookAdTranscriptData {
  */
 export interface FacebookAdsSearchInput {
   /**
+   * Restrict to all ads (default) or only political and issue ads.
+   * One of: all, political_and_issue_ads.
+   */
+  adType?: "all" | "political_and_issue_ads";
+  /**
    * Two-letter country code to scope results. Omit for all countries.
    */
   country?: string;
@@ -135,6 +140,10 @@ export interface FacebookAdsSearchInput {
    * Opaque pagination cursor from a previous response's nextCursor.
    */
   cursor?: string;
+  /**
+   * Filter to ads with impressions on or before this date, in YYYY-MM-DD format.
+   */
+  endDate?: string;
   /**
    * Creative media type filter.
    * One of: ALL, IMAGE, VIDEO, MEME, IMAGE_AND_MEME, NONE.
@@ -144,6 +153,20 @@ export interface FacebookAdsSearchInput {
    * Keyword to search the Meta Ad Library for (e.g. "protein powder").
    */
   query: string;
+  /**
+   * Match mode for the query: loose keyword match (keyword_unordered, the default) or exact phrase (keyword_exact_phrase).
+   * One of: keyword_unordered, keyword_exact_phrase.
+   */
+  searchType?: "keyword_unordered" | "keyword_exact_phrase";
+  /**
+   * Sort order: impressions (highest first, the default) or recent (most recent).
+   * One of: impressions, recent.
+   */
+  sortBy?: "impressions" | "recent";
+  /**
+   * Filter to ads with impressions on or after this date, in YYYY-MM-DD format.
+   */
+  startDate?: string;
   /**
    * Ad status filter.
    * One of: ALL, ACTIVE, INACTIVE.
@@ -315,6 +338,14 @@ export interface FacebookCompanyAdsInput {
    */
   cursor?: string;
   /**
+   * Filter to ads with impressions on or before this date, in YYYY-MM-DD format.
+   */
+  endDate?: string;
+  /**
+   * Two-letter language code to filter ads (e.g. "EN", "ES", "FR").
+   */
+  language?: string;
+  /**
    * Creative media type filter.
    * One of: ALL, IMAGE, VIDEO, MEME, IMAGE_AND_MEME, NONE.
    */
@@ -323,6 +354,15 @@ export interface FacebookCompanyAdsInput {
    * Company's Ad Library page ID. Provide either pageId or companyName.
    */
   pageId?: string;
+  /**
+   * Sort order: impressions (highest first, the default) or recent (most recent).
+   * One of: impressions, recent.
+   */
+  sortBy?: "impressions" | "recent";
+  /**
+   * Filter to ads with impressions on or after this date, in YYYY-MM-DD format.
+   */
+  startDate?: string;
   /**
    * Ad status filter. Defaults to ACTIVE.
    * One of: ALL, ACTIVE, INACTIVE.
@@ -676,9 +716,29 @@ export interface FacebookGroupPostsData {
  */
 export interface FacebookMarketplaceInput {
   /**
+   * Filter by availability: available (default), sold, or all (e.g. sold).
+   * One of: available, sold, all.
+   */
+  availability?: "available" | "sold" | "all";
+  /**
+   * Only return listings in this condition (e.g. used_good).
+   * One of: new, used_like_new, used_good, used_fair.
+   */
+  condition?: "new" | "used_like_new" | "used_good" | "used_fair";
+  /**
    * Pagination cursor from a previous response to fetch the next page.
    */
   cursor?: string;
+  /**
+   * Only return listings posted within this window (e.g. last_7_days).
+   * One of: all, last_24_hours, last_7_days, last_30_days.
+   */
+  dateListed?: "all" | "last_24_hours" | "last_7_days" | "last_30_days";
+  /**
+   * Only return listings offering this delivery method (e.g. shipping).
+   * One of: all, local_pickup, shipping.
+   */
+  deliveryMethod?: "all" | "local_pickup" | "shipping";
   /**
    * Latitude of the search location (e.g. '30.2677').
    */
@@ -687,6 +747,16 @@ export interface FacebookMarketplaceInput {
    * Longitude of the search location (e.g. '-97.7475').
    */
   lng: string;
+  /**
+   * Maximum listing price in whole currency units, e.g. 500 for $500. Facebook may mix in a few suggested listings outside the range.
+   * Range: minimum 0.
+   */
+  priceMax?: number;
+  /**
+   * Minimum listing price in whole currency units, e.g. 100 for $100. Facebook may mix in a few suggested listings outside the range.
+   * Range: minimum 0.
+   */
+  priceMin?: number;
   /**
    * Search keyword for Marketplace listings (e.g. 'bike').
    */
@@ -1409,6 +1479,10 @@ export interface FacebookSearchPagesData {
  */
 export interface FacebookSearchPostsInput {
   /**
+   * Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2024-12-31).
+   */
+  endDate?: string;
+  /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
    */
@@ -1421,6 +1495,10 @@ export interface FacebookSearchPostsInput {
    * Keyword or phrase to search Facebook posts for (e.g. 'product launch').
    */
   query: string;
+  /**
+   * Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2024-01-01).
+   */
+  startDate?: string;
 }
 
 export interface FacebookSearchPostsItem {
@@ -1532,7 +1610,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.adsSearch({ query: "nike", country: "US" });
+   * const res = await client.facebook.adsSearch({ query: "nike", country: "US", searchType: "keyword_exact_phrase" });
    */
   adsSearch(
     input: FacebookAdsSearchInput,
@@ -1616,7 +1694,7 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.companyAds({ companyName: "nike" });
+   * const res = await client.facebook.companyAds({ companyName: "nike", sortBy: "recent" });
    */
   companyAds(
     input: FacebookCompanyAdsInput,
@@ -1806,14 +1884,14 @@ export class FacebookNamespace {
   /**
    * Facebook Marketplace
    *
-   * Search Facebook Marketplace listings by keyword near a location - title, price, location, and image - as normalized JSON at a.
+   * Search Facebook Marketplace listings by keyword near a location, with price, condition, delivery, recency, and availability filters - title, price, location, and image - as normalized JSON.
 
 **Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.marketplace({ lat: "30.2677", lng: "-97.7475", query: "bike" });
+   * const res = await client.facebook.marketplace({ lat: "30.2677", lng: "-97.7475", query: "bike", priceMax: 500, priceMin: 100 });
    */
   marketplace(
     input: FacebookMarketplaceInput,

@@ -20,12 +20,18 @@ class TrustpilotReviewsInput(TypedDict, total=False):
 
     company: Required[str]
     """Brand name or Trustpilot review-page URL to fetch reviews for (e.g. nike or https://www.trustpilot.com/review/nike.com)."""
+    countries: NotRequired[list[str]]
+    """Only return reviews from reviewers in these ISO 3166-1 alpha-2 countries (e.g. ["US", "GB"]); omit for all countries."""
+    languages: NotRequired[list[str]]
+    """Only return reviews in these ISO 639-1 languages (e.g. ["en", "de"]); omit for all languages."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less. Range: 1 to 50."""
     sortBy: NotRequired[str]
     """Review ordering: auto, relevancy, or recent (e.g. recent). Default: auto."""
     stars: NotRequired[str]
     """Limit reviews to a single star rating from 1 to 5 (e.g. 5); omit for all ratings."""
+    startDate: NotRequired[str]
+    """Only return reviews on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01)."""
     verifiedOnly: NotRequired[bool]
     """Set true to return only verified reviews (e.g. true). Default: false."""
 

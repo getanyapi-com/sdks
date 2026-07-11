@@ -115,20 +115,117 @@ export interface ZillowPropertyData {
  */
 export interface ZillowSearchInput {
   /**
+   * Only include listings on Zillow at most this long (e.g. 1_week).
+   * One of: 1_day, 1_week, 2_weeks, 1_month, 3_months, 6_months, 12_months, 24_months, 36_months.
+   */
+  daysOnZillow?:
+    | "1_day"
+    | "1_week"
+    | "2_weeks"
+    | "1_month"
+    | "3_months"
+    | "6_months"
+    | "12_months"
+    | "24_months"
+    | "36_months";
+  /**
+   * Filter by property type; omit for any. Rentals support only singleFamily, multiFamily, townhome, and condo (e.g. ["singleFamily", "condo"]).
+   */
+  homeTypes?: (
+    | "singleFamily"
+    | "multiFamily"
+    | "townhome"
+    | "condo"
+    | "apartment"
+    | "manufactured"
+    | "land"
+  )[];
+  /**
+   * Include listings accepting backup offers, which Zillow excludes by default (e.g. true).
+   */
+  includeAcceptingBackupOffers?: boolean;
+  /**
+   * Include pending and under-contract listings, which Zillow excludes by default (e.g. true).
+   */
+  includePendingAndUnderContract?: boolean;
+  /**
+   * Include room-for-rent listings in rent searches; when omitted or false only entire places are returned (e.g. true).
+   */
+  includeRoomForRent?: boolean;
+  /**
    * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
    */
   limit?: number;
   /**
-   * Location to search: city, ZIP code, neighborhood, or address (e.g. 'Austin, TX' or '78701').
+   * Listing types to include for buy searches; omit for all standard types. fsba = agent listed, fsbo = for sale by owner. Ignored for rent and sold (e.g. ["newConstruction"]).
+   */
+  listingTypes?: (
+    | "fsba"
+    | "fsbo"
+    | "newConstruction"
+    | "comingSoon"
+    | "auction"
+    | "foreclosure"
+    | "foreclosed"
+    | "preforeclosure"
+  )[];
+  /**
+   * Region-level location to search: ZIP code, city and state, county, or neighborhood (e.g. 'Austin, TX' or '78701'). Street addresses are not supported; use the property's ZIP code instead.
    */
   location: string;
+  /**
+   * Maximum number of bedrooms (e.g. 5).
+   * Range: minimum 0.
+   */
+  maxBedrooms?: number;
+  /**
+   * Maximum living area in square feet (e.g. 3000).
+   * Range: minimum 0.
+   */
+  maxLivingAreaSqft?: number;
+  /**
+   * Maximum price in USD: monthly rent for rentals, total price for buy/sold (e.g. 750000).
+   * Range: minimum 0.
+   */
+  maxPrice?: number;
+  /**
+   * Minimum number of bedrooms (e.g. 3).
+   * Range: minimum 0.
+   */
+  minBedrooms?: number;
+  /**
+   * Minimum living area in square feet (e.g. 1500).
+   * Range: minimum 0.
+   */
+  minLivingAreaSqft?: number;
+  /**
+   * Minimum price in USD: monthly rent for rentals, total price for buy/sold (e.g. 250000).
+   * Range: minimum 0.
+   */
+  minPrice?: number;
   /**
    * Listing type: buy (for sale), rent, or sold.
    * One of: buy, rent, sold.
    * Default: buy.
    */
   operation?: "buy" | "rent" | "sold";
+  /**
+   * Only show listings with a price reduction. Buy searches only; ignored for rentals (e.g. true).
+   */
+  showOnlyPriceReductions?: boolean;
+  /**
+   * Sort order for results; omit for Zillow's default relevance. rentalPriorityScore applies to rent searches only (e.g. newest).
+   * One of: newest, recentlyChanged, price_high, price_low, bedrooms, bathrooms, rentalPriorityScore.
+   */
+  sortBy?:
+    | "newest"
+    | "recentlyChanged"
+    | "price_high"
+    | "price_low"
+    | "bedrooms"
+    | "bathrooms"
+    | "rentalPriorityScore";
 }
 
 export interface ZillowSearchItem {
@@ -245,14 +342,14 @@ export class ZillowNamespace {
   /**
    * Zillow Search
    *
-   * Search Zillow for-sale, rental, or sold listings by location (city, ZIP, or address) and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.
+   * Search Zillow for-sale, rental, or sold listings by region-level location (city, ZIP, county, or neighborhood) with optional price, bedroom, living-area, home-type, recency, and sort filters and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.
 
 **Price:** billed per result - \$0.50 per 1,000 requests base + \$3.00 per 1,000 results, capped at \$75.50 per 1,000 requests.
    *
    * Price: $0.0005 per request plus $0.003 per result.
    *
    * @example
-   * const res = await client.zillow.search({ location: "Austin, TX", limit: 3, operation: "buy" });
+   * const res = await client.zillow.search({ location: "Austin, TX", limit: 3, maxPrice: 900000, minBedrooms: 3, operation: "buy" });
    */
   search(
     input: ZillowSearchInput,

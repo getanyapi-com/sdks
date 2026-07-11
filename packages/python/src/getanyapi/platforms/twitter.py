@@ -77,7 +77,7 @@ class TwitterSearchInput(TypedDict, total=False):
     limit: NotRequired[int]
     """Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less. Range: 1 to 50."""
     query: Required[str]
-    """Search query using X advanced-search syntax. IMPORTANT: terms are ANDed - a tweet must contain EVERY word, so a list of loosely related keywords matches nothing. Use one short phrase, or OR between alternatives (e.g. 'anyapi OR getanyapi'). Useful operators: from:user, since:YYYY-MM-DD, "exact phrase", -filter:replies. A query with no matches returns an empty items array; prefer the fewest words that identify the topic."""
+    """Search query using X (Twitter) advanced-search syntax. IMPORTANT: bare terms are ANDed - a tweet must contain EVERY word, so a list of loosely related keywords matches nothing; use one short phrase or OR between alternatives (e.g. 'anyapi OR getanyapi'). You can embed X advanced-search operators directly in the query to filter results: from:username and to:username (author or recipient), since:YYYY-MM-DD and until:YYYY-MM-DD (date range), min_faves:N, min_retweets:N, min_replies:N (engagement floors), "exact phrase", -term to exclude, filter:media and filter:links and -filter:replies (content filters), lang:en, near:city, and geocode:lat,long,radius. Examples: 'from:OpenAI', 'AI agents min_faves:500 -filter:replies', 'nvidia since:2026-01-01 until:2026-03-01'. A query with no matches returns an empty items array; prefer the fewest words that identify the topic."""
     queryType: NotRequired[str]
     """Result ranking: 'Latest', 'Top', 'Photos', or 'Videos' (e.g. Latest). Default: Latest."""
 
@@ -564,8 +564,9 @@ class TwitterNamespace:
     ) -> RunResult[TwitterSearchData]:
         """X / Twitter Search
 
-        Search X (Twitter) with full advanced-search syntax and get up to 50
-        structured tweets per request - text, author, and engagement. **Price:**
+        Search X (Twitter) with full advanced-search syntax (operators like from:,
+        since:, until:, min_faves: work inline in the query) and get up to 50
+        structured tweets per request: text, author, and engagement. **Price:**
         billed per result - \$4.00 per 1,000 requests base + \$0.20 per 1,000
         results, capped at \$14.00 per 1,000 requests.
 
@@ -822,8 +823,9 @@ class AsyncTwitterNamespace:
     ) -> RunResult[TwitterSearchData]:
         """X / Twitter Search
 
-        Search X (Twitter) with full advanced-search syntax and get up to 50
-        structured tweets per request - text, author, and engagement. **Price:**
+        Search X (Twitter) with full advanced-search syntax (operators like from:,
+        since:, until:, min_faves: work inline in the query) and get up to 50
+        structured tweets per request: text, author, and engagement. **Price:**
         billed per result - \$4.00 per 1,000 requests base + \$0.20 per 1,000
         results, capped at \$14.00 per 1,000 requests.
 

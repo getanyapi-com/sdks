@@ -12,21 +12,83 @@ import type {
 export interface AirbnbSearchInput {
   /**
    * Number of adult guests (e.g. 2).
+   * Range: minimum 1.
    */
   adults?: number;
   /**
    * Check-in date in YYYY-MM-DD format (e.g. 2026-07-01).
+   * Format: date.
    */
   checkIn?: string;
   /**
    * Check-out date in YYYY-MM-DD format (e.g. 2026-07-05).
+   * Format: date.
    */
   checkOut?: string;
   /**
+   * Number of child guests (e.g. 1).
+   * Range: minimum 0.
+   */
+  children?: number;
+  /**
    * Currency code for prices (e.g. EUR).
+   * One of: USD, CZK, AUD, BRL, BGN, CAD, CLP, CNY, COP, CRC, HRK, DKK, EGP, AED, EUR, GHS, HKD, HUF, INR, IDR, ILS, JPY, KZT, KES, MYR, MXN, MAD, TWD, NZD, NOK, PEN, PHP, PLN, GBP, QAR, RON, SAR, SGD, ZAR, KRW, SEK, CHF, THB, TRY, UGX, UAH, UYU, VND.
    * Default: USD.
    */
-  currency?: string;
+  currency?:
+    | "USD"
+    | "CZK"
+    | "AUD"
+    | "BRL"
+    | "BGN"
+    | "CAD"
+    | "CLP"
+    | "CNY"
+    | "COP"
+    | "CRC"
+    | "HRK"
+    | "DKK"
+    | "EGP"
+    | "AED"
+    | "EUR"
+    | "GHS"
+    | "HKD"
+    | "HUF"
+    | "INR"
+    | "IDR"
+    | "ILS"
+    | "JPY"
+    | "KZT"
+    | "KES"
+    | "MYR"
+    | "MXN"
+    | "MAD"
+    | "TWD"
+    | "NZD"
+    | "NOK"
+    | "PEN"
+    | "PHP"
+    | "PLN"
+    | "GBP"
+    | "QAR"
+    | "RON"
+    | "SAR"
+    | "SGD"
+    | "ZAR"
+    | "KRW"
+    | "SEK"
+    | "CHF"
+    | "THB"
+    | "TRY"
+    | "UGX"
+    | "UAH"
+    | "UYU"
+    | "VND";
+  /**
+   * Number of infant guests (e.g. 1).
+   * Range: minimum 0.
+   */
+  infants?: number;
   /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
@@ -36,6 +98,36 @@ export interface AirbnbSearchInput {
    * Location to search listings in (e.g. London).
    */
   location: string;
+  /**
+   * Minimum number of bathrooms (e.g. 2).
+   * Range: minimum 0.
+   */
+  minBathrooms?: number;
+  /**
+   * Minimum number of bedrooms (e.g. 2).
+   * Range: minimum 0.
+   */
+  minBedrooms?: number;
+  /**
+   * Minimum number of beds (e.g. 2).
+   * Range: minimum 0.
+   */
+  minBeds?: number;
+  /**
+   * Number of pets; only pet-friendly listings are returned when set (e.g. 1).
+   * Range: minimum 0.
+   */
+  pets?: number;
+  /**
+   * Maximum search price in the selected currency (e.g. 300).
+   * Range: minimum 0.
+   */
+  priceMax?: number;
+  /**
+   * Minimum search price in the selected currency (e.g. 50).
+   * Range: minimum 0.
+   */
+  priceMin?: number;
 }
 
 export interface AirbnbSearchItem {
@@ -59,7 +151,7 @@ export interface AirbnbSearchItem {
   longitude?: number;
   personCapacity?: number;
   /**
-   * Nightly price label.
+   * Total-stay price label returned by Airbnb (e.g. $3,149 total).
    */
   price?: string;
   propertyType?: string;
@@ -85,7 +177,7 @@ export interface AirbnbSearchItem {
  */
 export interface AirbnbSearchData {
   /**
-   * Listing records: name, nightly price, rating, location, host info, and availability details. Populated whenever the provider has data for the entity.
+   * Listing records: name, total-stay price label, rating, location, host info, and availability details. Populated whenever the provider has data for the entity.
    */
   items: AirbnbSearchItem[];
 }
@@ -100,14 +192,14 @@ export class AirbnbNamespace {
   /**
    * Airbnb Search
    *
-   * Search Airbnb listings by location and dates and get results (name, price, rating, host) as normalized JSON.
+   * Search Airbnb listings by location and dates with optional price, beds/bedrooms/bathrooms, and guest-party filters and get results (name, total-stay price label, rating, host) as normalized JSON.
 
 **Price:** billed per result - \$0.08 per 1,000 requests base + \$1.50 per 1,000 results, capped at \$30.08 per 1,000 requests.
    *
    * Price: $0.00008 per request plus $0.0015 per result.
    *
    * @example
-   * const res = await client.airbnb.search({ location: "San Diego", limit: 3 });
+   * const res = await client.airbnb.search({ location: "San Diego", adults: 2, limit: 3, minBedrooms: 3 });
    */
   search(
     input: AirbnbSearchInput,

@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing_extensions import NotRequired, Required, TypedDict, Unpack
+from typing_extensions import NotRequired, TypedDict, Unpack
 
 from ..types import RequestOptions, RunResult
 
@@ -18,10 +18,22 @@ if TYPE_CHECKING:
 class GlassdoorJobsInput(TypedDict, total=False):
     """Input for Glassdoor Jobs."""
 
+    easyApply: NotRequired[bool]
+    """When true, only return jobs offering Easy Apply. Keyword mode only."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
-    url: Required[str]
-    """A Glassdoor company or job search page URL (e.g. https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm)."""
+    location: NotRequired[str]
+    """City, region, or country to search within (keyword mode; e.g. United States, New York)."""
+    postedLimit: NotRequired[Literal["24h", "week", "month"]]
+    """Only jobs posted within this window (past 24 hours, week, or month). Keyword mode only."""
+    query: NotRequired[str]
+    """Job title or keywords to search (keyword mode). Provide this or a url."""
+    sortBy: NotRequired[Literal["date", "relevance"]]
+    """Sort order: most recent (date) or best match (relevance). Keyword mode only."""
+    url: NotRequired[str]
+    """Alternatively, a Glassdoor company or job search page URL to scrape (e.g. https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm). The filters below apply in keyword (query) mode."""
+    workplaceType: NotRequired[Literal["remote", "hybrid", "onsite"]]
+    """Filter by workplace type (remote, hybrid, or onsite). Keyword mode only."""
 
 
 class GlassdoorJobsData(BaseModel):
@@ -99,15 +111,15 @@ class GlassdoorNamespace:
     ) -> RunResult[GlassdoorJobsData]:
         """Glassdoor Jobs
 
-        Fetch job listings from any Glassdoor company or job search page URL - up to
-        20 normalized job records per request. **Price:** billed per result - \$5.00
-        per 1,000 requests base + \$4.75 per 1,000 results, capped at \$100.00 per
-        1,000 requests.
+        Search Glassdoor job listings by keyword and location, or scrape any
+        Glassdoor company or job search page URL - up to 20 normalized job records
+        per request. **Price:** billed per result - \$5.00 per 1,000 requests base +
+        \$4.75 per 1,000 results, capped at \$100.00 per 1,000 requests.
 
         Price: $0.005 per request plus $0.00475 per result.
 
         Example:
-            res = client.glassdoor.jobs(limit=3, url="https://www.glassdoor.com/Job/software-engineer-jobs-SRCH_KO0,17.htm")
+            res = client.glassdoor.jobs(limit=3, location="United States", postedLimit="month", query="software engineer")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "glassdoor.jobs", dict(input), options
@@ -129,15 +141,15 @@ class AsyncGlassdoorNamespace:
     ) -> RunResult[GlassdoorJobsData]:
         """Glassdoor Jobs
 
-        Fetch job listings from any Glassdoor company or job search page URL - up to
-        20 normalized job records per request. **Price:** billed per result - \$5.00
-        per 1,000 requests base + \$4.75 per 1,000 results, capped at \$100.00 per
-        1,000 requests.
+        Search Glassdoor job listings by keyword and location, or scrape any
+        Glassdoor company or job search page URL - up to 20 normalized job records
+        per request. **Price:** billed per result - \$5.00 per 1,000 requests base +
+        \$4.75 per 1,000 results, capped at \$100.00 per 1,000 requests.
 
         Price: $0.005 per request plus $0.00475 per result.
 
         Example:
-            res = client.glassdoor.jobs(limit=3, url="https://www.glassdoor.com/Job/software-engineer-jobs-SRCH_KO0,17.htm")
+            res = client.glassdoor.jobs(limit=3, location="United States", postedLimit="month", query="software engineer")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "glassdoor.jobs", dict(input), options

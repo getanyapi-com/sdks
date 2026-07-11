@@ -154,6 +154,10 @@ class InstagramSearchHashtagInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    datePosted: NotRequired[
+        Literal["last-hour", "last-day", "last-week", "last-month", "last-year"]
+    ]
+    """Restrict results to posts published within this window."""
     hashtag: Required[str]
     """Hashtag to search, without the leading #."""
     mediaType: NotRequired[str]

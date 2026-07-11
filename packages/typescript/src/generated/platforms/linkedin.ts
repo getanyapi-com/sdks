@@ -401,11 +401,25 @@ export interface LinkedinCompanyEmployeesData {
  */
 export interface LinkedinCompanyPostsInput {
   /**
+   * Include quote posts (posts shared with an added comment). Defaults to true; set false to exclude them.
+   */
+  includeQuotePosts?: boolean;
+  /**
+   * Include reposts (posts shared without an added comment). Defaults to true; set false to exclude them.
+   */
+  includeReposts?: boolean;
+  /**
    * Maximum number of posts to return.
    * Range: minimum 1, maximum 50.
    * Default: 10.
    */
   limit?: number;
+  /**
+   * Only return posts published within this window (default any).
+   * One of: any, 1h, 24h, week, month, 3months, 6months, year.
+   */
+  postedLimit?:
+    "any" | "1h" | "24h" | "week" | "month" | "3months" | "6months" | "year";
   /**
    * Full LinkedIn company page URL.
    */
@@ -679,6 +693,31 @@ export interface LinkedinEmailData {
  */
 export interface LinkedinJobsInput {
   /**
+   * Filter to a specific company by name (e.g. Google).
+   */
+  company?: string;
+  /**
+   * When true, only return jobs offering LinkedIn Easy Apply.
+   */
+  easyApply?: boolean;
+  /**
+   * Filter by employment type.
+   * One of: full-time, part-time, contract, internship, temporary.
+   */
+  employmentType?:
+    "full-time" | "part-time" | "contract" | "internship" | "temporary";
+  /**
+   * Filter by required seniority/experience level.
+   * One of: internship, entry, associate, mid-senior, director, executive.
+   */
+  experienceLevel?:
+    | "internship"
+    | "entry"
+    | "associate"
+    | "mid-senior"
+    | "director"
+    | "executive";
+  /**
    * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
    */
@@ -688,9 +727,42 @@ export interface LinkedinJobsInput {
    */
   location?: string;
   /**
+   * Only jobs posted within this window (past hour, 24 hours, week, or month).
+   * One of: 1h, 24h, week, month.
+   */
+  postedLimit?: "1h" | "24h" | "week" | "month";
+  /**
    * Job title or keywords to search. Supports LinkedIn boolean operators.
    */
   query: string;
+  /**
+   * Filter by minimum base salary band (US dollars).
+   * One of: 40k+, 60k+, 80k+, 100k+, 120k+, 140k+, 160k+, 180k+, 200k+.
+   */
+  salary?:
+    | "40k+"
+    | "60k+"
+    | "80k+"
+    | "100k+"
+    | "120k+"
+    | "140k+"
+    | "160k+"
+    | "180k+"
+    | "200k+";
+  /**
+   * Sort order: most recent (date) or best match (relevance).
+   * One of: date, relevance.
+   */
+  sortBy?: "date" | "relevance";
+  /**
+   * When true, only return jobs with fewer than 10 applicants (lower competition).
+   */
+  under10Applicants?: boolean;
+  /**
+   * Filter by workplace type (remote, hybrid, or onsite).
+   * One of: remote, hybrid, onsite.
+   */
+  workplaceType?: "remote" | "hybrid" | "onsite";
 }
 
 /**
@@ -811,6 +883,31 @@ export interface LinkedinJobsData {
  */
 export interface LinkedinJobsThinInput {
   /**
+   * Filter to a specific company by its LinkedIn numeric company id.
+   */
+  companyId?: string;
+  /**
+   * Filter by employment type.
+   * One of: full-time, part-time, contract, internship, temporary.
+   */
+  employmentType?:
+    "full-time" | "part-time" | "contract" | "internship" | "temporary";
+  /**
+   * Filter by required seniority/experience level.
+   * One of: internship, entry, associate, mid-senior, director, executive.
+   */
+  experienceLevel?:
+    | "internship"
+    | "entry"
+    | "associate"
+    | "mid-senior"
+    | "director"
+    | "executive";
+  /**
+   * LinkedIn geo id to target a precise location (e.g. 103644278 for the United States); more exact than the free-text location.
+   */
+  geoId?: string;
+  /**
    * Maximum number of results to return (1-25, default 25).
    * Range: minimum 1, maximum 25.
    */
@@ -820,9 +917,19 @@ export interface LinkedinJobsThinInput {
    */
   location?: string;
   /**
+   * Only jobs posted within this window (past 24 hours, week, or month).
+   * One of: 24h, week, month.
+   */
+  postedLimit?: "24h" | "week" | "month";
+  /**
    * Job title or keywords to search.
    */
   query: string;
+  /**
+   * Filter by workplace type (remote, hybrid, or onsite).
+   * One of: remote, hybrid, onsite.
+   */
+  workplaceType?: "remote" | "hybrid" | "onsite";
 }
 
 /**
@@ -927,6 +1034,12 @@ export interface LinkedinPostCommentsInput {
    * Default: 100.
    */
   limit?: number;
+  /**
+   * Only return comments posted within this window (default any).
+   * One of: any, 24h, week, month, 3months, 6months, year.
+   */
+  postedLimit?:
+    "any" | "24h" | "week" | "month" | "3months" | "6months" | "year";
   /**
    * Full URL of the LinkedIn post to list comments for.
    */
@@ -1625,9 +1738,134 @@ export interface LinkedinSearchPostsData {
  */
 export interface LinkedinSearchProfilesInput {
   /**
+   * Filter by current company size (employee count). Codes: A=Self-Employed, B=1-10, C=11-50, D=51-200, E=201-500, F=501-1,000, G=1,001-5,000, H=5,001-10,000, I=10,001+.
+   */
+  companyHeadcount?: ("A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I")[];
+  /**
+   * Filter by the location of the person's current company headquarters, by place name (e.g. ['United States']).
+   */
+  companyHeadquarterLocations?: string[];
+  /**
+   * Filter to people who currently work at any of these companies, by name (e.g. ['Google','Meta']). Multiple names widen the match (OR).
+   */
+  currentCompanies?: string[];
+  /**
+   * Exclude people whose current company is headquartered in any of these locations.
+   */
+  excludeCompanyHeadquarterLocations?: string[];
+  /**
+   * Exclude people who currently work at any of these companies, by name.
+   */
+  excludeCurrentCompanies?: string[];
+  /**
+   * Exclude people whose current job title matches any of these.
+   */
+  excludeCurrentJobTitles?: string[];
+  /**
+   * Exclude these job functions (same codes as functionIds).
+   */
+  excludeFunctionIds?: (
+    | "1"
+    | "2"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "10"
+    | "11"
+    | "12"
+    | "13"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "19"
+    | "20"
+    | "21"
+    | "22"
+    | "23"
+    | "24"
+    | "25"
+    | "26"
+  )[];
+  /**
+   * Exclude people in any of these locations, by place name.
+   */
+  excludeLocations?: string[];
+  /**
+   * Exclude people who previously worked at any of these companies, by name.
+   */
+  excludePastCompanies?: string[];
+  /**
+   * Exclude people who held any of these past job titles.
+   */
+  excludePastJobTitles?: string[];
+  /**
+   * Exclude people who attended any of these schools, by name.
+   */
+  excludeSchools?: string[];
+  /**
+   * Exclude these seniority levels (same codes as seniorityLevelIds).
+   */
+  excludeSeniorityLevelIds?: (
+    | "100"
+    | "110"
+    | "120"
+    | "130"
+    | "200"
+    | "210"
+    | "220"
+    | "300"
+    | "310"
+    | "320"
+  )[];
+  /**
+   * Filter to people whose first name matches any of these.
+   */
+  firstNames?: string[];
+  /**
+   * Filter by job function. Codes: 1=Accounting, 2=Administrative, 3=Arts and Design, 4=Business Development, 5=Community and Social Services, 6=Consulting, 7=Education, 8=Engineering, 9=Entrepreneurship, 10=Finance, 11=Healthcare Services, 12=Human Resources, 13=Information Technology, 14=Legal, 15=Marketing, 16=Media and Communication, 17=Military and Protective Services, 18=Operations, 19=Product Management, 20=Program and Project Management, 21=Purchasing, 22=Quality Assurance, 23=Real Estate, 24=Research, 25=Sales, 26=Customer Success and Support.
+   */
+  functionIds?: (
+    | "1"
+    | "2"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "10"
+    | "11"
+    | "12"
+    | "13"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "19"
+    | "20"
+    | "21"
+    | "22"
+    | "23"
+    | "24"
+    | "25"
+    | "26"
+  )[];
+  /**
    * Optional current job title filter (e.g. 'Software Engineer').
    */
   jobTitle?: string;
+  /**
+   * Filter to people whose last name matches any of these.
+   */
+  lastNames?: string[];
   /**
    * Maximum number of full profiles to return (1-25, default 10). You are billed per profile returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
@@ -1638,9 +1876,79 @@ export interface LinkedinSearchProfilesInput {
    */
   location?: string;
   /**
-   * Search query for LinkedIn profiles - a role, name, or keywords (e.g. 'Marketing Manager').
+   * Filter to people who previously worked at any of these companies, by name.
+   */
+  pastCompanies?: string[];
+  /**
+   * Filter by a past job title the person held (e.g. ['Product Manager']).
+   */
+  pastJobTitles?: string[];
+  /**
+   * Filter by the profile's primary language.
+   */
+  profileLanguages?: (
+    | "Arabic"
+    | "English"
+    | "Spanish"
+    | "Portuguese"
+    | "Chinese"
+    | "French"
+    | "Italian"
+    | "Russian"
+    | "German"
+    | "Dutch"
+    | "Turkish"
+    | "Tagalog"
+    | "Polish"
+    | "Korean"
+    | "Japanese"
+    | "Malay"
+    | "Norwegian"
+    | "Danish"
+    | "Romanian"
+    | "Swedish"
+    | "Bahasa Indonesia"
+    | "Czech"
+  )[];
+  /**
+   * Search query for LinkedIn profiles: a role, name, or keywords (e.g. 'Marketing Manager').
    */
   query: string;
+  /**
+   * When true, only return people who recently changed jobs (a strong sales/recruiting signal).
+   */
+  recentlyChangedJobs?: boolean;
+  /**
+   * When true, only return people who recently posted on LinkedIn (an activity signal).
+   */
+  recentlyPostedOnLinkedIn?: boolean;
+  /**
+   * Filter to people who attended any of these schools, by name.
+   */
+  schools?: string[];
+  /**
+   * Filter by seniority level. Codes: 100=In Training, 110=Entry Level, 120=Senior, 130=Strategic, 200=Entry Level Manager, 210=Experienced Manager, 220=Director, 300=Vice President, 310=CXO, 320=Owner/Partner.
+   */
+  seniorityLevelIds?: (
+    | "100"
+    | "110"
+    | "120"
+    | "130"
+    | "200"
+    | "210"
+    | "220"
+    | "300"
+    | "310"
+    | "320"
+  )[];
+  /**
+   * Filter by tenure at the current company. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years.
+   */
+  yearsAtCurrentCompanyIds?: ("1" | "2" | "3" | "4" | "5")[];
+  /**
+   * Filter by total years of experience. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years.
+   */
+  yearsOfExperienceIds?: ("1" | "2" | "3" | "4" | "5")[];
 }
 
 /**
@@ -1744,9 +2052,134 @@ export interface LinkedinSearchProfilesData {
  */
 export interface LinkedinSearchProfilesEmailInput {
   /**
+   * Filter by current company size (employee count). Codes: A=Self-Employed, B=1-10, C=11-50, D=51-200, E=201-500, F=501-1,000, G=1,001-5,000, H=5,001-10,000, I=10,001+.
+   */
+  companyHeadcount?: ("A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I")[];
+  /**
+   * Filter by the location of the person's current company headquarters, by place name (e.g. ['United States']).
+   */
+  companyHeadquarterLocations?: string[];
+  /**
+   * Filter to people who currently work at any of these companies, by name (e.g. ['Google','Meta']). Multiple names widen the match (OR).
+   */
+  currentCompanies?: string[];
+  /**
+   * Exclude people whose current company is headquartered in any of these locations.
+   */
+  excludeCompanyHeadquarterLocations?: string[];
+  /**
+   * Exclude people who currently work at any of these companies, by name.
+   */
+  excludeCurrentCompanies?: string[];
+  /**
+   * Exclude people whose current job title matches any of these.
+   */
+  excludeCurrentJobTitles?: string[];
+  /**
+   * Exclude these job functions (same codes as functionIds).
+   */
+  excludeFunctionIds?: (
+    | "1"
+    | "2"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "10"
+    | "11"
+    | "12"
+    | "13"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "19"
+    | "20"
+    | "21"
+    | "22"
+    | "23"
+    | "24"
+    | "25"
+    | "26"
+  )[];
+  /**
+   * Exclude people in any of these locations, by place name.
+   */
+  excludeLocations?: string[];
+  /**
+   * Exclude people who previously worked at any of these companies, by name.
+   */
+  excludePastCompanies?: string[];
+  /**
+   * Exclude people who held any of these past job titles.
+   */
+  excludePastJobTitles?: string[];
+  /**
+   * Exclude people who attended any of these schools, by name.
+   */
+  excludeSchools?: string[];
+  /**
+   * Exclude these seniority levels (same codes as seniorityLevelIds).
+   */
+  excludeSeniorityLevelIds?: (
+    | "100"
+    | "110"
+    | "120"
+    | "130"
+    | "200"
+    | "210"
+    | "220"
+    | "300"
+    | "310"
+    | "320"
+  )[];
+  /**
+   * Filter to people whose first name matches any of these.
+   */
+  firstNames?: string[];
+  /**
+   * Filter by job function. Codes: 1=Accounting, 2=Administrative, 3=Arts and Design, 4=Business Development, 5=Community and Social Services, 6=Consulting, 7=Education, 8=Engineering, 9=Entrepreneurship, 10=Finance, 11=Healthcare Services, 12=Human Resources, 13=Information Technology, 14=Legal, 15=Marketing, 16=Media and Communication, 17=Military and Protective Services, 18=Operations, 19=Product Management, 20=Program and Project Management, 21=Purchasing, 22=Quality Assurance, 23=Real Estate, 24=Research, 25=Sales, 26=Customer Success and Support.
+   */
+  functionIds?: (
+    | "1"
+    | "2"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "10"
+    | "11"
+    | "12"
+    | "13"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "19"
+    | "20"
+    | "21"
+    | "22"
+    | "23"
+    | "24"
+    | "25"
+    | "26"
+  )[];
+  /**
    * Optional current job title filter (e.g. 'Software Engineer').
    */
   jobTitle?: string;
+  /**
+   * Filter to people whose last name matches any of these.
+   */
+  lastNames?: string[];
   /**
    * Maximum number of full profiles (with email) to return (1-25, default 10). You are billed per profile returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
@@ -1757,9 +2190,79 @@ export interface LinkedinSearchProfilesEmailInput {
    */
   location?: string;
   /**
+   * Filter to people who previously worked at any of these companies, by name.
+   */
+  pastCompanies?: string[];
+  /**
+   * Filter by a past job title the person held (e.g. ['Product Manager']).
+   */
+  pastJobTitles?: string[];
+  /**
+   * Filter by the profile's primary language.
+   */
+  profileLanguages?: (
+    | "Arabic"
+    | "English"
+    | "Spanish"
+    | "Portuguese"
+    | "Chinese"
+    | "French"
+    | "Italian"
+    | "Russian"
+    | "German"
+    | "Dutch"
+    | "Turkish"
+    | "Tagalog"
+    | "Polish"
+    | "Korean"
+    | "Japanese"
+    | "Malay"
+    | "Norwegian"
+    | "Danish"
+    | "Romanian"
+    | "Swedish"
+    | "Bahasa Indonesia"
+    | "Czech"
+  )[];
+  /**
    * Search query for LinkedIn profiles: a role, name, or keywords (e.g. 'Marketing Manager').
    */
   query: string;
+  /**
+   * When true, only return people who recently changed jobs (a strong sales/recruiting signal).
+   */
+  recentlyChangedJobs?: boolean;
+  /**
+   * When true, only return people who recently posted on LinkedIn (an activity signal).
+   */
+  recentlyPostedOnLinkedIn?: boolean;
+  /**
+   * Filter to people who attended any of these schools, by name.
+   */
+  schools?: string[];
+  /**
+   * Filter by seniority level. Codes: 100=In Training, 110=Entry Level, 120=Senior, 130=Strategic, 200=Entry Level Manager, 210=Experienced Manager, 220=Director, 300=Vice President, 310=CXO, 320=Owner/Partner.
+   */
+  seniorityLevelIds?: (
+    | "100"
+    | "110"
+    | "120"
+    | "130"
+    | "200"
+    | "210"
+    | "220"
+    | "300"
+    | "310"
+    | "320"
+  )[];
+  /**
+   * Filter by tenure at the current company. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years.
+   */
+  yearsAtCurrentCompanyIds?: ("1" | "2" | "3" | "4" | "5")[];
+  /**
+   * Filter by total years of experience. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years.
+   */
+  yearsOfExperienceIds?: ("1" | "2" | "3" | "4" | "5")[];
 }
 
 /**
@@ -2112,7 +2615,7 @@ export class LinkedinNamespace {
    * Price: $0.001 per request plus $0.001 per result.
    *
    * @example
-   * const res = await client.linkedin.jobs({ query: "software engineer", limit: 3, location: "United States" });
+   * const res = await client.linkedin.jobs({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });
    */
   jobs(
     input: LinkedinJobsInput,
@@ -2131,7 +2634,7 @@ export class LinkedinNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.linkedin.jobsThin({ query: "software engineer", limit: 3, location: "San Francisco" });
+   * const res = await client.linkedin.jobsThin({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });
    */
   jobsThin(
     input: LinkedinJobsThinInput,
@@ -2302,7 +2805,7 @@ export class LinkedinNamespace {
    * Price: $0.08 per request plus $0.004 per result.
    *
    * @example
-   * const res = await client.linkedin.searchProfiles({ query: "recruiter", limit: 3 });
+   * const res = await client.linkedin.searchProfiles({ query: "engineer", currentCompanies: ["Google"], limit: 3 });
    */
   searchProfiles(
     input: LinkedinSearchProfilesInput,
@@ -2321,7 +2824,7 @@ export class LinkedinNamespace {
    * Price: $0.08 per request plus $0.009 per result.
    *
    * @example
-   * const res = await client.linkedin.searchProfilesEmail({ query: "recruiter", limit: 3 });
+   * const res = await client.linkedin.searchProfilesEmail({ query: "founder", companyHeadcount: ["B"], limit: 5 });
    */
   searchProfilesEmail(
     input: LinkedinSearchProfilesEmailInput,

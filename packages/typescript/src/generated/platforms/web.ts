@@ -48,6 +48,10 @@ export interface WebCrawlData {
  */
 export interface WebMapInput {
   /**
+   * When true (upstream default), include URLs on subdomains of the target (for example docs.example.com when mapping example.com). Set false to return only URLs on the exact host.
+   */
+  includeSubdomains?: boolean;
+  /**
    * Maximum number of links to return.
    * Default: 100.
    */
@@ -56,6 +60,11 @@ export interface WebMapInput {
    * Optional term that orders the returned links by relevance.
    */
   search?: string;
+  /**
+   * How to use the site's sitemap.xml when discovering URLs. 'include' (upstream default) merges sitemap URLs with links found by crawling; 'only' returns just the URLs listed in the sitemap (fastest and most authoritative); 'skip' ignores the sitemap and discovers URLs by crawling links. Omit to use 'include'.
+   * One of: include, skip, only.
+   */
+  sitemap?: "include" | "skip" | "only";
   /**
    * The base URL of the site to map into a list of links.
    * Format: uri.
@@ -88,24 +97,68 @@ export interface WebMapData {
  */
 export interface WebScrapeInput {
   /**
+   * When true (upstream default), strip ad and cookie-consent elements before capture. Set false to keep them.
+   */
+  blockAds?: boolean;
+  /**
+   * CSS selectors to drop before capture (for example ["nav", "footer", ".ads"]). Applied after includeTags.
+   */
+  excludeTags?: string[];
+  /**
+   * Which representations of the page to return. Any combination of: markdown (clean main content), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to markdown only.
+   */
+  formats?: ("markdown" | "html" | "rawHtml")[];
+  /**
+   * CSS selectors to keep. When set, only content matching these selectors is captured (for example ["article", "main"] or ["#content"]).
+   */
+  includeTags?: string[];
+  /**
+   * When true, render the page with a mobile viewport and user agent instead of desktop. Some sites serve materially different content to mobile.
+   */
+  mobile?: boolean;
+  /**
+   * When true (default) return only the main article content, stripping navigation, headers, footers, and other boilerplate. Set false to capture the full page.
+   * Default: true.
+   */
+  onlyMainContent?: boolean;
+  /**
    * The URL of the page to scrape.
    * Format: uri.
    */
   url: string;
+  /**
+   * Milliseconds to wait for the page to finish rendering before capture. Use this for JavaScript-heavy pages or single-page apps whose content loads after the initial paint. Capped at 15000 to stay within the request timeout.
+   * Range: minimum 0, maximum 15000.
+   */
+  waitFor?: number;
 }
 
 /**
  * The `data` payload of Web Scrape (web.scrape).
  */
 export interface WebScrapeData {
+  /**
+   * The page meta description.
+   */
   description: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * The cleaned page HTML. Present only when 'html' is among the requested formats.
+   */
+  html?: string;
+  /**
+   * The page content as clean Markdown. Present when 'markdown' is among the requested formats (the default). Populated whenever the provider has data for the entity.
    */
   markdown: string;
+  /**
+   * The verbatim page HTML before cleaning. Present only when 'rawHtml' is among the requested formats.
+   */
+  rawHtml?: string;
+  /**
+   * The page title from its metadata.
+   */
   title: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * The canonical source URL of the scraped page. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
@@ -185,7 +238,7 @@ export class WebNamespace {
    * Price: $0.0009 per request.
    *
    * @example
-   * const res = await client.web.map({ url: "https://example.com" });
+   * const res = await client.web.map({ url: "https://www.iana.org", search: "domain" });
    */
   map(
     input: WebMapInput,
@@ -197,14 +250,14 @@ export class WebNamespace {
   /**
    * Web Scrape
    *
-   * Scrape any web page and get its main content back as clean Markdown plus title and metadata.
+   * Scrape any web page and get its content back as clean Markdown (or HTML, or raw HTML) plus title and metadata.
 
 **Price:** \$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0009 per request.
    *
    * @example
-   * const res = await client.web.scrape({ url: "https://example.com" });
+   * const res = await client.web.scrape({ url: "https://example.com", formats: ["markdown", "html", "rawHtml"], onlyMainContent: true });
    */
   scrape(
     input: WebScrapeInput,

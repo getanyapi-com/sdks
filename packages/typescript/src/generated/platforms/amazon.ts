@@ -243,6 +243,14 @@ export interface AmazonProductData {
  */
 export interface AmazonReviewsInput {
   /**
+   * Only return reviews on or before this date, inclusive, in YYYY-MM-DD format (e.g. 2026-06-30).
+   */
+  endDate?: string;
+  /**
+   * Only return reviews whose text contains one of these keywords (e.g. ["battery", "screen"]).
+   */
+  keywords?: string[];
+  /**
    * Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 50.
    */
@@ -251,6 +259,10 @@ export interface AmazonReviewsInput {
    * Amazon product ASIN or full product URL (e.g. B07CMS5Q6P).
    */
   product: string;
+  /**
+   * Only return reviews whose star rating is in this set (e.g. ["5", "4"] for 4 and 5 star reviews); omit for all ratings.
+   */
+  ratings?: ("1" | "2" | "3" | "4" | "5")[];
   /**
    * Amazon marketplace domain the product ASIN belongs to (e.g. amazon.co.uk).
    * One of: amazon.com, amazon.ca, amazon.de, amazon.fr, amazon.co.uk, amazon.it, amazon.es, amazon.com.au, amazon.co.jp, amazon.com.br, amazon.com.mx, amazon.nl, amazon.ie, amazon.se, amazon.com.tr, amazon.ae, amazon.sg, amazon.sa, amazon.pl, amazon.com.be, amazon.eg, amazon.in.
@@ -285,6 +297,15 @@ export interface AmazonReviewsInput {
    * Default: helpful.
    */
   sort?: "helpful" | "recent";
+  /**
+   * Only return reviews on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01).
+   */
+  startDate?: string;
+  /**
+   * Set true to return only verified-purchase reviews (e.g. true).
+   * Default: false.
+   */
+  verifiedOnly?: boolean;
 }
 
 export interface AmazonReviewsItem {

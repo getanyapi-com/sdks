@@ -11,10 +11,19 @@ import type {
  */
 export interface EbaySearchInput {
   /**
+   * Filter by one or more item conditions; omit for all conditions (e.g. ["new", "open_box"]).
+   */
+  condition?: ("new" | "open_box" | "refurbished" | "used" | "for_parts")[];
+  /**
    * Maximum number of results to return (1 to 25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
    */
   limit?: number;
+  /**
+   * Restrict to a listing format; omit or use all for both (e.g. buy_it_now for fixed-price only).
+   * One of: all, auction, buy_it_now.
+   */
+  listingType?: "all" | "auction" | "buy_it_now";
   /**
    * Optional maximum item price in USD.
    * Range: minimum 0.
@@ -29,6 +38,16 @@ export interface EbaySearchInput {
    * Search keywords, e.g. "nintendo switch" or "vintage levis 501".
    */
   query: string;
+  /**
+   * Result sort order; omit for eBay's Best Match (e.g. price_low sorts by lowest price plus shipping first).
+   * One of: best_match, ending_soonest, newly_listed, price_low, price_high.
+   */
+  sort?:
+    | "best_match"
+    | "ending_soonest"
+    | "newly_listed"
+    | "price_low"
+    | "price_high";
 }
 
 export interface EbaySearchItem {
@@ -101,6 +120,16 @@ export interface EbaySoldListingsInput {
    */
   limit?: number;
   /**
+   * Optional maximum sold price in the site currency (e.g. 500).
+   * Range: minimum 0.
+   */
+  maxPrice?: number;
+  /**
+   * Optional minimum sold price in the site currency (e.g. 200).
+   * Range: minimum 0.
+   */
+  minPrice?: number;
+  /**
    * Search keyword for sold items (e.g. iphone 13 pro).
    */
   query: string;
@@ -118,6 +147,16 @@ export interface EbaySoldListingsInput {
     | "ebay.es"
     | "ebay.ca"
     | "ebay.com.au";
+  /**
+   * Result sort order; omit for eBay's default ended-recently (e.g. price_high sorts by highest total price first).
+   * One of: ended_recently, newly_listed, price_low, price_high, distance_nearest.
+   */
+  sort?:
+    | "ended_recently"
+    | "newly_listed"
+    | "price_low"
+    | "price_high"
+    | "distance_nearest";
 }
 
 export interface EbaySoldListingsItem {
@@ -177,14 +216,14 @@ export class EbayNamespace {
   /**
    * eBay Search
    *
-   * Search eBay active listings by keyword and get title, price, condition, shipping, seller, and sold count in one normalized response.
+   * Search eBay active listings by keyword with optional price-range, item-condition, listing-type, and sort filters and get title, price, condition, shipping, and seller in one normalized response.
 
 **Price:** billed per result - \$1.00 per 1,000 requests base + \$2.34 per 1,000 results, capped at \$59.50 per 1,000 requests.
    *
    * Price: $0.001 per request plus $0.00234 per result.
    *
    * @example
-   * const res = await client.ebay.search({ query: "nintendo switch", limit: 3 });
+   * const res = await client.ebay.search({ query: "nintendo switch", limit: 3, sort: "price_low" });
    */
   search(
     input: EbaySearchInput,
@@ -196,14 +235,14 @@ export class EbayNamespace {
   /**
    * eBay Sold Listings
    *
-   * Retrieve recently sold eBay listings for any keyword - sold price, sale date, condition, and item details - ideal for pricing research.
+   * Retrieve recently sold eBay listings for any keyword with optional price-range and sort filters (sold price, sale date, condition, item details); ideal for pricing research.
 
 **Price:** billed per result - \$0.05 per 1,000 requests base + \$4.00 per 1,000 results, capped at \$100.05 per 1,000 requests.
    *
    * Price: $0.00005 per request plus $0.004 per result.
    *
    * @example
-   * const res = await client.ebay.soldListings({ query: "nintendo switch", limit: 3 });
+   * const res = await client.ebay.soldListings({ query: "nintendo switch", limit: 3, sort: "price_high" });
    */
   soldListings(
     input: EbaySoldListingsInput,

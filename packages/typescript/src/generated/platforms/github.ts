@@ -542,6 +542,11 @@ export interface GithubUserRepositoriesInput {
    */
   cursor?: number;
   /**
+   * Sort direction, ascending or descending, paired with sort.
+   * One of: asc, desc.
+   */
+  direction?: "asc" | "desc";
+  /**
    * GitHub username.
    */
   handle: string;
@@ -551,6 +556,11 @@ export interface GithubUserRepositoriesInput {
    * Default: updated.
    */
   sort?: "created" | "updated" | "pushed" | "full_name";
+  /**
+   * Which repositories to include: owner (default), all, or member.
+   * One of: owner, all, member.
+   */
+  type?: "owner" | "all" | "member";
 }
 
 export interface GithubUserRepositoriesRepo {

@@ -109,10 +109,14 @@ class GithubUserRepositoriesInput(TypedDict, total=False):
 
     cursor: NotRequired[int]
     """1-based results page. Use the output's nextCursor to paginate. Minimum: 1. Default: 1."""
+    direction: NotRequired[Literal["asc", "desc"]]
+    """Sort direction, ascending or descending, paired with sort."""
     handle: Required[str]
     """GitHub username."""
     sort: NotRequired[Literal["created", "updated", "pushed", "full_name"]]
     """Repository ordering. Default: updated."""
+    type: NotRequired[Literal["owner", "all", "member"]]
+    """Which repositories to include: owner (default), all, or member."""
 
 
 class GithubRepositoryData(BaseModel):

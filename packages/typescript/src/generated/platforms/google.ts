@@ -16,6 +16,11 @@ export interface GoogleAutocompleteInput {
    */
   gl?: string;
   /**
+   * Two-letter interface and results language code for the suggestions (e.g. en, es, de).
+   * Default: en.
+   */
+  hl?: string;
+  /**
    * The partial Google search query.
    */
   query: string;
@@ -48,14 +53,37 @@ export interface GoogleAutocompleteData {
  */
 export interface GoogleImagesInput {
   /**
-   * Maximum number of results to return (1-20, default 20). Price is flat per request.
-   * Range: minimum 1, maximum 20.
+   * Toggle Google spelling autocorrect (default true). Set false to search the exact query without correction.
+   */
+  autocorrect?: boolean;
+  /**
+   * Two-letter country code for result localization (e.g. us, gb, de).
+   * Default: us.
+   */
+  gl?: string;
+  /**
+   * Two-letter interface and results language code (e.g. en, es, de).
+   * Default: en.
+   */
+  hl?: string;
+  /**
+   * Maximum number of images to return (1-100, default 20). Requests for 10 results or fewer are billed at a lower rate than larger requests.
+   * Range: minimum 1, maximum 100.
+   * Default: 20.
    */
   limit?: number;
+  /**
+   * Fine-grained location for result localization, given as a canonical Google location string (e.g. 'New York, United States', 'London, United Kingdom'). More specific than the country-level gl.
+   */
+  location?: string;
   /**
    * Image search query (e.g. golden gate bridge at sunset).
    */
   query: string;
+  /**
+   * Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).
+   */
+  timeframe?: string;
 }
 
 export interface GoogleImagesItem {
@@ -159,10 +187,24 @@ export interface GoogleLensData {
  */
 export interface GoogleNewsInput {
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Two-letter country code for result localization (e.g. us, gb, de).
+   * Default: us.
+   */
+  gl?: string;
+  /**
+   * Two-letter interface and results language code (e.g. en, es, de).
+   * Default: en.
+   */
+  hl?: string;
+  /**
+   * Requested article count (1-20, default 20). Google News returns its latest matching articles and may return more or fewer than requested. Price is flat per request.
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
+  /**
+   * Fine-grained location for result localization, given as a canonical Google location string (e.g. 'New York, United States', 'London, United Kingdom'). More specific than the country-level gl.
+   */
+  location?: string;
   /**
    * News search query; supports operators like '-', 'OR', and 'site:' (e.g. bitcoin site:cnn.com).
    */
@@ -356,14 +398,37 @@ export interface GoogleScholarData {
  */
 export interface GoogleSearchInput {
   /**
+   * Toggle Google spelling autocorrect (default true). Set false to search the exact query without correction.
+   */
+  autocorrect?: boolean;
+  /**
    * Two-letter country code for result localization (e.g. us, gb, de).
    * Default: us.
    */
   gl?: string;
   /**
+   * Two-letter interface and results language code (e.g. en, es, de).
+   * Default: en.
+   */
+  hl?: string;
+  /**
+   * Maximum number of organic results to return (1-100, default 10). Google may return fewer if the query is narrow. Price is flat per request.
+   * Range: minimum 1, maximum 100.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Fine-grained location for result localization, given as a canonical Google location string (e.g. 'New York, United States', 'London, United Kingdom'). More specific than the country-level gl.
+   */
+  location?: string;
+  /**
    * The Google search query.
    */
   query: string;
+  /**
+   * Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).
+   */
+  timeframe?: string;
 }
 
 export interface GoogleSearchResult {
@@ -399,14 +464,31 @@ export interface GoogleSearchData {
  */
 export interface GoogleVideosInput {
   /**
+   * Toggle Google spelling autocorrect (default true). Set false to search the exact query without correction.
+   */
+  autocorrect?: boolean;
+  /**
    * Two-letter country code for result localization (e.g. us, gb, de).
    * Default: us.
    */
   gl?: string;
   /**
+   * Two-letter interface and results language code (e.g. en, es, de).
+   * Default: en.
+   */
+  hl?: string;
+  /**
+   * Fine-grained location for result localization, given as a canonical Google location string (e.g. 'New York, United States', 'London, United Kingdom'). More specific than the country-level gl.
+   */
+  location?: string;
+  /**
    * The video search query.
    */
   query: string;
+  /**
+   * Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).
+   */
+  timeframe?: string;
 }
 
 export interface GoogleVideosResult {
@@ -484,12 +566,12 @@ export class GoogleNamespace {
    *
    * Run a Google Images search and get structured results - image URLs, dimensions, titles, and source pages.
 
-**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
+**Price:** billed per result - \$0.99 per 1,000 requests base + \$0.09 per 1,000 results, capped at \$1.98 per 1,000 requests.
    *
-   * Price: $0.00099 per request.
+   * Price: $0.00099 per request plus $0.00009 per result.
    *
    * @example
-   * const res = await client.google.images({ query: "golden retriever", limit: 5 });
+   * const res = await client.google.images({ query: "golden retriever", gl: "us", hl: "en", limit: 5 });
    */
   images(
     input: GoogleImagesInput,
@@ -527,7 +609,7 @@ export class GoogleNamespace {
    * Price: $0.00099 per request.
    *
    * @example
-   * const res = await client.google.news({ query: "openai", limit: 5 });
+   * const res = await client.google.news({ query: "openai", gl: "us", hl: "en" });
    */
   news(
     input: GoogleNewsInput,
@@ -584,7 +666,7 @@ export class GoogleNamespace {
    * Price: $0.00099 per request.
    *
    * @example
-   * const res = await client.google.search({ query: "best coffee maker" });
+   * const res = await client.google.search({ query: "best coffee maker", gl: "us", hl: "en", limit: 10 });
    */
   search(
     input: GoogleSearchInput,
@@ -603,7 +685,7 @@ export class GoogleNamespace {
    * Price: $0.00099 per request.
    *
    * @example
-   * const res = await client.google.videos({ query: "lofi hip hop" });
+   * const res = await client.google.videos({ query: "lofi hip hop", gl: "us", hl: "en" });
    */
   videos(
     input: GoogleVideosInput,
