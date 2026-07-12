@@ -23,6 +23,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     ),
     "congress": ("congress", "CongressNamespace", "AsyncCongressNamespace"),
     "dexscreener": ("dexscreener", "DexscreenerNamespace", "AsyncDexscreenerNamespace"),
+    "douyin": ("douyin", "DouyinNamespace", "AsyncDouyinNamespace"),
     "ebay": ("ebay", "EbayNamespace", "AsyncEbayNamespace"),
     "email": ("email", "EmailNamespace", "AsyncEmailNamespace"),
     "facebook": ("facebook", "FacebookNamespace", "AsyncFacebookNamespace"),
@@ -76,6 +77,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "upwork": ("upwork", "UpworkNamespace", "AsyncUpworkNamespace"),
     "walmart": ("walmart", "WalmartNamespace", "AsyncWalmartNamespace"),
     "web": ("web", "WebNamespace", "AsyncWebNamespace"),
+    "weibo": ("weibo", "WeiboNamespace", "AsyncWeiboNamespace"),
     "whatsapp": ("whatsapp", "WhatsappNamespace", "AsyncWhatsappNamespace"),
     "yahoo_finance": (
         "yahoo_finance",
@@ -84,6 +86,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     ),
     "yelp": ("yelp", "YelpNamespace", "AsyncYelpNamespace"),
     "youtube": ("youtube", "YoutubeNamespace", "AsyncYoutubeNamespace"),
+    "zhihu": ("zhihu", "ZhihuNamespace", "AsyncZhihuNamespace"),
     "zillow": ("zillow", "ZillowNamespace", "AsyncZillowNamespace"),
 }
 

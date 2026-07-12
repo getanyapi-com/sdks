@@ -61,6 +61,18 @@ import type {
   DexscreenerTokensInput,
 } from "./platforms/dexscreener.js";
 import type {
+  DouyinProfileData,
+  DouyinProfileInput,
+  DouyinSearchVideosData,
+  DouyinSearchVideosInput,
+  DouyinUserPostsData,
+  DouyinUserPostsInput,
+  DouyinVideoCommentsData,
+  DouyinVideoCommentsInput,
+  DouyinVideoData,
+  DouyinVideoInput,
+} from "./platforms/douyin.js";
+import type {
   EbaySearchData,
   EbaySearchInput,
   EbaySoldListingsData,
@@ -548,6 +560,20 @@ import type {
   WebScreenshotInput,
 } from "./platforms/web.js";
 import type {
+  WeiboHotSearchData,
+  WeiboHotSearchInput,
+  WeiboPostCommentsData,
+  WeiboPostCommentsInput,
+  WeiboPostData,
+  WeiboPostInput,
+  WeiboProfileData,
+  WeiboProfileInput,
+  WeiboSearchData,
+  WeiboSearchInput,
+  WeiboUserPostsData,
+  WeiboUserPostsInput,
+} from "./platforms/weibo.js";
+import type {
   WhatsappValidateData,
   WhatsappValidateInput,
 } from "./platforms/whatsapp.js";
@@ -590,6 +616,18 @@ import type {
   YoutubeVideoTranscriptData,
   YoutubeVideoTranscriptInput,
 } from "./platforms/youtube.js";
+import type {
+  ZhihuAnswerData,
+  ZhihuAnswerInput,
+  ZhihuProfileData,
+  ZhihuProfileInput,
+  ZhihuQuestionAnswersData,
+  ZhihuQuestionAnswersInput,
+  ZhihuQuestionData,
+  ZhihuQuestionInput,
+  ZhihuSearchArticlesData,
+  ZhihuSearchArticlesInput,
+} from "./platforms/zhihu.js";
 import type {
   ZillowPropertyData,
   ZillowPropertyInput,
@@ -698,6 +736,31 @@ export interface SkuMap {
     input: DexscreenerTokensInput;
     data: DexscreenerTokensData;
     result: RunResult<DexscreenerTokensData>;
+  };
+  "douyin.profile": {
+    input: DouyinProfileInput;
+    data: DouyinProfileData;
+    result: RunResult<DouyinProfileData>;
+  };
+  "douyin.search_videos": {
+    input: DouyinSearchVideosInput;
+    data: DouyinSearchVideosData;
+    result: RunResult<DouyinSearchVideosData>;
+  };
+  "douyin.user_posts": {
+    input: DouyinUserPostsInput;
+    data: DouyinUserPostsData;
+    result: RunResult<DouyinUserPostsData>;
+  };
+  "douyin.video": {
+    input: DouyinVideoInput;
+    data: DouyinVideoData;
+    result: RunResult<DouyinVideoData>;
+  };
+  "douyin.video_comments": {
+    input: DouyinVideoCommentsInput;
+    data: DouyinVideoCommentsData;
+    result: RunResult<DouyinVideoCommentsData>;
   };
   "ebay.search": {
     input: EbaySearchInput;
@@ -1734,6 +1797,36 @@ export interface SkuMap {
     data: WebScreenshotData;
     result: RunResult<WebScreenshotData>;
   };
+  "weibo.hot_search": {
+    input: WeiboHotSearchInput;
+    data: WeiboHotSearchData;
+    result: RunResult<WeiboHotSearchData>;
+  };
+  "weibo.post": {
+    input: WeiboPostInput;
+    data: WeiboPostData;
+    result: RunResult<WeiboPostData>;
+  };
+  "weibo.post_comments": {
+    input: WeiboPostCommentsInput;
+    data: WeiboPostCommentsData;
+    result: RunResult<WeiboPostCommentsData>;
+  };
+  "weibo.profile": {
+    input: WeiboProfileInput;
+    data: WeiboProfileData;
+    result: RunResult<WeiboProfileData>;
+  };
+  "weibo.search": {
+    input: WeiboSearchInput;
+    data: WeiboSearchData;
+    result: RunResult<WeiboSearchData>;
+  };
+  "weibo.user_posts": {
+    input: WeiboUserPostsInput;
+    data: WeiboUserPostsData;
+    result: RunResult<WeiboUserPostsData>;
+  };
   "whatsapp.validate": {
     input: WhatsappValidateInput;
     data: WhatsappValidateData;
@@ -1828,6 +1921,31 @@ export interface SkuMap {
     input: YoutubeVideoTranscriptInput;
     data: YoutubeVideoTranscriptData;
     result: RunResult<YoutubeVideoTranscriptData>;
+  };
+  "zhihu.answer": {
+    input: ZhihuAnswerInput;
+    data: ZhihuAnswerData;
+    result: RunResult<ZhihuAnswerData>;
+  };
+  "zhihu.profile": {
+    input: ZhihuProfileInput;
+    data: ZhihuProfileData;
+    result: RunResult<ZhihuProfileData>;
+  };
+  "zhihu.question": {
+    input: ZhihuQuestionInput;
+    data: ZhihuQuestionData;
+    result: RunResult<ZhihuQuestionData>;
+  };
+  "zhihu.question_answers": {
+    input: ZhihuQuestionAnswersInput;
+    data: ZhihuQuestionAnswersData;
+    result: RunResult<ZhihuQuestionAnswersData>;
+  };
+  "zhihu.search_articles": {
+    input: ZhihuSearchArticlesInput;
+    data: ZhihuSearchArticlesData;
+    result: RunResult<ZhihuSearchArticlesData>;
   };
   "zillow.property": {
     input: ZillowPropertyInput;

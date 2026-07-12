@@ -17,6 +17,7 @@ export * from "./platforms/booking.js";
 export * from "./platforms/coinmarketcap.js";
 export * from "./platforms/congress.js";
 export * from "./platforms/dexscreener.js";
+export * from "./platforms/douyin.js";
 export * from "./platforms/ebay.js";
 export * from "./platforms/email.js";
 export * from "./platforms/facebook.js";
@@ -58,10 +59,12 @@ export * from "./platforms/twitter.js";
 export * from "./platforms/upwork.js";
 export * from "./platforms/walmart.js";
 export * from "./platforms/web.js";
+export * from "./platforms/weibo.js";
 export * from "./platforms/whatsapp.js";
 export * from "./platforms/yahoo_finance.js";
 export * from "./platforms/yelp.js";
 export * from "./platforms/youtube.js";
+export * from "./platforms/zhihu.js";
 export * from "./platforms/zillow.js";
 
 export {

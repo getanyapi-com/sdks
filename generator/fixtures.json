@@ -328,6 +328,89 @@
     "costUsd": 0.001,
     "items": 1
   },
+  "douyin.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "userId": "sample",
+        "secUserId": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "douyin.search_videos": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample",
+        "searchId": "sample",
+        "backtrace": "sample",
+        "hasMore": true
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "douyin.user_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample",
+        "hasMore": true
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "douyin.video": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "douyin.video_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "videoId": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample",
+        "hasMore": true,
+        "total": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
   "ebay.search": {
     "output": {
       "found": true,
@@ -4453,6 +4536,101 @@
     "costUsd": 0.001,
     "items": 1
   },
+  "weibo.hot_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "topics": [
+          {
+            "rank": 1,
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "total": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "weibo.post": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "weibo.post_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample",
+        "total": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "weibo.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "userId": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "weibo.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "hasMore": true,
+        "resultCount": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "weibo.user_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
   "whatsapp.validate": {
     "output": {
       "found": true,
@@ -4830,6 +5008,86 @@
         "transcript": "sample",
         "language": "sample",
         "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "zhihu.answer": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "url": "https://example.com/x",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "zhihu.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "userToken": "sample",
+        "url": "https://example.com/x",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "zhihu.question": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "url": "https://example.com/x",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "zhihu.question_answers": {
+    "output": {
+      "found": true,
+      "data": {
+        "isEnd": true,
+        "sessionId": "sample",
+        "answers": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "zhihu.search_articles": {
+    "output": {
+      "found": true,
+      "data": {
+        "isEnd": true,
+        "nextOffset": "sample",
+        "searchHashId": "sample",
+        "nextVerticalInfo": "sample",
+        "articles": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",

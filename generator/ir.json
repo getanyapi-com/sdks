@@ -6,6 +6,21 @@
   "warnings": [
     {
       "kind": "dead-cursor",
+      "slug": "douyin.search_videos",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "douyin.user_posts",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "douyin.video_comments",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
       "slug": "facebook.profile_posts",
       "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
     },
@@ -57,6 +72,11 @@
     {
       "kind": "dead-cursor",
       "slug": "youtube.search",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
+      "slug": "zhihu.question_answers",
       "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
     }
   ],
@@ -3505,6 +3525,990 @@
           "open": false,
           "mustPopulate": [
             "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "douyin.profile",
+      "platform": "douyin",
+      "action": "profile",
+      "operationId": "douyin_profile",
+      "name": "Douyin Profile",
+      "category": "social",
+      "description": "Look up a public Douyin profile by sec_user_id and return normalized profile statistics.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "douyin",
+      "tsMethod": "profile",
+      "tsIterMethod": null,
+      "pyNamespace": "douyin",
+      "pyMethod": "profile",
+      "pyIterMethod": null,
+      "inputTypeName": "DouyinProfileInput",
+      "outputTypeName": "DouyinProfileData",
+      "example": {
+        "secUserId": "MS4wLjABAAAAW9FWcqS7RdQAWPd2AA5fL_ilmqsIFUCQ_Iym6Yh9_cUa6ZRqVLjVQSUjlHrfXY1Y"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "secUserId": {
+            "kind": "string",
+            "description": "Douyin sec_user_id for the public account.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "secUserId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "bio": {
+              "kind": "string",
+              "description": "Profile biography.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "followers": {
+              "kind": "integer",
+              "description": "Follower count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "following": {
+              "kind": "integer",
+              "description": "Following count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Profile image URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "likes": {
+              "kind": "integer",
+              "description": "Total likes received.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "nickname": {
+              "kind": "string",
+              "description": "Display name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "posts": {
+              "kind": "integer",
+              "description": "Published post count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "secUserId": {
+              "kind": "string",
+              "description": "Douyin sec_user_id. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "shortId": {
+              "kind": "string",
+              "description": "Legacy numeric short ID.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "uniqueId": {
+              "kind": "string",
+              "description": "Public Douyin handle when configured. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "userId": {
+              "kind": "string",
+              "description": "Douyin user identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "userId",
+            "secUserId"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "image",
+            "nickname",
+            "secUserId",
+            "uniqueId",
+            "userId"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "douyin.search_videos",
+      "platform": "douyin",
+      "action": "search_videos",
+      "operationId": "douyin_search_videos",
+      "name": "Douyin Video Search",
+      "category": "search",
+      "description": "Search public Douyin videos by keyword with sorting, time, duration, and content filters.\n\n**Price:** \\$10.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.01,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "douyin",
+      "tsMethod": "searchVideos",
+      "tsIterMethod": null,
+      "pyNamespace": "douyin",
+      "pyMethod": "search_videos",
+      "pyIterMethod": null,
+      "inputTypeName": "DouyinSearchVideosInput",
+      "outputTypeName": "DouyinSearchVideosData",
+      "example": {
+        "duration": "0",
+        "publishedWithin": "0",
+        "query": "机器人",
+        "sort": "0"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "backtrace": {
+            "kind": "string",
+            "description": "Backtrace token returned by the previous page.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "cursor": {
+            "kind": "integer",
+            "description": "Pagination cursor from the previous response; omit for the first page.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "duration": {
+            "kind": "string",
+            "description": "Duration filter in minutes: any, under 1, 1 to 5, or over 5.",
+            "enum": [
+              "0",
+              "0-1",
+              "1-5",
+              "5-10000"
+            ],
+            "default": "0",
+            "format": null
+          },
+          "publishedWithin": {
+            "kind": "string",
+            "description": "Publication window in days: 0 any time, 1 day, 7 days, or 180 days.",
+            "enum": [
+              "0",
+              "1",
+              "7",
+              "180"
+            ],
+            "default": "0",
+            "format": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Keyword to search for.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "searchId": {
+            "kind": "string",
+            "description": "Search ID returned by the previous page.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Sort order: 0 comprehensive, 1 most liked, or 2 newest.",
+            "enum": [
+              "0",
+              "1",
+              "2"
+            ],
+            "default": "0",
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "backtrace": {
+              "kind": "string",
+              "description": "Backtrace token required for the next page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "hasMore": {
+              "kind": "boolean",
+              "description": "Whether another page is available.",
+              "default": null
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Cursor for the next page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "searchId": {
+              "kind": "string",
+              "description": "Search ID required for the next page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "videos": {
+              "kind": "array",
+              "description": "Normalized matching videos. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorNickname": {
+                    "kind": "string",
+                    "description": "Author display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author user identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "caption": {
+                    "kind": "string",
+                    "description": "Video caption. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Comment count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Video identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Cover image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Like count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "saves": {
+                    "kind": "integer",
+                    "description": "Save count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shares": {
+                    "kind": "integer",
+                    "description": "Share count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical video URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "views": {
+                    "kind": "integer",
+                    "description": "Play count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "authorNickname",
+                  "authorUserId",
+                  "caption",
+                  "createdUtc",
+                  "id",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "videos",
+            "nextCursor",
+            "searchId",
+            "backtrace",
+            "hasMore"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "videos"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "douyin.user_posts",
+      "platform": "douyin",
+      "action": "user_posts",
+      "operationId": "douyin_user_posts",
+      "name": "Douyin User Posts",
+      "category": "social",
+      "description": "List public posts from a Douyin user with normalized engagement data and pagination.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "douyin",
+      "tsMethod": "userPosts",
+      "tsIterMethod": null,
+      "pyNamespace": "douyin",
+      "pyMethod": "user_posts",
+      "pyIterMethod": null,
+      "inputTypeName": "DouyinUserPostsInput",
+      "outputTypeName": "DouyinUserPostsData",
+      "example": {
+        "limit": 20,
+        "secUserId": "MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE",
+        "sort": 0
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "integer",
+            "description": "Pagination cursor from the previous response; omit for the first page.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Requested page size. Values up to 20 are recommended.",
+            "minimum": null,
+            "maximum": null,
+            "default": 20
+          },
+          "secUserId": {
+            "kind": "string",
+            "description": "Douyin sec_user_id for the public account.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sort": {
+            "kind": "integer",
+            "description": "Post order: 0 for newest or 1 for most popular.",
+            "minimum": null,
+            "maximum": null,
+            "default": 0
+          }
+        },
+        "required": [
+          "secUserId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "Whether another page is available.",
+              "default": null
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Cursor for the next page; empty when unavailable.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "posts": {
+              "kind": "array",
+              "description": "Normalized Douyin posts. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorNickname": {
+                    "kind": "string",
+                    "description": "Author display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorSecUserId": {
+                    "kind": "string",
+                    "description": "Author sec_user_id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author user identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "caption": {
+                    "kind": "string",
+                    "description": "Post caption. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Comment count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Post identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Cover image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Like count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "saves": {
+                    "kind": "integer",
+                    "description": "Save count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shares": {
+                    "kind": "integer",
+                    "description": "Share count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical post URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "views": {
+                    "kind": "integer",
+                    "description": "Play count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "authorNickname",
+                  "authorSecUserId",
+                  "authorUserId",
+                  "caption",
+                  "createdUtc",
+                  "id",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "posts",
+            "nextCursor",
+            "hasMore"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "posts"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "douyin.video",
+      "platform": "douyin",
+      "action": "video",
+      "operationId": "douyin_video",
+      "name": "Douyin Video",
+      "category": "social",
+      "description": "Fetch a public Douyin video by share URL with normalized author and engagement data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "douyin",
+      "tsMethod": "video",
+      "tsIterMethod": null,
+      "pyNamespace": "douyin",
+      "pyMethod": "video",
+      "pyIterMethod": null,
+      "inputTypeName": "DouyinVideoInput",
+      "outputTypeName": "DouyinVideoData",
+      "example": {
+        "url": "https://www.douyin.com/video/6894784055775071503"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "url": {
+            "kind": "string",
+            "description": "Public Douyin video share URL.",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "authorNickname": {
+              "kind": "string",
+              "description": "Author display name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "authorSecUserId": {
+              "kind": "string",
+              "description": "Author sec_user_id. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "authorUserId": {
+              "kind": "string",
+              "description": "Author user identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "caption": {
+              "kind": "string",
+              "description": "Video caption. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "comments": {
+              "kind": "integer",
+              "description": "Comment count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "durationMs": {
+              "kind": "integer",
+              "description": "Video duration in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "id": {
+              "kind": "string",
+              "description": "Video identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Video cover image URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "likes": {
+              "kind": "integer",
+              "description": "Like count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "saves": {
+              "kind": "integer",
+              "description": "Save count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "shares": {
+              "kind": "integer",
+              "description": "Share count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Canonical Douyin video URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "views": {
+              "kind": "integer",
+              "description": "Play count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "authorNickname",
+            "authorSecUserId",
+            "authorUserId",
+            "caption",
+            "createdUtc",
+            "id",
+            "url"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "douyin.video_comments",
+      "platform": "douyin",
+      "action": "video_comments",
+      "operationId": "douyin_video_comments",
+      "name": "Douyin Video Comments",
+      "category": "social",
+      "description": "List public comments on a Douyin video with author and engagement data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "douyin",
+      "tsMethod": "videoComments",
+      "tsIterMethod": null,
+      "pyNamespace": "douyin",
+      "pyMethod": "video_comments",
+      "pyIterMethod": null,
+      "inputTypeName": "DouyinVideoCommentsInput",
+      "outputTypeName": "DouyinVideoCommentsData",
+      "example": {
+        "videoId": "7448118827402972455"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "integer",
+            "description": "Pagination cursor from the previous response; omit for the first page.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "videoId": {
+            "kind": "string",
+            "description": "Douyin aweme_id for the video.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "videoId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "comments": {
+              "kind": "array",
+              "description": "Normalized video comments. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author profile image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "authorNickname": {
+                    "kind": "string",
+                    "description": "Author display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorSecUserId": {
+                    "kind": "string",
+                    "description": "Author sec_user_id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUniqueId": {
+                    "kind": "string",
+                    "description": "Author public handle.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author user identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Comment identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "ipLabel": {
+                    "kind": "string",
+                    "description": "Approximate location label shown by Douyin.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Comment like count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "replyCount": {
+                    "kind": "integer",
+                    "description": "Direct reply count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Comment text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoId": {
+                    "kind": "string",
+                    "description": "Commented video identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "videoId"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "authorNickname",
+                  "authorSecUserId",
+                  "authorUserId",
+                  "createdUtc",
+                  "id",
+                  "text",
+                  "videoId"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "hasMore": {
+              "kind": "boolean",
+              "description": "Whether another page is available.",
+              "default": null
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Cursor for the next page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "total": {
+              "kind": "integer",
+              "description": "Total comment count reported by Douyin.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "comments",
+            "nextCursor",
+            "hasMore",
+            "total"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "comments"
           ]
         }
       },
@@ -39549,6 +40553,1012 @@
       }
     },
     {
+      "slug": "weibo.hot_search",
+      "platform": "weibo",
+      "action": "hot_search",
+      "operationId": "weibo_hot_search",
+      "name": "Weibo Hot Search",
+      "category": "social",
+      "description": "Get the complete current Weibo hot-search ranking with labels and heat values.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.0015,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "weibo",
+      "tsMethod": "hotSearch",
+      "tsIterMethod": null,
+      "pyNamespace": "weibo",
+      "pyMethod": "hot_search",
+      "pyIterMethod": null,
+      "inputTypeName": "WeiboHotSearchInput",
+      "outputTypeName": "WeiboHotSearchData",
+      "example": {},
+      "input": {
+        "kind": "object",
+        "properties": {},
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "topics": {
+              "kind": "array",
+              "description": "Ranked hot-search topics. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "heat": {
+                    "kind": "string",
+                    "description": "Topic popularity value.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "keyword": {
+                    "kind": "string",
+                    "description": "Hot-search keyword. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pinned": {
+                    "kind": "boolean",
+                    "description": "Whether the topic is pinned.",
+                    "default": null
+                  },
+                  "rank": {
+                    "kind": "integer",
+                    "description": "Ranking position; zero may indicate pinned content. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "tag": {
+                    "kind": "string",
+                    "description": "Hot-search label.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "rank",
+                  "keyword"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "keyword",
+                  "rank"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "total": {
+              "kind": "integer",
+              "description": "Total topics.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "topics",
+            "total"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "topics"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "weibo.post",
+      "platform": "weibo",
+      "action": "post",
+      "operationId": "weibo_post",
+      "name": "Weibo Post",
+      "category": "social",
+      "description": "Fetch a public Weibo post by ID with normalized author and engagement data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "weibo",
+      "tsMethod": "post",
+      "tsIterMethod": null,
+      "pyNamespace": "weibo",
+      "pyMethod": "post",
+      "pyIterMethod": null,
+      "inputTypeName": "WeiboPostInput",
+      "outputTypeName": "WeiboPostData",
+      "example": {
+        "includeLongText": "true",
+        "postId": "5092682368025584"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "includeLongText": {
+            "kind": "string",
+            "description": "Whether to include the full text of long posts.",
+            "enum": null,
+            "default": "true",
+            "format": null
+          },
+          "postId": {
+            "kind": "string",
+            "description": "Weibo post identifier.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "postId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "authorImage": {
+              "kind": "string",
+              "description": "Author avatar URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "authorName": {
+              "kind": "string",
+              "description": "Author display name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "authorUserId": {
+              "kind": "string",
+              "description": "Author user identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "authorVerified": {
+              "kind": "boolean",
+              "description": "Whether the author is verified.",
+              "default": null
+            },
+            "comments": {
+              "kind": "integer",
+              "description": "Comment count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "id": {
+              "kind": "string",
+              "description": "Post identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "imageCount": {
+              "kind": "integer",
+              "description": "Attached image count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "likes": {
+              "kind": "integer",
+              "description": "Like count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "region": {
+              "kind": "string",
+              "description": "Region label reported by Weibo.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "reposts": {
+              "kind": "integer",
+              "description": "Repost count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "shortId": {
+              "kind": "string",
+              "description": "Short Weibo post identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "text": {
+              "kind": "string",
+              "description": "Plain post text. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "authorName",
+            "authorUserId",
+            "createdUtc",
+            "id",
+            "shortId",
+            "text"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "weibo.post_comments",
+      "platform": "weibo",
+      "action": "post_comments",
+      "operationId": "weibo_post_comments",
+      "name": "Weibo Post Comments",
+      "category": "social",
+      "description": "List first-level comments on a public Weibo post with pagination.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "weibo",
+      "tsMethod": "postComments",
+      "tsIterMethod": "iterPostComments",
+      "pyNamespace": "weibo",
+      "pyMethod": "post_comments",
+      "pyIterMethod": "iter_post_comments",
+      "inputTypeName": "WeiboPostCommentsInput",
+      "outputTypeName": "WeiboPostCommentsData",
+      "example": {
+        "limit": 10,
+        "postId": "5283919831764022"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination cursor returned as nextCursor.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Requested comment count.",
+            "minimum": null,
+            "maximum": null,
+            "default": 10
+          },
+          "postId": {
+            "kind": "string",
+            "description": "Weibo post identifier.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "postId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "comments": {
+              "kind": "array",
+              "description": "Normalized first-level comments. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Comment author avatar URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "authorName": {
+                    "kind": "string",
+                    "description": "Comment author display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Comment author user identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorVerified": {
+                    "kind": "boolean",
+                    "description": "Whether the comment author is verified.",
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Comment identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Like count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Plain comment text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "authorName",
+                  "authorUserId",
+                  "createdUtc",
+                  "id",
+                  "text"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Cursor for the next page; empty when unavailable.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "total": {
+              "kind": "integer",
+              "description": "Total comments reported by Weibo.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "comments",
+            "nextCursor",
+            "total"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "comments"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "comments",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "weibo.profile",
+      "platform": "weibo",
+      "action": "profile",
+      "operationId": "weibo_profile",
+      "name": "Weibo Profile",
+      "category": "social",
+      "description": "Fetch a public Weibo profile by user ID with normalized audience and account data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "weibo",
+      "tsMethod": "profile",
+      "tsIterMethod": null,
+      "pyNamespace": "weibo",
+      "pyMethod": "profile",
+      "pyIterMethod": null,
+      "inputTypeName": "WeiboProfileInput",
+      "outputTypeName": "WeiboProfileData",
+      "example": {
+        "userId": "1722594714"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "userId": {
+            "kind": "string",
+            "description": "Weibo user identifier.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "userId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "bio": {
+              "kind": "string",
+              "description": "Profile biography.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "customName": {
+              "kind": "string",
+              "description": "Custom Weibo username when configured.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "externalUrl": {
+              "kind": "string",
+              "description": "External profile URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "followers": {
+              "kind": "integer",
+              "description": "Follower count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "following": {
+              "kind": "integer",
+              "description": "Following count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "gender": {
+              "kind": "string",
+              "description": "Gender code reported by Weibo.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Profile image URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "location": {
+              "kind": "string",
+              "description": "Profile location.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "name": {
+              "kind": "string",
+              "description": "Display name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "posts": {
+              "kind": "integer",
+              "description": "Published post count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "userId": {
+              "kind": "string",
+              "description": "User identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "verified": {
+              "kind": "boolean",
+              "description": "Whether the account is verified.",
+              "default": null
+            },
+            "verifiedReason": {
+              "kind": "string",
+              "description": "Verification reason.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "userId"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "image",
+            "name",
+            "userId"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "weibo.search",
+      "platform": "weibo",
+      "action": "search",
+      "operationId": "weibo_search",
+      "name": "Weibo Advanced Search",
+      "category": "social",
+      "description": "Search public Weibo posts with optional result, media, and time filters.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "weibo",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "weibo",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "WeiboSearchInput",
+      "outputTypeName": "WeiboSearchData",
+      "example": {
+        "includeType": "pic",
+        "page": 1,
+        "query": "python",
+        "searchType": "hot"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "includeType": {
+            "kind": "string",
+            "description": "Media filter, such as all, pic, video, music, or link.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "Page number starting at 1.",
+            "minimum": null,
+            "maximum": null,
+            "default": 1
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keyword.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "searchType": {
+            "kind": "string",
+            "description": "Search type, such as all, hot, original, verified, media, or viewpoint.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "timeScope": {
+            "kind": "string",
+            "description": "Custom time range in the API's custom:start:end format.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "Whether another result page is available.",
+              "default": null
+            },
+            "posts": {
+              "kind": "array",
+              "description": "Normalized Weibo search results. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author avatar URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "authorName": {
+                    "kind": "string",
+                    "description": "Author display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Comment count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "hasImage": {
+                    "kind": "boolean",
+                    "description": "Whether the result contains an image.",
+                    "default": null
+                  },
+                  "hasVideo": {
+                    "kind": "boolean",
+                    "description": "Whether the result contains a video.",
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Post identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Like count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reposts": {
+                    "kind": "integer",
+                    "description": "Repost count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Post text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Post type.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical post URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "authorName",
+                  "createdUtc",
+                  "id",
+                  "text",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "resultCount": {
+              "kind": "integer",
+              "description": "Result count reported for this page.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "posts",
+            "hasMore",
+            "resultCount"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "posts"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "weibo.user_posts",
+      "platform": "weibo",
+      "action": "user_posts",
+      "operationId": "weibo_user_posts",
+      "name": "Weibo User Posts",
+      "category": "social",
+      "description": "List public posts from a Weibo user with normalized author and engagement data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "weibo",
+      "tsMethod": "userPosts",
+      "tsIterMethod": "iterUserPosts",
+      "pyNamespace": "weibo",
+      "pyMethod": "user_posts",
+      "pyIterMethod": "iter_user_posts",
+      "inputTypeName": "WeiboUserPostsInput",
+      "outputTypeName": "WeiboUserPostsData",
+      "example": {
+        "feature": 3,
+        "page": 1,
+        "userId": "7277477906"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination identifier returned as nextCursor.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "feature": {
+            "kind": "integer",
+            "description": "Response detail feature: 0 basic, 1 extended, 2 image-oriented, or 3 video-oriented.",
+            "minimum": null,
+            "maximum": null,
+            "default": 0
+          },
+          "page": {
+            "kind": "integer",
+            "description": "Page number starting at 1.",
+            "minimum": null,
+            "maximum": null,
+            "default": 1
+          },
+          "userId": {
+            "kind": "string",
+            "description": "Weibo user identifier.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "userId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Cursor for the next page; empty when unavailable.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "posts": {
+              "kind": "array",
+              "description": "Normalized Weibo posts. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author avatar URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "authorName": {
+                    "kind": "string",
+                    "description": "Author display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author user identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorVerified": {
+                    "kind": "boolean",
+                    "description": "Whether the author is verified.",
+                    "default": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Comment count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Post identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Post preview image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Like count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reposts": {
+                    "kind": "integer",
+                    "description": "Repost count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shortId": {
+                    "kind": "string",
+                    "description": "Short Weibo post identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Plain post text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "authorName",
+                  "authorUserId",
+                  "createdUtc",
+                  "id",
+                  "shortId",
+                  "text"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "posts",
+            "nextCursor"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "posts"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "posts",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
       "slug": "whatsapp.validate",
       "platform": "whatsapp",
       "action": "validate",
@@ -42293,6 +44303,957 @@
           "mustPopulate": [
             "language",
             "transcript"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "zhihu.answer",
+      "platform": "zhihu",
+      "action": "answer",
+      "operationId": "zhihu_answer",
+      "name": "Zhihu Answer",
+      "category": "social",
+      "description": "Fetch a public Zhihu answer with normalized author and question data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "zhihu",
+      "tsMethod": "answer",
+      "tsIterMethod": null,
+      "pyNamespace": "zhihu",
+      "pyMethod": "answer",
+      "pyIterMethod": null,
+      "inputTypeName": "ZhihuAnswerInput",
+      "outputTypeName": "ZhihuAnswerData",
+      "example": {
+        "answerId": "2054145988235880002"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "answerId": {
+            "kind": "string",
+            "description": "Zhihu answer identifier.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "answerId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "authorHeadline": {
+              "kind": "string",
+              "description": "Author headline.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "authorImage": {
+              "kind": "string",
+              "description": "Author avatar URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "authorName": {
+              "kind": "string",
+              "description": "Author display name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "authorToken": {
+              "kind": "string",
+              "description": "Author URL token.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "authorUserId": {
+              "kind": "string",
+              "description": "Author identifier.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "excerpt": {
+              "kind": "string",
+              "description": "Answer excerpt. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "id": {
+              "kind": "string",
+              "description": "Answer identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "questionId": {
+              "kind": "string",
+              "description": "Parent question identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "questionTitle": {
+              "kind": "string",
+              "description": "Parent question title. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "updatedUtc": {
+              "kind": "number",
+              "description": "Last update UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Canonical answer URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            }
+          },
+          "required": [
+            "id",
+            "url"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "authorName",
+            "createdUtc",
+            "excerpt",
+            "id",
+            "questionId",
+            "questionTitle",
+            "url"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "zhihu.profile",
+      "platform": "zhihu",
+      "action": "profile",
+      "operationId": "zhihu_profile",
+      "name": "Zhihu Profile",
+      "category": "social",
+      "description": "Fetch a public Zhihu profile with normalized identity and audience data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "zhihu",
+      "tsMethod": "profile",
+      "tsIterMethod": null,
+      "pyNamespace": "zhihu",
+      "pyMethod": "profile",
+      "pyIterMethod": null,
+      "inputTypeName": "ZhihuProfileInput",
+      "outputTypeName": "ZhihuProfileData",
+      "example": {
+        "userToken": "ming-he-43-93"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "userToken": {
+            "kind": "string",
+            "description": "Zhihu user URL token.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "userToken"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answers": {
+              "kind": "integer",
+              "description": "Published answer count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "articles": {
+              "kind": "integer",
+              "description": "Published article count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "followers": {
+              "kind": "integer",
+              "description": "Follower count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "gender": {
+              "kind": "integer",
+              "description": "Gender code reported by Zhihu.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "headline": {
+              "kind": "string",
+              "description": "Profile headline. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "id": {
+              "kind": "string",
+              "description": "User identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Profile image URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "ipLocation": {
+              "kind": "string",
+              "description": "IP location label reported by Zhihu.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "name": {
+              "kind": "string",
+              "description": "Display name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "organization": {
+              "kind": "boolean",
+              "description": "Whether this is an organization profile.",
+              "default": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Canonical profile URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "userToken": {
+              "kind": "string",
+              "description": "User URL token. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "id",
+            "userToken",
+            "url"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "headline",
+            "id",
+            "image",
+            "name",
+            "url",
+            "userToken"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "zhihu.question",
+      "platform": "zhihu",
+      "action": "question",
+      "operationId": "zhihu_question",
+      "name": "Zhihu Question",
+      "category": "social",
+      "description": "Fetch a public Zhihu question with normalized text and engagement statistics.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "zhihu",
+      "tsMethod": "question",
+      "tsIterMethod": null,
+      "pyNamespace": "zhihu",
+      "pyMethod": "question",
+      "pyIterMethod": null,
+      "inputTypeName": "ZhihuQuestionInput",
+      "outputTypeName": "ZhihuQuestionData",
+      "example": {
+        "questionId": "37811449"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "questionId": {
+            "kind": "string",
+            "description": "Zhihu question identifier.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "questionId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answers": {
+              "kind": "integer",
+              "description": "Answer count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "comments": {
+              "kind": "integer",
+              "description": "Comment count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "description": {
+              "kind": "string",
+              "description": "Question body as returned by Zhihu. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "excerpt": {
+              "kind": "string",
+              "description": "Short question excerpt.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "followers": {
+              "kind": "integer",
+              "description": "Follower count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "id": {
+              "kind": "string",
+              "description": "Question identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "title": {
+              "kind": "string",
+              "description": "Question title. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "updatedUtc": {
+              "kind": "number",
+              "description": "Last update UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Canonical question URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "views": {
+              "kind": "integer",
+              "description": "View count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "id",
+            "url"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "createdUtc",
+            "description",
+            "id",
+            "title",
+            "url"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "zhihu.question_answers",
+      "platform": "zhihu",
+      "action": "question_answers",
+      "operationId": "zhihu_question_answers",
+      "name": "Zhihu Question Answers",
+      "category": "social",
+      "description": "List public answers to a Zhihu question with normalized authors and engagement data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "zhihu",
+      "tsMethod": "questionAnswers",
+      "tsIterMethod": null,
+      "pyNamespace": "zhihu",
+      "pyMethod": "question_answers",
+      "pyIterMethod": null,
+      "inputTypeName": "ZhihuQuestionAnswersInput",
+      "outputTypeName": "ZhihuQuestionAnswersData",
+      "example": {
+        "limit": 5,
+        "offset": 0,
+        "order": "default",
+        "questionId": "37811449"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination cursor from an answer item in the previous response.",
+            "enum": null,
+            "default": "",
+            "format": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Number of answers requested per page.",
+            "minimum": null,
+            "maximum": null,
+            "default": 5
+          },
+          "offset": {
+            "kind": "integer",
+            "description": "Pagination offset.",
+            "minimum": null,
+            "maximum": null,
+            "default": 0
+          },
+          "order": {
+            "kind": "string",
+            "description": "Answer ordering: default ranking or recently updated.",
+            "enum": [
+              "default",
+              "updated"
+            ],
+            "default": "default",
+            "format": null
+          },
+          "questionId": {
+            "kind": "string",
+            "description": "Zhihu question identifier.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sessionId": {
+            "kind": "string",
+            "description": "Pagination session identifier returned in the previous response.",
+            "enum": null,
+            "default": "",
+            "format": null
+          }
+        },
+        "required": [
+          "questionId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answers": {
+              "kind": "array",
+              "description": "Normalized answers. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author avatar URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "authorName": {
+                    "kind": "string",
+                    "description": "Author display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorToken": {
+                    "kind": "string",
+                    "description": "Author URL token.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author identifier.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Comment count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "cursor": {
+                    "kind": "string",
+                    "description": "Cursor associated with this answer; use the final item cursor for the next page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "excerpt": {
+                    "kind": "string",
+                    "description": "Answer excerpt. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Answer identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "saves": {
+                    "kind": "integer",
+                    "description": "Save count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "thanks": {
+                    "kind": "integer",
+                    "description": "Thanks count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "Last update UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical answer URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "votes": {
+                    "kind": "integer",
+                    "description": "Upvote count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "authorName",
+                  "createdUtc",
+                  "excerpt",
+                  "id",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "isEnd": {
+              "kind": "boolean",
+              "description": "Whether the result set has reached its final page.",
+              "default": null
+            },
+            "sessionId": {
+              "kind": "string",
+              "description": "Session identifier to pass when requesting another page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "isEnd",
+            "sessionId",
+            "answers"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answers"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "zhihu.search_articles",
+      "platform": "zhihu",
+      "action": "search_articles",
+      "operationId": "zhihu_search_articles",
+      "name": "Zhihu Article Search",
+      "category": "search",
+      "description": "Search public Zhihu articles by keyword with normalized author and engagement data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": 0,
+        "perItemUnit": null
+      },
+      "tsNamespace": "zhihu",
+      "tsMethod": "searchArticles",
+      "tsIterMethod": null,
+      "pyNamespace": "zhihu",
+      "pyMethod": "search_articles",
+      "pyIterMethod": null,
+      "inputTypeName": "ZhihuSearchArticlesInput",
+      "outputTypeName": "ZhihuSearchArticlesData",
+      "example": {
+        "limit": "20",
+        "query": "deepseek",
+        "showAllTopics": 0
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "limit": {
+            "kind": "string",
+            "description": "Number of articles requested per page.",
+            "enum": null,
+            "default": "20",
+            "format": null
+          },
+          "offset": {
+            "kind": "string",
+            "description": "Result offset returned as nextOffset in the previous response.",
+            "enum": null,
+            "default": "0",
+            "format": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keyword.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "searchHashId": {
+            "kind": "string",
+            "description": "Search hash identifier returned in the previous response.",
+            "enum": null,
+            "default": "",
+            "format": null
+          },
+          "showAllTopics": {
+            "kind": "integer",
+            "description": "Whether to include all topics: 0 excludes them and 1 includes them.",
+            "minimum": null,
+            "maximum": null,
+            "default": 0
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Article ordering: comprehensive, most upvoted, or newest.",
+            "enum": [
+              "",
+              "upvoted_count",
+              "created_time"
+            ],
+            "default": "",
+            "format": null
+          },
+          "timeInterval": {
+            "kind": "string",
+            "description": "Optional publication-time filter.",
+            "enum": [
+              "",
+              "a_day",
+              "a_week",
+              "a_month",
+              "three_months",
+              "half_a_year",
+              "a_year"
+            ],
+            "default": "",
+            "format": null
+          },
+          "verticalInfo": {
+            "kind": "string",
+            "description": "Article-search vertical continuation state returned as nextVerticalInfo in the previous response.",
+            "enum": null,
+            "default": "0,0,0,0,0,0,0,0,0,2,0,0",
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "articles": {
+              "kind": "array",
+              "description": "Normalized article results. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author avatar URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "authorName": {
+                    "kind": "string",
+                    "description": "Author display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorToken": {
+                    "kind": "string",
+                    "description": "Author URL token.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author identifier.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Comment count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "excerpt": {
+                    "kind": "string",
+                    "description": "Article excerpt. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Article identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Article title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "Last update UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical article URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "votes": {
+                    "kind": "integer",
+                    "description": "Upvote count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "authorName",
+                  "excerpt",
+                  "id",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "isEnd": {
+              "kind": "boolean",
+              "description": "Whether the result set has reached its final page.",
+              "default": null
+            },
+            "nextOffset": {
+              "kind": "string",
+              "description": "Result offset to pass as offset when requesting the next page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "nextVerticalInfo": {
+              "kind": "string",
+              "description": "Article-search vertical continuation state to pass as verticalInfo when requesting the next page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "searchHashId": {
+              "kind": "string",
+              "description": "Search hash identifier to pass when requesting another page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "isEnd",
+            "nextOffset",
+            "searchHashId",
+            "nextVerticalInfo",
+            "articles"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "articles"
           ]
         }
       },

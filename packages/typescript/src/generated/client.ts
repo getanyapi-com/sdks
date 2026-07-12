@@ -16,6 +16,7 @@ import { BookingNamespace } from "./platforms/booking.js";
 import { CoinmarketcapNamespace } from "./platforms/coinmarketcap.js";
 import { CongressNamespace } from "./platforms/congress.js";
 import { DexscreenerNamespace } from "./platforms/dexscreener.js";
+import { DouyinNamespace } from "./platforms/douyin.js";
 import { EbayNamespace } from "./platforms/ebay.js";
 import { EmailNamespace } from "./platforms/email.js";
 import { FacebookNamespace } from "./platforms/facebook.js";
@@ -57,10 +58,12 @@ import { TwitterNamespace } from "./platforms/twitter.js";
 import { UpworkNamespace } from "./platforms/upwork.js";
 import { WalmartNamespace } from "./platforms/walmart.js";
 import { WebNamespace } from "./platforms/web.js";
+import { WeiboNamespace } from "./platforms/weibo.js";
 import { WhatsappNamespace } from "./platforms/whatsapp.js";
 import { YahooFinanceNamespace } from "./platforms/yahoo_finance.js";
 import { YelpNamespace } from "./platforms/yelp.js";
 import { YoutubeNamespace } from "./platforms/youtube.js";
+import { ZhihuNamespace } from "./platforms/zhihu.js";
 import { ZillowNamespace } from "./platforms/zillow.js";
 
 /**
@@ -182,6 +185,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["dexscreener"] ??= new DexscreenerNamespace(
       this._core,
     )) as DexscreenerNamespace;
+  }
+
+  /**
+   * Typed methods for the douyin platform.
+   */
+  get douyin(): DouyinNamespace {
+    return (this._namespaces["douyin"] ??= new DouyinNamespace(
+      this._core,
+    )) as DouyinNamespace;
   }
 
   /**
@@ -554,6 +566,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the weibo platform.
+   */
+  get weibo(): WeiboNamespace {
+    return (this._namespaces["weibo"] ??= new WeiboNamespace(
+      this._core,
+    )) as WeiboNamespace;
+  }
+
+  /**
    * Typed methods for the whatsapp platform.
    */
   get whatsapp(): WhatsappNamespace {
@@ -587,6 +608,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["youtube"] ??= new YoutubeNamespace(
       this._core,
     )) as YoutubeNamespace;
+  }
+
+  /**
+   * Typed methods for the zhihu platform.
+   */
+  get zhihu(): ZhihuNamespace {
+    return (this._namespaces["zhihu"] ??= new ZhihuNamespace(
+      this._core,
+    )) as ZhihuNamespace;
   }
 
   /**

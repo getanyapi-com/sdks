@@ -407,6 +407,106 @@
       ]
     },
     {
+      "slug": "douyin.profile",
+      "category": "social",
+      "name": "Douyin Profile",
+      "description": "Look up a public Douyin profile by sec_user_id and return normalized profile statistics.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "douyin.search_videos",
+      "category": "search",
+      "name": "Douyin Video Search",
+      "description": "Search public Douyin videos by keyword with sorting, time, duration, and content filters.",
+      "fromCredits": 1000,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 1000,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "douyin.user_posts",
+      "category": "social",
+      "name": "Douyin User Posts",
+      "description": "List public posts from a Douyin user with normalized engagement data and pagination.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "douyin.video",
+      "category": "social",
+      "name": "Douyin Video",
+      "description": "Fetch a public Douyin video by share URL with normalized author and engagement data.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "douyin.video_comments",
+      "category": "social",
+      "name": "Douyin Video Comments",
+      "description": "List public comments on a Douyin video with author and engagement data.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
       "slug": "ebay.search",
       "category": "shop",
       "name": "eBay Search",
@@ -1348,7 +1448,10 @@
         {
           "fromCredits": 99,
           "baseCredits": 0,
-          "perItemCredits": 0
+          "perItemCredits": 0,
+          "uptimePct": 100,
+          "latencyP50Ms": 591,
+          "requests": 23
         }
       ]
     },
@@ -1411,7 +1514,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 706,
-          "requests": 1842
+          "requests": 2139
         }
       ]
     },
@@ -1599,7 +1702,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 593,
-          "requests": 91
+          "requests": 92
         }
       ]
     },
@@ -1621,8 +1724,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 126,
-          "requests": 21
+          "latencyP50Ms": 129,
+          "requests": 27
         }
       ]
     },
@@ -1863,9 +1966,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.96588195155238,
+          "uptimePct": 99.96609020006782,
           "latencyP50Ms": 1221,
-          "requests": 2933
+          "requests": 2952
         },
         {
           "fromCredits": 325,
@@ -1975,9 +2078,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 93.44660194174757,
-          "latencyP50Ms": 5614,
-          "requests": 413
+          "uptimePct": 93.58669833729216,
+          "latencyP50Ms": 5606,
+          "requests": 422
         }
       ]
     },
@@ -2582,9 +2685,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 92.85714285714286,
-          "latencyP50Ms": 13691,
-          "requests": 87
+          "uptimePct": 94.07407407407408,
+          "latencyP50Ms": 13786,
+          "requests": 138
         },
         {
           "fromCredits": 400,
@@ -2694,8 +2797,8 @@
           "baseCredits": 300,
           "perItemCredits": 500,
           "uptimePct": 100,
-          "latencyP50Ms": 17397,
-          "requests": 78
+          "latencyP50Ms": 17508,
+          "requests": 84
         }
       ]
     },
@@ -2735,7 +2838,10 @@
         {
           "fromCredits": 6005,
           "baseCredits": 5,
-          "perItemCredits": 300
+          "perItemCredits": 300,
+          "uptimePct": 100,
+          "latencyP50Ms": 13144,
+          "requests": 48
         }
       ]
     },
@@ -2924,9 +3030,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.56140350877193,
-          "latencyP50Ms": 2749,
-          "requests": 927
+          "uptimePct": 99.5656894679696,
+          "latencyP50Ms": 2752,
+          "requests": 936
         },
         {
           "fromCredits": 325,
@@ -2972,17 +3078,17 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.83388704318936,
-          "latencyP50Ms": 2761,
-          "requests": 605
+          "uptimePct": 99.86091794158554,
+          "latencyP50Ms": 2639,
+          "requests": 809
         },
         {
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.04761904761905,
-          "latencyP50Ms": 8370,
-          "requests": 315
+          "uptimePct": 99.25373134328358,
+          "latencyP50Ms": 8425,
+          "requests": 402
         },
         {
           "fromCredits": 325,
@@ -3042,8 +3148,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2101,
-          "requests": 939
+          "latencyP50Ms": 2391,
+          "requests": 1620
         }
       ]
     },
@@ -3065,8 +3171,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1462,
-          "requests": 96
+          "latencyP50Ms": 1452,
+          "requests": 97
         },
         {
           "fromCredits": 325,
@@ -3171,7 +3277,10 @@
         {
           "fromCredits": 1000,
           "baseCredits": 0,
-          "perItemCredits": 0
+          "perItemCredits": 0,
+          "uptimePct": 100,
+          "latencyP50Ms": 2028,
+          "requests": 107
         }
       ]
     },
@@ -3293,8 +3402,8 @@
           "baseCredits": 1560,
           "perItemCredits": 16,
           "uptimePct": 100,
-          "latencyP50Ms": 970,
-          "requests": 83
+          "latencyP50Ms": 926,
+          "requests": 110
         }
       ]
     },
@@ -3336,8 +3445,8 @@
           "baseCredits": 1560,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 264,
-          "requests": 429
+          "latencyP50Ms": 266,
+          "requests": 667
         }
       ]
     },
@@ -3982,8 +4091,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2140,
-          "requests": 20
+          "latencyP50Ms": 2083,
+          "requests": 76
         },
         {
           "fromCredits": 325,
@@ -4062,17 +4171,17 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.79402677651905,
-          "latencyP50Ms": 496,
-          "requests": 972
+          "uptimePct": 99.85590778097983,
+          "latencyP50Ms": 489,
+          "requests": 1390
         },
         {
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1227,
-          "requests": 39
+          "latencyP50Ms": 1243,
+          "requests": 40
         },
         {
           "fromCredits": 325,
@@ -4123,9 +4232,9 @@
           "fromCredits": 100,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 99.41747572815534,
-          "latencyP50Ms": 2502,
-          "requests": 2060
+          "uptimePct": 99.51417004048584,
+          "latencyP50Ms": 2504,
+          "requests": 2471
         },
         {
           "fromCredits": 200,
@@ -4133,7 +4242,7 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 2734,
-          "requests": 1836
+          "requests": 1837
         },
         {
           "fromCredits": 325,
@@ -4159,9 +4268,9 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 98.75,
-          "latencyP50Ms": 4127,
-          "requests": 160
+          "uptimePct": 99.0049751243781,
+          "latencyP50Ms": 4187,
+          "requests": 201
         },
         {
           "fromCredits": 325,
@@ -4186,7 +4295,10 @@
         {
           "fromCredits": 100,
           "baseCredits": 0,
-          "perItemCredits": 0
+          "perItemCredits": 0,
+          "uptimePct": 100,
+          "latencyP50Ms": 1597,
+          "requests": 21
         },
         {
           "fromCredits": 200,
@@ -4218,8 +4330,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 3684,
-          "requests": 548
+          "latencyP50Ms": 3733,
+          "requests": 643
         },
         {
           "fromCredits": 325,
@@ -4246,16 +4358,16 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1530,
-          "requests": 55
+          "latencyP50Ms": 1486,
+          "requests": 152
         },
         {
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1837,
-          "requests": 132
+          "latencyP50Ms": 1871,
+          "requests": 150
         },
         {
           "fromCredits": 325,
@@ -4407,8 +4519,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 2332,
-          "requests": 138
+          "latencyP50Ms": 2252,
+          "requests": 432
         },
         {
           "fromCredits": 3250,
@@ -4777,15 +4889,15 @@
           "perItemCredits": 0,
           "uptimePct": 100,
           "latencyP50Ms": 1345,
-          "requests": 141
+          "requests": 171
         },
         {
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1513,
-          "requests": 95
+          "latencyP50Ms": 1520,
+          "requests": 97
         },
         {
           "fromCredits": 325,
@@ -4810,7 +4922,10 @@
         {
           "fromCredits": 1250,
           "baseCredits": 250,
-          "perItemCredits": 25
+          "perItemCredits": 25,
+          "uptimePct": 100,
+          "latencyP50Ms": 11871,
+          "requests": 23
         }
       ]
     },
@@ -4831,9 +4946,9 @@
           "fromCredits": 1400,
           "baseCredits": 400,
           "perItemCredits": 20,
-          "uptimePct": 98.44444444444444,
-          "latencyP50Ms": 19682,
-          "requests": 452
+          "uptimePct": 98.65319865319866,
+          "latencyP50Ms": 19223,
+          "requests": 596
         }
       ]
     },
@@ -5015,9 +5130,9 @@
           "fromCredits": 90,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 75.04655493482309,
-          "latencyP50Ms": 542,
-          "requests": 540
+          "uptimePct": 83.62779740871613,
+          "latencyP50Ms": 484,
+          "requests": 852
         }
       ]
     },
@@ -5038,6 +5153,126 @@
           "fromCredits": 158,
           "baseCredits": 0,
           "perItemCredits": 158
+        }
+      ]
+    },
+    {
+      "slug": "weibo.hot_search",
+      "category": "social",
+      "name": "Weibo Hot Search",
+      "description": "Get the complete current Weibo hot-search ranking with labels and heat values.",
+      "fromCredits": 150,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 150,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "weibo.post",
+      "category": "social",
+      "name": "Weibo Post",
+      "description": "Fetch a public Weibo post by ID with normalized author and engagement data.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "weibo.post_comments",
+      "category": "social",
+      "name": "Weibo Post Comments",
+      "description": "List first-level comments on a public Weibo post with pagination.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "weibo.profile",
+      "category": "social",
+      "name": "Weibo Profile",
+      "description": "Fetch a public Weibo profile by user ID with normalized audience and account data.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "weibo.search",
+      "category": "social",
+      "name": "Weibo Advanced Search",
+      "description": "Search public Weibo posts with optional result, media, and time filters.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "weibo.user_posts",
+      "category": "social",
+      "name": "Weibo User Posts",
+      "description": "List public posts from a Weibo user with normalized author and engagement data.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
         }
       ]
     },
@@ -5335,8 +5570,8 @@
           "baseCredits": 0,
           "perItemCredits": 0,
           "uptimePct": 100,
-          "latencyP50Ms": 1546,
-          "requests": 573
+          "latencyP50Ms": 1558,
+          "requests": 583
         },
         {
           "fromCredits": 325,
@@ -5475,9 +5710,109 @@
           "fromCredits": 200,
           "baseCredits": 0,
           "perItemCredits": 0,
-          "uptimePct": 85.29411764705883,
+          "uptimePct": 86.48648648648648,
           "latencyP50Ms": 4773,
-          "requests": 37
+          "requests": 41
+        }
+      ]
+    },
+    {
+      "slug": "zhihu.answer",
+      "category": "social",
+      "name": "Zhihu Answer",
+      "description": "Fetch a public Zhihu answer with normalized author and question data.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "zhihu.profile",
+      "category": "social",
+      "name": "Zhihu Profile",
+      "description": "Fetch a public Zhihu profile with normalized identity and audience data.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "zhihu.question",
+      "category": "social",
+      "name": "Zhihu Question",
+      "description": "Fetch a public Zhihu question with normalized text and engagement statistics.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "zhihu.question_answers",
+      "category": "social",
+      "name": "Zhihu Question Answers",
+      "description": "List public answers to a Zhihu question with normalized authors and engagement data.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
+        }
+      ]
+    },
+    {
+      "slug": "zhihu.search_articles",
+      "category": "search",
+      "name": "Zhihu Article Search",
+      "description": "Search public Zhihu articles by keyword with normalized author and engagement data.",
+      "fromCredits": 100,
+      "baseCredits": 0,
+      "perItemCredits": 0,
+      "tryEligible": true,
+      "providers": [
+        "AnyAPI"
+      ],
+      "quotes": [
+        {
+          "fromCredits": 100,
+          "baseCredits": 0,
+          "perItemCredits": 0
         }
       ]
     },
