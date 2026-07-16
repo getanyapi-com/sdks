@@ -3,7 +3,12 @@
     "schemas": {
       "Error": {
         "properties": {
+          "code": {
+            "description": "Stable machine-readable error code when the endpoint defines one.",
+            "type": "string"
+          },
           "error": {
+            "description": "Customer-safe error message.",
             "type": "string"
           }
         },
@@ -73234,7 +73239,7 @@
     },
     "/v1/run/twitter.user_tweets": {
       "post": {
-        "description": "Get an X (Twitter) account's latest tweets by handle, newest first (reverse-chronological, replies included), with engagement, views, language, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.75 per 1,000 requests (flat per request - same cost regardless of results returned).",
+        "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account in one bulk call, with engagement, views, and language. The current lane returns nextCursor as null; cursor is reserved for future cursor-capable lanes.\n\n**Price:** billed per result - \\$0.20 per 1,000 results, capped at \\$200.00 per 1,000 requests.",
         "operationId": "twitter_user_tweets",
         "parameters": [
           {
@@ -73290,7 +73295,7 @@
                 },
                 "properties": {
                   "cursor": {
-                    "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of tweets.",
+                    "description": "Reserved for cursor-capable lanes. The current bulk lane returns nextCursor as null, so omit this field.",
                     "type": "string"
                   },
                   "handle": {
@@ -73299,13 +73304,13 @@
                   },
                   "limit": {
                     "default": 20,
-                    "description": "Per-page maximum number of tweets to return (1-1000), newest first. A provider may return a smaller native page of approximately 20; follow nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call.",
+                    "description": "Maximum number of authored tweets and replies to return in the current bulk call (1-1000). The provider may return fewer results.",
                     "maximum": 1000,
                     "minimum": 1,
                     "type": "integer"
                   },
                   "requireSinglePage": {
-                    "description": "Set true to get up to limit tweets in a single response instead of cheap pages, served by a bulk provider at a higher price.",
+                    "description": "Compatibility flag for requiring one response. The current lane already returns up to limit results in one bulk call, whether this is omitted or true.",
                     "type": "boolean"
                   }
                 },
@@ -73352,7 +73357,7 @@
                               "additionalProperties": false,
                               "properties": {
                                 "nextCursor": {
-                                  "description": "Opaque cursor for the next page of tweets, or null when this lane has no more. Pass it back as cursor to continue.",
+                                  "description": "Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.",
                                   "type": [
                                     "string",
                                     "null"
@@ -73527,7 +73532,7 @@
             "description": "Every provider failed with a server/transport error (charge released)."
           }
         },
-        "summary": "Twitter User Tweets",
+        "summary": "X / Twitter User Tweets and Replies",
         "tags": [
           "twitter"
         ],
@@ -73535,7 +73540,7 @@
           "price": {
             "currency": "USD",
             "max": "0.200000",
-            "min": "0.000750",
+            "min": "0.000000",
             "mode": "dynamic"
           },
           "protocols": [

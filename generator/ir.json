@@ -41619,14 +41619,14 @@
       "platform": "twitter",
       "action": "user_tweets",
       "operationId": "twitter_user_tweets",
-      "name": "Twitter User Tweets",
+      "name": "X / Twitter User Tweets and Replies",
       "category": "social",
-      "description": "Get an X (Twitter) account's latest tweets by handle, newest first (reverse-chronological, replies included), with engagement, views, language, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.",
+      "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account in one bulk call, with engagement, views, and language. The current lane returns nextCursor as null; cursor is reserved for future cursor-capable lanes.",
       "pricing": {
-        "priceUsd": 0.00075,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.2,
+        "baseUsd": 0,
+        "perItemUsd": 0.0002,
+        "perItemUnit": "result"
       },
       "tsNamespace": "twitter",
       "tsMethod": "userTweets",
@@ -41645,7 +41645,7 @@
         "properties": {
           "cursor": {
             "kind": "string",
-            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of tweets.",
+            "description": "Reserved for cursor-capable lanes. The current bulk lane returns nextCursor as null, so omit this field.",
             "enum": null,
             "default": null,
             "format": null
@@ -41659,14 +41659,14 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Per-page maximum number of tweets to return (1-1000), newest first. A provider may return a smaller native page of approximately 20; follow nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call.",
+            "description": "Maximum number of authored tweets and replies to return in the current bulk call (1-1000). The provider may return fewer results.",
             "minimum": 1,
             "maximum": 1000,
             "default": 20
           },
           "requireSinglePage": {
             "kind": "boolean",
-            "description": "Set true to get up to limit tweets in a single response instead of cheap pages, served by a bulk provider at a higher price.",
+            "description": "Compatibility flag for requiring one response. The current lane already returns up to limit results in one bulk call, whether this is omitted or true.",
             "default": null
           }
         },
@@ -41682,7 +41682,7 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
-              "description": "Opaque cursor for the next page of tweets, or null when this lane has no more. Pass it back as cursor to continue.",
+              "description": "Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.",
               "enum": null,
               "default": null,
               "format": null

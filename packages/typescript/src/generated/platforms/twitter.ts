@@ -501,11 +501,11 @@ export interface TwitterTweetTranscriptData {
 }
 
 /**
- * Input for Twitter User Tweets (twitter.user_tweets).
+ * Input for X / Twitter User Tweets and Replies (twitter.user_tweets).
  */
 export interface TwitterUserTweetsInput {
   /**
-   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of tweets.
+   * Reserved for cursor-capable lanes. The current bulk lane returns nextCursor as null, so omit this field.
    */
   cursor?: string;
   /**
@@ -513,13 +513,13 @@ export interface TwitterUserTweetsInput {
    */
   handle: string;
   /**
-   * Per-page maximum number of tweets to return (1-1000), newest first. A provider may return a smaller native page of approximately 20; follow nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call.
+   * Maximum number of authored tweets and replies to return in the current bulk call (1-1000). The provider may return fewer results.
    * Range: minimum 1, maximum 1000.
    * Default: 20.
    */
   limit?: number;
   /**
-   * Set true to get up to limit tweets in a single response instead of cheap pages, served by a bulk provider at a higher price.
+   * Compatibility flag for requiring one response. The current lane already returns up to limit results in one bulk call, whether this is omitted or true.
    */
   requireSinglePage?: boolean;
 }
@@ -554,11 +554,11 @@ export interface TwitterUserTweetsTweet {
 }
 
 /**
- * The `data` payload of Twitter User Tweets (twitter.user_tweets).
+ * The `data` payload of X / Twitter User Tweets and Replies (twitter.user_tweets).
  */
 export interface TwitterUserTweetsData {
   /**
-   * Opaque cursor for the next page of tweets, or null when this lane has no more. Pass it back as cursor to continue.
+   * Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.
    */
   nextCursor?: string;
   /**
@@ -788,11 +788,11 @@ export class TwitterNamespace {
   }
 
   /**
-   * Twitter User Tweets
+   * X / Twitter User Tweets and Replies
    *
-   * Get an X (Twitter) account's latest tweets by handle, newest first (reverse-chronological, replies included), with engagement, views, language, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.
+   * Get up to the requested limit of tweets and replies authored by an X (Twitter) account in one bulk call, with engagement, views, and language. The current lane returns nextCursor as null; cursor is reserved for future cursor-capable lanes.
    *
-   * Price: $0.00075 per request.
+   * Price: $0 per request plus $0.0002 per result (maximum $0.2).
    *
    * @example
    * const res = await client.twitter.userTweets({ handle: "levelsio", limit: 20 });
@@ -805,7 +805,7 @@ export class TwitterNamespace {
   }
 
   /**
-   * Iterate every result of Twitter User Tweets across pages.
+   * Iterate every result of X / Twitter User Tweets and Replies across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
    * result pages instead (each carries its own costUsd).

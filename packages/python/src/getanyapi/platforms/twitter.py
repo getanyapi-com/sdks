@@ -109,16 +109,16 @@ class TwitterTweetTranscriptInput(TypedDict, total=False):
 
 
 class TwitterUserTweetsInput(TypedDict, total=False):
-    """Input for Twitter User Tweets."""
+    """Input for X / Twitter User Tweets and Replies."""
 
     cursor: NotRequired[str]
-    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of tweets."""
+    """Reserved for cursor-capable lanes. The current bulk lane returns nextCursor as null, so omit this field."""
     handle: Required[str]
     """Twitter/X handle without the leading @."""
     limit: NotRequired[int]
-    """Per-page maximum number of tweets to return (1-1000), newest first. A provider may return a smaller native page of approximately 20; follow nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call. Range: 1 to 1000. Default: 20."""
+    """Maximum number of authored tweets and replies to return in the current bulk call (1-1000). The provider may return fewer results. Range: 1 to 1000. Default: 20."""
     requireSinglePage: NotRequired[bool]
-    """Set true to get up to limit tweets in a single response instead of cheap pages, served by a bulk provider at a higher price."""
+    """Compatibility flag for requiring one response. The current lane already returns up to limit results in one bulk call, whether this is omitted or true."""
 
 
 class TwitterCommunityData(BaseModel):
@@ -414,7 +414,7 @@ class TwitterUserTweetsData(BaseModel):
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Opaque cursor for the next page of tweets, or null when this lane has no more. Pass it back as cursor to continue.",
+        description="Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.",
     )
     tweets: list[TwitterUserTweetsTweet] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -726,14 +726,14 @@ class TwitterNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[TwitterUserTweetsInput],
     ) -> RunResult[TwitterUserTweetsData]:
-        """Twitter User Tweets
+        """X / Twitter User Tweets and Replies
 
-        Get an X (Twitter) account's latest tweets by handle, newest first
-        (reverse-chronological, replies included), with engagement, views, language,
-        and cursor pagination. Limit is a per-page maximum; native pages contain
-        approximately 20 tweets unless requireSinglePage selects a bulk lane.
+        Get up to the requested limit of tweets and replies authored by an X
+        (Twitter) account in one bulk call, with engagement, views, and language.
+        The current lane returns nextCursor as null; cursor is reserved for future
+        cursor-capable lanes.
 
-        Price: $0.00075 per request.
+        Price: $0 per request plus $0.0002 per result (maximum $0.2).
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
@@ -749,7 +749,7 @@ class TwitterNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[TwitterUserTweetsInput],
     ) -> Paginator[TwitterUserTweetsTweet, TwitterUserTweetsData]:
-        """Iterate Twitter User Tweets results, following pagination cursors.
+        """Iterate X / Twitter User Tweets and Replies results, following pagination cursors.
 
         Yields validated `TwitterUserTweetsTweet` items from the `tweets` field of
         each page. Use `.pages()` on the returned paginator to walk whole
@@ -1045,14 +1045,14 @@ class AsyncTwitterNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[TwitterUserTweetsInput],
     ) -> RunResult[TwitterUserTweetsData]:
-        """Twitter User Tweets
+        """X / Twitter User Tweets and Replies
 
-        Get an X (Twitter) account's latest tweets by handle, newest first
-        (reverse-chronological, replies included), with engagement, views, language,
-        and cursor pagination. Limit is a per-page maximum; native pages contain
-        approximately 20 tweets unless requireSinglePage selects a bulk lane.
+        Get up to the requested limit of tweets and replies authored by an X
+        (Twitter) account in one bulk call, with engagement, views, and language.
+        The current lane returns nextCursor as null; cursor is reserved for future
+        cursor-capable lanes.
 
-        Price: $0.00075 per request.
+        Price: $0 per request plus $0.0002 per result (maximum $0.2).
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
@@ -1068,7 +1068,7 @@ class AsyncTwitterNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[TwitterUserTweetsInput],
     ) -> AsyncPaginator[TwitterUserTweetsTweet, TwitterUserTweetsData]:
-        """Iterate Twitter User Tweets results, following pagination cursors.
+        """Iterate X / Twitter User Tweets and Replies results, following pagination cursors.
 
         Yields validated `TwitterUserTweetsTweet` items from the `tweets` field of
         each page. Use `.pages()` on the returned paginator to walk whole
