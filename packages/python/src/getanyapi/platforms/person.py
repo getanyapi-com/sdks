@@ -139,10 +139,9 @@ class PersonNamespace:
         """Skip Trace
 
         Skip-trace a person in the US by name, address, phone, or email and get back
-        identity, address, and contact records in normalized JSON. **Price:** billed
-        per result - \$7.00 per 1,000 results, capped at \$7.00 per 1,000 requests.
+        identity, address, and contact records in normalized JSON.
 
-        Price: $0.007 per result.
+        Price: $0 per request plus $0.007 per result (maximum $0.007).
 
         Example:
             res = client.person.skip_trace(address="123 Main St, Austin, TX 78701", name="John Smith")
@@ -168,10 +167,9 @@ class AsyncPersonNamespace:
         """Skip Trace
 
         Skip-trace a person in the US by name, address, phone, or email and get back
-        identity, address, and contact records in normalized JSON. **Price:** billed
-        per result - \$7.00 per 1,000 results, capped at \$7.00 per 1,000 requests.
+        identity, address, and contact records in normalized JSON.
 
-        Price: $0.007 per result.
+        Price: $0 per request plus $0.007 per result (maximum $0.007).
 
         Example:
             res = client.person.skip_trace(address="123 Main St, Austin, TX 78701", name="John Smith")

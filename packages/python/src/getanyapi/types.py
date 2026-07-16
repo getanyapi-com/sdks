@@ -10,9 +10,9 @@ unknown fields, exposed via ``.model_extra``.
 
 from __future__ import annotations
 
-from typing import Any, Generic, Literal, TypeVar
+from typing import Annotated, Any, Generic, Literal, TypeVar
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from typing_extensions import TypedDict
 
 from ._errors import ResultNotFoundError
@@ -26,7 +26,16 @@ __all__ = [
     "unwrap",
     "Balance",
     "AccountProfile",
+    "FlatPricingOffer",
+    "LinearPricingOffer",
+    "PricingOffer",
+    "DiscoveryPricing",
+    "LaneHealth",
+    "DiscoveryLane",
     "CatalogEntry",
+    "HighlightField",
+    "CatalogSearchResult",
+    "CatalogSearchResults",
     "RequestOptions",
     "AgentSignupResult",
 ]
@@ -62,9 +71,7 @@ class RunResult(BaseModel, Generic[T]):
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    output: OutputFound[T] | OutputNotFound = Field(
-        discriminator="found"
-    )
+    output: OutputFound[T] | OutputNotFound = Field(discriminator="found")
     provider: Literal["AnyAPI"]
     cost_usd: float = Field(alias="costUsd")
     items: int | None = None
@@ -72,12 +79,11 @@ class RunResult(BaseModel, Generic[T]):
 
 
 class BareRunResult(BaseModel, Generic[T]):
-    """The run envelope for a BARE SKU (SPEC 1.2 erratum).
+    """The conditional envelope for an operation without a found/data wrapper.
 
-    A handful of SKUs (e.g. reddit.search) return their data object directly as
-    ``output`` with no ``{found, data}`` wrapper: ``output`` IS the data payload.
-    There is no not-found branch to discriminate, so ``unwrap`` returns
-    ``output`` directly and never raises.
+    If a future generated operation uses this SPEC 1.2 shape, ``output`` is its
+    data payload directly. There is no not-found branch to discriminate, so
+    ``unwrap`` returns ``output`` directly and never raises.
     """
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
@@ -125,18 +131,122 @@ class AccountProfile(BaseModel):
     onboarding_complete: bool = Field(alias="onboardingComplete")
 
 
+class FlatPricingOffer(BaseModel):
+    """A fixed, per-request discovery offer."""
+
+    model_config = ConfigDict(
+        extra="forbid", strict=True, populate_by_name=True, allow_inf_nan=False
+    )
+
+    model: Literal["flat"]
+    unit: Literal["request"]
+    max_usd: float = Field(alias="maxUsd", ge=0)
+
+
+class LinearPricingOffer(BaseModel):
+    """A capped base-plus-unit discovery offer."""
+
+    model_config = ConfigDict(
+        extra="forbid", strict=True, populate_by_name=True, allow_inf_nan=False
+    )
+
+    model: Literal["linear"]
+    unit: str = Field(min_length=1)
+    base_usd: float = Field(alias="baseUsd", ge=0)
+    per_unit_usd: float = Field(alias="perUnitUsd", ge=0)
+    max_usd: float = Field(alias="maxUsd", ge=0)
+
+
+PricingOffer = Annotated[
+    FlatPricingOffer | LinearPricingOffer, Field(discriminator="model")
+]
+
+
+class DiscoveryPricing(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid", strict=True, populate_by_name=True, allow_inf_nan=False
+    )
+
+    from_offer: PricingOffer = Field(alias="from")
+    failover_max_usd: float = Field(alias="failoverMaxUsd", ge=0)
+
+
+class LaneHealth(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
+
+    window: Literal["30d"]
+    uptime_pct: float = Field(alias="uptimePct", ge=0, le=100)
+    latency_p50_ms: int = Field(alias="latencyP50Ms", ge=0)
+    requests: int = Field(ge=0)
+
+
+class DiscoveryLane(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
+
+    pricing: PricingOffer
+    health: LaneHealth | None = None
+
+
 class CatalogEntry(BaseModel):
-    """One catalog SKU. ``price_usd`` is the cheapest per-request price in USD."""
+    """One customer-safe API returned by ``catalog`` or ``describe``."""
 
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
 
+    id: str
     slug: str
-    platform: str
-    action: str
     name: str
     category: str
     description: str
-    price_usd: float = Field(alias="priceUsd")
+    provider: Literal["AnyAPI"]
+    pricing: DiscoveryPricing
+    lanes: list[DiscoveryLane] = Field(min_length=1)
+    heavy: bool = False
+    try_eligible: bool = Field(alias="tryEligible")
+    input_schema: dict[str, Any] | None = Field(default=None, alias="inputSchema")
+    output_schema: dict[str, Any] | None = Field(default=None, alias="outputSchema")
+
+    @model_validator(mode="after")
+    def pricing_from_matches_first_lane(self) -> CatalogEntry:
+        if self.pricing.from_offer != self.lanes[0].pricing:
+            raise ValueError("pricing.from must match lanes[0].pricing")
+        failover_max_usd = max(lane.pricing.max_usd for lane in self.lanes)
+        if self.pricing.failover_max_usd != failover_max_usd:
+            raise ValueError(
+                "pricing.failoverMaxUsd must match the greatest lane pricing.maxUsd"
+            )
+        return self
+
+
+class HighlightField(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    path: str
+    type: str
+    why: str | None = None
+
+
+class CatalogSearchResult(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
+
+    slug: str
+    platform_id: str = Field(alias="platformId")
+    name: str
+    description: str
+    category: str
+    provider: Literal["AnyAPI"]
+    pricing: DiscoveryPricing
+    relevance: float = Field(gt=0, le=1)
+    highlight_fields: list[HighlightField] | None = Field(
+        default=None, alias="highlightFields"
+    )
+
+
+class CatalogSearchResults(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    results: list[CatalogSearchResult]
+    total: int = Field(ge=0)
+    ranking: Literal["semantic", "keyword"]
 
 
 class RequestOptions(TypedDict, total=False):

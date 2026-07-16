@@ -347,7 +347,7 @@ export interface GoogleScholarResult {
    */
   citedBy?: number;
   /**
-   * Serper result identifier.
+   * Result identifier.
    */
   id?: string;
   /**
@@ -546,8 +546,6 @@ export class GoogleNamespace {
    * Google Autocomplete
    *
    * Get Google search autocomplete suggestions for a partial query (keyword ideas).
-
-**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00099 per request.
    *
@@ -565,10 +563,8 @@ export class GoogleNamespace {
    * Google Images
    *
    * Run a Google Images search and get structured results - image URLs, dimensions, titles, and source pages.
-
-**Price:** billed per result - \$0.99 per 1,000 requests base + \$0.09 per 1,000 results, capped at \$1.98 per 1,000 requests.
    *
-   * Price: $0.00099 per request plus $0.00009 per result.
+   * Price: $0.00099 per request plus $0.00009 per result (maximum $0.00198).
    *
    * @example
    * const res = await client.google.images({ query: "golden retriever", gl: "us", hl: "en", limit: 5 });
@@ -584,8 +580,6 @@ export class GoogleNamespace {
    * Google Lens
    *
    * Reverse image search: find web pages and visual matches for an image URL.
-
-**Price:** \$2.97 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00297 per request.
    *
@@ -603,8 +597,6 @@ export class GoogleNamespace {
    * Google News
    *
    * Search Google News by keyword and get fresh articles - headlines, sources, links, and publish times - as clean JSON.
-
-**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00099 per request.
    *
@@ -622,8 +614,6 @@ export class GoogleNamespace {
    * Google Patents
    *
    * Search Google Patents with title, patent number, inventor, assignee, key dates, and PDF link.
-
-**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00099 per request.
    *
@@ -641,8 +631,6 @@ export class GoogleNamespace {
    * Google Scholar
    *
    * Search Google Scholar for academic papers with title, authors, citation count, and PDF link.
-
-**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00099 per request.
    *
@@ -660,8 +648,6 @@ export class GoogleNamespace {
    * Google Search
    *
    * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON.
-
-**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00099 per request.
    *
@@ -679,8 +665,6 @@ export class GoogleNamespace {
    * Google Videos
    *
    * Search Google for video results (YouTube and others) with title, link, thumbnail, and source.
-
-**Price:** \$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.00099 per request.
    *

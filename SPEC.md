@@ -1,10 +1,10 @@
-# AnyAPI SDK - FROZEN CONTRACT (Phase 0)
+# AnyAPI SDK contract
 
 This document is the single source of truth that five parallel agents build against
 without talking to each other. Where this file and any other note disagree, this file
 wins. Nothing here changes without re-freezing.
 
-AnyAPI (getanyapi.com) is a unified API marketplace: 222 SKUs, each a
+AnyAPI (getanyapi.com) is a unified API marketplace. Each generated SKU is a
 `POST /v1/run/{slug}` with normalized JSON Schema 2020-12 input/output pairs. This repo
 generates official typed SDKs: `@getanyapi/sdk` (npm) and `getanyapi` (PyPI), generated from
 the platform's own `/openapi.json`.
@@ -38,21 +38,25 @@ These are non-negotiable and enforced in CI where noted.
 ## 1. The IR (intermediate representation)
 
 The generator's IR extractor reads the committed `openapi.json` (schemas, operationId,
-name, description, pricing ceiling) and the committed `catalog.json` (a snapshot of the
-PUBLIC, no-auth `GET /catalog` endpoint: category, per-item pricing detail). The fetch
+name, description) and the committed `catalog.json` (a snapshot of the public
+`GET /catalog` endpoint: category and complete `pricing.from` first runtime-lane offer). The fetch
 step refreshes both snapshots together. It emits a single `ir.json` file: a deterministic, sorted array of SKU
 entries plus a version/meta header. The emitters (TS and Python) read ONLY `ir.json` -
 never `openapi.json` directly.
+
+Generation updates per-SKU methods, input/output models, fixtures, and method documentation.
+It does not update the handwritten TypeScript or Python `catalog`, `search`, and `describe`
+clients. Discovery wire changes require an explicit handwritten update in both languages.
 
 ### 1.1 Top-level `ir.json` shape
 
 ```jsonc
 {
-  "version": 1,                 // IR schema version; bump only on a breaking IR shape change
-  "generatedFrom": "openapi.json snapshot",  // provenance note (free text)
-  "openapiVersion": "1.0.0",    // info.version from the source openapi.json
-  "baseUrl": "https://api.getanyapi.com",  // servers[0].url from the source document
-  "skus": [ /* SkuEntry[], sorted ascending by slug */ ]
+  "version": 1, // IR schema version; bump only on a breaking IR shape change
+  "generatedFrom": "openapi.json snapshot", // provenance note (free text)
+  "openapiVersion": "1.0.0", // info.version from the source openapi.json
+  "baseUrl": "https://api.getanyapi.com", // servers[0].url from the source document
+  "skus": [/* SkuEntry[], sorted ascending by slug */],
 }
 ```
 
@@ -65,62 +69,65 @@ byte-identical). Enum arrays preserve the schema's declared order (NOT re-sorted
 
 ```jsonc
 {
-  "slug": "amazon.reviews",            // the dotted SKU slug, verbatim from the path
-  "platform": "amazon",                // slug prefix before the first "."
-  "action": "reviews",                 // slug remainder after the first "."
-  "operationId": "amazon_reviews",     // from openapi.json; slug with non-alnum -> "_"
-  "name": "Amazon Reviews",            // openapi.json operation.summary
-  "category": "",                      // catalog category; "" when unknown (snapshot-only)
-  "description": "Pull up to 50 ...",  // openapi.json operation.description, dash-normalized
+  "slug": "amazon.reviews", // the dotted SKU slug, verbatim from the path
+  "platform": "amazon", // slug prefix before the first "."
+  "action": "reviews", // slug remainder after the first "."
+  "operationId": "amazon_reviews", // from openapi.json; slug with non-alnum -> "_"
+  "name": "Amazon Reviews", // openapi.json operation.summary
+  "category": "", // catalog category; "" when unknown (snapshot-only)
+  "description": "Pull up to 50 ...", // openapi.json operation.description, dash-normalized
   "pricing": {
-    "priceUsd": 0.01625,               // number: fixed amount, or the dynamic ceiling (max)
-    "baseUsd": null,                   // number|null: dynamic floor (min); null for fixed
-    "perItemUsd": null,                // number|null: catalog perItemCredits->USD; null if unknown
-    "perItemUnit": null                // string|null: catalog perItemUnit; null -> "result"
+    "priceUsd": 0.04002, // pricing.from.maxUsd
+    "baseUsd": 0.00005, // linear baseUsd; null for flat
+    "perItemUsd": 0.0008, // linear perUnitUsd; null for flat
+    "perItemUnit": "result", // linear explicit billable unit; null for flat
   },
-  "tsNamespace": "amazon",             // TS client getter name (camelCase platform)
-  "tsMethod": "reviews",               // TS method name (camelCase action)
-  "tsIterMethod": null,                // TS async-iterator method name, or null if not paginated
-  "pyNamespace": "amazon",             // Python attribute name (snake_case platform)
-  "pyMethod": "reviews",               // Python method name (snake_case action)
-  "pyIterMethod": null,                // Python "iter_*" method name, or null if not paginated
-  "inputTypeName": "AmazonReviewsInput",   // PascalCase(operationId) + "Input"
-  "outputTypeName": "AmazonReviewsData",   // PascalCase(operationId) + "Data" (the data payload type)
-  "example": { "product": "B07FZ8S74R", "limit": 3 },  // input example, or null
-  "input": { /* SchemaNode - the input object schema */ },
+  "tsNamespace": "amazon", // TS client getter name (camelCase platform)
+  "tsMethod": "reviews", // TS method name (camelCase action)
+  "tsIterMethod": null, // TS async-iterator method name, or null if not paginated
+  "pyNamespace": "amazon", // Python attribute name (snake_case platform)
+  "pyMethod": "reviews", // Python method name (snake_case action)
+  "pyIterMethod": null, // Python "iter_*" method name, or null if not paginated
+  "inputTypeName": "AmazonReviewsInput", // PascalCase(operationId) + "Input"
+  "outputTypeName": "AmazonReviewsData", // PascalCase(operationId) + "Data" (the data payload type)
+  "example": { "product": "B07FZ8S74R", "limit": 3 }, // input example, or null
+  "input": {/* SchemaNode - the input object schema */},
   "output": {
-    "envelope": "found-data",          // "found-data" or "bare" (v1 erratum, see 1.2 note)
-    "data": { /* SchemaNode - the schema of `data` when found:true (the non-null oneOf branch) */ }
+    "envelope": "found-data", // "found-data" or "bare" (v1 erratum, see 1.2 note)
+    "data": {
+      /* SchemaNode - the schema of `data` when found:true (the non-null oneOf branch) */
+    },
   },
   "pagination": {
-    "paginated": false,                // true iff input has a "cursor" string field AND output data has "nextCursor"
-    "itemsField": null,                // when paginated: the array field on `data` that holds the page items
-    "cursorInputField": null,          // when paginated: input cursor field name (always "cursor" in v1)
-    "nextCursorField": null            // when paginated: output field name (always "nextCursor" in v1)
-  }
+    "paginated": false, // true iff input has a "cursor" string field AND output data has "nextCursor"
+    "itemsField": null, // when paginated: the array field on `data` that holds the page items
+    "cursorInputField": null, // when paginated: input cursor field name (always "cursor" in v1)
+    "nextCursorField": null, // when paginated: output field name (always "nextCursor" in v1)
+  },
 }
 ```
 
 Notes:
-- `priceUsd` is derived from `openapi.json` `x-payment-info.price`:
-  fixed mode -> `Number(price.amount)`; dynamic mode -> `Number(price.max)`.
-- `baseUsd`: dynamic mode -> `Number(price.min)`; fixed mode -> `null`.
-- `perItemUsd` / `perItemUnit` and `category` come from the committed `catalog.json`
-  snapshot (public `GET /catalog`: `perItemCredits * 0.00001`, `perItemUnit`, `category`
-  per slug). The conversion happens INSIDE the extractor; the credits value never reaches
-  the IR or any emitted file. When a slug is missing from `catalog.json` they are `null`
-  (category "") and emitters MUST tolerate that (fall back to "result" for the unit, and
-  omit the per-item clause from the doc comment).
+
+- Generated pricing comes only from the committed discovery snapshot's complete `pricing.from`
+  offer. The extractor nevertheless validates the complete wrapper: it contains exactly `from`
+  and a finite, non-negative `failoverMaxUsd`. A flat offer contains exactly `model: "flat"`,
+  `unit: "request"`, and a finite, non-negative `maxUsd`. A linear offer additionally contains
+  finite, non-negative `baseUsd` and `perUnitUsd` plus an explicit billable unit. Unknown or
+  legacy internal-unit fields fail generation at either level.
+- Missing catalog rows, missing pricing, unknown models, and malformed offers fail generation.
+  They never silently become zero. Generated method documentation includes the complete
+  `pricing.from` offer; linear documentation includes base, per-unit amount, unit, and maximum.
+- `category` comes from the same captured discovery row. OpenAPI continues to own schemas.
 - `outputTypeName` names the type of the `data` payload (the non-null branch). The full
   envelope type is `Output<AmazonReviewsData>` in TS.
 
-**(v1 erratum) Bare envelope.** Not every output is a found/data wrapper. A SKU whose 200
-`output` schema does NOT require both `found` and `data` (verified: `reddit.search`,
-`reddit.subreddit_posts`, `reddit.post_comments`) returns its data object DIRECTLY as
-`output`. For these the extractor sets `output.envelope = "bare"` and `output.data` is the
-bare object itself. Runtimes type the run result so `output` IS the data (TS `BareRunResult<T>`
-/ Python `BareRunResult[T]`); `unwrap` returns `output` directly and never throws for bare
-results. Fixtures for bare SKUs put the synthesized data at `output` (no found/data wrapper).
+**(v1 erratum) Conditional bare envelope.** If a future operation's 200 `output` schema does
+NOT require both `found` and `data`, it returns its data object DIRECTLY as `output`. The
+extractor then sets `output.envelope = "bare"`, and `output.data` is the bare object itself.
+Runtimes type that result so `output` IS the data (TS `BareRunResult<T>` / Python
+`BareRunResult[T]`); `unwrap` returns `output` directly and never throws for bare results.
+Synthetic fixtures retain this conditional shape even when the current IR has no bare operation.
 Found-data SKUs are unchanged.
 
 **(v1 erratum) IR `warnings`.** The top-level IR may carry a `warnings[]` array (each
@@ -218,17 +225,18 @@ normalized, so they never re-parse raw JSON Schema.
       iterator yields whole pages only; the per-item iterator is not generated -
       `tsIterMethod`/`pyIterMethod` are `null`, see 2.x below).
 11. **Description normalization.** Replace every U+2014 (em dash) and U+2013 (en dash)
-    with an ASCII hyphen. When the em dash was used as a spaced parenthetical (` - `),
+    with an ASCII hyphen. When the em dash was used as a spaced parenthetical (`-`),
     prefer a spaced hyphen; a bare em dash becomes a bare hyphen. Trim trailing spaces.
     Applied to EVERY description string and EVERY name that reaches the IR.
 
 ### 1.5 Naming rules (FROZEN)
 
 Slugs are `platform.action`; platform is `[a-z0-9_]+`, action is `[a-z0-9_]+` (verified:
-every one of the 222 slugs is a single dot, lowercase alphanumeric plus underscore, no
+every current slug is a single dot, lowercase alphanumeric plus underscore, no
 digit-leading segment). Rules are written to be total (handle future slugs safely).
 
 **camelCase (TypeScript namespace + method):**
+
 - Split the segment on `_`. Lowercase the first part verbatim. Title-case (first letter
   upper, rest unchanged) each subsequent part and concatenate.
   `user_posts` -> `userPosts`; `ads_search` -> `adsSearch`; `reviews` -> `reviews`;
@@ -245,12 +253,14 @@ Title-case each part, concatenate. `amazon_reviews` -> `AmazonReviews`;
 `inputTypeName = Pascal + "Input"`, `outputTypeName = Pascal + "Data"`.
 
 **Iterator method naming (paginated SKUs only):**
+
 - TS: `iter` + PascalCase(action). `ads_search` -> `iterAdsSearch`;
   `user_posts` -> `iterUserPosts`. Only emitted when `pagination.paginated` is true AND
   `itemsField` is non-null.
 - Python: `iter_` + action (snake_case). `ads_search` -> `iter_ads_search`. Same gate.
 
 **Reserved-word escaping (FROZEN policy; no current collision but must be total):**
+
 - TypeScript: object property/method names may be any identifier including reserved words
   when used as members (`client.threads.delete(...)` is legal), so NO escaping is applied
   to methods/namespaces. If a FUTURE platform equals a reserved word AND is needed as a
@@ -265,7 +275,7 @@ Title-case each part, concatenate. `amazon_reviews` -> `AmazonReviews`;
 **Collision policy (FROZEN):** if, after the above, two SKUs on the same platform produce
 the same TS method (or Python method) name, OR two platforms produce the same namespace,
 the extractor MUST fail the build with a clear error naming both slugs. There is NO
-silent renaming. (Verified: zero collisions in the current 222-SKU catalog.) A collision
+silent renaming. A collision
 is a catalog-authoring problem to fix upstream, not something the SDK papers over.
 
 ## 2. TypeScript runtime API (`@getanyapi/sdk`) - FROZEN signatures
@@ -306,12 +316,15 @@ export declare class AnyAPI {
   /** Account + catalog helpers (see 2.7). */
   balance(): Promise<{ usd: number }>;
   me(): Promise<AccountProfile>;
-  catalog(query?: CatalogQuery): Promise<CatalogEntry[]>;
+  catalog(options?: CatalogOptions): Promise<CatalogEntry[]>;
+  search(options: SearchOptions): Promise<CatalogSearchResults>;
   describe(slug: string): Promise<CatalogEntry>;
 }
 
 /** Static agent self-signup (no key required). */
-export declare function agentSignup(options?: AgentSignupOptions): Promise<AgentSignupResult>;
+export declare function agentSignup(
+  options?: AgentSignupOptions,
+): Promise<AgentSignupResult>;
 ```
 
 ### 2.2 Transport protocol (`ClientCore`)
@@ -326,11 +339,16 @@ export interface ClientCore {
    * query params from options, auth header, retries, and timeout. Resolves to the
    * parsed RunResult on HTTP 200; throws a subclass of AnyAPIError otherwise.
    */
-  run<T>(slug: string, input: unknown, options?: RequestOptions): Promise<RunResult<T>>;
+  run<T>(
+    slug: string,
+    input: unknown,
+    options?: RequestOptions,
+  ): Promise<RunResult<T>>;
 }
 ```
 
 Wire behavior (FROZEN):
+
 - Method `POST`, path `/v1/run/{slug}`, body = `JSON.stringify(input)`.
 - Headers: `Authorization: Bearer <apiKey>`, `Content-Type: application/json`,
   `Accept: application/json`. (Bearer is the canonical scheme; `X-API-Key` is NOT sent.)
@@ -359,9 +377,7 @@ export interface RunResult<T> {
 }
 
 /** Discriminated union on `found`. When found is false, data is null. */
-export type Output<T> =
-  | { found: true; data: T }
-  | { found: false; data: null };
+export type Output<T> = { found: true; data: T } | { found: false; data: null };
 
 /**
  * Return the data payload when found, or throw NotFoundError when the upstream had no
@@ -432,6 +448,7 @@ export interface Paginator<Item, Data> extends AsyncIterable<Item> {
 ```
 
 Walk semantics (FROZEN):
+
 - Page 1: `run(slug, input, options)`. Read `output.data[itemsField]` (the item array) and
   `output.data.nextCursor`.
 - If `output.found === false` or `data` is null, stop (yield nothing further).
@@ -453,14 +470,14 @@ export declare class AnyAPIError extends Error {
   constructor(message: string, status: number, requestId?: string);
 }
 
-export declare class BadRequestError extends AnyAPIError {}        // 400
-export declare class AuthenticationError extends AnyAPIError {}    // 401
+export declare class BadRequestError extends AnyAPIError {} // 400
+export declare class AuthenticationError extends AnyAPIError {} // 401
 export declare class InsufficientBalanceError extends AnyAPIError {} // 402
-export declare class NotFoundError extends AnyAPIError {}          // 404
-export declare class RateLimitedError extends AnyAPIError {}       // 429
-export declare class UpstreamError extends AnyAPIError {}          // 502
-export declare class ConnectionError extends AnyAPIError {}        // status 0, network failure
-export declare class TimeoutError extends AnyAPIError {}           // status 0, request timed out
+export declare class NotFoundError extends AnyAPIError {} // 404
+export declare class RateLimitedError extends AnyAPIError {} // 429
+export declare class UpstreamError extends AnyAPIError {} // 502
+export declare class ConnectionError extends AnyAPIError {} // status 0, network failure
+export declare class TimeoutError extends AnyAPIError {} // status 0, request timed out
 ```
 
 Status -> class mapping (FROZEN):
@@ -496,29 +513,86 @@ export interface AccountProfile {
   onboardingComplete: boolean;
 }
 
-export interface CatalogQuery { query?: string; category?: string; }
+export interface CatalogOptions {
+  category?: string;
+}
+
+export interface FlatPricingOffer {
+  model: "flat";
+  unit: "request";
+  maxUsd: number;
+}
+export interface LinearPricingOffer {
+  model: "linear";
+  unit: string;
+  baseUsd: number;
+  perUnitUsd: number;
+  maxUsd: number;
+}
+export type PricingOffer = FlatPricingOffer | LinearPricingOffer;
+export interface DiscoveryPricing {
+  from: PricingOffer;
+  failoverMaxUsd: number;
+}
+export interface LaneHealth {
+  window: "30d";
+  uptimePct: number;
+  latencyP50Ms: number;
+  requests: number;
+}
+export interface DiscoveryLane {
+  pricing: PricingOffer;
+  health?: LaneHealth;
+}
 
 export interface CatalogEntry {
+  id: string;
   slug: string;
-  platform: string;
-  action: string;
   name: string;
   category: string;
   description: string;
-  /** Cheapest per-request price in USD (the "from" price). */
-  priceUsd: number;
+  provider: "AnyAPI";
+  pricing: DiscoveryPricing;
+  lanes: DiscoveryLane[];
+  heavy: boolean;
+  tryEligible: boolean;
+  inputSchema?: Record<string, unknown>;
+  outputSchema?: Record<string, unknown>;
+}
+
+export interface SearchOptions {
+  query: string;
+  category?: string;
+  platform?: string;
+  limit?: number;
+}
+export interface CatalogSearchResult {
+  slug: string;
+  platformId: string;
+  name: string;
+  description: string;
+  category: string;
+  provider: "AnyAPI";
+  pricing: DiscoveryPricing;
+  relevance: number;
+  highlightFields?: Array<{ path: string; type: string; why?: string }>;
+}
+export interface CatalogSearchResults {
+  results: CatalogSearchResult[];
+  total: number;
+  ranking: "semantic" | "keyword";
 }
 
 export interface AgentSignupOptions {
-  baseUrl?: string;         // default https://api.getanyapi.com
+  baseUrl?: string; // default https://api.getanyapi.com
   fetch?: typeof fetch;
-  sponsorEmail?: string;    // optional human verification channel
-  label?: string;           // optional key label
+  sponsorEmail?: string; // optional human verification channel
+  label?: string; // optional key label
 }
 
 export interface AgentSignupResult {
-  secret: string;           // the API key, returned once
-  capUsd: number;           // per-key spend cap in USD
+  secret: string; // the API key, returned once
+  capUsd: number; // per-key spend cap in USD
   claimToken: string;
   claimUrl: string;
 }
@@ -527,10 +601,13 @@ export interface AgentSignupResult {
 - `balance()` -> GET `/v1/balance` -> `{ usd }` (server returns `{ usd }` already in USD).
 - `me()` -> GET `/v1/me` -> mapped to `AccountProfile` (drop `clerkUserId`,
   `signupGrantApplied`; keep `id`, `email`, `status`, `createdAt`, `onboardingComplete`).
-- `catalog(query?)` -> GET `/v1/apis?query=&category=` -> `CatalogEntry[]` (from
-  `{ apis: [...] }`, deriving `platform`/`action` from `slug`, `priceUsd` from
-  `fromCredits * 0.00001`).
+- `catalog(options?)` -> category-only GET `/v1/apis?category=` -> `CatalogEntry[]`.
+- `search(options)` -> dedicated GET `/catalog/search?q=&category=&platform=&limit=` ->
+  `{ results, total, ranking }` with nested pricing and relevance.
 - `describe(slug)` -> GET `/v1/apis/{slug}` -> one `CatalogEntry`. 404 -> `NotFoundError`.
+- Discovery parsing rejects legacy internal-unit fields, unknown provider identities, incomplete
+  offers, and malformed envelopes. The REST adapter omits `heavy` when false, so clients
+  normalize an omitted key to public `false` while rejecting non-boolean values.
 - `agentSignup()` -> POST `/agent/signup` (NO auth header) -> `AgentSignupResult` (map
   `capUsd`, `secret`, `claimToken`, `claimUrl`).
 
@@ -574,7 +651,9 @@ class AnyAPI:
     def run(self, slug: str, input: dict[str, Any], *, options: RequestOptions | None = None) -> RunResult[Any]: ...
     def balance(self) -> Balance: ...
     def me(self) -> AccountProfile: ...
-    def catalog(self, *, query: str | None = None, category: str | None = None) -> list[CatalogEntry]: ...
+    def catalog(self, *, category: str | None = None) -> list[CatalogEntry]: ...
+    def search(self, *, query: str, category: str | None = None,
+               platform: str | None = None, limit: int | None = None) -> CatalogSearchResults: ...
     def describe(self, slug: str) -> CatalogEntry: ...
     def close(self) -> None: ...
     def __enter__(self) -> "AnyAPI": ...
@@ -588,7 +667,9 @@ class AsyncAnyAPI:
     async def run(self, slug: str, input: dict[str, Any], *, options: RequestOptions | None = None) -> RunResult[Any]: ...
     async def balance(self) -> Balance: ...
     async def me(self) -> AccountProfile: ...
-    async def catalog(self, *, query: str | None = None, category: str | None = None) -> list[CatalogEntry]: ...
+    async def catalog(self, *, category: str | None = None) -> list[CatalogEntry]: ...
+    async def search(self, *, query: str, category: str | None = None,
+                     platform: str | None = None, limit: int | None = None) -> CatalogSearchResults: ...
     async def describe(self, slug: str) -> CatalogEntry: ...
     async def aclose(self) -> None: ...
     async def __aenter__(self) -> "AsyncAnyAPI": ...
@@ -733,13 +814,23 @@ class AccountProfile(BaseModel):
     onboarding_complete: bool # alias "onboardingComplete"
 
 class CatalogEntry(BaseModel):
+    id: str
     slug: str
-    platform: str
-    action: str
     name: str
     category: str
     description: str
-    price_usd: float         # alias "priceUsd" / derived from fromCredits
+    provider: Literal["AnyAPI"]
+    pricing: DiscoveryPricing
+    lanes: list[DiscoveryLane]
+    heavy: bool
+    try_eligible: bool       # alias "tryEligible"
+    input_schema: dict[str, Any] | None   # alias "inputSchema"
+    output_schema: dict[str, Any] | None  # alias "outputSchema"
+
+class CatalogSearchResults(BaseModel):
+    results: list[CatalogSearchResult]
+    total: int
+    ranking: Literal["semantic", "keyword"]
 
 class RequestOptions(TypedDict, total=False):
     fields: list[str]
@@ -773,6 +864,7 @@ Fixture JSON shape (exactly what a mocked `POST /v1/run/{slug}` returns, HTTP 20
 ```
 
 `SYNTH_DATA` construction rules (deterministic):
+
 - For each REQUIRED property of the data object, populate a value by kind:
   - string: `"sample"` (or, if the node has an `enum`, its FIRST enum value; if
     `format:"uri"`, `"https://example.com/x"`).
@@ -823,7 +915,7 @@ packages/python/      # py-runtime + py-emitter agents
   Build with tsup to ESM + CJS + `.d.ts`. Package name `@getanyapi/sdk`, zero runtime deps.
 - Python: `requires-python >=3.10`, hatchling build, deps `httpx`, `pydantic>=2.5`,
   `typing_extensions>=4.7`. Package name `getanyapi`. Typed (`py.typed`). Gates: `pyright`
-  + `mypy --strict`.
+  - `mypy --strict`.
 - Node engines: `>=18` (global fetch). ESM + CJS dual export map.
 
 ## 8. What is intentionally OUT of scope for v1
@@ -834,7 +926,7 @@ operator/seller endpoints, OAuth. Not modeled in the SDK surface.
 ## 9. CI-guarded invariants (summary)
 
 - Regen drift: `pnpm generate --check` must be a no-op (byte-identical) on a clean tree.
-- `tsc --noEmit` strict passes over generated + core TS for all 222 SKUs.
+- `tsc --noEmit` strict passes over every generated + core TS SKU in the current IR.
 - Consumer-artifact typecheck (v1 erratum): the packed `@getanyapi/sdk` dist type-checks in a
   throwaway consumer project (typed slug access compiles, bad input errors, unknown slug ->
   `RunResult<unknown>`). Guards that the concrete `SkuMap` survives `.d.ts` bundling.

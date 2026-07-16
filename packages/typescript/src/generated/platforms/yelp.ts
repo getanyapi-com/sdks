@@ -155,10 +155,8 @@ export class YelpNamespace {
    * Yelp Search
    *
    * Search Yelp for businesses by keyword and location: up to 20 listings with ratings, categories, and core business info per request.
-
-**Price:** billed per result - \$40.00 per 1,000 requests base + \$0.75 per 1,000 results, capped at \$55.00 per 1,000 requests.
    *
-   * Price: $0.04 per request plus $0.00075 per result.
+   * Price: $0.04 per request plus $0.00075 per result (maximum $0.055).
    *
    * @example
    * const res = await client.yelp.search({ location: "Chicago, IL", query: "pizza", limit: 5 });

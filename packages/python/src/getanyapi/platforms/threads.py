@@ -228,8 +228,7 @@ class ThreadsNamespace:
         """Threads Post
 
         Fetch a single Threads post by URL - text, author, engagement counts, and
-        timestamp. **Price:** \$2.00 per 1,000 requests (flat per request - same
-        cost regardless of results returned).
+        timestamp.
 
         Price: $0.002 per request.
 
@@ -250,8 +249,7 @@ class ThreadsNamespace:
         """Threads Profile
 
         Fetch a Threads user's public profile (bio, follower count, verification,
-        profile picture) by username. **Price:** \$2.00 per 1,000 requests (flat per
-        request - same cost regardless of results returned).
+        profile picture) by username.
 
         Price: $0.002 per request.
 
@@ -272,8 +270,7 @@ class ThreadsNamespace:
         """Threads Search
 
         Search public Threads posts by keyword or hashtag and get normalized post
-        records - text, author, and engagement. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        records - text, author, and engagement.
 
         Price: $0.002 per request.
 
@@ -294,9 +291,7 @@ class ThreadsNamespace:
         """Threads User Search
 
         Search Threads users by name or username and get normalized profile records
-        - username, full name, verification, and picture. **Price:** \$2.00 per
-        1,000 requests (flat per request - same cost regardless of results
-        returned).
+        - username, full name, verification, and picture.
 
         Price: $0.002 per request.
 
@@ -317,8 +312,7 @@ class ThreadsNamespace:
         """Threads User Posts
 
         List a Threads user's recent public posts by username - text, engagement
-        counts, and post URLs. **Price:** \$2.00 per 1,000 requests (flat per
-        request - same cost regardless of results returned).
+        counts, and post URLs.
 
         Price: $0.002 per request.
 
@@ -346,8 +340,7 @@ class AsyncThreadsNamespace:
         """Threads Post
 
         Fetch a single Threads post by URL - text, author, engagement counts, and
-        timestamp. **Price:** \$2.00 per 1,000 requests (flat per request - same
-        cost regardless of results returned).
+        timestamp.
 
         Price: $0.002 per request.
 
@@ -368,8 +361,7 @@ class AsyncThreadsNamespace:
         """Threads Profile
 
         Fetch a Threads user's public profile (bio, follower count, verification,
-        profile picture) by username. **Price:** \$2.00 per 1,000 requests (flat per
-        request - same cost regardless of results returned).
+        profile picture) by username.
 
         Price: $0.002 per request.
 
@@ -390,8 +382,7 @@ class AsyncThreadsNamespace:
         """Threads Search
 
         Search public Threads posts by keyword or hashtag and get normalized post
-        records - text, author, and engagement. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        records - text, author, and engagement.
 
         Price: $0.002 per request.
 
@@ -412,9 +403,7 @@ class AsyncThreadsNamespace:
         """Threads User Search
 
         Search Threads users by name or username and get normalized profile records
-        - username, full name, verification, and picture. **Price:** \$2.00 per
-        1,000 requests (flat per request - same cost regardless of results
-        returned).
+        - username, full name, verification, and picture.
 
         Price: $0.002 per request.
 
@@ -435,8 +424,7 @@ class AsyncThreadsNamespace:
         """Threads User Posts
 
         List a Threads user's recent public posts by username - text, engagement
-        counts, and post URLs. **Price:** \$2.00 per 1,000 requests (flat per
-        request - same cost regardless of results returned).
+        counts, and post URLs.
 
         Price: $0.002 per request.
 

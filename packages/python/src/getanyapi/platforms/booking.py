@@ -96,10 +96,9 @@ class BookingNamespace:
 
         Search Booking.com stays by destination and dates with optional guest and
         room occupancy and get hotel results (name, price, review score, location)
-        as normalized JSON. **Price:** billed per result - \$2.00 per 1,000 requests
-        base + \$4.50 per 1,000 results, capped at \$92.00 per 1,000 requests.
+        as normalized JSON.
 
-        Price: $0.002 per request plus $0.0045 per result.
+        Price: $0.002 per request plus $0.0045 per result (maximum $0.092).
 
         Example:
             res = client.booking.search(adults=2, checkIn="2026-09-01", checkOut="2026-09-03", limit=3, query="New York")
@@ -126,10 +125,9 @@ class AsyncBookingNamespace:
 
         Search Booking.com stays by destination and dates with optional guest and
         room occupancy and get hotel results (name, price, review score, location)
-        as normalized JSON. **Price:** billed per result - \$2.00 per 1,000 requests
-        base + \$4.50 per 1,000 results, capped at \$92.00 per 1,000 requests.
+        as normalized JSON.
 
-        Price: $0.002 per request plus $0.0045 per result.
+        Price: $0.002 per request plus $0.0045 per result (maximum $0.092).
 
         Example:
             res = client.booking.search(adults=2, checkIn="2026-09-01", checkOut="2026-09-03", limit=3, query="New York")

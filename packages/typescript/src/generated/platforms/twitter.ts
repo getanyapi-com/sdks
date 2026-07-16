@@ -102,11 +102,19 @@ export interface TwitterCommunityTweetsData {
  */
 export interface TwitterFollowersInput {
   /**
-   * Maximum number of results to return (1-100000, default 200). You are billed per result returned, so a lower limit costs less.
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers.
+   */
+  cursor?: string;
+  /**
+   * Per-page maximum number of followers to return (1-100000, default 200). A provider may return a smaller native page; follow nextCursor for more.
    * Range: minimum 1, maximum 100000.
    * Default: 200.
    */
   limit?: number;
+  /**
+   * Set true to get up to limit followers in one response instead of provider-native pages, served by a bulk provider when needed.
+   */
+  requireSinglePage?: boolean;
   /**
    * The X (Twitter) username to fetch followers for, without the @ prefix (e.g. elonmusk).
    */
@@ -157,6 +165,10 @@ export interface TwitterFollowersData {
    * Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity.
    */
   items: TwitterFollowersItem[];
+  /**
+   * Opaque cursor for the next page of followers, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string;
 }
 
 /**
@@ -164,11 +176,19 @@ export interface TwitterFollowersData {
  */
 export interface TwitterFollowingInput {
   /**
-   * Maximum number of results to return (1-100000, default 200). You are billed per result returned, so a lower limit costs less.
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followed accounts.
+   */
+  cursor?: string;
+  /**
+   * Per-page maximum number of followed accounts to return (1-100000, default 200). A provider may return a smaller native page; follow nextCursor for more.
    * Range: minimum 1, maximum 100000.
    * Default: 200.
    */
   limit?: number;
+  /**
+   * Set true to get up to limit accounts in one response instead of provider-native pages, served by a bulk provider when needed.
+   */
+  requireSinglePage?: boolean;
   /**
    * The X (Twitter) username to fetch the following list for, without the @ prefix (e.g. elonmusk).
    */
@@ -219,6 +239,10 @@ export interface TwitterFollowingData {
    * Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity.
    */
   items: TwitterFollowingItem[];
+  /**
+   * Opaque cursor for the next page of followed accounts, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string;
 }
 
 /**
@@ -336,12 +360,17 @@ export interface TwitterRepliesData {
  */
 export interface TwitterSearchInput {
   /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of search results.
+   */
+  cursor?: string;
+  /**
    * Optional ISO 639-1 language code to restrict tweets to (e.g. en).
    */
   lang?: string;
   /**
-   * Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.
+   * Per-page maximum number of results to return (1-50, default 20). A provider may return a smaller native page; follow nextCursor for more.
    * Range: minimum 1, maximum 50.
+   * Default: 20.
    */
   limit?: number;
   /**
@@ -353,6 +382,10 @@ export interface TwitterSearchInput {
    * Default: Latest.
    */
   queryType?: string;
+  /**
+   * Set true to get up to limit results in one response instead of provider-native pages, served by a bulk provider when needed.
+   */
+  requireSinglePage?: boolean;
 }
 
 export interface TwitterSearchItem {
@@ -404,6 +437,10 @@ export interface TwitterSearchData {
    * Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity.
    */
   items: TwitterSearchItem[];
+  /**
+   * Opaque cursor for the next page of search results, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string;
 }
 
 /**
@@ -411,7 +448,7 @@ export interface TwitterSearchData {
  */
 export interface TwitterTweetInput {
   /**
-   * Full tweet URL, e.g. https://x.com/NASA/status/1800000000000000000.
+   * Canonical x.com or twitter.com status URL with a numeric tweet ID, including /i/web/status and media-share variants.
    */
   url: string;
 }
@@ -476,7 +513,7 @@ export interface TwitterUserTweetsInput {
    */
   handle: string;
   /**
-   * How many tweets you want (1-1000), newest first. By default results may come back in cheap pages of ~20: follow the response's nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call.
+   * Per-page maximum number of tweets to return (1-1000), newest first. A provider may return a smaller native page of approximately 20; follow nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call.
    * Range: minimum 1, maximum 1000.
    * Default: 20.
    */
@@ -541,8 +578,6 @@ export class TwitterNamespace {
    * Twitter Community
    *
    * Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL, normalized across providers with transparent failover.
-
-**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -560,8 +595,6 @@ export class TwitterNamespace {
    * Twitter Community Tweets
    *
    * List recent tweets posted in a Twitter/X community by URL, normalized across providers with transparent failover.
-
-**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -578,11 +611,9 @@ export class TwitterNamespace {
   /**
    * X / Twitter Followers
    *
-   * Fetch the follower list of any public X (Twitter) account by username - up to 100,000 follower records per request.
-
-**Price:** billed per result - \$0.15 per 1,000 results, capped at \$15,000.00 per 1,000 requests.
+   * Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum; native pages contain up to 200 accounts unless requireSinglePage selects a bulk lane.
    *
-   * Price: $0.00015 per result.
+   * Price: $0.00075 per request.
    *
    * @example
    * const res = await client.twitter.followers({ username: "nasa", limit: 200 });
@@ -595,13 +626,31 @@ export class TwitterNamespace {
   }
 
   /**
+   * Iterate every result of X / Twitter Followers across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterFollowers(
+    input: TwitterFollowersInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterFollowersItem, RunResult<TwitterFollowersData>> {
+    return paginate<TwitterFollowersItem, RunResult<TwitterFollowersData>>(
+      this._core,
+      "twitter.followers",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
+  }
+
+  /**
    * X / Twitter Following
    *
-   * List the accounts a public X (Twitter) account follows by username - up to 100,000 records per request.
-
-**Price:** billed per result - \$0.15 per 1,000 results, capped at \$15,000.00 per 1,000 requests.
+   * List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum; native pages contain up to 200 accounts unless requireSinglePage selects a bulk lane.
    *
-   * Price: $0.00015 per result.
+   * Price: $0.00075 per request.
    *
    * @example
    * const res = await client.twitter.following({ username: "nasa", limit: 200 });
@@ -614,13 +663,31 @@ export class TwitterNamespace {
   }
 
   /**
+   * Iterate every result of X / Twitter Following across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterFollowing(
+    input: TwitterFollowingInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterFollowingItem, RunResult<TwitterFollowingData>> {
+    return paginate<TwitterFollowingItem, RunResult<TwitterFollowingData>>(
+      this._core,
+      "twitter.following",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
+  }
+
+  /**
    * Twitter Profile
    *
    * Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle, normalized across providers with transparent failover.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
-   * Price: $0.001 per request.
+   * Price: $0.00075 per request.
    *
    * @example
    * const res = await client.twitter.profile({ handle: "nasa" });
@@ -636,10 +703,8 @@ export class TwitterNamespace {
    * X / Twitter Post Replies
    *
    * Fetch the replies to any X (Twitter) post URL as structured records - author, text, and engagement.
-
-**Price:** billed per result - \$2.50 per 1,000 requests base + \$0.25 per 1,000 results, capped at \$12.50 per 1,000 requests.
    *
-   * Price: $0.0025 per request plus $0.00025 per result.
+   * Price: $0.0025 per request plus $0.00025 per result (maximum $0.0125).
    *
    * @example
    * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20", limit: 3 });
@@ -654,11 +719,9 @@ export class TwitterNamespace {
   /**
    * X / Twitter Search
    *
-   * Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get up to 50 structured tweets per request: text, author, and engagement.
-
-**Price:** billed per result - \$4.00 per 1,000 requests base + \$0.20 per 1,000 results, capped at \$14.00 per 1,000 requests.
+   * Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.
    *
-   * Price: $0.004 per request plus $0.0002 per result.
+   * Price: $0.00075 per request.
    *
    * @example
    * const res = await client.twitter.search({ query: "openai" });
@@ -671,13 +734,31 @@ export class TwitterNamespace {
   }
 
   /**
+   * Iterate every result of X / Twitter Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearch(
+    input: TwitterSearchInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterSearchItem, RunResult<TwitterSearchData>> {
+    return paginate<TwitterSearchItem, RunResult<TwitterSearchData>>(
+      this._core,
+      "twitter.search",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
+  }
+
+  /**
    * Twitter Tweet
    *
    * Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views), normalized across providers.
-
-**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
-   * Price: $0.002 per request.
+   * Price: $0.00075 per request.
    *
    * @example
    * const res = await client.twitter.tweet({ url: "https://x.com/SpaceX/status/1732824684683784516" });
@@ -693,8 +774,6 @@ export class TwitterNamespace {
    * Twitter Tweet Transcript
    *
    * Extract the spoken transcript from a Twitter/X video tweet by URL, normalized across providers with transparent failover.
-
-**Price:** \$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.002 per request.
    *
@@ -711,11 +790,9 @@ export class TwitterNamespace {
   /**
    * Twitter User Tweets
    *
-   * Get an X (Twitter) account's latest tweets by handle, newest first (reverse-chronological, replies included) - not just the popular ones - up to 1000 per call, with engagement, views, and language, normalized across providers with cursor pagination.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
+   * Get an X (Twitter) account's latest tweets by handle, newest first (reverse-chronological, replies included), with engagement, views, language, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.
    *
-   * Price: $0.001 per request.
+   * Price: $0.00075 per request.
    *
    * @example
    * const res = await client.twitter.userTweets({ handle: "levelsio", limit: 20 });

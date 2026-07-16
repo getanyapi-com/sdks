@@ -119,8 +119,8 @@ def test_sync_yields_validated_item_models_attribute_access() -> None:
 
 
 def test_sync_bare_envelope_walks_output_root() -> None:
-    # B1: a bare SKU has no found/data wrapper - the page data IS output. The walk reads
-    # posts/nextCursor off output directly.
+    # A synthetic future bare operation has no found/data wrapper. Its page data IS output,
+    # so the walk reads posts/nextCursor off output directly.
     from pydantic import BaseModel
 
     class _Post(BaseModel):
@@ -148,7 +148,7 @@ def test_sync_bare_envelope_walks_output_root() -> None:
     client, rec = make_sync_client(respond)
     p = paginate(
         client,
-        "reddit.search",
+        "fixture.bare_paginated",
         {"query": "x"},
         "posts",
         item_model=_Post,

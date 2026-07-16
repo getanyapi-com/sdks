@@ -111,10 +111,9 @@ class PolymarketNamespace:
 
         Discover Polymarket prediction markets - question, outcome prices, volume,
         liquidity, and end dates - by keyword or sorted by activity, as normalized
-        JSON. **Price:** billed per result - \$105.00 per 1,000 requests base +
-        \$0.60 per 1,000 results, capped at \$120.00 per 1,000 requests.
+        JSON.
 
-        Price: $0.105 per request plus $0.0006 per result.
+        Price: $0.105 per request plus $0.0006 per result (maximum $0.12).
 
         Example:
             res = client.polymarket.markets(limit=10, query="election")
@@ -141,10 +140,9 @@ class AsyncPolymarketNamespace:
 
         Discover Polymarket prediction markets - question, outcome prices, volume,
         liquidity, and end dates - by keyword or sorted by activity, as normalized
-        JSON. **Price:** billed per result - \$105.00 per 1,000 requests base +
-        \$0.60 per 1,000 results, capped at \$120.00 per 1,000 requests.
+        JSON.
 
-        Price: $0.105 per request plus $0.0006 per result.
+        Price: $0.105 per request plus $0.0006 per result (maximum $0.12).
 
         Example:
             res = client.polymarket.markets(limit=10, query="election")

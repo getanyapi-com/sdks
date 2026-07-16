@@ -623,8 +623,6 @@ class YoutubeNamespace:
 
         Fetch a YouTube channel's stats (subscribers, video count, total views,
         description) by handle or channel ID, normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -646,8 +644,6 @@ class YoutubeNamespace:
 
         List a YouTube channel's community posts by handle or channel ID with cursor
         pagination (text, likes, image, publish time), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -692,8 +688,7 @@ class YoutubeNamespace:
 
         List a YouTube channel's live and past-live streams by handle or channel ID
         with cursor pagination (title, views, length, publish time), normalized
-        across providers. **Price:** \$2.00 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        across providers.
 
         Price: $0.002 per request.
 
@@ -738,8 +733,6 @@ class YoutubeNamespace:
 
         List a YouTube channel's playlists by handle or channel ID with cursor
         pagination (title, video count, thumbnail), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -784,8 +777,6 @@ class YoutubeNamespace:
 
         List a YouTube channel's Shorts by handle or channel ID with cursor
         pagination (title, views, likes, duration), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -830,8 +821,7 @@ class YoutubeNamespace:
 
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time), normalized across
-        providers. **Price:** \$2.00 per 1,000 requests (flat per request - same
-        cost regardless of results returned).
+        providers.
 
         Price: $0.002 per request.
 
@@ -876,8 +866,6 @@ class YoutubeNamespace:
 
         List replies to a YouTube comment using a continuation token with cursor
         pagination (text, author, likes, publish time), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -898,8 +886,7 @@ class YoutubeNamespace:
         """YouTube Community Post
 
         Fetch a single YouTube community post by URL (text, images, channel, publish
-        time), normalized across providers. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        time), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -921,8 +908,7 @@ class YoutubeNamespace:
 
         List every video in a YouTube playlist - title, length, and channel per
         video plus playlist owner and totals - normalized across providers with
-        transparent failover. **Price:** \$2.00 per 1,000 requests (flat per request
-        - same cost regardless of results returned).
+        transparent failover.
 
         Price: $0.002 per request.
 
@@ -944,8 +930,7 @@ class YoutubeNamespace:
 
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON, across providers with transparent
-        failover. **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        failover.
 
         Price: $0.002 per request.
 
@@ -966,9 +951,7 @@ class YoutubeNamespace:
         """YouTube Hashtag Search
 
         Search YouTube videos by hashtag with cursor pagination (title, channel,
-        views, length, publish time), normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        views, length, publish time), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1012,8 +995,7 @@ class YoutubeNamespace:
         """YouTube Trending Shorts
 
         List currently trending YouTube Shorts (title, channel, views, likes,
-        duration), normalized across providers. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        duration), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1034,9 +1016,7 @@ class YoutubeNamespace:
         """YouTube Video
 
         Fetch a YouTube video's metadata (title, channel, views, likes, duration,
-        publish date) by URL or ID, normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        publish date) by URL or ID, normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1057,9 +1037,7 @@ class YoutubeNamespace:
         """YouTube Video Comments
 
         List the comments on a YouTube video by URL with cursor pagination (text,
-        author, likes, reply count), normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        author, likes, reply count), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1104,8 +1082,6 @@ class YoutubeNamespace:
 
         Detect suspected sponsors and paid promotions in a YouTube video by URL
         (sponsor names, websites, confidence), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1126,8 +1102,7 @@ class YoutubeNamespace:
         """YouTube Video Transcript
 
         Fetch the transcript/captions of a YouTube video by URL or ID, normalized
-        across providers with transparent failover. **Price:** \$2.00 per 1,000
-        requests (flat per request - same cost regardless of results returned).
+        across providers with transparent failover.
 
         Price: $0.002 per request.
 
@@ -1156,8 +1131,6 @@ class AsyncYoutubeNamespace:
 
         Fetch a YouTube channel's stats (subscribers, video count, total views,
         description) by handle or channel ID, normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1179,8 +1152,6 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's community posts by handle or channel ID with cursor
         pagination (text, likes, image, publish time), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1227,8 +1198,7 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's live and past-live streams by handle or channel ID
         with cursor pagination (title, views, length, publish time), normalized
-        across providers. **Price:** \$2.00 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        across providers.
 
         Price: $0.002 per request.
 
@@ -1273,8 +1243,6 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's playlists by handle or channel ID with cursor
         pagination (title, video count, thumbnail), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1319,8 +1287,6 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's Shorts by handle or channel ID with cursor
         pagination (title, views, likes, duration), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1365,8 +1331,7 @@ class AsyncYoutubeNamespace:
 
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time), normalized across
-        providers. **Price:** \$2.00 per 1,000 requests (flat per request - same
-        cost regardless of results returned).
+        providers.
 
         Price: $0.002 per request.
 
@@ -1411,8 +1376,6 @@ class AsyncYoutubeNamespace:
 
         List replies to a YouTube comment using a continuation token with cursor
         pagination (text, author, likes, publish time), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1433,8 +1396,7 @@ class AsyncYoutubeNamespace:
         """YouTube Community Post
 
         Fetch a single YouTube community post by URL (text, images, channel, publish
-        time), normalized across providers. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        time), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1456,8 +1418,7 @@ class AsyncYoutubeNamespace:
 
         List every video in a YouTube playlist - title, length, and channel per
         video plus playlist owner and totals - normalized across providers with
-        transparent failover. **Price:** \$2.00 per 1,000 requests (flat per request
-        - same cost regardless of results returned).
+        transparent failover.
 
         Price: $0.002 per request.
 
@@ -1479,8 +1440,7 @@ class AsyncYoutubeNamespace:
 
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON, across providers with transparent
-        failover. **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        failover.
 
         Price: $0.002 per request.
 
@@ -1501,9 +1461,7 @@ class AsyncYoutubeNamespace:
         """YouTube Hashtag Search
 
         Search YouTube videos by hashtag with cursor pagination (title, channel,
-        views, length, publish time), normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        views, length, publish time), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1547,8 +1505,7 @@ class AsyncYoutubeNamespace:
         """YouTube Trending Shorts
 
         List currently trending YouTube Shorts (title, channel, views, likes,
-        duration), normalized across providers. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        duration), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1569,9 +1526,7 @@ class AsyncYoutubeNamespace:
         """YouTube Video
 
         Fetch a YouTube video's metadata (title, channel, views, likes, duration,
-        publish date) by URL or ID, normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        publish date) by URL or ID, normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1592,9 +1547,7 @@ class AsyncYoutubeNamespace:
         """YouTube Video Comments
 
         List the comments on a YouTube video by URL with cursor pagination (text,
-        author, likes, reply count), normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        author, likes, reply count), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1639,8 +1592,6 @@ class AsyncYoutubeNamespace:
 
         Detect suspected sponsors and paid promotions in a YouTube video by URL
         (sponsor names, websites, confidence), normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1661,8 +1612,7 @@ class AsyncYoutubeNamespace:
         """YouTube Video Transcript
 
         Fetch the transcript/captions of a YouTube video by URL or ID, normalized
-        across providers with transparent failover. **Price:** \$2.00 per 1,000
-        requests (flat per request - same cost regardless of results returned).
+        across providers with transparent failover.
 
         Price: $0.002 per request.
 

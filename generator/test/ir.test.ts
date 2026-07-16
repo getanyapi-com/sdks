@@ -1,71 +1,81 @@
-import { describe, it, expect } from "vitest";
-import { buildIr, serializeIr } from "../src/ir.js";
+import { describe, expect, it } from "vitest";
+import {
+  buildIr,
+  extractCatalogPricing,
+  serializeIr,
+  stripGeneratedPrice,
+} from "../src/ir.js";
+import type { ArrayNode, ObjectNode } from "../src/types.js";
 import { validateIr } from "../src/validate.js";
-import type { SkuEntry, ObjectNode, ArrayNode } from "../src/types.js";
+import { fixtureSku, syntheticExtractorIr } from "./extractor-fixture.js";
 
-const ir = buildIr();
-const bySlug = new Map<string, SkuEntry>(ir.skus.map((s) => [s.slug, s]));
-
-function sku(slug: string): SkuEntry {
-  const s = bySlug.get(slug);
-  if (!s) throw new Error(`missing sku ${slug}`);
-  return s;
-}
+const liveIr = buildIr();
+const fixtureIr = syntheticExtractorIr();
 
 describe("IR top-level shape (SPEC 1.1)", () => {
-  it("has the frozen meta header", () => {
-    expect(ir.version).toBe(1);
-    expect(ir.openapiVersion).toBe("1.0.0");
-    expect(ir.baseUrl).toBe("https://api.getanyapi.com");
+  it("has a valid frozen header and derives cardinality from the snapshot", () => {
+    expect(liveIr.version).toBe(1);
+    expect(liveIr.generatedFrom).toBe("openapi.json snapshot");
+    expect(liveIr.openapiVersion.length).toBeGreaterThan(0);
+    expect(liveIr.baseUrl).toBe("https://api.getanyapi.com");
+    expect(liveIr.skus.length).toBeGreaterThan(0);
   });
 
-  it("covers all 222 SKUs sorted ascending by slug", () => {
-    expect(ir.skus.length).toBe(222);
-    const slugs = ir.skus.map((s) => s.slug);
-    const sorted = [...slugs].sort();
-    expect(slugs).toEqual(sorted);
+  it("covers a unique catalog sorted ascending by slug", () => {
+    const slugs = liveIr.skus.map((sku) => sku.slug);
+    expect(slugs).toEqual([...slugs].sort());
+    expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it("validates against ir.schema.json", () => {
-    expect(() => validateIr(ir)).not.toThrow();
+  it("validates the complete current snapshot against ir.schema.json", () => {
+    expect(() => validateIr(liveIr)).not.toThrow();
+  });
+
+  it("keeps pricing finite, non-negative, and internally consistent", () => {
+    for (const sku of liveIr.skus) {
+      expect(Number.isFinite(sku.pricing.priceUsd), sku.slug).toBe(true);
+      expect(sku.pricing.priceUsd, sku.slug).toBeGreaterThanOrEqual(0);
+      if (sku.pricing.baseUsd !== null) {
+        expect(sku.pricing.baseUsd, sku.slug).toBeGreaterThanOrEqual(0);
+        expect(sku.pricing.baseUsd, sku.slug).toBeLessThanOrEqual(
+          sku.pricing.priceUsd,
+        );
+        expect(sku.pricing.perItemUsd, sku.slug).not.toBeNull();
+        expect(sku.pricing.perItemUnit, sku.slug).not.toBeNull();
+      } else {
+        expect(sku.pricing.perItemUsd, sku.slug).toBeNull();
+        expect(sku.pricing.perItemUnit, sku.slug).toBeNull();
+      }
+    }
   });
 });
 
-describe("golden: amazon.reviews (SPEC sample)", () => {
-  const s = sku("amazon.reviews");
-  it("has the expected identity and naming", () => {
-    expect(s.platform).toBe("amazon");
-    expect(s.action).toBe("reviews");
-    expect(s.operationId).toBe("amazon_reviews");
-    expect(s.name).toBe("Amazon Reviews");
-    expect(s.tsNamespace).toBe("amazon");
-    expect(s.tsMethod).toBe("reviews");
-    expect(s.tsIterMethod).toBeNull();
-    expect(s.pyMethod).toBe("reviews");
-    expect(s.inputTypeName).toBe("AmazonReviewsInput");
-    expect(s.outputTypeName).toBe("AmazonReviewsData");
+describe("synthetic extractor rules", () => {
+  it("normalizes identity, naming, example, and generated price prose", () => {
+    const sku = fixtureSku(fixtureIr, "fixture.flat");
+    expect(sku).toMatchObject({
+      platform: "fixture",
+      action: "flat",
+      operationId: "fixture_flat",
+      name: "Fixture Flat",
+      category: "fixture",
+      description: "Fixture Flat description.",
+      tsNamespace: "fixture",
+      tsMethod: "flat",
+      pyNamespace: "fixture",
+      pyMethod: "flat",
+      inputTypeName: "FixtureFlatInput",
+      outputTypeName: "FixtureFlatData",
+      example: { product: "fixture-product" },
+    });
   });
 
-  it("prices at the fixed USD amount with USD-only fields (real catalog values)", () => {
-    expect(s.pricing.priceUsd).toBe(0.01625);
-    expect(s.pricing.baseUsd).toBeNull();
-    // catalog perItemCredits=0 -> exact USD 0 (extractor fills from catalog.json)
-    expect(s.pricing.perItemUsd).toBe(0);
-    expect(s.pricing.perItemUnit).toBeNull();
-    expect(s.category).toBe("shop");
-    expect(JSON.stringify(s)).not.toMatch(/credit/i);
-  });
-
-  it("has the example verbatim and a not-paginated flag", () => {
-    expect(s.example).toEqual({ product: "B07FZ8S74R", limit: 3 });
-    expect(s.pagination.paginated).toBe(false);
-  });
-
-  it("cracks the envelope to a closed data object with an open item record", () => {
-    const data = s.output.data as ObjectNode;
-    expect(data.kind).toBe("object");
+  it("cracks found/data into a closed object with an open item record", () => {
+    const sku = fixtureSku(fixtureIr, "fixture.flat");
+    expect(sku.output.envelope).toBe("found-data");
+    const data = sku.output.data as ObjectNode;
     expect(data.open).toBe(false);
-    expect(data.required).toContain("items");
+    expect(data.required).toEqual(["items"]);
     const items = data.properties["items"] as ArrayNode;
     expect(items.kind).toBe("array");
     expect(items.mustPopulate).toBe(true);
@@ -73,16 +83,12 @@ describe("golden: amazon.reviews (SPEC sample)", () => {
     expect(item.open).toBe(true);
     expect(item.mustPopulate).toEqual(["text"]);
   });
-});
 
-describe("golden: facebook.ads_search (paginated SPEC sample)", () => {
-  const s = sku("facebook.ads_search");
-  it("names the iterator methods and detects pagination", () => {
-    expect(s.tsMethod).toBe("adsSearch");
-    expect(s.tsIterMethod).toBe("iterAdsSearch");
-    expect(s.pyMethod).toBe("ads_search");
-    expect(s.pyIterMethod).toBe("iter_ads_search");
-    expect(s.pagination).toEqual({
+  it("detects pagination and emits iterator names from a cursor pair", () => {
+    const sku = fixtureSku(fixtureIr, "fixture.linear");
+    expect(sku.tsIterMethod).toBe("iterLinear");
+    expect(sku.pyIterMethod).toBe("iter_linear");
+    expect(sku.pagination).toEqual({
       paginated: true,
       itemsField: "ads",
       cursorInputField: "cursor",
@@ -90,39 +96,172 @@ describe("golden: facebook.ads_search (paginated SPEC sample)", () => {
     });
   });
 
-  it("has an integer default carried from the schema and a string enum on status", () => {
-    const input = s.input as ObjectNode;
-    const status = input.properties["status"];
-    if (!status || status.kind !== "string") throw new Error("expected string status");
-    expect(status.enum).toEqual(["ALL", "ACTIVE", "INACTIVE"]);
-    expect(status.default).toBe("ACTIVE");
-  });
-});
-
-describe("golden: threads.profile (open root data)", () => {
-  const s = sku("threads.profile");
-  it("has an open data object (item record at the root)", () => {
-    const data = s.output.data as ObjectNode;
-    expect(data.open).toBe(true);
-    expect(data.mustPopulate).toContain("username");
-    expect(s.pagination.paginated).toBe(false);
-    expect(s.example).toEqual({ username: "zuck" });
+  it("uses an unwrapped, open object for a bare response", () => {
+    const sku = fixtureSku(fixtureIr, "fixture.bare");
+    expect(sku.output.envelope).toBe("bare");
+    expect((sku.output.data as ObjectNode).open).toBe(true);
+    expect(sku.example).toBeNull();
   });
 });
 
 describe("determinism (SPEC 1.1)", () => {
   it("serializes byte-identically across two extractions", () => {
-    const a = serializeIr(buildIr());
-    const b = serializeIr(buildIr());
-    expect(a).toBe(b);
+    expect(serializeIr(buildIr())).toBe(serializeIr(buildIr()));
+    expect(serializeIr(syntheticExtractorIr())).toBe(
+      serializeIr(syntheticExtractorIr()),
+    );
   });
 });
 
-describe("no credits leak anywhere in the IR (SPEC 0.1)", () => {
-  it("has no 'credit' substring in the serialized IR", () => {
-    expect(serializeIr(ir).toLowerCase()).not.toContain("credit");
+describe("strict nested discovery pricing", () => {
+  it("removes OpenAPI's rendered price copy so discovery owns generated docs", () => {
+    expect(
+      stripGeneratedPrice(
+        "Useful API description. **Price:** billed per result - \\$1.00 maximum.",
+      ),
+    ).toBe("Useful API description.");
   });
-  it("has no em or en dash in the serialized IR (SPEC 0.3)", () => {
-    expect(serializeIr(ir)).not.toMatch(/[\u2014\u2013]/);
+
+  it("parses complete flat and linear pricing.from offers", () => {
+    expect(
+      extractCatalogPricing(
+        {
+          slug: "fixture.flat",
+          provider: "AnyAPI",
+          pricing: {
+            from: { model: "flat", unit: "request", maxUsd: 0.00325 },
+            failoverMaxUsd: 0.00325,
+          },
+        },
+        "fixture.flat",
+      ),
+    ).toEqual({
+      priceUsd: 0.00325,
+      baseUsd: null,
+      perItemUsd: null,
+      perItemUnit: null,
+    });
+    expect(
+      extractCatalogPricing(
+        {
+          slug: "fixture.linear",
+          provider: "AnyAPI",
+          pricing: {
+            from: {
+              model: "linear",
+              unit: "result",
+              baseUsd: 0.00005,
+              perUnitUsd: 0.0008,
+              maxUsd: 0.04002,
+            },
+            failoverMaxUsd: 0.04002,
+          },
+        },
+        "fixture.linear",
+      ),
+    ).toEqual({
+      priceUsd: 0.04002,
+      baseUsd: 0.00005,
+      perItemUsd: 0.0008,
+      perItemUnit: "result",
+    });
+  });
+
+  it.each([
+    [
+      {
+        from: { model: "flat", unit: "request", maxUsd: 0.00325 },
+      },
+      "missing discovery pricing.failoverMaxUsd",
+    ],
+    [
+      {
+        from: { model: "flat", unit: "request", maxUsd: 0.00325 },
+        failoverMaxUsd: 0.00325,
+        fromCredits: 325,
+      },
+      "unexpected discovery pricing field fromCredits",
+    ],
+  ])(
+    "rejects incomplete or extra pricing wrapper fields %#",
+    (pricing, message) => {
+      expect(() =>
+        extractCatalogPricing(
+          { slug: "fixture.flat", provider: "AnyAPI", pricing },
+          "fixture.flat",
+        ),
+      ).toThrow(message);
+    },
+  );
+
+  it.each([
+    [
+      {
+        model: "flat",
+        unit: "request",
+        maxUsd: 0.00325,
+        maxCredits: 325,
+      },
+      "unexpected discovery pricing.from field maxCredits",
+    ],
+    [
+      {
+        model: "linear",
+        unit: "result",
+        baseUsd: 0.00005,
+        perUnitUsd: 0.0008,
+        maxUsd: 0.04002,
+        legacyPriceUsd: 0.04,
+      },
+      "unexpected discovery pricing.from field legacyPriceUsd",
+    ],
+  ])("rejects extra flat or linear offer fields %#", (from, message) => {
+    expect(() =>
+      extractCatalogPricing(
+        {
+          slug: "fixture.offer",
+          provider: "AnyAPI",
+          pricing: { from, failoverMaxUsd: 0.05 },
+        },
+        "fixture.offer",
+      ),
+    ).toThrow(message);
+  });
+
+  it.each([
+    [undefined, "missing catalog discovery entry"],
+    [{ slug: "x", provider: "AnyAPI" }, "missing discovery pricing"],
+    [
+      {
+        slug: "x",
+        provider: "AnyAPI",
+        pricing: {
+          from: { model: "mystery", unit: "request", maxUsd: 1 },
+          failoverMaxUsd: 1,
+        },
+      },
+      "unknown discovery pricing model",
+    ],
+    [
+      {
+        slug: "x",
+        provider: "Other",
+        pricing: {
+          from: { model: "flat", unit: "request", maxUsd: 1 },
+          failoverMaxUsd: 1,
+        },
+      },
+      "provider must be AnyAPI",
+    ],
+  ])("rejects malformed pricing fixture %#", (entry, message) => {
+    expect(() => extractCatalogPricing(entry, "fixture.bad")).toThrow(message);
+  });
+});
+
+describe("public-boundary invariants", () => {
+  it("has no credit key or em/en dash in the serialized live IR", () => {
+    const serialized = serializeIr(liveIr);
+    expect(serialized.toLowerCase()).not.toContain("credit");
+    expect(serialized).not.toMatch(/[\u2014\u2013]/);
   });
 });

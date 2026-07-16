@@ -199,23 +199,25 @@ def test_generated_iterator_walks_two_fixture_pages() -> None:
     assert len(rec.requests) == 2
 
 
-def test_bare_paginated_iterator_yields_item_models() -> None:
-    # B1 + B3: reddit.search is a BARE paginated SKU (output IS the data). Its iterator
-    # walks output.posts / output.nextCursor directly and yields validated post models.
+def test_reddit_found_data_iterator_yields_item_models() -> None:
+    # Regression for the stale published envelope: reddit.search now follows the current
+    # found-data schema and its iterator walks output.data.
     sku = _sku("reddit.search")
-    assert sku["output"]["envelope"] == "bare"
+    assert sku["output"]["envelope"] == "found-data"
     items_field = sku["pagination"]["itemsField"]
     assert items_field == "posts"
     fixture = _fixture(sku["slug"])
-    base_post = fixture["output"][items_field][0]
+    base_post = fixture["output"]["data"][items_field][0]
 
-    def bare_page(post_id: str, next_cursor: str) -> dict[str, Any]:
+    def found_page(post_id: str, next_cursor: str) -> dict[str, Any]:
         page = copy.deepcopy(fixture)
-        page["output"][items_field] = [{**base_post, "id": post_id}]
-        page["output"]["nextCursor"] = next_cursor
+        page["output"]["data"][items_field] = [
+            {**base_post, "id": post_id}
+        ]
+        page["output"]["data"]["nextCursor"] = next_cursor
         return page
 
-    pages = [bare_page("p1", "c1"), bare_page("p2", "")]
+    pages = [found_page("p1", "c1"), found_page("p2", "")]
     state = {"i": 0}
 
     def respond(_req: httpx.Request) -> httpx.Response:
@@ -231,10 +233,10 @@ def test_bare_paginated_iterator_yields_item_models() -> None:
     assert [post.id for post in seen] == ["p1", "p2"]
     assert len(rec.requests) == 2
 
-    # And the plain method returns a BareRunResult whose output IS the data model.
+    # The plain method returns the found-data envelope and typed data payload.
     client2, _ = make_sync_client(lambda _r: json_response(200, fixture))
     ns2 = getattr(client2, sku["pyNamespace"])
     res = getattr(ns2, sku["pyMethod"])(**sku["example"])
-    assert not hasattr(res.output, "found")
-    assert isinstance(res.output.posts, list)
+    assert res.output.found is True
+    assert isinstance(res.output.data.posts, list)
     assert json.loads(rec.requests[1].content)["cursor"] == "c1"

@@ -61,11 +61,9 @@ class WhatsappNamespace:
     ) -> RunResult[WhatsappValidateData]:
         """WhatsApp Number Validator
 
-        Check whether a phone number is registered on WhatsApp. **Price:** billed
-        per result - \$3.50 per 1,000 requests base + \$1.00 per 1,000 results,
-        capped at \$4.50 per 1,000 requests.
+        Check whether a phone number is registered on WhatsApp.
 
-        Price: $0.0035 per request plus $0.001 per result.
+        Price: $0.0035 per request plus $0.001 per result (maximum $0.0045).
 
         Example:
             res = client.whatsapp.validate(phone="+14155552671")
@@ -90,11 +88,9 @@ class AsyncWhatsappNamespace:
     ) -> RunResult[WhatsappValidateData]:
         """WhatsApp Number Validator
 
-        Check whether a phone number is registered on WhatsApp. **Price:** billed
-        per result - \$3.50 per 1,000 requests base + \$1.00 per 1,000 results,
-        capped at \$4.50 per 1,000 requests.
+        Check whether a phone number is registered on WhatsApp.
 
-        Price: $0.0035 per request plus $0.001 per result.
+        Price: $0.0035 per request plus $0.001 per result (maximum $0.0045).
 
         Example:
             res = client.whatsapp.validate(phone="+14155552671")

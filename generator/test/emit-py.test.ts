@@ -99,32 +99,76 @@ describe("registry (platforms/__init__.py)", () => {
 describe("pricing doc lines", () => {
   it("fixed price -> 'Price: $X per request.'", () => {
     const files = emitDeterministic(
-      ir([sku({ slug: "amazon.reviews", pricing: { priceUsd: 0.01625, baseUsd: null, perItemUsd: null, perItemUnit: null } })]),
+      ir([
+        sku({
+          slug: "amazon.reviews",
+          pricing: {
+            priceUsd: 0.01625,
+            baseUsd: null,
+            perItemUsd: null,
+            perItemUnit: null,
+          },
+        }),
+      ]),
     );
-    expect(files["platforms/amazon.py"]).toContain("Price: $0.01625 per request.");
+    expect(files["platforms/amazon.py"]).toContain(
+      "Price: $0.01625 per request.",
+    );
   });
 
   it("per-item price with a base fee -> base-plus-per-unit form", () => {
     const files = emitDeterministic(
-      ir([sku({ slug: "google.search", pricing: { priceUsd: 0.05, baseUsd: 0.01, perItemUsd: 0.0025, perItemUnit: "result" } })]),
+      ir([
+        sku({
+          slug: "google.search",
+          pricing: {
+            priceUsd: 0.05,
+            baseUsd: 0.01,
+            perItemUsd: 0.0025,
+            perItemUnit: "result",
+          },
+        }),
+      ]),
     );
     expect(files["platforms/google.py"]).toContain(
-      "Price: $0.01 per request plus $0.0025 per result.",
+      "Price: $0.01 per request plus $0.0025 per result (maximum $0.05).",
     );
   });
 
-  it("per-item with null base + null unit -> per-unit only, unit falls back to 'result'", () => {
+  it("does not infer an incomplete linear offer", () => {
     const files = emitDeterministic(
-      ir([sku({ slug: "google.search", pricing: { priceUsd: 0.05, baseUsd: null, perItemUsd: 0.003, perItemUnit: null } })]),
+      ir([
+        sku({
+          slug: "google.search",
+          pricing: {
+            priceUsd: 0.05,
+            baseUsd: null,
+            perItemUsd: 0.003,
+            perItemUnit: null,
+          },
+        }),
+      ]),
     );
-    expect(files["platforms/google.py"]).toContain("Price: $0.003 per result.");
+    expect(files["platforms/google.py"]).toContain("Price: $0.05 per request.");
   });
 
   it("per-item null -> falls back to per-request fixed", () => {
     const files = emitDeterministic(
-      ir([sku({ slug: "google.search", pricing: { priceUsd: 0.002, baseUsd: null, perItemUsd: null, perItemUnit: null } })]),
+      ir([
+        sku({
+          slug: "google.search",
+          pricing: {
+            priceUsd: 0.002,
+            baseUsd: null,
+            perItemUsd: null,
+            perItemUnit: null,
+          },
+        }),
+      ]),
     );
-    expect(files["platforms/google.py"]).toContain("Price: $0.002 per request.");
+    expect(files["platforms/google.py"]).toContain(
+      "Price: $0.002 per request.",
+    );
   });
 });
 
@@ -139,7 +183,9 @@ describe("Literal emission", () => {
         }),
       ]),
     );
-    expect(files["platforms/amazon.py"]).toContain('Literal["helpful", "recent"]');
+    expect(files["platforms/amazon.py"]).toContain(
+      'Literal["helpful", "recent"]',
+    );
   });
 });
 
@@ -195,11 +241,17 @@ describe("must-populate doc line (N1)", () => {
   const model = files["platforms/person.py"]!;
 
   it("appends the reworded phrase to an annotated OPTIONAL field", () => {
-    const line = model.split("\n").find((l) => l.trimStart().startsWith("bio:"))!;
-    expect(line).toContain("Present whenever the upstream returns this record.");
+    const line = model
+      .split("\n")
+      .find((l) => l.trimStart().startsWith("bio:"))!;
+    expect(line).toContain(
+      "Present whenever the upstream returns this record.",
+    );
   });
   it("does not append it to an annotated REQUIRED field", () => {
-    const line = model.split("\n").find((l) => l.trimStart().startsWith("id:"))!;
+    const line = model
+      .split("\n")
+      .find((l) => l.trimStart().startsWith("id:"))!;
     expect(line).not.toContain("Present whenever");
   });
 });
@@ -212,7 +264,9 @@ describe("Example block", () => {
     );
   });
   it("empty example still renders a bare call", () => {
-    const f = emitDeterministic(ir([sku({ slug: "x.y", pyNamespace: "x", pyMethod: "y", example: {} })]));
+    const f = emitDeterministic(
+      ir([sku({ slug: "x.y", pyNamespace: "x", pyMethod: "y", example: {} })]),
+    );
     expect(f["platforms/x.py"]).toContain("res = client.x.y()");
   });
 });
@@ -220,12 +274,18 @@ describe("Example block", () => {
 describe("item model naming (singularize + prefix)", () => {
   it("AmazonReviewsItem from the 'items' array", () => {
     const files = emitDeterministic(SAMPLE_IR);
-    expect(files["platforms/amazon.py"]).toContain("class AmazonReviewsItem(BaseModel):");
-    expect(files["platforms/amazon.py"]).toContain("items: list[AmazonReviewsItem]");
+    expect(files["platforms/amazon.py"]).toContain(
+      "class AmazonReviewsItem(BaseModel):",
+    );
+    expect(files["platforms/amazon.py"]).toContain(
+      "items: list[AmazonReviewsItem]",
+    );
   });
   it("FacebookAdsSearchAd from the 'ads' array (naive s-strip)", () => {
     const files = emitDeterministic(SAMPLE_IR);
-    expect(files["platforms/facebook.py"]).toContain("class FacebookAdsSearchAd(BaseModel):");
+    expect(files["platforms/facebook.py"]).toContain(
+      "class FacebookAdsSearchAd(BaseModel):",
+    );
   });
 });
 
@@ -262,7 +322,9 @@ describe("naming edge cases", () => {
     expect(f).toContain("class GoogleAdsNamespace:");
     expect(f).toContain("class AsyncGoogleAdsNamespace:");
     expect(f).toContain("def iter_ads_search(");
-    expect(f).toContain("Paginator[GoogleAdsAdsSearchAd, GoogleAdsAdsSearchData]");
+    expect(f).toContain(
+      "Paginator[GoogleAdsAdsSearchAd, GoogleAdsAdsSearchData]",
+    );
     expect(files["platforms/__init__.py"]).toContain(
       '"google_ads": ("google_ads", "GoogleAdsNamespace", "AsyncGoogleAdsNamespace"),',
     );
@@ -270,7 +332,9 @@ describe("naming edge cases", () => {
 
   it("Python keyword method -> trailing underscore (class -> class_)", () => {
     const files = emitDeterministic(
-      ir([sku({ slug: "school.class", pyNamespace: "school", pyMethod: "class" })]),
+      ir([
+        sku({ slug: "school.class", pyNamespace: "school", pyMethod: "class" }),
+      ]),
     );
     const f = files["platforms/school.py"]!;
     expect(f).toContain("def class_(");
@@ -290,7 +354,7 @@ describe("naming edge cases", () => {
       ]),
     );
     const f = files["platforms/x.py"]!;
-    expect(f).toContain('XyInput = TypedDict(');
+    expect(f).toContain("XyInput = TypedDict(");
     expect(f).toContain('"class": Required[str]');
     expect(f).toContain('"normal": NotRequired[str]');
   });
@@ -306,7 +370,10 @@ describe("pagination gating", () => {
           pyMethod: "q",
           pyIterMethod: null, // extractor sets null when no array field
           input: obj({ cursor: str() }, []),
-          output: { envelope: "found-data", data: obj({ nextCursor: str() }, ["nextCursor"]) },
+          output: {
+            envelope: "found-data",
+            data: obj({ nextCursor: str() }, ["nextCursor"]),
+          },
           pagination: {
             paginated: true,
             itemsField: null,
@@ -401,7 +468,10 @@ describe("Python syntax smoke (py_compile)", () => {
       ].join("\n"),
     );
     writeFileSync(join(pkg, "_client.py"), "class AnyAPI:\n    pass\n");
-    writeFileSync(join(pkg, "_async_client.py"), "class AsyncAnyAPI:\n    pass\n");
+    writeFileSync(
+      join(pkg, "_async_client.py"),
+      "class AsyncAnyAPI:\n    pass\n",
+    );
 
     const emitted: string[] = [];
     for (const [rel, content] of Object.entries(files)) {

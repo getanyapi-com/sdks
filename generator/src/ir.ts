@@ -26,26 +26,41 @@ import type {
   Envelope,
 } from "./types.js";
 
-const CREDITS_TO_USD = 0.00001;
-
 interface RawSchema {
   [key: string]: unknown;
+}
+
+function isRawSchema(value: unknown): value is RawSchema {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 interface CatalogEntry {
   slug: string;
   category?: string;
-  perItemCredits?: number;
-  perItemUnit?: string;
+  provider?: unknown;
+  pricing?: unknown;
 }
 
 /** Load, extract, validate-shape, and return the full IR object (in-memory). */
 export function buildIr(): Ir {
-  const openapi = JSON.parse(readFileSync(openapiPath, "utf8"));
+  const openapi = JSON.parse(readFileSync(openapiPath, "utf8")) as RawSchema;
   const catalogRaw = JSON.parse(readFileSync(catalogPath, "utf8"));
+  return buildIrFromDocuments(openapi, catalogRaw);
+}
+
+/**
+ * Extract an IR from supplied documents. Production generation uses {@link buildIr}; this
+ * seam lets extractor tests use small, purpose-built documents instead of mutable live SKUs.
+ */
+export function buildIrFromDocuments(
+  openapi: RawSchema,
+  catalogRaw: unknown,
+): Ir {
   const catalog = indexCatalog(catalogRaw);
 
-  const paths: Record<string, RawSchema> = openapi.paths ?? {};
+  const paths = isRawSchema(openapi.paths)
+    ? (openapi.paths as Record<string, RawSchema>)
+    : {};
   const slugs = Object.keys(paths)
     .filter((p) => p.startsWith("/v1/run/"))
     .map((p) => p.slice("/v1/run/".length));
@@ -58,18 +73,30 @@ export function buildIr(): Ir {
   // Determinism: sort ascending by slug (byte order).
   skus.sort((a, b) => (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0));
   warnings.sort((a, b) =>
-    a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : 0,
+    a.slug < b.slug
+      ? -1
+      : a.slug > b.slug
+        ? 1
+        : a.kind < b.kind
+          ? -1
+          : a.kind > b.kind
+            ? 1
+            : 0,
   );
 
   detectCollisions(skus);
 
   reportWarnings(warnings);
 
+  const info = isRawSchema(openapi.info) ? openapi.info : {};
+  const servers = Array.isArray(openapi.servers) ? openapi.servers : [];
+  const firstServer = isRawSchema(servers[0]) ? servers[0] : {};
+
   return {
     version: 1,
     generatedFrom: "openapi.json snapshot",
-    openapiVersion: String(openapi.info?.version ?? ""),
-    baseUrl: String(openapi.servers?.[0]?.url ?? "https://api.getanyapi.com"),
+    openapiVersion: String(info.version ?? ""),
+    baseUrl: String(firstServer.url ?? "https://api.getanyapi.com"),
     ...(warnings.length > 0 ? { warnings } : {}),
     skus,
   };
@@ -90,11 +117,24 @@ function reportWarnings(warnings: IrWarning[]): void {
 }
 
 function indexCatalog(raw: unknown): Map<string, CatalogEntry> {
-  const entries: CatalogEntry[] = Array.isArray(raw)
-    ? (raw as CatalogEntry[])
-    : ((raw as { apis?: CatalogEntry[] }).apis ?? []);
+  if (typeof raw !== "object" || raw === null || Array.isArray(raw)) {
+    throw new Error("catalog snapshot: expected an object envelope");
+  }
+  const entries = (raw as { apis?: unknown }).apis;
+  if (!Array.isArray(entries)) {
+    throw new Error("catalog snapshot: expected an apis array");
+  }
   const map = new Map<string, CatalogEntry>();
-  for (const e of entries) map.set(e.slug, e);
+  for (const [index, value] of entries.entries()) {
+    if (typeof value !== "object" || value === null || Array.isArray(value)) {
+      throw new Error(`catalog snapshot: apis[${index}] is not an object`);
+    }
+    const entry = value as CatalogEntry;
+    if (typeof entry.slug !== "string" || entry.slug.length === 0) {
+      throw new Error(`catalog snapshot: apis[${index}].slug is missing`);
+    }
+    map.set(entry.slug, entry);
+  }
   return map;
 }
 
@@ -109,14 +149,20 @@ function extractSku(
   const platform = slug.slice(0, dot);
   const action = slug.slice(dot + 1);
 
-  const operationId = String(op.operationId ?? slug.replace(/[^A-Za-z0-9]/g, "_"));
+  const operationId = String(
+    op.operationId ?? slug.replace(/[^A-Za-z0-9]/g, "_"),
+  );
   const name = normalizeDashes(String(op.summary ?? ""));
-  const description = normalizeDashes(String(op.description ?? ""));
+  const description = stripGeneratedPrice(
+    normalizeDashes(String(op.description ?? "")),
+  );
 
   const inputSchemaRaw = getInputSchema(op);
   const input = toSchemaNode(inputSchemaRaw);
   if (input.kind !== "object") {
-    throw new Error(`SKU ${slug}: input schema is not an object (kind=${input.kind})`);
+    throw new Error(
+      `SKU ${slug}: input schema is not an object (kind=${input.kind})`,
+    );
   }
 
   const example = extractExample(op, inputSchemaRaw);
@@ -125,7 +171,7 @@ function extractSku(
   const data = toSchemaNode(cracked.data);
   const envelope: Envelope = cracked.bare ? "bare" : "found-data";
 
-  const pricing = extractPricing(op, catalog.get(slug));
+  const pricing = extractCatalogPricing(catalog.get(slug), slug);
   const category = normalizeDashes(catalog.get(slug)?.category ?? "");
 
   const pagination = detectPagination(input, data);
@@ -150,9 +196,13 @@ function extractSku(
   const pascal = pascalFromOperationId(operationId);
 
   const tsIterMethod =
-    pagination.paginated && pagination.itemsField !== null ? tsIterName(action) : null;
+    pagination.paginated && pagination.itemsField !== null
+      ? tsIterName(action)
+      : null;
   const pyIterMethod =
-    pagination.paginated && pagination.itemsField !== null ? pySafe(pyIterName(action)) : null;
+    pagination.paginated && pagination.itemsField !== null
+      ? pySafe(pyIterName(action))
+      : null;
 
   // Key order matches ir.schema.json required[] / ir.sample.json.
   return {
@@ -179,11 +229,19 @@ function extractSku(
   };
 }
 
+/**
+ * OpenAPI operation prose may append rendered payment metadata. Generated SDK docs own
+ * their price line and derive it from discovery, so discard that copy before it reaches IR.
+ */
+export function stripGeneratedPrice(description: string): string {
+  return description.replace(/\s*\*\*Price:\*\*[\s\S]*$/, "").trim();
+}
+
 function getInputSchema(op: RawSchema): RawSchema {
   const rb = op.requestBody as RawSchema | undefined;
-  const content = (rb?.content as RawSchema | undefined)?.["application/json"] as
-    | RawSchema
-    | undefined;
+  const content = (rb?.content as RawSchema | undefined)?.[
+    "application/json"
+  ] as RawSchema | undefined;
   return (content?.schema as RawSchema) ?? {};
 }
 
@@ -195,9 +253,9 @@ function extractExample(op: RawSchema, inputSchema: RawSchema): unknown {
     return inputSchema.example;
   }
   const rb = op.requestBody as RawSchema | undefined;
-  const content = (rb?.content as RawSchema | undefined)?.["application/json"] as
-    | RawSchema
-    | undefined;
+  const content = (rb?.content as RawSchema | undefined)?.[
+    "application/json"
+  ] as RawSchema | undefined;
   if (content && "example" in content && content.example !== undefined) {
     return content.example;
   }
@@ -209,7 +267,10 @@ function extractExample(op: RawSchema, inputSchema: RawSchema): unknown {
 // non-null branch), bare:false. A BARE output has no found/data wrapper - the `output`
 // schema IS the data object directly (required does not contain found+data); yield it as-is
 // with bare:true so the runtime knows there is no discriminated envelope to unwrap.
-function crackEnvelope(op: RawSchema): { data: RawSchema; bare: boolean } {
+export function crackEnvelope(op: RawSchema): {
+  data: RawSchema;
+  bare: boolean;
+} {
   const responses = op.responses as RawSchema;
   const ok = (responses["200"] as RawSchema).content as RawSchema;
   const out = ((ok["application/json"] as RawSchema).schema as RawSchema)
@@ -217,9 +278,13 @@ function crackEnvelope(op: RawSchema): { data: RawSchema; bare: boolean } {
   const output = (out.output as RawSchema) ?? {};
   const outProps = (output.properties as RawSchema) ?? {};
   const data = outProps.data as RawSchema | undefined;
-  const required = Array.isArray(output.required) ? (output.required as string[]) : [];
+  const required = Array.isArray(output.required)
+    ? (output.required as string[])
+    : [];
   const isFoundData =
-    data !== undefined && required.includes("found") && required.includes("data");
+    data !== undefined &&
+    required.includes("found") &&
+    required.includes("data");
   if (!isFoundData) {
     // Bare data object: the output schema itself is the data schema.
     return { data: output, bare: true };
@@ -232,36 +297,120 @@ function crackEnvelope(op: RawSchema): { data: RawSchema; bare: boolean } {
   return { data, bare: false };
 }
 
-function extractPricing(op: RawSchema, cat: CatalogEntry | undefined): Pricing {
-  const info = op["x-payment-info"] as RawSchema | undefined;
-  const price = (info?.price as RawSchema) ?? {};
-  const mode = String(price.mode ?? "fixed");
-  let priceUsd: number;
-  let baseUsd: number | null;
-  if (mode === "dynamic") {
-    priceUsd = Number(price.max);
-    baseUsd = Number(price.min);
-  } else {
-    priceUsd = Number(price.amount);
-    baseUsd = null;
+/**
+ * Parse the complete pricing.from first runtime-lane offer from discovery. This is exported
+ * so malformed and flat/linear cases can be tested with synthetic fixtures instead of
+ * pinning generator tests to mutable live catalog rows.
+ */
+export function extractCatalogPricing(value: unknown, slug: string): Pricing {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error(`SKU ${slug}: missing catalog discovery entry`);
   }
-
-  let perItemUsd: number | null = null;
-  let perItemUnit: string | null = null;
-  if (cat !== undefined) {
-    if (typeof cat.perItemCredits === "number") {
-      perItemUsd = round(cat.perItemCredits * CREDITS_TO_USD);
+  const cat = value as CatalogEntry;
+  if (cat.provider !== "AnyAPI") {
+    throw new Error(`SKU ${slug}: discovery provider must be AnyAPI`);
+  }
+  if (
+    typeof cat.pricing !== "object" ||
+    cat.pricing === null ||
+    Array.isArray(cat.pricing)
+  ) {
+    throw new Error(`SKU ${slug}: missing discovery pricing`);
+  }
+  const pricing = cat.pricing as Record<string, unknown>;
+  requireExactFields(
+    pricing,
+    ["from", "failoverMaxUsd"],
+    "discovery pricing",
+    slug,
+  );
+  strictUsd(
+    pricing["failoverMaxUsd"],
+    `SKU ${slug}: pricing.failoverMaxUsd`,
+  );
+  const from = pricing["from"];
+  if (typeof from !== "object" || from === null || Array.isArray(from)) {
+    throw new Error(`SKU ${slug}: missing discovery pricing.from offer`);
+  }
+  const offer = from as Record<string, unknown>;
+  const model = offer["model"];
+  const unit = offer["unit"];
+  if (model === "flat") {
+    requireExactFields(
+      offer,
+      ["model", "unit", "maxUsd"],
+      "discovery pricing.from",
+      slug,
+    );
+    if (unit !== "request") {
+      throw new Error(`SKU ${slug}: malformed flat discovery offer`);
     }
-    perItemUnit = cat.perItemUnit ?? null;
+    const maxUsd = strictUsd(
+      offer["maxUsd"],
+      `SKU ${slug}: pricing.from.maxUsd`,
+    );
+    return {
+      priceUsd: maxUsd,
+      baseUsd: null,
+      perItemUsd: null,
+      perItemUnit: null,
+    };
   }
-
-  return { priceUsd, baseUsd, perItemUsd, perItemUnit };
+  if (model === "linear") {
+    requireExactFields(
+      offer,
+      ["model", "unit", "baseUsd", "perUnitUsd", "maxUsd"],
+      "discovery pricing.from",
+      slug,
+    );
+    if (typeof unit !== "string" || unit.length === 0) {
+      throw new Error(
+        `SKU ${slug}: linear discovery offer requires a billable unit`,
+      );
+    }
+    const baseUsd = strictUsd(
+      offer["baseUsd"],
+      `SKU ${slug}: pricing.from.baseUsd`,
+    );
+    const perItemUsd = strictUsd(
+      offer["perUnitUsd"],
+      `SKU ${slug}: pricing.from.perUnitUsd`,
+    );
+    const maxUsd = strictUsd(
+      offer["maxUsd"],
+      `SKU ${slug}: pricing.from.maxUsd`,
+    );
+    return { priceUsd: maxUsd, baseUsd, perItemUsd, perItemUnit: unit };
+  }
+  throw new Error(
+    `SKU ${slug}: unknown discovery pricing model ${String(model)}`,
+  );
 }
 
-// Round to a clean decimal to avoid floating point noise (credits are integers so the
-// product is an exact multiple of 1e-5; round to 6 decimals for stability).
-function round(n: number): number {
-  return Math.round(n * 1e6) / 1e6;
+function strictUsd(value: unknown, path: string): number {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+    throw new Error(`${path} must be a non-negative number`);
+  }
+  return value;
+}
+
+function requireExactFields(
+  value: Record<string, unknown>,
+  fields: readonly string[],
+  path: string,
+  slug: string,
+): void {
+  const expected = new Set(fields);
+  for (const key of Object.keys(value)) {
+    if (!expected.has(key)) {
+      throw new Error(`SKU ${slug}: unexpected ${path} field ${key}`);
+    }
+  }
+  for (const field of fields) {
+    if (!Object.prototype.hasOwnProperty.call(value, field)) {
+      throw new Error(`SKU ${slug}: missing ${path}.${field}`);
+    }
+  }
 }
 
 // SPEC 1.4.10: paginated IFF input has a `cursor` string property AND the data object
@@ -277,7 +426,8 @@ function detectPagination(input: SchemaNode, data: SchemaNode): Pagination {
   const cursor = input.properties["cursor"];
   const hasCursor = cursor !== undefined && cursor.kind === "string";
   const dataObj = data.kind === "object" ? data : null;
-  const hasNext = dataObj !== null && dataObj.properties["nextCursor"] !== undefined;
+  const hasNext =
+    dataObj !== null && dataObj.properties["nextCursor"] !== undefined;
   if (!hasCursor || !hasNext || dataObj === null) return notPaginated;
 
   // itemsField: first array-kind property on the data object (declared order).
@@ -313,12 +463,19 @@ function collapseType(type: unknown): unknown {
   return type;
 }
 
-function toSchemaNode(raw: RawSchema): SchemaNode {
+export function toSchemaNode(raw: RawSchema): SchemaNode {
   const type = collapseType(raw.type);
-  const desc = typeof raw.description === "string" ? normalizeDashes(raw.description) : undefined;
+  const desc =
+    typeof raw.description === "string"
+      ? normalizeDashes(raw.description)
+      : undefined;
 
   // Unknown fallback: no recognizable type / empty {} (SPEC 1.3 unknown, 1.4).
-  if (type === undefined && raw.properties === undefined && raw.items === undefined) {
+  if (
+    type === undefined &&
+    raw.properties === undefined &&
+    raw.items === undefined
+  ) {
     return orderedNode({ kind: "unknown", description: desc });
   }
 
@@ -370,7 +527,9 @@ function objectNode(raw: RawSchema, desc: string | undefined): ObjectNode {
     if (child["x-anyapi-must-populate"] === true) mustPopulate.push(key);
     properties[key] = toSchemaNode(child);
   }
-  const required = Array.isArray(raw.required) ? (raw.required as string[]) : [];
+  const required = Array.isArray(raw.required)
+    ? (raw.required as string[])
+    : [];
   // SPEC 1.4.5: additionalProperties:false -> closed; anything else -> open.
   const open = raw.additionalProperties !== false;
 

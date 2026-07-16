@@ -114,7 +114,10 @@ export function pascalCase(operationId: string): string {
  * suffix within one operationId). Naive singularization is intentional: it never fails and
  * never needs a dictionary; "series" -> "Serie" is acceptable for a type name.
  */
-export function itemTypeName(operationId: string, arrayPropName: string): string {
+export function itemTypeName(
+  operationId: string,
+  arrayPropName: string,
+): string {
   const singular =
     arrayPropName.length > 1 && arrayPropName.endsWith("s")
       ? arrayPropName.slice(0, -1)
@@ -140,13 +143,9 @@ export function formatUsd(amount: number): string {
 }
 
 /**
- * The single "Price:" doc line shared by BOTH emitters (SPEC S1). Wording:
- *   - fixed pricing (perItemUsd null/0) -> "Price: $X per request."
- *   - per-item with base > 0 -> "Price: $BASE per request plus $PER per UNIT."
- *   - per-item with base 0/null -> "Price: $PER per UNIT." (never "$0 per request plus")
- * BASE is the per-request floor (`baseUsd` when set, else `priceUsd`) and UNIT falls back
- * to "result" when perItemUnit is null (SPEC 1.2 note). perItemUsd 0 is treated like null
- * (the extractor emits 0, not null, when catalog perItemCredits is 0).
+ * The single "Price:" doc line shared by BOTH emitters (SPEC S1). Flat offers name their
+ * request maximum. Linear offers preserve every part of the pricing.from runtime offer:
+ * base, per-unit amount, explicit billable unit, and maximum.
  */
 export function priceLine(pricing: {
   priceUsd: number;
@@ -155,16 +154,10 @@ export function priceLine(pricing: {
   perItemUnit: string | null;
 }): string {
   const { priceUsd, baseUsd, perItemUsd, perItemUnit } = pricing;
-  if (perItemUsd !== null && perItemUsd > 0) {
-    const unit = perItemUnit ?? "result";
-    // The per-request base fee is the dynamic floor `baseUsd`. When it is null or 0 there
-    // is no base clause (never "$0 per request plus ...") - just the per-unit price (S1).
-    if (baseUsd !== null && baseUsd > 0) {
-      return `Price: $${formatUsd(baseUsd)} per request plus $${formatUsd(
-        perItemUsd,
-      )} per ${unit}.`;
-    }
-    return `Price: $${formatUsd(perItemUsd)} per ${unit}.`;
+  if (baseUsd !== null && perItemUsd !== null && perItemUnit !== null) {
+    return `Price: $${formatUsd(baseUsd)} per request plus $${formatUsd(
+      perItemUsd,
+    )} per ${perItemUnit} (maximum $${formatUsd(priceUsd)}).`;
   }
   return `Price: $${formatUsd(priceUsd)} per request.`;
 }

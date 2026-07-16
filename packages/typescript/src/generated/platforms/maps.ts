@@ -552,10 +552,8 @@ export class MapsNamespace {
    * Google Maps Contacts
    *
    * Search Google Maps for businesses and enrich each result with contact details (emails, phones, and social profiles from their websites), up to 20 records per request.
-
-**Price:** billed per result - \$0.05 per 1,000 requests base + \$3.00 per 1,000 results, capped at \$60.05 per 1,000 requests.
    *
-   * Price: $0.00005 per request plus $0.003 per result.
+   * Price: $0.00005 per request plus $0.003 per result (maximum $0.06005).
    *
    * @example
    * const res = await client.maps.contacts({ location: "Austin, TX", query: "coffee shop", limit: 3, placeMinimumStars: "four", website: "withWebsite" });
@@ -571,10 +569,8 @@ export class MapsNamespace {
    * Google Maps Place Lookup
    *
    * Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with full details - address, phone, website, rating, hours, and coordinates - as normalized JSON.
-
-**Price:** billed per result - \$3.00 per 1,000 requests base + \$5.00 per 1,000 results, capped at \$9.00 per 1,000 requests.
    *
-   * Price: $0.003 per request plus $0.005 per result.
+   * Price: $0.003 per request plus $0.005 per result (maximum $0.009).
    *
    * @example
    * const res = await client.maps.place({ query: "Blue Bottle Coffee", location: "San Francisco, CA", website: "withWebsite" });
@@ -590,10 +586,8 @@ export class MapsNamespace {
    * Google Maps Reviews
    *
    * Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.
-
-**Price:** billed per result - \$0.05 per 1,000 requests base + \$0.40 per 1,000 results, capped at \$40.05 per 1,000 requests.
    *
-   * Price: $0.00005 per request plus $0.0004 per result.
+   * Price: $0.00005 per request plus $0.0004 per result (maximum $0.04005).
    *
    * @example
    * const res = await client.maps.reviews({ placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4", limit: 3, postedLimit: "year" });
@@ -609,10 +603,8 @@ export class MapsNamespace {
    * Google Maps Search
    *
    * Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.
-
-**Price:** billed per result - \$0.05 per 1,000 requests base + \$3.00 per 1,000 results, capped at \$60.05 per 1,000 requests.
    *
-   * Price: $0.00005 per request plus $0.003 per result.
+   * Price: $0.00005 per request plus $0.003 per result (maximum $0.06005).
    *
    * @example
    * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3, placeMinimumStars: "four", website: "withWebsite" });

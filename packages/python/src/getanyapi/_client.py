@@ -49,6 +49,7 @@ from .types import (
     AgentSignupResult,
     Balance,
     CatalogEntry,
+    CatalogSearchResults,
     RequestOptions,
     RunResult,
 )
@@ -71,9 +72,7 @@ def lookup_namespace(name: str) -> tuple[str, str, str] | None:
 def _resolve_api_key(api_key: str | None) -> str:
     key = api_key if api_key is not None else os.environ.get("ANYAPI_API_KEY")
     if not key:
-        raise AnyAPIError(
-            "no API key: pass api_key= or set ANYAPI_API_KEY", status=0
-        )
+        raise AnyAPIError("no API key: pass api_key= or set ANYAPI_API_KEY", status=0)
     return key
 
 
@@ -164,9 +163,7 @@ class AnyAPI:
                     continue
                 raise
             except httpx.TimeoutException as exc:
-                raise TimeoutError(
-                    str(exc) or "request timed out", status=0
-                ) from exc
+                raise TimeoutError(str(exc) or "request timed out", status=0) from exc
             except httpx.HTTPError as exc:
                 if retry.can_retry:
                     _transport.sleep(retry.next_delay(None))
@@ -223,11 +220,20 @@ class AnyAPI:
     def me(self) -> AccountProfile:
         return _account.parse_me(self._get(_account.me_path))
 
-    def catalog(
-        self, *, query: str | None = None, category: str | None = None
-    ) -> list[CatalogEntry]:
-        path, params = _account.catalog_request(query, category)
+    def catalog(self, *, category: str | None = None) -> list[CatalogEntry]:
+        path, params = _account.catalog_request(category)
         return _account.parse_catalog(self._get(path, params))
+
+    def search(
+        self,
+        *,
+        query: str,
+        category: str | None = None,
+        platform: str | None = None,
+        limit: int | None = None,
+    ) -> CatalogSearchResults:
+        path, params = _account.search_request(query, category, platform, limit)
+        return _account.parse_search(self._get(path, params))
 
     def describe(self, slug: str) -> CatalogEntry:
         return _account.parse_describe(self._get(_account.describe_path(slug)))

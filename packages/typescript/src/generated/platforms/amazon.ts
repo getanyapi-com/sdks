@@ -434,10 +434,8 @@ export class AmazonNamespace {
    * Amazon Products by ASIN
    *
    * Look up to 10 Amazon products in one call by ASIN - title, brand, price, ratings, images, and attributes - as normalized JSON.
-
-**Price:** billed per asin - \$3.50 per 1,000 asins, capped at \$35.00 per 1,000 requests.
    *
-   * Price: $0.0035 per asin.
+   * Price: $0 per request plus $0.0035 per asin (maximum $0.035).
    *
    * @example
    * const res = await client.amazon.asins({ asins: ["B09G9FPHY6"], limit: 3 });
@@ -453,10 +451,8 @@ export class AmazonNamespace {
    * Amazon Bestsellers
    *
    * List the top-ranked products of any Amazon Best Sellers category - rank, title, price, and rating - in one normalized request.
-
-**Price:** billed per result - \$4.10 per 1,000 results, capped at \$82.00 per 1,000 requests.
    *
-   * Price: $0.0041 per result.
+   * Price: $0 per request plus $0.0041 per result (maximum $0.082).
    *
    * @example
    * const res = await client.amazon.bestsellers({ url: "https://www.amazon.com/gp/bestsellers/electronics", limit: 3 });
@@ -472,10 +468,8 @@ export class AmazonNamespace {
    * Amazon Product
    *
    * Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.
-
-**Price:** billed per result - \$1.00 per 1,000 requests base + \$8.10 per 1,000 results, capped at \$9.10 per 1,000 requests.
    *
-   * Price: $0.001 per request plus $0.0081 per result.
+   * Price: $0.001 per request plus $0.0081 per result (maximum $0.0091).
    *
    * @example
    * const res = await client.amazon.product({ url: "https://www.amazon.com/dp/B00NTCH52W" });
@@ -491,8 +485,6 @@ export class AmazonNamespace {
    * Amazon Reviews
    *
    * Pull up to 50 customer reviews for any Amazon product by ASIN or URL - rating, title, text, date, and verified-purchase badge.
-
-**Price:** \$16.25 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01625 per request.
    *
@@ -510,10 +502,8 @@ export class AmazonNamespace {
    * Amazon Search
    *
    * Search Amazon from any search or category URL and get up to 20 matching products - title, price, rating, and thumbnail - in one normalized response.
-
-**Price:** billed per result - \$3.50 per 1,000 results, capped at \$70.00 per 1,000 requests.
    *
-   * Price: $0.0035 per result.
+   * Price: $0 per request plus $0.0035 per result (maximum $0.07).
    *
    * @example
    * const res = await client.amazon.search({ url: "https://www.amazon.com/s?k=laptop", limit: 3 });

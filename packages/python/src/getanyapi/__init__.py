@@ -32,15 +32,24 @@ from .types import (
     Balance,
     BareRunResult,
     CatalogEntry,
+    CatalogSearchResult,
+    CatalogSearchResults,
+    DiscoveryLane,
+    DiscoveryPricing,
+    FlatPricingOffer,
+    HighlightField,
+    LaneHealth,
+    LinearPricingOffer,
     Output,
     OutputFound,
     OutputNotFound,
+    PricingOffer,
     RequestOptions,
     RunResult,
     unwrap,
 )
 
-__version__ = "0.0.0"
+__version__ = "0.7.0"
 
 __all__ = [
     # clients + top-level functions
@@ -57,6 +66,15 @@ __all__ = [
     "Balance",
     "AccountProfile",
     "CatalogEntry",
+    "FlatPricingOffer",
+    "LinearPricingOffer",
+    "PricingOffer",
+    "DiscoveryPricing",
+    "LaneHealth",
+    "DiscoveryLane",
+    "HighlightField",
+    "CatalogSearchResult",
+    "CatalogSearchResults",
     "RequestOptions",
     "AgentSignupResult",
     # pagination

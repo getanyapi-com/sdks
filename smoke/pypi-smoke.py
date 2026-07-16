@@ -4,8 +4,8 @@ Installs are done by scripts/smoke.sh / the workflow into a fresh venv: this fil
 imports ``getanyapi`` as an INSTALLED package (never a path into the repo source)
 and exercises the real packaging plus one live production call.
 
-Flow: mint an ephemeral key via agent_signup() -> construct AnyAPI -> one live
-reddit.search call -> assert a well-formed, non-empty envelope. Exit nonzero on
+Flow: mint an ephemeral key via agent_signup() -> construct AnyAPI -> exercise
+catalog/search/describe -> one live reddit.search call -> assert a well-formed envelope. Exit nonzero on
 any failure with a readable report.
 """
 
@@ -44,8 +44,7 @@ def _with_retry(label: str, fn: Callable[[], T], attempts: int = 3) -> T:
                 break
             backoff = 0.5 * i
             print(
-                f"[retry] {label} attempt {i} failed ({err}); "
-                f"retrying in {backoff}s",
+                f"[retry] {label} attempt {i} failed ({err}); retrying in {backoff}s",
                 file=sys.stderr,
             )
             time.sleep(backoff)
@@ -69,8 +68,7 @@ def main() -> None:
             return True
         msg = str(err).lower()
         return any(
-            s in msg
-            for s in ("network", "timed out", "connection", "temporarily")
+            s in msg for s in ("network", "timed out", "connection", "temporarily")
         )
 
     def _guard(fn: Callable[[], T]) -> Callable[[], T]:
@@ -99,7 +97,37 @@ def main() -> None:
     # 2. Construct a client with the minted secret.
     client = sdk.AnyAPI(api_key=signup.secret)
 
-    # 3. One real, cheap, live data call. reddit.search is $0.001 and non-mock.
+    # 3. Exercise the published handwritten discovery surface first.
+    catalog = _with_retry("catalog", _guard(lambda: client.catalog(category="search")))
+    _assert(len(catalog) > 0, "catalog returned no search APIs")
+    _assert(catalog[0].provider == "AnyAPI", "catalog provider is not AnyAPI")
+    _assert(
+        isinstance(catalog[0].pricing.from_offer.max_usd, float),
+        "catalog nested pricing missing",
+    )
+
+    matches = _with_retry(
+        "search",
+        _guard(
+            lambda: client.search(query="reddit search", platform="reddit", limit=1)
+        ),
+    )
+    _assert(len(matches.results) == 1, "search returned no result")
+    _assert(
+        isinstance(matches.results[0].relevance, float),
+        "search relevance missing",
+    )
+    described = _with_retry(
+        "describe",
+        _guard(lambda: client.describe(matches.results[0].slug)),
+    )
+    _assert(
+        described.input_schema is not None and described.output_schema is not None,
+        "describe schemas missing",
+    )
+    print(f"[ok] discovery catalog/search/describe -> {described.slug}")
+
+    # 4. One real, cheap, live data call. reddit.search is non-mock.
     #    If the freshly minted cap blocks it (402), fall back to the cheapest
     #    known live SKU that returns a real 200.
     sku = "reddit.search"
@@ -107,9 +135,7 @@ def main() -> None:
         res: Any = _with_retry(
             "reddit.search",
             _guard(
-                lambda: client.reddit.search(
-                    query="mechanical keyboard", sort="top"
-                )
+                lambda: client.reddit.search(query="mechanical keyboard", sort="top")
             ),
         )
     except sdk.InsufficientBalanceError:
@@ -120,12 +146,10 @@ def main() -> None:
         )
         res = _with_retry(
             sku,
-            _guard(
-                lambda: client.reddit.subreddit_details(subreddit="programming")
-            ),
+            _guard(lambda: client.reddit.subreddit_details(subreddit="programming")),
         )
 
-    # 4. Assert the envelope is well-formed and the call was a real success.
+    # 5. Assert the envelope is well-formed and the call was a real success.
     _assert(res is not None, "no response object")
     _assert(
         res.provider == "AnyAPI",
@@ -137,7 +161,8 @@ def main() -> None:
     )
 
     if sku == "reddit.search":
-        posts = res.output.posts
+        _assert(res.output.found is True, "reddit.search returned not found")
+        posts = res.output.data.posts
         _assert(isinstance(posts, list), "output.posts is not a list")
         _assert(len(posts) > 0, "output.posts is empty (no real data returned)")
         first = posts[0]
@@ -145,9 +170,7 @@ def main() -> None:
             isinstance(first.title, str) and len(first.title) > 0,
             "first post has no title",
         )
-        _assert(
-            isinstance(first.subreddit, str), "first post has no subreddit"
-        )
+        _assert(isinstance(first.subreddit, str), "first post has no subreddit")
         print(
             f"[ok] {sku} -> {len(posts)} posts, cost_usd=${res.cost_usd}, "
             f'first="{first.title[:60]}"'
@@ -160,9 +183,7 @@ def main() -> None:
         )
         print(f"[ok] {sku} -> r/{data.name}, cost_usd=${res.cost_usd}")
 
-    print(
-        f"PASS pypi getanyapi: live {sku} call succeeded against production."
-    )
+    print(f"PASS pypi getanyapi: live {sku} call succeeded against production.")
 
 
 if __name__ == "__main__":

@@ -187,6 +187,150 @@
     "costUsd": 0.001,
     "items": 1
   },
+  "apollo.organization": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "apollo.organization_enrich": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "apollo.organization_jobs": {
+    "output": {
+      "found": true,
+      "data": {
+        "jobs": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "url": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "limit": 1,
+        "total": 1,
+        "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "apollo.organization_news": {
+    "output": {
+      "found": true,
+      "data": {
+        "articles": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "url": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "limit": 1,
+        "total": 1,
+        "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "apollo.organizations_bulk_enrich": {
+    "output": {
+      "found": true,
+      "data": {
+        "organizations": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "requested": 1,
+        "enriched": 1,
+        "missing": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "apollo.organizations_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "organizations": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "limit": 1,
+        "total": 1,
+        "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "apollo.people_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "id": "sample",
+            "firstName": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "total": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "apollo.person_enrich": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "firstName": "sample",
+        "lastName": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
   "appstore.reviews": {
     "output": {
       "found": true,

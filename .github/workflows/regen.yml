@@ -2,7 +2,7 @@ name: regen
 
 # Catalog-refresh automation. Re-fetches the live gateway snapshots, regenerates the SDKs,
 # classifies the IR diff into a semver bump, and (when the surface changed) commits the
-# regenerated tree with the two package versions bumped in lockstep, tags v<X.Y.Z>, and
+# regenerated tree with all package version surfaces bumped in lockstep, tags v<X.Y.Z>, and
 # triggers release.yml to publish.
 #
 # Triggers:
@@ -89,10 +89,11 @@ jobs:
         run: |
           git config user.name "anyapi-bot"
           git config user.email "support@getanyapi.com"
-          # Stage the refreshed snapshots, regenerated tree, and both bumped manifests.
+          # Stage snapshots, generated trees, both manifests, and Python's runtime version.
           git add openapi.json catalog.json generator/ir.json generator/fixtures.json \
             packages/typescript/src/generated packages/python/src/getanyapi/platforms \
-            packages/typescript/package.json packages/python/pyproject.toml
+            packages/typescript/package.json packages/python/pyproject.toml \
+            packages/python/src/getanyapi/__init__.py
           if git diff --cached --quiet; then
             echo "Classifier reported a bump but the tree is clean; aborting (no-op guard)."
             exit 0

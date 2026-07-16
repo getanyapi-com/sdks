@@ -145,10 +145,9 @@ class DexscreenerNamespace:
 
         List trending tokens on any blockchain from DEX Screener - price, liquidity,
         volume, transactions, and market cap - sorted how you want, as normalized
-        JSON. **Price:** billed per result - \$20.00 per 1,000 requests base +
-        \$1.50 per 1,000 results, capped at \$57.50 per 1,000 requests.
+        JSON.
 
-        Price: $0.02 per request plus $0.0015 per result.
+        Price: $0.02 per request plus $0.0015 per result (maximum $0.0575).
 
         Example:
             res = client.dexscreener.tokens(chain="solana", limit=5, min24HVol=100000)
@@ -175,10 +174,9 @@ class AsyncDexscreenerNamespace:
 
         List trending tokens on any blockchain from DEX Screener - price, liquidity,
         volume, transactions, and market cap - sorted how you want, as normalized
-        JSON. **Price:** billed per result - \$20.00 per 1,000 requests base +
-        \$1.50 per 1,000 results, capped at \$57.50 per 1,000 requests.
+        JSON.
 
-        Price: $0.02 per request plus $0.0015 per result.
+        Price: $0.02 per request plus $0.0015 per result (maximum $0.0575).
 
         Example:
             res = client.dexscreener.tokens(chain="solana", limit=5, min24HVol=100000)

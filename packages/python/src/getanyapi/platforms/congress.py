@@ -112,11 +112,9 @@ class CongressNamespace:
 
         Get US Congress members' financial disclosures and stock trades - member,
         ticker, transaction type, amount range, and dates - filterable by member,
-        ticker, or date range. **Price:** billed per result - \$1.00 per 1,000
-        requests base + \$1.90 per 1,000 results, capped at \$48.50 per 1,000
-        requests.
+        ticker, or date range.
 
-        Price: $0.001 per request plus $0.0019 per result.
+        Price: $0.001 per request plus $0.0019 per result (maximum $0.0485).
 
         Example:
             res = client.congress.trades(limit=5)
@@ -143,11 +141,9 @@ class AsyncCongressNamespace:
 
         Get US Congress members' financial disclosures and stock trades - member,
         ticker, transaction type, amount range, and dates - filterable by member,
-        ticker, or date range. **Price:** billed per result - \$1.00 per 1,000
-        requests base + \$1.90 per 1,000 results, capped at \$48.50 per 1,000
-        requests.
+        ticker, or date range.
 
-        Price: $0.001 per request plus $0.0019 per result.
+        Price: $0.001 per request plus $0.0019 per result (maximum $0.0485).
 
         Example:
             res = client.congress.trades(limit=5)

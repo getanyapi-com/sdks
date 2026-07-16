@@ -172,11 +172,9 @@ class EbayNamespace:
 
         Search eBay active listings by keyword with optional price-range,
         item-condition, listing-type, and sort filters and get title, price,
-        condition, shipping, and seller in one normalized response. **Price:**
-        billed per result - \$1.00 per 1,000 requests base + \$2.34 per 1,000
-        results, capped at \$59.50 per 1,000 requests.
+        condition, shipping, and seller in one normalized response.
 
-        Price: $0.001 per request plus $0.00234 per result.
+        Price: $0.001 per request plus $0.00234 per result (maximum $0.0595).
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")
@@ -196,11 +194,9 @@ class EbayNamespace:
 
         Retrieve recently sold eBay listings for any keyword with optional
         price-range and sort filters (sold price, sale date, condition, item
-        details); ideal for pricing research. **Price:** billed per result - \$0.05
-        per 1,000 requests base + \$4.00 per 1,000 results, capped at \$100.05 per
-        1,000 requests.
+        details); ideal for pricing research.
 
-        Price: $0.00005 per request plus $0.004 per result.
+        Price: $0.00005 per request plus $0.004 per result (maximum $0.10005).
 
         Example:
             res = client.ebay.sold_listings(limit=3, query="nintendo switch", sort="price_high")
@@ -224,11 +220,9 @@ class AsyncEbayNamespace:
 
         Search eBay active listings by keyword with optional price-range,
         item-condition, listing-type, and sort filters and get title, price,
-        condition, shipping, and seller in one normalized response. **Price:**
-        billed per result - \$1.00 per 1,000 requests base + \$2.34 per 1,000
-        results, capped at \$59.50 per 1,000 requests.
+        condition, shipping, and seller in one normalized response.
 
-        Price: $0.001 per request plus $0.00234 per result.
+        Price: $0.001 per request plus $0.00234 per result (maximum $0.0595).
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")
@@ -248,11 +242,9 @@ class AsyncEbayNamespace:
 
         Retrieve recently sold eBay listings for any keyword with optional
         price-range and sort filters (sold price, sale date, condition, item
-        details); ideal for pricing research. **Price:** billed per result - \$0.05
-        per 1,000 requests base + \$4.00 per 1,000 results, capped at \$100.05 per
-        1,000 requests.
+        details); ideal for pricing research.
 
-        Price: $0.00005 per request plus $0.004 per result.
+        Price: $0.00005 per request plus $0.004 per result (maximum $0.10005).
 
         Example:
             res = client.ebay.sold_listings(limit=3, query="nintendo switch", sort="price_high")

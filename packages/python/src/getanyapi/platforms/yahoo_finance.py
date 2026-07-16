@@ -90,11 +90,9 @@ class YahooFinanceNamespace:
         """Yahoo Finance Quote
 
         Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote
-        (price, market cap, volume, and key stats) as normalized JSON. **Price:**
-        billed per result - \$0.05 per 1,000 requests base + \$0.90 per 1,000
-        results, capped at \$0.95 per 1,000 requests.
+        (price, market cap, volume, and key stats) as normalized JSON.
 
-        Price: $0.00005 per request plus $0.0009 per result.
+        Price: $0.00005 per request plus $0.0009 per result (maximum $0.00095).
 
         Example:
             res = client.yahoo_finance.quote(ticker="AAPL")
@@ -120,11 +118,9 @@ class AsyncYahooFinanceNamespace:
         """Yahoo Finance Quote
 
         Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote
-        (price, market cap, volume, and key stats) as normalized JSON. **Price:**
-        billed per result - \$0.05 per 1,000 requests base + \$0.90 per 1,000
-        results, capped at \$0.95 per 1,000 requests.
+        (price, market cap, volume, and key stats) as normalized JSON.
 
-        Price: $0.00005 per request plus $0.0009 per result.
+        Price: $0.00005 per request plus $0.0009 per result (maximum $0.00095).
 
         Example:
             res = client.yahoo_finance.quote(ticker="AAPL")

@@ -493,8 +493,6 @@ export class WeiboNamespace {
    * Weibo Hot Search
    *
    * Get the complete current Weibo hot-search ranking with labels and heat values.
-
-**Price:** \$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0015 per request.
    *
@@ -512,8 +510,6 @@ export class WeiboNamespace {
    * Weibo Post
    *
    * Fetch a public Weibo post by ID with normalized author and engagement data.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -531,8 +527,6 @@ export class WeiboNamespace {
    * Weibo Post Comments
    *
    * List first-level comments on a public Weibo post with pagination.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -570,8 +564,6 @@ export class WeiboNamespace {
    * Weibo Profile
    *
    * Fetch a public Weibo profile by user ID with normalized audience and account data.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -589,8 +581,6 @@ export class WeiboNamespace {
    * Weibo Advanced Search
    *
    * Search public Weibo posts with optional result, media, and time filters.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -608,8 +598,6 @@ export class WeiboNamespace {
    * Weibo User Posts
    *
    * List public posts from a Weibo user with normalized author and engagement data.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *

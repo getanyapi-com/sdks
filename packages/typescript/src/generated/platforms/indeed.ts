@@ -97,10 +97,8 @@ export class IndeedNamespace {
    * Indeed Jobs
    *
    * Search Indeed job listings by keyword, location, and country - up to 20 normalized job records per request.
-
-**Price:** billed per result - \$0.80 per 1,000 requests base + \$0.08 per 1,000 results, capped at \$2.40 per 1,000 requests.
    *
-   * Price: $0.0008 per request plus $0.00008 per result.
+   * Price: $0.0008 per request plus $0.00008 per result (maximum $0.0024).
    *
    * @example
    * const res = await client.indeed.jobs({ query: "data analyst", limit: 3, location: "Austin, TX" });

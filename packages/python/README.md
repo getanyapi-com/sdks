@@ -15,8 +15,9 @@ from getanyapi import AnyAPI
 
 client = AnyAPI()  # reads ANYAPI_API_KEY from the environment
 res = client.reddit.search(query="mechanical keyboard")
-for post in res.output.posts:
-    print(post.title, post.score)
+if res.output.found:
+    for post in res.output.data.posts:
+        print(post.title, post.score)
 print("charged", res.cost_usd, "USD")
 ```
 
@@ -53,9 +54,22 @@ except ResultNotFoundError:
 ```
 
 `ResultNotFoundError` subclasses `NotFoundError`, so `except NotFoundError` catches both an
-HTTP 404 and an empty result; catch `ResultNotFoundError` to handle only empty results. A few
-SKUs (e.g. `reddit.search`) return their data object directly as `output` with no `found`
-wrapper; `unwrap` returns it as-is and never raises for those.
+HTTP 404 and an empty result; catch `ResultNotFoundError` to handle only empty results. If a
+future committed schema uses a bare output, generated typing returns its data object directly
+rather than relying on a hard-coded SKU list.
+
+## Discovery
+
+```python
+apis = client.catalog(category="search")
+matches = client.search(query="web search", platform="google", limit=10)
+api = client.describe(matches.results[0].slug)
+print(api.pricing.from_offer, api.pricing.failover_max_usd, api.input_schema)
+```
+
+Sync and async clients expose the same category-only `catalog`, dedicated ranked `search`, and
+schema-bearing `describe` methods. Prices are nested USD flat/linear offers, lanes are
+anonymous, and provider is always `"AnyAPI"`.
 
 ## Pagination
 
@@ -86,17 +100,17 @@ res = client.google.search(
 
 ## Errors and retries
 
-| Class | HTTP | Meaning |
-| --- | --- | --- |
-| `BadRequestError` | 400 | Input failed validation |
-| `AuthenticationError` | 401 | Missing or invalid API key |
-| `InsufficientBalanceError` | 402 | Wallet balance or per-key cap exceeded |
-| `NotFoundError` | 404 | Slug or resource does not exist |
-| `ResultNotFoundError` | - | `unwrap` on an empty found-data result |
-| `RateLimitedError` | 429 | Too many requests (retried automatically) |
-| `UpstreamError` | 502 | An upstream backend failed |
-| `ConnectionError` | 0 | Network or transport failure (retried) |
-| `TimeoutError` | 0 | Request exceeded its timeout (not retried) |
+| Class                      | HTTP | Meaning                                    |
+| -------------------------- | ---- | ------------------------------------------ |
+| `BadRequestError`          | 400  | Input failed validation                    |
+| `AuthenticationError`      | 401  | Missing or invalid API key                 |
+| `InsufficientBalanceError` | 402  | Wallet balance or per-key cap exceeded     |
+| `NotFoundError`            | 404  | Slug or resource does not exist            |
+| `ResultNotFoundError`      | -    | `unwrap` on an empty found-data result     |
+| `RateLimitedError`         | 429  | Too many requests (retried automatically)  |
+| `UpstreamError`            | 502  | An upstream backend failed                 |
+| `ConnectionError`          | 0    | Network or transport failure (retried)     |
+| `TimeoutError`             | 0    | Request exceeded its timeout (not retried) |
 
 All extend `AnyAPIError` (with `.status` and `.request_id`). Retries cover only 429 and network
 failures, with jittered exponential backoff honoring `Retry-After`. Default `max_retries` is 2
@@ -114,7 +128,7 @@ result = agent_signup(label="my-agent")
 client = AnyAPI(api_key=result.secret)
 ```
 
-The key ships with a small starter credit and a per-key spend cap; a human funds it by claiming
+The key ships with a small starter balance and a per-key spend cap; a human funds it by claiming
 it at `result.claim_url`.
 
 ## Docs

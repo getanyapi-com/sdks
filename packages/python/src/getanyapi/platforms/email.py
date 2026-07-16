@@ -90,10 +90,8 @@ class EmailNamespace:
         """Email Finder
 
         Find a person's work email address from their name and company domain.
-        **Price:** billed per result - \$5.00 per 1,000 requests base + \$8.00 per
-        1,000 results, capped at \$13.00 per 1,000 requests.
 
-        Price: $0.005 per request plus $0.008 per result.
+        Price: $0.005 per request plus $0.008 per result (maximum $0.013).
 
         Example:
             res = client.email.find(person={"domain": "stripe.com", "firstName": "Patrick", "surname": "Collison"})
@@ -112,10 +110,9 @@ class EmailNamespace:
         """Email Verifier
 
         Verify any email address for deliverability - syntax, domain, and mailbox
-        checks in one normalized response. **Price:** billed per result - \$0.80 per
-        1,000 results, capped at \$0.80 per 1,000 requests.
+        checks in one normalized response.
 
-        Price: $0.0008 per result.
+        Price: $0 per request plus $0.0008 per result (maximum $0.0008).
 
         Example:
             res = client.email.verify(email="patrick@stripe.com")
@@ -138,10 +135,8 @@ class AsyncEmailNamespace:
         """Email Finder
 
         Find a person's work email address from their name and company domain.
-        **Price:** billed per result - \$5.00 per 1,000 requests base + \$8.00 per
-        1,000 results, capped at \$13.00 per 1,000 requests.
 
-        Price: $0.005 per request plus $0.008 per result.
+        Price: $0.005 per request plus $0.008 per result (maximum $0.013).
 
         Example:
             res = client.email.find(person={"domain": "stripe.com", "firstName": "Patrick", "surname": "Collison"})
@@ -160,10 +155,9 @@ class AsyncEmailNamespace:
         """Email Verifier
 
         Verify any email address for deliverability - syntax, domain, and mailbox
-        checks in one normalized response. **Price:** billed per result - \$0.80 per
-        1,000 results, capped at \$0.80 per 1,000 requests.
+        checks in one normalized response.
 
-        Price: $0.0008 per result.
+        Price: $0 per request plus $0.0008 per result (maximum $0.0008).
 
         Example:
             res = client.email.verify(email="patrick@stripe.com")

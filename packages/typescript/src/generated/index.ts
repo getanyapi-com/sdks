@@ -11,6 +11,7 @@ export * from "./platforms/ahrefs.js";
 export * from "./platforms/airbnb.js";
 export * from "./platforms/alibaba.js";
 export * from "./platforms/amazon.js";
+export * from "./platforms/apollo.js";
 export * from "./platforms/appstore.js";
 export * from "./platforms/bluesky.js";
 export * from "./platforms/booking.js";
@@ -90,8 +91,18 @@ export type {
   RequestOptions,
   Paginator,
   AccountProfile,
-  CatalogQuery,
+  CatalogOptions,
+  FlatPricingOffer,
+  LinearPricingOffer,
+  PricingOffer,
+  DiscoveryPricing,
+  LaneHealth,
+  DiscoveryLane,
   CatalogEntry,
+  SearchOptions,
+  HighlightField,
+  CatalogSearchResult,
+  CatalogSearchResults,
   AgentSignupOptions,
   AgentSignupResult,
 } from "../core/index.js";

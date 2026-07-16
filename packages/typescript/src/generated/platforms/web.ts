@@ -213,10 +213,8 @@ export class WebNamespace {
    * Website Crawl
    *
    * Crawl a website and get clean text content from up to 10 pages in one normalized response - ideal for feeding sites into LLMs and search indexes.
-
-**Price:** billed per result - \$1.50 per 1,000 requests base + \$3.00 per 1,000 results, capped at \$31.50 per 1,000 requests.
    *
-   * Price: $0.0015 per request plus $0.003 per result.
+   * Price: $0.0015 per request plus $0.003 per result (maximum $0.0315).
    *
    * @example
    * const res = await client.web.crawl({ url: "https://example.com", limit: 3 });
@@ -232,8 +230,6 @@ export class WebNamespace {
    * Web Map
    *
    * Map an entire website into a clean list of its URLs (with titles and descriptions) in a single call.
-
-**Price:** \$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0009 per request.
    *
@@ -251,8 +247,6 @@ export class WebNamespace {
    * Web Scrape
    *
    * Scrape any web page and get its content back as clean Markdown (or HTML, or raw HTML) plus title and metadata.
-
-**Price:** \$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.0009 per request.
    *
@@ -270,10 +264,8 @@ export class WebNamespace {
    * Website Screenshot
    *
    * Capture a real-browser screenshot of any web page URL.
-
-**Price:** billed per result - \$1.58 per 1,000 results, capped at \$1.58 per 1,000 requests.
    *
-   * Price: $0.00158 per result.
+   * Price: $0 per request plus $0.00158 per result (maximum $0.00158).
    *
    * @example
    * const res = await client.web.screenshot({ url: "https://example.com" });

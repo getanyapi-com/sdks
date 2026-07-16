@@ -117,10 +117,8 @@ export class PlaystoreNamespace {
    * Google Play Reviews
    *
    * Fetch Google Play reviews for any Android app by package name or store URL - ratings, review text, dates, and helpfulness votes.
-
-**Price:** billed per result - \$0.11 per 1,000 results, capped at \$11.00 per 1,000 requests.
    *
-   * Price: $0.00011 per result.
+   * Price: $0 per request plus $0.00011 per result (maximum $0.011).
    *
    * @example
    * const res = await client.playstore.reviews({ appId: "com.whatsapp", limit: 3 });

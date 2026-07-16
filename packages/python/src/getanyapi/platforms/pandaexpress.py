@@ -156,8 +156,7 @@ class PandaexpressNamespace:
 
         Find Panda Express restaurants near a latitude/longitude, sorted by
         distance, with address, phone, hours availability, and pickup/delivery
-        support. **Price:** \$0.90 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        support.
 
         Price: $0.0009 per request.
 
@@ -179,8 +178,7 @@ class PandaexpressNamespace:
 
         Get the live menu for a Panda Express restaurant by id: categories with item
         names, descriptions, and USD prices. Pair with Panda Express Locations to
-        resolve a restaurant id. **Price:** \$0.90 per 1,000 requests (flat per
-        request - same cost regardless of results returned).
+        resolve a restaurant id.
 
         Price: $0.0009 per request.
 
@@ -202,8 +200,6 @@ class PandaexpressNamespace:
 
         Look up official Panda Express nutrition facts by item name: serving size,
         calories, fat, cholesterol, sodium, carbs, fiber, sugars, and protein.
-        **Price:** \$6.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.006 per request.
 
@@ -232,8 +228,7 @@ class AsyncPandaexpressNamespace:
 
         Find Panda Express restaurants near a latitude/longitude, sorted by
         distance, with address, phone, hours availability, and pickup/delivery
-        support. **Price:** \$0.90 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        support.
 
         Price: $0.0009 per request.
 
@@ -255,8 +250,7 @@ class AsyncPandaexpressNamespace:
 
         Get the live menu for a Panda Express restaurant by id: categories with item
         names, descriptions, and USD prices. Pair with Panda Express Locations to
-        resolve a restaurant id. **Price:** \$0.90 per 1,000 requests (flat per
-        request - same cost regardless of results returned).
+        resolve a restaurant id.
 
         Price: $0.0009 per request.
 
@@ -278,8 +272,6 @@ class AsyncPandaexpressNamespace:
 
         Look up official Panda Express nutrition facts by item name: serving size,
         calories, fat, cholesterol, sodium, carbs, fiber, sugars, and protein.
-        **Price:** \$6.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.006 per request.
 

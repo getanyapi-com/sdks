@@ -1240,8 +1240,6 @@ class FacebookNamespace:
 
         Look up a single Meta Ad Library ad by ID or URL and get the advertiser,
         creative text, call-to-action, platforms, and run dates as clean JSON.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1262,8 +1260,7 @@ class FacebookNamespace:
         """Facebook Ad Transcript
 
         Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or
-        URL. **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        URL.
 
         Price: $0.002 per request.
 
@@ -1285,8 +1282,7 @@ class FacebookNamespace:
 
         Search the Meta Ad Library by keyword and get matching ads - advertiser,
         creative text, CTA, platforms, and run dates - with cursor pagination and
-        transparent failover. **Price:** \$2.00 per 1,000 requests (flat per request
-        - same cost regardless of results returned).
+        transparent failover.
 
         Price: $0.002 per request.
 
@@ -1330,8 +1326,7 @@ class FacebookNamespace:
         """Facebook Comment Replies
 
         List the replies to a Facebook post comment - text, author, reactions, and
-        timestamps - as normalized JSON at a. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        timestamps - as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -1376,8 +1371,6 @@ class FacebookNamespace:
 
         List the Meta Ad Library ads a company is running by page ID or company name
         - creative text, format, platforms, and run dates - with cursor pagination.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1421,9 +1414,7 @@ class FacebookNamespace:
         """Facebook Event Details
 
         Fetch full details for a single Facebook event by ID or URL - name,
-        schedule, venue, hosts, and attendance - as normalized JSON at a. **Price:**
-        \$2.00 per 1,000 requests (flat per request - same cost regardless of
-        results returned).
+        schedule, venue, hosts, and attendance - as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -1445,8 +1436,6 @@ class FacebookNamespace:
 
         List public Facebook events for a city or place by its events-page URL -
         event name, date, venue, and attendance - as normalized JSON at a.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1491,8 +1480,6 @@ class FacebookNamespace:
 
         Search public Facebook events by keyword and get structured event records -
         name, schedule, venue, pricing, and attendance - as normalized JSON at a.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1536,10 +1523,9 @@ class FacebookNamespace:
         """Facebook Followers
 
         List the public followers - or accounts followed - of any Facebook page or
-        profile URL as normalized JSON records. **Price:** billed per result -
-        \$6.00 per 1,000 results, capped at \$120.00 per 1,000 requests.
+        profile URL as normalized JSON records.
 
-        Price: $0.006 per result.
+        Price: $0 per request plus $0.006 per result (maximum $0.12).
 
         Example:
             res = client.facebook.followers(limit=3, url="https://www.facebook.com/nike")
@@ -1558,8 +1544,7 @@ class FacebookNamespace:
         """Facebook Group Posts
 
         Fetch recent posts from any public Facebook group by URL - text, author,
-        reactions, and comment counts. **Price:** \$2.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        reactions, and comment counts.
 
         Price: $0.002 per request.
 
@@ -1604,8 +1589,7 @@ class FacebookNamespace:
 
         Search Facebook Marketplace listings by keyword near a location, with price,
         condition, delivery, recency, and availability filters - title, price,
-        location, and image - as normalized JSON. **Price:** \$2.00 per 1,000
-        requests (flat per request - same cost regardless of results returned).
+        location, and image - as normalized JSON.
 
         Price: $0.002 per request.
 
@@ -1650,8 +1634,6 @@ class FacebookNamespace:
 
         Fetch full details for a single Facebook Marketplace listing by ID or URL -
         title, price, location, photos, and attributes - as normalized JSON at a.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1672,8 +1654,7 @@ class FacebookNamespace:
         """Facebook Marketplace Location Search
 
         Resolve a place name to Facebook Marketplace locations with coordinates and
-        metadata as normalized JSON at a. **Price:** \$2.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        metadata as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -1694,8 +1675,7 @@ class FacebookNamespace:
         """Facebook Page Contact Info
 
         Look up a Facebook Page's public contact details - email, phone, website,
-        and address - by page URL or ID. **Price:** \$2.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        and address - by page URL or ID.
 
         Price: $0.002 per request.
 
@@ -1716,9 +1696,7 @@ class FacebookNamespace:
         """Facebook Page Photos
 
         Fetch recent photos posted by any public Facebook page or profile - image
-        URLs, captions, and dimensions - as normalized JSON at a. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        URLs, captions, and dimensions - as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -1762,9 +1740,7 @@ class FacebookNamespace:
         """Facebook Post
 
         Fetch a single Facebook post by URL with its text and engagement counts
-        (likes, comments, shares, views), normalized across providers. **Price:**
-        \$2.00 per 1,000 requests (flat per request - same cost regardless of
-        results returned).
+        (likes, comments, shares, views), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1785,9 +1761,7 @@ class FacebookNamespace:
         """Facebook Post Comments
 
         List the comments on a Facebook post by URL with cursor pagination (text,
-        author, reactions, reply count), normalized across providers. **Price:**
-        \$2.00 per 1,000 requests (flat per request - same cost regardless of
-        results returned).
+        author, reactions, reply count), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1831,8 +1805,7 @@ class FacebookNamespace:
         """Facebook Post Transcript
 
         Get the spoken-word transcript of any public Facebook video post by URL as
-        normalized JSON at a. **Price:** \$2.00 per 1,000 requests (flat per request
-        - same cost regardless of results returned).
+        normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -1853,8 +1826,7 @@ class FacebookNamespace:
         """Facebook Profile
 
         Fetch a Facebook page's public profile (likes, followers, category, about)
-        by URL or handle, normalized across providers. **Price:** \$2.00 per 1,000
-        requests (flat per request - same cost regardless of results returned).
+        by URL or handle, normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1875,9 +1847,7 @@ class FacebookNamespace:
         """Facebook Page Events
 
         List upcoming and past events hosted by any public Facebook page by URL -
-        name, schedule, venue, and host - as normalized JSON at a. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        name, schedule, venue, and host - as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -1921,9 +1891,7 @@ class FacebookNamespace:
         """Facebook Profile Posts
 
         List a Facebook page's recent posts by URL or page id with cursor pagination
-        (text, author, permalink), normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        (text, author, permalink), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1944,9 +1912,7 @@ class FacebookNamespace:
         """Facebook Profile Reels
 
         List a Facebook page's reels by URL with cursor pagination (caption, view
-        count, permalink, thumbnail), normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        count, permalink, thumbnail), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -1968,8 +1934,6 @@ class FacebookNamespace:
 
         Search the Meta Ad Library for advertisers by keyword and get matching pages
         - page ID, category, verification, follower counts, and linked Instagram.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -1991,10 +1955,8 @@ class FacebookNamespace:
 
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
         structured page profiles (name, category, followers, contact details) at a.
-        **Price:** billed per result - \$1.00 per 1,000 requests base + \$11.00 per
-        1,000 results, capped at \$111.00 per 1,000 requests.
 
-        Price: $0.001 per request plus $0.011 per result.
+        Price: $0.001 per request plus $0.011 per result (maximum $0.111).
 
         Example:
             res = client.facebook.search_pages(limit=3, query="nike")
@@ -2013,11 +1975,9 @@ class FacebookNamespace:
         """Facebook Post Search
 
         Search public Facebook posts by keyword, optionally filtered by location,
-        and get structured post records (text, author, engagement). **Price:**
-        billed per result - \$3.00 per 1,000 results, capped at \$60.00 per 1,000
-        requests.
+        and get structured post records (text, author, engagement).
 
-        Price: $0.003 per result.
+        Price: $0 per request plus $0.003 per result (maximum $0.06).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")
@@ -2044,8 +2004,6 @@ class AsyncFacebookNamespace:
 
         Look up a single Meta Ad Library ad by ID or URL and get the advertiser,
         creative text, call-to-action, platforms, and run dates as clean JSON.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2066,8 +2024,7 @@ class AsyncFacebookNamespace:
         """Facebook Ad Transcript
 
         Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or
-        URL. **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        URL.
 
         Price: $0.002 per request.
 
@@ -2089,8 +2046,7 @@ class AsyncFacebookNamespace:
 
         Search the Meta Ad Library by keyword and get matching ads - advertiser,
         creative text, CTA, platforms, and run dates - with cursor pagination and
-        transparent failover. **Price:** \$2.00 per 1,000 requests (flat per request
-        - same cost regardless of results returned).
+        transparent failover.
 
         Price: $0.002 per request.
 
@@ -2134,8 +2090,7 @@ class AsyncFacebookNamespace:
         """Facebook Comment Replies
 
         List the replies to a Facebook post comment - text, author, reactions, and
-        timestamps - as normalized JSON at a. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        timestamps - as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -2180,8 +2135,6 @@ class AsyncFacebookNamespace:
 
         List the Meta Ad Library ads a company is running by page ID or company name
         - creative text, format, platforms, and run dates - with cursor pagination.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2225,9 +2178,7 @@ class AsyncFacebookNamespace:
         """Facebook Event Details
 
         Fetch full details for a single Facebook event by ID or URL - name,
-        schedule, venue, hosts, and attendance - as normalized JSON at a. **Price:**
-        \$2.00 per 1,000 requests (flat per request - same cost regardless of
-        results returned).
+        schedule, venue, hosts, and attendance - as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -2249,8 +2200,6 @@ class AsyncFacebookNamespace:
 
         List public Facebook events for a city or place by its events-page URL -
         event name, date, venue, and attendance - as normalized JSON at a.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2295,8 +2244,6 @@ class AsyncFacebookNamespace:
 
         Search public Facebook events by keyword and get structured event records -
         name, schedule, venue, pricing, and attendance - as normalized JSON at a.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2340,10 +2287,9 @@ class AsyncFacebookNamespace:
         """Facebook Followers
 
         List the public followers - or accounts followed - of any Facebook page or
-        profile URL as normalized JSON records. **Price:** billed per result -
-        \$6.00 per 1,000 results, capped at \$120.00 per 1,000 requests.
+        profile URL as normalized JSON records.
 
-        Price: $0.006 per result.
+        Price: $0 per request plus $0.006 per result (maximum $0.12).
 
         Example:
             res = client.facebook.followers(limit=3, url="https://www.facebook.com/nike")
@@ -2362,8 +2308,7 @@ class AsyncFacebookNamespace:
         """Facebook Group Posts
 
         Fetch recent posts from any public Facebook group by URL - text, author,
-        reactions, and comment counts. **Price:** \$2.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        reactions, and comment counts.
 
         Price: $0.002 per request.
 
@@ -2408,8 +2353,7 @@ class AsyncFacebookNamespace:
 
         Search Facebook Marketplace listings by keyword near a location, with price,
         condition, delivery, recency, and availability filters - title, price,
-        location, and image - as normalized JSON. **Price:** \$2.00 per 1,000
-        requests (flat per request - same cost regardless of results returned).
+        location, and image - as normalized JSON.
 
         Price: $0.002 per request.
 
@@ -2454,8 +2398,6 @@ class AsyncFacebookNamespace:
 
         Fetch full details for a single Facebook Marketplace listing by ID or URL -
         title, price, location, photos, and attributes - as normalized JSON at a.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2476,8 +2418,7 @@ class AsyncFacebookNamespace:
         """Facebook Marketplace Location Search
 
         Resolve a place name to Facebook Marketplace locations with coordinates and
-        metadata as normalized JSON at a. **Price:** \$2.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        metadata as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -2498,8 +2439,7 @@ class AsyncFacebookNamespace:
         """Facebook Page Contact Info
 
         Look up a Facebook Page's public contact details - email, phone, website,
-        and address - by page URL or ID. **Price:** \$2.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        and address - by page URL or ID.
 
         Price: $0.002 per request.
 
@@ -2520,9 +2460,7 @@ class AsyncFacebookNamespace:
         """Facebook Page Photos
 
         Fetch recent photos posted by any public Facebook page or profile - image
-        URLs, captions, and dimensions - as normalized JSON at a. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        URLs, captions, and dimensions - as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -2566,9 +2504,7 @@ class AsyncFacebookNamespace:
         """Facebook Post
 
         Fetch a single Facebook post by URL with its text and engagement counts
-        (likes, comments, shares, views), normalized across providers. **Price:**
-        \$2.00 per 1,000 requests (flat per request - same cost regardless of
-        results returned).
+        (likes, comments, shares, views), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -2589,9 +2525,7 @@ class AsyncFacebookNamespace:
         """Facebook Post Comments
 
         List the comments on a Facebook post by URL with cursor pagination (text,
-        author, reactions, reply count), normalized across providers. **Price:**
-        \$2.00 per 1,000 requests (flat per request - same cost regardless of
-        results returned).
+        author, reactions, reply count), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -2635,8 +2569,7 @@ class AsyncFacebookNamespace:
         """Facebook Post Transcript
 
         Get the spoken-word transcript of any public Facebook video post by URL as
-        normalized JSON at a. **Price:** \$2.00 per 1,000 requests (flat per request
-        - same cost regardless of results returned).
+        normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -2657,8 +2590,7 @@ class AsyncFacebookNamespace:
         """Facebook Profile
 
         Fetch a Facebook page's public profile (likes, followers, category, about)
-        by URL or handle, normalized across providers. **Price:** \$2.00 per 1,000
-        requests (flat per request - same cost regardless of results returned).
+        by URL or handle, normalized across providers.
 
         Price: $0.002 per request.
 
@@ -2679,9 +2611,7 @@ class AsyncFacebookNamespace:
         """Facebook Page Events
 
         List upcoming and past events hosted by any public Facebook page by URL -
-        name, schedule, venue, and host - as normalized JSON at a. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        name, schedule, venue, and host - as normalized JSON at a.
 
         Price: $0.002 per request.
 
@@ -2725,9 +2655,7 @@ class AsyncFacebookNamespace:
         """Facebook Profile Posts
 
         List a Facebook page's recent posts by URL or page id with cursor pagination
-        (text, author, permalink), normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        (text, author, permalink), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -2748,9 +2676,7 @@ class AsyncFacebookNamespace:
         """Facebook Profile Reels
 
         List a Facebook page's reels by URL with cursor pagination (caption, view
-        count, permalink, thumbnail), normalized across providers. **Price:** \$2.00
-        per 1,000 requests (flat per request - same cost regardless of results
-        returned).
+        count, permalink, thumbnail), normalized across providers.
 
         Price: $0.002 per request.
 
@@ -2772,8 +2698,6 @@ class AsyncFacebookNamespace:
 
         Search the Meta Ad Library for advertisers by keyword and get matching pages
         - page ID, category, verification, follower counts, and linked Instagram.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -2795,10 +2719,8 @@ class AsyncFacebookNamespace:
 
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
         structured page profiles (name, category, followers, contact details) at a.
-        **Price:** billed per result - \$1.00 per 1,000 requests base + \$11.00 per
-        1,000 results, capped at \$111.00 per 1,000 requests.
 
-        Price: $0.001 per request plus $0.011 per result.
+        Price: $0.001 per request plus $0.011 per result (maximum $0.111).
 
         Example:
             res = client.facebook.search_pages(limit=3, query="nike")
@@ -2817,11 +2739,9 @@ class AsyncFacebookNamespace:
         """Facebook Post Search
 
         Search public Facebook posts by keyword, optionally filtered by location,
-        and get structured post records (text, author, engagement). **Price:**
-        billed per result - \$3.00 per 1,000 results, capped at \$60.00 per 1,000
-        requests.
+        and get structured post records (text, author, engagement).
 
-        Price: $0.003 per result.
+        Price: $0 per request plus $0.003 per result (maximum $0.06).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")
