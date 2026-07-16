@@ -1,6 +1,5 @@
-// Handwritten runtime core: account/catalog response mapping and standalone agent
-// signup. See SPEC.md 2.7. Credits never leak: perItemCredits/fromCredits are converted
-// to USD inside these mappers. Named exports only; zero runtime deps.
+// Handwritten runtime core: account/discovery response mapping and standalone agent
+// signup. See SPEC.md 2.7. Discovery is parsed strictly at this public Seam.
 
 import { AnyAPIError, ConnectionError, errorFromStatus } from "./errors.js";
 import type {
@@ -8,10 +7,15 @@ import type {
   AgentSignupOptions,
   AgentSignupResult,
   CatalogEntry,
+  CatalogSearchResult,
+  CatalogSearchResults,
+  DiscoveryLane,
+  DiscoveryPricing,
+  HighlightField,
+  LaneHealth,
+  PricingOffer,
 } from "./types.js";
 
-/** Internal accounting unit -> USD. 1 credit = $0.00001. Never exposed. */
-const CREDITS_TO_USD = 0.00001;
 const DEFAULT_BASE_URL = "https://api.getanyapi.com";
 
 /** Raw /v1/me shape (superset; internal-only fields are dropped by mapProfile). */
@@ -26,29 +30,178 @@ export interface ProfileResponse {
   signupGrantApplied?: boolean;
 }
 
-/** Raw catalog entry from /v1/apis (prices in the internal credits unit). */
-export interface CatalogEntryResponse {
-  slug: string;
-  name?: string;
-  category?: string | null;
-  description?: string | null;
-  fromCredits?: number | null;
-  platform?: string;
-  action?: string;
-}
+/** Raw customer-safe discovery bodies are intentionally unknown until validated. */
+export type CatalogEntryResponse = unknown;
 
 /** Raw /v1/apis list envelope. */
 export interface CatalogListResponse {
-  apis?: CatalogEntryResponse[];
+  apis: unknown;
 }
 
-/** Derive platform/action from a dotted slug (prefix before/after the first "."). */
-function splitSlug(slug: string): { platform: string; action: string } {
-  const dot = slug.indexOf(".");
-  if (dot < 0) {
-    return { platform: slug, action: "" };
+export type CatalogSearchResponse = unknown;
+
+function malformed(path: string): never {
+  throw new AnyAPIError(`malformed discovery response: ${path}`, 0);
+}
+
+function rejectInternalKeys(value: unknown, path: string): void {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) =>
+      rejectInternalKeys(item, `${path}[${index}]`),
+    );
+    return;
   }
-  return { platform: slug.slice(0, dot), action: slug.slice(dot + 1) };
+  if (typeof value !== "object" || value === null) return;
+  for (const [key, item] of Object.entries(value as Record<string, unknown>)) {
+    if (key.toLowerCase().includes("credit")) malformed(`${path}.${key}`);
+    rejectInternalKeys(item, `${path}.${key}`);
+  }
+}
+
+function record(value: unknown, path: string): Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return malformed(path);
+  }
+  return value as Record<string, unknown>;
+}
+
+function exactKeys(
+  raw: Record<string, unknown>,
+  allowed: readonly string[],
+  path: string,
+): void {
+  const keys = new Set(allowed);
+  for (const key of Object.keys(raw)) {
+    if (!keys.has(key)) malformed(`${path}.${key}`);
+  }
+}
+
+function stringField(
+  raw: Record<string, unknown>,
+  key: string,
+  path: string,
+): string {
+  const value = raw[key];
+  if (typeof value !== "string") return malformed(`${path}.${key}`);
+  return value;
+}
+
+function numberField(
+  raw: Record<string, unknown>,
+  key: string,
+  path: string,
+): number {
+  const value = raw[key];
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+    return malformed(`${path}.${key}`);
+  }
+  return value;
+}
+
+function integerField(
+  raw: Record<string, unknown>,
+  key: string,
+  path: string,
+): number {
+  const value = numberField(raw, key, path);
+  if (!Number.isInteger(value)) return malformed(`${path}.${key}`);
+  return value;
+}
+
+function boundedNumberField(
+  raw: Record<string, unknown>,
+  key: string,
+  path: string,
+  minimumExclusive: number | undefined,
+  maximumInclusive: number,
+): number {
+  const value = numberField(raw, key, path);
+  if (
+    (minimumExclusive !== undefined && value <= minimumExclusive) ||
+    value > maximumInclusive
+  ) {
+    return malformed(`${path}.${key}`);
+  }
+  return value;
+}
+
+function parseOffer(value: unknown, path: string): PricingOffer {
+  const raw = record(value, path);
+  const model = stringField(raw, "model", path);
+  const unit = stringField(raw, "unit", path);
+  const maxUsd = numberField(raw, "maxUsd", path);
+  if (model === "flat") {
+    exactKeys(raw, ["model", "unit", "maxUsd"], path);
+    if (unit !== "request" || "baseUsd" in raw || "perUnitUsd" in raw) {
+      return malformed(path);
+    }
+    return { model, unit, maxUsd };
+  }
+  if (model === "linear") {
+    exactKeys(raw, ["model", "unit", "baseUsd", "perUnitUsd", "maxUsd"], path);
+    if (unit.length === 0) return malformed(`${path}.unit`);
+    return {
+      model,
+      unit,
+      baseUsd: numberField(raw, "baseUsd", path),
+      perUnitUsd: numberField(raw, "perUnitUsd", path),
+      maxUsd,
+    };
+  }
+  return malformed(`${path}.model`);
+}
+
+function parsePricing(value: unknown, path: string): DiscoveryPricing {
+  const raw = record(value, path);
+  exactKeys(raw, ["from", "failoverMaxUsd"], path);
+  return {
+    from: parseOffer(raw["from"], `${path}.from`),
+    failoverMaxUsd: numberField(raw, "failoverMaxUsd", path),
+  };
+}
+
+function parseHealth(value: unknown, path: string): LaneHealth {
+  const raw = record(value, path);
+  exactKeys(raw, ["window", "uptimePct", "latencyP50Ms", "requests"], path);
+  if (raw["window"] !== "30d") return malformed(`${path}.window`);
+  return {
+    window: "30d",
+    uptimePct: boundedNumberField(raw, "uptimePct", path, undefined, 100),
+    latencyP50Ms: integerField(raw, "latencyP50Ms", path),
+    requests: integerField(raw, "requests", path),
+  };
+}
+
+function parseLane(value: unknown, path: string): DiscoveryLane {
+  const raw = record(value, path);
+  exactKeys(raw, ["pricing", "health"], path);
+  const lane: DiscoveryLane = {
+    pricing: parseOffer(raw["pricing"], `${path}.pricing`),
+  };
+  if (raw["health"] !== undefined) {
+    lane.health = parseHealth(raw["health"], `${path}.health`);
+  }
+  return lane;
+}
+
+function parseProvider(raw: Record<string, unknown>, path: string): "AnyAPI" {
+  if (raw["provider"] !== "AnyAPI") return malformed(`${path}.provider`);
+  return "AnyAPI";
+}
+
+function parseSchema(value: unknown, path: string): Record<string, unknown> {
+  return record(value, path);
+}
+
+function parseHighlight(value: unknown, path: string): HighlightField {
+  const raw = record(value, path);
+  exactKeys(raw, ["path", "type", "why"], path);
+  const field: HighlightField = {
+    path: stringField(raw, "path", path),
+    type: stringField(raw, "type", path),
+  };
+  if (raw["why"] !== undefined) field.why = stringField(raw, "why", path);
+  return field;
 }
 
 /** Map the raw /v1/me body to AccountProfile, dropping internal-only fields. */
@@ -65,23 +218,153 @@ export function mapProfile(raw: ProfileResponse): AccountProfile {
   return profile;
 }
 
-/** Map one raw catalog entry to CatalogEntry, converting credits to USD internally. */
+/** Map one customer-safe browse/detail entry, rejecting partial or legacy contracts. */
 export function mapCatalogEntry(raw: CatalogEntryResponse): CatalogEntry {
-  const derived = splitSlug(raw.slug);
-  return {
-    slug: raw.slug,
-    platform: raw.platform ?? derived.platform,
-    action: raw.action ?? derived.action,
-    name: raw.name ?? "",
-    category: raw.category ?? "",
-    description: raw.description ?? "",
-    priceUsd: (raw.fromCredits ?? 0) * CREDITS_TO_USD,
+  rejectInternalKeys(raw, "api");
+  const value = record(raw, "api");
+  exactKeys(
+    value,
+    [
+      "id",
+      "slug",
+      "category",
+      "name",
+      "description",
+      "provider",
+      "pricing",
+      "lanes",
+      "heavy",
+      "tryEligible",
+      "inputSchema",
+      "outputSchema",
+    ],
+    "api",
+  );
+  const lanesRaw = value["lanes"];
+  if (!Array.isArray(lanesRaw) || lanesRaw.length === 0) {
+    return malformed("api.lanes");
+  }
+  const entry: CatalogEntry = {
+    id: stringField(value, "id", "api"),
+    slug: stringField(value, "slug", "api"),
+    category: stringField(value, "category", "api"),
+    name: stringField(value, "name", "api"),
+    description: stringField(value, "description", "api"),
+    provider: parseProvider(value, "api"),
+    pricing: parsePricing(value["pricing"], "api.pricing"),
+    lanes: lanesRaw.map((lane, index) =>
+      parseLane(lane, `api.lanes[${index}]`),
+    ),
+    heavy: value["heavy"] === undefined ? false : value["heavy"] === true,
+    tryEligible: value["tryEligible"] === true,
   };
+  if (value["heavy"] !== undefined && typeof value["heavy"] !== "boolean") {
+    return malformed("api.heavy");
+  }
+  if (typeof value["tryEligible"] !== "boolean")
+    return malformed("api.tryEligible");
+  if (value["inputSchema"] !== undefined) {
+    entry.inputSchema = parseSchema(value["inputSchema"], "api.inputSchema");
+  }
+  if (value["outputSchema"] !== undefined) {
+    entry.outputSchema = parseSchema(value["outputSchema"], "api.outputSchema");
+  }
+  if (!offersEqual(entry.pricing.from, entry.lanes[0]!.pricing)) {
+    return malformed("api.pricing.from");
+  }
+  const failoverMaxUsd = Math.max(
+    ...entry.lanes.map((lane) => lane.pricing.maxUsd),
+  );
+  if (entry.pricing.failoverMaxUsd !== failoverMaxUsd) {
+    return malformed("api.pricing.failoverMaxUsd");
+  }
+  return entry;
+}
+
+function offersEqual(left: PricingOffer, right: PricingOffer): boolean {
+  if (
+    left.model !== right.model ||
+    left.unit !== right.unit ||
+    left.maxUsd !== right.maxUsd
+  ) {
+    return false;
+  }
+  if (left.model === "flat" || right.model === "flat") {
+    return left.model === right.model;
+  }
+  return left.baseUsd === right.baseUsd && left.perUnitUsd === right.perUnitUsd;
+}
+
+/** Detail responses must include both schemas; browse/search intentionally omit them. */
+export function mapCatalogDetail(raw: CatalogEntryResponse): CatalogEntry {
+  const entry = mapCatalogEntry(raw);
+  if (entry.inputSchema === undefined) return malformed("api.inputSchema");
+  if (entry.outputSchema === undefined) return malformed("api.outputSchema");
+  return entry;
 }
 
 /** Map the raw /v1/apis list to CatalogEntry[]. */
 export function mapCatalogList(raw: CatalogListResponse): CatalogEntry[] {
-  return (raw.apis ?? []).map(mapCatalogEntry);
+  const envelope = record(raw, "catalog");
+  exactKeys(envelope, ["apis"], "catalog");
+  if (!Array.isArray(envelope["apis"])) return malformed("catalog.apis");
+  return envelope["apis"].map(mapCatalogEntry);
+}
+
+function mapSearchResult(value: unknown, path: string): CatalogSearchResult {
+  const raw = record(value, path);
+  exactKeys(
+    raw,
+    [
+      "slug",
+      "platformId",
+      "name",
+      "description",
+      "category",
+      "provider",
+      "pricing",
+      "relevance",
+      "highlightFields",
+    ],
+    path,
+  );
+  const result: CatalogSearchResult = {
+    slug: stringField(raw, "slug", path),
+    platformId: stringField(raw, "platformId", path),
+    name: stringField(raw, "name", path),
+    description: stringField(raw, "description", path),
+    category: stringField(raw, "category", path),
+    provider: parseProvider(raw, path),
+    pricing: parsePricing(raw["pricing"], `${path}.pricing`),
+    relevance: boundedNumberField(raw, "relevance", path, 0, 1),
+  };
+  if (raw["highlightFields"] !== undefined) {
+    if (!Array.isArray(raw["highlightFields"]))
+      return malformed(`${path}.highlightFields`);
+    result.highlightFields = raw["highlightFields"].map((field, index) =>
+      parseHighlight(field, `${path}.highlightFields[${index}]`),
+    );
+  }
+  return result;
+}
+
+export function mapCatalogSearch(
+  raw: CatalogSearchResponse,
+): CatalogSearchResults {
+  rejectInternalKeys(raw, "search");
+  const envelope = record(raw, "search");
+  exactKeys(envelope, ["results", "total", "ranking"], "search");
+  if (!Array.isArray(envelope["results"])) return malformed("search.results");
+  const ranking = envelope["ranking"];
+  if (ranking !== "semantic" && ranking !== "keyword")
+    return malformed("search.ranking");
+  return {
+    results: envelope["results"].map((row, index) =>
+      mapSearchResult(row, `search.results[${index}]`),
+    ),
+    total: integerField(envelope, "total", "search"),
+    ranking,
+  };
 }
 
 /** Raw /agent/signup body. */

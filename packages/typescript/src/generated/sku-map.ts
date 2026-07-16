@@ -33,6 +33,24 @@ import type {
   AmazonSearchInput,
 } from "./platforms/amazon.js";
 import type {
+  ApolloOrganizationData,
+  ApolloOrganizationEnrichData,
+  ApolloOrganizationEnrichInput,
+  ApolloOrganizationInput,
+  ApolloOrganizationJobsData,
+  ApolloOrganizationJobsInput,
+  ApolloOrganizationNewsData,
+  ApolloOrganizationNewsInput,
+  ApolloOrganizationsBulkEnrichData,
+  ApolloOrganizationsBulkEnrichInput,
+  ApolloOrganizationsSearchData,
+  ApolloOrganizationsSearchInput,
+  ApolloPeopleSearchData,
+  ApolloPeopleSearchInput,
+  ApolloPersonEnrichData,
+  ApolloPersonEnrichInput,
+} from "./platforms/apollo.js";
+import type {
   AppstoreReviewsData,
   AppstoreReviewsInput,
 } from "./platforms/appstore.js";
@@ -696,6 +714,46 @@ export interface SkuMap {
     input: AmazonSearchInput;
     data: AmazonSearchData;
     result: RunResult<AmazonSearchData>;
+  };
+  "apollo.organization": {
+    input: ApolloOrganizationInput;
+    data: ApolloOrganizationData;
+    result: RunResult<ApolloOrganizationData>;
+  };
+  "apollo.organization_enrich": {
+    input: ApolloOrganizationEnrichInput;
+    data: ApolloOrganizationEnrichData;
+    result: RunResult<ApolloOrganizationEnrichData>;
+  };
+  "apollo.organization_jobs": {
+    input: ApolloOrganizationJobsInput;
+    data: ApolloOrganizationJobsData;
+    result: RunResult<ApolloOrganizationJobsData>;
+  };
+  "apollo.organization_news": {
+    input: ApolloOrganizationNewsInput;
+    data: ApolloOrganizationNewsData;
+    result: RunResult<ApolloOrganizationNewsData>;
+  };
+  "apollo.organizations_bulk_enrich": {
+    input: ApolloOrganizationsBulkEnrichInput;
+    data: ApolloOrganizationsBulkEnrichData;
+    result: RunResult<ApolloOrganizationsBulkEnrichData>;
+  };
+  "apollo.organizations_search": {
+    input: ApolloOrganizationsSearchInput;
+    data: ApolloOrganizationsSearchData;
+    result: RunResult<ApolloOrganizationsSearchData>;
+  };
+  "apollo.people_search": {
+    input: ApolloPeopleSearchInput;
+    data: ApolloPeopleSearchData;
+    result: RunResult<ApolloPeopleSearchData>;
+  };
+  "apollo.person_enrich": {
+    input: ApolloPersonEnrichInput;
+    data: ApolloPersonEnrichData;
+    result: RunResult<ApolloPersonEnrichData>;
   };
   "appstore.reviews": {
     input: AppstoreReviewsInput;

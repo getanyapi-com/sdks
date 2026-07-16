@@ -96,10 +96,9 @@ class PlaystoreNamespace:
         """Google Play Reviews
 
         Fetch Google Play reviews for any Android app by package name or store URL -
-        ratings, review text, dates, and helpfulness votes. **Price:** billed per
-        result - \$0.11 per 1,000 results, capped at \$11.00 per 1,000 requests.
+        ratings, review text, dates, and helpfulness votes.
 
-        Price: $0.00011 per result.
+        Price: $0 per request plus $0.00011 per result (maximum $0.011).
 
         Example:
             res = client.playstore.reviews(appId="com.whatsapp", limit=3)
@@ -125,10 +124,9 @@ class AsyncPlaystoreNamespace:
         """Google Play Reviews
 
         Fetch Google Play reviews for any Android app by package name or store URL -
-        ratings, review text, dates, and helpfulness votes. **Price:** billed per
-        result - \$0.11 per 1,000 results, capped at \$11.00 per 1,000 requests.
+        ratings, review text, dates, and helpfulness votes.
 
-        Price: $0.00011 per result.
+        Price: $0 per request plus $0.00011 per result (maximum $0.011).
 
         Example:
             res = client.playstore.reviews(appId="com.whatsapp", limit=3)

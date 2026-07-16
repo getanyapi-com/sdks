@@ -30,6 +30,7 @@ from .types import (
     AccountProfile,
     Balance,
     CatalogEntry,
+    CatalogSearchResults,
     RequestOptions,
     RunResult,
 )
@@ -42,9 +43,7 @@ _DEFAULT_BASE_URL = "https://api.getanyapi.com"
 def _resolve_api_key(api_key: str | None) -> str:
     key = api_key if api_key is not None else os.environ.get("ANYAPI_API_KEY")
     if not key:
-        raise AnyAPIError(
-            "no API key: pass api_key= or set ANYAPI_API_KEY", status=0
-        )
+        raise AnyAPIError("no API key: pass api_key= or set ANYAPI_API_KEY", status=0)
     return key
 
 
@@ -129,9 +128,7 @@ class AsyncAnyAPI:
                     continue
                 raise
             except httpx.TimeoutException as exc:
-                raise TimeoutError(
-                    str(exc) or "request timed out", status=0
-                ) from exc
+                raise TimeoutError(str(exc) or "request timed out", status=0) from exc
             except httpx.HTTPError as exc:
                 if retry.can_retry:
                     await asyncio.sleep(retry.next_delay(None))
@@ -162,17 +159,13 @@ class AsyncAnyAPI:
 
     # -- account + catalog ------------------------------------------------
 
-    async def _get(
-        self, path: str, params: dict[str, str] | None = None
-    ) -> object:
+    async def _get(self, path: str, params: dict[str, str] | None = None) -> object:
         url = f"{self._base_url}{path}"
         headers = {
             "Authorization": f"Bearer {self._api_key}",
             "Accept": "application/json",
         }
-        response = await self._http.get(
-            url, params=params or {}, headers=headers
-        )
+        response = await self._http.get(url, params=params or {}, headers=headers)
         return self._json_or_raise(response)
 
     def _json_or_raise(self, response: httpx.Response) -> object:
@@ -192,11 +185,20 @@ class AsyncAnyAPI:
     async def me(self) -> AccountProfile:
         return _account.parse_me(await self._get(_account.me_path))
 
-    async def catalog(
-        self, *, query: str | None = None, category: str | None = None
-    ) -> list[CatalogEntry]:
-        path, params = _account.catalog_request(query, category)
+    async def catalog(self, *, category: str | None = None) -> list[CatalogEntry]:
+        path, params = _account.catalog_request(category)
         return _account.parse_catalog(await self._get(path, params))
+
+    async def search(
+        self,
+        *,
+        query: str,
+        category: str | None = None,
+        platform: str | None = None,
+        limit: int | None = None,
+    ) -> CatalogSearchResults:
+        path, params = _account.search_request(query, category, platform, limit)
+        return _account.parse_search(await self._get(path, params))
 
     async def describe(self, slug: str) -> CatalogEntry:
         body = await self._get(_account.describe_path(slug))

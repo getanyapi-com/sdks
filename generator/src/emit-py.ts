@@ -53,7 +53,9 @@ export function emitPython(ir: IR, outDir: string): FileMap {
   // Group SKUs by python namespace (platform slug). SKUs arrive sorted by slug already,
   // but sort defensively so output is deterministic regardless of input order.
   const byPlatform = new Map<string, SkuEntry[]>();
-  for (const sku of [...ir.skus].sort((a, b) => (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0))) {
+  for (const sku of [...ir.skus].sort((a, b) =>
+    a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0,
+  )) {
     const key = sku.pyNamespace;
     const list = byPlatform.get(key) ?? [];
     list.push(sku);
@@ -64,10 +66,16 @@ export function emitPython(ir: IR, outDir: string): FileMap {
 
   for (const platform of platformNames) {
     const skus = byPlatform.get(platform)!;
-    files[`${PLATFORMS_DIR}/${platform}.py`] = emitPlatformModule(platform, skus);
+    files[`${PLATFORMS_DIR}/${platform}.py`] = emitPlatformModule(
+      platform,
+      skus,
+    );
   }
 
-  files[`${PLATFORMS_DIR}/__init__.py`] = emitRegistry(platformNames, byPlatform);
+  files[`${PLATFORMS_DIR}/__init__.py`] = emitRegistry(
+    platformNames,
+    byPlatform,
+  );
 
   // Pipe every file through `ruff format` when the tool is available so the output is a
   // ruff fixed point; otherwise the pre-formatted text is returned unchanged. Ruff is
@@ -126,12 +134,19 @@ function emitPlatformModule(platform: string, skus: SkuEntry[]): string {
   bodyParts.push("");
   const body = bodyParts.join("\n");
 
+  // Import detection must ignore docstrings and string-valued descriptions: live prose can
+  // contain words such as "Any" without the generated code using typing.Any.
+  const codeBody = body
+    .replace(/"""[\s\S]*?"""/g, "")
+    .replace(/"(?:\\.|[^"\\])*"/g, "");
   const uses = (symbol: string): boolean =>
-    new RegExp(`\\b${symbol}\\b`).test(body);
+    new RegExp(`\\b${symbol}\\b`).test(codeBody);
 
   const parts: string[] = [];
   parts.push(GENERATED_HEADER_PY);
-  parts.push('"""Generated namespace module for the ' + platform + ' platform."""');
+  parts.push(
+    '"""Generated namespace module for the ' + platform + ' platform."""',
+  );
   parts.push("");
   parts.push("from __future__ import annotations");
   parts.push("");
@@ -196,10 +211,16 @@ function platformClassName(platform: string, async: boolean): string {
   return async ? "Async" + base : base;
 }
 
-function emitNamespaceClass(className: string, clientType: string, methods: string[]): string {
+function emitNamespaceClass(
+  className: string,
+  clientType: string,
+  methods: string[],
+): string {
   const lines: string[] = [];
   lines.push(`class ${className}:`);
-  lines.push(`    """Typed methods for this platform. Attached lazily to the client."""`);
+  lines.push(
+    `    """Typed methods for this platform. Attached lazily to the client."""`,
+  );
   lines.push("");
   lines.push(`    def __init__(self, client: "${clientType}") -> None:`);
   lines.push(`        self._client = client`);
@@ -270,8 +291,16 @@ function emitInputTypedDict(sku: SkuEntry): string {
 }
 
 function nodeHasDefault(node: SchemaNode): boolean {
-  if (node.kind === "string" || node.kind === "integer" || node.kind === "number" || node.kind === "boolean") {
-    return (node as { default?: unknown }).default !== null && (node as { default?: unknown }).default !== undefined;
+  if (
+    node.kind === "string" ||
+    node.kind === "integer" ||
+    node.kind === "number" ||
+    node.kind === "boolean"
+  ) {
+    return (
+      (node as { default?: unknown }).default !== null &&
+      (node as { default?: unknown }).default !== undefined
+    );
   }
   return false;
 }
@@ -321,7 +350,8 @@ function fieldDocComment(node: SchemaNode, mustPopulate = false): string {
   const def = (node as { default?: unknown }).default;
   if (def !== null && def !== undefined) bits.push(`Default: ${def}.`);
 
-  if (mustPopulate) bits.push("Present whenever the upstream returns this record.");
+  if (mustPopulate)
+    bits.push("Present whenever the upstream returns this record.");
 
   return bits.join(" ");
 }
@@ -458,7 +488,9 @@ function pyOutputType(
     case "string": {
       const en = node.enum;
       if (en && en.length > 0) {
-        return { type: `Literal[${en.map((v) => pyStringLiteral(v)).join(", ")}]` };
+        return {
+          type: `Literal[${en.map((v) => pyStringLiteral(v)).join(", ")}]`,
+        };
       }
       return { type: "str" };
     }
@@ -476,7 +508,8 @@ function pyOutputType(
       if (isObjectNode(items)) {
         // Nested item model. Name = prefix + TitleCase(singular(propKey)), fallback Item.
         const itemName = itemModelName(prefix, propKey);
-        const register = () => emitObjectModel(itemName, items, prefix, ctx, sku);
+        const register = () =>
+          emitObjectModel(itemName, items, prefix, ctx, sku);
         return { type: `list[${itemName}]`, register };
       }
       const inner = pyOutputType(items, prefix, propKey, ctx, sku);
@@ -485,7 +518,8 @@ function pyOutputType(
     case "object": {
       if (isObjectNode(node)) {
         const nestedName = itemModelName(prefix, propKey);
-        const register = () => emitObjectModel(nestedName, node, prefix, ctx, sku);
+        const register = () =>
+          emitObjectModel(nestedName, node, prefix, ctx, sku);
         return { type: nestedName, register };
       }
       return { type: "dict[str, Any]" };
@@ -512,7 +546,9 @@ function emitMethod(sku: SkuEntry, async: boolean): string {
   const kw = async ? "async def" : "def";
   // Sync namespaces call client._run_raw; async namespaces call client._arun_raw (SPEC N2).
   // The raw seam returns the parsed JSON dict; we validate it ONCE into the typed model.
-  const runSeam = async ? "await self._client._arun_raw" : "self._client._run_raw";
+  const runSeam = async
+    ? "await self._client._arun_raw"
+    : "self._client._run_raw";
   const bare = sku.output.envelope === "bare";
   const ret = bare
     ? `BareRunResult[${sku.outputTypeName}]`
@@ -567,12 +603,8 @@ function emitIterMethod(sku: SkuEntry, async: boolean): string {
     `"""`,
   ];
   lines.push(...doc.map((l) => "        " + l));
-  lines.push(
-    `        return ${helper}(`,
-  );
-  lines.push(
-    `            self._client,`,
-  );
+  lines.push(`        return ${helper}(`);
+  lines.push(`            self._client,`);
   lines.push(`            ${pyStringLiteral(sku.slug)},`);
   lines.push(`            dict(input),`);
   lines.push(`            ${pyStringLiteral(itemsField)},`);
@@ -611,8 +643,8 @@ function paginatorItemModel(sku: SkuEntry, itemsField: string): string {
 
 function methodDocstring(sku: SkuEntry, method: string): string[] {
   const lines: string[] = [];
-  lines.push(`"""${dashNorm(sku.name)}`);
-  const desc = dashNorm(sku.description).trim();
+  lines.push(`"""${docstringSafe(dashNorm(sku.name))}`);
+  const desc = docstringSafe(dashNorm(sku.description)).trim();
   if (desc) {
     lines.push("");
     for (const wrapped of wrapText(desc, 76)) lines.push(wrapped);
@@ -629,6 +661,11 @@ function methodDocstring(sku: SkuEntry, method: string): string[] {
   return lines;
 }
 
+/** Escape source-significant sequences in text embedded directly in a Python docstring. */
+function docstringSafe(value: string): string {
+  return value.replace(/\\/g, "\\\\").replace(/"""/g, '\\"\\"\\"');
+}
+
 /** Example: block rendered as client.<ns>.<method>(k=v, ...) from SkuEntry.example. */
 function exampleLine(sku: SkuEntry, method: string): string | null {
   const ex = sku.example;
@@ -637,7 +674,9 @@ function exampleLine(sku: SkuEntry, method: string): string | null {
   if (entries.length === 0) {
     return `res = client.${sku.pyNamespace}.${method}()`;
   }
-  const args = entries.map(([k, v]) => `${escapePyKeyword(k)}=${pyReprValue(v)}`).join(", ");
+  const args = entries
+    .map(([k, v]) => `${escapePyKeyword(k)}=${pyReprValue(v)}`)
+    .join(", ");
   return `res = client.${sku.pyNamespace}.${method}(${args})`;
 }
 
@@ -680,14 +719,21 @@ function wrapText(text: string, width: number): string[] {
 // Registry (platforms/__init__.py) - SPEC runtime contract
 // --------------------------------------------------------------------------------------
 
-function emitRegistry(platformNames: string[], byPlatform: Map<string, SkuEntry[]>): string {
+function emitRegistry(
+  platformNames: string[],
+  byPlatform: Map<string, SkuEntry[]>,
+): string {
   void byPlatform;
   const lines: string[] = [];
   lines.push(GENERATED_HEADER_PY);
   lines.push('"""Lazy namespace registry.');
   lines.push("");
-  lines.push("Maps a client attribute name to (module name, sync class, async class). The");
-  lines.push("sync/async clients read this via __getattr__ to attach namespaces on first use,");
+  lines.push(
+    "Maps a client attribute name to (module name, sync class, async class). The",
+  );
+  lines.push(
+    "sync/async clients read this via __getattr__ to attach namespaces on first use,",
+  );
   lines.push("so `import getanyapi` stays fast (SPEC 3.1).");
   lines.push('"""');
   lines.push("");
@@ -703,7 +749,7 @@ function emitRegistry(platformNames: string[], byPlatform: Map<string, SkuEntry[
   }
   lines.push("}");
   lines.push("");
-  lines.push("__all__ = [\"REGISTRY\"]");
+  lines.push('__all__ = ["REGISTRY"]');
   lines.push("");
   return normalizeTrailing(lines.join("\n"));
 }

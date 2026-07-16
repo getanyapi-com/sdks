@@ -11,9 +11,17 @@ interface PageData {
 /** A fake core that returns scripted pages and records the inputs it was called with. */
 function scriptedCore(pages: Array<RunResult<PageData>>): {
   core: ClientCore;
-  seen: Array<{ slug: string; input: unknown; options: RequestOptions | undefined }>;
+  seen: Array<{
+    slug: string;
+    input: unknown;
+    options: RequestOptions | undefined;
+  }>;
 } {
-  const seen: Array<{ slug: string; input: unknown; options: RequestOptions | undefined }> = [];
+  const seen: Array<{
+    slug: string;
+    input: unknown;
+    options: RequestOptions | undefined;
+  }> = [];
   let i = 0;
   const core: ClientCore = {
     async run<T>(slug: string, input: unknown, options?: RequestOptions) {
@@ -28,7 +36,10 @@ function scriptedCore(pages: Array<RunResult<PageData>>): {
 
 function page(ads: number[], nextCursor: string | null): RunResult<PageData> {
   return {
-    output: { found: true, data: { ads: ads.map((id) => ({ id })), nextCursor } },
+    output: {
+      found: true,
+      data: { ads: ads.map((id) => ({ id })), nextCursor },
+    },
     provider: "AnyAPI",
     costUsd: 0.002,
   };
@@ -36,8 +47,17 @@ function page(ads: number[], nextCursor: string | null): RunResult<PageData> {
 
 describe("paginate: multi-page walk", () => {
   it("flattens items across pages and injects the cursor from page 2", async () => {
-    const { core, seen } = scriptedCore([page([1, 2], "c1"), page([3, 4], null)]);
-    const it = paginate<{ id: number }, RunResult<PageData>>(core, "facebook.ads_search", { q: "x" }, "ads", false);
+    const { core, seen } = scriptedCore([
+      page([1, 2], "c1"),
+      page([3, 4], null),
+    ]);
+    const it = paginate<{ id: number }, RunResult<PageData>>(
+      core,
+      "facebook.ads_search",
+      { q: "x" },
+      "ads",
+      false,
+    );
     const ids: number[] = [];
     for await (const item of it) {
       ids.push(item.id);
@@ -51,7 +71,13 @@ describe("paginate: multi-page walk", () => {
   it("stops on an empty-string nextCursor", async () => {
     const { core, seen } = scriptedCore([page([1], ""), page([9], null)]);
     const ids: number[] = [];
-    for await (const item of paginate<{ id: number }, RunResult<PageData>>(core, "s.a", {}, "ads", false)) {
+    for await (const item of paginate<{ id: number }, RunResult<PageData>>(
+      core,
+      "s.a",
+      {},
+      "ads",
+      false,
+    )) {
       ids.push(item.id);
     }
     expect(ids).toEqual([1]);
@@ -66,14 +92,23 @@ describe("paginate: multi-page walk", () => {
     };
     const { core } = scriptedCore([notFound]);
     const ids: number[] = [];
-    for await (const item of paginate<{ id: number }, RunResult<PageData>>(core, "s.a", {}, "ads", false)) {
+    for await (const item of paginate<{ id: number }, RunResult<PageData>>(
+      core,
+      "s.a",
+      {},
+      "ads",
+      false,
+    )) {
       ids.push(item.id);
     }
     expect(ids).toEqual([]);
   });
 
   it("caps total items at maxItems mid-page and does not send max_items to the wire", async () => {
-    const { core, seen } = scriptedCore([page([1, 2, 3], "c1"), page([4, 5], null)]);
+    const { core, seen } = scriptedCore([
+      page([1, 2, 3], "c1"),
+      page([4, 5], null),
+    ]);
     const ids: number[] = [];
     for await (const item of paginate<{ id: number }, RunResult<PageData>>(
       core,
@@ -97,7 +132,13 @@ describe("paginate: .pages()", () => {
   it("yields whole RunResults with costUsd", async () => {
     const { core } = scriptedCore([page([1], "c1"), page([2], null)]);
     const costs: number[] = [];
-    for await (const p of paginate<{ id: number }, RunResult<PageData>>(core, "s.a", {}, "ads", false).pages()) {
+    for await (const p of paginate<{ id: number }, RunResult<PageData>>(
+      core,
+      "s.a",
+      {},
+      "ads",
+      false,
+    ).pages()) {
       costs.push(p.costUsd);
     }
     expect(costs).toEqual([0.002, 0.002]);
@@ -105,7 +146,7 @@ describe("paginate: .pages()", () => {
 });
 
 describe("paginate: bare envelope", () => {
-  // A bare SKU (e.g. reddit.search): output IS the data object, no found/data wrapper.
+  // A synthetic bare SKU: output IS the data object, no found/data wrapper.
   function barePage(
     posts: number[],
     nextCursor: string | null,
@@ -132,7 +173,7 @@ describe("paginate: bare envelope", () => {
     const ids: number[] = [];
     for await (const item of paginate<{ id: number }, BareRunResult<PageData>>(
       core,
-      "reddit.search",
+      "fixture.bare",
       { query: "x" },
       "ads",
       true,

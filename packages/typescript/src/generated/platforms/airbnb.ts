@@ -193,10 +193,8 @@ export class AirbnbNamespace {
    * Airbnb Search
    *
    * Search Airbnb listings by location and dates with optional price, beds/bedrooms/bathrooms, and guest-party filters and get results (name, total-stay price label, rating, host) as normalized JSON.
-
-**Price:** billed per result - \$0.08 per 1,000 requests base + \$1.50 per 1,000 results, capped at \$30.08 per 1,000 requests.
    *
-   * Price: $0.00008 per request plus $0.0015 per result.
+   * Price: $0.00008 per request plus $0.0015 per result (maximum $0.03008).
    *
    * @example
    * const res = await client.airbnb.search({ location: "San Diego", adults: 2, limit: 3, minBedrooms: 3 });

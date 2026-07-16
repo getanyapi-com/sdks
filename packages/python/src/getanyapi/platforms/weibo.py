@@ -368,8 +368,7 @@ class WeiboNamespace:
         """Weibo Hot Search
 
         Get the complete current Weibo hot-search ranking with labels and heat
-        values. **Price:** \$1.50 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        values.
 
         Price: $0.0015 per request.
 
@@ -387,8 +386,6 @@ class WeiboNamespace:
         """Weibo Post
 
         Fetch a public Weibo post by ID with normalized author and engagement data.
-        **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -408,9 +405,7 @@ class WeiboNamespace:
     ) -> RunResult[WeiboPostCommentsData]:
         """Weibo Post Comments
 
-        List first-level comments on a public Weibo post with pagination. **Price:**
-        \$1.00 per 1,000 requests (flat per request - same cost regardless of
-        results returned).
+        List first-level comments on a public Weibo post with pagination.
 
         Price: $0.001 per request.
 
@@ -454,8 +449,7 @@ class WeiboNamespace:
         """Weibo Profile
 
         Fetch a public Weibo profile by user ID with normalized audience and account
-        data. **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        data.
 
         Price: $0.001 per request.
 
@@ -476,8 +470,6 @@ class WeiboNamespace:
         """Weibo Advanced Search
 
         Search public Weibo posts with optional result, media, and time filters.
-        **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -498,8 +490,7 @@ class WeiboNamespace:
         """Weibo User Posts
 
         List public posts from a Weibo user with normalized author and engagement
-        data. **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        data.
 
         Price: $0.001 per request.
 
@@ -550,8 +541,7 @@ class AsyncWeiboNamespace:
         """Weibo Hot Search
 
         Get the complete current Weibo hot-search ranking with labels and heat
-        values. **Price:** \$1.50 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        values.
 
         Price: $0.0015 per request.
 
@@ -569,8 +559,6 @@ class AsyncWeiboNamespace:
         """Weibo Post
 
         Fetch a public Weibo post by ID with normalized author and engagement data.
-        **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -590,9 +578,7 @@ class AsyncWeiboNamespace:
     ) -> RunResult[WeiboPostCommentsData]:
         """Weibo Post Comments
 
-        List first-level comments on a public Weibo post with pagination. **Price:**
-        \$1.00 per 1,000 requests (flat per request - same cost regardless of
-        results returned).
+        List first-level comments on a public Weibo post with pagination.
 
         Price: $0.001 per request.
 
@@ -636,8 +622,7 @@ class AsyncWeiboNamespace:
         """Weibo Profile
 
         Fetch a public Weibo profile by user ID with normalized audience and account
-        data. **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        data.
 
         Price: $0.001 per request.
 
@@ -658,8 +643,6 @@ class AsyncWeiboNamespace:
         """Weibo Advanced Search
 
         Search public Weibo posts with optional result, media, and time filters.
-        **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.001 per request.
 
@@ -680,8 +663,7 @@ class AsyncWeiboNamespace:
         """Weibo User Posts
 
         List public posts from a Weibo user with normalized author and engagement
-        data. **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        data.
 
         Price: $0.001 per request.
 

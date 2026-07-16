@@ -130,10 +130,9 @@ class GoogleFinanceNamespace:
         crypto symbol: name, current price, the absolute and percent change on the
         day, quote currency, exchange and market state, plus intraday and reference
         figures (open, day high/low, previous close, volume, market cap, and the
-        52-week range). **Price:** billed per result - \$0.50 per 1,000 requests
-        base + \$1.50 per 1,000 results, capped at \$2.00 per 1,000 requests.
+        52-week range).
 
-        Price: $0.0005 per request plus $0.0015 per result.
+        Price: $0.0005 per request plus $0.0015 per result (maximum $0.002).
 
         Example:
             res = client.google_finance.quote(symbol="AAPL:NASDAQ")
@@ -162,10 +161,9 @@ class AsyncGoogleFinanceNamespace:
         crypto symbol: name, current price, the absolute and percent change on the
         day, quote currency, exchange and market state, plus intraday and reference
         figures (open, day high/low, previous close, volume, market cap, and the
-        52-week range). **Price:** billed per result - \$0.50 per 1,000 requests
-        base + \$1.50 per 1,000 results, capped at \$2.00 per 1,000 requests.
+        52-week range).
 
-        Price: $0.0005 per request plus $0.0015 per result.
+        Price: $0.0005 per request plus $0.0015 per result (maximum $0.002).
 
         Example:
             res = client.google_finance.quote(symbol="AAPL:NASDAQ")

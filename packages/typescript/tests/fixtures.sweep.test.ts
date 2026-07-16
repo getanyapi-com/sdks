@@ -161,11 +161,10 @@ describe("generated SKU fixture sweep", () => {
   });
 });
 
-// Bare SKUs (SPEC 1.2 erratum): output is typed as the data payload directly. Prove typed
-// attribute access and (for the paginated one) iteration work end to end through the typed
-// surface, so a bare successful call never crashes or reads as not-found.
-describe("bare-envelope SKU typed surface", () => {
-  it("reddit.search: attribute access on output + typed iteration", async () => {
+// Regression for the once-stale published reddit envelope: generated clients must follow
+// the current found-data schema and still expose typed iteration.
+describe("reddit found-data typed surface", () => {
+  it("reddit.search: attribute access on output.data + typed iteration", async () => {
     const fixture = mustFixture("reddit.search");
     const post = { status: 200 as const, body: fixture };
     const client = new AnyAPI({
@@ -174,10 +173,11 @@ describe("bare-envelope SKU typed surface", () => {
       maxRetries: 0,
     });
     const res = await client.reddit.search({ query: "k" });
-    // output IS the data object: posts[] and nextCursor read directly (no .data).
-    expect(Array.isArray(res.output.posts)).toBe(true);
-    expect(res.output.posts[0]!.title).toBe("sample");
-    expect(typeof res.output.nextCursor).toBe("string");
+    expect(res.output.found).toBe(true);
+    if (!res.output.found) throw new Error("expected fixture to be found");
+    expect(Array.isArray(res.output.data.posts)).toBe(true);
+    expect(res.output.data.posts[0]!.title).toBe("sample");
+    expect(typeof res.output.data.nextCursor).toBe("string");
 
     // The fixture's single page has a non-empty nextCursor "sample"; the second mocked page
     // repeats it, so cap the walk with maxItems to prove item iteration yields typed posts.
@@ -191,7 +191,7 @@ describe("bare-envelope SKU typed surface", () => {
     expect(seen).toEqual(["sample"]);
   });
 
-  it("reddit.post_comments: attribute access on bare output", async () => {
+  it("reddit.post_comments: attribute access on found output", async () => {
     const fixture = mustFixture("reddit.post_comments");
     const client = new AnyAPI({
       apiKey: "k",
@@ -199,8 +199,10 @@ describe("bare-envelope SKU typed surface", () => {
       maxRetries: 0,
     });
     const res = await client.reddit.postComments({ url: "https://reddit.com/r/x/comments/1" });
-    expect(Array.isArray(res.output.comments)).toBe(true);
-    expect(res.output.comments[0]!.body).toBe("sample");
+    expect(res.output.found).toBe(true);
+    if (!res.output.found) throw new Error("expected fixture to be found");
+    expect(Array.isArray(res.output.data.comments)).toBe(true);
+    expect(res.output.data.comments[0]!.body).toBe("sample");
   });
 });
 

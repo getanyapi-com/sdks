@@ -113,8 +113,7 @@ class BlueskyNamespace:
         """Bluesky Post
 
         Get a single Bluesky post by URL - text, author handle, like, reply, and
-        repost counts as clean JSON. **Price:** \$2.00 per 1,000 requests (flat per
-        request - same cost regardless of results returned).
+        repost counts as clean JSON.
 
         Price: $0.002 per request.
 
@@ -135,8 +134,7 @@ class BlueskyNamespace:
         """Bluesky Profile
 
         Get a Bluesky user's public profile by handle - display name, bio, follower
-        and post counts as clean JSON. **Price:** \$2.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        and post counts as clean JSON.
 
         Price: $0.002 per request.
 
@@ -158,8 +156,6 @@ class BlueskyNamespace:
 
         List a Bluesky account's recent posts (text, author handle, like, reply, and
         repost counts) by handle as clean JSON, normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 
@@ -187,8 +183,7 @@ class AsyncBlueskyNamespace:
         """Bluesky Post
 
         Get a single Bluesky post by URL - text, author handle, like, reply, and
-        repost counts as clean JSON. **Price:** \$2.00 per 1,000 requests (flat per
-        request - same cost regardless of results returned).
+        repost counts as clean JSON.
 
         Price: $0.002 per request.
 
@@ -209,8 +204,7 @@ class AsyncBlueskyNamespace:
         """Bluesky Profile
 
         Get a Bluesky user's public profile by handle - display name, bio, follower
-        and post counts as clean JSON. **Price:** \$2.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        and post counts as clean JSON.
 
         Price: $0.002 per request.
 
@@ -232,8 +226,6 @@ class AsyncBlueskyNamespace:
 
         List a Bluesky account's recent posts (text, author handle, like, reply, and
         repost counts) by handle as clean JSON, normalized across providers.
-        **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
 
         Price: $0.002 per request.
 

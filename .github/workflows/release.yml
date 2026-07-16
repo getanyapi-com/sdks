@@ -60,7 +60,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: assert tag version matches both manifests (lockstep)
+      - name: assert tag matches both manifests and Python runtime version (lockstep)
         env:
           VERSION: ${{ steps.resolve.outputs.version }}
         run: |

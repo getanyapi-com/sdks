@@ -20,15 +20,12 @@ export interface RunResult<T> {
 /**
  * Discriminated union on `found`. When found is false, data is null.
  */
-export type Output<T> =
-  | { found: true; data: T }
-  | { found: false; data: null };
+export type Output<T> = { found: true; data: T } | { found: false; data: null };
 
 /**
- * The run envelope for a BARE SKU (SPEC 1.2 erratum). A handful of SKUs return their data
- * object directly as `output`, with no `{ found, data }` wrapper (e.g. reddit.search's
- * `output` IS `{ posts, nextCursor }`). Their result types `output` as the data payload
- * directly; there is no not-found branch to discriminate.
+ * The conditional run envelope for an operation whose response has no `{ found, data }`
+ * wrapper (SPEC 1.2 erratum). If a future generated operation uses this shape, its data
+ * object is returned directly as `output`; there is no not-found branch to discriminate.
  */
 export interface BareRunResult<T> {
   /** The data payload directly (no found/data wrapper). */
@@ -116,26 +113,91 @@ export interface AccountProfile {
   onboardingComplete: boolean;
 }
 
-/**
- * Query for filtering the catalog. See SPEC 2.7.
- */
-export interface CatalogQuery {
-  query?: string;
+/** Category-only browse options. Ranked queries belong to search(). See SPEC 2.7. */
+export interface CatalogOptions {
   category?: string;
 }
 
-/**
- * One catalog entry as returned by /v1/apis. Priced in USD (never credits). See SPEC 2.7.
- */
+/** A fixed per-request discovery offer. */
+export interface FlatPricingOffer {
+  model: "flat";
+  unit: "request";
+  maxUsd: number;
+}
+
+/** A capped base-plus-unit discovery offer. */
+export interface LinearPricingOffer {
+  model: "linear";
+  unit: string;
+  baseUsd: number;
+  perUnitUsd: number;
+  maxUsd: number;
+}
+
+export type PricingOffer = FlatPricingOffer | LinearPricingOffer;
+
+export interface DiscoveryPricing {
+  from: PricingOffer;
+  failoverMaxUsd: number;
+}
+
+export interface LaneHealth {
+  window: "30d";
+  uptimePct: number;
+  latencyP50Ms: number;
+  requests: number;
+}
+
+export interface DiscoveryLane {
+  pricing: PricingOffer;
+  health?: LaneHealth;
+}
+
+/** One customer-safe API returned by catalog() or describe(). */
 export interface CatalogEntry {
+  id: string;
   slug: string;
-  platform: string;
-  action: string;
   name: string;
   category: string;
   description: string;
-  /** Cheapest per-request price in USD (the "from" price). */
-  priceUsd: number;
+  provider: "AnyAPI";
+  pricing: DiscoveryPricing;
+  lanes: DiscoveryLane[];
+  heavy: boolean;
+  tryEligible: boolean;
+  inputSchema?: Record<string, unknown>;
+  outputSchema?: Record<string, unknown>;
+}
+
+export interface SearchOptions {
+  query: string;
+  category?: string;
+  platform?: string;
+  limit?: number;
+}
+
+export interface HighlightField {
+  path: string;
+  type: string;
+  why?: string;
+}
+
+export interface CatalogSearchResult {
+  slug: string;
+  platformId: string;
+  name: string;
+  description: string;
+  category: string;
+  provider: "AnyAPI";
+  pricing: DiscoveryPricing;
+  relevance: number;
+  highlightFields?: HighlightField[];
+}
+
+export interface CatalogSearchResults {
+  results: CatalogSearchResult[];
+  total: number;
+  ranking: "semantic" | "keyword";
 }
 
 /**

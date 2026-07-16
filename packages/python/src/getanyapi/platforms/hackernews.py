@@ -141,8 +141,7 @@ class HackernewsNamespace:
         """Hacker News Profile
 
         Get a Hacker News user's public profile by username - karma, bio, and
-        account details as clean JSON. **Price:** \$3.25 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        account details as clean JSON.
 
         Price: $0.00325 per request.
 
@@ -163,8 +162,7 @@ class HackernewsNamespace:
         """Hacker News Search
 
         Search Hacker News by keyword - matching stories with title, link, author,
-        points, and comment count as clean JSON. **Price:** \$3.25 per 1,000
-        requests (flat per request - same cost regardless of results returned).
+        points, and comment count as clean JSON.
 
         Price: $0.00325 per request.
 
@@ -185,8 +183,7 @@ class HackernewsNamespace:
         """Hacker News Story
 
         Get a Hacker News story by id - title, link, author, points, and comment
-        count as clean JSON. **Price:** \$3.25 per 1,000 requests (flat per request
-        - same cost regardless of results returned).
+        count as clean JSON.
 
         Price: $0.00325 per request.
 
@@ -207,8 +204,7 @@ class HackernewsNamespace:
         """Hacker News Story Comments
 
         List the comments on a Hacker News story by id - text, author, and timestamp
-        as clean JSON. **Price:** \$3.25 per 1,000 requests (flat per request - same
-        cost regardless of results returned).
+        as clean JSON.
 
         Price: $0.00325 per request.
 
@@ -236,8 +232,7 @@ class AsyncHackernewsNamespace:
         """Hacker News Profile
 
         Get a Hacker News user's public profile by username - karma, bio, and
-        account details as clean JSON. **Price:** \$3.25 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        account details as clean JSON.
 
         Price: $0.00325 per request.
 
@@ -258,8 +253,7 @@ class AsyncHackernewsNamespace:
         """Hacker News Search
 
         Search Hacker News by keyword - matching stories with title, link, author,
-        points, and comment count as clean JSON. **Price:** \$3.25 per 1,000
-        requests (flat per request - same cost regardless of results returned).
+        points, and comment count as clean JSON.
 
         Price: $0.00325 per request.
 
@@ -280,8 +274,7 @@ class AsyncHackernewsNamespace:
         """Hacker News Story
 
         Get a Hacker News story by id - title, link, author, points, and comment
-        count as clean JSON. **Price:** \$3.25 per 1,000 requests (flat per request
-        - same cost regardless of results returned).
+        count as clean JSON.
 
         Price: $0.00325 per request.
 
@@ -302,8 +295,7 @@ class AsyncHackernewsNamespace:
         """Hacker News Story Comments
 
         List the comments on a Hacker News story by id - text, author, and timestamp
-        as clean JSON. **Price:** \$3.25 per 1,000 requests (flat per request - same
-        cost regardless of results returned).
+        as clean JSON.
 
         Price: $0.00325 per request.
 

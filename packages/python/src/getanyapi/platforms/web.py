@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal, TYPE_CHECKING
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -155,10 +155,8 @@ class WebNamespace:
 
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response - ideal for feeding sites into LLMs and search indexes.
-        **Price:** billed per result - \$1.50 per 1,000 requests base + \$3.00 per
-        1,000 results, capped at \$31.50 per 1,000 requests.
 
-        Price: $0.0015 per request plus $0.003 per result.
+        Price: $0.0015 per request plus $0.003 per result (maximum $0.0315).
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")
@@ -174,8 +172,7 @@ class WebNamespace:
         """Web Map
 
         Map an entire website into a clean list of its URLs (with titles and
-        descriptions) in a single call. **Price:** \$0.90 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        descriptions) in a single call.
 
         Price: $0.0009 per request.
 
@@ -193,8 +190,7 @@ class WebNamespace:
         """Web Scrape
 
         Scrape any web page and get its content back as clean Markdown (or HTML, or
-        raw HTML) plus title and metadata. **Price:** \$0.90 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        raw HTML) plus title and metadata.
 
         Price: $0.0009 per request.
 
@@ -214,10 +210,9 @@ class WebNamespace:
     ) -> RunResult[WebScreenshotData]:
         """Website Screenshot
 
-        Capture a real-browser screenshot of any web page URL. **Price:** billed per
-        result - \$1.58 per 1,000 results, capped at \$1.58 per 1,000 requests.
+        Capture a real-browser screenshot of any web page URL.
 
-        Price: $0.00158 per result.
+        Price: $0 per request plus $0.00158 per result (maximum $0.00158).
 
         Example:
             res = client.web.screenshot(url="https://example.com")
@@ -241,10 +236,8 @@ class AsyncWebNamespace:
 
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response - ideal for feeding sites into LLMs and search indexes.
-        **Price:** billed per result - \$1.50 per 1,000 requests base + \$3.00 per
-        1,000 results, capped at \$31.50 per 1,000 requests.
 
-        Price: $0.0015 per request plus $0.003 per result.
+        Price: $0.0015 per request plus $0.003 per result (maximum $0.0315).
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")
@@ -260,8 +253,7 @@ class AsyncWebNamespace:
         """Web Map
 
         Map an entire website into a clean list of its URLs (with titles and
-        descriptions) in a single call. **Price:** \$0.90 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        descriptions) in a single call.
 
         Price: $0.0009 per request.
 
@@ -279,8 +271,7 @@ class AsyncWebNamespace:
         """Web Scrape
 
         Scrape any web page and get its content back as clean Markdown (or HTML, or
-        raw HTML) plus title and metadata. **Price:** \$0.90 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        raw HTML) plus title and metadata.
 
         Price: $0.0009 per request.
 
@@ -300,10 +291,9 @@ class AsyncWebNamespace:
     ) -> RunResult[WebScreenshotData]:
         """Website Screenshot
 
-        Capture a real-browser screenshot of any web page URL. **Price:** billed per
-        result - \$1.58 per 1,000 results, capped at \$1.58 per 1,000 requests.
+        Capture a real-browser screenshot of any web page URL.
 
-        Price: $0.00158 per result.
+        Price: $0 per request plus $0.00158 per result (maximum $0.00158).
 
         Example:
             res = client.web.screenshot(url="https://example.com")

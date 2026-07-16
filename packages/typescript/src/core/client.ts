@@ -8,8 +8,9 @@ import {
   errorFromStatus,
 } from "./errors.js";
 import {
-  mapCatalogEntry,
+  mapCatalogDetail,
   mapCatalogList,
+  mapCatalogSearch,
   mapProfile,
   type CatalogListResponse,
   type CatalogEntryResponse,
@@ -18,10 +19,12 @@ import {
 import type {
   AccountProfile,
   CatalogEntry,
-  CatalogQuery,
+  CatalogOptions,
+  CatalogSearchResults,
   ClientOptions,
   RequestOptions,
   RunResult,
+  SearchOptions,
 } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://api.getanyapi.com";
@@ -36,7 +39,11 @@ const RETRY_MAX_DELAY_MS = 8_000;
  * type (found-data) or to a BareRunResult (bare SKUs); the seam itself stays untyped.
  */
 export interface ClientCore {
-  run<T>(slug: string, input: unknown, options?: RequestOptions): Promise<RunResult<T>>;
+  run<T>(
+    slug: string,
+    input: unknown,
+    options?: RequestOptions,
+  ): Promise<RunResult<T>>;
 }
 
 /**
@@ -123,7 +130,9 @@ function composeSignal(
     return { signal: timeoutSignal, timeoutSignal };
   }
   // AbortSignal.any composes multiple signals; available on Node >=20 / modern runtimes.
-  const anyFn = (AbortSignal as { any?: (signals: AbortSignal[]) => AbortSignal }).any;
+  const anyFn = (
+    AbortSignal as { any?: (signals: AbortSignal[]) => AbortSignal }
+  ).any;
   if (typeof anyFn === "function") {
     return { signal: anyFn([timeoutSignal, callerSignal]), timeoutSignal };
   }
@@ -133,12 +142,16 @@ function composeSignal(
   if (callerSignal.aborted) {
     controller.abort(callerSignal.reason);
   } else {
-    callerSignal.addEventListener("abort", () => abort(callerSignal.reason), { once: true });
+    callerSignal.addEventListener("abort", () => abort(callerSignal.reason), {
+      once: true,
+    });
   }
   if (timeoutSignal.aborted) {
     controller.abort(timeoutSignal.reason);
   } else {
-    timeoutSignal.addEventListener("abort", () => abort(timeoutSignal.reason), { once: true });
+    timeoutSignal.addEventListener("abort", () => abort(timeoutSignal.reason), {
+      once: true,
+    });
   }
   return { signal: controller.signal, timeoutSignal };
 }
@@ -147,7 +160,10 @@ function composeSignal(
  * True when an abort reason denotes a timeout (TimeoutError DOMException from
  * AbortSignal.timeout) rather than a caller cancellation.
  */
-function isTimeoutSignal(timeoutSignal: AbortSignal, callerSignal?: AbortSignal): boolean {
+function isTimeoutSignal(
+  timeoutSignal: AbortSignal,
+  callerSignal?: AbortSignal,
+): boolean {
   if (!timeoutSignal.aborted) {
     return false;
   }
@@ -159,7 +175,11 @@ function isTimeoutSignal(timeoutSignal: AbortSignal, callerSignal?: AbortSignal)
 /**
  * Build the request URL with response-shaping query params from options. See SPEC 2.2.
  */
-function buildUrl(baseUrl: string, slug: string, options?: RequestOptions): string {
+function buildUrl(
+  baseUrl: string,
+  slug: string,
+  options?: RequestOptions,
+): string {
   const base = baseUrl.replace(/\/+$/, "");
   const url = new URL(`${base}/v1/run/${slug}`);
   if (options?.fields && options.fields.length > 0) {
@@ -213,10 +233,7 @@ export class AnyAPI implements ClientCore {
   constructor(options: ClientOptions = {}) {
     this.apiKey = options.apiKey ?? envApiKey();
     if (!this.apiKey) {
-      throw new AnyAPIError(
-        "no API key: pass apiKey or set ANYAPI_API_KEY",
-        0,
-      );
+      throw new AnyAPIError("no API key: pass apiKey or set ANYAPI_API_KEY", 0);
     }
     this.baseUrl = options.baseUrl ?? DEFAULT_BASE_URL;
     const resolvedFetch = options.fetch ?? globalThis.fetch;
@@ -241,12 +258,16 @@ export class AnyAPI implements ClientCore {
     input: unknown,
     options?: RequestOptions,
   ): Promise<RunResult<T>> {
-    return this.request<RunResult<T>>("POST", buildUrl(this.baseUrl, slug, options), {
-      body: JSON.stringify(input ?? {}),
-      timeoutMs: options?.timeoutMs ?? this.timeoutMs,
-      maxRetries: options?.maxRetries ?? this.maxRetries,
-      ...(options?.signal ? { signal: options.signal } : {}),
-    });
+    return this.request<RunResult<T>>(
+      "POST",
+      buildUrl(this.baseUrl, slug, options),
+      {
+        body: JSON.stringify(input ?? {}),
+        timeoutMs: options?.timeoutMs ?? this.timeoutMs,
+        maxRetries: options?.maxRetries ?? this.maxRetries,
+        ...(options?.signal ? { signal: options.signal } : {}),
+      },
+    );
   }
 
   /** Current wallet balance in USD. GET /v1/balance. See SPEC 2.7. */
@@ -260,14 +281,11 @@ export class AnyAPI implements ClientCore {
     return mapProfile(raw);
   }
 
-  /** List catalog SKUs, optionally filtered. GET /v1/apis. See SPEC 2.7. */
-  async catalog(query?: CatalogQuery): Promise<CatalogEntry[]> {
+  /** Browse catalog SKUs, optionally scoped by category. GET /v1/apis. */
+  async catalog(options: CatalogOptions = {}): Promise<CatalogEntry[]> {
     const search = new URLSearchParams();
-    if (query?.query) {
-      search.set("query", query.query);
-    }
-    if (query?.category) {
-      search.set("category", query.category);
+    if (options.category) {
+      search.set("category", options.category);
     }
     const qs = search.toString();
     const raw = await this.httpGet<CatalogListResponse>(
@@ -276,12 +294,24 @@ export class AnyAPI implements ClientCore {
     return mapCatalogList(raw);
   }
 
+  /** Ranked catalog search. GET /catalog/search. Browse never accepts a query. */
+  async search(options: SearchOptions): Promise<CatalogSearchResults> {
+    const search = new URLSearchParams({ q: options.query });
+    if (options.category) search.set("category", options.category);
+    if (options.platform) search.set("platform", options.platform);
+    if (options.limit !== undefined) search.set("limit", String(options.limit));
+    const raw = await this.httpGet<unknown>(
+      `/catalog/search?${search.toString()}`,
+    );
+    return mapCatalogSearch(raw);
+  }
+
   /** Describe a single SKU by slug. GET /v1/apis/{slug}. 404 -> NotFoundError. See SPEC 2.7. */
   async describe(slug: string): Promise<CatalogEntry> {
     const raw = await this.httpGet<CatalogEntryResponse>(
       `/v1/apis/${encodeURIComponent(slug)}`,
     );
-    return mapCatalogEntry(raw);
+    return mapCatalogDetail(raw);
   }
 
   /** Internal GET against the gateway with the same auth/retry/error machinery. */
@@ -318,7 +348,10 @@ export class AnyAPI implements ClientCore {
 
     let attempt = 0;
     for (;;) {
-      const { signal, timeoutSignal } = composeSignal(opts.timeoutMs, opts.signal);
+      const { signal, timeoutSignal } = composeSignal(
+        opts.timeoutMs,
+        opts.signal,
+      );
       let response: Response;
       try {
         response = await this.fetchImpl(url, {
@@ -355,7 +388,11 @@ export class AnyAPI implements ClientCore {
         try {
           return JSON.parse(text) as T;
         } catch {
-          throw new AnyAPIError("failed to parse response JSON", 200, requestId);
+          throw new AnyAPIError(
+            "failed to parse response JSON",
+            200,
+            requestId,
+          );
         }
       }
 

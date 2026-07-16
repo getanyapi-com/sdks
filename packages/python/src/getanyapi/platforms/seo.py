@@ -792,11 +792,9 @@ class SeoNamespace:
         """SEO Competitor Domains
 
         Get AnyAPI SEO competitor domains for a target domain with shared keyword
-        counts and organic metrics as normalized JSON. **Price:** billed per result
-        - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at
-        \$175.60 per 1,000 requests.
+        counts and organic metrics as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.competitors_domain(language="en", limit=10, location=2840, target="github.com")
@@ -815,11 +813,9 @@ class SeoNamespace:
         """SEO Domain Intersection
 
         Get AnyAPI SEO keyword overlap for two domains with each domain's rankings,
-        URLs, volume, CPC, and difficulty as normalized JSON. **Price:** billed per
-        result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped
-        at \$175.60 per 1,000 requests.
+        URLs, volume, CPC, and difficulty as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.domain_intersection(language="en", limit=10, location=2840, target1="github.com", target2="gitlab.com")
@@ -838,10 +834,9 @@ class SeoNamespace:
         """SEO Domain Rank Overview
 
         Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as
-        normalized JSON. **Price:** \$15.60 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        normalized JSON.
 
-        Price: $0.0156 per request.
+        Price: $0.0156 per request plus $0 per result (maximum $0.0156).
 
         Example:
             res = client.seo.domain_rank_overview(language="en", location=2840, target="ahrefs.com")
@@ -860,10 +855,9 @@ class SeoNamespace:
         """SEO Keyword Difficulty
 
         Get AnyAPI SEO keyword difficulty scores for one or more keywords as
-        normalized JSON. **Price:** billed per keyword - \$15.60 per 1,000 requests
-        base + \$0.16 per 1,000 keywords, capped at \$175.60 per 1,000 requests.
+        normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per keyword.
+        Price: $0.0156 per request plus $0.00016 per keyword (maximum $0.1756).
 
         Example:
             res = client.seo.keyword_difficulty(keywords=["seo tools"], language="en", location=2840)
@@ -882,11 +876,9 @@ class SeoNamespace:
         """SEO Keyword Ideas
 
         Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition,
-        difficulty, and intent as normalized JSON. **Price:** billed per result -
-        \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at
-        \$175.60 per 1,000 requests.
+        difficulty, and intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.keyword_ideas(keywords=["project management software"], language="en", limit=5, location=2840)
@@ -905,11 +897,9 @@ class SeoNamespace:
         """SEO Keyword Overview
 
         Get AnyAPI SEO keyword metrics including search volume, CPC, competition,
-        difficulty, and search intent as normalized JSON. **Price:** billed per
-        keyword - \$15.60 per 1,000 requests base + \$0.16 per 1,000 keywords,
-        capped at \$127.60 per 1,000 requests.
+        difficulty, and search intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per keyword.
+        Price: $0.0156 per request plus $0.00016 per keyword (maximum $0.1276).
 
         Example:
             res = client.seo.keyword_overview(keywords=["project management software"], language="en", location=2840)
@@ -928,11 +918,9 @@ class SeoNamespace:
         """SEO Keyword Suggestions
 
         Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC,
-        competition, difficulty, and intent as normalized JSON. **Price:** billed
-        per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results,
-        capped at \$175.60 per 1,000 requests.
+        competition, difficulty, and intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.keyword_suggestions(keyword="project management software", language="en", limit=5, location=2840)
@@ -951,10 +939,9 @@ class SeoNamespace:
         """SEO Local Pack
 
         Search AnyAPI SEO local pack results with rankings, ratings, addresses, and
-        contact basics as normalized JSON. **Price:** \$2.60 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        contact basics as normalized JSON.
 
-        Price: $0.0026 per request.
+        Price: $0.0026 per request plus $0 per result (maximum $0.0026).
 
         Example:
             res = client.seo.local_pack(keyword="coffee shop", language="en", limit=5, location="New York,New York,United States")
@@ -974,10 +961,8 @@ class SeoNamespace:
 
         Get AnyAPI SEO ranked keywords for a domain with rankings, traffic
         estimates, volume, CPC, difficulty, and intent as normalized JSON.
-        **Price:** billed per result - \$15.60 per 1,000 requests base + \$0.16 per
-        1,000 results, capped at \$175.60 per 1,000 requests.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.ranked_keywords(language="en", limit=10, location=2840, target="github.com")
@@ -996,11 +981,9 @@ class SeoNamespace:
         """SEO Related Keywords
 
         Find AnyAPI SEO related keywords from a seed term with volume, CPC,
-        competition, difficulty, and intent as normalized JSON. **Price:** billed
-        per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results,
-        capped at \$175.60 per 1,000 requests.
+        competition, difficulty, and intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.related_keywords(keyword="project management software", language="en", limit=5, location=2840)
@@ -1018,11 +1001,9 @@ class SeoNamespace:
     ) -> RunResult[SeoSearchIntentData]:
         """SEO Search Intent
 
-        Classify AnyAPI SEO keyword search intent as normalized JSON. **Price:**
-        billed per keyword - \$15.60 per 1,000 requests base + \$0.16 per 1,000
-        keywords, capped at \$175.60 per 1,000 requests.
+        Classify AnyAPI SEO keyword search intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per keyword.
+        Price: $0.0156 per request plus $0.00016 per keyword (maximum $0.1756).
 
         Example:
             res = client.seo.search_intent(keywords=["seo tools"], language="en")
@@ -1041,10 +1022,9 @@ class SeoNamespace:
         """SEO Search Volume
 
         Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and
-        monthly history as normalized JSON. **Price:** \$117.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        monthly history as normalized JSON.
 
-        Price: $0.117 per request.
+        Price: $0.117 per request plus $0 per result (maximum $0.117).
 
         Example:
             res = client.seo.search_volume(keywords=["seo tools"], language="en", location=2840)
@@ -1070,11 +1050,9 @@ class AsyncSeoNamespace:
         """SEO Competitor Domains
 
         Get AnyAPI SEO competitor domains for a target domain with shared keyword
-        counts and organic metrics as normalized JSON. **Price:** billed per result
-        - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at
-        \$175.60 per 1,000 requests.
+        counts and organic metrics as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.competitors_domain(language="en", limit=10, location=2840, target="github.com")
@@ -1093,11 +1071,9 @@ class AsyncSeoNamespace:
         """SEO Domain Intersection
 
         Get AnyAPI SEO keyword overlap for two domains with each domain's rankings,
-        URLs, volume, CPC, and difficulty as normalized JSON. **Price:** billed per
-        result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped
-        at \$175.60 per 1,000 requests.
+        URLs, volume, CPC, and difficulty as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.domain_intersection(language="en", limit=10, location=2840, target1="github.com", target2="gitlab.com")
@@ -1116,10 +1092,9 @@ class AsyncSeoNamespace:
         """SEO Domain Rank Overview
 
         Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as
-        normalized JSON. **Price:** \$15.60 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        normalized JSON.
 
-        Price: $0.0156 per request.
+        Price: $0.0156 per request plus $0 per result (maximum $0.0156).
 
         Example:
             res = client.seo.domain_rank_overview(language="en", location=2840, target="ahrefs.com")
@@ -1138,10 +1113,9 @@ class AsyncSeoNamespace:
         """SEO Keyword Difficulty
 
         Get AnyAPI SEO keyword difficulty scores for one or more keywords as
-        normalized JSON. **Price:** billed per keyword - \$15.60 per 1,000 requests
-        base + \$0.16 per 1,000 keywords, capped at \$175.60 per 1,000 requests.
+        normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per keyword.
+        Price: $0.0156 per request plus $0.00016 per keyword (maximum $0.1756).
 
         Example:
             res = client.seo.keyword_difficulty(keywords=["seo tools"], language="en", location=2840)
@@ -1160,11 +1134,9 @@ class AsyncSeoNamespace:
         """SEO Keyword Ideas
 
         Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition,
-        difficulty, and intent as normalized JSON. **Price:** billed per result -
-        \$15.60 per 1,000 requests base + \$0.16 per 1,000 results, capped at
-        \$175.60 per 1,000 requests.
+        difficulty, and intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.keyword_ideas(keywords=["project management software"], language="en", limit=5, location=2840)
@@ -1183,11 +1155,9 @@ class AsyncSeoNamespace:
         """SEO Keyword Overview
 
         Get AnyAPI SEO keyword metrics including search volume, CPC, competition,
-        difficulty, and search intent as normalized JSON. **Price:** billed per
-        keyword - \$15.60 per 1,000 requests base + \$0.16 per 1,000 keywords,
-        capped at \$127.60 per 1,000 requests.
+        difficulty, and search intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per keyword.
+        Price: $0.0156 per request plus $0.00016 per keyword (maximum $0.1276).
 
         Example:
             res = client.seo.keyword_overview(keywords=["project management software"], language="en", location=2840)
@@ -1206,11 +1176,9 @@ class AsyncSeoNamespace:
         """SEO Keyword Suggestions
 
         Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC,
-        competition, difficulty, and intent as normalized JSON. **Price:** billed
-        per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results,
-        capped at \$175.60 per 1,000 requests.
+        competition, difficulty, and intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.keyword_suggestions(keyword="project management software", language="en", limit=5, location=2840)
@@ -1229,10 +1197,9 @@ class AsyncSeoNamespace:
         """SEO Local Pack
 
         Search AnyAPI SEO local pack results with rankings, ratings, addresses, and
-        contact basics as normalized JSON. **Price:** \$2.60 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        contact basics as normalized JSON.
 
-        Price: $0.0026 per request.
+        Price: $0.0026 per request plus $0 per result (maximum $0.0026).
 
         Example:
             res = client.seo.local_pack(keyword="coffee shop", language="en", limit=5, location="New York,New York,United States")
@@ -1252,10 +1219,8 @@ class AsyncSeoNamespace:
 
         Get AnyAPI SEO ranked keywords for a domain with rankings, traffic
         estimates, volume, CPC, difficulty, and intent as normalized JSON.
-        **Price:** billed per result - \$15.60 per 1,000 requests base + \$0.16 per
-        1,000 results, capped at \$175.60 per 1,000 requests.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.ranked_keywords(language="en", limit=10, location=2840, target="github.com")
@@ -1274,11 +1239,9 @@ class AsyncSeoNamespace:
         """SEO Related Keywords
 
         Find AnyAPI SEO related keywords from a seed term with volume, CPC,
-        competition, difficulty, and intent as normalized JSON. **Price:** billed
-        per result - \$15.60 per 1,000 requests base + \$0.16 per 1,000 results,
-        capped at \$175.60 per 1,000 requests.
+        competition, difficulty, and intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per result.
+        Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
 
         Example:
             res = client.seo.related_keywords(keyword="project management software", language="en", limit=5, location=2840)
@@ -1296,11 +1259,9 @@ class AsyncSeoNamespace:
     ) -> RunResult[SeoSearchIntentData]:
         """SEO Search Intent
 
-        Classify AnyAPI SEO keyword search intent as normalized JSON. **Price:**
-        billed per keyword - \$15.60 per 1,000 requests base + \$0.16 per 1,000
-        keywords, capped at \$175.60 per 1,000 requests.
+        Classify AnyAPI SEO keyword search intent as normalized JSON.
 
-        Price: $0.0156 per request plus $0.00016 per keyword.
+        Price: $0.0156 per request plus $0.00016 per keyword (maximum $0.1756).
 
         Example:
             res = client.seo.search_intent(keywords=["seo tools"], language="en")
@@ -1319,10 +1280,9 @@ class AsyncSeoNamespace:
         """SEO Search Volume
 
         Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and
-        monthly history as normalized JSON. **Price:** \$117.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        monthly history as normalized JSON.
 
-        Price: $0.117 per request.
+        Price: $0.117 per request plus $0 per result (maximum $0.117).
 
         Example:
             res = client.seo.search_volume(keywords=["seo tools"], language="en", location=2840)

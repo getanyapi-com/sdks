@@ -480,8 +480,6 @@ export class ZhihuNamespace {
    * Zhihu Answer
    *
    * Fetch a public Zhihu answer with normalized author and question data.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -499,8 +497,6 @@ export class ZhihuNamespace {
    * Zhihu Profile
    *
    * Fetch a public Zhihu profile with normalized identity and audience data.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -518,8 +514,6 @@ export class ZhihuNamespace {
    * Zhihu Question
    *
    * Fetch a public Zhihu question with normalized text and engagement statistics.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -537,8 +531,6 @@ export class ZhihuNamespace {
    * Zhihu Question Answers
    *
    * List public answers to a Zhihu question with normalized authors and engagement data.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -556,8 +548,6 @@ export class ZhihuNamespace {
    * Zhihu Article Search
    *
    * Search public Zhihu articles by keyword with normalized author and engagement data.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *

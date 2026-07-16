@@ -3,7 +3,7 @@
 // Builds @getanyapi/sdk, writes a tiny consumer project into a temp dir that resolves the
 // package's built dist via tsconfig `paths`, and runs `tsc --noEmit` over consumer code.
 // The consumer asserts (via compile success + a required @ts-expect-error):
-//   (a) typed data access compiles for a known slug (found-data + bare),
+//   (a) typed data access compiles for representative known found-data slugs,
 //   (b) a bogus-input call for a known slug is a compile error (@ts-expect-error),
 //   (c) run("unknown.slug", ...) yields RunResult<unknown>.
 //
@@ -59,7 +59,7 @@ try {
     join(tmp, "src", "consumer.ts"),
     [
       'import { AnyAPI } from "@getanyapi/sdk";',
-      'import type { RunResult, BareRunResult } from "@getanyapi/sdk";',
+      'import type { RunResult } from "@getanyapi/sdk";',
       "",
       "async function main(): Promise<void> {",
       '  const client = new AnyAPI({ apiKey: "k" });',
@@ -73,12 +73,14 @@ try {
       "    void rev.output.data.items;",
       "  }",
       "",
-      "  // (a) typed data access for a known BARE slug: output IS the data (no .found).",
+      "  // (a) current reddit.search found-data envelope from the generated snapshot.",
       '  const search = await client.run("reddit.search", { query: "k" });',
-      "  const bare: BareRunResult<unknown> = search;",
-      "  void bare;",
-      "  void search.output.posts;",
-      "  void search.output.nextCursor;",
+      "  const searchResult: RunResult<unknown> = search;",
+      "  void searchResult;",
+      "  if (search.output.found) {",
+      "    void search.output.data.posts;",
+      "    void search.output.data.nextCursor;",
+      "  }",
       "",
       "  // (b) a bogus-input call for a known slug must be a compile error.",
       "  // @ts-expect-error - `product` is required and `bogus` is not a valid field.",

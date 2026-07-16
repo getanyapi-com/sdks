@@ -10,7 +10,7 @@
 // The only escape hatch is ANYAPI_SKIP_RUFF=1, for unit tests that assert emitter text
 // without needing a formatter present. Never set it for `pnpm generate`.
 //
-// Detection is cached so a full 222-SKU emit spawns at most one probe.
+// Detection is cached so a full-catalog emit spawns at most one probe.
 
 import { execFileSync } from "node:child_process";
 

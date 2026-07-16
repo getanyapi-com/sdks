@@ -66,9 +66,11 @@ describe("generated-header + hard rules", () => {
   it("every emitted file leads with the exact generated header", async () => {
     const files = await emitRelative(loadSampleIr());
     for (const content of Object.values(files)) {
-      expect(content.startsWith("// Generated - do not edit. Regenerate with: pnpm generate")).toBe(
-        true,
-      );
+      expect(
+        content.startsWith(
+          "// Generated - do not edit. Regenerate with: pnpm generate",
+        ),
+      ).toBe(true);
     }
   });
 
@@ -97,7 +99,9 @@ describe("naming edge cases", () => {
   });
 
   it("item type name for facebook ads -> FacebookAdsSearchAd", () => {
-    expect(itemTypeName("facebook_ads_search", "ads")).toBe("FacebookAdsSearchAd");
+    expect(itemTypeName("facebook_ads_search", "ads")).toBe(
+      "FacebookAdsSearchAd",
+    );
   });
 
   it("does not singularize a single-character property name", () => {
@@ -132,7 +136,9 @@ describe("literalUnion + enum emission", () => {
 
   it("emits enum properties as literal unions", async () => {
     const files = await emitRelative(loadSampleIr());
-    expect(files["platforms/amazon.ts"]).toContain('sort?: "helpful" | "recent";');
+    expect(files["platforms/amazon.ts"]).toContain(
+      'sort?: "helpful" | "recent";',
+    );
   });
 });
 
@@ -141,13 +147,17 @@ describe("open record index signatures", () => {
     const files = await emitRelative(loadSampleIr());
     // The amazon review item is an open object.
     const amazon = files["platforms/amazon.ts"]!;
-    const itemBlock = amazon.slice(amazon.indexOf("interface AmazonReviewsItem"));
+    const itemBlock = amazon.slice(
+      amazon.indexOf("interface AmazonReviewsItem"),
+    );
     expect(itemBlock).toContain("[extra: string]: unknown;");
   });
 
   it("adds the index signature to an open data object (threads)", async () => {
     const files = await emitRelative(loadSampleIr());
-    expect(files["platforms/threads.ts"]).toContain("[extra: string]: unknown;");
+    expect(files["platforms/threads.ts"]).toContain(
+      "[extra: string]: unknown;",
+    );
   });
 
   it("does NOT add the index signature to closed data objects (facebook data)", async () => {
@@ -165,37 +175,53 @@ describe("open record index signatures", () => {
 describe("doc-comment pricing lines", () => {
   it("fixed pricing renders a flat per-request line", () => {
     expect(
-      priceLine({ priceUsd: 0.01625, baseUsd: null, perItemUsd: null, perItemUnit: null }),
+      priceLine({
+        priceUsd: 0.01625,
+        baseUsd: null,
+        perItemUsd: null,
+        perItemUnit: null,
+      }),
     ).toBe("Price: $0.01625 per request.");
   });
 
   it("per-item pricing renders the base plus per-item form", () => {
     expect(
-      priceLine({ priceUsd: 0.05, baseUsd: 0.01, perItemUsd: 0.002, perItemUnit: "post" }),
-    ).toBe("Price: $0.01 per request plus $0.002 per post.");
+      priceLine({
+        priceUsd: 0.05,
+        baseUsd: 0.01,
+        perItemUsd: 0.002,
+        perItemUnit: "post",
+      }),
+    ).toBe("Price: $0.01 per request plus $0.002 per post (maximum $0.05).");
   });
 
-  it("per-item pricing falls back to 'result' when the unit is null", () => {
+  it("incomplete linear pricing is not inferred", () => {
     expect(
-      priceLine({ priceUsd: 0.05, baseUsd: 0.01, perItemUsd: 0.002, perItemUnit: null }),
-    ).toBe("Price: $0.01 per request plus $0.002 per result.");
-  });
-
-  it("per-item pricing with null baseUsd renders per-unit only (no $0 base clause, S1)", () => {
-    expect(
-      priceLine({ priceUsd: 0.03, baseUsd: null, perItemUsd: 0.002, perItemUnit: "result" }),
-    ).toBe("Price: $0.002 per result.");
+      priceLine({
+        priceUsd: 0.05,
+        baseUsd: 0.01,
+        perItemUsd: 0.002,
+        perItemUnit: null,
+      }),
+    ).toBe("Price: $0.05 per request.");
   });
 
   it("formats a sub-1e-6 price as a fixed decimal, never exponential (S1)", () => {
     expect(
-      priceLine({ priceUsd: 0.0000005, baseUsd: null, perItemUsd: null, perItemUnit: null }),
+      priceLine({
+        priceUsd: 0.0000005,
+        baseUsd: null,
+        perItemUsd: null,
+        perItemUnit: null,
+      }),
     ).toBe("Price: $0.0000005 per request.");
   });
 
   it("emits the price line in the method doc comment", async () => {
     const files = await emitRelative(loadSampleIr());
-    expect(files["platforms/amazon.ts"]).toContain("Price: $0.01625 per request.");
+    expect(files["platforms/amazon.ts"]).toContain(
+      "Price: $0.01625 per request.",
+    );
   });
 });
 
@@ -213,7 +239,9 @@ describe("example emission", () => {
     const sku = ir.skus.find((s) => s.slug === "threads.profile")!;
     sku.example = null;
     const files = await emitTypescript(ir, "");
-    const threads = Object.entries(files).find(([p]) => p.endsWith("threads.ts"))![1];
+    const threads = Object.entries(files).find(([p]) =>
+      p.endsWith("threads.ts"),
+    )![1];
     expect(threads).not.toContain("@example");
   });
 });
@@ -225,7 +253,9 @@ describe("paginated without itemsField emits no iterator", () => {
     fb.pagination.itemsField = null;
     fb.tsIterMethod = null;
     const files = await emitTypescript(ir, "");
-    const platform = Object.entries(files).find(([p]) => p.endsWith("facebook.ts"))![1];
+    const platform = Object.entries(files).find(([p]) =>
+      p.endsWith("facebook.ts"),
+    )![1];
     expect(platform).not.toContain("iterAdsSearch");
     expect(platform).not.toContain("Paginator");
     expect(platform).not.toContain("paginate");
@@ -307,11 +337,22 @@ export interface ClientOptions {
 export interface AccountProfile {
   id: string; email?: string; status: string; createdAt: string; onboardingComplete: boolean;
 }
-export interface CatalogQuery { query?: string; category?: string; }
+export interface CatalogOptions { category?: string; }
+export interface FlatPricingOffer { model: "flat"; unit: "request"; maxUsd: number; }
+export interface LinearPricingOffer { model: "linear"; unit: string; baseUsd: number; perUnitUsd: number; maxUsd: number; }
+export type PricingOffer = FlatPricingOffer | LinearPricingOffer;
+export interface DiscoveryPricing { from: PricingOffer; failoverMaxUsd: number; }
+export interface LaneHealth { window: "30d"; uptimePct: number; latencyP50Ms: number; requests: number; }
+export interface DiscoveryLane { pricing: PricingOffer; health?: LaneHealth; }
 export interface CatalogEntry {
-  slug: string; platform: string; action: string; name: string; category: string;
-  description: string; priceUsd: number;
+  id: string; slug: string; name: string; category: string; description: string;
+  provider: "AnyAPI"; pricing: DiscoveryPricing; lanes: DiscoveryLane[];
+  heavy: boolean; tryEligible: boolean;
 }
+export interface SearchOptions { query: string; category?: string; platform?: string; limit?: number; }
+export interface HighlightField { path: string; type: string; why?: string; }
+export interface CatalogSearchResult { slug: string; platformId: string; name: string; description: string; category: string; provider: "AnyAPI"; pricing: DiscoveryPricing; relevance: number; highlightFields?: HighlightField[]; }
+export interface CatalogSearchResults { results: CatalogSearchResult[]; total: number; ranking: "semantic" | "keyword"; }
 export interface AgentSignupOptions {
   baseUrl?: string; fetch?: typeof fetch; sponsorEmail?: string; label?: string;
 }

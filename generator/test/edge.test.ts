@@ -1,34 +1,50 @@
-import { describe, it, expect } from "vitest";
-import { buildIr } from "../src/ir.js";
-import type { SkuEntry, SchemaNode, ObjectNode, StringNode } from "../src/types.js";
+import { describe, expect, it } from "vitest";
+import { crackEnvelope, toSchemaNode } from "../src/ir.js";
+import type { ObjectNode, SchemaNode, StringNode } from "../src/types.js";
+import { fixtureSku, syntheticExtractorIr } from "./extractor-fixture.js";
 
-const ir = buildIr();
-const bySlug = new Map<string, SkuEntry>(ir.skus.map((s) => [s.slug, s]));
-function sku(slug: string): SkuEntry {
-  const s = bySlug.get(slug);
-  if (!s) throw new Error(`missing sku ${slug}`);
-  return s;
-}
+const ir = syntheticExtractorIr();
+
 function prop(obj: ObjectNode, key: string): SchemaNode {
-  const p = obj.properties[key];
-  if (!p) throw new Error(`missing property ${key}`);
-  return p;
+  const value = obj.properties[key];
+  if (!value) throw new Error(`missing property ${key}`);
+  return value;
 }
 
 describe("envelope crack (SPEC 1.4.1)", () => {
-  it("collapses the found/data oneOf to the non-null data branch", () => {
-    // ahrefs.backlinks has the standard { found, data: oneOf[null, {items}] } envelope.
-    const data = sku("ahrefs.backlinks").output.data as ObjectNode;
-    expect(data.kind).toBe("object");
+  it("collapses found/data oneOf to the non-null data branch", () => {
+    const sku = fixtureSku(ir, "fixture.flat");
+    const data = sku.output.data as ObjectNode;
+    expect(sku.output.envelope).toBe("found-data");
     expect(data.properties["items"]).toBeDefined();
-    // `found` is never modeled as a data field.
     expect(data.properties["found"]).toBeUndefined();
   });
 
   it("uses the bare output object directly when there is no found/data wrapper", () => {
-    // reddit.search's output is the data object directly (no found/data envelope).
-    const data = sku("reddit.search").output.data as ObjectNode;
-    expect(data.kind).toBe("object");
+    const cracked = crackEnvelope({
+      responses: {
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                properties: {
+                  output: {
+                    type: "object",
+                    required: ["posts"],
+                    properties: {
+                      posts: { type: "array", items: { type: "object" } },
+                      nextCursor: { type: "string" },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    expect(cracked.bare).toBe(true);
+    const data = toSchemaNode(cracked.data) as ObjectNode;
     expect(data.properties["posts"]).toBeDefined();
     expect(data.properties["nextCursor"]).toBeDefined();
     expect(data.properties["found"]).toBeUndefined();
@@ -37,19 +53,18 @@ describe("envelope crack (SPEC 1.4.1)", () => {
 });
 
 describe("open records (SPEC 1.4.5)", () => {
-  it("marks additionalProperties:false objects as closed and item records as open", () => {
-    const data = sku("amazon.reviews").output.data as ObjectNode;
-    expect(data.open).toBe(false); // data wrapper is closed
+  it("marks additionalProperties:false objects closed and unspecified item records open", () => {
+    const data = fixtureSku(ir, "fixture.flat").output.data as ObjectNode;
+    expect(data.open).toBe(false);
     const items = prop(data, "items");
     if (items.kind !== "array") throw new Error("expected array");
-    const item = items.items as ObjectNode;
-    expect(item.open).toBe(true); // operator-populated item record is open
+    expect((items.items as ObjectNode).open).toBe(true);
   });
 });
 
 describe("defaults imply optional / enums / bounds (SPEC 1.4.2-1.4.4)", () => {
-  it("carries a default and enum on a string node, and bounds on an integer node", () => {
-    const input = sku("amazon.reviews").input as ObjectNode;
+  it("carries string defaults/enums and integer bounds from a synthetic input", () => {
+    const input = fixtureSku(ir, "fixture.flat").input as ObjectNode;
     const sort = prop(input, "sort") as StringNode;
     expect(sort.default).toBe("helpful");
     expect(sort.enum).toEqual(["helpful", "recent"]);
@@ -57,63 +72,58 @@ describe("defaults imply optional / enums / bounds (SPEC 1.4.2-1.4.4)", () => {
     if (limit.kind !== "integer") throw new Error("expected integer");
     expect(limit.minimum).toBe(1);
     expect(limit.maximum).toBe(50);
-    // `product` is required and has no default -> stays required.
     expect(input.required).toContain("product");
   });
 });
 
 describe("nullable type-array collapse", () => {
-  it("collapses type:[string,null] nextCursor to a string node (not unknown)", () => {
-    const data = sku("instagram.followers").output.data as ObjectNode;
-    const next = prop(data, "nextCursor");
-    expect(next.kind).toBe("string");
+  it("collapses type:[string,null] nextCursor to a string node", () => {
+    const data = fixtureSku(ir, "fixture.linear").output.data as ObjectNode;
+    expect(prop(data, "nextCursor").kind).toBe("string");
   });
 });
 
 describe("unknown fallback (SPEC 1.3)", () => {
-  it("maps an empty {} schema (description only) to an unknown node", () => {
-    const data = sku("linkedin.search_profiles").output.data as ObjectNode;
-    const items = prop(data, "items");
-    if (items.kind !== "array") throw new Error("expected array");
-    const item = items.items as ObjectNode;
-    expect(prop(item, "currentPosition").kind).toBe("unknown");
+  it("maps a description-only schema to an unknown node", () => {
+    expect(toSchemaNode({ description: "provider-defined" })).toEqual({
+      kind: "unknown",
+      description: "provider-defined",
+    });
   });
 });
 
 describe("pagination detection (SPEC 1.4.10)", () => {
-  it("marks 46 SKUs paginated with a resolvable itemsField", () => {
-    const paginated = ir.skus.filter((s) => s.pagination.paginated);
-    expect(paginated.length).toBe(46);
-    // No paginated SKU in the current catalog lacks an items array; all get iterators.
-    for (const s of paginated) {
-      expect(s.pagination.itemsField).not.toBeNull();
-      expect(s.tsIterMethod).not.toBeNull();
-      expect(s.pyIterMethod).not.toBeNull();
-    }
-  });
+  it("requires both a string cursor input and nextCursor output", () => {
+    const paginated = fixtureSku(ir, "fixture.linear");
+    expect(paginated.pagination.paginated).toBe(true);
+    expect(paginated.pagination.itemsField).toBe("ads");
+    expect(paginated.tsIterMethod).not.toBeNull();
+    expect(paginated.pyIterMethod).not.toBeNull();
 
-  it("does not paginate a SKU without a cursor input even if data has nextCursor", () => {
-    // A SKU with nextCursor in data but no cursor input must NOT be paginated. If none
-    // exists in the catalog this is vacuously satisfied; assert the rule holds for every SKU.
-    for (const s of ir.skus) {
-      const input = s.input as ObjectNode;
-      const hasCursor =
-        input.properties["cursor"] !== undefined &&
-        input.properties["cursor"].kind === "string";
-      const dataObj = s.output.data.kind === "object" ? s.output.data : null;
-      const hasNext = dataObj !== null && dataObj.properties["nextCursor"] !== undefined;
-      expect(s.pagination.paginated).toBe(hasCursor && hasNext);
-    }
+    const missingInputCursor = fixtureSku(ir, "fixture.flat");
+    expect(
+      (missingInputCursor.output.data as ObjectNode).properties["nextCursor"],
+    ).toBeDefined();
+    expect(missingInputCursor.pagination.paginated).toBe(false);
   });
 });
 
 describe("pricing modes (SPEC 1.2 notes)", () => {
-  it("fixed mode has null baseUsd; dynamic mode has a numeric baseUsd <= priceUsd", () => {
-    const dynamic = ir.skus.filter((s) => s.pricing.baseUsd !== null);
-    expect(dynamic.length).toBeGreaterThan(0);
-    for (const s of dynamic) {
-      expect(typeof s.pricing.priceUsd).toBe("number");
-      expect(s.pricing.baseUsd as number).toBeLessThanOrEqual(s.pricing.priceUsd);
-    }
+  it("extracts fixed and dynamic modes without consulting live SKU examples", () => {
+    const fixed = fixtureSku(ir, "fixture.flat").pricing;
+    expect(fixed).toEqual({
+      priceUsd: 0.00325,
+      baseUsd: null,
+      perItemUsd: null,
+      perItemUnit: null,
+    });
+
+    const dynamic = fixtureSku(ir, "fixture.linear").pricing;
+    expect(dynamic).toEqual({
+      priceUsd: 0.04002,
+      baseUsd: 0.00005,
+      perItemUsd: 0.0008,
+      perItemUnit: "result",
+    });
   });
 });

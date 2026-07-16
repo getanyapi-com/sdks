@@ -135,10 +135,8 @@ export class UpworkNamespace {
    * Upwork Jobs
    *
    * Search Upwork job postings by keyword - up to 25 fresh listings per request.
-
-**Price:** billed per result - \$3.30 per 1,000 results, capped at \$82.50 per 1,000 requests.
    *
-   * Price: $0.0033 per result.
+   * Price: $0 per request plus $0.0033 per result (maximum $0.0825).
    *
    * @example
    * const res = await client.upwork.jobs({ query: "web developer", jobType: "fixed", limit: 10 });

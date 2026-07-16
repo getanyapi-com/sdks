@@ -491,8 +491,6 @@ export class DouyinNamespace {
    * Douyin Profile
    *
    * Look up a public Douyin profile by sec_user_id and return normalized profile statistics.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -510,8 +508,6 @@ export class DouyinNamespace {
    * Douyin Video Search
    *
    * Search public Douyin videos by keyword with sorting, time, duration, and content filters.
-
-**Price:** \$10.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.01 per request.
    *
@@ -529,8 +525,6 @@ export class DouyinNamespace {
    * Douyin User Posts
    *
    * List public posts from a Douyin user with normalized engagement data and pagination.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -548,8 +542,6 @@ export class DouyinNamespace {
    * Douyin Video
    *
    * Fetch a public Douyin video by share URL with normalized author and engagement data.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *
@@ -567,8 +559,6 @@ export class DouyinNamespace {
    * Douyin Video Comments
    *
    * List public comments on a Douyin video with author and engagement data.
-
-**Price:** \$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).
    *
    * Price: $0.001 per request.
    *

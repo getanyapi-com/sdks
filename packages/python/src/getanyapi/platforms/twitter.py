@@ -38,8 +38,12 @@ class TwitterCommunityTweetsInput(TypedDict, total=False):
 class TwitterFollowersInput(TypedDict, total=False):
     """Input for X / Twitter Followers."""
 
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-100000, default 200). You are billed per result returned, so a lower limit costs less. Range: 1 to 100000. Default: 200."""
+    """Per-page maximum number of followers to return (1-100000, default 200). A provider may return a smaller native page; follow nextCursor for more. Range: 1 to 100000. Default: 200."""
+    requireSinglePage: NotRequired[bool]
+    """Set true to get up to limit followers in one response instead of provider-native pages, served by a bulk provider when needed."""
     username: Required[str]
     """The X (Twitter) username to fetch followers for, without the @ prefix (e.g. elonmusk)."""
 
@@ -47,8 +51,12 @@ class TwitterFollowersInput(TypedDict, total=False):
 class TwitterFollowingInput(TypedDict, total=False):
     """Input for X / Twitter Following."""
 
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followed accounts."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-100000, default 200). You are billed per result returned, so a lower limit costs less. Range: 1 to 100000. Default: 200."""
+    """Per-page maximum number of followed accounts to return (1-100000, default 200). A provider may return a smaller native page; follow nextCursor for more. Range: 1 to 100000. Default: 200."""
+    requireSinglePage: NotRequired[bool]
+    """Set true to get up to limit accounts in one response instead of provider-native pages, served by a bulk provider when needed."""
     username: Required[str]
     """The X (Twitter) username to fetch the following list for, without the @ prefix (e.g. elonmusk)."""
 
@@ -72,21 +80,25 @@ class TwitterRepliesInput(TypedDict, total=False):
 class TwitterSearchInput(TypedDict, total=False):
     """Input for X / Twitter Search."""
 
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of search results."""
     lang: NotRequired[str]
     """Optional ISO 639-1 language code to restrict tweets to (e.g. en)."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less. Range: 1 to 50."""
+    """Per-page maximum number of results to return (1-50, default 20). A provider may return a smaller native page; follow nextCursor for more. Range: 1 to 50. Default: 20."""
     query: Required[str]
     """Search query using X (Twitter) advanced-search syntax. IMPORTANT: bare terms are ANDed - a tweet must contain EVERY word, so a list of loosely related keywords matches nothing; use one short phrase or OR between alternatives (e.g. 'anyapi OR getanyapi'). You can embed X advanced-search operators directly in the query to filter results: from:username and to:username (author or recipient), since:YYYY-MM-DD and until:YYYY-MM-DD (date range), min_faves:N, min_retweets:N, min_replies:N (engagement floors), "exact phrase", -term to exclude, filter:media and filter:links and -filter:replies (content filters), lang:en, near:city, and geocode:lat,long,radius. Examples: 'from:OpenAI', 'AI agents min_faves:500 -filter:replies', 'nvidia since:2026-01-01 until:2026-03-01'. A query with no matches returns an empty items array; prefer the fewest words that identify the topic."""
     queryType: NotRequired[str]
     """Result ranking: 'Latest', 'Top', 'Photos', or 'Videos' (e.g. Latest). Default: Latest."""
+    requireSinglePage: NotRequired[bool]
+    """Set true to get up to limit results in one response instead of provider-native pages, served by a bulk provider when needed."""
 
 
 class TwitterTweetInput(TypedDict, total=False):
     """Input for Twitter Tweet."""
 
     url: Required[str]
-    """Full tweet URL, e.g. https://x.com/NASA/status/1800000000000000000."""
+    """Canonical x.com or twitter.com status URL with a numeric tweet ID, including /i/web/status and media-share variants."""
 
 
 class TwitterTweetTranscriptInput(TypedDict, total=False):
@@ -104,7 +116,7 @@ class TwitterUserTweetsInput(TypedDict, total=False):
     handle: Required[str]
     """Twitter/X handle without the leading @."""
     limit: NotRequired[int]
-    """How many tweets you want (1-1000), newest first. By default results may come back in cheap pages of ~20: follow the response's nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call. Range: 1 to 1000. Default: 20."""
+    """Per-page maximum number of tweets to return (1-1000), newest first. A provider may return a smaller native page of approximately 20; follow nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call. Range: 1 to 1000. Default: 20."""
     requireSinglePage: NotRequired[bool]
     """Set true to get up to limit tweets in a single response instead of cheap pages, served by a bulk provider at a higher price."""
 
@@ -168,8 +180,15 @@ class TwitterCommunityTweetsTweet(BaseModel):
 
 
 class TwitterFollowersData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[TwitterFollowersItem] = Field(
         description="Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of followers, or null when there are no more. Pass it back as cursor to continue.",
     )
 
 
@@ -196,8 +215,15 @@ class TwitterFollowersItem(BaseModel):
 
 
 class TwitterFollowingData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[TwitterFollowingItem] = Field(
         description="Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of followed accounts, or null when there are no more. Pass it back as cursor to continue.",
     )
 
 
@@ -300,8 +326,15 @@ class TwitterRepliesItem(BaseModel):
 
 
 class TwitterSearchData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[TwitterSearchItem] = Field(
         description="Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of search results, or null when there are no more. Pass it back as cursor to continue.",
     )
 
 
@@ -431,8 +464,7 @@ class TwitterNamespace:
 
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL, normalized across providers with transparent
-        failover. **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        failover.
 
         Price: $0.002 per request.
 
@@ -453,8 +485,7 @@ class TwitterNamespace:
         """Twitter Community Tweets
 
         List recent tweets posted in a Twitter/X community by URL, normalized across
-        providers with transparent failover. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        providers with transparent failover.
 
         Price: $0.002 per request.
 
@@ -474,11 +505,11 @@ class TwitterNamespace:
     ) -> RunResult[TwitterFollowersData]:
         """X / Twitter Followers
 
-        Fetch the follower list of any public X (Twitter) account by username - up
-        to 100,000 follower records per request. **Price:** billed per result -
-        \$0.15 per 1,000 results, capped at \$15,000.00 per 1,000 requests.
+        Fetch the follower list of any public X (Twitter) account by username with
+        cursor pagination. Limit is a per-page maximum; native pages contain up to
+        200 accounts unless requireSinglePage selects a bulk lane.
 
-        Price: $0.00015 per result.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.followers(limit=200, username="nasa")
@@ -488,6 +519,29 @@ class TwitterNamespace:
         )
         return RunResult[TwitterFollowersData].model_validate(raw)
 
+    def iter_followers(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterFollowersInput],
+    ) -> Paginator[TwitterFollowersItem, TwitterFollowersData]:
+        """Iterate X / Twitter Followers results, following pagination cursors.
+
+        Yields validated `TwitterFollowersItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "twitter.followers",
+            dict(input),
+            "items",
+            item_model=TwitterFollowersItem,
+            data_model=TwitterFollowersData,
+            bare=False,
+            options=options,
+        )
+
     def following(
         self,
         *,
@@ -496,11 +550,11 @@ class TwitterNamespace:
     ) -> RunResult[TwitterFollowingData]:
         """X / Twitter Following
 
-        List the accounts a public X (Twitter) account follows by username - up to
-        100,000 records per request. **Price:** billed per result - \$0.15 per 1,000
-        results, capped at \$15,000.00 per 1,000 requests.
+        List the accounts a public X (Twitter) account follows by username with
+        cursor pagination. Limit is a per-page maximum; native pages contain up to
+        200 accounts unless requireSinglePage selects a bulk lane.
 
-        Price: $0.00015 per result.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.following(limit=200, username="nasa")
@@ -509,6 +563,29 @@ class TwitterNamespace:
             "twitter.following", dict(input), options
         )
         return RunResult[TwitterFollowingData].model_validate(raw)
+
+    def iter_following(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterFollowingInput],
+    ) -> Paginator[TwitterFollowingItem, TwitterFollowingData]:
+        """Iterate X / Twitter Following results, following pagination cursors.
+
+        Yields validated `TwitterFollowingItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "twitter.following",
+            dict(input),
+            "items",
+            item_model=TwitterFollowingItem,
+            data_model=TwitterFollowingData,
+            bare=False,
+            options=options,
+        )
 
     def profile(
         self,
@@ -520,10 +597,9 @@ class TwitterNamespace:
 
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
         verification) by handle, normalized across providers with transparent
-        failover. **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        failover.
 
-        Price: $0.001 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.profile(handle="nasa")
@@ -542,11 +618,9 @@ class TwitterNamespace:
         """X / Twitter Post Replies
 
         Fetch the replies to any X (Twitter) post URL as structured records -
-        author, text, and engagement. **Price:** billed per result - \$2.50 per
-        1,000 requests base + \$0.25 per 1,000 results, capped at \$12.50 per 1,000
-        requests.
+        author, text, and engagement.
 
-        Price: $0.0025 per request plus $0.00025 per result.
+        Price: $0.0025 per request plus $0.00025 per result (maximum $0.0125).
 
         Example:
             res = client.twitter.replies(limit=3, url="https://x.com/jack/status/20")
@@ -565,12 +639,12 @@ class TwitterNamespace:
         """X / Twitter Search
 
         Search X (Twitter) with full advanced-search syntax (operators like from:,
-        since:, until:, min_faves: work inline in the query) and get up to 50
-        structured tweets per request: text, author, and engagement. **Price:**
-        billed per result - \$4.00 per 1,000 requests base + \$0.20 per 1,000
-        results, capped at \$14.00 per 1,000 requests.
+        since:, until:, min_faves: work inline in the query) and get structured
+        tweets with text, author, engagement, and cursor pagination. Limit is a
+        per-page maximum; native pages contain approximately 20 tweets unless
+        requireSinglePage selects a bulk lane.
 
-        Price: $0.004 per request plus $0.0002 per result.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.search(query="openai")
@@ -579,6 +653,29 @@ class TwitterNamespace:
             "twitter.search", dict(input), options
         )
         return RunResult[TwitterSearchData].model_validate(raw)
+
+    def iter_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchInput],
+    ) -> Paginator[TwitterSearchItem, TwitterSearchData]:
+        """Iterate X / Twitter Search results, following pagination cursors.
+
+        Yields validated `TwitterSearchItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "twitter.search",
+            dict(input),
+            "items",
+            item_model=TwitterSearchItem,
+            data_model=TwitterSearchData,
+            bare=False,
+            options=options,
+        )
 
     def tweet(
         self,
@@ -590,10 +687,9 @@ class TwitterNamespace:
 
         Fetch a single Twitter/X tweet by URL with its full text and engagement
         counts (likes, retweets, replies, quotes, bookmarks, views), normalized
-        across providers. **Price:** \$2.00 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        across providers.
 
-        Price: $0.002 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.tweet(url="https://x.com/SpaceX/status/1732824684683784516")
@@ -612,9 +708,7 @@ class TwitterNamespace:
         """Twitter Tweet Transcript
 
         Extract the spoken transcript from a Twitter/X video tweet by URL,
-        normalized across providers with transparent failover. **Price:** \$2.00 per
-        1,000 requests (flat per request - same cost regardless of results
-        returned).
+        normalized across providers with transparent failover.
 
         Price: $0.002 per request.
 
@@ -635,12 +729,11 @@ class TwitterNamespace:
         """Twitter User Tweets
 
         Get an X (Twitter) account's latest tweets by handle, newest first
-        (reverse-chronological, replies included) - not just the popular ones - up
-        to 1000 per call, with engagement, views, and language, normalized across
-        providers with cursor pagination. **Price:** \$1.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        (reverse-chronological, replies included), with engagement, views, language,
+        and cursor pagination. Limit is a per-page maximum; native pages contain
+        approximately 20 tweets unless requireSinglePage selects a bulk lane.
 
-        Price: $0.001 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
@@ -690,8 +783,7 @@ class AsyncTwitterNamespace:
 
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL, normalized across providers with transparent
-        failover. **Price:** \$2.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        failover.
 
         Price: $0.002 per request.
 
@@ -712,8 +804,7 @@ class AsyncTwitterNamespace:
         """Twitter Community Tweets
 
         List recent tweets posted in a Twitter/X community by URL, normalized across
-        providers with transparent failover. **Price:** \$2.00 per 1,000 requests
-        (flat per request - same cost regardless of results returned).
+        providers with transparent failover.
 
         Price: $0.002 per request.
 
@@ -733,11 +824,11 @@ class AsyncTwitterNamespace:
     ) -> RunResult[TwitterFollowersData]:
         """X / Twitter Followers
 
-        Fetch the follower list of any public X (Twitter) account by username - up
-        to 100,000 follower records per request. **Price:** billed per result -
-        \$0.15 per 1,000 results, capped at \$15,000.00 per 1,000 requests.
+        Fetch the follower list of any public X (Twitter) account by username with
+        cursor pagination. Limit is a per-page maximum; native pages contain up to
+        200 accounts unless requireSinglePage selects a bulk lane.
 
-        Price: $0.00015 per result.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.followers(limit=200, username="nasa")
@@ -747,6 +838,29 @@ class AsyncTwitterNamespace:
         )
         return RunResult[TwitterFollowersData].model_validate(raw)
 
+    def iter_followers(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterFollowersInput],
+    ) -> AsyncPaginator[TwitterFollowersItem, TwitterFollowersData]:
+        """Iterate X / Twitter Followers results, following pagination cursors.
+
+        Yields validated `TwitterFollowersItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "twitter.followers",
+            dict(input),
+            "items",
+            item_model=TwitterFollowersItem,
+            data_model=TwitterFollowersData,
+            bare=False,
+            options=options,
+        )
+
     async def following(
         self,
         *,
@@ -755,11 +869,11 @@ class AsyncTwitterNamespace:
     ) -> RunResult[TwitterFollowingData]:
         """X / Twitter Following
 
-        List the accounts a public X (Twitter) account follows by username - up to
-        100,000 records per request. **Price:** billed per result - \$0.15 per 1,000
-        results, capped at \$15,000.00 per 1,000 requests.
+        List the accounts a public X (Twitter) account follows by username with
+        cursor pagination. Limit is a per-page maximum; native pages contain up to
+        200 accounts unless requireSinglePage selects a bulk lane.
 
-        Price: $0.00015 per result.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.following(limit=200, username="nasa")
@@ -768,6 +882,29 @@ class AsyncTwitterNamespace:
             "twitter.following", dict(input), options
         )
         return RunResult[TwitterFollowingData].model_validate(raw)
+
+    def iter_following(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterFollowingInput],
+    ) -> AsyncPaginator[TwitterFollowingItem, TwitterFollowingData]:
+        """Iterate X / Twitter Following results, following pagination cursors.
+
+        Yields validated `TwitterFollowingItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "twitter.following",
+            dict(input),
+            "items",
+            item_model=TwitterFollowingItem,
+            data_model=TwitterFollowingData,
+            bare=False,
+            options=options,
+        )
 
     async def profile(
         self,
@@ -779,10 +916,9 @@ class AsyncTwitterNamespace:
 
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
         verification) by handle, normalized across providers with transparent
-        failover. **Price:** \$1.00 per 1,000 requests (flat per request - same cost
-        regardless of results returned).
+        failover.
 
-        Price: $0.001 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.profile(handle="nasa")
@@ -801,11 +937,9 @@ class AsyncTwitterNamespace:
         """X / Twitter Post Replies
 
         Fetch the replies to any X (Twitter) post URL as structured records -
-        author, text, and engagement. **Price:** billed per result - \$2.50 per
-        1,000 requests base + \$0.25 per 1,000 results, capped at \$12.50 per 1,000
-        requests.
+        author, text, and engagement.
 
-        Price: $0.0025 per request plus $0.00025 per result.
+        Price: $0.0025 per request plus $0.00025 per result (maximum $0.0125).
 
         Example:
             res = client.twitter.replies(limit=3, url="https://x.com/jack/status/20")
@@ -824,12 +958,12 @@ class AsyncTwitterNamespace:
         """X / Twitter Search
 
         Search X (Twitter) with full advanced-search syntax (operators like from:,
-        since:, until:, min_faves: work inline in the query) and get up to 50
-        structured tweets per request: text, author, and engagement. **Price:**
-        billed per result - \$4.00 per 1,000 requests base + \$0.20 per 1,000
-        results, capped at \$14.00 per 1,000 requests.
+        since:, until:, min_faves: work inline in the query) and get structured
+        tweets with text, author, engagement, and cursor pagination. Limit is a
+        per-page maximum; native pages contain approximately 20 tweets unless
+        requireSinglePage selects a bulk lane.
 
-        Price: $0.004 per request plus $0.0002 per result.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.search(query="openai")
@@ -838,6 +972,29 @@ class AsyncTwitterNamespace:
             "twitter.search", dict(input), options
         )
         return RunResult[TwitterSearchData].model_validate(raw)
+
+    def iter_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchInput],
+    ) -> AsyncPaginator[TwitterSearchItem, TwitterSearchData]:
+        """Iterate X / Twitter Search results, following pagination cursors.
+
+        Yields validated `TwitterSearchItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "twitter.search",
+            dict(input),
+            "items",
+            item_model=TwitterSearchItem,
+            data_model=TwitterSearchData,
+            bare=False,
+            options=options,
+        )
 
     async def tweet(
         self,
@@ -849,10 +1006,9 @@ class AsyncTwitterNamespace:
 
         Fetch a single Twitter/X tweet by URL with its full text and engagement
         counts (likes, retweets, replies, quotes, bookmarks, views), normalized
-        across providers. **Price:** \$2.00 per 1,000 requests (flat per request -
-        same cost regardless of results returned).
+        across providers.
 
-        Price: $0.002 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.tweet(url="https://x.com/SpaceX/status/1732824684683784516")
@@ -871,9 +1027,7 @@ class AsyncTwitterNamespace:
         """Twitter Tweet Transcript
 
         Extract the spoken transcript from a Twitter/X video tweet by URL,
-        normalized across providers with transparent failover. **Price:** \$2.00 per
-        1,000 requests (flat per request - same cost regardless of results
-        returned).
+        normalized across providers with transparent failover.
 
         Price: $0.002 per request.
 
@@ -894,12 +1048,11 @@ class AsyncTwitterNamespace:
         """Twitter User Tweets
 
         Get an X (Twitter) account's latest tweets by handle, newest first
-        (reverse-chronological, replies included) - not just the popular ones - up
-        to 1000 per call, with engagement, views, and language, normalized across
-        providers with cursor pagination. **Price:** \$1.00 per 1,000 requests (flat
-        per request - same cost regardless of results returned).
+        (reverse-chronological, replies included), with engagement, views, language,
+        and cursor pagination. Limit is a per-page maximum; native pages contain
+        approximately 20 tweets unless requireSinglePage selects a bulk lane.
 
-        Price: $0.001 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)

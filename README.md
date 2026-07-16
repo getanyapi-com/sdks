@@ -9,8 +9,9 @@ pay per request in real US dollars.
 - **Python:** [`getanyapi`](packages/python) (PyPI) - httpx + pydantic v2, Python 3.10+, sync
   and async clients.
 
-Both packages are generated from the platform's own `/openapi.json` (222 SKUs), so they
-track the catalog automatically.
+Generated per-SKU methods track the platform's `/openapi.json`; the handwritten account and
+discovery clients are maintained separately and must be reviewed when catalog/search/detail
+contracts change. See the main repository's `ECOSYSTEM.md` before changing either surface.
 
 ## Quickstart (target surface)
 
@@ -41,11 +42,12 @@ Both packages share one surface; the per-package READMEs
 ([TypeScript](packages/typescript/README.md), [Python](packages/python/README.md)) have full
 detail. The essentials:
 
-- **Not found vs error.** A success always resolves. Most SKUs wrap the payload in a `found`
-  flag (`output.found` is `false` when the upstream had no match, which is not an error).
+- **Not found vs error.** A success always resolves. Current generated operations wrap the
+  payload in a `found` flag (`output.found` is `false` when the upstream had no match, which is
+  not an error).
   `unwrap(res)` returns the data or throws `ResultNotFoundError` (a subclass of
-  `NotFoundError`) on an empty result. A few SKUs return their data object directly as
-  `output`; `unwrap` returns it as-is and never throws.
+  `NotFoundError`) on an empty result. If a future committed schema uses a bare output,
+  `unwrap` returns its data object as-is and never throws.
 - **Pagination.** Paginated SKUs expose an iterator (`client.reddit.iterSearch(...)` /
   `client.reddit.iter_search(...)`) that yields items across pages and follows the cursor.
   Call `.pages()` on it to walk whole results and read each page's `costUsd` / `cost_usd`.
@@ -63,8 +65,9 @@ detail. The essentials:
 
 - `SPEC.md` - the frozen contract (IR shape, naming rules, runtime signatures). Read this
   before touching anything.
-- `openapi.json` + `catalog.json` - committed snapshots of the live gateway (the generator
-  inputs: schemas/pricing ceiling from openapi, category/per-item pricing from catalog).
+- `openapi.json` + `catalog.json` - committed snapshots of the live gateway. OpenAPI owns
+  generated method schemas; discovery owns category and the complete `pricing.from` first
+  runtime-lane USD offer.
   Both are verbatim upstream artifacts and the only files exempt from the dash guard.
 - `generator/` - internal codegen (not published). It reads the two snapshots, emits a
   deterministic `ir.json` (the normalized intermediate the emitters consume), a
@@ -73,7 +76,7 @@ detail. The essentials:
 - `packages/typescript/` - the `@getanyapi/sdk` package. Handwritten runtime in `src/core/`;
   emitted namespaces, sku-map, and client in `src/generated/`.
 - `packages/python/` - the `getanyapi` package. Handwritten runtime in `src/getanyapi/` (`_*.py`
-  + `types.py`); emitted namespaces in `src/getanyapi/platforms/`.
+  - `types.py`); emitted namespaces in `src/getanyapi/platforms/`.
 
 ## How generation works
 
@@ -87,10 +90,13 @@ openapi.json + catalog.json   (committed upstream snapshots)
   packages/*/src/generated/**   +   generator/fixtures.json
 ```
 
-The emitters read ONLY `ir.json`, never the raw OpenAPI. `pnpm generate` runs the whole
+The emitters read ONLY `ir.json`, never the raw OpenAPI. Discovery pricing is parsed
+strictly: the wrapper and model-specific offers reject missing, unknown, or legacy internal-unit
+fields, and every USD amount must be finite and non-negative rather than silently becoming zero.
+`pnpm generate` runs the whole
 pipeline; `pnpm generate:check` regenerates in memory and byte-compares against the
 committed output (the CI drift gate). Two runs on the same snapshots are byte-identical.
-To refresh from the live gateway: `pnpm --filter @anyapi/generator fetch` then
+To refresh from the live gateway: `pnpm --filter @anyapi/generator run fetch` then
 `pnpm generate`.
 
 ## Development
@@ -113,13 +119,13 @@ cd packages/python && pyright && mypy && pytest
 `pnpm check` and the CI suite are mock-only: they never touch the registries. The
 published-artifact smoke fills that gap. It installs BOTH SDKs FROM the registries (npm +
 PyPI) into throwaway temp dirs outside the repo, mints an ephemeral capped key via the public
-`/agent/signup` endpoint (no secrets needed), and makes ONE real production call through each
-(a `$0.001` `reddit.search`), then asserts a well-formed, non-empty envelope. This catches
+`/agent/signup` endpoint (no secrets needed), exercises catalog, search, and describe, then
+makes one real production call through each. This catches discovery drift as well as
 packaging bugs, missing files, broken exports or types, that source-tree tests cannot see.
 
 ```bash
 bash scripts/smoke.sh            # smoke the latest published version
-VERSION=0.1.0 bash scripts/smoke.sh
+VERSION=0.7.0 bash scripts/smoke.sh
 ```
 
 It exits nonzero if either SDK fails and prints a per-SDK PASS/FAIL summary. In CI it is a
@@ -152,16 +158,12 @@ Releases are automated from the live catalog. Two workflows drive it:
   publishes `getanyapi` via PyPI trusted publishing (OIDC, `pypi` environment), and
   `github-release` cuts the Release.
 
-### Cutting the first release (manual v0.1.0)
+### Manual compatibility release
 
-The version starts at `0.0.0`; the first publish is manual because there is no prior tag.
-
-1. Bump both manifests in lockstep and commit on `main`:
-   `pnpm --filter @anyapi/generator run version:apply 0.1.0` (edits both files), then commit.
-2. Create and push the tag: `git tag v0.1.0 && git push origin v0.1.0`. The tag push
-   triggers `release.yml` (a human-pushed tag fires the `push` trigger, unlike a
-   bot-pushed one). Or dispatch it: `gh workflow run release.yml -f tag=v0.1.0`.
-3. `verify` runs the full gate and the version match, then npm and PyPI publish in parallel.
+For a coordinated discovery cut, bump both manifests in lockstep, merge the SDK change, then
+tag that exact main commit. `release.yml` verifies the full suite and version match before npm
+and PyPI publish in parallel. Follow the cross-repository release order in the main
+repository's `ECOSYSTEM.md`; do not infer it from generator automation.
 
 The npm publish works immediately (the `NPM_TOKEN` secret is set on the repo). The PyPI
 publish requires the trusted publisher to exist first (see next).
@@ -188,6 +190,7 @@ configured, `publish-pypi` fails with a clear "trusted publisher not configured"
 
 - Prices are always USD. Credits (an internal unit) never appear in the SDK.
 - The provider is always `"AnyAPI"`. Upstream backends are never named.
+- Ranked queries use `search`; `catalog` is category-only browsing.
 - ASCII hyphen only: no em dashes or en dashes anywhere except the upstream `openapi.json`
   snapshot.
 

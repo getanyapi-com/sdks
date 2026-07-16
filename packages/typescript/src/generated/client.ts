@@ -10,6 +10,7 @@ import { AhrefsNamespace } from "./platforms/ahrefs.js";
 import { AirbnbNamespace } from "./platforms/airbnb.js";
 import { AlibabaNamespace } from "./platforms/alibaba.js";
 import { AmazonNamespace } from "./platforms/amazon.js";
+import { ApolloNamespace } from "./platforms/apollo.js";
 import { AppstoreNamespace } from "./platforms/appstore.js";
 import { BlueskyNamespace } from "./platforms/bluesky.js";
 import { BookingNamespace } from "./platforms/booking.js";
@@ -131,6 +132,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["amazon"] ??= new AmazonNamespace(
       this._core,
     )) as AmazonNamespace;
+  }
+
+  /**
+   * Typed methods for the apollo platform.
+   */
+  get apollo(): ApolloNamespace {
+    return (this._namespaces["apollo"] ??= new ApolloNamespace(
+      this._core,
+    )) as ApolloNamespace;
   }
 
   /**

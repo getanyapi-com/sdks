@@ -18,8 +18,8 @@ import { AnyAPI } from "@getanyapi/sdk";
 const client = new AnyAPI({ apiKey: process.env.ANYAPI_API_KEY });
 
 const res = await client.reddit.search({ query: "mechanical keyboard" });
-for (const post of res.output.posts) {
-  console.log(post.title, post.score);
+if (res.output.found) {
+  for (const post of res.output.data.posts) console.log(post.title, post.score);
 }
 console.log("charged", res.costUsd, "USD");
 ```
@@ -28,7 +28,10 @@ Every SKU is a typed method under its platform namespace (`client.amazon.reviews
 `client.google.search(...)`). You can also call any SKU generically by slug with full typing:
 
 ```ts
-const rev = await client.run("amazon.reviews", { product: "B07FZ8S74R", limit: 3 });
+const rev = await client.run("amazon.reviews", {
+  product: "B07FZ8S74R",
+  limit: 3,
+});
 ```
 
 ## Not found vs error
@@ -51,9 +54,26 @@ try {
 ```
 
 `ResultNotFoundError` extends `NotFoundError`, so `catch (NotFoundError)` catches both an
-HTTP 404 and an empty result; catch `ResultNotFoundError` to handle only empty results. A few
-SKUs (e.g. `reddit.search`) return their data object directly as `output` with no `found`
-wrapper; `unwrap` returns it as-is and never throws for those.
+HTTP 404 and an empty result; catch `ResultNotFoundError` to handle only empty results. If a
+future committed schema uses a bare output, generated typing returns its data object directly
+rather than relying on a hard-coded SKU list.
+
+## Discovery
+
+```ts
+const apis = await client.catalog({ category: "search" });
+const matches = await client.search({
+  query: "web search",
+  platform: "google",
+  limit: 10,
+});
+const api = await client.describe(matches.results[0]!.slug);
+console.log(api.pricing.from, api.pricing.failoverMaxUsd, api.inputSchema);
+```
+
+`catalog` is category-only browsing. Ranked queries always use `search`, which returns
+`results`, `total`, and `ranking`; `describe` includes schemas. Discovery prices are nested
+USD flat/linear offers, lanes are anonymous, and provider is always `"AnyAPI"`.
 
 ## Pagination
 
@@ -62,12 +82,17 @@ you. Call `.pages()` on it to walk whole results instead (each carries its own `
 
 ```ts
 // Flatten items across pages, capped at 100 total.
-for await (const post of client.reddit.iterSearch({ query: "coffee" }, { maxItems: 100 })) {
+for await (const post of client.reddit.iterSearch(
+  { query: "coffee" },
+  { maxItems: 100 },
+)) {
   console.log(post.title);
 }
 
 // Or walk pages to read per-page cost.
-for await (const page of client.reddit.iterSearch({ query: "coffee" }).pages()) {
+for await (const page of client.reddit
+  .iterSearch({ query: "coffee" })
+  .pages()) {
   console.log(page.costUsd);
 }
 ```
@@ -82,8 +107,8 @@ await client.google.search(
   { query: "coffee" },
   {
     fields: ["title", "link"], // keep only these keys on each item
-    maxItems: 5,               // cap result rows returned
-    summary: true,             // structural outline instead of full data
+    maxItems: 5, // cap result rows returned
+    summary: true, // structural outline instead of full data
   },
 );
 ```
@@ -92,17 +117,17 @@ Per-call transport overrides: `timeoutMs`, `maxRetries`, and an `AbortSignal` vi
 
 ## Errors and retries
 
-| Class | HTTP | Meaning |
-| --- | --- | --- |
-| `BadRequestError` | 400 | Input failed validation |
-| `AuthenticationError` | 401 | Missing or invalid API key |
-| `InsufficientBalanceError` | 402 | Wallet balance or per-key cap exceeded |
-| `NotFoundError` | 404 | Slug or resource does not exist |
-| `ResultNotFoundError` | - | `unwrap` on an empty found-data result |
-| `RateLimitedError` | 429 | Too many requests (retried automatically) |
-| `UpstreamError` | 502 | An upstream backend failed |
-| `ConnectionError` | 0 | Network or transport failure (retried) |
-| `TimeoutError` | 0 | Request exceeded its timeout (not retried) |
+| Class                      | HTTP | Meaning                                    |
+| -------------------------- | ---- | ------------------------------------------ |
+| `BadRequestError`          | 400  | Input failed validation                    |
+| `AuthenticationError`      | 401  | Missing or invalid API key                 |
+| `InsufficientBalanceError` | 402  | Wallet balance or per-key cap exceeded     |
+| `NotFoundError`            | 404  | Slug or resource does not exist            |
+| `ResultNotFoundError`      | -    | `unwrap` on an empty found-data result     |
+| `RateLimitedError`         | 429  | Too many requests (retried automatically)  |
+| `UpstreamError`            | 502  | An upstream backend failed                 |
+| `ConnectionError`          | 0    | Network or transport failure (retried)     |
+| `TimeoutError`             | 0    | Request exceeded its timeout (not retried) |
 
 All extend `AnyAPIError` (with `status` and `requestId`). Retries cover only 429 and network
 failures, with jittered exponential backoff honoring `Retry-After`. Default `maxRetries` is 2
@@ -120,7 +145,7 @@ const { secret, capUsd, claimUrl } = await agentSignup({ label: "my-agent" });
 const client = new AnyAPI({ apiKey: secret });
 ```
 
-The key ships with a small starter credit and a per-key spend cap; a human funds it by
+The key ships with a small starter balance and a per-key spend cap; a human funds it by
 claiming it at `claimUrl`.
 
 ## Docs

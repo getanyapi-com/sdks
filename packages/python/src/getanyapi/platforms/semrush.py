@@ -276,10 +276,9 @@ class SemrushNamespace:
 
         Semrush keyword research for any term: monthly search volume, CPC,
         competition, keyword difficulty, plus related keywords and question
-        keywords. **Price:** billed per result - \$15.00 per 1,000 results, capped
-        at \$15.00 per 1,000 requests.
+        keywords.
 
-        Price: $0.015 per result.
+        Price: $0 per request plus $0.015 per result (maximum $0.015).
 
         Example:
             res = client.semrush.keywords(database="us", keyword="best running shoes")
@@ -299,10 +298,9 @@ class SemrushNamespace:
 
         a Semrush SEO overview for any domain: Authority Score, organic and paid
         traffic, keyword and backlink counts, top country, and the domain's top
-        organic keywords. **Price:** billed per result - \$15.00 per 1,000 results,
-        capped at \$15.00 per 1,000 requests.
+        organic keywords.
 
-        Price: $0.015 per result.
+        Price: $0 per request plus $0.015 per result (maximum $0.015).
 
         Example:
             res = client.semrush.overview(database="us", domain="ahrefs.com")
@@ -329,10 +327,9 @@ class AsyncSemrushNamespace:
 
         Semrush keyword research for any term: monthly search volume, CPC,
         competition, keyword difficulty, plus related keywords and question
-        keywords. **Price:** billed per result - \$15.00 per 1,000 results, capped
-        at \$15.00 per 1,000 requests.
+        keywords.
 
-        Price: $0.015 per result.
+        Price: $0 per request plus $0.015 per result (maximum $0.015).
 
         Example:
             res = client.semrush.keywords(database="us", keyword="best running shoes")
@@ -352,10 +349,9 @@ class AsyncSemrushNamespace:
 
         a Semrush SEO overview for any domain: Authority Score, organic and paid
         traffic, keyword and backlink counts, top country, and the domain's top
-        organic keywords. **Price:** billed per result - \$15.00 per 1,000 results,
-        capped at \$15.00 per 1,000 requests.
+        organic keywords.
 
-        Price: $0.015 per result.
+        Price: $0 per request plus $0.015 per result (maximum $0.015).
 
         Example:
             res = client.semrush.overview(database="us", domain="ahrefs.com")
