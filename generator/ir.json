@@ -41615,6 +41615,200 @@
       }
     },
     {
+      "slug": "twitter.user_posts",
+      "platform": "twitter",
+      "action": "user_posts",
+      "operationId": "twitter_user_posts",
+      "name": "X / Twitter User Posts",
+      "category": "social",
+      "description": "Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.",
+      "pricing": {
+        "priceUsd": 0.00075,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "twitter",
+      "tsMethod": "userPosts",
+      "tsIterMethod": "iterUserPosts",
+      "pyNamespace": "twitter",
+      "pyMethod": "user_posts",
+      "pyIterMethod": "iter_user_posts",
+      "inputTypeName": "TwitterUserPostsInput",
+      "outputTypeName": "TwitterUserPostsData",
+      "example": {
+        "handle": "levelsio"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "handle": {
+            "kind": "string",
+            "description": "Twitter/X handle without the leading @.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next native Posts-tab page, or null when no more pages are available.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "tweets": {
+              "kind": "array",
+              "description": "Posts in profile order. A pinned post may appear before otherwise reverse-chronological results. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "bookmarks": {
+                    "kind": "integer",
+                    "description": "Number of bookmarks.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "The post's numeric tweet ID, represented as a string. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isPinned": {
+                    "kind": "boolean",
+                    "description": "Whether X marks the post as pinned on the profile.",
+                    "default": null
+                  },
+                  "isReply": {
+                    "kind": "boolean",
+                    "description": "Whether X marks the record as a reply. Certified Posts-tab captures use this for self-thread continuations.",
+                    "default": null
+                  },
+                  "lang": {
+                    "kind": "string",
+                    "description": "Language code reported for the post, when available.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Number of likes.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "quotes": {
+                    "kind": "integer",
+                    "description": "Number of quote posts.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "replies": {
+                    "kind": "integer",
+                    "description": "Number of replies.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "retweets": {
+                    "kind": "integer",
+                    "description": "Number of reposts or retweets.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "The post text. Empty for media-only posts. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical x.com URL of the post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "views": {
+                    "kind": "integer",
+                    "description": "Number of views.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "url",
+                  "text",
+                  "createdUtc",
+                  "likes",
+                  "retweets",
+                  "replies",
+                  "views",
+                  "bookmarks",
+                  "isPinned"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "createdUtc",
+                  "id",
+                  "text",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "tweets",
+            "nextCursor"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "tweets"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "tweets",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
       "slug": "twitter.user_tweets",
       "platform": "twitter",
       "action": "user_tweets",

@@ -501,6 +501,91 @@ export interface TwitterTweetTranscriptData {
 }
 
 /**
+ * Input for X / Twitter User Posts (twitter.user_posts).
+ */
+export interface TwitterUserPostsInput {
+  /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page.
+   */
+  cursor?: string;
+  /**
+   * Twitter/X handle without the leading @.
+   */
+  handle: string;
+}
+
+export interface TwitterUserPostsTweet {
+  /**
+   * Number of bookmarks.
+   */
+  bookmarks: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * The post's numeric tweet ID, represented as a string. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Whether X marks the post as pinned on the profile.
+   */
+  isPinned: boolean;
+  /**
+   * Whether X marks the record as a reply. Certified Posts-tab captures use this for self-thread continuations.
+   */
+  isReply?: boolean;
+  /**
+   * Language code reported for the post, when available.
+   */
+  lang?: string;
+  /**
+   * Number of likes.
+   */
+  likes: number;
+  /**
+   * Number of quote posts.
+   */
+  quotes?: number;
+  /**
+   * Number of replies.
+   */
+  replies: number;
+  /**
+   * Number of reposts or retweets.
+   */
+  retweets: number;
+  /**
+   * The post text. Empty for media-only posts. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Canonical x.com URL of the post. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Number of views.
+   */
+  views: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter User Posts (twitter.user_posts).
+ */
+export interface TwitterUserPostsData {
+  /**
+   * Opaque cursor for the next native Posts-tab page, or null when no more pages are available.
+   */
+  nextCursor: string;
+  /**
+   * Posts in profile order. A pinned post may appear before otherwise reverse-chronological results. Populated whenever the provider has data for the entity.
+   */
+  tweets: TwitterUserPostsTweet[];
+}
+
+/**
  * Input for X / Twitter User Tweets and Replies (twitter.user_tweets).
  */
 export interface TwitterUserTweetsInput {
@@ -785,6 +870,43 @@ export class TwitterNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TwitterTweetTranscriptData>> {
     return this._core.run("twitter.tweet_transcript", input, options);
+  }
+
+  /**
+   * X / Twitter User Posts
+   *
+   * Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.
+   *
+   * Price: $0.00075 per request.
+   *
+   * @example
+   * const res = await client.twitter.userPosts({ handle: "levelsio" });
+   */
+  userPosts(
+    input: TwitterUserPostsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TwitterUserPostsData>> {
+    return this._core.run("twitter.user_posts", input, options);
+  }
+
+  /**
+   * Iterate every result of X / Twitter User Posts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterUserPosts(
+    input: TwitterUserPostsInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterUserPostsTweet, RunResult<TwitterUserPostsData>> {
+    return paginate<TwitterUserPostsTweet, RunResult<TwitterUserPostsData>>(
+      this._core,
+      "twitter.user_posts",
+      input as unknown as Record<string, unknown>,
+      "tweets",
+      false,
+      options,
+    );
   }
 
   /**

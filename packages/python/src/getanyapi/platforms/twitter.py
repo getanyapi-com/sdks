@@ -108,6 +108,15 @@ class TwitterTweetTranscriptInput(TypedDict, total=False):
     """Tweet URL of the video to transcribe (e.g. https://x.com/TheoVon/status/1916982720317821050)."""
 
 
+class TwitterUserPostsInput(TypedDict, total=False):
+    """Input for X / Twitter User Posts."""
+
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page."""
+    handle: Required[str]
+    """Twitter/X handle without the leading @."""
+
+
 class TwitterUserTweetsInput(TypedDict, total=False):
     """Input for X / Twitter User Tweets and Replies."""
 
@@ -406,6 +415,54 @@ class TwitterTweetTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     transcript: str
+
+
+class TwitterUserPostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next native Posts-tab page, or null when no more pages are available.",
+    )
+    tweets: list[TwitterUserPostsTweet] = Field(
+        description="Posts in profile order. A pinned post may appear before otherwise reverse-chronological results. Populated whenever the provider has data for the entity."
+    )
+
+
+class TwitterUserPostsTweet(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    bookmarks: int = Field(description="Number of bookmarks.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="The post's numeric tweet ID, represented as a string. Populated whenever the provider has data for the entity."
+    )
+    is_pinned: bool = Field(
+        alias="isPinned",
+        description="Whether X marks the post as pinned on the profile.",
+    )
+    is_reply: bool | None = Field(
+        default=None,
+        alias="isReply",
+        description="Whether X marks the record as a reply. Certified Posts-tab captures use this for self-thread continuations.",
+    )
+    lang: str | None = Field(
+        default=None, description="Language code reported for the post, when available."
+    )
+    likes: int = Field(description="Number of likes.")
+    quotes: int | None = Field(default=None, description="Number of quote posts.")
+    replies: int = Field(description="Number of replies.")
+    retweets: int = Field(description="Number of reposts or retweets.")
+    text: str = Field(
+        description="The post text. Empty for media-only posts. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical x.com URL of the post. Populated whenever the provider has data for the entity."
+    )
+    views: int = Field(description="Number of views.")
 
 
 class TwitterUserTweetsData(BaseModel):
@@ -719,6 +776,52 @@ class TwitterNamespace:
             "twitter.tweet_transcript", dict(input), options
         )
         return RunResult[TwitterTweetTranscriptData].model_validate(raw)
+
+    def user_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterUserPostsInput],
+    ) -> RunResult[TwitterUserPostsData]:
+        """X / Twitter User Posts
+
+        Get an X (Twitter) account's profile Posts-tab timeline by handle. Results
+        follow profile order: a pinned post may appear first, followed by otherwise
+        reverse-chronological authored posts, reposts, quotes, and self-thread
+        continuations.
+
+        Price: $0.00075 per request.
+
+        Example:
+            res = client.twitter.user_posts(handle="levelsio")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.user_posts", dict(input), options
+        )
+        return RunResult[TwitterUserPostsData].model_validate(raw)
+
+    def iter_user_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterUserPostsInput],
+    ) -> Paginator[TwitterUserPostsTweet, TwitterUserPostsData]:
+        """Iterate X / Twitter User Posts results, following pagination cursors.
+
+        Yields validated `TwitterUserPostsTweet` items from the `tweets` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "twitter.user_posts",
+            dict(input),
+            "tweets",
+            item_model=TwitterUserPostsTweet,
+            data_model=TwitterUserPostsData,
+            bare=False,
+            options=options,
+        )
 
     def user_tweets(
         self,
@@ -1038,6 +1141,52 @@ class AsyncTwitterNamespace:
             "twitter.tweet_transcript", dict(input), options
         )
         return RunResult[TwitterTweetTranscriptData].model_validate(raw)
+
+    async def user_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterUserPostsInput],
+    ) -> RunResult[TwitterUserPostsData]:
+        """X / Twitter User Posts
+
+        Get an X (Twitter) account's profile Posts-tab timeline by handle. Results
+        follow profile order: a pinned post may appear first, followed by otherwise
+        reverse-chronological authored posts, reposts, quotes, and self-thread
+        continuations.
+
+        Price: $0.00075 per request.
+
+        Example:
+            res = client.twitter.user_posts(handle="levelsio")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.user_posts", dict(input), options
+        )
+        return RunResult[TwitterUserPostsData].model_validate(raw)
+
+    def iter_user_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterUserPostsInput],
+    ) -> AsyncPaginator[TwitterUserPostsTweet, TwitterUserPostsData]:
+        """Iterate X / Twitter User Posts results, following pagination cursors.
+
+        Yields validated `TwitterUserPostsTweet` items from the `tweets` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "twitter.user_posts",
+            dict(input),
+            "tweets",
+            item_model=TwitterUserPostsTweet,
+            data_model=TwitterUserPostsData,
+            bare=False,
+            options=options,
+        )
 
     async def user_tweets(
         self,

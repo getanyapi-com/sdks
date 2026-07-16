@@ -73237,6 +73237,338 @@
         }
       }
     },
+    "/v1/run/twitter.user_posts": {
+      "post": {
+        "description": "Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.\n\n**Price:** \\$0.75 per 1,000 requests (flat per request - same cost regardless of results returned).",
+        "operationId": "twitter_user_posts",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item. Keys are matched relative to each result item after the `data`/`items` envelope is unwrapped, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "handle": "levelsio"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "handle": "levelsio"
+                },
+                "properties": {
+                  "cursor": {
+                    "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "handle": {
+                    "description": "Twitter/X handle without the leading @.",
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "handle"
+                ],
+                "title": "X / Twitter user posts input",
+                "type": "object",
+                "x-aliases": {
+                  "username": "handle"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "Amount charged in USD for this call.",
+                      "type": "number"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned. For per-result SKUs the per-item cost is charged against this count; for input-priced SKUs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "data": {
+                          "description": "The Posts-tab timeline page, or null when the account was not found.",
+                          "oneOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "additionalProperties": false,
+                              "properties": {
+                                "nextCursor": {
+                                  "description": "Opaque cursor for the next native Posts-tab page, or null when no more pages are available.",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "tweets": {
+                                  "description": "Posts in profile order. A pinned post may appear before otherwise reverse-chronological results. Populated whenever the provider has data for the entity.",
+                                  "items": {
+                                    "properties": {
+                                      "bookmarks": {
+                                        "description": "Number of bookmarks.",
+                                        "type": "integer"
+                                      },
+                                      "createdUtc": {
+                                        "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                                        "type": "number",
+                                        "x-anyapi-must-populate": true
+                                      },
+                                      "id": {
+                                        "description": "The post's numeric tweet ID, represented as a string. Populated whenever the provider has data for the entity.",
+                                        "type": "string",
+                                        "x-anyapi-must-populate": true
+                                      },
+                                      "isPinned": {
+                                        "description": "Whether X marks the post as pinned on the profile.",
+                                        "type": "boolean"
+                                      },
+                                      "isReply": {
+                                        "description": "Whether X marks the record as a reply. Certified Posts-tab captures use this for self-thread continuations.",
+                                        "type": "boolean"
+                                      },
+                                      "lang": {
+                                        "description": "Language code reported for the post, when available.",
+                                        "type": "string"
+                                      },
+                                      "likes": {
+                                        "description": "Number of likes.",
+                                        "type": "integer"
+                                      },
+                                      "quotes": {
+                                        "description": "Number of quote posts.",
+                                        "type": "integer"
+                                      },
+                                      "replies": {
+                                        "description": "Number of replies.",
+                                        "type": "integer"
+                                      },
+                                      "retweets": {
+                                        "description": "Number of reposts or retweets.",
+                                        "type": "integer"
+                                      },
+                                      "text": {
+                                        "description": "The post text. Empty for media-only posts. Populated whenever the provider has data for the entity.",
+                                        "type": "string",
+                                        "x-anyapi-must-populate": true
+                                      },
+                                      "url": {
+                                        "description": "Canonical x.com URL of the post. Populated whenever the provider has data for the entity.",
+                                        "format": "uri",
+                                        "type": "string",
+                                        "x-anyapi-must-populate": true
+                                      },
+                                      "views": {
+                                        "description": "Number of views.",
+                                        "type": "integer"
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "url",
+                                      "text",
+                                      "createdUtc",
+                                      "likes",
+                                      "retweets",
+                                      "replies",
+                                      "views",
+                                      "bookmarks",
+                                      "isPinned"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "type": "array",
+                                  "x-anyapi-must-populate": true
+                                }
+                              },
+                              "required": [
+                                "tweets",
+                                "nextCursor"
+                              ],
+                              "type": "object"
+                            }
+                          ]
+                        },
+                        "found": {
+                          "description": "Whether the account's Posts-tab timeline was returned.",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "found",
+                        "data"
+                      ],
+                      "title": "X / Twitter user posts output",
+                      "type": "object"
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result."
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request (no charge)."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance (no charge)."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown SKU, or the upstream had no matching resource (no charge)."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited, retry shortly (no charge)."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error (charge released)."
+          }
+        },
+        "summary": "X / Twitter User Posts",
+        "tags": [
+          "twitter"
+        ],
+        "x-payment-info": {
+          "price": {
+            "amount": "0.000750",
+            "currency": "USD",
+            "mode": "fixed"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ]
+        }
+      }
+    },
     "/v1/run/twitter.user_tweets": {
       "post": {
         "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account in one bulk call, with engagement, views, and language. The current lane returns nextCursor as null; cursor is reserved for future cursor-capable lanes.\n\n**Price:** billed per result - \\$0.20 per 1,000 results, capped at \\$200.00 per 1,000 requests.",

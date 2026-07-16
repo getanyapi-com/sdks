@@ -2756,7 +2756,7 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 716,
-            "requests": 2336
+            "requests": 2370
           }
         }
       ],
@@ -3093,7 +3093,7 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 128,
-            "requests": 37
+            "requests": 40
           }
         }
       ],
@@ -3958,7 +3958,7 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 1970,
-            "requests": 1883
+            "requests": 1884
           }
         },
         {
@@ -4817,8 +4817,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 17526,
-            "requests": 93
+            "latencyP50Ms": 17550,
+            "requests": 96
           }
         }
       ],
@@ -5199,9 +5199,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.62264150943396,
-            "latencyP50Ms": 2729,
-            "requests": 1080
+            "uptimePct": 99.64757709251101,
+            "latencyP50Ms": 2685,
+            "requests": 1155
           }
         },
         {
@@ -5270,9 +5270,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.7872340425532,
-            "latencyP50Ms": 2637,
-            "requests": 1032
+            "uptimePct": 99.79188345473464,
+            "latencyP50Ms": 2617,
+            "requests": 1065
           }
         },
         {
@@ -5283,9 +5283,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.09365558912387,
-            "latencyP50Ms": 8909,
-            "requests": 331
+            "uptimePct": 99.12536443148689,
+            "latencyP50Ms": 8807,
+            "requests": 343
           }
         },
         {
@@ -8140,9 +8140,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 85.71428571428571,
-            "latencyP50Ms": 1360,
-            "requests": 7
+            "uptimePct": 88.88888888888889,
+            "latencyP50Ms": 1551,
+            "requests": 9
           }
         },
         {
@@ -8357,6 +8357,32 @@
       "tryEligible": false
     },
     {
+      "id": "twitter.user_posts",
+      "slug": "twitter.user_posts",
+      "category": "social",
+      "name": "X / Twitter User Posts",
+      "description": "Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.",
+      "provider": "AnyAPI",
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.00075
+        },
+        "failoverMaxUsd": 0.00075
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00075
+          }
+        }
+      ],
+      "tryEligible": true
+    },
+    {
       "id": "twitter.user_tweets",
       "slug": "twitter.user_tweets",
       "category": "social",
@@ -8557,9 +8583,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 85.59919436052367,
+            "uptimePct": 85.64257028112449,
             "latencyP50Ms": 476,
-            "requests": 996
+            "requests": 999
           }
         }
       ],

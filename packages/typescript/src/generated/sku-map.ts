@@ -559,6 +559,8 @@ import type {
   TwitterTweetInput,
   TwitterTweetTranscriptData,
   TwitterTweetTranscriptInput,
+  TwitterUserPostsData,
+  TwitterUserPostsInput,
   TwitterUserTweetsData,
   TwitterUserTweetsInput,
 } from "./platforms/twitter.js";
@@ -1819,6 +1821,11 @@ export interface SkuMap {
     input: TwitterTweetTranscriptInput;
     data: TwitterTweetTranscriptData;
     result: RunResult<TwitterTweetTranscriptData>;
+  };
+  "twitter.user_posts": {
+    input: TwitterUserPostsInput;
+    data: TwitterUserPostsData;
+    result: RunResult<TwitterUserPostsData>;
   };
   "twitter.user_tweets": {
     input: TwitterUserTweetsInput;

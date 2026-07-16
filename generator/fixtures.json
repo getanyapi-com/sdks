@@ -4554,6 +4554,32 @@
     "costUsd": 0.001,
     "items": 1
   },
+  "twitter.user_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "tweets": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "text": "sample",
+            "createdUtc": 1.5,
+            "likes": 1,
+            "retweets": 1,
+            "replies": 1,
+            "views": 1,
+            "bookmarks": 1,
+            "isPinned": true,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
   "twitter.user_tweets": {
     "output": {
       "found": true,
