@@ -9,6 +9,201 @@ import type {
 import { paginate } from "../../core/index.js";
 
 /**
+ * Input for X / Twitter Article (twitter.article).
+ */
+export interface TwitterArticleInput {
+  /**
+   * Canonical x.com or twitter.com URL of the public wrapper post for an X Article.
+   */
+  url: string;
+}
+
+export interface TwitterArticleContentBlock {
+  /**
+   * Entity references within the block text.
+   */
+  entities?: TwitterArticleEntitie[];
+  /**
+   * Image height in pixels when supplied.
+   * Range: minimum 0.
+   */
+  height?: number;
+  /**
+   * Canonical image URL for an image block.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * Formatting ranges within the block text.
+   */
+  inlineStyles?: TwitterArticleInlineStyle[];
+  /**
+   * Text content for a text-bearing block.
+   */
+  text?: string;
+  /**
+   * Block type reported by X, such as unstyled, header-two, image, divider, blockquote, or list item. Populated whenever the provider has data for the entity.
+   */
+  type: string;
+  /**
+   * Image width in pixels when supplied.
+   * Range: minimum 0.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+export interface TwitterArticleEntitie {
+  /**
+   * Upstream entity table key.
+   * Range: minimum 0.
+   */
+  key: number;
+  /**
+   * Entity character length.
+   * Range: minimum 0.
+   */
+  length: number;
+  /**
+   * Zero-based character offset.
+   * Range: minimum 0.
+   */
+  offset: number;
+  [extra: string]: unknown;
+}
+
+export interface TwitterArticleInlineStyle {
+  /**
+   * Formatted character length.
+   * Range: minimum 0.
+   */
+  length: number;
+  /**
+   * Zero-based character offset.
+   * Range: minimum 0.
+   */
+  offset: number;
+  /**
+   * Inline style name reported by X.
+   */
+  style: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Article (twitter.article).
+ */
+export interface TwitterArticleData {
+  /**
+   * Article author profile at retrieval time. Populated whenever the provider has data for the entity.
+   */
+  author: {
+    /**
+     * Profile avatar image URL.
+     * Format: uri.
+     */
+    avatarUrl?: string;
+    /**
+     * Profile biography.
+     */
+    bio?: string;
+    /**
+     * Whether the account has X blue verification.
+     */
+    blueVerified?: boolean;
+    /**
+     * Profile cover image URL when available.
+     * Format: uri.
+     */
+    coverUrl?: string;
+    /**
+     * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+     */
+    createdUtc?: number;
+    /**
+     * Follower count at retrieval time.
+     * Range: minimum 0.
+     */
+    followers?: number;
+    /**
+     * Following count at retrieval time.
+     * Range: minimum 0.
+     */
+    following?: number;
+    /**
+     * Current X handle without @. Populated whenever the provider has data for the entity.
+     */
+    handle: string;
+    /**
+     * Stable numeric X user ID. Populated whenever the provider has data for the entity.
+     */
+    id: string;
+    /**
+     * Self-reported profile location.
+     */
+    location?: string;
+    /**
+     * Profile display name.
+     */
+    name?: string;
+    /**
+     * Canonical public X profile URL. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     */
+    url: string;
+    /**
+     * Whether the account has legacy verification.
+     */
+    verified?: boolean;
+  };
+  /**
+   * Ordered, explicitly normalized article blocks. Unknown future block types remain representable through type and optional fields. Populated whenever the provider has data for the entity.
+   */
+  contentBlocks: TwitterArticleContentBlock[];
+  /**
+   * Canonical article cover image URL when available.
+   * Format: uri.
+   */
+  coverImage?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Stable X Article entity ID. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Wrapper post like count at retrieval time.
+   * Range: minimum 0.
+   */
+  likes?: number;
+  /**
+   * Preview text supplied by X.
+   */
+  previewText?: string;
+  /**
+   * Wrapper post quote count at retrieval time.
+   * Range: minimum 0.
+   */
+  quotes?: number;
+  /**
+   * Wrapper post reply count at retrieval time.
+   * Range: minimum 0.
+   */
+  replies?: number;
+  /**
+   * Article title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Wrapper post view count at retrieval time.
+   * Range: minimum 0.
+   */
+  views?: number;
+}
+
+/**
  * Input for Twitter Community (twitter.community).
  */
 export interface TwitterCommunityInput {
@@ -444,6 +639,69 @@ export interface TwitterSearchData {
 }
 
 /**
+ * Input for X / Twitter Trends (twitter.trends).
+ */
+export interface TwitterTrendsInput {
+  /**
+   * Maximum number of ranked trends to return (1-50, default 50).
+   * Range: minimum 1, maximum 50.
+   * Default: 50.
+   */
+  limit?: number;
+  /**
+   * Country name, city name, or ISO country code. Omit for worldwide trends.
+   */
+  location?: string;
+}
+
+export interface TwitterTrendsItem {
+  /**
+   * Whether the trend text is a hashtag.
+   */
+  isHashtag?: boolean;
+  /**
+   * Trend text displayed by X. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Whether X marks the trend as promoted.
+   */
+  promoted?: boolean;
+  /**
+   * Search query corresponding to the trend. Populated whenever the provider has data for the entity.
+   */
+  query: string;
+  /**
+   * One-based position in X's trend ranking. Populated whenever the provider has data for the entity.
+   * Range: minimum 1.
+   */
+  rank: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Trends (twitter.trends).
+ */
+export interface TwitterTrendsData {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  asOfUtc: number;
+  /**
+   * Current trends in X's own ranking order. Distinct ranks may carry the same trend name. Populated whenever the provider has data for the entity.
+   */
+  items: TwitterTrendsItem[];
+  /**
+   * Resolved X trend-location name. Populated whenever the provider has data for the entity.
+   */
+  location: string;
+  /**
+   * Resolved Yahoo WOEID used by X, exposed as a stable location identifier. Populated whenever the provider has data for the entity.
+   */
+  locationId: string;
+}
+
+/**
  * Input for Twitter Tweet (twitter.tweet).
  */
 export interface TwitterTweetInput {
@@ -660,6 +918,23 @@ export class TwitterNamespace {
   constructor(private readonly _core: ClientCore) {}
 
   /**
+   * X / Twitter Article
+   *
+   * Get a public X long-form article from its wrapper post URL, including its author, engagement, cover image, and structured content blocks.
+   *
+   * Price: $0.00075 per request.
+   *
+   * @example
+   * const res = await client.twitter.article({ url: "https://x.com/Decentralisedco/status/1905545699552375179" });
+   */
+  article(
+    input: TwitterArticleInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TwitterArticleData>> {
+    return this._core.run("twitter.article", input, options);
+  }
+
+  /**
    * Twitter Community
    *
    * Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL, normalized across providers with transparent failover.
@@ -836,6 +1111,23 @@ export class TwitterNamespace {
       false,
       options,
     );
+  }
+
+  /**
+   * X / Twitter Trends
+   *
+   * Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.
+   *
+   * Price: $0.00075 per request.
+   *
+   * @example
+   * const res = await client.twitter.trends({ limit: 10, location: "US" });
+   */
+  trends(
+    input: TwitterTrendsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TwitterTrendsData>> {
+    return this._core.run("twitter.trends", input, options);
   }
 
   /**

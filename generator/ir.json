@@ -40289,6 +40289,370 @@
       }
     },
     {
+      "slug": "twitter.article",
+      "platform": "twitter",
+      "action": "article",
+      "operationId": "twitter_article",
+      "name": "X / Twitter Article",
+      "category": "social",
+      "description": "Get a public X long-form article from its wrapper post URL, including its author, engagement, cover image, and structured content blocks.",
+      "pricing": {
+        "priceUsd": 0.00075,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "twitter",
+      "tsMethod": "article",
+      "tsIterMethod": null,
+      "pyNamespace": "twitter",
+      "pyMethod": "article",
+      "pyIterMethod": null,
+      "inputTypeName": "TwitterArticleInput",
+      "outputTypeName": "TwitterArticleData",
+      "example": {
+        "url": "https://x.com/Decentralisedco/status/1905545699552375179"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "url": {
+            "kind": "string",
+            "description": "Canonical x.com or twitter.com URL of the public wrapper post for an X Article.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "author": {
+              "kind": "object",
+              "description": "Article author profile at retrieval time. Populated whenever the provider has data for the entity.",
+              "properties": {
+                "avatarUrl": {
+                  "kind": "string",
+                  "description": "Profile avatar image URL.",
+                  "enum": null,
+                  "default": null,
+                  "format": "uri"
+                },
+                "bio": {
+                  "kind": "string",
+                  "description": "Profile biography.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "blueVerified": {
+                  "kind": "boolean",
+                  "description": "Whether the account has X blue verification.",
+                  "default": null
+                },
+                "coverUrl": {
+                  "kind": "string",
+                  "description": "Profile cover image URL when available.",
+                  "enum": null,
+                  "default": null,
+                  "format": "uri"
+                },
+                "createdUtc": {
+                  "kind": "number",
+                  "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "followers": {
+                  "kind": "integer",
+                  "description": "Follower count at retrieval time.",
+                  "minimum": 0,
+                  "maximum": null,
+                  "default": null
+                },
+                "following": {
+                  "kind": "integer",
+                  "description": "Following count at retrieval time.",
+                  "minimum": 0,
+                  "maximum": null,
+                  "default": null
+                },
+                "handle": {
+                  "kind": "string",
+                  "description": "Current X handle without @. Populated whenever the provider has data for the entity.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "id": {
+                  "kind": "string",
+                  "description": "Stable numeric X user ID. Populated whenever the provider has data for the entity.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "location": {
+                  "kind": "string",
+                  "description": "Self-reported profile location.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "name": {
+                  "kind": "string",
+                  "description": "Profile display name.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "url": {
+                  "kind": "string",
+                  "description": "Canonical public X profile URL. Populated whenever the provider has data for the entity.",
+                  "enum": null,
+                  "default": null,
+                  "format": "uri"
+                },
+                "verified": {
+                  "kind": "boolean",
+                  "description": "Whether the account has legacy verification.",
+                  "default": null
+                }
+              },
+              "required": [
+                "id",
+                "handle",
+                "url"
+              ],
+              "open": true,
+              "mustPopulate": [
+                "handle",
+                "id",
+                "url"
+              ]
+            },
+            "contentBlocks": {
+              "kind": "array",
+              "description": "Ordered, explicitly normalized article blocks. Unknown future block types remain representable through type and optional fields. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "entities": {
+                    "kind": "array",
+                    "description": "Entity references within the block text.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "key": {
+                          "kind": "integer",
+                          "description": "Upstream entity table key.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "length": {
+                          "kind": "integer",
+                          "description": "Entity character length.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "offset": {
+                          "kind": "integer",
+                          "description": "Zero-based character offset.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "offset",
+                        "length"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "height": {
+                    "kind": "integer",
+                    "description": "Image height in pixels when supplied.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Canonical image URL for an image block.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "inlineStyles": {
+                    "kind": "array",
+                    "description": "Formatting ranges within the block text.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "length": {
+                          "kind": "integer",
+                          "description": "Formatted character length.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "offset": {
+                          "kind": "integer",
+                          "description": "Zero-based character offset.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "style": {
+                          "kind": "string",
+                          "description": "Inline style name reported by X.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "style",
+                        "offset",
+                        "length"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Text content for a text-bearing block.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Block type reported by X, such as unstyled, header-two, image, divider, blockquote, or list item. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "width": {
+                    "kind": "integer",
+                    "description": "Image width in pixels when supplied.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "type"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "coverImage": {
+              "kind": "string",
+              "description": "Canonical article cover image URL when available.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "id": {
+              "kind": "string",
+              "description": "Stable X Article entity ID. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "likes": {
+              "kind": "integer",
+              "description": "Wrapper post like count at retrieval time.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "previewText": {
+              "kind": "string",
+              "description": "Preview text supplied by X.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "quotes": {
+              "kind": "integer",
+              "description": "Wrapper post quote count at retrieval time.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "replies": {
+              "kind": "integer",
+              "description": "Wrapper post reply count at retrieval time.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "title": {
+              "kind": "string",
+              "description": "Article title. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "views": {
+              "kind": "integer",
+              "description": "Wrapper post view count at retrieval time.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "createdUtc",
+            "author",
+            "contentBlocks"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "author",
+            "contentBlocks",
+            "createdUtc",
+            "id",
+            "title"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "twitter.community",
       "platform": "twitter",
       "action": "community",
@@ -41407,6 +41771,154 @@
         "itemsField": "items",
         "cursorInputField": "cursor",
         "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "twitter.trends",
+      "platform": "twitter",
+      "action": "trends",
+      "operationId": "twitter_trends",
+      "name": "X / Twitter Trends",
+      "category": "social",
+      "description": "Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.",
+      "pricing": {
+        "priceUsd": 0.00075,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "twitter",
+      "tsMethod": "trends",
+      "tsIterMethod": null,
+      "pyNamespace": "twitter",
+      "pyMethod": "trends",
+      "pyIterMethod": null,
+      "inputTypeName": "TwitterTrendsInput",
+      "outputTypeName": "TwitterTrendsData",
+      "example": {
+        "limit": 10,
+        "location": "US"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of ranked trends to return (1-50, default 50).",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 50
+          },
+          "location": {
+            "kind": "string",
+            "description": "Country name, city name, or ISO country code. Omit for worldwide trends.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "asOfUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "items": {
+              "kind": "array",
+              "description": "Current trends in X's own ranking order. Distinct ranks may carry the same trend name. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "isHashtag": {
+                    "kind": "boolean",
+                    "description": "Whether the trend text is a hashtag.",
+                    "default": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Trend text displayed by X. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "promoted": {
+                    "kind": "boolean",
+                    "description": "Whether X marks the trend as promoted.",
+                    "default": null
+                  },
+                  "query": {
+                    "kind": "string",
+                    "description": "Search query corresponding to the trend. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rank": {
+                    "kind": "integer",
+                    "description": "One-based position in X's trend ranking. Populated whenever the provider has data for the entity.",
+                    "minimum": 1,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "rank",
+                  "name",
+                  "query"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "name",
+                  "query",
+                  "rank"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "location": {
+              "kind": "string",
+              "description": "Resolved X trend-location name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "locationId": {
+              "kind": "string",
+              "description": "Resolved Yahoo WOEID used by X, exposed as a stable location identifier. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "location",
+            "locationId",
+            "asOfUtc",
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "asOfUtc",
+            "items",
+            "location",
+            "locationId"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
       }
     },
     {

@@ -4378,6 +4378,31 @@
     "costUsd": 0.001,
     "items": 1
   },
+  "twitter.article": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "title": "sample",
+        "createdUtc": 1.5,
+        "author": {
+          "id": "sample",
+          "handle": "sample",
+          "url": "https://example.com/x",
+          "_extra": "passthrough"
+        },
+        "contentBlocks": [
+          {
+            "type": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
   "twitter.community": {
     "output": {
       "found": true,
@@ -4512,6 +4537,27 @@
             "id": "sample",
             "url": "sample",
             "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1
+  },
+  "twitter.trends": {
+    "output": {
+      "found": true,
+      "data": {
+        "location": "sample",
+        "locationId": "sample",
+        "asOfUtc": 1.5,
+        "items": [
+          {
+            "rank": 1,
+            "name": "sample",
+            "query": "sample",
             "_extra": "passthrough"
           }
         ]

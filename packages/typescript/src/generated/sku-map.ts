@@ -541,6 +541,8 @@ import type {
   TruthsocialUserPostsInput,
 } from "./platforms/truthsocial.js";
 import type {
+  TwitterArticleData,
+  TwitterArticleInput,
   TwitterCommunityData,
   TwitterCommunityInput,
   TwitterCommunityTweetsData,
@@ -555,6 +557,8 @@ import type {
   TwitterRepliesInput,
   TwitterSearchData,
   TwitterSearchInput,
+  TwitterTrendsData,
+  TwitterTrendsInput,
   TwitterTweetData,
   TwitterTweetInput,
   TwitterTweetTranscriptData,
@@ -1777,6 +1781,11 @@ export interface SkuMap {
     data: TruthsocialUserPostsData;
     result: RunResult<TruthsocialUserPostsData>;
   };
+  "twitter.article": {
+    input: TwitterArticleInput;
+    data: TwitterArticleData;
+    result: RunResult<TwitterArticleData>;
+  };
   "twitter.community": {
     input: TwitterCommunityInput;
     data: TwitterCommunityData;
@@ -1811,6 +1820,11 @@ export interface SkuMap {
     input: TwitterSearchInput;
     data: TwitterSearchData;
     result: RunResult<TwitterSearchData>;
+  };
+  "twitter.trends": {
+    input: TwitterTrendsInput;
+    data: TwitterTrendsData;
+    result: RunResult<TwitterTrendsData>;
   };
   "twitter.tweet": {
     input: TwitterTweetInput;

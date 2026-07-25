@@ -21,6 +21,13 @@ if TYPE_CHECKING:
     from .._client import AnyAPI
 
 
+class TwitterArticleInput(TypedDict, total=False):
+    """Input for X / Twitter Article."""
+
+    url: Required[str]
+    """Canonical x.com or twitter.com URL of the public wrapper post for an X Article."""
+
+
 class TwitterCommunityInput(TypedDict, total=False):
     """Input for Twitter Community."""
 
@@ -94,6 +101,15 @@ class TwitterSearchInput(TypedDict, total=False):
     """Set true to get up to limit results in one response instead of provider-native pages, served by a bulk provider when needed."""
 
 
+class TwitterTrendsInput(TypedDict, total=False):
+    """Input for X / Twitter Trends."""
+
+    limit: NotRequired[int]
+    """Maximum number of ranked trends to return (1-50, default 50). Range: 1 to 50. Default: 50."""
+    location: NotRequired[str]
+    """Country name, city name, or ISO country code. Omit for worldwide trends."""
+
+
 class TwitterTweetInput(TypedDict, total=False):
     """Input for Twitter Tweet."""
 
@@ -128,6 +144,143 @@ class TwitterUserTweetsInput(TypedDict, total=False):
     """Maximum number of authored tweets and replies to return in the current bulk call (1-1000). The provider may return fewer results. Range: 1 to 1000. Default: 20."""
     requireSinglePage: NotRequired[bool]
     """Compatibility flag for requiring one response. The current lane already returns up to limit results in one bulk call, whether this is omitted or true."""
+
+
+class TwitterArticleData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    author: TwitterArticleAuthor = Field(
+        description="Article author profile at retrieval time. Populated whenever the provider has data for the entity."
+    )
+    content_blocks: list[TwitterArticleContentBlock] = Field(
+        alias="contentBlocks",
+        description="Ordered, explicitly normalized article blocks. Unknown future block types remain representable through type and optional fields. Populated whenever the provider has data for the entity.",
+    )
+    cover_image: str | None = Field(
+        default=None,
+        alias="coverImage",
+        description="Canonical article cover image URL when available.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Stable X Article entity ID. Populated whenever the provider has data for the entity."
+    )
+    likes: int | None = Field(
+        default=None,
+        description="Wrapper post like count at retrieval time. Minimum: 0.",
+    )
+    preview_text: str | None = Field(
+        default=None, alias="previewText", description="Preview text supplied by X."
+    )
+    quotes: int | None = Field(
+        default=None,
+        description="Wrapper post quote count at retrieval time. Minimum: 0.",
+    )
+    replies: int | None = Field(
+        default=None,
+        description="Wrapper post reply count at retrieval time. Minimum: 0.",
+    )
+    title: str = Field(
+        description="Article title. Populated whenever the provider has data for the entity."
+    )
+    views: int | None = Field(
+        default=None,
+        description="Wrapper post view count at retrieval time. Minimum: 0.",
+    )
+
+
+class TwitterArticleAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str | None = Field(
+        default=None, alias="avatarUrl", description="Profile avatar image URL."
+    )
+    bio: str | None = Field(default=None, description="Profile biography.")
+    blue_verified: bool | None = Field(
+        default=None,
+        alias="blueVerified",
+        description="Whether the account has X blue verification.",
+    )
+    cover_url: str | None = Field(
+        default=None,
+        alias="coverUrl",
+        description="Profile cover image URL when available.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    followers: int | None = Field(
+        default=None, description="Follower count at retrieval time. Minimum: 0."
+    )
+    following: int | None = Field(
+        default=None, description="Following count at retrieval time. Minimum: 0."
+    )
+    handle: str = Field(
+        description="Current X handle without @. Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Stable numeric X user ID. Populated whenever the provider has data for the entity."
+    )
+    location: str | None = Field(
+        default=None, description="Self-reported profile location."
+    )
+    name: str | None = Field(default=None, description="Profile display name.")
+    url: str = Field(
+        description="Canonical public X profile URL. Populated whenever the provider has data for the entity."
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether the account has legacy verification."
+    )
+
+
+class TwitterArticleContentBlock(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    entities: list[TwitterArticleEntitie] | None = Field(
+        default=None, description="Entity references within the block text."
+    )
+    height: int | None = Field(
+        default=None, description="Image height in pixels when supplied. Minimum: 0."
+    )
+    image: str | None = Field(
+        default=None, description="Canonical image URL for an image block."
+    )
+    inline_styles: list[TwitterArticleInlineStyle] | None = Field(
+        default=None,
+        alias="inlineStyles",
+        description="Formatting ranges within the block text.",
+    )
+    text: str | None = Field(
+        default=None, description="Text content for a text-bearing block."
+    )
+    type_: str = Field(
+        alias="type",
+        description="Block type reported by X, such as unstyled, header-two, image, divider, blockquote, or list item. Populated whenever the provider has data for the entity.",
+    )
+    width: int | None = Field(
+        default=None, description="Image width in pixels when supplied. Minimum: 0."
+    )
+
+
+class TwitterArticleEntitie(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    key: int = Field(description="Upstream entity table key. Minimum: 0.")
+    length: int = Field(description="Entity character length. Minimum: 0.")
+    offset: int = Field(description="Zero-based character offset. Minimum: 0.")
+
+
+class TwitterArticleInlineStyle(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    length: int = Field(description="Formatted character length. Minimum: 0.")
+    offset: int = Field(description="Zero-based character offset. Minimum: 0.")
+    style: str = Field(description="Inline style name reported by X.")
 
 
 class TwitterCommunityData(BaseModel):
@@ -386,6 +539,47 @@ class TwitterSearchItem(BaseModel):
     view_count: int | None = Field(default=None, alias="viewCount")
 
 
+class TwitterTrendsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    as_of_utc: float = Field(
+        alias="asOfUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    items: list[TwitterTrendsItem] = Field(
+        description="Current trends in X's own ranking order. Distinct ranks may carry the same trend name. Populated whenever the provider has data for the entity."
+    )
+    location: str = Field(
+        description="Resolved X trend-location name. Populated whenever the provider has data for the entity."
+    )
+    location_id: str = Field(
+        alias="locationId",
+        description="Resolved Yahoo WOEID used by X, exposed as a stable location identifier. Populated whenever the provider has data for the entity.",
+    )
+
+
+class TwitterTrendsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    is_hashtag: bool | None = Field(
+        default=None,
+        alias="isHashtag",
+        description="Whether the trend text is a hashtag.",
+    )
+    name: str = Field(
+        description="Trend text displayed by X. Populated whenever the provider has data for the entity."
+    )
+    promoted: bool | None = Field(
+        default=None, description="Whether X marks the trend as promoted."
+    )
+    query: str = Field(
+        description="Search query corresponding to the trend. Populated whenever the provider has data for the entity."
+    )
+    rank: int = Field(
+        description="One-based position in X's trend ranking. Populated whenever the provider has data for the entity. Minimum: 1."
+    )
+
+
 class TwitterTweetData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -510,6 +704,27 @@ class TwitterNamespace:
 
     def __init__(self, client: "AnyAPI") -> None:
         self._client = client
+
+    def article(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterArticleInput],
+    ) -> RunResult[TwitterArticleData]:
+        """X / Twitter Article
+
+        Get a public X long-form article from its wrapper post URL, including its
+        author, engagement, cover image, and structured content blocks.
+
+        Price: $0.00075 per request.
+
+        Example:
+            res = client.twitter.article(url="https://x.com/Decentralisedco/status/1905545699552375179")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.article", dict(input), options
+        )
+        return RunResult[TwitterArticleData].model_validate(raw)
 
     def community(
         self,
@@ -734,6 +949,27 @@ class TwitterNamespace:
             options=options,
         )
 
+    def trends(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterTrendsInput],
+    ) -> RunResult[TwitterTrendsData]:
+        """X / Twitter Trends
+
+        Get current X (Twitter) trends for worldwide, a country, or a city in X
+        ranking order, including the resolved location.
+
+        Price: $0.00075 per request.
+
+        Example:
+            res = client.twitter.trends(limit=10, location="US")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.trends", dict(input), options
+        )
+        return RunResult[TwitterTrendsData].model_validate(raw)
+
     def tweet(
         self,
         *,
@@ -875,6 +1111,27 @@ class AsyncTwitterNamespace:
 
     def __init__(self, client: "AsyncAnyAPI") -> None:
         self._client = client
+
+    async def article(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterArticleInput],
+    ) -> RunResult[TwitterArticleData]:
+        """X / Twitter Article
+
+        Get a public X long-form article from its wrapper post URL, including its
+        author, engagement, cover image, and structured content blocks.
+
+        Price: $0.00075 per request.
+
+        Example:
+            res = client.twitter.article(url="https://x.com/Decentralisedco/status/1905545699552375179")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.article", dict(input), options
+        )
+        return RunResult[TwitterArticleData].model_validate(raw)
 
     async def community(
         self,
@@ -1098,6 +1355,27 @@ class AsyncTwitterNamespace:
             bare=False,
             options=options,
         )
+
+    async def trends(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterTrendsInput],
+    ) -> RunResult[TwitterTrendsData]:
+        """X / Twitter Trends
+
+        Get current X (Twitter) trends for worldwide, a country, or a city in X
+        ranking order, including the resolved location.
+
+        Price: $0.00075 per request.
+
+        Example:
+            res = client.twitter.trends(limit=10, location="US")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.trends", dict(input), options
+        )
+        return RunResult[TwitterTrendsData].model_validate(raw)
 
     async def tweet(
         self,
