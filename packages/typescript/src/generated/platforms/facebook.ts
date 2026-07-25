@@ -1864,7 +1864,7 @@ export class FacebookNamespace {
   /**
    * Facebook Marketplace
    *
-   * Search Facebook Marketplace listings by keyword near a location, with price, condition, delivery, recency, and availability filters (title, price, location, and image) as normalized JSON.
+   * Search Facebook Marketplace listings by keyword near a location, filter by price, condition, delivery, recency, and availability, and get title, price, location, and image as normalized JSON.
    *
    * Price: $0.002 per request.
    *
