@@ -102,9 +102,8 @@ class WalmartNamespace:
     ) -> RunResult[WalmartProductData]:
         """Walmart Product
 
-        Fetch a Walmart product page by URL and get full product details - title,
-        price, availability, ratings, images, and specs - in one normalized
-        response.
+        Fetch a Walmart product page by URL and get full product details (title,
+        price, availability, ratings, images, and specs) in one normalized response.
 
         Price: $0 per request plus $0.00368 per result (maximum $0.00368).
 
@@ -131,9 +130,8 @@ class AsyncWalmartNamespace:
     ) -> RunResult[WalmartProductData]:
         """Walmart Product
 
-        Fetch a Walmart product page by URL and get full product details - title,
-        price, availability, ratings, images, and specs - in one normalized
-        response.
+        Fetch a Walmart product page by URL and get full product details (title,
+        price, availability, ratings, images, and specs) in one normalized response.
 
         Price: $0 per request plus $0.00368 per result (maximum $0.00368).
 

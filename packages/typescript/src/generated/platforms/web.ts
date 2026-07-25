@@ -212,7 +212,7 @@ export class WebNamespace {
   /**
    * Website Crawl
    *
-   * Crawl a website and get clean text content from up to 10 pages in one normalized response - ideal for feeding sites into LLMs and search indexes.
+   * Crawl a website and get clean text content from up to 10 pages in one normalized response, ideal for feeding sites into LLMs and search indexes.
    *
    * Price: $0.0015 per request plus $0.003 per result (maximum $0.0315).
    *

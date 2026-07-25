@@ -194,7 +194,7 @@ export class DexscreenerNamespace {
   /**
    * DEX Screener Tokens
    *
-   * List trending tokens on any blockchain from DEX Screener - price, liquidity, volume, transactions, and market cap - sorted how you want, as normalized JSON.
+   * List trending tokens on any blockchain from DEX Screener (price, liquidity, volume, transactions, and market cap), sorted how you want, as normalized JSON.
    *
    * Price: $0.02 per request plus $0.0015 per result (maximum $0.0575).
    *

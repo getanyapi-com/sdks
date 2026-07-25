@@ -433,7 +433,7 @@ export class AmazonNamespace {
   /**
    * Amazon Products by ASIN
    *
-   * Look up to 10 Amazon products in one call by ASIN - title, brand, price, ratings, images, and attributes - as normalized JSON.
+   * Look up to 10 Amazon products in one call by ASIN (title, brand, price, ratings, images, and attributes) as normalized JSON.
    *
    * Price: $0 per request plus $0.0035 per asin (maximum $0.035).
    *
@@ -450,7 +450,7 @@ export class AmazonNamespace {
   /**
    * Amazon Bestsellers
    *
-   * List the top-ranked products of any Amazon Best Sellers category - rank, title, price, and rating - in one normalized request.
+   * List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.
    *
    * Price: $0 per request plus $0.0041 per result (maximum $0.082).
    *
@@ -484,7 +484,7 @@ export class AmazonNamespace {
   /**
    * Amazon Reviews
    *
-   * Pull up to 50 customer reviews for any Amazon product by ASIN or URL - rating, title, text, date, and verified-purchase badge.
+   * Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.
    *
    * Price: $0.01625 per request.
    *
@@ -501,7 +501,7 @@ export class AmazonNamespace {
   /**
    * Amazon Search
    *
-   * Search Amazon from any search or category URL and get up to 20 matching products - title, price, rating, and thumbnail - in one normalized response.
+   * Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.
    *
    * Price: $0 per request plus $0.0035 per result (maximum $0.07).
    *

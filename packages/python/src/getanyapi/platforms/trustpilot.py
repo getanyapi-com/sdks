@@ -81,7 +81,7 @@ class TrustpilotNamespace:
     ) -> RunResult[TrustpilotReviewsData]:
         """Trustpilot Reviews
 
-        Pull Trustpilot reviews for any company by brand name - star ratings, review
+        Pull Trustpilot reviews for any company by brand name: star ratings, review
         text, dates, and reviewer details as clean JSON.
 
         Price: $0.01625 per request.
@@ -109,7 +109,7 @@ class AsyncTrustpilotNamespace:
     ) -> RunResult[TrustpilotReviewsData]:
         """Trustpilot Reviews
 
-        Pull Trustpilot reviews for any company by brand name - star ratings, review
+        Pull Trustpilot reviews for any company by brand name: star ratings, review
         text, dates, and reviewer details as clean JSON.
 
         Price: $0.01625 per request.

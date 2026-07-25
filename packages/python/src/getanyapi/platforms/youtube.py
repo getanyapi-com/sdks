@@ -107,7 +107,7 @@ class YoutubePlaylistInput(TypedDict, total=False):
     """Input for YouTube Playlist."""
 
     playlistId: Required[str]
-    """The playlist ID - the "list" parameter in a playlist URL (e.g. "PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi")."""
+    """The playlist ID: the "list" parameter in a playlist URL (e.g. "PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi")."""
 
 
 class YoutubeSearchInput(TypedDict, total=False):
@@ -906,8 +906,8 @@ class YoutubeNamespace:
     ) -> RunResult[YoutubePlaylistData]:
         """YouTube Playlist
 
-        List every video in a YouTube playlist - title, length, and channel per
-        video plus playlist owner and totals - normalized across providers with
+        List every video in a YouTube playlist (title, length, and channel per video
+        plus playlist owner and totals), normalized across providers with
         transparent failover.
 
         Price: $0.002 per request.
@@ -1416,8 +1416,8 @@ class AsyncYoutubeNamespace:
     ) -> RunResult[YoutubePlaylistData]:
         """YouTube Playlist
 
-        List every video in a YouTube playlist - title, length, and channel per
-        video plus playlist owner and totals - normalized across providers with
+        List every video in a YouTube playlist (title, length, and channel per video
+        plus playlist owner and totals), normalized across providers with
         transparent failover.
 
         Price: $0.002 per request.

@@ -110,8 +110,8 @@ class CongressNamespace:
     ) -> RunResult[CongressTradesData]:
         """Congress Stock Trades
 
-        Get US Congress members' financial disclosures and stock trades - member,
-        ticker, transaction type, amount range, and dates - filterable by member,
+        Get US Congress members' financial disclosures and stock trades (member,
+        ticker, transaction type, amount range, and dates), filterable by member,
         ticker, or date range.
 
         Price: $0.001 per request plus $0.0019 per result (maximum $0.0485).
@@ -139,8 +139,8 @@ class AsyncCongressNamespace:
     ) -> RunResult[CongressTradesData]:
         """Congress Stock Trades
 
-        Get US Congress members' financial disclosures and stock trades - member,
-        ticker, transaction type, amount range, and dates - filterable by member,
+        Get US Congress members' financial disclosures and stock trades (member,
+        ticker, transaction type, amount range, and dates), filterable by member,
         ticker, or date range.
 
         Price: $0.001 per request plus $0.0019 per result (maximum $0.0485).

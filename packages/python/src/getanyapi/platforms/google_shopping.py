@@ -115,8 +115,8 @@ class GoogleShoppingNamespace:
     ) -> RunResult[GoogleShoppingSearchData]:
         """Google Shopping Search
 
-        Search Google Shopping by keyword and get up to 10 product offers - title,
-        price, store, rating, and link - localized by country and language.
+        Search Google Shopping by keyword and get up to 10 product offers (title,
+        price, store, rating, and link), localized by country and language.
 
         Price: $0.01625 per request.
 
@@ -143,8 +143,8 @@ class AsyncGoogleShoppingNamespace:
     ) -> RunResult[GoogleShoppingSearchData]:
         """Google Shopping Search
 
-        Search Google Shopping by keyword and get up to 10 product offers - title,
-        price, store, rating, and link - localized by country and language.
+        Search Google Shopping by keyword and get up to 10 product offers (title,
+        price, store, rating, and link), localized by country and language.
 
         Price: $0.01625 per request.
 

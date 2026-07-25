@@ -1245,7 +1245,7 @@ export class InstagramNamespace {
   /**
    * Instagram Followers
    *
-   * List the followers of any public Instagram account by username - follower usernames, names, and profile details.
+   * List the followers of any public Instagram account by username: follower usernames, names, and profile details.
    *
    * Price: $0.01625 per request.
    *
@@ -1282,7 +1282,7 @@ export class InstagramNamespace {
   /**
    * Instagram Following
    *
-   * List the accounts a public Instagram user follows - usernames, names, and profile details.
+   * List the accounts a public Instagram user follows: usernames, names, and profile details.
    *
    * Price: $0.01625 per request.
    *
@@ -1319,7 +1319,7 @@ export class InstagramNamespace {
   /**
    * Instagram Hashtag Analytics
    *
-   * Get analytics for any Instagram hashtag - total post count, related hashtags, and usage signals - normalized.
+   * Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals), normalized.
    *
    * Price: $0.001 per request plus $0.0017 per result (maximum $0.035).
    *
@@ -1438,7 +1438,7 @@ export class InstagramNamespace {
   /**
    * Instagram Reels Search
    *
-   * Search Instagram Reels by keyword and get matching reels - caption, views, likes, creator, and duration - normalized across providers with transparent failover.
+   * Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration), normalized across providers with transparent failover.
    *
    * Price: $0.002 per request.
    *

@@ -85,7 +85,7 @@ export class AppstoreNamespace {
   /**
    * App Store Reviews
    *
-   * Get App Store reviews for any iOS app by app ID, in any storefront country - ratings, titles, and review text.
+   * Get App Store reviews for any iOS app by app ID, in any storefront country: ratings, titles, and review text.
    *
    * Price: $0 per request plus $0.0001 per result (maximum $0.01).
    *

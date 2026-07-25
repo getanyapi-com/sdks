@@ -889,8 +889,8 @@ class TwitterNamespace:
     ) -> RunResult[TwitterRepliesData]:
         """X / Twitter Post Replies
 
-        Fetch the replies to any X (Twitter) post URL as structured records -
-        author, text, and engagement.
+        Fetch the replies to any X (Twitter) post URL as structured records: author,
+        text, and engagement.
 
         Price: $0.0025 per request plus $0.00025 per result (maximum $0.0125).
 
@@ -1296,8 +1296,8 @@ class AsyncTwitterNamespace:
     ) -> RunResult[TwitterRepliesData]:
         """X / Twitter Post Replies
 
-        Fetch the replies to any X (Twitter) post URL as structured records -
-        author, text, and engagement.
+        Fetch the replies to any X (Twitter) post URL as structured records: author,
+        text, and engagement.
 
         Price: $0.0025 per request plus $0.00025 per result (maximum $0.0125).
 

@@ -185,7 +185,7 @@
       "slug": "alibaba.search",
       "category": "shop",
       "name": "Alibaba Search",
-      "description": "Search Alibaba by keyword and get up to 25 wholesale listings — title, price range, minimum order, and supplier — in one normalized response.",
+      "description": "Search Alibaba by keyword and get up to 25 wholesale listings (title, price range, minimum order, and supplier) in one normalized response.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -221,7 +221,7 @@
       "slug": "amazon.asins",
       "category": "shop",
       "name": "Amazon Products by ASIN",
-      "description": "Look up to 10 Amazon products in one call by ASIN — title, brand, price, ratings, images, and attributes — as normalized JSON.",
+      "description": "Look up to 10 Amazon products in one call by ASIN (title, brand, price, ratings, images, and attributes) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -257,7 +257,7 @@
       "slug": "amazon.bestsellers",
       "category": "shop",
       "name": "Amazon Bestsellers",
-      "description": "List the top-ranked products of any Amazon Best Sellers category — rank, title, price, and rating — in one normalized request.",
+      "description": "List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -330,7 +330,7 @@
       "slug": "amazon.reviews",
       "category": "shop",
       "name": "Amazon Reviews",
-      "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL — rating, title, text, date, and verified-purchase badge.",
+      "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -377,7 +377,7 @@
       "slug": "amazon.search",
       "category": "shop",
       "name": "Amazon Search",
-      "description": "Search Amazon from any search or category URL and get up to 20 matching products — title, price, rating, and thumbnail — in one normalized response.",
+      "description": "Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -669,7 +669,7 @@
       "slug": "appstore.reviews",
       "category": "shop",
       "name": "App Store Reviews",
-      "description": "Get App Store reviews for any iOS app by app ID, in any storefront country — ratings, titles, and review text.",
+      "description": "Get App Store reviews for any iOS app by app ID, in any storefront country: ratings, titles, and review text.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -859,7 +859,7 @@
       "slug": "coinmarketcap.listings",
       "category": "fin",
       "name": "CoinMarketCap Listings",
-      "description": "Get the current top cryptocurrencies from CoinMarketCap — rank, price, market cap, volume, and 24h change — as normalized JSON.",
+      "description": "Get the current top cryptocurrencies from CoinMarketCap (rank, price, market cap, volume, and 24h change) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -895,7 +895,7 @@
       "slug": "congress.trades",
       "category": "fin",
       "name": "Congress Stock Trades",
-      "description": "Get US Congress members' financial disclosures and stock trades — member, ticker, transaction type, amount range, and dates — filterable by member, ticker, or date range.",
+      "description": "Get US Congress members' financial disclosures and stock trades (member, ticker, transaction type, amount range, and dates), filterable by member, ticker, or date range.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -931,7 +931,7 @@
       "slug": "dexscreener.tokens",
       "category": "fin",
       "name": "DEX Screener Tokens",
-      "description": "List trending tokens on any blockchain from DEX Screener — price, liquidity, volume, transactions, and market cap — sorted how you want, as normalized JSON.",
+      "description": "List trending tokens on any blockchain from DEX Screener (price, liquidity, volume, transactions, and market cap), sorted how you want, as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1235,7 +1235,7 @@
       "slug": "email.verify",
       "category": "data",
       "name": "Email Verifier",
-      "description": "Verify any email address for deliverability — syntax, domain, and mailbox checks in one normalized response.",
+      "description": "Verify any email address for deliverability: syntax, domain, and mailbox checks in one normalized response.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1335,7 +1335,7 @@
       "slug": "facebook.ads_search",
       "category": "social",
       "name": "Facebook Ad Search",
-      "description": "Search the Meta Ad Library by keyword and get matching ads — advertiser, creative text, CTA, platforms, and run dates — with cursor pagination and transparent failover.",
+      "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination and transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1367,7 +1367,7 @@
       "slug": "facebook.comment_replies",
       "category": "social",
       "name": "Facebook Comment Replies",
-      "description": "List the replies to a Facebook post comment — text, author, reactions, and timestamps — as normalized JSON at a.",
+      "description": "List the replies to a Facebook post comment (text, author, reactions, and timestamps) as normalized JSON at a.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1399,7 +1399,7 @@
       "slug": "facebook.company_ads",
       "category": "social",
       "name": "Facebook Company Ads",
-      "description": "List the Meta Ad Library ads a company is running by page ID or company name — creative text, format, platforms, and run dates — with cursor pagination.",
+      "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1431,7 +1431,7 @@
       "slug": "facebook.event_details",
       "category": "social",
       "name": "Facebook Event Details",
-      "description": "Fetch full details for a single Facebook event by ID or URL — name, schedule, venue, hosts, and attendance — as normalized JSON at a.",
+      "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON at a.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1463,7 +1463,7 @@
       "slug": "facebook.events",
       "category": "social",
       "name": "Facebook Events",
-      "description": "List public Facebook events for a city or place by its events-page URL — event name, date, venue, and attendance — as normalized JSON at a.",
+      "description": "List public Facebook events for a city or place by its events-page URL (event name, date, venue, and attendance) as normalized JSON at a.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1495,7 +1495,7 @@
       "slug": "facebook.events_search",
       "category": "social",
       "name": "Facebook Events Search",
-      "description": "Search public Facebook events by keyword and get structured event records — name, schedule, venue, pricing, and attendance — as normalized JSON at a.",
+      "description": "Search public Facebook events by keyword and get structured event records (name, schedule, venue, pricing, and attendance) as normalized JSON at a.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1527,7 +1527,7 @@
       "slug": "facebook.followers",
       "category": "social",
       "name": "Facebook Followers",
-      "description": "List the public followers — or accounts followed — of any Facebook page or profile URL as normalized JSON records.",
+      "description": "List the public followers (or accounts followed) of any Facebook page or profile URL as normalized JSON records.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1563,7 +1563,7 @@
       "slug": "facebook.group_posts",
       "category": "social",
       "name": "Facebook Group Posts",
-      "description": "Fetch recent posts from any public Facebook group by URL — text, author, reactions, and comment counts.",
+      "description": "Fetch recent posts from any public Facebook group by URL: text, author, reactions, and comment counts.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1595,7 +1595,7 @@
       "slug": "facebook.marketplace",
       "category": "social",
       "name": "Facebook Marketplace",
-      "description": "Search Facebook Marketplace listings by keyword near a location, with price, condition, delivery, recency, and availability filters — title, price, location, and image — as normalized JSON.",
+      "description": "Search Facebook Marketplace listings by keyword near a location, with price, condition, delivery, recency, and availability filters (title, price, location, and image) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1627,7 +1627,7 @@
       "slug": "facebook.marketplace_item",
       "category": "social",
       "name": "Facebook Marketplace Item",
-      "description": "Fetch full details for a single Facebook Marketplace listing by ID or URL — title, price, location, photos, and attributes — as normalized JSON at a.",
+      "description": "Fetch full details for a single Facebook Marketplace listing by ID or URL (title, price, location, photos, and attributes) as normalized JSON at a.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1691,7 +1691,7 @@
       "slug": "facebook.page_contact",
       "category": "social",
       "name": "Facebook Page Contact Info",
-      "description": "Look up a Facebook Page's public contact details — email, phone, website, and address — by page URL or ID.",
+      "description": "Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1738,7 +1738,7 @@
       "slug": "facebook.photos",
       "category": "social",
       "name": "Facebook Page Photos",
-      "description": "Fetch recent photos posted by any public Facebook page or profile — image URLs, captions, and dimensions — as normalized JSON at a.",
+      "description": "Fetch recent photos posted by any public Facebook page or profile (image URLs, captions, and dimensions) as normalized JSON at a.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1919,7 +1919,7 @@
       "slug": "facebook.profile_events",
       "category": "social",
       "name": "Facebook Page Events",
-      "description": "List upcoming and past events hosted by any public Facebook page by URL — name, schedule, venue, and host — as normalized JSON at a.",
+      "description": "List upcoming and past events hosted by any public Facebook page by URL (name, schedule, venue, and host) as normalized JSON at a.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2036,7 +2036,7 @@
       "slug": "facebook.search_companies",
       "category": "social",
       "name": "Facebook Company Search",
-      "description": "Search the Meta Ad Library for advertisers by keyword and get matching pages — page ID, category, verification, follower counts, and linked Instagram.",
+      "description": "Search the Meta Ad Library for advertisers by keyword and get matching pages: page ID, category, verification, follower counts, and linked Instagram.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2140,7 +2140,7 @@
       "slug": "fiverr.search",
       "category": "shop",
       "name": "Fiverr Gig Search",
-      "description": "Extract Fiverr gig listings from any search or category URL — titles, sellers, ratings, and pricing as structured JSON.",
+      "description": "Extract Fiverr gig listings from any search or category URL: titles, sellers, ratings, and pricing as structured JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2176,7 +2176,7 @@
       "slug": "github.repository",
       "category": "data",
       "name": "GitHub Repository",
-      "description": "Fetch a GitHub repository's metadata by URL — stars, forks, language, topics, license, and timestamps — normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2208,7 +2208,7 @@
       "slug": "github.trending_developers",
       "category": "data",
       "name": "GitHub Trending Developers",
-      "description": "List trending GitHub developers — rank, username, name, avatar, and their most popular repository — optionally filtered by programming language and time range.",
+      "description": "List trending GitHub developers (rank, username, name, avatar, and their most popular repository), optionally filtered by programming language and time range.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2240,7 +2240,7 @@
       "slug": "github.trending_repositories",
       "category": "data",
       "name": "GitHub Trending Repositories",
-      "description": "List GitHub Trending repositories — rank, stars, stars gained today, language, and description — filterable by language and time window, normalized across providers.",
+      "description": "List GitHub Trending repositories (rank, stars, stars gained today, language, and description), filterable by language and time window, normalized across providers.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2272,7 +2272,7 @@
       "slug": "github.user",
       "category": "data",
       "name": "GitHub User",
-      "description": "Fetch a GitHub user's public profile by handle — name, bio, company, location, followers, and repo counts — normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub user's public profile by handle (name, bio, company, location, followers, and repo counts), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2311,7 +2311,7 @@
       "slug": "github.user_activity",
       "category": "data",
       "name": "GitHub User Activity",
-      "description": "List a GitHub user's public contribution activity by handle — grouped monthly summaries of commits, pull requests, and issues with repository links — for a given year.",
+      "description": "List a GitHub user's public contribution activity by handle (grouped monthly summaries of commits, pull requests, and issues with repository links) for a given year.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2343,7 +2343,7 @@
       "slug": "github.user_contributions",
       "category": "data",
       "name": "GitHub User Contributions",
-      "description": "Fetch a GitHub user's contribution graph for a year — total contributions plus per-day counts and heatmap intensity — normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub user's contribution graph for a year (total contributions plus per-day counts and heatmap intensity), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2375,7 +2375,7 @@
       "slug": "github.user_followers",
       "category": "data",
       "name": "GitHub User Followers",
-      "description": "List a GitHub user's followers by handle — each follower's login, type, avatar, and profile URL — with pagination.",
+      "description": "List a GitHub user's followers by handle (each follower's login, type, avatar, and profile URL) with pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2407,7 +2407,7 @@
       "slug": "github.user_following",
       "category": "data",
       "name": "GitHub User Following",
-      "description": "List the GitHub users a given user follows by handle — each account's login, type, avatar, and profile URL — with pagination.",
+      "description": "List the GitHub users a given user follows by handle (each account's login, type, avatar, and profile URL) with pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2439,7 +2439,7 @@
       "slug": "github.user_pull_requests",
       "category": "data",
       "name": "GitHub User Pull Requests",
-      "description": "List a GitHub user's public pull requests by handle — title, repository, state, creation date, and URL — with optional date filtering and pagination.",
+      "description": "List a GitHub user's public pull requests by handle (title, repository, state, creation date, and URL) with optional date filtering and pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2471,7 +2471,7 @@
       "slug": "github.user_repositories",
       "category": "data",
       "name": "GitHub User Repositories",
-      "description": "List a GitHub user's public repositories — name, description, language, stars, and forks — with sorting and cursor pagination, normalized across providers.",
+      "description": "List a GitHub user's public repositories (name, description, language, stars, and forks) with sorting and cursor pagination, normalized across providers.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2559,8 +2559,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 361,
-            "requests": 3
+            "latencyP50Ms": 387,
+            "requests": 7
           }
         }
       ],
@@ -2571,7 +2571,7 @@
       "slug": "google.images",
       "category": "search",
       "name": "Google Images",
-      "description": "Run a Google Images search and get structured results — image URLs, dimensions, titles, and source pages.",
+      "description": "Run a Google Images search and get structured results: image URLs, dimensions, titles, and source pages.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2639,7 +2639,7 @@
       "slug": "google.news",
       "category": "search",
       "name": "Google News",
-      "description": "Search Google News by keyword and get fresh articles — headlines, sources, links, and publish times — as clean JSON.",
+      "description": "Search Google News by keyword and get fresh articles (headlines, sources, links, and publish times) as clean JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2660,7 +2660,7 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 569,
-            "requests": 119
+            "requests": 125
           }
         }
       ],
@@ -2756,7 +2756,7 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 726,
-            "requests": 2525
+            "requests": 2595
           }
         }
       ],
@@ -2863,7 +2863,7 @@
       "slug": "google_ads.company_ads",
       "category": "search",
       "name": "Google Ads Company Ads",
-      "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID — creative ID, format, ad URL, and first/last shown dates — with cursor pagination.",
+      "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2895,7 +2895,7 @@
       "slug": "google_ads.search",
       "category": "search",
       "name": "Google Ads Transparency",
-      "description": "Pull the ads an advertiser is currently running from the Google Ads Transparency Center — creative details, formats, and run dates — as clean JSON.",
+      "description": "Pull the ads an advertiser is currently running from the Google Ads Transparency Center (creative details, formats, and run dates) as clean JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2967,7 +2967,7 @@
       "slug": "google_shopping.search",
       "category": "shop",
       "name": "Google Shopping Search",
-      "description": "Search Google Shopping by keyword and get up to 10 product offers — title, price, store, rating, and link — localized by country and language.",
+      "description": "Search Google Shopping by keyword and get up to 10 product offers (title, price, store, rating, and link), localized by country and language.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3060,8 +3060,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 624,
-            "requests": 108
+            "latencyP50Ms": 646,
+            "requests": 124
           }
         }
       ],
@@ -3092,8 +3092,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 39,
-            "requests": 100
+            "latencyP50Ms": 79,
+            "requests": 217
           }
         }
       ],
@@ -3124,8 +3124,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 378,
-            "requests": 89
+            "latencyP50Ms": 474,
+            "requests": 236
           }
         }
       ],
@@ -3136,7 +3136,7 @@
       "slug": "indeed.jobs",
       "category": "data",
       "name": "Indeed Jobs",
-      "description": "Search Indeed job listings by keyword, location, and country — up to 20 normalized job records per request.",
+      "description": "Search Indeed job listings by keyword, location, and country, with up to 20 normalized job records per request.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3282,7 +3282,7 @@
       "slug": "instagram.followers",
       "category": "social",
       "name": "Instagram Followers",
-      "description": "List the followers of any public Instagram account by username — follower usernames, names, and profile details.",
+      "description": "List the followers of any public Instagram account by username: follower usernames, names, and profile details.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3329,7 +3329,7 @@
       "slug": "instagram.following",
       "category": "social",
       "name": "Instagram Following",
-      "description": "List the accounts a public Instagram user follows — usernames, names, and profile details.",
+      "description": "List the accounts a public Instagram user follows: usernames, names, and profile details.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3376,7 +3376,7 @@
       "slug": "instagram.hashtag_analytics",
       "category": "social",
       "name": "Instagram Hashtag Analytics",
-      "description": "Get analytics for any Instagram hashtag — total post count, related hashtags, and usage signals — normalized.",
+      "description": "Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals), normalized.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3495,9 +3495,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.91666666666667,
-            "latencyP50Ms": 1558,
-            "requests": 193
+            "uptimePct": 98,
+            "latencyP50Ms": 1556,
+            "requests": 201
           }
         },
         {
@@ -3655,7 +3655,7 @@
       "slug": "instagram.reels_search",
       "category": "social",
       "name": "Instagram Reels Search",
-      "description": "Search Instagram Reels by keyword and get matching reels — caption, views, likes, creator, and duration — normalized across providers with transparent failover.",
+      "description": "Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3674,9 +3674,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.19312857886517,
-            "latencyP50Ms": 2421,
-            "requests": 3843
+            "uptimePct": 99.16753381893861,
+            "latencyP50Ms": 2425,
+            "requests": 3845
           }
         }
       ],
@@ -3956,9 +3956,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.89626556016597,
+            "uptimePct": 99.89631933644375,
             "latencyP50Ms": 1999,
-            "requests": 1928
+            "requests": 1929
           }
         },
         {
@@ -4008,9 +4008,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 100,
+            "uptimePct": 96.22641509433963,
             "latencyP50Ms": 5103,
-            "requests": 31
+            "requests": 53
           }
         }
       ],
@@ -4089,7 +4089,7 @@
       "slug": "linkedin.ads_search",
       "category": "social",
       "name": "LinkedIn Ad Search",
-      "description": "Search the LinkedIn Ad Library by company or keyword and list matching ads — advertiser, headline, creative text, format, CTA, and run dates — with pagination.",
+      "description": "Search the LinkedIn Ad Library by company or keyword and list matching ads (advertiser, headline, creative text, format, CTA, and run dates) with pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -4829,8 +4829,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 17519,
-            "requests": 102
+            "latencyP50Ms": 17508,
+            "requests": 104
           }
         }
       ],
@@ -5077,7 +5077,7 @@
       "slug": "playstore.reviews",
       "category": "shop",
       "name": "Google Play Reviews",
-      "description": "Fetch Google Play reviews for any Android app by package name or store URL — ratings, review text, dates, and helpfulness votes.",
+      "description": "Fetch Google Play reviews for any Android app by package name or store URL: ratings, review text, dates, and helpfulness votes.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -5120,7 +5120,7 @@
       "slug": "polymarket.markets",
       "category": "fin",
       "name": "Polymarket Markets",
-      "description": "Discover Polymarket prediction markets — question, outcome prices, volume, liquidity, and end dates — by keyword or sorted by activity, as normalized JSON.",
+      "description": "Discover Polymarket prediction markets (question, outcome prices, volume, liquidity, and end dates) by keyword or sorted by activity, as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -5211,9 +5211,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.734395750332,
-            "latencyP50Ms": 2628,
-            "requests": 1526
+            "uptimePct": 99.72796517954298,
+            "latencyP50Ms": 2646,
+            "requests": 1858
           }
         },
         {
@@ -5221,6 +5221,12 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.00325
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 482,
+            "requests": 21
           }
         }
       ],
@@ -5282,9 +5288,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.85905567300917,
-            "latencyP50Ms": 2607,
-            "requests": 1545
+            "uptimePct": 99.87071751777634,
+            "latencyP50Ms": 2595,
+            "requests": 1683
           }
         },
         {
@@ -5295,9 +5301,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.00662251655629,
-            "latencyP50Ms": 9119,
-            "requests": 302
+            "uptimePct": 99.03846153846153,
+            "latencyP50Ms": 8945,
+            "requests": 312
           }
         },
         {
@@ -5321,7 +5327,7 @@
       "slug": "reddit.subreddit_details",
       "category": "social",
       "name": "Reddit Subreddit Details",
-      "description": "Fetch a subreddit's metadata — weekly active users, description, and category — normalized across providers with transparent failover.",
+      "description": "Fetch a subreddit's metadata (weekly active users, description, and category), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -5392,9 +5398,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.88532110091744,
-            "latencyP50Ms": 2460,
-            "requests": 1775
+            "uptimePct": 99.77401129943503,
+            "latencyP50Ms": 2442,
+            "requests": 1801
           }
         }
       ],
@@ -6159,7 +6165,7 @@
       "slug": "snapchat.profile",
       "category": "social",
       "name": "Snapchat Profile",
-      "description": "Fetch a Snapchat user's public profile by username — display name, bio, subscriber count, and recent public content.",
+      "description": "Fetch a Snapchat user's public profile by username: display name, bio, subscriber count, and recent public content.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6459,7 +6465,7 @@
       "slug": "substack.posts",
       "category": "social",
       "name": "Substack Posts",
-      "description": "Pull posts from any Substack publication by its URL — or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.",
+      "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6495,7 +6501,7 @@
       "slug": "threads.post",
       "category": "social",
       "name": "Threads Post",
-      "description": "Fetch a single Threads post by URL — text, author, engagement counts, and timestamp.",
+      "description": "Fetch a single Threads post by URL: text, author, engagement counts, and timestamp.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6573,7 +6579,7 @@
       "slug": "threads.search",
       "category": "social",
       "name": "Threads Search",
-      "description": "Search public Threads posts by keyword or hashtag and get normalized post records — text, author, and engagement.",
+      "description": "Search public Threads posts by keyword or hashtag and get normalized post records: text, author, and engagement.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6612,7 +6618,7 @@
       "slug": "threads.search_users",
       "category": "social",
       "name": "Threads User Search",
-      "description": "Search Threads users by name or username and get normalized profile records — username, full name, verification, and picture.",
+      "description": "Search Threads users by name or username and get normalized profile records: username, full name, verification, and picture.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6651,7 +6657,7 @@
       "slug": "threads.user_posts",
       "category": "social",
       "name": "Threads User Posts",
-      "description": "List a Threads user's recent public posts by username — text, engagement counts, and post URLs.",
+      "description": "List a Threads user's recent public posts by username: text, engagement counts, and post URLs.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6690,7 +6696,7 @@
       "slug": "tiktok.ad_library_ad",
       "category": "social",
       "name": "TikTok Ad Library Ad",
-      "description": "Fetch full details for a single TikTok ad — brand, title, spend, CTR, objectives, landing page, and video info — normalized across providers with transparent failover.",
+      "description": "Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6722,7 +6728,7 @@
       "slug": "tiktok.ad_library_search",
       "category": "social",
       "name": "TikTok Ad Library Search",
-      "description": "Search TikTok's ad library by keyword — top ads with brand, title, spend, CTR, likes, and video info — normalized across providers with transparent failover.",
+      "description": "Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6897,8 +6903,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 2267,
-            "requests": 98
+            "latencyP50Ms": 2240,
+            "requests": 104
           }
         },
         {
@@ -7021,9 +7027,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.53161592505855,
-            "latencyP50Ms": 486,
-            "requests": 1713
+            "uptimePct": 99.57173447537473,
+            "latencyP50Ms": 484,
+            "requests": 1873
           }
         },
         {
@@ -7112,9 +7118,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.35460738615991,
-            "latencyP50Ms": 2498,
-            "requests": 2790
+            "uptimePct": 99.38962360122075,
+            "latencyP50Ms": 2503,
+            "requests": 2950
           }
         },
         {
@@ -7164,9 +7170,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.35064935064935,
-            "latencyP50Ms": 4134,
-            "requests": 308
+            "uptimePct": 99.46091644204851,
+            "latencyP50Ms": 4154,
+            "requests": 371
           }
         },
         {
@@ -7210,8 +7216,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1590,
-            "requests": 37
+            "latencyP50Ms": 1582,
+            "requests": 40
           }
         },
         {
@@ -7262,8 +7268,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 3776,
-            "requests": 810
+            "latencyP50Ms": 3785,
+            "requests": 885
           }
         },
         {
@@ -7300,9 +7306,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.57446808510639,
-            "latencyP50Ms": 1482,
-            "requests": 280
+            "uptimePct": 99.6742671009772,
+            "latencyP50Ms": 1514,
+            "requests": 354
           }
         },
         {
@@ -7315,7 +7321,7 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 2045,
-            "requests": 57
+            "requests": 59
           }
         },
         {
@@ -7333,7 +7339,7 @@
       "slug": "tiktok.song",
       "category": "social",
       "name": "TikTok Song",
-      "description": "Fetch details for a TikTok song or sound — title, author, duration, cover art, and how many videos use it — normalized across providers with transparent failover.",
+      "description": "Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7372,7 +7378,7 @@
       "slug": "tiktok.song_videos",
       "category": "social",
       "name": "TikTok Song Videos",
-      "description": "List TikTok videos that use a given song or sound — with descriptions, authors, and engagement stats — normalized across providers with transparent failover.",
+      "description": "List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7554,8 +7560,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 2513,
-            "requests": 692
+            "latencyP50Ms": 2454,
+            "requests": 792
           }
         },
         {
@@ -7574,7 +7580,7 @@
       "slug": "tiktok_shop.product",
       "category": "shop",
       "name": "TikTok Shop Product",
-      "description": "Fetch TikTok Shop product details — title, price, sales, seller, and ratings — from a product URL.",
+      "description": "Fetch TikTok Shop product details (title, price, sales, seller, and ratings) from a product URL.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7613,7 +7619,7 @@
       "slug": "tiktok_shop.product_reviews",
       "category": "shop",
       "name": "TikTok Shop Product Reviews",
-      "description": "Fetch customer reviews for a TikTok Shop product by URL — rating, text, reviewer, country, and verified-purchase flag — normalized across providers with transparent failover.",
+      "description": "Fetch customer reviews for a TikTok Shop product by URL (rating, text, reviewer, country, and verified-purchase flag), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7684,7 +7690,7 @@
       "slug": "tiktok_shop.shop_products",
       "category": "shop",
       "name": "TikTok Shop Store Products",
-      "description": "List every product of a TikTok Shop store by URL — title, price, sales, and rating per product plus shop-level stats — with cursor pagination and transparent failover.",
+      "description": "List every product of a TikTok Shop store by URL (title, price, sales, and rating per product plus shop-level stats) with cursor pagination and transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7716,7 +7722,7 @@
       "slug": "tiktok_shop.user_showcase",
       "category": "shop",
       "name": "TikTok Shop User Showcase",
-      "description": "List the TikTok Shop products a creator showcases — title, price, rating, and sales per product — normalized across providers with transparent failover.",
+      "description": "List the TikTok Shop products a creator showcases (title, price, rating, and sales per product), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7748,7 +7754,7 @@
       "slug": "tripadvisor.reviews",
       "category": "travel",
       "name": "Tripadvisor Reviews",
-      "description": "Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL — rating, text, date, and trip details as normalized JSON.",
+      "description": "Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL: rating, text, date, and trip details as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7842,7 +7848,7 @@
       "slug": "trustpilot.reviews",
       "category": "shop",
       "name": "Trustpilot Reviews",
-      "description": "Pull Trustpilot reviews for any company by brand name — star ratings, review text, dates, and reviewer details as clean JSON.",
+      "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7989,6 +7995,12 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.00075
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 1431,
+            "requests": 4
           }
         }
       ],
@@ -8190,9 +8202,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.95918367346938,
-            "latencyP50Ms": 1449,
-            "requests": 49
+            "uptimePct": 98,
+            "latencyP50Ms": 1434,
+            "requests": 50
           }
         },
         {
@@ -8236,7 +8248,7 @@
       "slug": "twitter.replies",
       "category": "social",
       "name": "X / Twitter Post Replies",
-      "description": "Fetch the replies to any X (Twitter) post URL as structured records — author, text, and engagement.",
+      "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8260,8 +8272,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 12254,
-            "requests": 49
+            "latencyP50Ms": 12399,
+            "requests": 51
           }
         }
       ],
@@ -8292,8 +8304,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 2096,
-            "requests": 61
+            "latencyP50Ms": 2013,
+            "requests": 95
           }
         },
         {
@@ -8306,9 +8318,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.05660377358491,
-            "latencyP50Ms": 19333,
-            "requests": 850
+            "uptimePct": 99.05992949471211,
+            "latencyP50Ms": 19315,
+            "requests": 853
           }
         }
       ],
@@ -8335,6 +8347,12 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.00075
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 1648,
+            "requests": 2
           }
         }
       ],
@@ -8505,7 +8523,7 @@
       "slug": "upwork.jobs",
       "category": "data",
       "name": "Upwork Jobs",
-      "description": "Search Upwork job postings by keyword — up to 25 fresh listings per request.",
+      "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8541,7 +8559,7 @@
       "slug": "walmart.product",
       "category": "shop",
       "name": "Walmart Product",
-      "description": "Fetch a Walmart product page by URL and get full product details — title, price, availability, ratings, images, and specs — in one normalized response.",
+      "description": "Fetch a Walmart product page by URL and get full product details (title, price, availability, ratings, images, and specs) in one normalized response.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8578,7 +8596,7 @@
       "slug": "web.crawl",
       "category": "search",
       "name": "Website Crawl",
-      "description": "Crawl a website and get clean text content from up to 10 pages in one normalized response — ideal for feeding sites into LLMs and search indexes.",
+      "description": "Crawl a website and get clean text content from up to 10 pages in one normalized response, ideal for feeding sites into LLMs and search indexes.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8602,8 +8620,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 6269,
-            "requests": 22
+            "latencyP50Ms": 6327,
+            "requests": 23
           }
         }
       ],
@@ -8665,9 +8683,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 83.68852459016394,
-            "latencyP50Ms": 474,
-            "requests": 1223
+            "uptimePct": 83.6734693877551,
+            "latencyP50Ms": 478,
+            "requests": 1277
           }
         }
       ],
@@ -9037,8 +9055,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1304,
-            "requests": 310
+            "latencyP50Ms": 1303,
+            "requests": 311
           }
         },
         {
@@ -9186,8 +9204,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 13031,
-            "requests": 1
+            "latencyP50Ms": 6898,
+            "requests": 2
           }
         },
         {
@@ -9224,9 +9242,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.29729729729729,
-            "latencyP50Ms": 8286,
-            "requests": 74
+            "uptimePct": 97.33333333333333,
+            "latencyP50Ms": 8190,
+            "requests": 75
           }
         },
         {
@@ -9321,7 +9339,7 @@
       "slug": "youtube.playlist",
       "category": "video",
       "name": "YouTube Playlist",
-      "description": "List every video in a YouTube playlist — title, length, and channel per video plus playlist owner and totals — normalized across providers with transparent failover.",
+      "description": "List every video in a YouTube playlist (title, length, and channel per video plus playlist owner and totals), normalized across providers with transparent failover.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -9372,9 +9390,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 100,
-            "latencyP50Ms": 1681,
-            "requests": 755
+            "uptimePct": 99.48186528497409,
+            "latencyP50Ms": 1678,
+            "requests": 794
           }
         },
         {
@@ -9484,7 +9502,7 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 1569,
-            "requests": 89
+            "requests": 91
           }
         }
       ],
@@ -9514,9 +9532,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.80952380952381,
-            "latencyP50Ms": 2720,
-            "requests": 84
+            "uptimePct": 98.26589595375722,
+            "latencyP50Ms": 2588,
+            "requests": 173
           }
         },
         {
@@ -9528,8 +9546,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 502,
-            "requests": 1
+            "latencyP50Ms": 925,
+            "requests": 3
           }
         }
       ],
@@ -9591,9 +9609,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.80701754385964,
-            "latencyP50Ms": 2634,
-            "requests": 245
+            "uptimePct": 98.75311720698254,
+            "latencyP50Ms": 2642,
+            "requests": 418
           }
         }
       ],

@@ -387,8 +387,8 @@ class RedditNamespace:
     ) -> RunResult[RedditSubredditDetailsData]:
         """Reddit Subreddit Details
 
-        Fetch a subreddit's metadata - weekly active users, description, and
-        category - normalized across providers with transparent failover.
+        Fetch a subreddit's metadata (weekly active users, description, and
+        category), normalized across providers with transparent failover.
 
         Price: $0.001 per request.
 
@@ -566,8 +566,8 @@ class AsyncRedditNamespace:
     ) -> RunResult[RedditSubredditDetailsData]:
         """Reddit Subreddit Details
 
-        Fetch a subreddit's metadata - weekly active users, description, and
-        category - normalized across providers with transparent failover.
+        Fetch a subreddit's metadata (weekly active users, description, and
+        category), normalized across providers with transparent failover.
 
         Price: $0.001 per request.
 

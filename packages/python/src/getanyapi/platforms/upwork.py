@@ -110,7 +110,8 @@ class UpworkNamespace:
     ) -> RunResult[UpworkJobsData]:
         """Upwork Jobs
 
-        Search Upwork job postings by keyword - up to 25 fresh listings per request.
+        Search Upwork job postings by keyword, with up to 25 fresh listings per
+        request.
 
         Price: $0 per request plus $0.0033 per result (maximum $0.0825).
 
@@ -134,7 +135,8 @@ class AsyncUpworkNamespace:
     ) -> RunResult[UpworkJobsData]:
         """Upwork Jobs
 
-        Search Upwork job postings by keyword - up to 25 fresh listings per request.
+        Search Upwork job postings by keyword, with up to 25 fresh listings per
+        request.
 
         Price: $0 per request plus $0.0033 per result (maximum $0.0825).
 

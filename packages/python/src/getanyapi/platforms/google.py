@@ -395,7 +395,7 @@ class GoogleNamespace:
     ) -> RunResult[GoogleImagesData]:
         """Google Images
 
-        Run a Google Images search and get structured results - image URLs,
+        Run a Google Images search and get structured results: image URLs,
         dimensions, titles, and source pages.
 
         Price: $0.00099 per request plus $0.00009 per result (maximum $0.00198).
@@ -430,8 +430,8 @@ class GoogleNamespace:
     ) -> RunResult[GoogleNewsData]:
         """Google News
 
-        Search Google News by keyword and get fresh articles - headlines, sources,
-        links, and publish times - as clean JSON.
+        Search Google News by keyword and get fresh articles (headlines, sources,
+        links, and publish times) as clean JSON.
 
         Price: $0.00099 per request.
 
@@ -563,7 +563,7 @@ class AsyncGoogleNamespace:
     ) -> RunResult[GoogleImagesData]:
         """Google Images
 
-        Run a Google Images search and get structured results - image URLs,
+        Run a Google Images search and get structured results: image URLs,
         dimensions, titles, and source pages.
 
         Price: $0.00099 per request plus $0.00009 per result (maximum $0.00198).
@@ -598,8 +598,8 @@ class AsyncGoogleNamespace:
     ) -> RunResult[GoogleNewsData]:
         """Google News
 
-        Search Google News by keyword and get fresh articles - headlines, sources,
-        links, and publish times - as clean JSON.
+        Search Google News by keyword and get fresh articles (headlines, sources,
+        links, and publish times) as clean JSON.
 
         Price: $0.00099 per request.
 

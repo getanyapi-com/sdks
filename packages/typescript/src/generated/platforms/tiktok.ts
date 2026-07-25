@@ -1071,7 +1071,7 @@ export class TiktokNamespace {
   /**
    * TikTok Ad Library Ad
    *
-   * Fetch full details for a single TikTok ad - brand, title, spend, CTR, objectives, landing page, and video info - normalized across providers with transparent failover.
+   * Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info), normalized across providers with transparent failover.
    *
    * Price: $0.002 per request.
    *
@@ -1088,7 +1088,7 @@ export class TiktokNamespace {
   /**
    * TikTok Ad Library Search
    *
-   * Search TikTok's ad library by keyword - top ads with brand, title, spend, CTR, likes, and video info - normalized across providers with transparent failover.
+   * Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info), normalized across providers with transparent failover.
    *
    * Price: $0.002 per request.
    *
@@ -1458,7 +1458,7 @@ export class TiktokNamespace {
   /**
    * TikTok Song
    *
-   * Fetch details for a TikTok song or sound - title, author, duration, cover art, and how many videos use it - normalized across providers with transparent failover.
+   * Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it), normalized across providers with transparent failover.
    *
    * Price: $0.002 per request.
    *
@@ -1475,7 +1475,7 @@ export class TiktokNamespace {
   /**
    * TikTok Song Videos
    *
-   * List TikTok videos that use a given song or sound - with descriptions, authors, and engagement stats - normalized across providers with transparent failover.
+   * List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats), normalized across providers with transparent failover.
    *
    * Price: $0.002 per request.
    *

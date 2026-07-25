@@ -171,7 +171,7 @@ class TripadvisorNamespace:
         """Tripadvisor Reviews
 
         Fetch the latest reviews for any Tripadvisor hotel, restaurant, or
-        attraction by its page URL - rating, text, date, and trip details as
+        attraction by its page URL: rating, text, date, and trip details as
         normalized JSON.
 
         Price: $0.00325 per request.
@@ -222,7 +222,7 @@ class AsyncTripadvisorNamespace:
         """Tripadvisor Reviews
 
         Fetch the latest reviews for any Tripadvisor hotel, restaurant, or
-        attraction by its page URL - rating, text, date, and trip details as
+        attraction by its page URL: rating, text, date, and trip details as
         normalized JSON.
 
         Price: $0.00325 per request.

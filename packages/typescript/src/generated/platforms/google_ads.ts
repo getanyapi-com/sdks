@@ -331,7 +331,7 @@ export class GoogleAdsNamespace {
   /**
    * Google Ads Company Ads
    *
-   * List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID - creative ID, format, ad URL, and first/last shown dates - with cursor pagination.
+   * List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.
    *
    * Price: $0.002 per request.
    *
@@ -368,7 +368,7 @@ export class GoogleAdsNamespace {
   /**
    * Google Ads Transparency
    *
-   * Pull the ads an advertiser is currently running from the Google Ads Transparency Center - creative details, formats, and run dates - as clean JSON.
+   * Pull the ads an advertiser is currently running from the Google Ads Transparency Center (creative details, formats, and run dates) as clean JSON.
    *
    * Price: $0.00005 per request plus $0.0013 per result (maximum $0.02605).
    *

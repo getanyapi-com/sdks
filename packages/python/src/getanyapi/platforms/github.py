@@ -475,9 +475,9 @@ class GithubNamespace:
     ) -> RunResult[GithubRepositoryData]:
         """GitHub Repository
 
-        Fetch a GitHub repository's metadata by URL - stars, forks, language,
-        topics, license, and timestamps - normalized across providers with
-        transparent failover.
+        Fetch a GitHub repository's metadata by URL (stars, forks, language, topics,
+        license, and timestamps), normalized across providers with transparent
+        failover.
 
         Price: $0.002 per request.
 
@@ -497,8 +497,8 @@ class GithubNamespace:
     ) -> RunResult[GithubTrendingDevelopersData]:
         """GitHub Trending Developers
 
-        List trending GitHub developers - rank, username, name, avatar, and their
-        most popular repository - optionally filtered by programming language and
+        List trending GitHub developers (rank, username, name, avatar, and their
+        most popular repository), optionally filtered by programming language and
         time range.
 
         Price: $0.002 per request.
@@ -519,8 +519,8 @@ class GithubNamespace:
     ) -> RunResult[GithubTrendingRepositoriesData]:
         """GitHub Trending Repositories
 
-        List GitHub Trending repositories - rank, stars, stars gained today,
-        language, and description - filterable by language and time window,
+        List GitHub Trending repositories (rank, stars, stars gained today,
+        language, and description), filterable by language and time window,
         normalized across providers.
 
         Price: $0.002 per request.
@@ -538,8 +538,8 @@ class GithubNamespace:
     ) -> RunResult[GithubUserData]:
         """GitHub User
 
-        Fetch a GitHub user's public profile by handle - name, bio, company,
-        location, followers, and repo counts - normalized across providers with
+        Fetch a GitHub user's public profile by handle (name, bio, company,
+        location, followers, and repo counts), normalized across providers with
         transparent failover.
 
         Price: $0.002 per request.
@@ -560,9 +560,9 @@ class GithubNamespace:
     ) -> RunResult[GithubUserActivityData]:
         """GitHub User Activity
 
-        List a GitHub user's public contribution activity by handle - grouped
-        monthly summaries of commits, pull requests, and issues with repository
-        links - for a given year.
+        List a GitHub user's public contribution activity by handle (grouped monthly
+        summaries of commits, pull requests, and issues with repository links) for a
+        given year.
 
         Price: $0.002 per request.
 
@@ -605,8 +605,8 @@ class GithubNamespace:
     ) -> RunResult[GithubUserContributionsData]:
         """GitHub User Contributions
 
-        Fetch a GitHub user's contribution graph for a year - total contributions
-        plus per-day counts and heatmap intensity - normalized across providers with
+        Fetch a GitHub user's contribution graph for a year (total contributions
+        plus per-day counts and heatmap intensity), normalized across providers with
         transparent failover.
 
         Price: $0.002 per request.
@@ -627,8 +627,8 @@ class GithubNamespace:
     ) -> RunResult[GithubUserFollowersData]:
         """GitHub User Followers
 
-        List a GitHub user's followers by handle - each follower's login, type,
-        avatar, and profile URL - with pagination.
+        List a GitHub user's followers by handle (each follower's login, type,
+        avatar, and profile URL) with pagination.
 
         Price: $0.002 per request.
 
@@ -671,8 +671,8 @@ class GithubNamespace:
     ) -> RunResult[GithubUserFollowingData]:
         """GitHub User Following
 
-        List the GitHub users a given user follows by handle - each account's login,
-        type, avatar, and profile URL - with pagination.
+        List the GitHub users a given user follows by handle (each account's login,
+        type, avatar, and profile URL) with pagination.
 
         Price: $0.002 per request.
 
@@ -715,8 +715,8 @@ class GithubNamespace:
     ) -> RunResult[GithubUserPullRequestsData]:
         """GitHub User Pull Requests
 
-        List a GitHub user's public pull requests by handle - title, repository,
-        state, creation date, and URL - with optional date filtering and pagination.
+        List a GitHub user's public pull requests by handle (title, repository,
+        state, creation date, and URL) with optional date filtering and pagination.
 
         Price: $0.002 per request.
 
@@ -759,8 +759,8 @@ class GithubNamespace:
     ) -> RunResult[GithubUserRepositoriesData]:
         """GitHub User Repositories
 
-        List a GitHub user's public repositories - name, description, language,
-        stars, and forks - with sorting and cursor pagination, normalized across
+        List a GitHub user's public repositories (name, description, language,
+        stars, and forks) with sorting and cursor pagination, normalized across
         providers.
 
         Price: $0.002 per request.
@@ -788,9 +788,9 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubRepositoryData]:
         """GitHub Repository
 
-        Fetch a GitHub repository's metadata by URL - stars, forks, language,
-        topics, license, and timestamps - normalized across providers with
-        transparent failover.
+        Fetch a GitHub repository's metadata by URL (stars, forks, language, topics,
+        license, and timestamps), normalized across providers with transparent
+        failover.
 
         Price: $0.002 per request.
 
@@ -810,8 +810,8 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubTrendingDevelopersData]:
         """GitHub Trending Developers
 
-        List trending GitHub developers - rank, username, name, avatar, and their
-        most popular repository - optionally filtered by programming language and
+        List trending GitHub developers (rank, username, name, avatar, and their
+        most popular repository), optionally filtered by programming language and
         time range.
 
         Price: $0.002 per request.
@@ -832,8 +832,8 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubTrendingRepositoriesData]:
         """GitHub Trending Repositories
 
-        List GitHub Trending repositories - rank, stars, stars gained today,
-        language, and description - filterable by language and time window,
+        List GitHub Trending repositories (rank, stars, stars gained today,
+        language, and description), filterable by language and time window,
         normalized across providers.
 
         Price: $0.002 per request.
@@ -851,8 +851,8 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubUserData]:
         """GitHub User
 
-        Fetch a GitHub user's public profile by handle - name, bio, company,
-        location, followers, and repo counts - normalized across providers with
+        Fetch a GitHub user's public profile by handle (name, bio, company,
+        location, followers, and repo counts), normalized across providers with
         transparent failover.
 
         Price: $0.002 per request.
@@ -873,9 +873,9 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubUserActivityData]:
         """GitHub User Activity
 
-        List a GitHub user's public contribution activity by handle - grouped
-        monthly summaries of commits, pull requests, and issues with repository
-        links - for a given year.
+        List a GitHub user's public contribution activity by handle (grouped monthly
+        summaries of commits, pull requests, and issues with repository links) for a
+        given year.
 
         Price: $0.002 per request.
 
@@ -918,8 +918,8 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubUserContributionsData]:
         """GitHub User Contributions
 
-        Fetch a GitHub user's contribution graph for a year - total contributions
-        plus per-day counts and heatmap intensity - normalized across providers with
+        Fetch a GitHub user's contribution graph for a year (total contributions
+        plus per-day counts and heatmap intensity), normalized across providers with
         transparent failover.
 
         Price: $0.002 per request.
@@ -940,8 +940,8 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubUserFollowersData]:
         """GitHub User Followers
 
-        List a GitHub user's followers by handle - each follower's login, type,
-        avatar, and profile URL - with pagination.
+        List a GitHub user's followers by handle (each follower's login, type,
+        avatar, and profile URL) with pagination.
 
         Price: $0.002 per request.
 
@@ -984,8 +984,8 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubUserFollowingData]:
         """GitHub User Following
 
-        List the GitHub users a given user follows by handle - each account's login,
-        type, avatar, and profile URL - with pagination.
+        List the GitHub users a given user follows by handle (each account's login,
+        type, avatar, and profile URL) with pagination.
 
         Price: $0.002 per request.
 
@@ -1028,8 +1028,8 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubUserPullRequestsData]:
         """GitHub User Pull Requests
 
-        List a GitHub user's public pull requests by handle - title, repository,
-        state, creation date, and URL - with optional date filtering and pagination.
+        List a GitHub user's public pull requests by handle (title, repository,
+        state, creation date, and URL) with optional date filtering and pagination.
 
         Price: $0.002 per request.
 
@@ -1072,8 +1072,8 @@ class AsyncGithubNamespace:
     ) -> RunResult[GithubUserRepositoriesData]:
         """GitHub User Repositories
 
-        List a GitHub user's public repositories - name, description, language,
-        stars, and forks - with sorting and cursor pagination, normalized across
+        List a GitHub user's public repositories (name, description, language,
+        stars, and forks) with sorting and cursor pagination, normalized across
         providers.
 
         Price: $0.002 per request.

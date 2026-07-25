@@ -85,7 +85,7 @@ class IndeedNamespace:
     ) -> RunResult[IndeedJobsData]:
         """Indeed Jobs
 
-        Search Indeed job listings by keyword, location, and country - up to 20
+        Search Indeed job listings by keyword, location, and country, with up to 20
         normalized job records per request.
 
         Price: $0.0008 per request plus $0.00008 per result (maximum $0.0024).
@@ -110,7 +110,7 @@ class AsyncIndeedNamespace:
     ) -> RunResult[IndeedJobsData]:
         """Indeed Jobs
 
-        Search Indeed job listings by keyword, location, and country - up to 20
+        Search Indeed job listings by keyword, location, and country, with up to 20
         normalized job records per request.
 
         Price: $0.0008 per request plus $0.00008 per result (maximum $0.0024).

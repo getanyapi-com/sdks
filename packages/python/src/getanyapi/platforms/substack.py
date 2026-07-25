@@ -120,7 +120,7 @@ class SubstackNamespace:
     ) -> RunResult[SubstackPostsData]:
         """Substack Posts
 
-        Pull posts from any Substack publication by its URL - or pass a single post
+        Pull posts from any Substack publication by its URL, or pass a single post
         URL (…/p/slug) to fetch just that one article. Returns title, subtitle,
         publish date, paywall status, word count, engagement (reactions, comments,
         restacks), author profile, and full article HTML.
@@ -150,7 +150,7 @@ class AsyncSubstackNamespace:
     ) -> RunResult[SubstackPostsData]:
         """Substack Posts
 
-        Pull posts from any Substack publication by its URL - or pass a single post
+        Pull posts from any Substack publication by its URL, or pass a single post
         URL (…/p/slug) to fetch just that one article. Returns title, subtitle,
         publish date, paywall status, word count, engagement (reactions, comments,
         restacks), author profile, and full article HTML.

@@ -387,7 +387,7 @@ export interface YoutubeCommunityPostData {
  */
 export interface YoutubePlaylistInput {
   /**
-   * The playlist ID - the "list" parameter in a playlist URL (e.g. "PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi").
+   * The playlist ID: the "list" parameter in a playlist URL (e.g. "PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi").
    */
   playlistId: string;
 }
@@ -1036,7 +1036,7 @@ export class YoutubeNamespace {
   /**
    * YouTube Playlist
    *
-   * List every video in a YouTube playlist - title, length, and channel per video plus playlist owner and totals - normalized across providers with transparent failover.
+   * List every video in a YouTube playlist (title, length, and channel per video plus playlist owner and totals), normalized across providers with transparent failover.
    *
    * Price: $0.002 per request.
    *

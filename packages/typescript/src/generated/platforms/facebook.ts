@@ -1415,7 +1415,7 @@ export interface FacebookSearchPagesInput {
    */
   limit?: number;
   /**
-   * Optional free-text location to narrow the search - a city, province, or country (e.g. 'Berlin').
+   * Optional free-text location to narrow the search: a city, province, or country (e.g. 'Berlin').
    */
   location?: string;
   /**
@@ -1599,7 +1599,7 @@ export class FacebookNamespace {
   /**
    * Facebook Ad Search
    *
-   * Search the Meta Ad Library by keyword and get matching ads - advertiser, creative text, CTA, platforms, and run dates - with cursor pagination and transparent failover.
+   * Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination and transparent failover.
    *
    * Price: $0.002 per request.
    *
@@ -1636,7 +1636,7 @@ export class FacebookNamespace {
   /**
    * Facebook Comment Replies
    *
-   * List the replies to a Facebook post comment - text, author, reactions, and timestamps - as normalized JSON at a.
+   * List the replies to a Facebook post comment (text, author, reactions, and timestamps) as normalized JSON at a.
    *
    * Price: $0.002 per request.
    *
@@ -1679,7 +1679,7 @@ export class FacebookNamespace {
   /**
    * Facebook Company Ads
    *
-   * List the Meta Ad Library ads a company is running by page ID or company name - creative text, format, platforms, and run dates - with cursor pagination.
+   * List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.
    *
    * Price: $0.002 per request.
    *
@@ -1716,7 +1716,7 @@ export class FacebookNamespace {
   /**
    * Facebook Event Details
    *
-   * Fetch full details for a single Facebook event by ID or URL - name, schedule, venue, hosts, and attendance - as normalized JSON at a.
+   * Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON at a.
    *
    * Price: $0.002 per request.
    *
@@ -1733,7 +1733,7 @@ export class FacebookNamespace {
   /**
    * Facebook Events
    *
-   * List public Facebook events for a city or place by its events-page URL - event name, date, venue, and attendance - as normalized JSON at a.
+   * List public Facebook events for a city or place by its events-page URL (event name, date, venue, and attendance) as normalized JSON at a.
    *
    * Price: $0.002 per request.
    *
@@ -1770,7 +1770,7 @@ export class FacebookNamespace {
   /**
    * Facebook Events Search
    *
-   * Search public Facebook events by keyword and get structured event records - name, schedule, venue, pricing, and attendance - as normalized JSON at a.
+   * Search public Facebook events by keyword and get structured event records (name, schedule, venue, pricing, and attendance) as normalized JSON at a.
    *
    * Price: $0.002 per request.
    *
@@ -1810,7 +1810,7 @@ export class FacebookNamespace {
   /**
    * Facebook Followers
    *
-   * List the public followers - or accounts followed - of any Facebook page or profile URL as normalized JSON records.
+   * List the public followers (or accounts followed) of any Facebook page or profile URL as normalized JSON records.
    *
    * Price: $0 per request plus $0.006 per result (maximum $0.12).
    *
@@ -1827,7 +1827,7 @@ export class FacebookNamespace {
   /**
    * Facebook Group Posts
    *
-   * Fetch recent posts from any public Facebook group by URL - text, author, reactions, and comment counts.
+   * Fetch recent posts from any public Facebook group by URL: text, author, reactions, and comment counts.
    *
    * Price: $0.002 per request.
    *
@@ -1864,7 +1864,7 @@ export class FacebookNamespace {
   /**
    * Facebook Marketplace
    *
-   * Search Facebook Marketplace listings by keyword near a location, with price, condition, delivery, recency, and availability filters - title, price, location, and image - as normalized JSON.
+   * Search Facebook Marketplace listings by keyword near a location, with price, condition, delivery, recency, and availability filters (title, price, location, and image) as normalized JSON.
    *
    * Price: $0.002 per request.
    *
@@ -1904,7 +1904,7 @@ export class FacebookNamespace {
   /**
    * Facebook Marketplace Item
    *
-   * Fetch full details for a single Facebook Marketplace listing by ID or URL - title, price, location, photos, and attributes - as normalized JSON at a.
+   * Fetch full details for a single Facebook Marketplace listing by ID or URL (title, price, location, photos, and attributes) as normalized JSON at a.
    *
    * Price: $0.002 per request.
    *
@@ -1942,7 +1942,7 @@ export class FacebookNamespace {
   /**
    * Facebook Page Contact Info
    *
-   * Look up a Facebook Page's public contact details - email, phone, website, and address - by page URL or ID.
+   * Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.
    *
    * Price: $0.002 per request.
    *
@@ -1959,7 +1959,7 @@ export class FacebookNamespace {
   /**
    * Facebook Page Photos
    *
-   * Fetch recent photos posted by any public Facebook page or profile - image URLs, captions, and dimensions - as normalized JSON at a.
+   * Fetch recent photos posted by any public Facebook page or profile (image URLs, captions, and dimensions) as normalized JSON at a.
    *
    * Price: $0.002 per request.
    *
@@ -2090,7 +2090,7 @@ export class FacebookNamespace {
   /**
    * Facebook Page Events
    *
-   * List upcoming and past events hosted by any public Facebook page by URL - name, schedule, venue, and host - as normalized JSON at a.
+   * List upcoming and past events hosted by any public Facebook page by URL (name, schedule, venue, and host) as normalized JSON at a.
    *
    * Price: $0.002 per request.
    *
@@ -2167,7 +2167,7 @@ export class FacebookNamespace {
   /**
    * Facebook Company Search
    *
-   * Search the Meta Ad Library for advertisers by keyword and get matching pages - page ID, category, verification, follower counts, and linked Instagram.
+   * Search the Meta Ad Library for advertisers by keyword and get matching pages: page ID, category, verification, follower counts, and linked Instagram.
    *
    * Price: $0.002 per request.
    *

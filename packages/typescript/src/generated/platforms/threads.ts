@@ -282,7 +282,7 @@ export class ThreadsNamespace {
   /**
    * Threads Post
    *
-   * Fetch a single Threads post by URL - text, author, engagement counts, and timestamp.
+   * Fetch a single Threads post by URL: text, author, engagement counts, and timestamp.
    *
    * Price: $0.002 per request.
    *
@@ -316,7 +316,7 @@ export class ThreadsNamespace {
   /**
    * Threads Search
    *
-   * Search public Threads posts by keyword or hashtag and get normalized post records - text, author, and engagement.
+   * Search public Threads posts by keyword or hashtag and get normalized post records: text, author, and engagement.
    *
    * Price: $0.002 per request.
    *
@@ -333,7 +333,7 @@ export class ThreadsNamespace {
   /**
    * Threads User Search
    *
-   * Search Threads users by name or username and get normalized profile records - username, full name, verification, and picture.
+   * Search Threads users by name or username and get normalized profile records: username, full name, verification, and picture.
    *
    * Price: $0.002 per request.
    *
@@ -350,7 +350,7 @@ export class ThreadsNamespace {
   /**
    * Threads User Posts
    *
-   * List a Threads user's recent public posts by username - text, engagement counts, and post URLs.
+   * List a Threads user's recent public posts by username: text, engagement counts, and post URLs.
    *
    * Price: $0.002 per request.
    *

@@ -84,8 +84,8 @@ class CoinmarketcapNamespace:
     ) -> RunResult[CoinmarketcapListingsData]:
         """CoinMarketCap Listings
 
-        Get the current top cryptocurrencies from CoinMarketCap - rank, price,
-        market cap, volume, and 24h change - as normalized JSON.
+        Get the current top cryptocurrencies from CoinMarketCap (rank, price, market
+        cap, volume, and 24h change) as normalized JSON.
 
         Price: $0 per request plus $0.0018 per result (maximum $0.045).
 
@@ -112,8 +112,8 @@ class AsyncCoinmarketcapNamespace:
     ) -> RunResult[CoinmarketcapListingsData]:
         """CoinMarketCap Listings
 
-        Get the current top cryptocurrencies from CoinMarketCap - rank, price,
-        market cap, volume, and 24h change - as normalized JSON.
+        Get the current top cryptocurrencies from CoinMarketCap (rank, price, market
+        cap, volume, and 24h change) as normalized JSON.
 
         Price: $0 per request plus $0.0018 per result (maximum $0.045).
 

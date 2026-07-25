@@ -97,7 +97,7 @@ export class FiverrNamespace {
   /**
    * Fiverr Gig Search
    *
-   * Extract Fiverr gig listings from any search or category URL - titles, sellers, ratings, and pricing as structured JSON.
+   * Extract Fiverr gig listings from any search or category URL: titles, sellers, ratings, and pricing as structured JSON.
    *
    * Price: $0 per request plus $0.0015 per result (maximum $0.03).
    *

@@ -133,7 +133,7 @@ export class EmailNamespace {
   /**
    * Email Verifier
    *
-   * Verify any email address for deliverability - syntax, domain, and mailbox checks in one normalized response.
+   * Verify any email address for deliverability: syntax, domain, and mailbox checks in one normalized response.
    *
    * Price: $0 per request plus $0.0008 per result (maximum $0.0008).
    *

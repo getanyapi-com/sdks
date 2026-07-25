@@ -292,8 +292,8 @@ class TiktokShopNamespace:
     ) -> RunResult[TiktokShopProductData]:
         """TikTok Shop Product
 
-        Fetch TikTok Shop product details - title, price, sales, seller, and ratings
-        - from a product URL.
+        Fetch TikTok Shop product details (title, price, sales, seller, and ratings)
+        from a product URL.
 
         Price: $0.002 per request.
 
@@ -313,8 +313,8 @@ class TiktokShopNamespace:
     ) -> RunResult[TiktokShopProductReviewsData]:
         """TikTok Shop Product Reviews
 
-        Fetch customer reviews for a TikTok Shop product by URL - rating, text,
-        reviewer, country, and verified-purchase flag - normalized across providers
+        Fetch customer reviews for a TikTok Shop product by URL (rating, text,
+        reviewer, country, and verified-purchase flag), normalized across providers
         with transparent failover.
 
         Price: $0.002 per request.
@@ -356,8 +356,8 @@ class TiktokShopNamespace:
     ) -> RunResult[TiktokShopShopProductsData]:
         """TikTok Shop Store Products
 
-        List every product of a TikTok Shop store by URL - title, price, sales, and
-        rating per product plus shop-level stats - with cursor pagination and
+        List every product of a TikTok Shop store by URL (title, price, sales, and
+        rating per product plus shop-level stats) with cursor pagination and
         transparent failover.
 
         Price: $0.002 per request.
@@ -401,9 +401,8 @@ class TiktokShopNamespace:
     ) -> RunResult[TiktokShopUserShowcaseData]:
         """TikTok Shop User Showcase
 
-        List the TikTok Shop products a creator showcases - title, price, rating,
-        and sales per product - normalized across providers with transparent
-        failover.
+        List the TikTok Shop products a creator showcases (title, price, rating, and
+        sales per product), normalized across providers with transparent failover.
 
         Price: $0.002 per request.
 
@@ -453,8 +452,8 @@ class AsyncTiktokShopNamespace:
     ) -> RunResult[TiktokShopProductData]:
         """TikTok Shop Product
 
-        Fetch TikTok Shop product details - title, price, sales, seller, and ratings
-        - from a product URL.
+        Fetch TikTok Shop product details (title, price, sales, seller, and ratings)
+        from a product URL.
 
         Price: $0.002 per request.
 
@@ -474,8 +473,8 @@ class AsyncTiktokShopNamespace:
     ) -> RunResult[TiktokShopProductReviewsData]:
         """TikTok Shop Product Reviews
 
-        Fetch customer reviews for a TikTok Shop product by URL - rating, text,
-        reviewer, country, and verified-purchase flag - normalized across providers
+        Fetch customer reviews for a TikTok Shop product by URL (rating, text,
+        reviewer, country, and verified-purchase flag), normalized across providers
         with transparent failover.
 
         Price: $0.002 per request.
@@ -517,8 +516,8 @@ class AsyncTiktokShopNamespace:
     ) -> RunResult[TiktokShopShopProductsData]:
         """TikTok Shop Store Products
 
-        List every product of a TikTok Shop store by URL - title, price, sales, and
-        rating per product plus shop-level stats - with cursor pagination and
+        List every product of a TikTok Shop store by URL (title, price, sales, and
+        rating per product plus shop-level stats) with cursor pagination and
         transparent failover.
 
         Price: $0.002 per request.
@@ -562,9 +561,8 @@ class AsyncTiktokShopNamespace:
     ) -> RunResult[TiktokShopUserShowcaseData]:
         """TikTok Shop User Showcase
 
-        List the TikTok Shop products a creator showcases - title, price, rating,
-        and sales per product - normalized across providers with transparent
-        failover.
+        List the TikTok Shop products a creator showcases (title, price, rating, and
+        sales per product), normalized across providers with transparent failover.
 
         Price: $0.002 per request.
 

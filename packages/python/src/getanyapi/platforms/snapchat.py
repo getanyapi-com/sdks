@@ -95,7 +95,7 @@ class SnapchatNamespace:
     ) -> RunResult[SnapchatProfileData]:
         """Snapchat Profile
 
-        Fetch a Snapchat user's public profile by username - display name, bio,
+        Fetch a Snapchat user's public profile by username: display name, bio,
         subscriber count, and recent public content.
 
         Price: $0.001 per request plus $0.002 per result (maximum $0.003).
@@ -123,7 +123,7 @@ class AsyncSnapchatNamespace:
     ) -> RunResult[SnapchatProfileData]:
         """Snapchat Profile
 
-        Fetch a Snapchat user's public profile by username - display name, bio,
+        Fetch a Snapchat user's public profile by username: display name, bio,
         subscriber count, and recent public content.
 
         Price: $0.001 per request plus $0.002 per result (maximum $0.003).

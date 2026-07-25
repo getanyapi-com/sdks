@@ -1892,8 +1892,8 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinAdsSearchData]:
         """LinkedIn Ad Search
 
-        Search the LinkedIn Ad Library by company or keyword and list matching ads -
-        advertiser, headline, creative text, format, CTA, and run dates - with
+        Search the LinkedIn Ad Library by company or keyword and list matching ads
+        (advertiser, headline, creative text, format, CTA, and run dates) with
         pagination.
 
         Price: $0.002 per request.
@@ -2382,8 +2382,8 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinAdsSearchData]:
         """LinkedIn Ad Search
 
-        Search the LinkedIn Ad Library by company or keyword and list matching ads -
-        advertiser, headline, creative text, format, CTA, and run dates - with
+        Search the LinkedIn Ad Library by company or keyword and list matching ads
+        (advertiser, headline, creative text, format, CTA, and run dates) with
         pagination.
 
         Price: $0.002 per request.

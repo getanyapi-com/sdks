@@ -95,7 +95,7 @@ class PlaystoreNamespace:
     ) -> RunResult[PlaystoreReviewsData]:
         """Google Play Reviews
 
-        Fetch Google Play reviews for any Android app by package name or store URL -
+        Fetch Google Play reviews for any Android app by package name or store URL:
         ratings, review text, dates, and helpfulness votes.
 
         Price: $0 per request plus $0.00011 per result (maximum $0.011).
@@ -123,7 +123,7 @@ class AsyncPlaystoreNamespace:
     ) -> RunResult[PlaystoreReviewsData]:
         """Google Play Reviews
 
-        Fetch Google Play reviews for any Android app by package name or store URL -
+        Fetch Google Play reviews for any Android app by package name or store URL:
         ratings, review text, dates, and helpfulness votes.
 
         Price: $0 per request plus $0.00011 per result (maximum $0.011).

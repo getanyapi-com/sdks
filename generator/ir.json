@@ -966,7 +966,7 @@
       "operationId": "alibaba_search",
       "name": "Alibaba Search",
       "category": "shop",
-      "description": "Search Alibaba by keyword and get up to 25 wholesale listings - title, price range, minimum order, and supplier - in one normalized response.",
+      "description": "Search Alibaba by keyword and get up to 25 wholesale listings (title, price range, minimum order, and supplier) in one normalized response.",
       "pricing": {
         "priceUsd": 0.03,
         "baseUsd": 0,
@@ -1133,7 +1133,7 @@
       "operationId": "amazon_asins",
       "name": "Amazon Products by ASIN",
       "category": "shop",
-      "description": "Look up to 10 Amazon products in one call by ASIN - title, brand, price, ratings, images, and attributes - as normalized JSON.",
+      "description": "Look up to 10 Amazon products in one call by ASIN (title, brand, price, ratings, images, and attributes) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.035,
         "baseUsd": 0,
@@ -1317,7 +1317,7 @@
       "operationId": "amazon_bestsellers",
       "name": "Amazon Bestsellers",
       "category": "shop",
-      "description": "List the top-ranked products of any Amazon Best Sellers category - rank, title, price, and rating - in one normalized request.",
+      "description": "List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.",
       "pricing": {
         "priceUsd": 0.082,
         "baseUsd": 0,
@@ -1690,7 +1690,7 @@
       "operationId": "amazon_reviews",
       "name": "Amazon Reviews",
       "category": "shop",
-      "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL - rating, title, text, date, and verified-purchase badge.",
+      "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "pricing": {
         "priceUsd": 0.01625,
         "baseUsd": null,
@@ -1913,7 +1913,7 @@
       "operationId": "amazon_search",
       "name": "Amazon Search",
       "category": "shop",
-      "description": "Search Amazon from any search or category URL and get up to 20 matching products - title, price, rating, and thumbnail - in one normalized response.",
+      "description": "Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.",
       "pricing": {
         "priceUsd": 0.07,
         "baseUsd": 0,
@@ -4244,7 +4244,7 @@
       "operationId": "appstore_reviews",
       "name": "App Store Reviews",
       "category": "shop",
-      "description": "Get App Store reviews for any iOS app by app ID, in any storefront country - ratings, titles, and review text.",
+      "description": "Get App Store reviews for any iOS app by app ID, in any storefront country: ratings, titles, and review text.",
       "pricing": {
         "priceUsd": 0.01,
         "baseUsd": 0,
@@ -5000,7 +5000,7 @@
       "operationId": "coinmarketcap_listings",
       "name": "CoinMarketCap Listings",
       "category": "fin",
-      "description": "Get the current top cryptocurrencies from CoinMarketCap - rank, price, market cap, volume, and 24h change - as normalized JSON.",
+      "description": "Get the current top cryptocurrencies from CoinMarketCap (rank, price, market cap, volume, and 24h change) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.045,
         "baseUsd": 0,
@@ -5182,7 +5182,7 @@
       "operationId": "congress_trades",
       "name": "Congress Stock Trades",
       "category": "fin",
-      "description": "Get US Congress members' financial disclosures and stock trades - member, ticker, transaction type, amount range, and dates - filterable by member, ticker, or date range.",
+      "description": "Get US Congress members' financial disclosures and stock trades (member, ticker, transaction type, amount range, and dates), filterable by member, ticker, or date range.",
       "pricing": {
         "priceUsd": 0.0485,
         "baseUsd": 0.001,
@@ -5384,7 +5384,7 @@
       "operationId": "dexscreener_tokens",
       "name": "DEX Screener Tokens",
       "category": "fin",
-      "description": "List trending tokens on any blockchain from DEX Screener - price, liquidity, volume, transactions, and market cap - sorted how you want, as normalized JSON.",
+      "description": "List trending tokens on any blockchain from DEX Screener (price, liquidity, volume, transactions, and market cap), sorted how you want, as normalized JSON.",
       "pricing": {
         "priceUsd": 0.0575,
         "baseUsd": 0.02,
@@ -7283,7 +7283,7 @@
       "operationId": "email_verify",
       "name": "Email Verifier",
       "category": "data",
-      "description": "Verify any email address for deliverability - syntax, domain, and mailbox checks in one normalized response.",
+      "description": "Verify any email address for deliverability: syntax, domain, and mailbox checks in one normalized response.",
       "pricing": {
         "priceUsd": 0.0008,
         "baseUsd": 0,
@@ -7685,7 +7685,7 @@
       "operationId": "facebook_ads_search",
       "name": "Facebook Ad Search",
       "category": "social",
-      "description": "Search the Meta Ad Library by keyword and get matching ads - advertiser, creative text, CTA, platforms, and run dates - with cursor pagination and transparent failover.",
+      "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination and transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -7982,7 +7982,7 @@
       "operationId": "facebook_comment_replies",
       "name": "Facebook Comment Replies",
       "category": "social",
-      "description": "List the replies to a Facebook post comment - text, author, reactions, and timestamps - as normalized JSON at a.",
+      "description": "List the replies to a Facebook post comment (text, author, reactions, and timestamps) as normalized JSON at a.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -8175,7 +8175,7 @@
       "operationId": "facebook_company_ads",
       "name": "Facebook Company Ads",
       "category": "social",
-      "description": "List the Meta Ad Library ads a company is running by page ID or company name - creative text, format, platforms, and run dates - with cursor pagination.",
+      "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -8427,7 +8427,7 @@
       "operationId": "facebook_event_details",
       "name": "Facebook Event Details",
       "category": "social",
-      "description": "Fetch full details for a single Facebook event by ID or URL - name, schedule, venue, hosts, and attendance - as normalized JSON at a.",
+      "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON at a.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -8603,7 +8603,7 @@
       "operationId": "facebook_events",
       "name": "Facebook Events",
       "category": "social",
-      "description": "List public Facebook events for a city or place by its events-page URL - event name, date, venue, and attendance - as normalized JSON at a.",
+      "description": "List public Facebook events for a city or place by its events-page URL (event name, date, venue, and attendance) as normalized JSON at a.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -8775,7 +8775,7 @@
       "operationId": "facebook_events_search",
       "name": "Facebook Events Search",
       "category": "social",
-      "description": "Search public Facebook events by keyword and get structured event records - name, schedule, venue, pricing, and attendance - as normalized JSON at a.",
+      "description": "Search public Facebook events by keyword and get structured event records (name, schedule, venue, pricing, and attendance) as normalized JSON at a.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -8957,7 +8957,7 @@
       "operationId": "facebook_followers",
       "name": "Facebook Followers",
       "category": "social",
-      "description": "List the public followers - or accounts followed - of any Facebook page or profile URL as normalized JSON records.",
+      "description": "List the public followers (or accounts followed) of any Facebook page or profile URL as normalized JSON records.",
       "pricing": {
         "priceUsd": 0.12,
         "baseUsd": 0,
@@ -9084,7 +9084,7 @@
       "operationId": "facebook_group_posts",
       "name": "Facebook Group Posts",
       "category": "social",
-      "description": "Fetch recent posts from any public Facebook group by URL - text, author, reactions, and comment counts.",
+      "description": "Fetch recent posts from any public Facebook group by URL: text, author, reactions, and comment counts.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -9263,7 +9263,7 @@
       "operationId": "facebook_marketplace",
       "name": "Facebook Marketplace",
       "category": "social",
-      "description": "Search Facebook Marketplace listings by keyword near a location, with price, condition, delivery, recency, and availability filters - title, price, location, and image - as normalized JSON.",
+      "description": "Search Facebook Marketplace listings by keyword near a location, with price, condition, delivery, recency, and availability filters (title, price, location, and image) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -9517,7 +9517,7 @@
       "operationId": "facebook_marketplace_item",
       "name": "Facebook Marketplace Item",
       "category": "social",
-      "description": "Fetch full details for a single Facebook Marketplace listing by ID or URL - title, price, location, photos, and attributes - as normalized JSON at a.",
+      "description": "Fetch full details for a single Facebook Marketplace listing by ID or URL (title, price, location, photos, and attributes) as normalized JSON at a.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -9820,7 +9820,7 @@
       "operationId": "facebook_page_contact",
       "name": "Facebook Page Contact Info",
       "category": "social",
-      "description": "Look up a Facebook Page's public contact details - email, phone, website, and address - by page URL or ID.",
+      "description": "Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -9973,7 +9973,7 @@
       "operationId": "facebook_photos",
       "name": "Facebook Page Photos",
       "category": "social",
-      "description": "Fetch recent photos posted by any public Facebook page or profile - image URLs, captions, and dimensions - as normalized JSON at a.",
+      "description": "Fetch recent photos posted by any public Facebook page or profile (image URLs, captions, and dimensions) as normalized JSON at a.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -10577,7 +10577,7 @@
       "operationId": "facebook_profile_events",
       "name": "Facebook Page Events",
       "category": "social",
-      "description": "List upcoming and past events hosted by any public Facebook page by URL - name, schedule, venue, and host - as normalized JSON at a.",
+      "description": "List upcoming and past events hosted by any public Facebook page by URL (name, schedule, venue, and host) as normalized JSON at a.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -11024,7 +11024,7 @@
       "operationId": "facebook_search_companies",
       "name": "Facebook Company Search",
       "category": "social",
-      "description": "Search the Meta Ad Library for advertisers by keyword and get matching pages - page ID, category, verification, follower counts, and linked Instagram.",
+      "description": "Search the Meta Ad Library for advertisers by keyword and get matching pages: page ID, category, verification, follower counts, and linked Instagram.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -11224,7 +11224,7 @@
           },
           "location": {
             "kind": "string",
-            "description": "Optional free-text location to narrow the search - a city, province, or country (e.g. 'Berlin').",
+            "description": "Optional free-text location to narrow the search: a city, province, or country (e.g. 'Berlin').",
             "enum": null,
             "default": null,
             "format": null
@@ -11538,7 +11538,7 @@
       "operationId": "fiverr_search",
       "name": "Fiverr Gig Search",
       "category": "shop",
-      "description": "Extract Fiverr gig listings from any search or category URL - titles, sellers, ratings, and pricing as structured JSON.",
+      "description": "Extract Fiverr gig listings from any search or category URL: titles, sellers, ratings, and pricing as structured JSON.",
       "pricing": {
         "priceUsd": 0.03,
         "baseUsd": 0,
@@ -11721,7 +11721,7 @@
       "operationId": "github_repository",
       "name": "GitHub Repository",
       "category": "data",
-      "description": "Fetch a GitHub repository's metadata by URL - stars, forks, language, topics, license, and timestamps - normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -11926,7 +11926,7 @@
       "operationId": "github_trending_developers",
       "name": "GitHub Trending Developers",
       "category": "data",
-      "description": "List trending GitHub developers - rank, username, name, avatar, and their most popular repository - optionally filtered by programming language and time range.",
+      "description": "List trending GitHub developers (rank, username, name, avatar, and their most popular repository), optionally filtered by programming language and time range.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12088,7 +12088,7 @@
       "operationId": "github_trending_repositories",
       "name": "GitHub Trending Repositories",
       "category": "data",
-      "description": "List GitHub Trending repositories - rank, stars, stars gained today, language, and description - filterable by language and time window, normalized across providers.",
+      "description": "List GitHub Trending repositories (rank, stars, stars gained today, language, and description), filterable by language and time window, normalized across providers.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12236,7 +12236,7 @@
       "operationId": "github_user",
       "name": "GitHub User",
       "category": "data",
-      "description": "Fetch a GitHub user's public profile by handle - name, bio, company, location, followers, and repo counts - normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub user's public profile by handle (name, bio, company, location, followers, and repo counts), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12407,7 +12407,7 @@
       "operationId": "github_user_activity",
       "name": "GitHub User Activity",
       "category": "data",
-      "description": "List a GitHub user's public contribution activity by handle - grouped monthly summaries of commits, pull requests, and issues with repository links - for a given year.",
+      "description": "List a GitHub user's public contribution activity by handle (grouped monthly summaries of commits, pull requests, and issues with repository links) for a given year.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12545,7 +12545,7 @@
       "operationId": "github_user_contributions",
       "name": "GitHub User Contributions",
       "category": "data",
-      "description": "Fetch a GitHub user's contribution graph for a year - total contributions plus per-day counts and heatmap intensity - normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub user's contribution graph for a year (total contributions plus per-day counts and heatmap intensity), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12681,7 +12681,7 @@
       "operationId": "github_user_followers",
       "name": "GitHub User Followers",
       "category": "data",
-      "description": "List a GitHub user's followers by handle - each follower's login, type, avatar, and profile URL - with pagination.",
+      "description": "List a GitHub user's followers by handle (each follower's login, type, avatar, and profile URL) with pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12821,7 +12821,7 @@
       "operationId": "github_user_following",
       "name": "GitHub User Following",
       "category": "data",
-      "description": "List the GitHub users a given user follows by handle - each account's login, type, avatar, and profile URL - with pagination.",
+      "description": "List the GitHub users a given user follows by handle (each account's login, type, avatar, and profile URL) with pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12961,7 +12961,7 @@
       "operationId": "github_user_pull_requests",
       "name": "GitHub User Pull Requests",
       "category": "data",
-      "description": "List a GitHub user's public pull requests by handle - title, repository, state, creation date, and URL - with optional date filtering and pagination.",
+      "description": "List a GitHub user's public pull requests by handle (title, repository, state, creation date, and URL) with optional date filtering and pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -13119,7 +13119,7 @@
       "operationId": "github_user_repositories",
       "name": "GitHub User Repositories",
       "category": "data",
-      "description": "List a GitHub user's public repositories - name, description, language, stars, and forks - with sorting and cursor pagination, normalized across providers.",
+      "description": "List a GitHub user's public repositories (name, description, language, stars, and forks) with sorting and cursor pagination, normalized across providers.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -13681,7 +13681,7 @@
       "operationId": "google_images",
       "name": "Google Images",
       "category": "search",
-      "description": "Run a Google Images search and get structured results - image URLs, dimensions, titles, and source pages.",
+      "description": "Run a Google Images search and get structured results: image URLs, dimensions, titles, and source pages.",
       "pricing": {
         "priceUsd": 0.00198,
         "baseUsd": 0.00099,
@@ -13982,7 +13982,7 @@
       "operationId": "google_news",
       "name": "Google News",
       "category": "search",
-      "description": "Search Google News by keyword and get fresh articles - headlines, sources, links, and publish times - as clean JSON.",
+      "description": "Search Google News by keyword and get fresh articles (headlines, sources, links, and publish times) as clean JSON.",
       "pricing": {
         "priceUsd": 0.00099,
         "baseUsd": null,
@@ -15071,7 +15071,7 @@
       "operationId": "google_ads_company_ads",
       "name": "Google Ads Company Ads",
       "category": "search",
-      "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID - creative ID, format, ad URL, and first/last shown dates - with cursor pagination.",
+      "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -15299,7 +15299,7 @@
       "operationId": "google_ads_search",
       "name": "Google Ads Transparency",
       "category": "search",
-      "description": "Pull the ads an advertiser is currently running from the Google Ads Transparency Center - creative details, formats, and run dates - as clean JSON.",
+      "description": "Pull the ads an advertiser is currently running from the Google Ads Transparency Center (creative details, formats, and run dates) as clean JSON.",
       "pricing": {
         "priceUsd": 0.02605,
         "baseUsd": 0.00005,
@@ -15717,7 +15717,7 @@
       "operationId": "google_shopping_search",
       "name": "Google Shopping Search",
       "category": "shop",
-      "description": "Search Google Shopping by keyword and get up to 10 product offers - title, price, store, rating, and link - localized by country and language.",
+      "description": "Search Google Shopping by keyword and get up to 10 product offers (title, price, store, rating, and link), localized by country and language.",
       "pricing": {
         "priceUsd": 0.01625,
         "baseUsd": null,
@@ -16406,7 +16406,7 @@
       "operationId": "indeed_jobs",
       "name": "Indeed Jobs",
       "category": "data",
-      "description": "Search Indeed job listings by keyword, location, and country - up to 20 normalized job records per request.",
+      "description": "Search Indeed job listings by keyword, location, and country, with up to 20 normalized job records per request.",
       "pricing": {
         "priceUsd": 0.0024,
         "baseUsd": 0.0008,
@@ -16967,7 +16967,7 @@
       "operationId": "instagram_followers",
       "name": "Instagram Followers",
       "category": "social",
-      "description": "List the followers of any public Instagram account by username - follower usernames, names, and profile details.",
+      "description": "List the followers of any public Instagram account by username: follower usernames, names, and profile details.",
       "pricing": {
         "priceUsd": 0.01625,
         "baseUsd": null,
@@ -17121,7 +17121,7 @@
       "operationId": "instagram_following",
       "name": "Instagram Following",
       "category": "social",
-      "description": "List the accounts a public Instagram user follows - usernames, names, and profile details.",
+      "description": "List the accounts a public Instagram user follows: usernames, names, and profile details.",
       "pricing": {
         "priceUsd": 0.01625,
         "baseUsd": null,
@@ -17275,7 +17275,7 @@
       "operationId": "instagram_hashtag_analytics",
       "name": "Instagram Hashtag Analytics",
       "category": "social",
-      "description": "Get analytics for any Instagram hashtag - total post count, related hashtags, and usage signals - normalized.",
+      "description": "Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals), normalized.",
       "pricing": {
         "priceUsd": 0.035,
         "baseUsd": 0.001,
@@ -18198,7 +18198,7 @@
       "operationId": "instagram_reels_search",
       "name": "Instagram Reels Search",
       "category": "social",
-      "description": "Search Instagram Reels by keyword and get matching reels - caption, views, likes, creator, and duration - normalized across providers with transparent failover.",
+      "description": "Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -20028,7 +20028,7 @@
       "operationId": "linkedin_ads_search",
       "name": "LinkedIn Ad Search",
       "category": "social",
-      "description": "Search the LinkedIn Ad Library by company or keyword and list matching ads - advertiser, headline, creative text, format, CTA, and run dates - with pagination.",
+      "description": "Search the LinkedIn Ad Library by company or keyword and list matching ads (advertiser, headline, creative text, format, CTA, and run dates) with pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -26984,7 +26984,7 @@
       "operationId": "playstore_reviews",
       "name": "Google Play Reviews",
       "category": "shop",
-      "description": "Fetch Google Play reviews for any Android app by package name or store URL - ratings, review text, dates, and helpfulness votes.",
+      "description": "Fetch Google Play reviews for any Android app by package name or store URL: ratings, review text, dates, and helpfulness votes.",
       "pricing": {
         "priceUsd": 0.011,
         "baseUsd": 0,
@@ -27205,7 +27205,7 @@
       "operationId": "polymarket_markets",
       "name": "Polymarket Markets",
       "category": "fin",
-      "description": "Discover Polymarket prediction markets - question, outcome prices, volume, liquidity, and end dates - by keyword or sorted by activity, as normalized JSON.",
+      "description": "Discover Polymarket prediction markets (question, outcome prices, volume, liquidity, and end dates) by keyword or sorted by activity, as normalized JSON.",
       "pricing": {
         "priceUsd": 0.12,
         "baseUsd": 0.105,
@@ -28185,7 +28185,7 @@
       "operationId": "reddit_subreddit_details",
       "name": "Reddit Subreddit Details",
       "category": "social",
-      "description": "Fetch a subreddit's metadata - weekly active users, description, and category - normalized across providers with transparent failover.",
+      "description": "Fetch a subreddit's metadata (weekly active users, description, and category), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.001,
         "baseUsd": null,
@@ -32885,7 +32885,7 @@
       "operationId": "snapchat_profile",
       "name": "Snapchat Profile",
       "category": "social",
-      "description": "Fetch a Snapchat user's public profile by username - display name, bio, subscriber count, and recent public content.",
+      "description": "Fetch a Snapchat user's public profile by username: display name, bio, subscriber count, and recent public content.",
       "pricing": {
         "priceUsd": 0.003,
         "baseUsd": 0.001,
@@ -34306,7 +34306,7 @@
       "operationId": "substack_posts",
       "name": "Substack Posts",
       "category": "social",
-      "description": "Pull posts from any Substack publication by its URL - or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.",
+      "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.",
       "pricing": {
         "priceUsd": 0.161,
         "baseUsd": 0.005,
@@ -34536,7 +34536,7 @@
       "operationId": "threads_post",
       "name": "Threads Post",
       "category": "social",
-      "description": "Fetch a single Threads post by URL - text, author, engagement counts, and timestamp.",
+      "description": "Fetch a single Threads post by URL: text, author, engagement counts, and timestamp.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -34804,7 +34804,7 @@
       "operationId": "threads_search",
       "name": "Threads Search",
       "category": "social",
-      "description": "Search public Threads posts by keyword or hashtag and get normalized post records - text, author, and engagement.",
+      "description": "Search public Threads posts by keyword or hashtag and get normalized post records: text, author, and engagement.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -34967,7 +34967,7 @@
       "operationId": "threads_search_users",
       "name": "Threads User Search",
       "category": "social",
-      "description": "Search Threads users by name or username and get normalized profile records - username, full name, verification, and picture.",
+      "description": "Search Threads users by name or username and get normalized profile records: username, full name, verification, and picture.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -35086,7 +35086,7 @@
       "operationId": "threads_user_posts",
       "name": "Threads User Posts",
       "category": "social",
-      "description": "List a Threads user's recent public posts by username - text, engagement counts, and post URLs.",
+      "description": "List a Threads user's recent public posts by username: text, engagement counts, and post URLs.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -35248,7 +35248,7 @@
       "operationId": "tiktok_ad_library_ad",
       "name": "TikTok Ad Library Ad",
       "category": "social",
-      "description": "Fetch full details for a single TikTok ad - brand, title, spend, CTR, objectives, landing page, and video info - normalized across providers with transparent failover.",
+      "description": "Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -35414,7 +35414,7 @@
       "operationId": "tiktok_ad_library_search",
       "name": "TikTok Ad Library Search",
       "category": "social",
-      "description": "Search TikTok's ad library by keyword - top ads with brand, title, spend, CTR, likes, and video info - normalized across providers with transparent failover.",
+      "description": "Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -37560,7 +37560,7 @@
       "operationId": "tiktok_song",
       "name": "TikTok Song",
       "category": "social",
-      "description": "Fetch details for a TikTok song or sound - title, author, duration, cover art, and how many videos use it - normalized across providers with transparent failover.",
+      "description": "Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -37696,7 +37696,7 @@
       "operationId": "tiktok_song_videos",
       "name": "TikTok Song Videos",
       "category": "social",
-      "description": "List TikTok videos that use a given song or sound - with descriptions, authors, and engagement stats - normalized across providers with transparent failover.",
+      "description": "List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -38371,7 +38371,7 @@
       "operationId": "tiktok_shop_product",
       "name": "TikTok Shop Product",
       "category": "shop",
-      "description": "Fetch TikTok Shop product details - title, price, sales, seller, and ratings - from a product URL.",
+      "description": "Fetch TikTok Shop product details (title, price, sales, seller, and ratings) from a product URL.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -38521,7 +38521,7 @@
       "operationId": "tiktok_shop_product_reviews",
       "name": "TikTok Shop Product Reviews",
       "category": "shop",
-      "description": "Fetch customer reviews for a TikTok Shop product by URL - rating, text, reviewer, country, and verified-purchase flag - normalized across providers with transparent failover.",
+      "description": "Fetch customer reviews for a TikTok Shop product by URL (rating, text, reviewer, country, and verified-purchase flag), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -38879,7 +38879,7 @@
       "operationId": "tiktok_shop_shop_products",
       "name": "TikTok Shop Store Products",
       "category": "shop",
-      "description": "List every product of a TikTok Shop store by URL - title, price, sales, and rating per product plus shop-level stats - with cursor pagination and transparent failover.",
+      "description": "List every product of a TikTok Shop store by URL (title, price, sales, and rating per product plus shop-level stats) with cursor pagination and transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -39092,7 +39092,7 @@
       "operationId": "tiktok_shop_user_showcase",
       "name": "TikTok Shop User Showcase",
       "category": "shop",
-      "description": "List the TikTok Shop products a creator showcases - title, price, rating, and sales per product - normalized across providers with transparent failover.",
+      "description": "List the TikTok Shop products a creator showcases (title, price, rating, and sales per product), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -39269,7 +39269,7 @@
       "operationId": "tripadvisor_reviews",
       "name": "Tripadvisor Reviews",
       "category": "travel",
-      "description": "Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL - rating, text, date, and trip details as normalized JSON.",
+      "description": "Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL: rating, text, date, and trip details as normalized JSON.",
       "pricing": {
         "priceUsd": 0.00325,
         "baseUsd": null,
@@ -39692,7 +39692,7 @@
       "operationId": "trustpilot_reviews",
       "name": "Trustpilot Reviews",
       "category": "shop",
-      "description": "Pull Trustpilot reviews for any company by brand name - star ratings, review text, dates, and reviewer details as clean JSON.",
+      "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.",
       "pricing": {
         "priceUsd": 0.01625,
         "baseUsd": null,
@@ -41386,7 +41386,7 @@
       "operationId": "twitter_replies",
       "name": "X / Twitter Post Replies",
       "category": "social",
-      "description": "Fetch the replies to any X (Twitter) post URL as structured records - author, text, and engagement.",
+      "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement.",
       "pricing": {
         "priceUsd": 0.0125,
         "baseUsd": 0.0025,
@@ -42524,7 +42524,7 @@
       "operationId": "upwork_jobs",
       "name": "Upwork Jobs",
       "category": "data",
-      "description": "Search Upwork job postings by keyword - up to 25 fresh listings per request.",
+      "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.",
       "pricing": {
         "priceUsd": 0.0825,
         "baseUsd": 0,
@@ -42783,7 +42783,7 @@
       "operationId": "walmart_product",
       "name": "Walmart Product",
       "category": "shop",
-      "description": "Fetch a Walmart product page by URL and get full product details - title, price, availability, ratings, images, and specs - in one normalized response.",
+      "description": "Fetch a Walmart product page by URL and get full product details (title, price, availability, ratings, images, and specs) in one normalized response.",
       "pricing": {
         "priceUsd": 0.00368,
         "baseUsd": 0,
@@ -42976,7 +42976,7 @@
       "operationId": "web_crawl",
       "name": "Website Crawl",
       "category": "search",
-      "description": "Crawl a website and get clean text content from up to 10 pages in one normalized response - ideal for feeding sites into LLMs and search indexes.",
+      "description": "Crawl a website and get clean text content from up to 10 pages in one normalized response, ideal for feeding sites into LLMs and search indexes.",
       "pricing": {
         "priceUsd": 0.0315,
         "baseUsd": 0.0015,
@@ -46134,7 +46134,7 @@
       "operationId": "youtube_playlist",
       "name": "YouTube Playlist",
       "category": "video",
-      "description": "List every video in a YouTube playlist - title, length, and channel per video plus playlist owner and totals - normalized across providers with transparent failover.",
+      "description": "List every video in a YouTube playlist (title, length, and channel per video plus playlist owner and totals), normalized across providers with transparent failover.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -46157,7 +46157,7 @@
         "properties": {
           "playlistId": {
             "kind": "string",
-            "description": "The playlist ID - the \"list\" parameter in a playlist URL (e.g. \"PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi\").",
+            "description": "The playlist ID: the \"list\" parameter in a playlist URL (e.g. \"PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi\").",
             "enum": null,
             "default": null,
             "format": null
