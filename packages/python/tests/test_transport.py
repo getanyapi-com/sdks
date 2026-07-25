@@ -163,19 +163,62 @@ def test_timeout_not_retried() -> None:
     assert len(rec.requests) == 1  # timeouts never retried
 
 
-def test_connection_error_retried(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_pre_send_connect_error_retried(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     import getanyapi._transport as transport
 
     monkeypatch.setattr(transport, "sleep", lambda _s: None)
 
-    def respond(_req: httpx.Request) -> httpx.Response:
-        raise httpx.ConnectError("refused")
+    calls = {"n": 0}
+
+    def respond(req: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise httpx.ConnectError("refused", request=req)
+        return json_response(200, run_envelope({"ok": True}))
+
+    client, rec = make_sync_client(respond, max_retries=2)
+    result = client.run("x.y", {})
+    assert result.output.found is True
+    assert len(rec.requests) == 2
+
+
+def test_idempotent_get_retries_post_send_read_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+
+    monkeypatch.setattr(transport, "sleep", lambda _s: None)
+    calls = {"n": 0}
+
+    def respond(req: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise httpx.ReadError("response reset", request=req)
+        return json_response(200, {"usd": 1.25})
+
+    client, rec = make_sync_client(respond, max_retries=1)
+    result = client.balance()
+    assert result.usd == 1.25
+    assert len(rec.requests) == 2
+
+
+def test_billed_post_does_not_retry_post_send_read_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+
+    monkeypatch.setattr(transport, "sleep", lambda _s: None)
+
+    def respond(req: httpx.Request) -> httpx.Response:
+        raise httpx.ReadError("response reset", request=req)
 
     client, rec = make_sync_client(respond, max_retries=2)
     with pytest.raises(ConnectionError) as exc:
-        client.run("x.y", {})
+        client.run("x.y", {"query": "sent"})
     assert exc.value.status == 0
-    assert len(rec.requests) == 3  # retried to exhaustion
+    assert len(rec.requests) == 1
 
 
 def test_per_request_max_retries_override(
@@ -227,5 +270,40 @@ async def test_async_timeout_not_retried() -> None:
     client, rec = make_async_client(respond, max_retries=2)
     with pytest.raises(TimeoutError):
         await client.run("x.y", {})
+    assert len(rec.requests) == 1
+    await client.aclose()
+
+
+async def test_async_idempotent_get_retries_post_send_read_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import asyncio
+
+    async def fake_sleep(_s: float) -> None:
+        return None
+
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
+    calls = {"n": 0}
+
+    def respond(req: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise httpx.ReadError("response reset", request=req)
+        return json_response(200, {"usd": 1.25})
+
+    client, rec = make_async_client(respond, max_retries=1)
+    result = await client.balance()
+    assert result.usd == 1.25
+    assert len(rec.requests) == 2
+    await client.aclose()
+
+
+async def test_async_billed_post_does_not_retry_post_send_read_error() -> None:
+    def respond(req: httpx.Request) -> httpx.Response:
+        raise httpx.ReadError("response reset", request=req)
+
+    client, rec = make_async_client(respond, max_retries=2)
+    with pytest.raises(ConnectionError):
+        await client.run("x.y", {"query": "sent"})
     assert len(rec.requests) == 1
     await client.aclose()

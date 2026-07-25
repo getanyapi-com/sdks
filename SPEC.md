@@ -293,7 +293,7 @@ export interface ClientOptions {
   baseUrl?: string;
   /** Custom fetch implementation. Defaults to globalThis.fetch. */
   fetch?: typeof fetch;
-  /** Max retry attempts for retryable failures (429 + network). Default 2. */
+  /** Max retry attempts for retryable failures (429 + retry-safe network). Default 2. */
   maxRetries?: number;
   /** Per-request timeout in milliseconds. Default 60000. */
   timeoutMs?: number;
@@ -613,9 +613,15 @@ export interface AgentSignupResult {
 
 ### 2.8 Retry policy (FROZEN, both languages)
 
-- Retry ONLY on: HTTP 429 (`RateLimitedError`) and transport failures (`ConnectionError`).
+- Retry ONLY on: HTTP 429 (`RateLimitedError`) and transport failures (`ConnectionError`)
+  when the request is not a billed POST with a body, or the transport can prove that the
+  request body was not sent.
 - Do NOT retry: 400, 401, 402, 404, 502, or any parsed non-2xx that is not 429; do NOT
   retry `TimeoutError` (a timed-out request already consumed its budget).
+- For the non-idempotent `POST /v1/run/{slug}`, do NOT retry a `ConnectionError` once the
+  request body may have been sent. If the transport cannot determine the send phase, do
+  not retry. Billing settlement survives caller disconnection, so an automatic retry
+  could charge the customer twice for one logical call.
 - Default `maxRetries = 2` (so up to 3 total attempts). Configurable on the client and
   per request.
 - Backoff: jittered exponential. `delay(attempt) = min(baseDelay * 2**attempt, maxDelay)`

@@ -60,9 +60,14 @@ describe("retry policy", () => {
     await expect(promise).resolves.toBeDefined();
   });
 
-  it("retries a network failure then succeeds", async () => {
+  it("retries a pre-send connection failure then succeeds", async () => {
+    const refused = new TypeError("fetch failed", {
+      cause: Object.assign(new Error("connect refused"), {
+        code: "ECONNREFUSED",
+      }),
+    });
     const { fetch, calls } = mockFetch([
-      { throws: new TypeError("fetch failed") },
+      { throws: refused },
       { body: foundEnvelope({}) },
     ]);
     const client = new AnyAPI({ apiKey: "k", fetch });
@@ -72,11 +77,33 @@ describe("retry policy", () => {
     expect(calls).toHaveLength(2);
   });
 
-  it("gives up after maxRetries on repeated network failure", async () => {
+  it("does NOT retry a post-send connection failure on a run request", async () => {
+    const socketClosed = new TypeError("fetch failed", {
+      cause: Object.assign(new Error("socket closed after body write"), {
+        code: "UND_ERR_SOCKET",
+        socket: { bytesWritten: 128 },
+      }),
+    });
+    const { fetch, calls } = mockFetch([{ throws: socketClosed }]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 1 });
+    const promise = client.run("a.b", { query: "sent" });
+    const assertion = expect(promise).rejects.toBeInstanceOf(ConnectionError);
+    await vi.advanceTimersByTimeAsync(500);
+    await assertion;
+    expect(calls).toHaveLength(1);
+  });
+
+  it("gives up after maxRetries on repeated pre-send connection failure", async () => {
+    const refused = () =>
+      new TypeError("fetch failed", {
+        cause: Object.assign(new Error("connect refused"), {
+          code: "ECONNREFUSED",
+        }),
+      });
     const { fetch, calls } = mockFetch([
-      { throws: new TypeError("fetch failed") },
-      { throws: new TypeError("fetch failed") },
-      { throws: new TypeError("fetch failed") },
+      { throws: refused() },
+      { throws: refused() },
+      { throws: refused() },
     ]);
     const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 2 });
     const promise = client.run("a.b", {});

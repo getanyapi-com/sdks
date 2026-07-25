@@ -130,7 +130,10 @@ class AsyncAnyAPI:
             except httpx.TimeoutException as exc:
                 raise TimeoutError(str(exc) or "request timed out", status=0) from exc
             except httpx.HTTPError as exc:
-                if retry.can_retry:
+                if (
+                    is_retryable_error(exc, request_may_be_billed=True)
+                    and retry.can_retry
+                ):
                     await asyncio.sleep(retry.next_delay(None))
                     continue
                 raise ConnectionError(
@@ -165,8 +168,30 @@ class AsyncAnyAPI:
             "Authorization": f"Bearer {self._api_key}",
             "Accept": "application/json",
         }
-        response = await self._http.get(url, params=params or {}, headers=headers)
-        return self._json_or_raise(response)
+        retry = RetryState(self._max_retries)
+        while True:
+            response: httpx.Response | None = None
+            try:
+                response = await self._http.get(
+                    url, params=params or {}, headers=headers
+                )
+                return self._json_or_raise(response)
+            except AnyAPIError as exc:
+                if is_retryable_error(exc) and retry.can_retry:
+                    await asyncio.sleep(retry.next_delay(response))
+                    continue
+                raise
+            except httpx.TimeoutException as exc:
+                raise TimeoutError(
+                    str(exc) or "request timed out", status=0
+                ) from exc
+            except httpx.HTTPError as exc:
+                if is_retryable_error(exc) and retry.can_retry:
+                    await asyncio.sleep(retry.next_delay(None))
+                    continue
+                raise ConnectionError(
+                    str(exc) or "connection failed", status=0
+                ) from exc
 
     def _json_or_raise(self, response: httpx.Response) -> object:
         request_id = response.headers.get("x-request-id")

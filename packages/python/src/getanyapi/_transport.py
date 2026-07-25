@@ -11,8 +11,10 @@ through here. The wire contract is frozen:
     query params (only when set): fields (comma-joined), max_items, summary=true
 
 HTTP 200 parses into ``RunResult[Any]``; any other status maps to the frozen
-error hierarchy. Retries cover only HTTP 429 and network failures, never
-timeouts, with jittered exponential backoff honoring ``Retry-After`` on 429.
+error hierarchy. Retries cover HTTP 429 and retry-safe transport failures,
+never timeouts. Billed POSTs retry only connection-establishment failures;
+idempotent or bodyless requests retry any transport failure. Backoff is
+jittered exponential and honors ``Retry-After`` on 429.
 """
 
 from __future__ import annotations
@@ -227,11 +229,27 @@ class RetryState:
         return delay
 
 
-def is_retryable_error(exc: AnyAPIError) -> bool:
-    """Retry only rate limits and connection failures, never timeouts."""
-    if isinstance(exc, TimeoutError):
+def is_retryable_error(
+    exc: AnyAPIError | httpx.HTTPError,
+    *,
+    request_may_be_billed: bool = False,
+) -> bool:
+    """Retry 429s and transport failures that are safe for this request shape.
+
+    Idempotent or bodyless requests retry any non-timeout transport failure.
+    A billed request retries only ``httpx.ConnectError``, the reliable pre-send
+    signal. The default preserves the one-argument behavior for callers passing
+    an ``AnyAPIError``.
+    """
+    if isinstance(exc, (TimeoutError, httpx.TimeoutException)):
         return False
-    return isinstance(exc, (RateLimitedError, ConnectionError))
+    if isinstance(exc, RateLimitedError):
+        return True
+    if isinstance(exc, ConnectionError):
+        return not request_may_be_billed
+    if isinstance(exc, httpx.HTTPError):
+        return not request_may_be_billed or isinstance(exc, httpx.ConnectError)
+    return False
 
 
 def sleep(seconds: float) -> None:

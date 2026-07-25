@@ -96,7 +96,7 @@ export interface ClientOptions {
   baseUrl?: string;
   /** Custom fetch implementation. Defaults to globalThis.fetch. */
   fetch?: typeof fetch;
-  /** Max retry attempts for retryable failures (429 + network). Default 2. */
+  /** Max retry attempts for retryable failures (429 + retry-safe network). Default 2. */
   maxRetries?: number;
   /** Per-request timeout in milliseconds. Default 60000. */
   timeoutMs?: number;

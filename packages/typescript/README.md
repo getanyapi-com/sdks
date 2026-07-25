@@ -126,13 +126,15 @@ Per-call transport overrides: `timeoutMs`, `maxRetries`, and an `AbortSignal` vi
 | `ResultNotFoundError`      | -    | `unwrap` on an empty found-data result     |
 | `RateLimitedError`         | 429  | Too many requests (retried automatically)  |
 | `UpstreamError`            | 502  | An upstream backend failed                 |
-| `ConnectionError`          | 0    | Network or transport failure (retried)     |
+| `ConnectionError`          | 0    | Network or transport failure               |
 | `TimeoutError`             | 0    | Request exceeded its timeout (not retried) |
 
 All extend `AnyAPIError` (with `status` and `requestId`). Retries cover only 429 and network
-failures, with jittered exponential backoff honoring `Retry-After`. Default `maxRetries` is 2
-(up to 3 attempts); set it on the client or per request. Timeouts are never retried. Configure
-with `new AnyAPI({ timeoutMs, maxRetries })`.
+failures proven to happen before a request was sent, with jittered exponential backoff honoring
+`Retry-After`. Default `maxRetries` is 2 (up to 3 attempts); set it on the client or per request.
+Timeouts are never retried. Connection failures during or after a billed `POST /v1/run` are not
+retried because the call may already have been charged. When the send phase is unknown, the SDK
+does not retry. Configure with `new AnyAPI({ timeoutMs, maxRetries })`.
 
 ## Agent signup
 
