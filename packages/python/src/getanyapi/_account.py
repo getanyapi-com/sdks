@@ -2,8 +2,8 @@
 
 Pure functions that build the HTTP request pieces and map raw JSON bodies into
 the public models. The sync and async clients share these so the wire mapping
-lives in one place. Discovery bodies are validated against the customer-safe
-nested USD contract before any public model is returned.
+lives in one place. Discovery bodies are safety-scanned, then projected into
+customer-safe public models so additive gateway fields remain compatible.
 """
 
 from __future__ import annotations
@@ -88,31 +88,25 @@ def parse_me(body: Any) -> AccountProfile:
     return AccountProfile.model_validate(body)
 
 
-def _reject_internal_keys(value: object, path: str) -> None:
+def _reject_unsafe_discovery_fields(value: object, path: str) -> None:
     if isinstance(value, list):
         for index, item in enumerate(cast("list[object]", value)):
-            _reject_internal_keys(item, f"{path}[{index}]")
+            _reject_unsafe_discovery_fields(item, f"{path}[{index}]")
         return
     if not isinstance(value, dict):
         return
     for key, item in cast("dict[object, object]", value).items():
         if isinstance(key, str) and "credit" in key.lower():
             raise ValueError(f"malformed discovery response: {path}.{key}")
-        _reject_internal_keys(item, f"{path}.{key}")
-
-
-def _require_exact_keys(value: dict[str, object], allowed: set[str], path: str) -> None:
-    unexpected = set(value) - allowed
-    if unexpected:
-        key = sorted(unexpected)[0]
-        raise ValueError(f"malformed discovery response: {path}.{key}")
+        if key == "provider" and item != "AnyAPI":
+            raise ValueError(f"malformed discovery response: {path}.{key}")
+        _reject_unsafe_discovery_fields(item, f"{path}.{key}")
 
 
 def parse_catalog(body: object) -> list[CatalogEntry]:
     """Map {apis:[...]} into CatalogEntry[] (SPEC 2.7)."""
-    _reject_internal_keys(body, "catalog")
+    _reject_unsafe_discovery_fields(body, "catalog")
     envelope = as_dict(body)
-    _require_exact_keys(envelope, {"apis"}, "catalog")
     raw = envelope.get("apis")
     if not isinstance(raw, list):
         raise ValueError("malformed discovery response: catalog.apis")
@@ -122,7 +116,7 @@ def parse_catalog(body: object) -> list[CatalogEntry]:
 
 def parse_describe(body: object) -> CatalogEntry:
     """Map a single /v1/apis/{slug} entry into one CatalogEntry."""
-    _reject_internal_keys(body, "api")
+    _reject_unsafe_discovery_fields(body, "api")
     entry = CatalogEntry.model_validate(body, strict=True)
     if entry.input_schema is None or entry.output_schema is None:
         raise ValueError("malformed discovery response: detail schemas are required")
@@ -131,7 +125,7 @@ def parse_describe(body: object) -> CatalogEntry:
 
 def parse_search(body: object) -> CatalogSearchResults:
     """Validate the dedicated search result envelope."""
-    _reject_internal_keys(body, "search")
+    _reject_unsafe_discovery_fields(body, "search")
     return CatalogSearchResults.model_validate(body, strict=True)
 
 
@@ -142,6 +136,4 @@ def parse_signup(body: Any) -> AgentSignupResult:
 def map_error(status: int, body: object, request_id: str | None) -> AnyAPIError:
     """Map a non-2xx account/catalog response to the frozen error hierarchy."""
     message, code = error_details(body, status)
-    return error_for_status(
-        status, message, request_id=request_id, code=code
-    )
+    return error_for_status(status, message, request_id=request_id, code=code)

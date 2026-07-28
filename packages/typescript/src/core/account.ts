@@ -1,5 +1,6 @@
 // Handwritten runtime core: account/discovery response mapping and standalone agent
-// signup. See SPEC.md 2.7. Discovery is parsed strictly at this public Seam.
+// signup. See SPEC.md 2.7. Discovery is safety-scanned, then projected at this
+// public seam so safe additive gateway fields remain backward compatible.
 
 import {
   AnyAPIError,
@@ -49,17 +50,20 @@ function malformed(path: string): never {
   throw new AnyAPIError(`malformed discovery response: ${path}`, 0);
 }
 
-function rejectInternalKeys(value: unknown, path: string): void {
+function rejectUnsafeDiscoveryFields(value: unknown, path: string): void {
   if (Array.isArray(value)) {
     value.forEach((item, index) =>
-      rejectInternalKeys(item, `${path}[${index}]`),
+      rejectUnsafeDiscoveryFields(item, `${path}[${index}]`),
     );
     return;
   }
   if (typeof value !== "object" || value === null) return;
   for (const [key, item] of Object.entries(value as Record<string, unknown>)) {
     if (key.toLowerCase().includes("credit")) malformed(`${path}.${key}`);
-    rejectInternalKeys(item, `${path}.${key}`);
+    if (key === "provider" && item !== "AnyAPI") {
+      malformed(`${path}.${key}`);
+    }
+    rejectUnsafeDiscoveryFields(item, `${path}.${key}`);
   }
 }
 
@@ -68,17 +72,6 @@ function record(value: unknown, path: string): Record<string, unknown> {
     return malformed(path);
   }
   return value as Record<string, unknown>;
-}
-
-function exactKeys(
-  raw: Record<string, unknown>,
-  allowed: readonly string[],
-  path: string,
-): void {
-  const keys = new Set(allowed);
-  for (const key of Object.keys(raw)) {
-    if (!keys.has(key)) malformed(`${path}.${key}`);
-  }
 }
 
 function stringField(
@@ -136,14 +129,12 @@ function parseOffer(value: unknown, path: string): PricingOffer {
   const unit = stringField(raw, "unit", path);
   const maxUsd = numberField(raw, "maxUsd", path);
   if (model === "flat") {
-    exactKeys(raw, ["model", "unit", "maxUsd"], path);
-    if (unit !== "request" || "baseUsd" in raw || "perUnitUsd" in raw) {
+    if (unit !== "request") {
       return malformed(path);
     }
     return { model, unit, maxUsd };
   }
   if (model === "linear") {
-    exactKeys(raw, ["model", "unit", "baseUsd", "perUnitUsd", "maxUsd"], path);
     if (unit.length === 0) return malformed(`${path}.unit`);
     return {
       model,
@@ -158,7 +149,6 @@ function parseOffer(value: unknown, path: string): PricingOffer {
 
 function parsePricing(value: unknown, path: string): DiscoveryPricing {
   const raw = record(value, path);
-  exactKeys(raw, ["from", "failoverMaxUsd"], path);
   return {
     from: parseOffer(raw["from"], `${path}.from`),
     failoverMaxUsd: numberField(raw, "failoverMaxUsd", path),
@@ -167,10 +157,8 @@ function parsePricing(value: unknown, path: string): DiscoveryPricing {
 
 function parseHealth(value: unknown, path: string): LaneHealth {
   const raw = record(value, path);
-  exactKeys(raw, ["window", "uptimePct", "latencyP50Ms", "requests"], path);
-  if (raw["window"] !== "30d") return malformed(`${path}.window`);
   return {
-    window: "30d",
+    window: stringField(raw, "window", path),
     uptimePct: boundedNumberField(raw, "uptimePct", path, undefined, 100),
     latencyP50Ms: integerField(raw, "latencyP50Ms", path),
     requests: integerField(raw, "requests", path),
@@ -179,7 +167,6 @@ function parseHealth(value: unknown, path: string): LaneHealth {
 
 function parseLane(value: unknown, path: string): DiscoveryLane {
   const raw = record(value, path);
-  exactKeys(raw, ["pricing", "health"], path);
   const lane: DiscoveryLane = {
     pricing: parseOffer(raw["pricing"], `${path}.pricing`),
   };
@@ -200,7 +187,6 @@ function parseSchema(value: unknown, path: string): Record<string, unknown> {
 
 function parseHighlight(value: unknown, path: string): HighlightField {
   const raw = record(value, path);
-  exactKeys(raw, ["path", "type", "why"], path);
   const field: HighlightField = {
     path: stringField(raw, "path", path),
     type: stringField(raw, "type", path),
@@ -225,28 +211,10 @@ export function mapProfile(raw: ProfileResponse): AccountProfile {
 
 /** Map one customer-safe browse/detail entry, rejecting partial or legacy contracts. */
 export function mapCatalogEntry(raw: CatalogEntryResponse): CatalogEntry {
-  rejectInternalKeys(raw, "api");
+  rejectUnsafeDiscoveryFields(raw, "api");
   const value = record(raw, "api");
-  exactKeys(
-    value,
-    [
-      "id",
-      "slug",
-      "category",
-      "name",
-      "description",
-      "provider",
-      "pricing",
-      "lanes",
-      "heavy",
-      "tryEligible",
-      "inputSchema",
-      "outputSchema",
-    ],
-    "api",
-  );
   const lanesRaw = value["lanes"];
-  if (!Array.isArray(lanesRaw) || lanesRaw.length === 0) {
+  if (!Array.isArray(lanesRaw)) {
     return malformed("api.lanes");
   }
   const entry: CatalogEntry = {
@@ -268,36 +236,23 @@ export function mapCatalogEntry(raw: CatalogEntryResponse): CatalogEntry {
   }
   if (typeof value["tryEligible"] !== "boolean")
     return malformed("api.tryEligible");
+  if (value["failover"] !== undefined) {
+    if (typeof value["failover"] !== "boolean")
+      return malformed("api.failover");
+    entry.failover = value["failover"];
+  }
+  if (value["excludesCallerDelay"] !== undefined) {
+    if (typeof value["excludesCallerDelay"] !== "boolean")
+      return malformed("api.excludesCallerDelay");
+    entry.excludesCallerDelay = value["excludesCallerDelay"];
+  }
   if (value["inputSchema"] !== undefined) {
     entry.inputSchema = parseSchema(value["inputSchema"], "api.inputSchema");
   }
   if (value["outputSchema"] !== undefined) {
     entry.outputSchema = parseSchema(value["outputSchema"], "api.outputSchema");
   }
-  if (!offersEqual(entry.pricing.from, entry.lanes[0]!.pricing)) {
-    return malformed("api.pricing.from");
-  }
-  const failoverMaxUsd = Math.max(
-    ...entry.lanes.map((lane) => lane.pricing.maxUsd),
-  );
-  if (entry.pricing.failoverMaxUsd !== failoverMaxUsd) {
-    return malformed("api.pricing.failoverMaxUsd");
-  }
   return entry;
-}
-
-function offersEqual(left: PricingOffer, right: PricingOffer): boolean {
-  if (
-    left.model !== right.model ||
-    left.unit !== right.unit ||
-    left.maxUsd !== right.maxUsd
-  ) {
-    return false;
-  }
-  if (left.model === "flat" || right.model === "flat") {
-    return left.model === right.model;
-  }
-  return left.baseUsd === right.baseUsd && left.perUnitUsd === right.perUnitUsd;
 }
 
 /** Detail responses must include both schemas; browse/search intentionally omit them. */
@@ -310,29 +265,14 @@ export function mapCatalogDetail(raw: CatalogEntryResponse): CatalogEntry {
 
 /** Map the raw /v1/apis list to CatalogEntry[]. */
 export function mapCatalogList(raw: CatalogListResponse): CatalogEntry[] {
+  rejectUnsafeDiscoveryFields(raw, "catalog");
   const envelope = record(raw, "catalog");
-  exactKeys(envelope, ["apis"], "catalog");
   if (!Array.isArray(envelope["apis"])) return malformed("catalog.apis");
   return envelope["apis"].map(mapCatalogEntry);
 }
 
 function mapSearchResult(value: unknown, path: string): CatalogSearchResult {
   const raw = record(value, path);
-  exactKeys(
-    raw,
-    [
-      "slug",
-      "platformId",
-      "name",
-      "description",
-      "category",
-      "provider",
-      "pricing",
-      "relevance",
-      "highlightFields",
-    ],
-    path,
-  );
   const result: CatalogSearchResult = {
     slug: stringField(raw, "slug", path),
     platformId: stringField(raw, "platformId", path),
@@ -356,9 +296,8 @@ function mapSearchResult(value: unknown, path: string): CatalogSearchResult {
 export function mapCatalogSearch(
   raw: CatalogSearchResponse,
 ): CatalogSearchResults {
-  rejectInternalKeys(raw, "search");
+  rejectUnsafeDiscoveryFields(raw, "search");
   const envelope = record(raw, "search");
-  exactKeys(envelope, ["results", "total", "ranking"], "search");
   if (!Array.isArray(envelope["results"])) return malformed("search.results");
   const ranking = envelope["ranking"];
   if (ranking !== "semantic" && ranking !== "keyword")

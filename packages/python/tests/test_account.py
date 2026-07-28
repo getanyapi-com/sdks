@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import json
-import re
-from collections.abc import Callable
 from typing import cast
 
 import httpx
@@ -59,6 +57,8 @@ def discovery_api() -> dict[str, object]:
         ],
         "heavy": True,
         "tryEligible": True,
+        "failover": True,
+        "excludesCallerDelay": True,
     }
 
 
@@ -198,83 +198,80 @@ def test_catalog_normalizes_omitted_heavy_and_rejects_non_boolean() -> None:
         client.catalog()
 
 
-def empty_lanes(api: dict[str, object]) -> None:
-    api["lanes"] = []
-
-
-def mismatched_first_lane(api: dict[str, object]) -> None:
+def test_catalog_accepts_safe_additions_and_gateway_owned_disagreements() -> None:
+    api = discovery_api()
+    api["unexpected"] = True
     api["lanes"] = [
         {
             "pricing": {
                 "model": "flat",
                 "unit": "request",
                 "maxUsd": 0.00325,
-            }
+            },
+            "health": {
+                "window": "7d",
+                "uptimePct": 98.0,
+                "latencyP50Ms": 10,
+                "requests": 2,
+                "unexpected": True,
+            },
+            "unexpected": True,
         }
     ]
-
-
-def unexpected_api_field(api: dict[str, object]) -> None:
-    api["unexpected"] = True
-
-
-def unexpected_pricing_field(api: dict[str, object]) -> None:
     pricing = cast("dict[str, object]", api["pricing"])
+    pricing["failoverMaxUsd"] = 0.004
     pricing["unexpected"] = True
-
-
-def unexpected_offer_field(api: dict[str, object]) -> None:
-    pricing = cast("dict[str, object]", api["pricing"])
     offer = cast("dict[str, object]", pricing["from"])
+    offer["maxUsd"] = 0.02
     offer["unexpected"] = True
-
-
-@pytest.mark.parametrize(
-    ("mutate", "message"),
-    [
-        (empty_lanes, "List should have at least 1 item"),
-        (mismatched_first_lane, "pricing.from must match lanes[0].pricing"),
-        (unexpected_api_field, "extra_forbidden"),
-        (unexpected_pricing_field, "extra_forbidden"),
-        (unexpected_offer_field, "extra_forbidden"),
-    ],
-)
-def test_catalog_rejects_invalid_relationships_and_unknown_fields(
-    mutate: Callable[[dict[str, object]], None], message: str
-) -> None:
-    api = discovery_api()
-    mutate(api)
-    client, _ = make_sync_client(lambda _req: json_response(200, {"apis": [api]}))
-    with pytest.raises(ValueError, match=re.escape(message)):
-        client.catalog()
-
-
-def test_catalog_rejects_unknown_envelope_field() -> None:
     client, _ = make_sync_client(
         lambda _req: json_response(200, {"apis": [discovery_api()], "unexpected": True})
     )
-    with pytest.raises(ValueError, match="catalog.unexpected"):
-        client.catalog()
+    # Replace the fixture after verifying an additive envelope is harmless.
+    assert client.catalog()[0].slug == "amazon.reviews"
+
+    client, _ = make_sync_client(
+        lambda _req: json_response(200, {"apis": [api], "unexpected": True})
+    )
+    entry = client.catalog()[0]
+    assert entry.pricing.from_offer.max_usd == pytest.approx(0.02)
+    assert entry.pricing.failover_max_usd == pytest.approx(0.004)
+    assert entry.lanes[0].pricing.model == "flat"
+    assert entry.lanes[0].health is not None
+    assert entry.lanes[0].health.window == "7d"
+    assert entry.failover is True
+    assert entry.excludes_caller_delay is True
+    assert entry.model_extra is None
+    assert entry.pricing.model_extra is None
+    assert entry.pricing.from_offer.model_extra is None
+
+
+def test_catalog_accepts_empty_lanes_and_older_optional_field_shape() -> None:
+    api = discovery_api()
+    api["lanes"] = []
+    del api["failover"]
+    del api["excludesCallerDelay"]
+    client, _ = make_sync_client(lambda _req: json_response(200, {"apis": [api]}))
+    entry = client.catalog()[0]
+    assert entry.lanes == []
+    assert entry.failover is None
+    assert entry.excludes_caller_delay is None
 
 
 @pytest.mark.parametrize(
-    ("api", "failover_max_usd"),
+    ("unsafe", "message"),
     [
-        (discovery_api(), 0.04002),
-        (flat_discovery_api(), 0.004),
+        ({"creditBalance": 1}, "catalog.apis[0].future.creditBalance"),
+        ({"provider": "upstream"}, "catalog.apis[0].future.provider"),
     ],
-    ids=["redundant-mixed-flat-linear", "one-flat-lane"],
 )
-def test_catalog_rejects_failover_maximum_that_is_not_greatest_lane_maximum(
-    api: dict[str, object], failover_max_usd: float
+def test_catalog_rejects_unsafe_fields_before_projection(
+    unsafe: dict[str, object], message: str
 ) -> None:
-    pricing = cast("dict[str, object]", api["pricing"])
-    pricing["failoverMaxUsd"] = failover_max_usd
+    api = discovery_api()
+    api["future"] = unsafe
     client, _ = make_sync_client(lambda _req: json_response(200, {"apis": [api]}))
-    with pytest.raises(
-        ValueError,
-        match="pricing.failoverMaxUsd must match the greatest lane pricing.maxUsd",
-    ):
+    with pytest.raises(ValueError, match=message.replace("[", r"\[")):
         client.catalog()
 
 
@@ -324,7 +321,7 @@ def test_search_maps_ranked_results_and_filters() -> None:
     assert found.results[0].pricing.from_offer.model == "linear"
 
 
-def test_search_rejects_lanes_and_unknown_envelope_fields() -> None:
+def test_search_drops_safe_additive_result_and_envelope_fields() -> None:
     api = discovery_api()
     result = {
         "slug": api["slug"],
@@ -333,38 +330,63 @@ def test_search_rejects_lanes_and_unknown_envelope_fields() -> None:
         "description": api["description"],
         "category": api["category"],
         "provider": api["provider"],
-        "pricing": api["pricing"],
+        "pricing": {
+            **cast("dict[str, object]", api["pricing"]),
+            "future": True,
+            "from": {
+                **cast(
+                    "dict[str, object]",
+                    cast("dict[str, object]", api["pricing"])["from"],
+                ),
+                "future": True,
+            },
+        },
         "relevance": 1.0,
         "lanes": api["lanes"],
+        "future": True,
+        "highlightFields": [
+            {
+                "path": "items[].title",
+                "type": "string",
+                "why": "title",
+                "future": True,
+            }
+        ],
     }
-    client, _ = make_sync_client(
-        lambda _req: json_response(
-            200, {"results": [result], "total": 1, "ranking": "keyword"}
-        )
-    )
-    with pytest.raises(ValueError, match="extra_forbidden"):
-        client.search(query="x")
-
     client, _ = make_sync_client(
         lambda _req: json_response(
             200,
             {
-                "results": [],
-                "total": 0,
+                "results": [result],
+                "total": 1,
                 "ranking": "keyword",
                 "unexpected": True,
             },
         )
     )
-    with pytest.raises(ValueError, match="extra_forbidden"):
-        client.search(query="x")
+    found = client.search(query="x")
+    assert len(found.results) == 1
+    assert found.model_extra is None
+    assert found.results[0].model_extra is None
+    assert found.results[0].pricing.model_extra is None
+    assert found.results[0].pricing.from_offer.model_extra is None
+    assert found.results[0].highlight_fields is not None
+    assert found.results[0].highlight_fields[0].model_extra is None
 
 
 def test_describe_includes_schemas() -> None:
     api = {
         **discovery_api(),
-        "inputSchema": {"type": "object"},
-        "outputSchema": {"type": "object", "properties": {}},
+        "inputSchema": {
+            "type": "object",
+            "unevaluatedProperties": False,
+            "futureKeyword": {"nested": [1, True, None]},
+        },
+        "outputSchema": {
+            "type": "object",
+            "properties": {},
+            "$defs": {"item": {"type": "string", "futureKeyword": True}},
+        },
     }
 
     def respond(req: httpx.Request) -> httpx.Response:
@@ -373,11 +395,19 @@ def test_describe_includes_schemas() -> None:
 
     client, _ = make_sync_client(respond)
     described = client.describe("amazon.reviews")
-    assert described.input_schema == {"type": "object"}
-    assert described.output_schema == {"type": "object", "properties": {}}
+    assert described.input_schema == {
+        "type": "object",
+        "unevaluatedProperties": False,
+        "futureKeyword": {"nested": [1, True, None]},
+    }
+    assert described.output_schema == {
+        "type": "object",
+        "properties": {},
+        "$defs": {"item": {"type": "string", "futureKeyword": True}},
+    }
 
 
-def test_describe_rejects_failover_maximum_below_redundant_lane_maximum() -> None:
+def test_describe_accepts_gateway_owned_pricing_and_lane_disagreement() -> None:
     api = discovery_api()
     pricing = cast("dict[str, object]", api["pricing"])
     pricing["failoverMaxUsd"] = 0.04002
@@ -388,11 +418,9 @@ def test_describe_rejects_failover_maximum_below_redundant_lane_maximum() -> Non
         }
     )
     client, _ = make_sync_client(lambda _req: json_response(200, api))
-    with pytest.raises(
-        ValueError,
-        match="pricing.failoverMaxUsd must match the greatest lane pricing.maxUsd",
-    ):
-        client.describe("amazon.reviews")
+    entry = client.describe("amazon.reviews")
+    assert entry.pricing.failover_max_usd == pytest.approx(0.04002)
+    assert entry.lanes[1].pricing.max_usd == pytest.approx(0.05)
 
 
 def test_describe_rejects_missing_schemas() -> None:

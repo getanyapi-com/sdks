@@ -45,6 +45,9 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
 
       - run: pnpm install --frozen-lockfile
 
@@ -56,6 +59,15 @@ jobs:
 
       - name: regenerate ir.json + fixtures.json + both generated trees
         run: pnpm generate
+
+      - name: build TypeScript discovery reader
+        run: pnpm --filter @getanyapi/sdk run build
+      - name: install Python discovery reader
+        run: python -m pip install -e packages/python
+      - name: credentialless TypeScript live discovery canary
+        run: node scripts/live-discovery-ts.mjs
+      - name: credentialless Python live discovery canary
+        run: python scripts/live-discovery-python.py
 
       - name: classify IR diff -> bump level + change summary
         id: classify

@@ -73,7 +73,11 @@ console.log(api.pricing.from, api.pricing.failoverMaxUsd, api.inputSchema);
 
 `catalog` is category-only browsing. Ranked queries always use `search`, which returns
 `results`, `total`, and `ranking`; `describe` includes schemas. Discovery prices are nested
-USD flat/linear offers, lanes are anonymous, and provider is always `"AnyAPI"`.
+USD flat/linear offers, lanes are anonymous, and provider is always `"AnyAPI"`. The gateway
+owns validation, routing, lane order, failover, pricing relationships, health semantics, and
+billing. This handwritten discovery client safety-scans the response, projects known fields,
+preserves schemas as opaque JSON, and ignores safe additions. It does not recompute gateway
+business rules. Generated per-SKU methods remain a separate OpenAPI-driven surface.
 
 ## Pagination
 

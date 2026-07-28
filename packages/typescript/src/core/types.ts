@@ -217,7 +217,7 @@ export interface DiscoveryPricing {
 }
 
 export interface LaneHealth {
-  window: "30d";
+  window: string;
   uptimePct: number;
   latencyP50Ms: number;
   requests: number;
@@ -240,6 +240,8 @@ export interface CatalogEntry {
   lanes: DiscoveryLane[];
   heavy: boolean;
   tryEligible: boolean;
+  failover?: boolean;
+  excludesCallerDelay?: boolean;
   inputSchema?: Record<string, unknown>;
   outputSchema?: Record<string, unknown>;
 }
