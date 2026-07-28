@@ -12,9 +12,11 @@ through here. The wire contract is frozen:
 
 HTTP 200 parses into ``RunResult[Any]``; any other status maps to the frozen
 error hierarchy. Retries cover HTTP 429 and retry-safe transport failures,
-never timeouts. Billed POSTs retry only connection-establishment failures;
-idempotent or bodyless requests retry any transport failure. Backoff is
-jittered exponential and honors ``Retry-After`` on 429.
+never timeouts. Billed POSTs retry only connection-establishment failures that
+prove no request was delivered. A ``ReadError`` is ambiguous: it can occur
+before the server reads the request, as well as after a body was sent, so it
+must not retry. Idempotent or bodyless requests retry any transport failure.
+Backoff is jittered exponential and honors ``Retry-After`` on 429.
 """
 
 from __future__ import annotations
@@ -238,9 +240,16 @@ def is_retryable_error(
 
     Idempotent or bodyless requests retry any non-timeout transport failure.
     A billed request retries only ``httpx.ConnectError``, the reliable pre-send
-    signal. The default preserves the one-argument behavior for callers passing
-    an ``AnyAPIError``.
+    signal. ``httpx.ReadError`` does not establish that bytes were delivered:
+    an accept-then-close race or a stale keepalive connection can raise it
+    before the server reads the request. It is still unsafe to retry because
+    the same type can also represent a failure after delivery. The default
+    preserves the one-argument behavior for callers passing an ``AnyAPIError``.
     """
+    # ConnectTimeout is a TimeoutException, not a ConnectError. The billed POST
+    # loops catch all TimeoutException instances before calling this predicate,
+    # so the httpx term is unreachable there. Retain it so direct callers stay
+    # timeout-safe and the predicate does not depend on caller catch ordering.
     if isinstance(exc, (TimeoutError, httpx.TimeoutException)):
         return False
     if isinstance(exc, RateLimitedError):

@@ -41,6 +41,8 @@ const PRE_SEND_NETWORK_ERROR_CODES = new Set([
   "EHOSTUNREACH",
   "ENETUNREACH",
   "ENOTFOUND",
+  "UND_ERR_CONNECT_TIMEOUT",
+  "ConnectionRefused",
 ]);
 
 /**
@@ -187,8 +189,9 @@ function isTimeoutSignal(
  * connection could carry request bytes.
  *
  * IMPORTANT: the fetch standard does not expose whether a request body was written.
- * Node fetch preserves system DNS/connect codes under `cause`, while browsers commonly
- * expose only an opaque TypeError. Unknown or mixed causes are therefore treated as
+ * Node fetch preserves system DNS/connect codes and undici socket byte counters under
+ * `cause`. Bun uses `ConnectionRefused` only while establishing a connection. Browsers
+ * commonly expose only an opaque TypeError. Unknown causes are therefore treated as
  * potentially post-send and are not retried for a billed POST.
  */
 function isDefinitelyPreSendConnectionError(error: unknown): boolean {
@@ -205,6 +208,10 @@ function isDefinitelyPreSendConnectionError(error: unknown): boolean {
 
     const candidate = value as {
       code?: unknown;
+      syscall?: unknown;
+      socket?: {
+        bytesWritten?: unknown;
+      };
       cause?: unknown;
       errors?: unknown;
     };
@@ -214,8 +221,22 @@ function isDefinitelyPreSendConnectionError(error: unknown): boolean {
     ) {
       return true;
     }
+    // ETIMEDOUT alone is ambiguous: a read can time out after the body was sent.
+    if (candidate.code === "ETIMEDOUT" && candidate.syscall === "connect") {
+      return true;
+    }
+    // undici SocketError exposes counters at `cause.socket`.
+    if (
+      candidate.code === "UND_ERR_SOCKET" &&
+      candidate.socket?.bytesWritten === 0
+    ) {
+      return true;
+    }
     if (Array.isArray(candidate.errors) && candidate.errors.length > 0) {
-      return candidate.errors.every((item) => visit(item));
+      return (
+        candidate.errors.some((item) => visit(item)) ||
+        visit(candidate.cause)
+      );
     }
     return visit(candidate.cause);
   };

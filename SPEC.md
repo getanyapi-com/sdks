@@ -622,6 +622,11 @@ export interface AgentSignupResult {
   request body may have been sent. If the transport cannot determine the send phase, do
   not retry. Billing settlement survives caller disconnection, so an automatic retry
   could charge the customer twice for one logical call.
+- A transport-specific signal qualifies only when it proves connection setup did not
+  complete or proves that zero request bytes were written. A generic transient or
+  retryable marker is insufficient unless that runtime guarantees non-delivery. Read
+  failures are ambiguous and do not qualify merely because the origin may not have read
+  the request.
 - Default `maxRetries = 2` (so up to 3 total attempts). Configurable on the client and
   per request.
 - Backoff: jittered exponential. `delay(attempt) = min(baseDelay * 2**attempt, maxDelay)`

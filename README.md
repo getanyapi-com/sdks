@@ -56,8 +56,11 @@ detail. The essentials:
   overrides live here too.
 - **Errors and retries.** Every failure raises an `AnyAPIError` subclass mapped from the HTTP
   status (400/401/402/404/429/502, plus `Connection`/`Timeout` at status 0). Only 429 and
-  network failures retry, with jittered backoff honoring `Retry-After`; timeouts never retry.
-  Default `maxRetries`/`max_retries` is 2.
+  proven pre-send network failures retry, with jittered backoff honoring `Retry-After`; timeouts
+  never retry. For billed TypeScript `run()` calls, Node's built-in undici transport and Bun
+  1.3.11 expose qualifying proof. Cloudflare Workers, Deno, and browsers do not, so an unknown
+  send phase gets no automatic network retry. Python `httpx.ConnectError` qualifies, while
+  ambiguous `ReadError` does not. Default `maxRetries`/`max_retries` is 2.
 - **Agent signup.** `agentSignup()` / `agent_signup()` bootstraps a capped starter key with no
   account, for autonomous agents; a human funds it via the returned claim URL.
 

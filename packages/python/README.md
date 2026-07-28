@@ -119,6 +119,14 @@ failures proven to happen before a request was sent, with jittered exponential b
 failures during or after a billed `POST /v1/run` are not retried because the call may already have
 been charged. When the send phase is unknown, the SDK does not retry.
 
+Automatic retry of a billed `run()` requires structured transport evidence that the request was
+not delivered. Python's `httpx` transport provides that evidence for `ConnectError`, so DNS
+resolution failures and refused or unreachable connections retry. `ConnectTimeout` is a
+`TimeoutException` and does not retry. `ReadError` does not retry: it can mean either that a
+connection closed before the server read the request or that the connection failed after delivery.
+If a custom transport hides the connection phase, handle retries explicitly and only when your
+application can establish non-delivery.
+
 ## Agent signup
 
 Bootstrap a key with no account (for autonomous agents):

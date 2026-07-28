@@ -77,6 +77,155 @@ describe("retry policy", () => {
     expect(calls).toHaveLength(2);
   });
 
+  it("retries an undici connect timeout before the request is sent", async () => {
+    const connectTimeout = new TypeError("fetch failed", {
+      cause: Object.assign(new Error("Connect Timeout Error"), {
+        code: "UND_ERR_CONNECT_TIMEOUT",
+      }),
+    });
+    const { fetch, calls } = mockFetch([
+      { throws: connectTimeout },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 1 });
+    const promise = client.run("a.b", {});
+    await vi.advanceTimersByTimeAsync(500);
+    await expect(promise).resolves.toBeDefined();
+    expect(calls).toHaveLength(2);
+  });
+
+  it("retries ETIMEDOUT from the connect syscall before the request is sent", async () => {
+    const connectTimeout = new TypeError("fetch failed", {
+      cause: Object.assign(new Error("connect ETIMEDOUT"), {
+        code: "ETIMEDOUT",
+        syscall: "connect",
+      }),
+    });
+    const { fetch, calls } = mockFetch([
+      { throws: connectTimeout },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 1 });
+    const promise = client.run("a.b", {});
+    await vi.advanceTimersByTimeAsync(500);
+    await expect(promise).resolves.toBeDefined();
+    expect(calls).toHaveLength(2);
+  });
+
+  it("does NOT retry bare ETIMEDOUT when the send phase is unknown", async () => {
+    const ambiguousTimeout = new TypeError("fetch failed", {
+      cause: Object.assign(new Error("operation timed out"), {
+        code: "ETIMEDOUT",
+      }),
+    });
+    const { fetch, calls } = mockFetch([{ throws: ambiguousTimeout }]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 1 });
+    await expect(client.run("a.b", {})).rejects.toBeInstanceOf(ConnectionError);
+    expect(calls).toHaveLength(1);
+  });
+
+  it("retries an undici socket failure when zero request bytes were written", async () => {
+    const socketClosed = new TypeError("fetch failed", {
+      cause: Object.assign(new Error("socket closed before body write"), {
+        code: "UND_ERR_SOCKET",
+        socket: { bytesWritten: 0 },
+      }),
+    });
+    const { fetch, calls } = mockFetch([
+      { throws: socketClosed },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 1 });
+    const promise = client.run("a.b", {});
+    await vi.advanceTimersByTimeAsync(500);
+    await expect(promise).resolves.toBeDefined();
+    expect(calls).toHaveLength(2);
+  });
+
+  it("does NOT trust zero bytesWritten on an unknown socket error", async () => {
+    const unknownSocketError = new TypeError("fetch failed", {
+      cause: Object.assign(new Error("custom socket failure"), {
+        code: "CUSTOM_SOCKET_ERROR",
+        socket: { bytesWritten: 0 },
+      }),
+    });
+    const { fetch, calls } = mockFetch([
+      { throws: unknownSocketError },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 1 });
+    const promise = client.run("a.b", {});
+    const assertion = expect(promise).rejects.toBeInstanceOf(ConnectionError);
+    await vi.advanceTimersByTimeAsync(500);
+    await assertion;
+    expect(calls).toHaveLength(1);
+  });
+
+  it("retries Bun ConnectionRefused before the request is sent", async () => {
+    const refused = Object.assign(
+      new Error("Unable to connect. Is the computer able to access the url?"),
+      {
+        code: "ConnectionRefused",
+      },
+    );
+    const { fetch, calls } = mockFetch([
+      { throws: refused },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 1 });
+    const promise = client.run("a.b", {});
+    await vi.advanceTimersByTimeAsync(500);
+    await expect(promise).resolves.toBeDefined();
+    expect(calls).toHaveLength(2);
+  });
+
+  it("retries when one AggregateError branch proves a pre-send failure", async () => {
+    const aggregate = new TypeError("fetch failed", {
+      cause: Object.assign(new AggregateError([
+        Object.assign(new Error("connect timed out"), {
+          code: "ETIMEDOUT",
+          syscall: "connect",
+        }),
+        new Error("opaque connect failure"),
+      ]), {
+        code: "ETIMEDOUT",
+      }),
+    });
+    const { fetch, calls } = mockFetch([
+      { throws: aggregate },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 1 });
+    const promise = client.run("a.b", {});
+    await vi.advanceTimersByTimeAsync(500);
+    await expect(promise).resolves.toBeDefined();
+    expect(calls).toHaveLength(2);
+  });
+
+  it("checks cause after unmatched AggregateError branches", async () => {
+    const aggregateWithCause = Object.assign(
+      new AggregateError([new Error("opaque connect failure")]),
+      {
+        cause: Object.assign(new Error("connect refused"), {
+          code: "ECONNREFUSED",
+        }),
+      },
+    );
+    const { fetch, calls } = mockFetch([
+      {
+        throws: new TypeError("fetch failed", {
+          cause: aggregateWithCause,
+        }),
+      },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 1 });
+    const promise = client.run("a.b", {});
+    await vi.advanceTimersByTimeAsync(500);
+    await expect(promise).resolves.toBeDefined();
+    expect(calls).toHaveLength(2);
+  });
+
   it("does NOT retry a post-send connection failure on a run request", async () => {
     const socketClosed = new TypeError("fetch failed", {
       cause: Object.assign(new Error("socket closed after body write"), {

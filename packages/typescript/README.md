@@ -136,6 +136,21 @@ Timeouts are never retried. Connection failures during or after a billed `POST /
 retried because the call may already have been charged. When the send phase is unknown, the SDK
 does not retry. Configure with `new AnyAPI({ timeoutMs, maxRetries })`.
 
+Automatic network retry of a billed `run()` requires structured runtime evidence that the
+request body was not sent:
+
+| Runtime | Automatic billed-run network retry | Evidence available to the SDK |
+| ------- | ---------------------------------- | ----------------------------- |
+| Node 18+ with built-in undici `fetch` | Yes | DNS and connect codes, connect-phase timeouts, or an undici socket reporting zero bytes written |
+| Bun 1.3.11 | Yes | `ConnectionRefused`, which Bun 1.3.11 emits only while establishing the origin or proxy connection |
+| Cloudflare Workers | No | `retryable: true` means transient, not undelivered; it can appear after the origin received the full body |
+| Deno | No | Fetch exposes only prose without a structured connection code |
+| Browsers | No | Fetch generally exposes an opaque `TypeError` |
+
+On a runtime without strict non-delivery evidence, the SDK makes no automatic network retry for a
+billed `run()`. HTTP 429 retry is unchanged. Handle other retries explicitly only when your
+application can establish non-delivery.
+
 ## Agent signup
 
 Bootstrap a key with no account (for autonomous agents):
