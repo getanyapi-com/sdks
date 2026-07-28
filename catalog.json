@@ -34,7 +34,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "ahrefs.keyword_ideas",
@@ -70,7 +71,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "ahrefs.keywords",
@@ -106,7 +108,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "ahrefs.overview",
@@ -142,7 +145,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "airbnb.search",
@@ -178,7 +182,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "alibaba.search",
@@ -208,7 +213,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "amazon.asins",
@@ -244,7 +250,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "amazon.bestsellers",
@@ -274,7 +281,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "amazon.product",
@@ -311,7 +319,8 @@
         }
       ],
       "heavy": true,
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "amazon.reviews",
@@ -358,7 +367,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "amazon.search",
@@ -394,7 +404,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "apollo.organization",
@@ -426,7 +437,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "apollo.organization_enrich",
@@ -458,7 +470,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "apollo.organization_jobs",
@@ -490,7 +503,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "apollo.organization_news",
@@ -522,7 +536,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "apollo.organizations_bulk_enrich",
@@ -554,7 +569,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "apollo.organizations_search",
@@ -586,7 +602,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "apollo.people_search",
@@ -618,7 +635,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "apollo.person_enrich",
@@ -650,7 +668,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "appstore.reviews",
@@ -687,7 +706,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "bluesky.post",
@@ -720,7 +740,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "bluesky.profile",
@@ -759,14 +780,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "bluesky.user_posts",
       "slug": "bluesky.user_posts",
       "category": "social",
       "name": "Bluesky User Posts",
-      "description": "List a Bluesky account's recent posts (text, author handle, like, reply, and repost counts) by handle as clean JSON, normalized across providers.",
+      "description": "List a Bluesky account's recent posts (text, author handle, like, reply, and repost counts) by handle as clean JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -798,7 +820,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "booking.search",
@@ -834,7 +857,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "coinmarketcap.listings",
@@ -870,7 +894,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "congress.trades",
@@ -900,7 +925,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "dexscreener.tokens",
@@ -930,7 +956,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "douyin.profile",
@@ -962,7 +989,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "douyin.search_videos",
@@ -994,7 +1022,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "douyin.user_posts",
@@ -1026,7 +1055,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "douyin.video",
@@ -1058,7 +1088,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "douyin.video_comments",
@@ -1090,7 +1121,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "ebay.search",
@@ -1120,7 +1152,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "ebay.sold_listings",
@@ -1156,7 +1189,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "email.find",
@@ -1192,7 +1226,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "email.verify",
@@ -1228,7 +1263,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.ad_details",
@@ -1254,7 +1290,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.ad_transcript",
@@ -1286,14 +1323,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.ads_search",
       "slug": "facebook.ads_search",
       "category": "social",
       "name": "Facebook Ad Search",
-      "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination and transparent failover.",
+      "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1312,14 +1350,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.comment_replies",
       "slug": "facebook.comment_replies",
       "category": "social",
       "name": "Facebook Comment Replies",
-      "description": "List the replies to a Facebook post comment (text, author, reactions, and timestamps) as normalized JSON at a.",
+      "description": "List the replies to a Facebook post comment (text, author, reactions, and timestamps) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1338,7 +1377,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.company_ads",
@@ -1370,14 +1410,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.event_details",
       "slug": "facebook.event_details",
       "category": "social",
       "name": "Facebook Event Details",
-      "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON at a.",
+      "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1396,14 +1437,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.events",
       "slug": "facebook.events",
       "category": "social",
       "name": "Facebook Events",
-      "description": "List public Facebook events for a city or place by its events-page URL (event name, date, venue, and attendance) as normalized JSON at a.",
+      "description": "List public Facebook events for a city or place by its events-page URL (event name, date, venue, and attendance) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1422,14 +1464,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.events_search",
       "slug": "facebook.events_search",
       "category": "social",
       "name": "Facebook Events Search",
-      "description": "Search public Facebook events by keyword and get structured event records (name, schedule, venue, pricing, and attendance) as normalized JSON at a.",
+      "description": "Search public Facebook events by keyword and get structured event records (name, schedule, venue, pricing, and attendance) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1448,7 +1491,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.followers",
@@ -1478,7 +1522,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.group_posts",
@@ -1510,7 +1555,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.marketplace",
@@ -1536,14 +1582,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.marketplace_item",
       "slug": "facebook.marketplace_item",
       "category": "social",
       "name": "Facebook Marketplace Item",
-      "description": "Fetch full details for a single Facebook Marketplace listing by ID or URL (title, price, location, photos, and attributes) as normalized JSON at a.",
+      "description": "Fetch full details for a single Facebook Marketplace listing by ID or URL (title, price, location, photos, and attributes) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1562,14 +1609,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.marketplace_location_search",
       "slug": "facebook.marketplace_location_search",
       "category": "social",
       "name": "Facebook Marketplace Location Search",
-      "description": "Resolve a place name to Facebook Marketplace locations with coordinates and metadata as normalized JSON at a.",
+      "description": "Resolve a place name to Facebook Marketplace locations with coordinates and metadata as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1588,7 +1636,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.page_contact",
@@ -1635,14 +1684,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "facebook.photos",
       "slug": "facebook.photos",
       "category": "social",
       "name": "Facebook Page Photos",
-      "description": "Fetch recent photos posted by any public Facebook page or profile (image URLs, captions, and dimensions) as normalized JSON at a.",
+      "description": "Fetch recent photos posted by any public Facebook page or profile (image URLs, captions, and dimensions) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1668,14 +1718,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "facebook.post",
       "slug": "facebook.post",
       "category": "social",
       "name": "Facebook Post",
-      "description": "Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views), normalized across providers.",
+      "description": "Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1707,14 +1758,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "facebook.post_comments",
       "slug": "facebook.post_comments",
       "category": "social",
       "name": "Facebook Post Comments",
-      "description": "List the comments on a Facebook post by URL with cursor pagination (text, author, reactions, reply count), normalized across providers.",
+      "description": "List the comments on a Facebook post by URL with cursor pagination (text, author, reactions, reply count).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1746,14 +1798,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "facebook.post_transcript",
       "slug": "facebook.post_transcript",
       "category": "social",
       "name": "Facebook Post Transcript",
-      "description": "Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON at a.",
+      "description": "Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1772,14 +1825,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.profile",
       "slug": "facebook.profile",
       "category": "social",
       "name": "Facebook Profile",
-      "description": "Fetch a Facebook page's public profile (likes, followers, category, about) by URL or handle, normalized across providers.",
+      "description": "Fetch a Facebook page's public profile (likes, followers, category, about) by URL or handle.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1804,14 +1858,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.profile_events",
       "slug": "facebook.profile_events",
       "category": "social",
       "name": "Facebook Page Events",
-      "description": "List upcoming and past events hosted by any public Facebook page by URL (name, schedule, venue, and host) as normalized JSON at a.",
+      "description": "List upcoming and past events hosted by any public Facebook page by URL (name, schedule, venue, and host) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1837,14 +1892,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "facebook.profile_posts",
       "slug": "facebook.profile_posts",
       "category": "social",
       "name": "Facebook Profile Posts",
-      "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, permalink), normalized across providers.",
+      "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, permalink).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1876,14 +1932,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "facebook.profile_reels",
       "slug": "facebook.profile_reels",
       "category": "social",
       "name": "Facebook Profile Reels",
-      "description": "List a Facebook page's reels by URL with cursor pagination (caption, view count, permalink, thumbnail), normalized across providers.",
+      "description": "List a Facebook page's reels by URL with cursor pagination (caption, view count, permalink, thumbnail).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1909,7 +1966,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "facebook.search_companies",
@@ -1935,14 +1993,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "facebook.search_pages",
       "slug": "facebook.search_pages",
       "category": "social",
       "name": "Facebook Page Search",
-      "description": "Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details) at a.",
+      "description": "Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1971,7 +2030,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "facebook.search_posts",
@@ -2007,7 +2067,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "fiverr.search",
@@ -2037,14 +2098,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "github.repository",
       "slug": "github.repository",
       "category": "data",
       "name": "GitHub Repository",
-      "description": "Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps), normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2069,7 +2131,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "github.trending_developers",
@@ -2095,14 +2158,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "github.trending_repositories",
       "slug": "github.trending_repositories",
       "category": "data",
       "name": "GitHub Trending Repositories",
-      "description": "List GitHub Trending repositories (rank, stars, stars gained today, language, and description), filterable by language and time window, normalized across providers.",
+      "description": "List GitHub Trending repositories (rank, stars, stars gained today, language, and description), filterable by language and time window.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2121,14 +2185,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "github.user",
       "slug": "github.user",
       "category": "data",
       "name": "GitHub User",
-      "description": "Fetch a GitHub user's public profile by handle (name, bio, company, location, followers, and repo counts), normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub user's public profile by handle (name, bio, company, location, followers, and repo counts).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2160,7 +2225,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "github.user_activity",
@@ -2192,14 +2258,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "github.user_contributions",
       "slug": "github.user_contributions",
       "category": "data",
       "name": "GitHub User Contributions",
-      "description": "Fetch a GitHub user's contribution graph for a year (total contributions plus per-day counts and heatmap intensity), normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub user's contribution graph for a year (total contributions plus per-day counts and heatmap intensity).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2218,7 +2285,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "github.user_followers",
@@ -2244,7 +2312,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "github.user_following",
@@ -2270,7 +2339,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "github.user_pull_requests",
@@ -2296,14 +2366,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "github.user_repositories",
       "slug": "github.user_repositories",
       "category": "data",
       "name": "GitHub User Repositories",
-      "description": "List a GitHub user's public repositories (name, description, language, stars, and forks) with sorting and cursor pagination, normalized across providers.",
+      "description": "List a GitHub user's public repositories (name, description, language, stars, and forks) with sorting and cursor pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -2328,7 +2399,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "glassdoor.jobs",
@@ -2358,7 +2430,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google.autocomplete",
@@ -2390,7 +2463,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google.images",
@@ -2426,7 +2500,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google.lens",
@@ -2458,7 +2533,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google.news",
@@ -2490,7 +2566,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google.patents",
@@ -2522,7 +2599,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google.scholar",
@@ -2554,7 +2632,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google.search",
@@ -2582,11 +2661,12 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 728,
-            "requests": 2638
+            "requests": 2642
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google.videos",
@@ -2618,7 +2698,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google_ads.ad_details",
@@ -2650,7 +2731,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google_ads.advertiser_search",
@@ -2682,7 +2764,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google_ads.company_ads",
@@ -2714,7 +2797,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google_ads.search",
@@ -2744,7 +2828,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google_finance.quote",
@@ -2780,7 +2865,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "google_shopping.search",
@@ -2815,7 +2901,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": true
     },
     {
       "id": "hackernews.profile",
@@ -2847,7 +2934,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "hackernews.search",
@@ -2879,7 +2967,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "hackernews.story",
@@ -2907,11 +2996,12 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 81,
-            "requests": 222
+            "requests": 226
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "hackernews.story_comments",
@@ -2943,7 +3033,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "indeed.jobs",
@@ -2979,14 +3070,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.audio_reels",
       "slug": "instagram.audio_reels",
       "category": "social",
       "name": "Instagram Reels by Audio",
-      "description": "List Instagram reels that use a given audio track by audio id, normalized across providers with transparent failover.",
+      "description": "List Instagram reels that use a given audio track by audio id.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3012,14 +3104,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.basic_profile",
       "slug": "instagram.basic_profile",
       "category": "social",
       "name": "Instagram Basic Profile",
-      "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id, normalized across providers with transparent failover.",
+      "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3051,14 +3144,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.embed",
       "slug": "instagram.embed",
       "category": "social",
       "name": "Instagram Profile Embed",
-      "description": "Fetch the public embed HTML for an Instagram profile by handle, normalized across providers with transparent failover.",
+      "description": "Fetch the public embed HTML for an Instagram profile by handle.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3083,7 +3177,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.followers",
@@ -3130,7 +3225,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.following",
@@ -3157,8 +3253,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 470,
-            "requests": 5
+            "latencyP50Ms": 1416,
+            "requests": 6
           }
         },
         {
@@ -3177,14 +3273,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.hashtag_analytics",
       "slug": "instagram.hashtag_analytics",
       "category": "social",
       "name": "Instagram Hashtag Analytics",
-      "description": "Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals), normalized.",
+      "description": "Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3213,14 +3310,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.highlight_detail",
       "slug": "instagram.highlight_detail",
       "category": "social",
       "name": "Instagram Highlight Detail",
-      "description": "Fetch the details and media items of a single Instagram story highlight by id, normalized across providers with transparent failover.",
+      "description": "Fetch the details and media items of a single Instagram story highlight by id.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3239,14 +3337,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.media_transcript",
       "slug": "instagram.media_transcript",
       "category": "social",
       "name": "Instagram Media Transcript",
-      "description": "Get the spoken-audio transcript text for an Instagram post or reel by URL, normalized across providers with transparent failover.",
+      "description": "Get the spoken-audio transcript text for an Instagram post or reel by URL.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3271,14 +3370,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.post",
       "slug": "instagram.post",
       "category": "social",
       "name": "Instagram Post",
-      "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON, across providers with transparent failover.",
+      "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3297,9 +3397,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.77777777777777,
-            "latencyP50Ms": 1530,
-            "requests": 226
+            "uptimePct": 97.37991266375546,
+            "latencyP50Ms": 1542,
+            "requests": 230
           }
         },
         {
@@ -3310,20 +3410,21 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 25,
-            "latencyP50Ms": 30000,
-            "requests": 5
+            "uptimePct": 40,
+            "latencyP50Ms": 18500,
+            "requests": 6
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.post_comments",
       "slug": "instagram.post_comments",
       "category": "social",
       "name": "Instagram Post Comments",
-      "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes), normalized across providers.",
+      "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3361,14 +3462,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.profile",
       "slug": "instagram.profile",
       "category": "social",
       "name": "Instagram Profile",
-      "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle, normalized across providers with transparent failover.",
+      "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3413,7 +3515,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.reel_transcript",
@@ -3450,14 +3553,15 @@
         }
       ],
       "heavy": true,
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "instagram.reels_search",
       "slug": "instagram.reels_search",
       "category": "social",
       "name": "Instagram Reels Search",
-      "description": "Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration), normalized across providers with transparent failover.",
+      "description": "Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration). Paging tops out around 110 reels per query (11 pages of 10).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3482,7 +3586,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.search",
@@ -3529,14 +3634,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.search_hashtag",
       "slug": "instagram.search_hashtag",
       "category": "social",
       "name": "Instagram Hashtag Search",
-      "description": "List recent Instagram posts under a hashtag (caption, type, media URL), normalized across providers with transparent failover.",
+      "description": "Search Instagram posts under a hashtag (caption, type, media URL). Results are relevance-ranked by Instagram, not date-ordered, so a page can mix recent and older posts.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3561,14 +3667,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.search_profiles",
       "slug": "instagram.search_profiles",
       "category": "social",
       "name": "Instagram Profile Search",
-      "description": "Search public Instagram profiles by a bio or caption keyword, normalized across providers with transparent failover.",
+      "description": "Search public Instagram profiles by a bio or caption keyword.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3606,7 +3713,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.stories_full",
@@ -3636,7 +3744,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "instagram.stories_thin",
@@ -3668,14 +3777,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.trending_reels",
       "slug": "instagram.trending_reels",
       "category": "social",
       "name": "Instagram Trending Reels",
-      "description": "List currently trending Instagram reels, normalized across providers with transparent failover.",
+      "description": "List currently trending Instagram reels.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3700,14 +3810,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.user_highlights",
       "slug": "instagram.user_highlights",
       "category": "social",
       "name": "Instagram User Highlights",
-      "description": "List an Instagram account's story highlight reels by handle, normalized across providers with transparent failover.",
+      "description": "List an Instagram account's story highlight reels by handle.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3732,14 +3843,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "instagram.user_posts",
       "slug": "instagram.user_posts",
       "category": "social",
       "name": "Instagram User Posts",
-      "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination, normalized across providers.",
+      "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3784,14 +3896,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "instagram.user_reels",
       "slug": "instagram.user_reels",
       "category": "social",
       "name": "Instagram User Reels",
-      "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments), normalized across providers.",
+      "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -3816,7 +3929,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.ad",
@@ -3848,7 +3962,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.ads",
@@ -3878,7 +3993,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.ads_search",
@@ -3904,7 +4020,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.company",
@@ -3940,7 +4057,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.company_employees",
@@ -3976,7 +4094,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "linkedin.company_posts",
@@ -4012,7 +4131,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.company_posts_thin",
@@ -4038,7 +4158,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.company_thin",
@@ -4070,7 +4191,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.email",
@@ -4106,7 +4228,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.jobs",
@@ -4142,7 +4265,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.jobs_thin",
@@ -4168,14 +4292,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.post",
       "slug": "linkedin.post",
       "category": "social",
       "name": "LinkedIn Post",
-      "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date), normalized across providers.",
+      "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -4207,7 +4332,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "linkedin.post_comments",
@@ -4243,7 +4369,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.post_reactions",
@@ -4279,7 +4406,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.post_transcript",
@@ -4305,7 +4433,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.profile",
@@ -4341,7 +4470,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.profile_thin",
@@ -4367,7 +4497,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.search_companies",
@@ -4403,14 +4534,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "linkedin.search_posts",
       "slug": "linkedin.search_posts",
       "category": "social",
       "name": "LinkedIn Post Search",
-      "description": "Search public LinkedIn posts by keyword (text, link, publish date), normalized across providers with transparent failover.",
+      "description": "Search public LinkedIn posts by keyword (text, link, publish date).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -4448,7 +4580,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "linkedin.search_profiles",
@@ -4484,7 +4617,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "linkedin.search_profiles_email",
@@ -4520,7 +4654,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "linkedin.search_profiles_thin",
@@ -4552,7 +4687,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "maps.contacts",
@@ -4588,7 +4724,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "maps.place",
@@ -4619,12 +4756,13 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 17508,
-            "requests": 108
+            "latencyP50Ms": 17519,
+            "requests": 112
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "maps.reviews",
@@ -4660,7 +4798,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "maps.search",
@@ -4696,7 +4835,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "pandaexpress.locations",
@@ -4722,7 +4862,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "pandaexpress.menu",
@@ -4748,7 +4889,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "pandaexpress.nutrition",
@@ -4774,7 +4916,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "person.skip_trace",
@@ -4804,7 +4947,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "pinterest.search",
@@ -4836,7 +4980,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "playstore.reviews",
@@ -4873,7 +5018,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "polymarket.markets",
@@ -4903,7 +5049,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "realtor.search",
@@ -4933,14 +5080,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "reddit.post_comments",
       "slug": "reddit.post_comments",
       "category": "social",
       "name": "Reddit Post Comments",
-      "description": "List the top-level comments on a Reddit post by URL (author, body, score, timestamp), normalized across providers with transparent failover.",
+      "description": "List the top-level comments on a Reddit post by URL (author, body, score, timestamp).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -4959,9 +5107,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.73432518597237,
-            "latencyP50Ms": 2638,
-            "requests": 1902
+            "uptimePct": 99.73628691983123,
+            "latencyP50Ms": 2631,
+            "requests": 1916
           }
         },
         {
@@ -4978,14 +5126,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "reddit.post_transcript",
       "slug": "reddit.post_transcript",
       "category": "social",
       "name": "Reddit Post Transcript",
-      "description": "Extract the spoken transcript from a Reddit video post by URL, normalized across providers with transparent failover.",
+      "description": "Extract the spoken transcript from a Reddit video post by URL.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -5004,14 +5153,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "reddit.search",
       "slug": "reddit.search",
       "category": "social",
       "name": "Reddit Search",
-      "description": "Search Reddit posts across all subreddits by query, normalized across providers with transparent failover.",
+      "description": "Search Reddit posts across all subreddits by query.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -5030,9 +5180,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.87492182614133,
+            "uptimePct": 99.87523393636931,
             "latencyP50Ms": 2596,
-            "requests": 1735
+            "requests": 1739
           }
         },
         {
@@ -5062,14 +5212,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "reddit.subreddit_details",
       "slug": "reddit.subreddit_details",
       "category": "social",
       "name": "Reddit Subreddit Details",
-      "description": "Fetch a subreddit's metadata (weekly active users, description, and category), normalized across providers with transparent failover.",
+      "description": "Fetch a subreddit's metadata (weekly active users, description, and category).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -5114,14 +5265,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "reddit.subreddit_posts",
       "slug": "reddit.subreddit_posts",
       "category": "social",
       "name": "Reddit Subreddit Posts",
-      "description": "Fetch posts from a subreddit listing (hot, new, or top), normalized across providers with transparent failover.",
+      "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -5146,14 +5298,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "reddit.subreddit_search",
       "slug": "reddit.subreddit_search",
       "category": "social",
       "name": "Reddit Subreddit Search",
-      "description": "Search posts within a single subreddit by query, sort, and timeframe, normalized across providers with transparent failover.",
+      "description": "Search posts within a single subreddit by query, sort, and timeframe.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -5173,8 +5326,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1828,
-            "requests": 245
+            "latencyP50Ms": 1821,
+            "requests": 269
           }
         },
         {
@@ -5185,7 +5338,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "redfin.search",
@@ -5215,7 +5369,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "rednote.note",
@@ -5241,7 +5396,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "rednote.note_comments",
@@ -5267,7 +5423,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "rednote.profile",
@@ -5293,7 +5450,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "rednote.search",
@@ -5325,7 +5483,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "rednote.search_users",
@@ -5357,7 +5516,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "rednote.user_notes",
@@ -5383,7 +5543,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "sec.filings",
@@ -5420,7 +5581,8 @@
         }
       ],
       "heavy": true,
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "semrush.keywords",
@@ -5456,7 +5618,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "semrush.overview",
@@ -5492,7 +5655,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.competitors_domain",
@@ -5528,7 +5692,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.domain_intersection",
@@ -5558,7 +5723,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.domain_rank_overview",
@@ -5594,7 +5760,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.keyword_difficulty",
@@ -5624,7 +5791,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.keyword_ideas",
@@ -5660,7 +5828,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.keyword_overview",
@@ -5696,7 +5865,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.keyword_suggestions",
@@ -5726,7 +5896,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.local_pack",
@@ -5762,7 +5933,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.ranked_keywords",
@@ -5798,7 +5970,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.related_keywords",
@@ -5828,7 +6001,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.search_intent",
@@ -5858,7 +6032,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "seo.search_volume",
@@ -5894,7 +6069,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "snapchat.profile",
@@ -5924,7 +6100,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "social.finder",
@@ -5960,7 +6137,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "spotify.album",
@@ -5986,7 +6164,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "spotify.artist",
@@ -6012,7 +6191,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "spotify.play_count",
@@ -6042,7 +6222,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "spotify.podcast",
@@ -6068,7 +6249,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "spotify.podcast_episodes",
@@ -6094,7 +6276,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "spotify.search",
@@ -6120,7 +6303,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "spotify.track",
@@ -6146,7 +6330,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "substack.posts",
@@ -6176,7 +6361,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "threads.post",
@@ -6209,7 +6395,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "threads.profile",
@@ -6242,7 +6429,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "threads.search",
@@ -6281,7 +6469,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "threads.search_users",
@@ -6314,7 +6503,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "threads.user_posts",
@@ -6347,14 +6537,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.ad_library_ad",
       "slug": "tiktok.ad_library_ad",
       "category": "social",
       "name": "TikTok Ad Library Ad",
-      "description": "Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info), normalized across providers with transparent failover.",
+      "description": "Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6373,14 +6564,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "tiktok.ad_library_search",
       "slug": "tiktok.ad_library_search",
       "category": "social",
       "name": "TikTok Ad Library Search",
-      "description": "Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info), normalized across providers with transparent failover.",
+      "description": "Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6405,14 +6597,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "tiktok.audience_demographics",
       "slug": "tiktok.audience_demographics",
       "category": "social",
       "name": "TikTok Audience Demographics",
-      "description": "Get the audience country breakdown (follower count and share per country) for a TikTok creator by handle, normalized across providers.",
+      "description": "Get the audience country breakdown (follower count and share per country) for a TikTok creator by handle.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6444,14 +6637,15 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": true
     },
     {
       "id": "tiktok.comment_replies",
       "slug": "tiktok.comment_replies",
       "category": "social",
       "name": "TikTok Comment Replies",
-      "description": "List the replies to a TikTok comment with cursor pagination (text, author, likes), normalized across providers.",
+      "description": "List the replies to a TikTok comment with cursor pagination (text, author, likes).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6477,7 +6671,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.followers",
@@ -6510,14 +6705,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.following",
       "slug": "tiktok.following",
       "category": "social",
       "name": "TikTok Following",
-      "description": "List the accounts a TikTok user follows (handle, display name, follower count, bio) by username, normalized across providers.",
+      "description": "List the accounts a TikTok user follows (handle, display name, follower count, bio) by username.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6549,14 +6745,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.hashtag_videos",
       "slug": "tiktok.hashtag_videos",
       "category": "video",
       "name": "TikTok Hashtag Videos",
-      "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares), normalized output.",
+      "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6590,14 +6787,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.live",
       "slug": "tiktok.live",
       "category": "social",
       "name": "TikTok Live",
-      "description": "Check whether a TikTok creator is live and get the current live room (title, viewers, start time) by handle, normalized across providers.",
+      "description": "Check whether a TikTok creator is live and get the current live room (title, viewers, start time) by handle.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6623,14 +6821,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.profile",
       "slug": "tiktok.profile",
       "category": "social",
       "name": "TikTok Profile",
-      "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle, normalized across providers with transparent failover.",
+      "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6675,14 +6874,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.profile_region",
       "slug": "tiktok.profile_region",
       "category": "social",
       "name": "TikTok Profile Region",
-      "description": "Resolve the home region (country) of a TikTok creator by handle, normalized across providers with transparent failover.",
+      "description": "Resolve the home region (country) of a TikTok creator by handle.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6714,14 +6914,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.profile_videos",
       "slug": "tiktok.profile_videos",
       "category": "social",
       "name": "TikTok Profile Videos",
-      "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination, normalized across providers.",
+      "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6766,14 +6967,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.search_hashtag",
       "slug": "tiktok.search_hashtag",
       "category": "social",
       "name": "TikTok Hashtag Search",
-      "description": "Search TikTok by hashtag and get matching videos (caption, views, likes, comments, shares) as normalized JSON, across providers with transparent failover.",
+      "description": "Search TikTok by hashtag and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6811,14 +7013,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.search_keyword",
       "slug": "tiktok.search_keyword",
       "category": "social",
       "name": "TikTok Keyword Search",
-      "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON, across providers with transparent failover.",
+      "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6863,14 +7066,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.search_top",
       "slug": "tiktok.search_top",
       "category": "social",
       "name": "TikTok Top Search",
-      "description": "Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination, normalized across providers.",
+      "description": "Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6902,14 +7106,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.search_users",
       "slug": "tiktok.search_users",
       "category": "social",
       "name": "TikTok User Search",
-      "description": "Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination, normalized across providers.",
+      "description": "Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6954,14 +7159,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.song",
       "slug": "tiktok.song",
       "category": "social",
       "name": "TikTok Song",
-      "description": "Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it), normalized across providers with transparent failover.",
+      "description": "Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -6987,14 +7193,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.song_videos",
       "slug": "tiktok.song_videos",
       "category": "social",
       "name": "TikTok Song Videos",
-      "description": "List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats), normalized across providers with transparent failover.",
+      "description": "List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7020,14 +7227,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.trending_feed",
       "slug": "tiktok.trending_feed",
       "category": "social",
       "name": "TikTok Trending Feed",
-      "description": "Get TikTok's trending feed for a region (caption, views, likes, comments, author) as normalized JSON, across providers with transparent failover.",
+      "description": "Get TikTok's trending feed for a region (caption, views, likes, comments, author) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7052,14 +7260,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "tiktok.video",
       "slug": "tiktok.video",
       "category": "social",
       "name": "TikTok Video",
-      "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves), normalized across providers with transparent failover.",
+      "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7098,14 +7307,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.video_comments",
       "slug": "tiktok.video_comments",
       "category": "social",
       "name": "TikTok Video Comments",
-      "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count), normalized across providers.",
+      "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7131,14 +7341,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok.video_transcript",
       "slug": "tiktok.video_transcript",
       "category": "social",
       "name": "TikTok Video Transcript",
-      "description": "Fetch the spoken-word transcript of a TikTok video by URL, normalized across providers with transparent failover.",
+      "description": "Fetch the spoken-word transcript of a TikTok video by URL.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7171,7 +7382,8 @@
         }
       ],
       "heavy": true,
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": true
     },
     {
       "id": "tiktok_shop.product",
@@ -7204,14 +7416,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok_shop.product_reviews",
       "slug": "tiktok_shop.product_reviews",
       "category": "shop",
       "name": "TikTok Shop Product Reviews",
-      "description": "Fetch customer reviews for a TikTok Shop product by URL (rating, text, reviewer, country, and verified-purchase flag), normalized across providers with transparent failover.",
+      "description": "Fetch customer reviews for a TikTok Shop product by URL (rating, text, reviewer, country, and verified-purchase flag).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7237,7 +7450,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tiktok_shop.search",
@@ -7269,14 +7483,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "tiktok_shop.shop_products",
       "slug": "tiktok_shop.shop_products",
       "category": "shop",
       "name": "TikTok Shop Store Products",
-      "description": "List every product of a TikTok Shop store by URL (title, price, sales, and rating per product plus shop-level stats) with cursor pagination and transparent failover.",
+      "description": "List every product of a TikTok Shop store by URL (title, price, sales, and rating per product plus shop-level stats) with cursor pagination.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7295,14 +7510,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "tiktok_shop.user_showcase",
       "slug": "tiktok_shop.user_showcase",
       "category": "shop",
       "name": "TikTok Shop User Showcase",
-      "description": "List the TikTok Shop products a creator showcases (title, price, rating, and sales per product), normalized across providers with transparent failover.",
+      "description": "List the TikTok Shop products a creator showcases (title, price, rating, and sales per product).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7321,7 +7537,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "tripadvisor.reviews",
@@ -7368,7 +7585,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "tripadvisor.search",
@@ -7415,7 +7633,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "trustpilot.reviews",
@@ -7456,7 +7675,8 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": true
     },
     {
       "id": "truthsocial.post",
@@ -7482,7 +7702,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "truthsocial.profile",
@@ -7514,7 +7735,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "truthsocial.user_posts",
@@ -7540,7 +7762,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "twitter.article",
@@ -7572,14 +7795,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "twitter.community",
       "slug": "twitter.community",
       "category": "social",
       "name": "Twitter Community",
-      "description": "Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL, normalized across providers with transparent failover.",
+      "description": "Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7605,14 +7829,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "twitter.community_tweets",
       "slug": "twitter.community_tweets",
       "category": "social",
       "name": "Twitter Community Tweets",
-      "description": "List recent tweets posted in a Twitter/X community by URL, normalized across providers with transparent failover.",
+      "description": "List recent tweets posted in a Twitter/X community by URL.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7638,7 +7863,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "twitter.followers",
@@ -7685,7 +7911,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "twitter.following",
@@ -7732,14 +7959,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "twitter.profile",
       "slug": "twitter.profile",
       "category": "social",
       "name": "Twitter Profile",
-      "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle, normalized across providers with transparent failover.",
+      "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7797,7 +8025,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "twitter.replies",
@@ -7833,7 +8062,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "twitter.search",
@@ -7880,7 +8110,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "twitter.trends",
@@ -7912,14 +8143,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "twitter.tweet",
       "slug": "twitter.tweet",
       "category": "social",
       "name": "Twitter Tweet",
-      "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views), normalized across providers.",
+      "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7958,14 +8190,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "twitter.tweet_transcript",
       "slug": "twitter.tweet_transcript",
       "category": "social",
       "name": "Twitter Tweet Transcript",
-      "description": "Extract the spoken transcript from a Twitter/X video tweet by URL, normalized across providers with transparent failover.",
+      "description": "Extract the spoken transcript from a Twitter/X video tweet by URL.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -7992,7 +8225,8 @@
         }
       ],
       "heavy": true,
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": true
     },
     {
       "id": "twitter.user_posts",
@@ -8024,7 +8258,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "twitter.user_tweets",
@@ -8060,7 +8295,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "upwork.jobs",
@@ -8090,7 +8326,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "walmart.product",
@@ -8121,7 +8358,8 @@
         }
       ],
       "heavy": true,
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "web.crawl",
@@ -8157,7 +8395,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "web.map",
@@ -8183,7 +8422,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "web.scrape",
@@ -8209,14 +8449,15 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 85.03350707371557,
+            "uptimePct": 85.07795100222717,
             "latencyP50Ms": 505,
-            "requests": 1346
+            "requests": 1351
           }
         }
       ],
       "heavy": true,
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "web.screenshot",
@@ -8253,7 +8494,8 @@
         }
       ],
       "heavy": true,
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "weibo.hot_search",
@@ -8285,7 +8527,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "weibo.post",
@@ -8317,7 +8560,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "weibo.post_comments",
@@ -8349,7 +8593,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "weibo.profile",
@@ -8381,7 +8626,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "weibo.search",
@@ -8413,7 +8659,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "weibo.user_posts",
@@ -8445,7 +8692,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "whatsapp.validate",
@@ -8481,7 +8729,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "yahoo_finance.quote",
@@ -8518,7 +8767,8 @@
         }
       ],
       "heavy": true,
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "yelp.search",
@@ -8554,14 +8804,15 @@
           }
         }
       ],
-      "tryEligible": false
+      "tryEligible": false,
+      "failover": false
     },
     {
       "id": "youtube.channel",
       "slug": "youtube.channel",
       "category": "video",
       "name": "YouTube Channel",
-      "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID, normalized across providers.",
+      "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8593,14 +8844,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "youtube.channel_community_posts",
       "slug": "youtube.channel_community_posts",
       "category": "video",
       "name": "YouTube Channel Community Posts",
-      "description": "List a YouTube channel's community posts by handle or channel ID with cursor pagination (text, likes, image, publish time), normalized across providers.",
+      "description": "List a YouTube channel's community posts by handle or channel ID with cursor pagination (text, likes, image, publish time).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8626,14 +8878,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "youtube.channel_lives",
       "slug": "youtube.channel_lives",
       "category": "video",
       "name": "YouTube Channel Live Streams",
-      "description": "List a YouTube channel's live and past-live streams by handle or channel ID with cursor pagination (title, views, length, publish time), normalized across providers.",
+      "description": "List a YouTube channel's live and past-live streams by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8659,14 +8912,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "youtube.channel_playlists",
       "slug": "youtube.channel_playlists",
       "category": "video",
       "name": "YouTube Channel Playlists",
-      "description": "List a YouTube channel's playlists by handle or channel ID with cursor pagination (title, video count, thumbnail), normalized across providers.",
+      "description": "List a YouTube channel's playlists by handle or channel ID with cursor pagination (title, video count, thumbnail).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8691,14 +8945,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "youtube.channel_shorts",
       "slug": "youtube.channel_shorts",
       "category": "video",
       "name": "YouTube Channel Shorts",
-      "description": "List a YouTube channel's Shorts by handle or channel ID with cursor pagination (title, views, likes, duration), normalized across providers.",
+      "description": "List a YouTube channel's Shorts by handle or channel ID with cursor pagination (title, views, likes, duration).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8730,14 +8985,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "youtube.channel_videos",
       "slug": "youtube.channel_videos",
       "category": "video",
       "name": "YouTube Channel Videos",
-      "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time), normalized across providers.",
+      "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8775,14 +9031,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "youtube.comment_replies",
       "slug": "youtube.comment_replies",
       "category": "video",
       "name": "YouTube Comment Replies",
-      "description": "List replies to a YouTube comment using a continuation token with cursor pagination (text, author, likes, publish time), normalized across providers.",
+      "description": "List replies to a YouTube comment using a continuation token with cursor pagination (text, author, likes, publish time).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8801,14 +9058,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "youtube.community_post",
       "slug": "youtube.community_post",
       "category": "video",
       "name": "YouTube Community Post",
-      "description": "Fetch a single YouTube community post by URL (text, images, channel, publish time), normalized across providers.",
+      "description": "Fetch a single YouTube community post by URL (text, images, channel, publish time).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8834,14 +9092,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "youtube.playlist",
       "slug": "youtube.playlist",
       "category": "video",
       "name": "YouTube Playlist",
-      "description": "List every video in a YouTube playlist (title, length, and channel per video plus playlist owner and totals), normalized across providers with transparent failover.",
+      "description": "List every video in a YouTube playlist (title, length, and channel per video plus playlist owner and totals).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8866,14 +9125,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "youtube.search",
       "slug": "youtube.search",
       "category": "video",
       "name": "YouTube Search",
-      "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON, across providers with transparent failover.",
+      "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8905,14 +9165,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "youtube.search_hashtag",
       "slug": "youtube.search_hashtag",
       "category": "video",
       "name": "YouTube Hashtag Search",
-      "description": "Search YouTube videos by hashtag with cursor pagination (title, channel, views, length, publish time), normalized across providers.",
+      "description": "Search YouTube videos by hashtag with cursor pagination (title, channel, views, length, publish time).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8938,14 +9199,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "youtube.trending_shorts",
       "slug": "youtube.trending_shorts",
       "category": "video",
       "name": "YouTube Trending Shorts",
-      "description": "List currently trending YouTube Shorts (title, channel, views, likes, duration), normalized across providers.",
+      "description": "List currently trending YouTube Shorts (title, channel, views, likes, duration).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -8970,14 +9232,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "youtube.video",
       "slug": "youtube.video",
       "category": "video",
       "name": "YouTube Video",
-      "description": "Fetch a YouTube video's metadata (title, channel, views, likes, duration, publish date) by URL or ID, normalized across providers.",
+      "description": "Fetch a YouTube video's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -9002,14 +9265,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "youtube.video_comments",
       "slug": "youtube.video_comments",
       "category": "video",
       "name": "YouTube Video Comments",
-      "description": "List the comments on a YouTube video by URL with cursor pagination (text, author, likes, reply count), normalized across providers.",
+      "description": "List the comments on a YouTube video by URL with cursor pagination (text, author, likes, reply count).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -9047,14 +9311,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": true
     },
     {
       "id": "youtube.video_sponsors",
       "slug": "youtube.video_sponsors",
       "category": "video",
       "name": "YouTube Video Sponsors",
-      "description": "Detect suspected sponsors and paid promotions in a YouTube video by URL (sponsor names, websites, confidence), normalized across providers.",
+      "description": "Detect suspected sponsors and paid promotions in a YouTube video by URL (sponsor names, websites, confidence).",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -9073,14 +9338,15 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "youtube.video_transcript",
       "slug": "youtube.video_transcript",
       "category": "video",
       "name": "YouTube Video Transcript",
-      "description": "Fetch the transcript/captions of a YouTube video by URL or ID, normalized across providers with transparent failover.",
+      "description": "Fetch the transcript/captions of a YouTube video by URL or ID.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -9106,7 +9372,8 @@
         }
       ],
       "heavy": true,
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "zhihu.answer",
@@ -9138,7 +9405,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "zhihu.profile",
@@ -9170,7 +9438,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "zhihu.question",
@@ -9202,7 +9471,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "zhihu.question_answers",
@@ -9234,7 +9504,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "zhihu.search_articles",
@@ -9266,7 +9537,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "zillow.property",
@@ -9297,7 +9569,8 @@
         }
       ],
       "heavy": true,
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     },
     {
       "id": "zillow.search",
@@ -9333,7 +9606,8 @@
           }
         }
       ],
-      "tryEligible": true
+      "tryEligible": true,
+      "failover": false
     }
   ]
 }

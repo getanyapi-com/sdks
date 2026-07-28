@@ -735,8 +735,7 @@ class TwitterNamespace:
         """Twitter Community
 
         Fetch a Twitter/X community's public details (name, description, member
-        count, join policy) by URL, normalized across providers with transparent
-        failover.
+        count, join policy) by URL.
 
         Price: $0.002 per request.
 
@@ -756,8 +755,7 @@ class TwitterNamespace:
     ) -> RunResult[TwitterCommunityTweetsData]:
         """Twitter Community Tweets
 
-        List recent tweets posted in a Twitter/X community by URL, normalized across
-        providers with transparent failover.
+        List recent tweets posted in a Twitter/X community by URL.
 
         Price: $0.002 per request.
 
@@ -868,8 +866,7 @@ class TwitterNamespace:
         """Twitter Profile
 
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
-        verification) by handle, normalized across providers with transparent
-        failover.
+        verification) by handle.
 
         Price: $0.00075 per request.
 
@@ -979,8 +976,7 @@ class TwitterNamespace:
         """Twitter Tweet
 
         Fetch a single Twitter/X tweet by URL with its full text and engagement
-        counts (likes, retweets, replies, quotes, bookmarks, views), normalized
-        across providers.
+        counts (likes, retweets, replies, quotes, bookmarks, views).
 
         Price: $0.00075 per request.
 
@@ -1000,8 +996,7 @@ class TwitterNamespace:
     ) -> RunResult[TwitterTweetTranscriptData]:
         """Twitter Tweet Transcript
 
-        Extract the spoken transcript from a Twitter/X video tweet by URL,
-        normalized across providers with transparent failover.
+        Extract the spoken transcript from a Twitter/X video tweet by URL.
 
         Price: $0.002 per request.
 
@@ -1142,8 +1137,7 @@ class AsyncTwitterNamespace:
         """Twitter Community
 
         Fetch a Twitter/X community's public details (name, description, member
-        count, join policy) by URL, normalized across providers with transparent
-        failover.
+        count, join policy) by URL.
 
         Price: $0.002 per request.
 
@@ -1163,8 +1157,7 @@ class AsyncTwitterNamespace:
     ) -> RunResult[TwitterCommunityTweetsData]:
         """Twitter Community Tweets
 
-        List recent tweets posted in a Twitter/X community by URL, normalized across
-        providers with transparent failover.
+        List recent tweets posted in a Twitter/X community by URL.
 
         Price: $0.002 per request.
 
@@ -1275,8 +1268,7 @@ class AsyncTwitterNamespace:
         """Twitter Profile
 
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
-        verification) by handle, normalized across providers with transparent
-        failover.
+        verification) by handle.
 
         Price: $0.00075 per request.
 
@@ -1386,8 +1378,7 @@ class AsyncTwitterNamespace:
         """Twitter Tweet
 
         Fetch a single Twitter/X tweet by URL with its full text and engagement
-        counts (likes, retweets, replies, quotes, bookmarks, views), normalized
-        across providers.
+        counts (likes, retweets, replies, quotes, bookmarks, views).
 
         Price: $0.00075 per request.
 
@@ -1407,8 +1398,7 @@ class AsyncTwitterNamespace:
     ) -> RunResult[TwitterTweetTranscriptData]:
         """Twitter Tweet Transcript
 
-        Extract the spoken transcript from a Twitter/X video tweet by URL,
-        normalized across providers with transparent failover.
+        Extract the spoken transcript from a Twitter/X video tweet by URL.
 
         Price: $0.002 per request.
 

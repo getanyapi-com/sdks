@@ -4622,7 +4622,7 @@
       "operationId": "bluesky_user_posts",
       "name": "Bluesky User Posts",
       "category": "social",
-      "description": "List a Bluesky account's recent posts (text, author handle, like, reply, and repost counts) by handle as clean JSON, normalized across providers.",
+      "description": "List a Bluesky account's recent posts (text, author handle, like, reply, and repost counts) by handle as clean JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -7685,7 +7685,7 @@
       "operationId": "facebook_ads_search",
       "name": "Facebook Ad Search",
       "category": "social",
-      "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination and transparent failover.",
+      "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -7982,7 +7982,7 @@
       "operationId": "facebook_comment_replies",
       "name": "Facebook Comment Replies",
       "category": "social",
-      "description": "List the replies to a Facebook post comment (text, author, reactions, and timestamps) as normalized JSON at a.",
+      "description": "List the replies to a Facebook post comment (text, author, reactions, and timestamps) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -8427,7 +8427,7 @@
       "operationId": "facebook_event_details",
       "name": "Facebook Event Details",
       "category": "social",
-      "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON at a.",
+      "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -8603,7 +8603,7 @@
       "operationId": "facebook_events",
       "name": "Facebook Events",
       "category": "social",
-      "description": "List public Facebook events for a city or place by its events-page URL (event name, date, venue, and attendance) as normalized JSON at a.",
+      "description": "List public Facebook events for a city or place by its events-page URL (event name, date, venue, and attendance) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -8775,7 +8775,7 @@
       "operationId": "facebook_events_search",
       "name": "Facebook Events Search",
       "category": "social",
-      "description": "Search public Facebook events by keyword and get structured event records (name, schedule, venue, pricing, and attendance) as normalized JSON at a.",
+      "description": "Search public Facebook events by keyword and get structured event records (name, schedule, venue, pricing, and attendance) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -9517,7 +9517,7 @@
       "operationId": "facebook_marketplace_item",
       "name": "Facebook Marketplace Item",
       "category": "social",
-      "description": "Fetch full details for a single Facebook Marketplace listing by ID or URL (title, price, location, photos, and attributes) as normalized JSON at a.",
+      "description": "Fetch full details for a single Facebook Marketplace listing by ID or URL (title, price, location, photos, and attributes) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -9683,7 +9683,7 @@
       "operationId": "facebook_marketplace_location_search",
       "name": "Facebook Marketplace Location Search",
       "category": "social",
-      "description": "Resolve a place name to Facebook Marketplace locations with coordinates and metadata as normalized JSON at a.",
+      "description": "Resolve a place name to Facebook Marketplace locations with coordinates and metadata as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -9973,7 +9973,7 @@
       "operationId": "facebook_photos",
       "name": "Facebook Page Photos",
       "category": "social",
-      "description": "Fetch recent photos posted by any public Facebook page or profile (image URLs, captions, and dimensions) as normalized JSON at a.",
+      "description": "Fetch recent photos posted by any public Facebook page or profile (image URLs, captions, and dimensions) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -10140,7 +10140,7 @@
       "operationId": "facebook_post",
       "name": "Facebook Post",
       "category": "social",
-      "description": "Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views), normalized across providers.",
+      "description": "Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -10247,7 +10247,7 @@
       "operationId": "facebook_post_comments",
       "name": "Facebook Post Comments",
       "category": "social",
-      "description": "List the comments on a Facebook post by URL with cursor pagination (text, author, reactions, reply count), normalized across providers.",
+      "description": "List the comments on a Facebook post by URL with cursor pagination (text, author, reactions, reply count).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -10397,7 +10397,7 @@
       "operationId": "facebook_post_transcript",
       "name": "Facebook Post Transcript",
       "category": "social",
-      "description": "Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON at a.",
+      "description": "Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -10463,7 +10463,7 @@
       "operationId": "facebook_profile",
       "name": "Facebook Profile",
       "category": "social",
-      "description": "Fetch a Facebook page's public profile (likes, followers, category, about) by URL or handle, normalized across providers.",
+      "description": "Fetch a Facebook page's public profile (likes, followers, category, about) by URL or handle.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -10577,7 +10577,7 @@
       "operationId": "facebook_profile_events",
       "name": "Facebook Page Events",
       "category": "social",
-      "description": "List upcoming and past events hosted by any public Facebook page by URL (name, schedule, venue, and host) as normalized JSON at a.",
+      "description": "List upcoming and past events hosted by any public Facebook page by URL (name, schedule, venue, and host) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -10760,7 +10760,7 @@
       "operationId": "facebook_profile_posts",
       "name": "Facebook Profile Posts",
       "category": "social",
-      "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, permalink), normalized across providers.",
+      "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, permalink).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -10886,7 +10886,7 @@
       "operationId": "facebook_profile_reels",
       "name": "Facebook Profile Reels",
       "category": "social",
-      "description": "List a Facebook page's reels by URL with cursor pagination (caption, view count, permalink, thumbnail), normalized across providers.",
+      "description": "List a Facebook page's reels by URL with cursor pagination (caption, view count, permalink, thumbnail).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -11193,7 +11193,7 @@
       "operationId": "facebook_search_pages",
       "name": "Facebook Page Search",
       "category": "social",
-      "description": "Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details) at a.",
+      "description": "Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details).",
       "pricing": {
         "priceUsd": 0.111,
         "baseUsd": 0.001,
@@ -11721,7 +11721,7 @@
       "operationId": "github_repository",
       "name": "GitHub Repository",
       "category": "data",
-      "description": "Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps), normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12088,7 +12088,7 @@
       "operationId": "github_trending_repositories",
       "name": "GitHub Trending Repositories",
       "category": "data",
-      "description": "List GitHub Trending repositories (rank, stars, stars gained today, language, and description), filterable by language and time window, normalized across providers.",
+      "description": "List GitHub Trending repositories (rank, stars, stars gained today, language, and description), filterable by language and time window.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12236,7 +12236,7 @@
       "operationId": "github_user",
       "name": "GitHub User",
       "category": "data",
-      "description": "Fetch a GitHub user's public profile by handle (name, bio, company, location, followers, and repo counts), normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub user's public profile by handle (name, bio, company, location, followers, and repo counts).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -12545,7 +12545,7 @@
       "operationId": "github_user_contributions",
       "name": "GitHub User Contributions",
       "category": "data",
-      "description": "Fetch a GitHub user's contribution graph for a year (total contributions plus per-day counts and heatmap intensity), normalized across providers with transparent failover.",
+      "description": "Fetch a GitHub user's contribution graph for a year (total contributions plus per-day counts and heatmap intensity).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -13119,7 +13119,7 @@
       "operationId": "github_user_repositories",
       "name": "GitHub User Repositories",
       "category": "data",
-      "description": "List a GitHub user's public repositories (name, description, language, stars, and forks) with sorting and cursor pagination, normalized across providers.",
+      "description": "List a GitHub user's public repositories (name, description, language, stars, and forks) with sorting and cursor pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -16619,7 +16619,7 @@
       "operationId": "instagram_audio_reels",
       "name": "Instagram Reels by Audio",
       "category": "social",
-      "description": "List Instagram reels that use a given audio track by audio id, normalized across providers with transparent failover.",
+      "description": "List Instagram reels that use a given audio track by audio id.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -16762,7 +16762,7 @@
       "operationId": "instagram_basic_profile",
       "name": "Instagram Basic Profile",
       "category": "social",
-      "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id, normalized across providers with transparent failover.",
+      "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -16897,7 +16897,7 @@
       "operationId": "instagram_embed",
       "name": "Instagram Profile Embed",
       "category": "social",
-      "description": "Fetch the public embed HTML for an Instagram profile by handle, normalized across providers with transparent failover.",
+      "description": "Fetch the public embed HTML for an Instagram profile by handle.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -17275,7 +17275,7 @@
       "operationId": "instagram_hashtag_analytics",
       "name": "Instagram Hashtag Analytics",
       "category": "social",
-      "description": "Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals), normalized.",
+      "description": "Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals).",
       "pricing": {
         "priceUsd": 0.035,
         "baseUsd": 0.001,
@@ -17408,7 +17408,7 @@
       "operationId": "instagram_highlight_detail",
       "name": "Instagram Highlight Detail",
       "category": "social",
-      "description": "Fetch the details and media items of a single Instagram story highlight by id, normalized across providers with transparent failover.",
+      "description": "Fetch the details and media items of a single Instagram story highlight by id.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -17521,7 +17521,7 @@
       "operationId": "instagram_media_transcript",
       "name": "Instagram Media Transcript",
       "category": "social",
-      "description": "Get the spoken-audio transcript text for an Instagram post or reel by URL, normalized across providers with transparent failover.",
+      "description": "Get the spoken-audio transcript text for an Instagram post or reel by URL.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -17626,7 +17626,7 @@
       "operationId": "instagram_post",
       "name": "Instagram Post",
       "category": "social",
-      "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON, across providers with transparent failover.",
+      "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -17742,7 +17742,7 @@
       "operationId": "instagram_post_comments",
       "name": "Instagram Post Comments",
       "category": "social",
-      "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes), normalized across providers.",
+      "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -17875,7 +17875,7 @@
       "operationId": "instagram_profile",
       "name": "Instagram Profile",
       "category": "social",
-      "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle, normalized across providers with transparent failover.",
+      "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -18198,7 +18198,7 @@
       "operationId": "instagram_reels_search",
       "name": "Instagram Reels Search",
       "category": "social",
-      "description": "Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration), normalized across providers with transparent failover.",
+      "description": "Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration). Paging tops out around 110 reels per query (11 pages of 10).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -18579,7 +18579,7 @@
       "operationId": "instagram_search_hashtag",
       "name": "Instagram Hashtag Search",
       "category": "social",
-      "description": "List recent Instagram posts under a hashtag (caption, type, media URL), normalized across providers with transparent failover.",
+      "description": "Search Instagram posts under a hashtag (caption, type, media URL). Results are relevance-ranked by Instagram, not date-ordered, so a page can mix recent and older posts.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -18734,7 +18734,7 @@
       "operationId": "instagram_search_profiles",
       "name": "Instagram Profile Search",
       "category": "social",
-      "description": "Search public Instagram profiles by a bio or caption keyword, normalized across providers with transparent failover.",
+      "description": "Search public Instagram profiles by a bio or caption keyword.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -19183,7 +19183,7 @@
       "operationId": "instagram_trending_reels",
       "name": "Instagram Trending Reels",
       "category": "social",
-      "description": "List currently trending Instagram reels, normalized across providers with transparent failover.",
+      "description": "List currently trending Instagram reels.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -19313,7 +19313,7 @@
       "operationId": "instagram_user_highlights",
       "name": "Instagram User Highlights",
       "category": "social",
-      "description": "List an Instagram account's story highlight reels by handle, normalized across providers with transparent failover.",
+      "description": "List an Instagram account's story highlight reels by handle.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -19434,7 +19434,7 @@
       "operationId": "instagram_user_posts",
       "name": "Instagram User Posts",
       "category": "social",
-      "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination, normalized across providers.",
+      "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -19575,7 +19575,7 @@
       "operationId": "instagram_user_reels",
       "name": "Instagram User Reels",
       "category": "social",
-      "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments), normalized across providers.",
+      "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -21910,7 +21910,7 @@
       "operationId": "linkedin_post",
       "name": "LinkedIn Post",
       "category": "social",
-      "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date), normalized across providers.",
+      "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
         "priceUsd": 0.001,
         "baseUsd": null,
@@ -23409,7 +23409,7 @@
       "operationId": "linkedin_search_posts",
       "name": "LinkedIn Post Search",
       "category": "social",
-      "description": "Search public LinkedIn posts by keyword (text, link, publish date), normalized across providers with transparent failover.",
+      "description": "Search public LinkedIn posts by keyword (text, link, publish date).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -27760,7 +27760,7 @@
       "operationId": "reddit_post_comments",
       "name": "Reddit Post Comments",
       "category": "social",
-      "description": "List the top-level comments on a Reddit post by URL (author, body, score, timestamp), normalized across providers with transparent failover.",
+      "description": "List the top-level comments on a Reddit post by URL (author, body, score, timestamp).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -27889,7 +27889,7 @@
       "operationId": "reddit_post_transcript",
       "name": "Reddit Post Transcript",
       "category": "social",
-      "description": "Extract the spoken transcript from a Reddit video post by URL, normalized across providers with transparent failover.",
+      "description": "Extract the spoken transcript from a Reddit video post by URL.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -27987,7 +27987,7 @@
       "operationId": "reddit_search",
       "name": "Reddit Search",
       "category": "social",
-      "description": "Search Reddit posts across all subreddits by query, normalized across providers with transparent failover.",
+      "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
         "priceUsd": 0.001,
         "baseUsd": null,
@@ -28185,7 +28185,7 @@
       "operationId": "reddit_subreddit_details",
       "name": "Reddit Subreddit Details",
       "category": "social",
-      "description": "Fetch a subreddit's metadata (weekly active users, description, and category), normalized across providers with transparent failover.",
+      "description": "Fetch a subreddit's metadata (weekly active users, description, and category).",
       "pricing": {
         "priceUsd": 0.001,
         "baseUsd": null,
@@ -28307,7 +28307,7 @@
       "operationId": "reddit_subreddit_posts",
       "name": "Reddit Subreddit Posts",
       "category": "social",
-      "description": "Fetch posts from a subreddit listing (hot, new, or top), normalized across providers with transparent failover.",
+      "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -28512,7 +28512,7 @@
       "operationId": "reddit_subreddit_search",
       "name": "Reddit Subreddit Search",
       "category": "social",
-      "description": "Search posts within a single subreddit by query, sort, and timeframe, normalized across providers with transparent failover.",
+      "description": "Search posts within a single subreddit by query, sort, and timeframe.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -35248,7 +35248,7 @@
       "operationId": "tiktok_ad_library_ad",
       "name": "TikTok Ad Library Ad",
       "category": "social",
-      "description": "Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info), normalized across providers with transparent failover.",
+      "description": "Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -35414,7 +35414,7 @@
       "operationId": "tiktok_ad_library_search",
       "name": "TikTok Ad Library Search",
       "category": "social",
-      "description": "Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info), normalized across providers with transparent failover.",
+      "description": "Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -35741,7 +35741,7 @@
       "operationId": "tiktok_audience_demographics",
       "name": "TikTok Audience Demographics",
       "category": "social",
-      "description": "Get the audience country breakdown (follower count and share per country) for a TikTok creator by handle, normalized across providers.",
+      "description": "Get the audience country breakdown (follower count and share per country) for a TikTok creator by handle.",
       "pricing": {
         "priceUsd": 0.01625,
         "baseUsd": null,
@@ -35849,7 +35849,7 @@
       "operationId": "tiktok_comment_replies",
       "name": "TikTok Comment Replies",
       "category": "social",
-      "description": "List the replies to a TikTok comment with cursor pagination (text, author, likes), normalized across providers.",
+      "description": "List the replies to a TikTok comment with cursor pagination (text, author, likes).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -36140,7 +36140,7 @@
       "operationId": "tiktok_following",
       "name": "TikTok Following",
       "category": "social",
-      "description": "List the accounts a TikTok user follows (handle, display name, follower count, bio) by username, normalized across providers.",
+      "description": "List the accounts a TikTok user follows (handle, display name, follower count, bio) by username.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -36278,7 +36278,7 @@
       "operationId": "tiktok_hashtag_videos",
       "name": "TikTok Hashtag Videos",
       "category": "video",
-      "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares), normalized output.",
+      "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).",
       "pricing": {
         "priceUsd": 0.00325,
         "baseUsd": null,
@@ -36439,7 +36439,7 @@
       "operationId": "tiktok_live",
       "name": "TikTok Live",
       "category": "social",
-      "description": "Check whether a TikTok creator is live and get the current live room (title, viewers, start time) by handle, normalized across providers.",
+      "description": "Check whether a TikTok creator is live and get the current live room (title, viewers, start time) by handle.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -36573,7 +36573,7 @@
       "operationId": "tiktok_profile",
       "name": "TikTok Profile",
       "category": "social",
-      "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle, normalized across providers with transparent failover.",
+      "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
         "priceUsd": 0.001,
         "baseUsd": null,
@@ -36703,7 +36703,7 @@
       "operationId": "tiktok_profile_region",
       "name": "TikTok Profile Region",
       "category": "social",
-      "description": "Resolve the home region (country) of a TikTok creator by handle, normalized across providers with transparent failover.",
+      "description": "Resolve the home region (country) of a TikTok creator by handle.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -36791,7 +36791,7 @@
       "operationId": "tiktok_profile_videos",
       "name": "TikTok Profile Videos",
       "category": "social",
-      "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination, normalized across providers.",
+      "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.",
       "pricing": {
         "priceUsd": 0.001,
         "baseUsd": null,
@@ -36943,7 +36943,7 @@
       "operationId": "tiktok_search_hashtag",
       "name": "TikTok Hashtag Search",
       "category": "social",
-      "description": "Search TikTok by hashtag and get matching videos (caption, views, likes, comments, shares) as normalized JSON, across providers with transparent failover.",
+      "description": "Search TikTok by hashtag and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -37091,7 +37091,7 @@
       "operationId": "tiktok_search_keyword",
       "name": "TikTok Keyword Search",
       "category": "social",
-      "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON, across providers with transparent failover.",
+      "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.001,
         "baseUsd": null,
@@ -37243,7 +37243,7 @@
       "operationId": "tiktok_search_top",
       "name": "TikTok Top Search",
       "category": "social",
-      "description": "Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination, normalized across providers.",
+      "description": "Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -37427,7 +37427,7 @@
       "operationId": "tiktok_search_users",
       "name": "TikTok User Search",
       "category": "social",
-      "description": "Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination, normalized across providers.",
+      "description": "Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination.",
       "pricing": {
         "priceUsd": 0.001,
         "baseUsd": null,
@@ -37560,7 +37560,7 @@
       "operationId": "tiktok_song",
       "name": "TikTok Song",
       "category": "social",
-      "description": "Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it), normalized across providers with transparent failover.",
+      "description": "Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -37696,7 +37696,7 @@
       "operationId": "tiktok_song_videos",
       "name": "TikTok Song Videos",
       "category": "social",
-      "description": "List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats), normalized across providers with transparent failover.",
+      "description": "List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -37864,7 +37864,7 @@
       "operationId": "tiktok_trending_feed",
       "name": "TikTok Trending Feed",
       "category": "social",
-      "description": "Get TikTok's trending feed for a region (caption, views, likes, comments, author) as normalized JSON, across providers with transparent failover.",
+      "description": "Get TikTok's trending feed for a region (caption, views, likes, comments, author) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -38029,7 +38029,7 @@
       "operationId": "tiktok_video",
       "name": "TikTok Video",
       "category": "social",
-      "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves), normalized across providers with transparent failover.",
+      "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
         "priceUsd": 0.001,
         "baseUsd": null,
@@ -38157,7 +38157,7 @@
       "operationId": "tiktok_video_comments",
       "name": "TikTok Video Comments",
       "category": "social",
-      "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count), normalized across providers.",
+      "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -38294,7 +38294,7 @@
       "operationId": "tiktok_video_transcript",
       "name": "TikTok Video Transcript",
       "category": "social",
-      "description": "Fetch the spoken-word transcript of a TikTok video by URL, normalized across providers with transparent failover.",
+      "description": "Fetch the spoken-word transcript of a TikTok video by URL.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -38521,7 +38521,7 @@
       "operationId": "tiktok_shop_product_reviews",
       "name": "TikTok Shop Product Reviews",
       "category": "shop",
-      "description": "Fetch customer reviews for a TikTok Shop product by URL (rating, text, reviewer, country, and verified-purchase flag), normalized across providers with transparent failover.",
+      "description": "Fetch customer reviews for a TikTok Shop product by URL (rating, text, reviewer, country, and verified-purchase flag).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -38879,7 +38879,7 @@
       "operationId": "tiktok_shop_shop_products",
       "name": "TikTok Shop Store Products",
       "category": "shop",
-      "description": "List every product of a TikTok Shop store by URL (title, price, sales, and rating per product plus shop-level stats) with cursor pagination and transparent failover.",
+      "description": "List every product of a TikTok Shop store by URL (title, price, sales, and rating per product plus shop-level stats) with cursor pagination.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -39092,7 +39092,7 @@
       "operationId": "tiktok_shop_user_showcase",
       "name": "TikTok Shop User Showcase",
       "category": "shop",
-      "description": "List the TikTok Shop products a creator showcases (title, price, rating, and sales per product), normalized across providers with transparent failover.",
+      "description": "List the TikTok Shop products a creator showcases (title, price, rating, and sales per product).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -40659,7 +40659,7 @@
       "operationId": "twitter_community",
       "name": "Twitter Community",
       "category": "social",
-      "description": "Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL, normalized across providers with transparent failover.",
+      "description": "Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -40781,7 +40781,7 @@
       "operationId": "twitter_community_tweets",
       "name": "Twitter Community Tweets",
       "category": "social",
-      "description": "List recent tweets posted in a Twitter/X community by URL, normalized across providers with transparent failover.",
+      "description": "List recent tweets posted in a Twitter/X community by URL.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -41263,7 +41263,7 @@
       "operationId": "twitter_profile",
       "name": "Twitter Profile",
       "category": "social",
-      "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle, normalized across providers with transparent failover.",
+      "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.",
       "pricing": {
         "priceUsd": 0.00075,
         "baseUsd": null,
@@ -41928,7 +41928,7 @@
       "operationId": "twitter_tweet",
       "name": "Twitter Tweet",
       "category": "social",
-      "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views), normalized across providers.",
+      "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).",
       "pricing": {
         "priceUsd": 0.00075,
         "baseUsd": null,
@@ -42067,7 +42067,7 @@
       "operationId": "twitter_tweet_transcript",
       "name": "Twitter Tweet Transcript",
       "category": "social",
-      "description": "Extract the spoken transcript from a Twitter/X video tweet by URL, normalized across providers with transparent failover.",
+      "description": "Extract the spoken transcript from a Twitter/X video tweet by URL.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -45035,7 +45035,7 @@
       "operationId": "youtube_channel",
       "name": "YouTube Channel",
       "category": "video",
-      "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID, normalized across providers.",
+      "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -45156,7 +45156,7 @@
       "operationId": "youtube_channel_community_posts",
       "name": "YouTube Channel Community Posts",
       "category": "video",
-      "description": "List a YouTube channel's community posts by handle or channel ID with cursor pagination (text, likes, image, publish time), normalized across providers.",
+      "description": "List a YouTube channel's community posts by handle or channel ID with cursor pagination (text, likes, image, publish time).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -45303,7 +45303,7 @@
       "operationId": "youtube_channel_lives",
       "name": "YouTube Channel Live Streams",
       "category": "video",
-      "description": "List a YouTube channel's live and past-live streams by handle or channel ID with cursor pagination (title, views, length, publish time), normalized across providers.",
+      "description": "List a YouTube channel's live and past-live streams by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -45450,7 +45450,7 @@
       "operationId": "youtube_channel_playlists",
       "name": "YouTube Channel Playlists",
       "category": "video",
-      "description": "List a YouTube channel's playlists by handle or channel ID with cursor pagination (title, video count, thumbnail), normalized across providers.",
+      "description": "List a YouTube channel's playlists by handle or channel ID with cursor pagination (title, video count, thumbnail).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -45588,7 +45588,7 @@
       "operationId": "youtube_channel_shorts",
       "name": "YouTube Channel Shorts",
       "category": "video",
-      "description": "List a YouTube channel's Shorts by handle or channel ID with cursor pagination (title, views, likes, duration), normalized across providers.",
+      "description": "List a YouTube channel's Shorts by handle or channel ID with cursor pagination (title, views, likes, duration).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -45743,7 +45743,7 @@
       "operationId": "youtube_channel_videos",
       "name": "YouTube Channel Videos",
       "category": "video",
-      "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time), normalized across providers.",
+      "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -45900,7 +45900,7 @@
       "operationId": "youtube_comment_replies",
       "name": "YouTube Comment Replies",
       "category": "video",
-      "description": "List replies to a YouTube comment using a continuation token with cursor pagination (text, author, likes, publish time), normalized across providers.",
+      "description": "List replies to a YouTube comment using a continuation token with cursor pagination (text, author, likes, publish time).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -46028,7 +46028,7 @@
       "operationId": "youtube_community_post",
       "name": "YouTube Community Post",
       "category": "video",
-      "description": "Fetch a single YouTube community post by URL (text, images, channel, publish time), normalized across providers.",
+      "description": "Fetch a single YouTube community post by URL (text, images, channel, publish time).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -46134,7 +46134,7 @@
       "operationId": "youtube_playlist",
       "name": "YouTube Playlist",
       "category": "video",
-      "description": "List every video in a YouTube playlist (title, length, and channel per video plus playlist owner and totals), normalized across providers with transparent failover.",
+      "description": "List every video in a YouTube playlist (title, length, and channel per video plus playlist owner and totals).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -46296,7 +46296,7 @@
       "operationId": "youtube_search",
       "name": "YouTube Search",
       "category": "video",
-      "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON, across providers with transparent failover.",
+      "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -46462,7 +46462,7 @@
       "operationId": "youtube_search_hashtag",
       "name": "YouTube Hashtag Search",
       "category": "video",
-      "description": "Search YouTube videos by hashtag with cursor pagination (title, channel, views, length, publish time), normalized across providers.",
+      "description": "Search YouTube videos by hashtag with cursor pagination (title, channel, views, length, publish time).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -46623,7 +46623,7 @@
       "operationId": "youtube_trending_shorts",
       "name": "YouTube Trending Shorts",
       "category": "video",
-      "description": "List currently trending YouTube Shorts (title, channel, views, likes, duration), normalized across providers.",
+      "description": "List currently trending YouTube Shorts (title, channel, views, likes, duration).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -46748,7 +46748,7 @@
       "operationId": "youtube_video",
       "name": "YouTube Video",
       "category": "video",
-      "description": "Fetch a YouTube video's metadata (title, channel, views, likes, duration, publish date) by URL or ID, normalized across providers.",
+      "description": "Fetch a YouTube video's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -46882,7 +46882,7 @@
       "operationId": "youtube_video_comments",
       "name": "YouTube Video Comments",
       "category": "video",
-      "description": "List the comments on a YouTube video by URL with cursor pagination (text, author, likes, reply count), normalized across providers.",
+      "description": "List the comments on a YouTube video by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -47031,7 +47031,7 @@
       "operationId": "youtube_video_sponsors",
       "name": "YouTube Video Sponsors",
       "category": "video",
-      "description": "Detect suspected sponsors and paid promotions in a YouTube video by URL (sponsor names, websites, confidence), normalized across providers.",
+      "description": "Detect suspected sponsors and paid promotions in a YouTube video by URL (sponsor names, websites, confidence).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -47165,7 +47165,7 @@
       "operationId": "youtube_video_transcript",
       "name": "YouTube Video Transcript",
       "category": "video",
-      "description": "Fetch the transcript/captions of a YouTube video by URL or ID, normalized across providers with transparent failover.",
+      "description": "Fetch the transcript/captions of a YouTube video by URL or ID.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,

@@ -2088,7 +2088,7 @@ class LinkedinNamespace:
         """LinkedIn Post
 
         Fetch a single LinkedIn post or article by URL (title, text, author, like
-        and comment counts, publish date), normalized across providers.
+        and comment counts, publish date).
 
         Price: $0.001 per request.
 
@@ -2240,8 +2240,7 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinSearchPostsData]:
         """LinkedIn Post Search
 
-        Search public LinkedIn posts by keyword (text, link, publish date),
-        normalized across providers with transparent failover.
+        Search public LinkedIn posts by keyword (text, link, publish date).
 
         Price: $0.002 per request.
 
@@ -2578,7 +2577,7 @@ class AsyncLinkedinNamespace:
         """LinkedIn Post
 
         Fetch a single LinkedIn post or article by URL (title, text, author, like
-        and comment counts, publish date), normalized across providers.
+        and comment counts, publish date).
 
         Price: $0.001 per request.
 
@@ -2730,8 +2729,7 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinSearchPostsData]:
         """LinkedIn Post Search
 
-        Search public LinkedIn posts by keyword (text, link, publish date),
-        normalized across providers with transparent failover.
+        Search public LinkedIn posts by keyword (text, link, publish date).
 
         Price: $0.002 per request.
 

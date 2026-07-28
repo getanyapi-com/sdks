@@ -609,7 +609,7 @@ export class GithubNamespace {
   /**
    * GitHub Repository
    *
-   * Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps), normalized across providers with transparent failover.
+   * Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps).
    *
    * Price: $0.002 per request.
    *
@@ -643,7 +643,7 @@ export class GithubNamespace {
   /**
    * GitHub Trending Repositories
    *
-   * List GitHub Trending repositories (rank, stars, stars gained today, language, and description), filterable by language and time window, normalized across providers.
+   * List GitHub Trending repositories (rank, stars, stars gained today, language, and description), filterable by language and time window.
    *
    * Price: $0.002 per request.
    *
@@ -660,7 +660,7 @@ export class GithubNamespace {
   /**
    * GitHub User
    *
-   * Fetch a GitHub user's public profile by handle (name, bio, company, location, followers, and repo counts), normalized across providers with transparent failover.
+   * Fetch a GitHub user's public profile by handle (name, bio, company, location, followers, and repo counts).
    *
    * Price: $0.002 per request.
    *
@@ -717,7 +717,7 @@ export class GithubNamespace {
   /**
    * GitHub User Contributions
    *
-   * Fetch a GitHub user's contribution graph for a year (total contributions plus per-day counts and heatmap intensity), normalized across providers with transparent failover.
+   * Fetch a GitHub user's contribution graph for a year (total contributions plus per-day counts and heatmap intensity).
    *
    * Price: $0.002 per request.
    *
@@ -863,7 +863,7 @@ export class GithubNamespace {
   /**
    * GitHub User Repositories
    *
-   * List a GitHub user's public repositories (name, description, language, stars, and forks) with sorting and cursor pagination, normalized across providers.
+   * List a GitHub user's public repositories (name, description, language, stars, and forks) with sorting and cursor pagination.
    *
    * Price: $0.002 per request.
    *

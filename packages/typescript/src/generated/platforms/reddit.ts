@@ -386,7 +386,7 @@ export class RedditNamespace {
   /**
    * Reddit Post Comments
    *
-   * List the top-level comments on a Reddit post by URL (author, body, score, timestamp), normalized across providers with transparent failover.
+   * List the top-level comments on a Reddit post by URL (author, body, score, timestamp).
    *
    * Price: $0.002 per request.
    *
@@ -403,7 +403,7 @@ export class RedditNamespace {
   /**
    * Reddit Post Transcript
    *
-   * Extract the spoken transcript from a Reddit video post by URL, normalized across providers with transparent failover.
+   * Extract the spoken transcript from a Reddit video post by URL.
    *
    * Price: $0.002 per request.
    *
@@ -420,7 +420,7 @@ export class RedditNamespace {
   /**
    * Reddit Search
    *
-   * Search Reddit posts across all subreddits by query, normalized across providers with transparent failover.
+   * Search Reddit posts across all subreddits by query.
    *
    * Price: $0.001 per request.
    *
@@ -457,7 +457,7 @@ export class RedditNamespace {
   /**
    * Reddit Subreddit Details
    *
-   * Fetch a subreddit's metadata (weekly active users, description, and category), normalized across providers with transparent failover.
+   * Fetch a subreddit's metadata (weekly active users, description, and category).
    *
    * Price: $0.001 per request.
    *
@@ -474,7 +474,7 @@ export class RedditNamespace {
   /**
    * Reddit Subreddit Posts
    *
-   * Fetch posts from a subreddit listing (hot, new, or top), normalized across providers with transparent failover.
+   * Fetch posts from a subreddit listing (hot, new, or top).
    *
    * Price: $0.002 per request.
    *
@@ -491,7 +491,7 @@ export class RedditNamespace {
   /**
    * Reddit Subreddit Search
    *
-   * Search posts within a single subreddit by query, sort, and timeframe, normalized across providers with transparent failover.
+   * Search posts within a single subreddit by query, sort, and timeframe.
    *
    * Price: $0.002 per request.
    *

@@ -369,7 +369,7 @@ export class TiktokShopNamespace {
   /**
    * TikTok Shop Product Reviews
    *
-   * Fetch customer reviews for a TikTok Shop product by URL (rating, text, reviewer, country, and verified-purchase flag), normalized across providers with transparent failover.
+   * Fetch customer reviews for a TikTok Shop product by URL (rating, text, reviewer, country, and verified-purchase flag).
    *
    * Price: $0.002 per request.
    *
@@ -403,7 +403,7 @@ export class TiktokShopNamespace {
   /**
    * TikTok Shop Store Products
    *
-   * List every product of a TikTok Shop store by URL (title, price, sales, and rating per product plus shop-level stats) with cursor pagination and transparent failover.
+   * List every product of a TikTok Shop store by URL (title, price, sales, and rating per product plus shop-level stats) with cursor pagination.
    *
    * Price: $0.002 per request.
    *
@@ -446,7 +446,7 @@ export class TiktokShopNamespace {
   /**
    * TikTok Shop User Showcase
    *
-   * List the TikTok Shop products a creator showcases (title, price, rating, and sales per product), normalized across providers with transparent failover.
+   * List the TikTok Shop products a creator showcases (title, price, rating, and sales per product).
    *
    * Price: $0.002 per request.
    *

@@ -1071,7 +1071,7 @@ export class TiktokNamespace {
   /**
    * TikTok Ad Library Ad
    *
-   * Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info), normalized across providers with transparent failover.
+   * Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info).
    *
    * Price: $0.002 per request.
    *
@@ -1088,7 +1088,7 @@ export class TiktokNamespace {
   /**
    * TikTok Ad Library Search
    *
-   * Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info), normalized across providers with transparent failover.
+   * Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info).
    *
    * Price: $0.002 per request.
    *
@@ -1128,7 +1128,7 @@ export class TiktokNamespace {
   /**
    * TikTok Audience Demographics
    *
-   * Get the audience country breakdown (follower count and share per country) for a TikTok creator by handle, normalized across providers.
+   * Get the audience country breakdown (follower count and share per country) for a TikTok creator by handle.
    *
    * Price: $0.01625 per request.
    *
@@ -1145,7 +1145,7 @@ export class TiktokNamespace {
   /**
    * TikTok Comment Replies
    *
-   * List the replies to a TikTok comment with cursor pagination (text, author, likes), normalized across providers.
+   * List the replies to a TikTok comment with cursor pagination (text, author, likes).
    *
    * Price: $0.002 per request.
    *
@@ -1225,7 +1225,7 @@ export class TiktokNamespace {
   /**
    * TikTok Following
    *
-   * List the accounts a TikTok user follows (handle, display name, follower count, bio) by username, normalized across providers.
+   * List the accounts a TikTok user follows (handle, display name, follower count, bio) by username.
    *
    * Price: $0.002 per request.
    *
@@ -1242,7 +1242,7 @@ export class TiktokNamespace {
   /**
    * TikTok Hashtag Videos
    *
-   * List recent TikTok videos for a hashtag (creator, caption, views, likes, shares), normalized output.
+   * List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).
    *
    * Price: $0.00325 per request.
    *
@@ -1259,7 +1259,7 @@ export class TiktokNamespace {
   /**
    * TikTok Live
    *
-   * Check whether a TikTok creator is live and get the current live room (title, viewers, start time) by handle, normalized across providers.
+   * Check whether a TikTok creator is live and get the current live room (title, viewers, start time) by handle.
    *
    * Price: $0.002 per request.
    *
@@ -1276,7 +1276,7 @@ export class TiktokNamespace {
   /**
    * TikTok Profile
    *
-   * Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle, normalized across providers with transparent failover.
+   * Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.
    *
    * Price: $0.001 per request.
    *
@@ -1293,7 +1293,7 @@ export class TiktokNamespace {
   /**
    * TikTok Profile Region
    *
-   * Resolve the home region (country) of a TikTok creator by handle, normalized across providers with transparent failover.
+   * Resolve the home region (country) of a TikTok creator by handle.
    *
    * Price: $0.002 per request.
    *
@@ -1310,7 +1310,7 @@ export class TiktokNamespace {
   /**
    * TikTok Profile Videos
    *
-   * List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination, normalized across providers.
+   * List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.
    *
    * Price: $0.001 per request.
    *
@@ -1350,7 +1350,7 @@ export class TiktokNamespace {
   /**
    * TikTok Hashtag Search
    *
-   * Search TikTok by hashtag and get matching videos (caption, views, likes, comments, shares) as normalized JSON, across providers with transparent failover.
+   * Search TikTok by hashtag and get matching videos (caption, views, likes, comments, shares) as normalized JSON.
    *
    * Price: $0.002 per request.
    *
@@ -1367,7 +1367,7 @@ export class TiktokNamespace {
   /**
    * TikTok Keyword Search
    *
-   * Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON, across providers with transparent failover.
+   * Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.
    *
    * Price: $0.001 per request.
    *
@@ -1384,7 +1384,7 @@ export class TiktokNamespace {
   /**
    * TikTok Top Search
    *
-   * Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination, normalized across providers.
+   * Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination.
    *
    * Price: $0.002 per request.
    *
@@ -1421,7 +1421,7 @@ export class TiktokNamespace {
   /**
    * TikTok User Search
    *
-   * Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination, normalized across providers.
+   * Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination.
    *
    * Price: $0.001 per request.
    *
@@ -1458,7 +1458,7 @@ export class TiktokNamespace {
   /**
    * TikTok Song
    *
-   * Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it), normalized across providers with transparent failover.
+   * Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it).
    *
    * Price: $0.002 per request.
    *
@@ -1475,7 +1475,7 @@ export class TiktokNamespace {
   /**
    * TikTok Song Videos
    *
-   * List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats), normalized across providers with transparent failover.
+   * List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats).
    *
    * Price: $0.002 per request.
    *
@@ -1512,7 +1512,7 @@ export class TiktokNamespace {
   /**
    * TikTok Trending Feed
    *
-   * Get TikTok's trending feed for a region (caption, views, likes, comments, author) as normalized JSON, across providers with transparent failover.
+   * Get TikTok's trending feed for a region (caption, views, likes, comments, author) as normalized JSON.
    *
    * Price: $0.002 per request.
    *
@@ -1529,7 +1529,7 @@ export class TiktokNamespace {
   /**
    * TikTok Video
    *
-   * Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves), normalized across providers with transparent failover.
+   * Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).
    *
    * Price: $0.001 per request.
    *
@@ -1546,7 +1546,7 @@ export class TiktokNamespace {
   /**
    * TikTok Video Comments
    *
-   * List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count), normalized across providers.
+   * List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).
    *
    * Price: $0.002 per request.
    *
@@ -1586,7 +1586,7 @@ export class TiktokNamespace {
   /**
    * TikTok Video Transcript
    *
-   * Fetch the spoken-word transcript of a TikTok video by URL, normalized across providers with transparent failover.
+   * Fetch the spoken-word transcript of a TikTok video by URL.
    *
    * Price: $0.002 per request.
    *

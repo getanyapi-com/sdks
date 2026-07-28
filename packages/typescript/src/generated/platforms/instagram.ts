@@ -1171,7 +1171,7 @@ export class InstagramNamespace {
   /**
    * Instagram Reels by Audio
    *
-   * List Instagram reels that use a given audio track by audio id, normalized across providers with transparent failover.
+   * List Instagram reels that use a given audio track by audio id.
    *
    * Price: $0.002 per request.
    *
@@ -1211,7 +1211,7 @@ export class InstagramNamespace {
   /**
    * Instagram Basic Profile
    *
-   * Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id, normalized across providers with transparent failover.
+   * Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.
    *
    * Price: $0.002 per request.
    *
@@ -1228,7 +1228,7 @@ export class InstagramNamespace {
   /**
    * Instagram Profile Embed
    *
-   * Fetch the public embed HTML for an Instagram profile by handle, normalized across providers with transparent failover.
+   * Fetch the public embed HTML for an Instagram profile by handle.
    *
    * Price: $0.002 per request.
    *
@@ -1319,7 +1319,7 @@ export class InstagramNamespace {
   /**
    * Instagram Hashtag Analytics
    *
-   * Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals), normalized.
+   * Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals).
    *
    * Price: $0.001 per request plus $0.0017 per result (maximum $0.035).
    *
@@ -1336,7 +1336,7 @@ export class InstagramNamespace {
   /**
    * Instagram Highlight Detail
    *
-   * Fetch the details and media items of a single Instagram story highlight by id, normalized across providers with transparent failover.
+   * Fetch the details and media items of a single Instagram story highlight by id.
    *
    * Price: $0.002 per request.
    *
@@ -1353,7 +1353,7 @@ export class InstagramNamespace {
   /**
    * Instagram Media Transcript
    *
-   * Get the spoken-audio transcript text for an Instagram post or reel by URL, normalized across providers with transparent failover.
+   * Get the spoken-audio transcript text for an Instagram post or reel by URL.
    *
    * Price: $0.002 per request.
    *
@@ -1370,7 +1370,7 @@ export class InstagramNamespace {
   /**
    * Instagram Post
    *
-   * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON, across providers with transparent failover.
+   * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.
    *
    * Price: $0.002 per request.
    *
@@ -1387,7 +1387,7 @@ export class InstagramNamespace {
   /**
    * Instagram Post Comments
    *
-   * List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes), normalized across providers.
+   * List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).
    *
    * Price: $0.002 per request.
    *
@@ -1404,7 +1404,7 @@ export class InstagramNamespace {
   /**
    * Instagram Profile
    *
-   * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle, normalized across providers with transparent failover.
+   * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
    * Price: $0.002 per request.
    *
@@ -1438,7 +1438,7 @@ export class InstagramNamespace {
   /**
    * Instagram Reels Search
    *
-   * Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration), normalized across providers with transparent failover.
+   * Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration). Paging tops out around 110 reels per query (11 pages of 10).
    *
    * Price: $0.002 per request.
    *
@@ -1472,7 +1472,7 @@ export class InstagramNamespace {
   /**
    * Instagram Hashtag Search
    *
-   * List recent Instagram posts under a hashtag (caption, type, media URL), normalized across providers with transparent failover.
+   * Search Instagram posts under a hashtag (caption, type, media URL). Results are relevance-ranked by Instagram, not date-ordered, so a page can mix recent and older posts.
    *
    * Price: $0.002 per request.
    *
@@ -1489,7 +1489,7 @@ export class InstagramNamespace {
   /**
    * Instagram Profile Search
    *
-   * Search public Instagram profiles by a bio or caption keyword, normalized across providers with transparent failover.
+   * Search public Instagram profiles by a bio or caption keyword.
    *
    * Price: $0.002 per request.
    *
@@ -1566,7 +1566,7 @@ export class InstagramNamespace {
   /**
    * Instagram Trending Reels
    *
-   * List currently trending Instagram reels, normalized across providers with transparent failover.
+   * List currently trending Instagram reels.
    *
    * Price: $0.002 per request.
    *
@@ -1583,7 +1583,7 @@ export class InstagramNamespace {
   /**
    * Instagram User Highlights
    *
-   * List an Instagram account's story highlight reels by handle, normalized across providers with transparent failover.
+   * List an Instagram account's story highlight reels by handle.
    *
    * Price: $0.002 per request.
    *
@@ -1600,7 +1600,7 @@ export class InstagramNamespace {
   /**
    * Instagram User Posts
    *
-   * List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination, normalized across providers.
+   * List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.
    *
    * Price: $0.002 per request.
    *
@@ -1637,7 +1637,7 @@ export class InstagramNamespace {
   /**
    * Instagram User Reels
    *
-   * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments), normalized across providers.
+   * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
    * Price: $0.002 per request.
    *

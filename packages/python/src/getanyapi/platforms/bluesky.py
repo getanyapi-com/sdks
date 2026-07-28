@@ -155,7 +155,7 @@ class BlueskyNamespace:
         """Bluesky User Posts
 
         List a Bluesky account's recent posts (text, author handle, like, reply, and
-        repost counts) by handle as clean JSON, normalized across providers.
+        repost counts) by handle as clean JSON.
 
         Price: $0.002 per request.
 
@@ -225,7 +225,7 @@ class AsyncBlueskyNamespace:
         """Bluesky User Posts
 
         List a Bluesky account's recent posts (text, author handle, like, reply, and
-        repost counts) by handle as clean JSON, normalized across providers.
+        repost counts) by handle as clean JSON.
 
         Price: $0.002 per request.
 
