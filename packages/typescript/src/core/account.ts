@@ -419,15 +419,19 @@ export async function agentSignup(
   const text = await response.text().catch(() => "");
   if (response.status !== 200) {
     let message = `request failed with status ${response.status}`;
+    let code: string | undefined;
     try {
-      const parsed = JSON.parse(text) as { error?: unknown };
+      const parsed = JSON.parse(text) as { error?: unknown; code?: unknown };
       if (typeof parsed.error === "string" && parsed.error !== "") {
         message = parsed.error;
+      }
+      if (typeof parsed.code === "string" && parsed.code !== "") {
+        code = parsed.code;
       }
     } catch {
       // not JSON
     }
-    throw errorFromStatus(response.status, message, requestId);
+    throw errorFromStatus(response.status, message, requestId, code);
   }
 
   const parsed = JSON.parse(text) as AgentSignupResponse;

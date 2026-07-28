@@ -84,6 +84,8 @@ export interface RequestOptions {
   signal?: AbortSignal;
   /** Override the client maxRetries for this call. */
   maxRetries?: number;
+  /** Override the generated Idempotency-Key for this billed POST. */
+  idempotencyKey?: string;
 }
 
 /**
@@ -100,6 +102,8 @@ export interface ClientOptions {
   maxRetries?: number;
   /** Per-request timeout in milliseconds. Default 60000. */
   timeoutMs?: number;
+  /** Send Idempotency-Key on billed POSTs. Default "auto"; use "off" as a kill switch. */
+  idempotency?: "auto" | "off";
 }
 
 /**

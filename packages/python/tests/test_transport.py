@@ -57,6 +57,64 @@ def test_no_query_params_when_unset() -> None:
     assert str(rec.last.url.params) == ""
 
 
+def test_idempotency_key_and_body_bytes_are_stable_across_retries(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+
+    monkeypatch.setattr(transport, "sleep", lambda _s: None)
+    calls = {"n": 0}
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return json_response(429, {"error": "slow down"})
+        return json_response(200, run_envelope({"ok": True}))
+
+    client, rec = make_sync_client(respond, max_retries=1)
+    client.run("x.y", {"b": 2, "a": 1})
+
+    assert len(rec.requests) == 2
+    assert rec.requests[0] is rec.requests[1]
+    assert rec.requests[0].headers["idempotency-key"] == rec.requests[1].headers[
+        "idempotency-key"
+    ]
+    assert rec.requests[0].content == rec.requests[1].content
+
+
+def test_fresh_idempotency_key_for_each_new_call() -> None:
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(200, run_envelope({"ok": True}))
+
+    client, rec = make_sync_client(respond)
+    client.run("x.y", {})
+    client.run("x.y", {})
+
+    assert rec.requests[0].headers["idempotency-key"] != rec.requests[1].headers[
+        "idempotency-key"
+    ]
+
+
+def test_per_request_idempotency_key_override() -> None:
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(200, run_envelope({"ok": True}))
+
+    client, rec = make_sync_client(respond)
+    client.run("x.y", {}, options={"idempotency_key": "customer-key"})
+
+    assert rec.last.headers["idempotency-key"] == "customer-key"
+
+
+def test_idempotency_kill_switch_omits_header() -> None:
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(200, run_envelope({"ok": True}))
+
+    client, rec = make_sync_client(respond, idempotency="off")
+    client.run("x.y", {}, options={"idempotency_key": "customer-key"})
+
+    assert "idempotency-key" not in rec.last.headers
+
+
 def test_retry_on_429_then_succeeds(monkeypatch: pytest.MonkeyPatch) -> None:
     import getanyapi._transport as transport
 
@@ -202,6 +260,7 @@ def test_idempotent_get_retries_post_send_read_error(
     result = client.balance()
     assert result.usd == 1.25
     assert len(rec.requests) == 2
+    assert "idempotency-key" not in rec.requests[0].headers
 
 
 def test_billed_post_does_not_retry_post_send_read_error(
@@ -260,6 +319,35 @@ async def test_async_retry_on_429(monkeypatch: pytest.MonkeyPatch) -> None:
     assert result.output.found is True
     assert len(rec.requests) == 3
     assert len(slept) == 2
+    await client.aclose()
+
+
+async def test_async_idempotency_key_reused_across_retries(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import asyncio
+
+    async def fake_sleep(_s: float) -> None:
+        return None
+
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
+    calls = {"n": 0}
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return json_response(429, {"error": "slow"})
+        return json_response(200, run_envelope({"ok": True}))
+
+    client, rec = make_async_client(respond, max_retries=1)
+    await client.run("x.y", {"query": "stable"})
+
+    assert len(rec.requests) == 2
+    assert rec.requests[0] is rec.requests[1]
+    assert rec.requests[0].headers["idempotency-key"] == rec.requests[1].headers[
+        "idempotency-key"
+    ]
+    assert rec.requests[0].content == rec.requests[1].content
     await client.aclose()
 
 
