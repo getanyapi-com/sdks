@@ -1199,7 +1199,7 @@
       "slug": "email.verify",
       "category": "data",
       "name": "Email Verifier",
-      "description": "Verify any email address for deliverability: syntax, domain, and mailbox checks in one normalized response.",
+      "description": "Verify an email address for deliverability: a status verdict (valid, risky, or invalid) with domain, mailbox, catch-all, disposable, and role signals plus a confidence score. Malformed addresses are rejected by the input schema with no charge; every syntactically valid address returns a billed verdict, including undeliverable ones.",
       "provider": "AnyAPI",
       "pricing": {
         "from": {
@@ -1223,8 +1223,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 3970,
-            "requests": 43
+            "latencyP50Ms": 3907,
+            "requests": 45
           }
         }
       ],
@@ -2582,7 +2582,7 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 728,
-            "requests": 2636
+            "requests": 2638
           }
         }
       ],
@@ -2906,8 +2906,8 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 80,
-            "requests": 220
+            "latencyP50Ms": 81,
+            "requests": 222
           }
         }
       ],
@@ -4620,7 +4620,7 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 17508,
-            "requests": 106
+            "requests": 108
           }
         }
       ],
@@ -5030,9 +5030,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.87476518472135,
+            "uptimePct": 99.87492182614133,
             "latencyP50Ms": 2596,
-            "requests": 1733
+            "requests": 1735
           }
         },
         {
@@ -8209,9 +8209,9 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 85.01118568232663,
-            "latencyP50Ms": 506,
-            "requests": 1344
+            "uptimePct": 85.03350707371557,
+            "latencyP50Ms": 505,
+            "requests": 1346
           }
         }
       ],

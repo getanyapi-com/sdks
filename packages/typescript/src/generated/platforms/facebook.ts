@@ -117,7 +117,7 @@ export type FacebookCommentRepliesData = unknown;
  */
 export interface FacebookCompanyAdsInput {
   /**
-   * Company name to search (e.g. "nike"). Provide either pageId or companyName.
+   * Company name to search (e.g. "nike"). Exact-match and case-sensitive against the Meta Ad Library index; an advertiser with no indexed page returns found:false.
    */
   companyName?: string;
   /**

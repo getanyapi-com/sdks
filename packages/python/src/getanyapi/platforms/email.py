@@ -26,7 +26,7 @@ class EmailVerifyInput(TypedDict, total=False):
     """Input for Email Verifier."""
 
     email: Required[str]
-    """The email address to verify (e.g. jane.doe@acme.com)."""
+    """The email address to verify (e.g. jane.doe@acme.com). Exactly one @, a dotted domain, no whitespace or angle brackets. Addresses on reserved, never-deliverable TLDs (.invalid, .test, .example, .localhost, .local, .internal, .blink) and HTML/JSON escape artifacts (a u003e prefix) are rejected locally with no charge."""
 
 
 class EmailFindData(BaseModel):
@@ -68,8 +68,11 @@ class EmailNamespace:
     ) -> BareRunResult[EmailVerifyData]:
         """Email Verifier
 
-        Verify any email address for deliverability: syntax, domain, and mailbox
-        checks in one normalized response.
+        Verify an email address for deliverability: a status verdict (valid, risky,
+        or invalid) with domain, mailbox, catch-all, disposable, and role signals
+        plus a confidence score. Malformed addresses are rejected by the input
+        schema with no charge; every syntactically valid address returns a billed
+        verdict, including undeliverable ones.
 
         Price: $0 per request plus $0.0008 per result (maximum $0.0008).
 
@@ -113,8 +116,11 @@ class AsyncEmailNamespace:
     ) -> BareRunResult[EmailVerifyData]:
         """Email Verifier
 
-        Verify any email address for deliverability: syntax, domain, and mailbox
-        checks in one normalized response.
+        Verify an email address for deliverability: a status verdict (valid, risky,
+        or invalid) with domain, mailbox, catch-all, disposable, and role signals
+        plus a confidence score. Malformed addresses are rejected by the input
+        schema with no charge; every syntactically valid address returns a billed
+        verdict, including undeliverable ones.
 
         Price: $0 per request plus $0.0008 per result (maximum $0.0008).
 

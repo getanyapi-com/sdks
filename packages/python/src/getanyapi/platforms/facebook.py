@@ -75,7 +75,7 @@ class FacebookCompanyAdsInput(TypedDict, total=False):
     """Input for Facebook Company Ads."""
 
     companyName: NotRequired[str]
-    """Company name to search (e.g. "nike"). Provide either pageId or companyName."""
+    """Company name to search (e.g. "nike"). Exact-match and case-sensitive against the Meta Ad Library index; an advertiser with no indexed page returns found:false."""
     country: NotRequired[str]
     """Two-letter country code to scope results. Defaults to all countries."""
     cursor: NotRequired[str]
