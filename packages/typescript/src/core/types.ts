@@ -146,6 +146,8 @@ export interface RequestOptions {
   signal?: AbortSignal;
   /** Override the client maxRetries for this call. */
   maxRetries?: number;
+  /** Override the client maxInProgressWaitMs for this call. */
+  maxInProgressWaitMs?: number;
   /** Override the generated Idempotency-Key for this billed POST. */
   idempotencyKey?: string;
 }
@@ -166,6 +168,13 @@ export interface ClientOptions {
   timeoutMs?: number;
   /** Send Idempotency-Key on billed POSTs. Default "auto"; use "off" as a kill switch. */
   idempotency?: "auto" | "off";
+  /**
+   * Total milliseconds one run() call may block waiting out a 409 `idempotency_in_progress`
+   * (the gateway is still executing the run this key claims). Default 60000. Set 0 to
+   * surface that 409 immediately. This is a whole-call budget across every in-progress
+   * wait, separate from the 8000ms ordinary-backoff ceiling.
+   */
+  maxInProgressWaitMs?: number;
 }
 
 /**

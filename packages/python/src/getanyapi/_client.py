@@ -39,8 +39,10 @@ import httpx
 from . import _account, _transport
 from ._errors import AnyAPIError, ConnectionError, TimeoutError
 from ._transport import (
+    DEFAULT_MAX_IN_PROGRESS_WAIT,
     RetryState,
     build_request,
+    is_idempotency_in_progress,
     is_retryable_error,
     parse_raw,
 )
@@ -92,12 +94,14 @@ class AnyAPI:
         timeout: float = 60.0,
         max_retries: int = 2,
         idempotency: Literal["auto", "off"] = "auto",
+        max_in_progress_wait: float = DEFAULT_MAX_IN_PROGRESS_WAIT,
         http_client: httpx.Client | None = None,
     ) -> None:
         self._api_key = _resolve_api_key(api_key)
         self._base_url = base_url.rstrip("/")
         self._timeout = timeout
         self._max_retries = max_retries
+        self._max_in_progress_wait = max_in_progress_wait
         if idempotency not in ("auto", "off"):
             raise ValueError('idempotency must be "auto" or "off"')
         self._idempotency = idempotency
@@ -140,6 +144,7 @@ class AnyAPI:
         """
         timeout = self._timeout
         max_retries = self._max_retries
+        in_progress_wait = self._max_in_progress_wait
         if options:
             opt_timeout = options.get("timeout")
             if opt_timeout is not None:
@@ -147,6 +152,9 @@ class AnyAPI:
             opt_retries = options.get("max_retries")
             if opt_retries is not None:
                 max_retries = int(opt_retries)
+            opt_wait = options.get("max_in_progress_wait")
+            if opt_wait is not None:
+                in_progress_wait = float(opt_wait)
         request = build_request(
             base_url=self._base_url,
             slug=slug,
@@ -156,7 +164,7 @@ class AnyAPI:
             timeout=timeout,
             idempotency=self._idempotency,
         )
-        retry = RetryState(max_retries)
+        retry = RetryState(max_retries, in_progress_wait)
         while True:
             response: httpx.Response | None = None
             try:
@@ -166,6 +174,15 @@ class AnyAPI:
                 if is_retryable_error(exc) and retry.can_retry:
                     _transport.sleep(retry.next_delay(response))
                     continue
+                if (
+                    is_idempotency_in_progress(exc)
+                    and retry.can_retry
+                    and response is not None
+                ):
+                    delay = retry.in_progress_delay(response)
+                    if delay is not None:
+                        _transport.sleep(delay)
+                        continue
                 raise
             except httpx.TimeoutException as exc:
                 raise TimeoutError(str(exc) or "request timed out", status=0) from exc

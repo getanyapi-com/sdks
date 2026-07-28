@@ -96,7 +96,7 @@ res = client.google.search(
 )
 ```
 
-`options` also carries per-call `timeout` and `max_retries` overrides.
+`options` also carries per-call `timeout`, `max_retries`, and `max_in_progress_wait` overrides.
 
 ## Errors and retries
 
@@ -112,12 +112,30 @@ res = client.google.search(
 | `ConnectionError`          | 0    | Network or transport failure               |
 | `TimeoutError`             | 0    | Request exceeded its timeout (not retried) |
 
-All extend `AnyAPIError` (with `.status` and `.request_id`). Retries cover only 429 and network
-failures proven to happen before a request was sent, with jittered exponential backoff honoring
-`Retry-After`. Default `max_retries` is 2 (up to 3 attempts); set it on the client
-(`AnyAPI(max_retries=...)`) or per request via `options`. Timeouts are never retried. Connection
-failures during or after a billed `POST /v1/run` are not retried because the call may already have
-been charged. When the send phase is unknown, the SDK does not retry.
+All extend `AnyAPIError` (with `.status` and `.request_id`). Retries cover 429, one specific 409
+(below), and network failures proven to happen before a request was sent, with jittered
+exponential backoff honoring `Retry-After`. Default `max_retries` is 2 (up to 3 attempts); set it
+on the client (`AnyAPI(max_retries=...)`) or per request via `options`. Timeouts are never
+retried. Connection failures during or after a billed `POST /v1/run` are not retried because the
+call may already have been charged. When the send phase is unknown, the SDK does not retry.
+
+### Waiting out a run that is still in flight
+
+Settlement is detached from your connection, so a run keeps going after a connection drops. When
+you re-issue a call whose `Idempotency-Key` is still executing, the gateway answers `409` with
+`code="idempotency_in_progress"` and `Retry-After: 30`. The SDK waits that full delay and
+retries, so you get the original run's replayed result (`replayed=True`, no second charge)
+instead of an error.
+
+The 8s ordinary-backoff ceiling does not apply here; a separate whole-call budget does.
+`max_in_progress_wait` (default `60.0` seconds) caps the TOTAL time one `run()` may block on
+these waits, across every retry. A wait that does not fit the remaining budget is refused and the
+`409` is raised rather than truncated into an attempt that would fail anyway. Set
+`max_in_progress_wait=0` on the client, or `options={"max_in_progress_wait": 0}`, to surface the
+`409` immediately and handle it yourself.
+
+No other `409` retries: `idempotency_conflict` (the same key with different input) and
+`idempotency_needs_review` are caller-side problems a retry cannot fix.
 
 Automatic retry of a billed `run()` requires structured transport evidence that the request was
 not delivered. Python's `httpx` transport provides that evidence for `ConnectError`, so DNS
