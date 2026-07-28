@@ -47,7 +47,13 @@ detail. The essentials:
   not an error).
   `unwrap(res)` returns the data or throws `ResultNotFoundError` (a subclass of
   `NotFoundError`) on an empty result. If a future committed schema uses a bare output,
-  `unwrap` returns its data object as-is and never throws.
+  `unwrap` returns its data object as-is.
+- **Replays.** `res.replayed` is `true` when the gateway served a stored response for a
+  repeated idempotency key rather than running the SKU again (a replay is not billed twice).
+  A replay can outlive its stored payload (a 24h expiry, or a payload too large to store);
+  that response carries the run metadata with a null `output`, and `unwrap` throws
+  `AnyAPIError` rather than hand back an empty payload typed as your data. Re-run without
+  the idempotency key to fetch the data again.
 - **Pagination.** Paginated SKUs expose an iterator (`client.reddit.iterSearch(...)` /
   `client.reddit.iter_search(...)`) that yields items across pages and follows the cursor.
   Call `.pages()` on it to walk whole results and read each page's `costUsd` / `cost_usd`.

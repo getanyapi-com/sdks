@@ -390,6 +390,12 @@ export interface RunResult<T> {
   costUsd: number;
   /** Number of result rows returned (present on per-result SKUs). */
   items?: number;
+  /** True when the gateway served a stored response for a repeated Idempotency-Key. */
+  replayed: boolean;
+  /** Handle for a free re-read of the full unshaped result via GET /v1/results/{id}. */
+  resultId?: string;
+  /** Why a requested jq reshape did not apply (the run was still billed). */
+  jqError?: string;
   /** Optional server nudge when a large result was returned untrimmed. */
   hint?: string;
 }
@@ -408,7 +414,27 @@ export declare function unwrap<T>(result: RunResult<T>): T;
 `result.output.found === false`. **(v1 erratum)** `ResultNotFoundError extends NotFoundError`,
 so `catch (NotFoundError)` still catches an empty-result unwrap AND an HTTP 404; catch
 `ResultNotFoundError` to handle only empty results. `unwrap` also has a `BareRunResult<T>`
-overload that returns `output` directly and never throws.
+overload that returns `output` directly.
+
+**(v1 erratum) Replay metadata.** `replayed` is REQUIRED: the gateway sends it on every
+success envelope (it carries no `omitempty`). `resultId` and `jqError` are optional and are
+omitted when empty. `BareRunResult<T>` carries the same three fields with the same meaning,
+and so do the Python models (3.3). `replayed` is true when a repeated `Idempotency-Key` was
+served from storage instead of running the SKU again; a replay is not billed twice.
+`resultId` is an opaque handle to the full unshaped result, cached about 15 minutes, so the
+caller can re-shape it for free via `GET /v1/results/{id}`. `jqError` reports why a requested
+jq reshape did not apply; the run was still billed and `output` carries the full result.
+
+**(v1 erratum) Unretained replay output.** A replay can outlive the payload it replays: the
+gateway prunes stored payloads on a 24h TTL and never stores one over its size cap, and
+`output` carries no `omitempty`, so such a response is legally `{"output": null, ...}` with
+the run metadata intact. `Output<T>` does NOT admit null (neither does the Python model), so
+`unwrap` guards it at runtime instead: given a null or absent `output` it throws
+`AnyAPIError` (status 200) whose message states that the payload was not retained, that this
+response is an idempotent replay, and that re-running without the idempotency key (or with a
+fresh one) fetches the data again. It is deliberately NOT a `ResultNotFoundError`: "the
+upstream had no match" and "we no longer hold your payload" are different outcomes and must
+not share a handler. Both overloads enforce this, in both languages.
 
 **(v1 erratum) SkuMap + typed run.** The generated `SkuMap` is a CONCRETE interface (not a
 module augmentation, which does not survive `.d.ts` bundling) mapping each slug to
@@ -771,10 +797,18 @@ class RunResult(BaseModel, Generic[T]):
     provider: Literal["AnyAPI"]
     cost_usd: float                     # alias "costUsd"
     items: int | None = None
+    replayed: bool                      # required; the gateway always sends it
+    result_id: str | None = None        # alias "resultId"
+    jq_error: str | None = None         # alias "jqError"
 
 def unwrap(result: "RunResult[T]") -> T:
     """Return data when found, else raise NotFoundError."""
 ```
+
+`replayed`, `result_id`, and `jq_error` mirror the TypeScript fields of 2.3 exactly, on both
+`RunResult[T]` and `BareRunResult[T]`. `unwrap` applies the same unretained-replay guard: a
+None `output` raises `AnyAPIError` (status 200) with the message described in 2.3, never a
+`ResultNotFoundError` and never a None typed as `T`.
 
 Field aliasing: wire keys are camelCase (`costUsd`); models use `populate_by_name=True`
 and `alias="costUsd"` (snake_case attribute, camelCase wire). Output data models set
@@ -920,9 +954,13 @@ Fixture JSON shape (exactly what a mocked `POST /v1/run/{slug}` returns, HTTP 20
   "output": { "found": true, "data": <SYNTH_DATA> },
   "provider": "AnyAPI",
   "costUsd": 0.001,          // any positive number; fixtures assert costUsd > 0
-  "items": <N>               // count of items in the primary array field, else 1
+  "items": <N>,              // count of items in the primary array field, else 1
+  "replayed": false          // always false; a fixture models a fresh run, not a replay
 }
 ```
+
+`replayed` is present on every fixture because it is required on the wire (2.3). The
+optional `resultId` / `jqError` fields are omitted: a fixture models the success path.
 
 `SYNTH_DATA` construction rules (deterministic):
 
@@ -987,6 +1025,14 @@ operator/seller endpoints, OAuth. Not modeled in the SDK surface.
 ## 9. CI-guarded invariants (summary)
 
 - Regen drift: `pnpm generate --check` must be a no-op (byte-identical) on a clean tree.
+- Catalog health: the generator REFUSES to emit (non-zero exit) from a degraded IR. The
+  drift gate only proves the committed output matches what the emitter produces from the
+  CURRENT input; it cannot tell a healthy input from a degraded one, so a snapshot refresh
+  that silently untypes the catalog regenerates and passes cleanly. The floors, checked on
+  every emit and inside `--check`: the catalog is non-empty; and, once it holds at least 20
+  operations, at least 80% resolve to a typed result (not `unknown`, not a property-less
+  object) and at least 5% expose an iterator. Envelope extraction is all-or-nothing, so a
+  collapse lands at 0% while ordinary catalog churn never approaches either floor.
 - `tsc --noEmit` strict passes over every generated + core TS SKU in the current IR.
 - Consumer-artifact typecheck (v1 erratum): the packed `@getanyapi/sdk` dist type-checks in a
   throwaway consumer project (typed slug access compiles, bad input errors, unknown slug ->

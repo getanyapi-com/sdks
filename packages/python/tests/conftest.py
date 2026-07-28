@@ -70,6 +70,7 @@ def run_envelope(
     cost_usd: float = 0.001,
     items: int | None = None,
     found: bool = True,
+    replayed: bool = False,
     extra: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build a /v1/run response body (SPEC 4 fixture shape)."""
@@ -82,6 +83,7 @@ def run_envelope(
         "output": output,
         "provider": "AnyAPI",
         "costUsd": cost_usd,
+        "replayed": replayed,
     }
     if items is not None:
         body["items"] = items

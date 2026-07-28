@@ -15,7 +15,7 @@ from typing import Annotated, Any, Generic, Literal, TypeVar
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from typing_extensions import TypedDict
 
-from ._errors import ResultNotFoundError
+from ._errors import AnyAPIError, ResultNotFoundError
 
 __all__ = [
     "OutputFound",
@@ -67,6 +67,15 @@ class RunResult(BaseModel, Generic[T]):
     Extra top-level keys round-trip via ``.model_extra`` (the envelope root is
     open). ``provider`` is always the literal ``"AnyAPI"``; upstream backends
     are never named.
+
+    ``replayed`` is True when the gateway served a stored response for a repeated
+    ``Idempotency-Key`` instead of running the SKU again (a replay is not billed
+    twice). A replay whose stored payload is no longer retained (a 24h TTL expiry,
+    or a payload over the storage size cap) carries the metadata with a null
+    ``output``, which :func:`unwrap` rejects. ``result_id`` is an opaque handle to
+    the full unshaped result, cached about 15 minutes for a free re-read via
+    ``GET /v1/results/{id}``. ``jq_error`` explains why a requested jq reshape did
+    not apply; the run was still billed and ``output`` carries the full result.
     """
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
@@ -75,6 +84,9 @@ class RunResult(BaseModel, Generic[T]):
     provider: Literal["AnyAPI"]
     cost_usd: float = Field(alias="costUsd")
     items: int | None = None
+    replayed: bool
+    result_id: str | None = Field(default=None, alias="resultId")
+    jq_error: str | None = Field(default=None, alias="jqError")
     hint: str | None = None
 
 
@@ -83,7 +95,10 @@ class BareRunResult(BaseModel, Generic[T]):
 
     If a future generated operation uses this SPEC 1.2 shape, ``output`` is its
     data payload directly. There is no not-found branch to discriminate, so
-    ``unwrap`` returns ``output`` directly and never raises.
+    ``unwrap`` returns ``output`` directly unless the payload was not retained.
+
+    ``replayed``, ``result_id``, and ``jq_error`` carry the same meaning as on
+    :class:`RunResult`.
     """
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
@@ -92,7 +107,18 @@ class BareRunResult(BaseModel, Generic[T]):
     provider: Literal["AnyAPI"]
     cost_usd: float = Field(alias="costUsd")
     items: int | None = None
+    replayed: bool
+    result_id: str | None = Field(default=None, alias="resultId")
+    jq_error: str | None = Field(default=None, alias="jqError")
     hint: str | None = None
+
+
+_OUTPUT_NOT_RETAINED = (
+    "the run output was not retained: this response is an idempotent replay whose "
+    "stored payload has expired or was too large to store, so only the run metadata "
+    "came back. Re-run the request without the idempotency key (or with a fresh one) "
+    "to fetch the data again."
+)
 
 
 def unwrap(result: RunResult[T] | BareRunResult[T]) -> T:
@@ -100,11 +126,20 @@ def unwrap(result: RunResult[T] | BareRunResult[T]) -> T:
 
     For a found-data ``RunResult`` this narrows ``Output[T]`` to ``T`` and raises
     when ``found`` is false. For a ``BareRunResult`` the output IS the data, so it
-    is returned directly and this never raises.
+    is returned directly.
+
+    Either shape raises :class:`AnyAPIError` when ``output`` is None: an idempotent
+    replay can outlive its stored payload, and the caller must never receive None
+    typed as ``T``. See SPEC 2.3 / 3.3.
 
     Catching ``NotFoundError`` catches both an HTTP 404 and an empty found-data
     result; catch ``ResultNotFoundError`` to handle only empty results.
     """
+    # Read through ``object`` so this stays a runtime guard rather than a claim that
+    # the declared output type admits None (it does not, in either language).
+    payload: object = result.output
+    if payload is None:
+        raise AnyAPIError(_OUTPUT_NOT_RETAINED, status=200)
     if isinstance(result, BareRunResult):
         return result.output
     output = result.output
