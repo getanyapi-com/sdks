@@ -3,8 +3,10 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
   AnyAPI,
+  AnyAPIError,
   InsufficientBalanceError,
   NotFoundError,
+  unwrap,
 } from "../src/index.js";
 import { mockFetch } from "./helpers.js";
 
@@ -30,7 +32,8 @@ interface FixtureEnvelope {
   output: { found: boolean; data: unknown } | Record<string, unknown>;
   provider: string;
   costUsd: number;
-  items?: number;
+  // Required: the gateway's `items` carries no omitempty, so every fixture sends it.
+  items: number;
   [key: string]: unknown;
 }
 
@@ -155,6 +158,9 @@ describe("generated SKU fixture sweep", () => {
     }
     expect(result.provider).toBe("AnyAPI");
     expect(result.costUsd).toBeGreaterThan(0);
+    // `items` has no omitempty on the gateway struct: always sent, always read.
+    expect(fixture.items).toBeTypeOf("number");
+    expect(result.items).toBe(fixture.items);
     if (hasPassthroughExtra(fixture)) {
       expect(hasPassthroughExtra(result)).toBe(true);
     }
@@ -220,6 +226,33 @@ describe("generated SKU fixture edges", () => {
     await expect(method(sku.example)).rejects.toBeInstanceOf(
       InsufficientBalanceError,
     );
+  });
+
+  it("raises the not-retained error from a generated method's unwrap", async () => {
+    // The Python twin of this raises the identical AnyAPIError from the generated method
+    // itself (its models validate). TypeScript does not validate the envelope, so the same
+    // class/status/message surfaces one step later, at unwrap. Both must be actionable.
+    const sku = mustSku("amazon.reviews");
+    const fixture = mustFixture(sku.slug);
+    const replay = { ...clone(fixture), output: null, replayed: true };
+    const { fetch } = mockFetch([{ status: 200, body: replay }]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 0 });
+
+    const result = await methodFor(client, sku)(sku.example);
+    // The metadata survived the pruned payload: `items` is still on the wire.
+    expect(result.items).toBe(fixture.items);
+    try {
+      unwrap(result as unknown as Parameters<typeof unwrap>[0]);
+      expect.unreachable("unwrap must reject a pruned replay payload");
+    } catch (err) {
+      expect(err).toBeInstanceOf(AnyAPIError);
+      expect(err).not.toBeInstanceOf(NotFoundError);
+      const typed = err as AnyAPIError;
+      expect(typed.status).toBe(200);
+      expect(typed.message).toContain("was not retained");
+      expect(typed.message).toContain("idempotent replay");
+      expect(typed.message).toContain("without the idempotency key");
+    }
   });
 
   it("walks a generated iterator across two fixture pages", async () => {

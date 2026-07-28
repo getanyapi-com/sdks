@@ -10,9 +10,9 @@ from typing import Any
 
 import httpx
 import pytest
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
-from getanyapi import NotFoundError, RunResult
+from getanyapi import AnyAPIError, NotFoundError, RunResult
 from conftest import json_response, make_async_client, make_sync_client
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -167,6 +167,53 @@ def test_generated_method_maps_404_to_not_found() -> None:
     client, _ = make_sync_client(respond, max_retries=0)
     with pytest.raises(NotFoundError):
         _dispatch_sync(client, sku)
+
+
+def test_generated_method_raises_the_not_retained_error_on_a_null_output() -> None:
+    """A generated typed method, not just unwrap, must explain a metadata-only replay.
+
+    Generated methods call ``RunResult[XData].model_validate(raw)`` directly, so before
+    the guard a caller got a bare pydantic ValidationError ("Input should be a valid
+    dictionary...") that never mentioned idempotency. The error now matches TypeScript's
+    exactly: AnyAPIError, status 200, same wording.
+    """
+    sku = _sku("amazon.reviews")
+    fixture = _fixture(sku["slug"])
+    replay = {**copy.deepcopy(fixture), "output": None, "replayed": True}
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(200, replay)
+
+    client, _ = make_sync_client(respond)
+    with pytest.raises(AnyAPIError) as exc:
+        _dispatch_sync(client, sku)
+    message = str(exc.value)
+    assert "was not retained" in message
+    assert "idempotent replay" in message
+    assert "without the idempotency key" in message
+    assert exc.value.status == 200
+    assert not isinstance(exc.value, (NotFoundError, ValidationError))
+
+
+async def test_async_generated_method_raises_the_not_retained_error() -> None:
+    sku = _sku("facebook.ads_search")
+    fixture = _fixture(sku["slug"])
+    replay = {**copy.deepcopy(fixture), "output": None, "replayed": True}
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(200, replay)
+
+    client, _ = make_async_client(respond)
+    with pytest.raises(AnyAPIError) as exc:
+        await _dispatch_async(client, sku)
+    assert "was not retained" in str(exc.value)
+    await client.aclose()
+
+
+def test_every_fixture_carries_items() -> None:
+    """`items` has no omitempty on the gateway, so every fixture must send it."""
+    missing = [slug for slug in _SLUGS if "items" not in _fixture(slug)]
+    assert missing == []
 
 
 def test_generated_iterator_walks_two_fixture_pages() -> None:

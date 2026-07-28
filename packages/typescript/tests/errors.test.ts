@@ -23,7 +23,12 @@ describe("status to error mapping", () => {
   for (const [status, Cls] of cases) {
     it(`${status} -> ${Cls.name}`, async () => {
       const { fetch } = mockFetch([
-        { status, body: { error: `boom ${status}` }, headers: { "x-request-id": "rid-1" } },
+        {
+          status,
+          body: { error: `boom ${status}` },
+          // The gateway's real header name (SPEC 2.6), not the conventional one.
+          headers: { "X-Anyapi-Request-Id": "rid-1" },
+        },
       ]);
       const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 0 });
       await expect(client.run("a.b", {})).rejects.toBeInstanceOf(Cls);
@@ -85,5 +90,43 @@ describe("status to error mapping", () => {
       expect(error).toBeInstanceOf(AnyAPIError);
       expect((error as AnyAPIError).code).toBe("idempotency_in_progress");
     }
+  });
+});
+
+describe("request-id header resolution", () => {
+  async function requestIdFor(
+    headers: Record<string, string>,
+  ): Promise<string | undefined> {
+    const { fetch } = mockFetch([{ status: 400, body: { error: "nope" }, headers }]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 0 });
+    try {
+      await client.run("a.b", {});
+    } catch (error) {
+      return (error as AnyAPIError).requestId;
+    }
+    throw new Error("should have thrown");
+  }
+
+  it("reads the gateway's X-Anyapi-Request-Id", async () => {
+    // Through v0.9.7 the SDK read only x-request-id, which the gateway never sends, so
+    // requestId was always undefined in production.
+    expect(await requestIdFor({ "X-Anyapi-Request-Id": "req_gw" })).toBe("req_gw");
+  });
+
+  it("falls back to a proxy-set x-request-id", async () => {
+    expect(await requestIdFor({ "x-request-id": "req_proxy" })).toBe("req_proxy");
+  });
+
+  it("prefers the gateway header when a proxy set both", async () => {
+    expect(
+      await requestIdFor({
+        "X-Anyapi-Request-Id": "req_gw",
+        "x-request-id": "req_proxy",
+      }),
+    ).toBe("req_gw");
+  });
+
+  it("is undefined when neither header is present", async () => {
+    expect(await requestIdFor({})).toBeUndefined();
   });
 });

@@ -47,12 +47,17 @@ export function mockFetch(specs: MockResponseSpec[]): {
   return { fetch: impl as unknown as typeof fetch, calls };
 }
 
-/** A minimal successful run envelope for a found result. */
+/**
+ * A minimal successful run envelope for a found result. `items` is included because the
+ * gateway always sends it (no `omitempty`), so a test body without it is not a body the
+ * wire can produce.
+ */
 export function foundEnvelope<T>(data: T, extra: Record<string, unknown> = {}): unknown {
   return {
     output: { found: true, data },
     provider: "AnyAPI",
     costUsd: 0.001,
+    items: 1,
     replayed: false,
     ...extra,
   };
@@ -64,6 +69,7 @@ export function notFoundEnvelope(): unknown {
     output: { found: false, data: null },
     provider: "AnyAPI",
     costUsd: 0,
+    items: 0,
     replayed: false,
   };
 }

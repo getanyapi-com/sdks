@@ -38,7 +38,8 @@ class AnyAPIError(Exception):
 
     Attributes:
         status: HTTP status code, or 0 for transport-level failures.
-        request_id: The x-request-id response header when present, else None.
+        request_id: The gateway's X-Anyapi-Request-Id response header when present
+            (falling back to a proxy-set x-request-id), else None.
         code: Stable gateway error code when the JSON body includes one, else None.
     """
 

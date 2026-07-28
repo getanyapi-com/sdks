@@ -11,8 +11,11 @@ export interface RunResult<T> {
   provider: "AnyAPI";
   /** Amount charged in USD for this call. */
   costUsd: number;
-  /** Number of result rows returned (present on per-result SKUs). */
-  items?: number;
+  /**
+   * Number of result rows returned. Always present on the wire: the gateway's field
+   * carries no `omitempty`, and a metadata-only replay preserves the original count.
+   */
+  items: number;
   /**
    * True when the gateway served a stored response for a repeated Idempotency-Key instead
    * of running the SKU again. A replay is not billed twice. Always present on the wire.
@@ -54,8 +57,11 @@ export interface BareRunResult<T> {
   provider: "AnyAPI";
   /** Amount charged in USD for this call. */
   costUsd: number;
-  /** Number of result rows returned (present on per-result SKUs). */
-  items?: number;
+  /**
+   * Number of result rows returned. Always present on the wire: the gateway's field
+   * carries no `omitempty`, and a metadata-only replay preserves the original count.
+   */
+  items: number;
   /**
    * True when the gateway served a stored response for a repeated Idempotency-Key instead
    * of running the SKU again. A replay is not billed twice. Always present on the wire.

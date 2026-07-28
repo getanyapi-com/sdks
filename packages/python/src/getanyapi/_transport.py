@@ -47,6 +47,7 @@ from .types import RequestOptions, RunResult
 __all__ = [
     "build_request",
     "parse_raw",
+    "request_id_of",
     "validate_run_result",
     "compute_delay",
     "RetryState",
@@ -59,8 +60,21 @@ __all__ = [
 
 _BASE_DELAY = 0.5  # seconds
 _MAX_DELAY = 8.0  # seconds
-_REQUEST_ID_HEADER = "x-request-id"
+# The gateway emits its support handle as X-Anyapi-Request-Id (it is also the only
+# request-id header its CORS layer exposes to a browser). The generic x-request-id is
+# kept as a fallback for a proxy that stamps the conventional name in front of us.
+_REQUEST_ID_HEADERS = ("x-anyapi-request-id", "x-request-id")
 _RNG = random.Random()
+
+
+def request_id_of(response: httpx.Response) -> str | None:
+    """Read the support request id from a response, preferring the gateway's header."""
+    for header in _REQUEST_ID_HEADERS:
+        # httpx types Headers.get as returning Any; pin it at this seam.
+        value: str | None = response.headers.get(header)
+        if value:
+            return value
+    return None
 
 
 def _query_params(options: RequestOptions | None) -> dict[str, str]:
@@ -155,7 +169,7 @@ def parse_raw(response: httpx.Response) -> dict[str, Any]:
     there is no model_validate(model_dump(...)) double-parse. The bare-vs-found
     envelope choice is the caller's (the generated code knows its SKU's shape).
     """
-    request_id = response.headers.get(_REQUEST_ID_HEADER)
+    request_id = request_id_of(response)
     if response.status_code == 200:
         try:
             body = response.json()
