@@ -302,6 +302,8 @@ export interface ClientOptions {
   timeoutMs?: number;
   /** Send Idempotency-Key on billed POSTs. Default "auto"; use "off" as a kill switch. */
   idempotency?: "auto" | "off";
+  /** Total ms one run() may block waiting out a 409 idempotency_in_progress. Default 60000. */
+  maxInProgressWaitMs?: number;
 }
 
 export declare class AnyAPI {
@@ -615,6 +617,8 @@ export interface RequestOptions {
   signal?: AbortSignal;
   /** Override the client maxRetries for this call. */
   maxRetries?: number;
+  /** Override the client maxInProgressWaitMs for this call. 0 surfaces the 409 immediately. */
+  maxInProgressWaitMs?: number;
   /** Override the generated Idempotency-Key for this billed POST. */
   idempotencyKey?: string;
 }
@@ -740,10 +744,11 @@ export interface AgentSignupResult {
 
 ### 2.8 Retry policy (FROZEN, both languages)
 
-- Retry ONLY on: HTTP 429 (`RateLimitedError`) and transport failures (`ConnectionError`)
-  when the request is not a billed POST with a body, or the transport can prove that the
-  request body was not sent.
-- Do NOT retry: 400, 401, 402, 404, 502, or any parsed non-2xx that is not 429; do NOT
+- Retry ONLY on: HTTP 429 (`RateLimitedError`); HTTP 409 whose body `code` is exactly
+  `idempotency_in_progress`, on a billed POST (see 2.8.1); and transport failures
+  (`ConnectionError`) when the request is not a billed POST with a body, or the transport
+  can prove that the request body was not sent.
+- Do NOT retry: 400, 401, 402, 404, 502, or any other parsed non-2xx; do NOT
   retry `TimeoutError` (a timed-out request already consumed its budget).
 - For the non-idempotent `POST /v1/run/{slug}`, do NOT retry a `ConnectionError` once the
   request body may have been sent. If the transport cannot determine the send phase, do
@@ -761,8 +766,41 @@ export interface AgentSignupResult {
   `maxDelay = 8000ms`. `attempt` starts at 0 for the first retry.
 - Honor a `Retry-After` response header on 429 when present (seconds or HTTP-date); use it
   as the delay instead of the computed backoff, capped at `maxDelay`.
-- Sending `Idempotency-Key` does not expand retry eligibility. In particular, ambiguous billed
-  POST transport failures and 409 `idempotency_in_progress` responses remain non-retryable.
+- Sending `Idempotency-Key` does not expand transport-level retry eligibility. Ambiguous
+  billed-POST transport failures remain non-retryable in every runtime, and stay that way
+  until the SDK can positively detect that the gateway honors idempotency keys. The one
+  response-level exception is 2.8.1 below.
+
+#### 2.8.1 The in-progress exception (both languages)
+
+`POST /v1/run/{slug}` detaches billing settlement from the caller's connection, so after an
+ambiguous transport failure the likeliest server state is that the run is STILL EXECUTING.
+Re-issuing the same key then does not replay: it hits the live claim and the gateway answers
+`409` with body `code: "idempotency_in_progress"` and `Retry-After: 30`
+(`domain.IdempotencyRetryAfter`, which tracks the leader's settlement recovery interval).
+Treating that as terminal would make the automatic key useless for the exact failure it
+exists to cover, so:
+
+- A `409` is retryable if and only if its body `code` is exactly `idempotency_in_progress`,
+  and only on a billed POST. Match on the stable `code`, never on prose. `idempotency_conflict`
+  (same key, different input) and `idempotency_needs_review` are caller-side problems that a
+  retry can never resolve, and a `409` carrying no `code` is terminal too.
+- The delay is the response's `Retry-After` when present, in FULL. The ordinary `maxDelay`
+  ceiling (8000ms) does not apply: it cannot express the gateway's own 30s, and a lane's
+  per-attempt timeout runs as high as 240s, so a truncated wait is guaranteed to find the
+  claim still running. When the header is absent the ordinary jittered backoff applies.
+- Total blocking is bounded by a separate whole-call budget, `maxInProgressWaitMs` /
+  `max_in_progress_wait`, default 60000ms / 60.0s, settable on the client and per request.
+  It covers two full server-directed waits at today's 30s and leaves headroom if the gateway
+  raises that value. It is a budget, NOT a per-wait clamp: a wait that does not fit the
+  remaining budget is REFUSED and the 409 is raised, rather than truncated into an attempt
+  that is certain to fail. `0` surfaces the 409 immediately.
+- `maxRetries` still bounds the attempt count; the budget can stop the loop earlier. The
+  default `maxRetries` of 2 is unchanged, so worst-case added wall clock for one `run()` is
+  the budget (60s by default), on top of the existing per-attempt timeouts.
+- Every in-progress retry reuses the same `Idempotency-Key` and the same raw body bytes as
+  the rest of that logical call, so a successful retry returns the replay of the ORIGINAL
+  run (`replayed: true`) and is not billed a second time.
 
 ## 3. Python runtime API (`getanyapi`) - FROZEN signatures
 
@@ -782,6 +820,7 @@ class AnyAPI:
         timeout: float = 60.0,           # seconds
         max_retries: int = 2,
         idempotency: Literal["auto", "off"] = "auto",
+        max_in_progress_wait: float = 60.0,  # seconds
         http_client: httpx.Client | None = None,
     ) -> None: ...
 
@@ -805,6 +844,7 @@ class AsyncAnyAPI:
     def __init__(self, *, api_key: str | None = None, base_url: str = "https://api.getanyapi.com",
                  timeout: float = 60.0, max_retries: int = 2,
                  idempotency: Literal["auto", "off"] = "auto",
+                 max_in_progress_wait: float = 60.0,
                  http_client: httpx.AsyncClient | None = None) -> None: ...
     async def run(self, slug: str, input: dict[str, Any], *, options: RequestOptions | None = None) -> RunResult[Any]: ...
     async def balance(self) -> Balance: ...
@@ -999,6 +1039,7 @@ class RequestOptions(TypedDict, total=False):
     summary: bool
     timeout: float
     max_retries: int
+    max_in_progress_wait: float   # seconds; 0 surfaces the in-progress 409 immediately
     idempotency_key: str
 
 class AgentSignupResult(BaseModel):

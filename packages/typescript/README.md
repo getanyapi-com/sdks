@@ -113,7 +113,8 @@ await client.google.search(
 );
 ```
 
-Per-call transport overrides: `timeoutMs`, `maxRetries`, and an `AbortSignal` via `signal`.
+Per-call transport overrides: `timeoutMs`, `maxRetries`, `maxInProgressWaitMs`, and an
+`AbortSignal` via `signal`.
 
 ## Errors and retries
 
@@ -129,12 +130,30 @@ Per-call transport overrides: `timeoutMs`, `maxRetries`, and an `AbortSignal` vi
 | `ConnectionError`          | 0    | Network or transport failure               |
 | `TimeoutError`             | 0    | Request exceeded its timeout (not retried) |
 
-All extend `AnyAPIError` (with `status` and `requestId`). Retries cover only 429 and network
-failures proven to happen before a request was sent, with jittered exponential backoff honoring
-`Retry-After`. Default `maxRetries` is 2 (up to 3 attempts); set it on the client or per request.
-Timeouts are never retried. Connection failures during or after a billed `POST /v1/run` are not
-retried because the call may already have been charged. When the send phase is unknown, the SDK
-does not retry. Configure with `new AnyAPI({ timeoutMs, maxRetries })`.
+All extend `AnyAPIError` (with `status` and `requestId`). Retries cover 429, one specific 409
+(below), and network failures proven to happen before a request was sent, with jittered
+exponential backoff honoring `Retry-After`. Default `maxRetries` is 2 (up to 3 attempts); set it
+on the client or per request. Timeouts are never retried. Connection failures during or after a
+billed `POST /v1/run` are not retried because the call may already have been charged. When the
+send phase is unknown, the SDK does not retry. Configure with
+`new AnyAPI({ timeoutMs, maxRetries })`.
+
+### Waiting out a run that is still in flight
+
+Settlement is detached from your connection, so a run keeps going after a connection drops. When
+you re-issue a call whose `Idempotency-Key` is still executing, the gateway answers `409` with
+`code: "idempotency_in_progress"` and `Retry-After: 30`. The SDK waits that full delay and
+retries, so you get the original run's replayed result (`replayed: true`, no second charge)
+instead of an error.
+
+The 8s ordinary-backoff ceiling does not apply here; a separate whole-call budget does.
+`maxInProgressWaitMs` (default `60000`) caps the TOTAL time one `run()` may block on these
+waits, across every retry. A wait that does not fit the remaining budget is refused and the
+`409` is thrown rather than truncated into an attempt that would fail anyway. Set
+`maxInProgressWaitMs: 0` to surface the `409` immediately and handle it yourself.
+
+No other `409` retries: `idempotency_conflict` (the same key with different input) and
+`idempotency_needs_review` are caller-side problems a retry cannot fix.
 
 Automatic network retry of a billed `run()` requires structured runtime evidence that the
 request body was not sent:

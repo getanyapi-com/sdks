@@ -395,3 +395,304 @@ async def test_async_billed_post_does_not_retry_post_send_read_error() -> None:
         await client.run("x.y", {"query": "sent"})
     assert len(rec.requests) == 1
     await client.aclose()
+
+
+# -- 409 idempotency_in_progress (SPEC 2.8) -------------------------------
+
+
+def in_progress_response(retry_after: str | None = "30") -> httpx.Response:
+    """The gateway's 409 for a key whose run is still executing."""
+    headers = {"retry-after": retry_after} if retry_after is not None else None
+    return json_response(
+        409,
+        {
+            "error": "a request with this idempotency key is still in progress",
+            "code": "idempotency_in_progress",
+        },
+        headers=headers,
+    )
+
+
+def test_in_progress_409_retries_then_replays(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+
+    slept: list[float] = []
+    monkeypatch.setattr(transport, "sleep", lambda s: slept.append(s))
+    calls = {"n": 0}
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return in_progress_response()
+        return json_response(200, run_envelope({"ok": True}, replayed=True))
+
+    client, rec = make_sync_client(respond)
+    result = client.run("x.y", {"query": "sent"})
+
+    assert result.replayed is True
+    assert result.output.found is True
+    assert len(rec.requests) == 2
+    # The full 30s the server asked for, NOT the 8s ordinary-backoff ceiling.
+    assert slept == [30.0]
+
+
+def test_in_progress_409_reuses_the_same_idempotency_key(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+
+    monkeypatch.setattr(transport, "sleep", lambda _s: None)
+    calls = {"n": 0}
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return in_progress_response()
+        return json_response(200, run_envelope({"ok": True}, replayed=True))
+
+    client, rec = make_sync_client(respond)
+    client.run("x.y", {"query": "sent"})
+
+    assert rec.requests[0] is rec.requests[1]
+    assert (
+        rec.requests[0].headers["idempotency-key"]
+        == rec.requests[1].headers["idempotency-key"]
+    )
+
+
+def test_idempotency_conflict_409_is_not_retried(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+    from getanyapi import AnyAPIError
+
+    monkeypatch.setattr(transport, "sleep", lambda _s: None)
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(
+            409,
+            {
+                "error": "this key was already used for a different request",
+                "code": "idempotency_conflict",
+            },
+            headers={"retry-after": "30"},
+        )
+
+    client, rec = make_sync_client(respond, max_retries=2)
+    with pytest.raises(AnyAPIError) as exc:
+        client.run("x.y", {"query": "sent"})
+    assert exc.value.status == 409
+    assert exc.value.code == "idempotency_conflict"
+    assert len(rec.requests) == 1
+
+
+def test_idempotency_needs_review_409_is_not_retried(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+    from getanyapi import AnyAPIError
+
+    monkeypatch.setattr(transport, "sleep", lambda _s: None)
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(
+            409,
+            {"error": "needs review", "code": "idempotency_needs_review"},
+        )
+
+    client, rec = make_sync_client(respond, max_retries=2)
+    with pytest.raises(AnyAPIError):
+        client.run("x.y", {"query": "sent"})
+    assert len(rec.requests) == 1
+
+
+def test_uncoded_409_is_not_retried(monkeypatch: pytest.MonkeyPatch) -> None:
+    import getanyapi._transport as transport
+    from getanyapi import AnyAPIError
+
+    monkeypatch.setattr(transport, "sleep", lambda _s: None)
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(409, {"error": "conflict"})
+
+    client, rec = make_sync_client(respond, max_retries=2)
+    with pytest.raises(AnyAPIError):
+        client.run("x.y", {"query": "sent"})
+    assert len(rec.requests) == 1
+
+
+def test_in_progress_retry_after_over_budget_is_refused(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+    from getanyapi import AnyAPIError
+
+    slept: list[float] = []
+    monkeypatch.setattr(transport, "sleep", lambda s: slept.append(s))
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return in_progress_response("3600")
+
+    client, rec = make_sync_client(respond, max_retries=2)
+    with pytest.raises(AnyAPIError) as exc:
+        client.run("x.y", {"query": "sent"})
+    assert exc.value.code == "idempotency_in_progress"
+    assert len(rec.requests) == 1  # no attempt burned on a wait that is too long
+    assert slept == []
+
+
+def test_in_progress_budget_stops_before_max_retries(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+    from getanyapi import AnyAPIError
+
+    slept: list[float] = []
+    monkeypatch.setattr(transport, "sleep", lambda s: slept.append(s))
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return in_progress_response()
+
+    client, rec = make_sync_client(respond, max_retries=5)
+    with pytest.raises(AnyAPIError):
+        client.run("x.y", {"query": "sent"})
+    # 30s + 30s spends the 60s default budget; a third wait is unaffordable.
+    assert slept == [30.0, 30.0]
+    assert len(rec.requests) == 3
+
+
+def test_max_in_progress_wait_client_and_request_overrides(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+    from getanyapi import AnyAPIError
+
+    slept: list[float] = []
+    monkeypatch.setattr(transport, "sleep", lambda s: slept.append(s))
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return in_progress_response()
+
+    client, rec = make_sync_client(
+        respond, max_retries=5, max_in_progress_wait=30.0
+    )
+    with pytest.raises(AnyAPIError):
+        client.run("x.y", {"query": "sent"})
+    assert slept == [30.0]
+    assert len(rec.requests) == 2
+
+    strict, rec2 = make_sync_client(respond, max_retries=5)
+    with pytest.raises(AnyAPIError):
+        strict.run("x.y", {"query": "sent"}, options={"max_in_progress_wait": 0})
+    assert len(rec2.requests) == 1
+
+
+def test_in_progress_without_retry_after_uses_ordinary_backoff(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+
+    slept: list[float] = []
+    monkeypatch.setattr(transport, "sleep", lambda s: slept.append(s))
+    calls = {"n": 0}
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return in_progress_response(None)
+        return json_response(200, run_envelope({"ok": True}, replayed=True))
+
+    client, rec = make_sync_client(respond)
+    client.run("x.y", {"query": "sent"})
+    assert len(rec.requests) == 2
+    assert len(slept) == 1
+    assert 0.25 <= slept[0] <= 0.75  # jittered 500ms base, not 30s
+
+
+def test_in_progress_respects_max_retries_zero(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import getanyapi._transport as transport
+    from getanyapi import AnyAPIError
+
+    monkeypatch.setattr(transport, "sleep", lambda _s: None)
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return in_progress_response()
+
+    client, rec = make_sync_client(respond, max_retries=5)
+    with pytest.raises(AnyAPIError):
+        client.run("x.y", {}, options={"max_retries": 0})
+    assert len(rec.requests) == 1
+
+
+async def test_async_in_progress_409_retries_then_replays(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import asyncio
+
+    slept: list[float] = []
+
+    async def fake_sleep(s: float) -> None:
+        slept.append(s)
+
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
+    calls = {"n": 0}
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return in_progress_response()
+        return json_response(200, run_envelope({"ok": True}, replayed=True))
+
+    client, rec = make_async_client(respond)
+    result = await client.run("x.y", {"query": "sent"})
+    assert result.replayed is True
+    assert len(rec.requests) == 2
+    assert slept == [30.0]
+    await client.aclose()
+
+
+async def test_async_idempotency_conflict_409_is_not_retried() -> None:
+    from getanyapi import AnyAPIError
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(
+            409,
+            {"error": "different request", "code": "idempotency_conflict"},
+            headers={"retry-after": "30"},
+        )
+
+    client, rec = make_async_client(respond, max_retries=2)
+    with pytest.raises(AnyAPIError) as exc:
+        await client.run("x.y", {"query": "sent"})
+    assert exc.value.code == "idempotency_conflict"
+    assert len(rec.requests) == 1
+    await client.aclose()
+
+
+async def test_async_in_progress_budget_stops_before_max_retries(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import asyncio
+
+    from getanyapi import AnyAPIError
+
+    slept: list[float] = []
+
+    async def fake_sleep(s: float) -> None:
+        slept.append(s)
+
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
+
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return in_progress_response()
+
+    client, rec = make_async_client(respond, max_retries=5)
+    with pytest.raises(AnyAPIError):
+        await client.run("x.y", {"query": "sent"})
+    assert slept == [30.0, 30.0]
+    assert len(rec.requests) == 3
+    await client.aclose()

@@ -37,6 +37,18 @@ const DEFAULT_TIMEOUT_MS = 60_000;
 const DEFAULT_MAX_RETRIES = 2;
 const RETRY_BASE_DELAY_MS = 500;
 const RETRY_MAX_DELAY_MS = 8_000;
+/**
+ * Ceiling on the TOTAL time one `run()` call may block waiting out an in-progress
+ * idempotency claim (SPEC 2.8). The 8s ordinary-backoff ceiling cannot express the
+ * gateway's own `Retry-After: 30`, so this separate, much higher budget governs that path.
+ * 60s covers two full server-directed waits at today's 30s and doubles as headroom if the
+ * gateway ever raises that value. It is a whole-call budget, not a per-wait clamp: a wait
+ * longer than the remaining budget is refused outright rather than truncated, because a
+ * truncated wait is guaranteed to find the same claim still running and burn an attempt.
+ */
+const DEFAULT_MAX_IN_PROGRESS_WAIT_MS = 60_000;
+/** The only 409 code that means "come back later"; every other 409 is terminal. */
+const IDEMPOTENCY_IN_PROGRESS_CODE = "idempotency_in_progress";
 const PRE_SEND_NETWORK_ERROR_CODES = new Set([
   "EADDRNOTAVAIL",
   "EAI_AGAIN",
@@ -110,10 +122,12 @@ function backoffDelay(attempt: number): number {
 }
 
 /**
- * Parse a Retry-After header (delta-seconds or HTTP-date) into a delay in ms, capped at
- * maxDelay. Returns undefined when the header is absent or unparseable.
+ * Parse a Retry-After header (delta-seconds or HTTP-date) into a non-negative delay in ms.
+ * Returns undefined when the header is absent or unparseable. The value is NOT capped here:
+ * each caller applies its own ceiling (ordinary backoff clamps to RETRY_MAX_DELAY_MS; the
+ * in-progress path measures the raw value against its wait budget).
  */
-function parseRetryAfter(header: string | null): number | undefined {
+function parseRetryAfterMs(header: string | null): number | undefined {
   if (header === null) {
     return undefined;
   }
@@ -123,13 +137,11 @@ function parseRetryAfter(header: string | null): number | undefined {
   }
   const seconds = Number(trimmed);
   if (Number.isFinite(seconds)) {
-    const ms = seconds * 1000;
-    return Math.min(Math.max(ms, 0), RETRY_MAX_DELAY_MS);
+    return Math.max(seconds * 1000, 0);
   }
   const dateMs = Date.parse(trimmed);
   if (Number.isFinite(dateMs)) {
-    const delta = dateMs - Date.now();
-    return Math.min(Math.max(delta, 0), RETRY_MAX_DELAY_MS);
+    return Math.max(dateMs - Date.now(), 0);
   }
   return undefined;
 }
@@ -314,6 +326,7 @@ export class AnyAPI implements ClientCore {
   private readonly maxRetries: number;
   private readonly timeoutMs: number;
   private readonly idempotency: "auto" | "off";
+  private readonly maxInProgressWaitMs: number;
 
   /**
    * The network seam the generated per-platform namespaces target. The base client IS a
@@ -338,6 +351,8 @@ export class AnyAPI implements ClientCore {
     this.fetchImpl = resolvedFetch;
     this.maxRetries = options.maxRetries ?? DEFAULT_MAX_RETRIES;
     this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+    this.maxInProgressWaitMs =
+      options.maxInProgressWaitMs ?? DEFAULT_MAX_IN_PROGRESS_WAIT_MS;
     const idempotency = options.idempotency ?? "auto";
     if (idempotency !== "auto" && idempotency !== "off") {
       throw new TypeError('idempotency must be "auto" or "off"');
@@ -365,6 +380,8 @@ export class AnyAPI implements ClientCore {
         body,
         timeoutMs: options?.timeoutMs ?? this.timeoutMs,
         maxRetries: options?.maxRetries ?? this.maxRetries,
+        maxInProgressWaitMs:
+          options?.maxInProgressWaitMs ?? this.maxInProgressWaitMs,
         ...(options?.idempotencyKey !== undefined
           ? { idempotencyKey: options.idempotencyKey }
           : {}),
@@ -436,6 +453,7 @@ export class AnyAPI implements ClientCore {
       body?: string;
       timeoutMs: number;
       maxRetries: number;
+      maxInProgressWaitMs?: number;
       signal?: AbortSignal;
       idempotencyKey?: string;
     },
@@ -457,6 +475,12 @@ export class AnyAPI implements ClientCore {
     }
 
     let attempt = 0;
+    // Time already spent blocking on 409 idempotency_in_progress waits for THIS call.
+    let inProgressWaitedMs = 0;
+    const inProgressBudgetMs = Math.max(
+      opts.maxInProgressWaitMs ?? DEFAULT_MAX_IN_PROGRESS_WAIT_MS,
+      0,
+    );
     for (;;) {
       const { signal, timeoutSignal } = composeSignal(
         opts.timeoutMs,
@@ -512,12 +536,39 @@ export class AnyAPI implements ClientCore {
       const body = await response.text().catch(() => "");
       const { message, code } = messageFromBody(body, response.status);
 
+      const retryAfterMs = parseRetryAfterMs(response.headers.get("retry-after"));
+
       if (response.status === 429 && attempt < opts.maxRetries) {
-        const retryAfter = parseRetryAfter(response.headers.get("retry-after"));
-        const delay = retryAfter ?? backoffDelay(attempt);
+        const delay =
+          retryAfterMs !== undefined
+            ? Math.min(retryAfterMs, RETRY_MAX_DELAY_MS)
+            : backoffDelay(attempt);
         await sleep(delay, opts.signal);
         attempt += 1;
         continue;
+      }
+
+      // A 409 idempotency_in_progress means the gateway is still running the very call
+      // this key claims. Because settlement is detached from the caller's connection, that
+      // is the LIKELY server state after an ambiguous transport failure, so waiting it out
+      // and collecting the replay is what makes the automatic key useful. No other 409 is
+      // retryable: idempotency_conflict and idempotency_needs_review are caller-side
+      // problems that a retry can never resolve. See SPEC 2.8.
+      if (
+        billedPost &&
+        response.status === 409 &&
+        code === IDEMPOTENCY_IN_PROGRESS_CODE &&
+        attempt < opts.maxRetries
+      ) {
+        const delay = retryAfterMs ?? backoffDelay(attempt);
+        // Refuse, rather than truncate, a wait the budget cannot cover: a short wait
+        // against a long-running claim just spends an attempt on the same 409.
+        if (inProgressWaitedMs + delay <= inProgressBudgetMs) {
+          await sleep(delay, opts.signal);
+          inProgressWaitedMs += delay;
+          attempt += 1;
+          continue;
+        }
       }
 
       throw errorFromStatus(response.status, message, requestId, code);

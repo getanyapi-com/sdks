@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   AnyAPI,
+  AnyAPIError,
   BadRequestError,
   ConnectionError,
   RateLimitedError,
@@ -283,5 +284,201 @@ describe("retry policy", () => {
       RateLimitedError,
     );
     expect(calls).toHaveLength(1);
+  });
+});
+
+describe("409 idempotency_in_progress", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.spyOn(Math, "random").mockReturnValue(0.5);
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
+
+  const inProgress = (retryAfter?: string) => ({
+    status: 409,
+    ...(retryAfter !== undefined
+      ? { headers: { "retry-after": retryAfter } }
+      : {}),
+    body: {
+      error: "a request with this idempotency key is still in progress",
+      code: "idempotency_in_progress",
+    },
+  });
+
+  it("retries an in-progress 409 and resolves with the replayed run", async () => {
+    const { fetch, calls } = mockFetch([
+      inProgress("30"),
+      { body: foundEnvelope({ ok: true }, { replayed: true }) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    const promise = client.run("a.b", { query: "x" });
+    await vi.advanceTimersByTimeAsync(30_000);
+    const res = await promise;
+    expect(res.replayed).toBe(true);
+    expect(res.output.found).toBe(true);
+    expect(calls).toHaveLength(2);
+  });
+
+  it("waits the full server Retry-After instead of clamping to 8s", async () => {
+    const { fetch } = mockFetch([
+      inProgress("30"),
+      { body: foundEnvelope({}, { replayed: true }) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    const promise = client.run("a.b", { query: "x" });
+    let settled = false;
+    void promise.then(() => (settled = true));
+    // The ordinary backoff ceiling (8s) must NOT end the wait.
+    await vi.advanceTimersByTimeAsync(8_000);
+    await Promise.resolve();
+    expect(settled).toBe(false);
+    await vi.advanceTimersByTimeAsync(22_000);
+    await expect(promise).resolves.toBeDefined();
+  });
+
+  it("does NOT retry a 409 idempotency_conflict", async () => {
+    const { fetch, calls } = mockFetch([
+      {
+        status: 409,
+        headers: { "retry-after": "30" },
+        body: {
+          error: "this idempotency key was already used for a different request",
+          code: "idempotency_conflict",
+        },
+      },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    const promise = client.run("a.b", { query: "x" });
+    const assertion = expect(promise).rejects.toMatchObject({
+      status: 409,
+      code: "idempotency_conflict",
+    });
+    await vi.advanceTimersByTimeAsync(60_000);
+    await assertion;
+    expect(calls).toHaveLength(1);
+  });
+
+  it("does NOT retry a 409 idempotency_needs_review", async () => {
+    const { fetch, calls } = mockFetch([
+      {
+        status: 409,
+        body: {
+          error: "this idempotency key needs human review",
+          code: "idempotency_needs_review",
+        },
+      },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    const promise = client.run("a.b", { query: "x" });
+    const assertion = expect(promise).rejects.toBeInstanceOf(AnyAPIError);
+    await vi.advanceTimersByTimeAsync(60_000);
+    await assertion;
+    expect(calls).toHaveLength(1);
+  });
+
+  it("does NOT retry a 409 with no error code", async () => {
+    const { fetch, calls } = mockFetch([
+      { status: 409, body: { error: "conflict" } },
+      { body: foundEnvelope({}) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    const promise = client.run("a.b", { query: "x" });
+    const assertion = expect(promise).rejects.toBeInstanceOf(AnyAPIError);
+    await vi.advanceTimersByTimeAsync(60_000);
+    await assertion;
+    expect(calls).toHaveLength(1);
+  });
+
+  it("refuses a Retry-After larger than the in-progress budget without burning an attempt", async () => {
+    const { fetch, calls } = mockFetch([inProgress("3600")]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    const promise = client.run("a.b", { query: "x" });
+    const assertion = expect(promise).rejects.toMatchObject({
+      status: 409,
+      code: "idempotency_in_progress",
+    });
+    await vi.advanceTimersByTimeAsync(120_000);
+    await assertion;
+    expect(calls).toHaveLength(1);
+  });
+
+  it("stops once the cumulative in-progress budget is spent, before maxRetries", async () => {
+    const { fetch, calls } = mockFetch([inProgress("30")]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 5 });
+    const promise = client.run("a.b", { query: "x" });
+    const assertion = expect(promise).rejects.toMatchObject({ status: 409 });
+    // 30s + 30s exhausts the 60s default budget; the third wait is unaffordable.
+    await vi.advanceTimersByTimeAsync(300_000);
+    await assertion;
+    expect(calls).toHaveLength(3);
+  });
+
+  it("honors maxInProgressWaitMs from the client and per request", async () => {
+    const { fetch, calls } = mockFetch([inProgress("30")]);
+    const client = new AnyAPI({
+      apiKey: "k",
+      fetch,
+      maxRetries: 5,
+      maxInProgressWaitMs: 30_000,
+    });
+    const promise = client.run("a.b", { query: "x" });
+    const assertion = expect(promise).rejects.toMatchObject({ status: 409 });
+    await vi.advanceTimersByTimeAsync(300_000);
+    await assertion;
+    expect(calls).toHaveLength(2);
+
+    const second = mockFetch([inProgress("30")]);
+    const strict = new AnyAPI({
+      apiKey: "k",
+      fetch: second.fetch,
+      maxRetries: 5,
+    });
+    const p2 = strict.run("a.b", { query: "x" }, { maxInProgressWaitMs: 0 });
+    const a2 = expect(p2).rejects.toMatchObject({ status: 409 });
+    await vi.advanceTimersByTimeAsync(300_000);
+    await a2;
+    expect(second.calls).toHaveLength(1);
+  });
+
+  it("falls back to ordinary backoff when the 409 carries no Retry-After", async () => {
+    const { fetch, calls } = mockFetch([
+      inProgress(),
+      { body: foundEnvelope({}, { replayed: true }) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    const promise = client.run("a.b", { query: "x" });
+    await vi.advanceTimersByTimeAsync(500);
+    await expect(promise).resolves.toBeDefined();
+    expect(calls).toHaveLength(2);
+  });
+
+  it("respects maxRetries 0 on an in-progress 409", async () => {
+    const { fetch, calls } = mockFetch([inProgress("30")]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 5 });
+    const promise = client.run("a.b", { query: "x" }, { maxRetries: 0 });
+    const assertion = expect(promise).rejects.toMatchObject({ status: 409 });
+    await vi.advanceTimersByTimeAsync(120_000);
+    await assertion;
+    expect(calls).toHaveLength(1);
+  });
+
+  it("reuses the same Idempotency-Key across in-progress retries", async () => {
+    const { fetch, calls } = mockFetch([
+      inProgress("30"),
+      { body: foundEnvelope({}, { replayed: true }) },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    const promise = client.run("a.b", { query: "x" });
+    await vi.advanceTimersByTimeAsync(30_000);
+    await promise;
+    const keyOf = (i: number) =>
+      (calls[i]?.init.headers as Record<string, string>)["Idempotency-Key"];
+    expect(keyOf(0)).toBeDefined();
+    expect(keyOf(0)).toBe(keyOf(1));
   });
 });

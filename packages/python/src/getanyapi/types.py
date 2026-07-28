@@ -332,7 +332,10 @@ class RequestOptions(TypedDict, total=False):
     ``fields``, ``max_items``, and ``summary`` shape the response and do NOT
     change cost. ``timeout`` overrides the client per-request timeout (seconds).
     ``max_retries`` overrides the client retry cap for this call.
-    ``idempotency_key`` overrides the generated key for this billed POST.
+    ``max_in_progress_wait`` overrides the client's whole-call budget (seconds)
+    for waiting out a 409 ``idempotency_in_progress``; 0 surfaces that 409
+    immediately. ``idempotency_key`` overrides the generated key for this billed
+    POST.
     """
 
     fields: list[str]
@@ -340,6 +343,7 @@ class RequestOptions(TypedDict, total=False):
     summary: bool
     timeout: float
     max_retries: int
+    max_in_progress_wait: float
     idempotency_key: str
 
 

@@ -18,6 +18,11 @@ prove no request was delivered. A ``ReadError`` is ambiguous: it can occur
 before the server reads the request, as well as after a body was sent, so it
 must not retry. Idempotent or bodyless requests retry any transport failure.
 Backoff is jittered exponential and honors ``Retry-After`` on 429.
+
+One 4xx is retryable: a 409 whose code is ``idempotency_in_progress`` means the
+gateway is still executing the run this key claims, so the SDK waits the server's
+``Retry-After`` in full (past the 8s ordinary ceiling) inside a whole-call wait
+budget and collects the replay. Every other 409 is terminal.
 """
 
 from __future__ import annotations
@@ -50,16 +55,31 @@ __all__ = [
     "request_id_of",
     "validate_run_result",
     "compute_delay",
+    "retry_after_seconds",
     "RetryState",
     "error_message",
     "error_details",
     "as_dict",
     "is_retryable_error",
+    "is_idempotency_in_progress",
     "sleep",
+    "DEFAULT_MAX_IN_PROGRESS_WAIT",
+    "IDEMPOTENCY_IN_PROGRESS_CODE",
 ]
 
 _BASE_DELAY = 0.5  # seconds
 _MAX_DELAY = 8.0  # seconds
+# Ceiling on the TOTAL seconds one run() call may block waiting out an in-progress
+# idempotency claim (SPEC 2.8). The 8s ordinary-backoff ceiling cannot express the
+# gateway's own Retry-After: 30, so this separate, much higher budget governs that
+# path. 60s covers two full server-directed waits at today's 30s and doubles as
+# headroom if the gateway ever raises that value. It is a whole-call budget, not a
+# per-wait clamp: a wait longer than the remaining budget is refused outright rather
+# than truncated, because a truncated wait is guaranteed to find the same claim still
+# running and burn an attempt.
+DEFAULT_MAX_IN_PROGRESS_WAIT = 60.0  # seconds
+# The only 409 code that means "come back later"; every other 409 is terminal.
+IDEMPOTENCY_IN_PROGRESS_CODE = "idempotency_in_progress"
 # The gateway emits its support handle as X-Anyapi-Request-Id (it is also the only
 # request-id header its CORS layer exposes to a browser). The generic x-request-id is
 # kept as a fallback for a proxy that stamps the conventional name in front of us.
@@ -213,8 +233,13 @@ def validate_run_result(raw: dict[str, Any]) -> RunResult[Any]:
         ) from exc
 
 
-def _retry_after_seconds(response: httpx.Response) -> float | None:
-    """Parse a Retry-After header (seconds or HTTP-date), capped at max delay."""
+def retry_after_seconds(response: httpx.Response) -> float | None:
+    """Parse a Retry-After header (seconds or HTTP-date) into non-negative seconds.
+
+    The value is NOT capped here: each caller applies its own ceiling. Ordinary
+    backoff clamps to ``_MAX_DELAY``; the in-progress path measures the raw value
+    against its wait budget.
+    """
     raw = response.headers.get("retry-after")
     if not raw:
         return None
@@ -224,7 +249,7 @@ def _retry_after_seconds(response: httpx.Response) -> float | None:
     except ValueError:
         secs = None
     if secs is not None:
-        return min(max(secs, 0.0), _MAX_DELAY)
+        return max(secs, 0.0)
     try:
         parsed = email.utils.parsedate_to_datetime(raw)
     except (TypeError, ValueError):
@@ -232,7 +257,7 @@ def _retry_after_seconds(response: httpx.Response) -> float | None:
     if parsed.tzinfo is None:
         parsed = parsed.replace(tzinfo=timezone.utc)
     delta = (parsed - datetime.now(timezone.utc)).total_seconds()
-    return min(max(delta, 0.0), _MAX_DELAY)
+    return max(delta, 0.0)
 
 
 def compute_delay(attempt: int, rng: random.Random | None = None) -> float:
@@ -251,21 +276,50 @@ class RetryState:
     attempt is allowed and how long to wait.
     """
 
-    def __init__(self, max_retries: int) -> None:
+    def __init__(
+        self,
+        max_retries: int,
+        max_in_progress_wait: float = DEFAULT_MAX_IN_PROGRESS_WAIT,
+    ) -> None:
         self.max_retries = max(0, max_retries)
         self.attempt = 0
+        self.max_in_progress_wait = max(0.0, max_in_progress_wait)
+        self.in_progress_waited = 0.0
 
     @property
     def can_retry(self) -> bool:
         return self.attempt < self.max_retries
 
     def next_delay(self, response: httpx.Response | None) -> float:
-        """Delay before the next retry; honors Retry-After on a 429 response."""
+        """Delay before the next retry; honors Retry-After on a 429 response.
+
+        A server-sent Retry-After is clamped to the ordinary backoff ceiling
+        (8s), which is what every retryable path except the in-progress 409
+        wants; that path uses :meth:`in_progress_delay` instead.
+        """
         delay = compute_delay(self.attempt)
         if response is not None:
-            retry_after = _retry_after_seconds(response)
+            retry_after = retry_after_seconds(response)
             if retry_after is not None:
-                delay = retry_after
+                delay = min(retry_after, _MAX_DELAY)
+        self.attempt += 1
+        return delay
+
+    def in_progress_delay(self, response: httpx.Response) -> float | None:
+        """Delay before re-issuing a call whose idempotency claim is still running.
+
+        Honors the server's ``Retry-After`` in full (the gateway sends 30s, well
+        past the 8s ordinary ceiling) and falls back to ordinary backoff when the
+        header is absent. Returns None when the wait does not fit the remaining
+        whole-call budget: the wait is refused, not truncated, because a short
+        wait against a long-running claim just spends an attempt on the same 409.
+        Consumes budget and an attempt only when it returns a delay.
+        """
+        retry_after = retry_after_seconds(response)
+        delay = retry_after if retry_after is not None else compute_delay(self.attempt)
+        if self.in_progress_waited + delay > self.max_in_progress_wait:
+            return None
+        self.in_progress_waited += delay
         self.attempt += 1
         return delay
 
@@ -298,6 +352,19 @@ def is_retryable_error(
     if isinstance(exc, httpx.HTTPError):
         return not request_may_be_billed or isinstance(exc, httpx.ConnectError)
     return False
+
+
+def is_idempotency_in_progress(exc: AnyAPIError) -> bool:
+    """True for the one 409 that means "the run this key claims is still executing".
+
+    Because settlement is detached from the caller's connection, that is the
+    likely server state after an ambiguous transport failure, so waiting it out
+    and collecting the replay is what makes the automatic key useful. No other
+    409 qualifies: ``idempotency_conflict`` and ``idempotency_needs_review`` are
+    caller-side problems that a retry can never resolve. Matched on the stable
+    ``code``, never on prose. See SPEC 2.8.
+    """
+    return exc.status == 409 and exc.code == IDEMPOTENCY_IN_PROGRESS_CODE
 
 
 def sleep(seconds: float) -> None:

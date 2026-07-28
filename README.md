@@ -67,6 +67,11 @@ detail. The essentials:
   1.3.11 expose qualifying proof. Cloudflare Workers, Deno, and browsers do not, so an unknown
   send phase gets no automatic network retry. Python `httpx.ConnectError` qualifies, while
   ambiguous `ReadError` does not. Default `maxRetries`/`max_retries` is 2.
+- **Waiting out an in-flight run.** A 409 whose code is `idempotency_in_progress` means the
+  gateway is still executing the run that key claims, so it is the one retryable 4xx: the SDK
+  waits the server's `Retry-After` in full (past the 8s ordinary ceiling) and returns the
+  replayed result. `maxInProgressWaitMs` / `max_in_progress_wait` (default 60s) bounds the total
+  time one call may block on that. Every other 409 raises immediately.
 - **Agent signup.** `agentSignup()` / `agent_signup()` bootstraps a capped starter key with no
   account, for autonomous agents; a human funds it via the returned claim URL.
 
