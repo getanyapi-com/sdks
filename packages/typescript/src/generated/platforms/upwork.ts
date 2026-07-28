@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -53,7 +53,76 @@ export interface UpworkJobsInput {
   sort?: "newest" | "relevance";
 }
 
-export type UpworkJobsData = unknown;
+export interface UpworkJobsItem {
+  /**
+   * Fixed budget or hourly range.
+   */
+  budget?: string;
+  /**
+   * Client country or location.
+   */
+  clientLocation?: string;
+  /**
+   * Client average rating.
+   */
+  clientRating?: number;
+  /**
+   * Client lifetime spend (USD).
+   */
+  clientTotalSpent?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Full job posting description text. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  description?: string;
+  /**
+   * Required experience level (e.g. Entry, Intermediate, Expert).
+   */
+  experienceLevel?: string;
+  /**
+   * Upwork job identifier. Populated whenever the provider has data for the entity.
+   */
+  jobId: string;
+  /**
+   * Fixed or Hourly.
+   */
+  jobType?: string;
+  /**
+   * Whether the client's payment method is verified; null when Upwork reports it as unknown.
+   */
+  paymentVerified?: boolean;
+  /**
+   * Number of proposals submitted.
+   */
+  proposals?: number;
+  /**
+   * Skill tags.
+   */
+  tags?: string[];
+  /**
+   * Job posting title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Upwork job posting URL. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Upwork Jobs (upwork.jobs).
+ */
+export interface UpworkJobsData {
+  /**
+   * Job records: title, description, budget or hourly rate, required skills, posted date, and client details. Populated whenever the provider has data for the entity.
+   */
+  items: UpworkJobsItem[];
+}
 
 /**
  * Typed methods for the upwork platform. Attached to the AnyAPI client as
@@ -75,9 +144,7 @@ export class UpworkNamespace {
   jobs(
     input: UpworkJobsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<UpworkJobsData>> {
-    return this._core.run("upwork.jobs", input, options) as unknown as Promise<
-      BareRunResult<UpworkJobsData>
-    >;
+  ): Promise<RunResult<UpworkJobsData>> {
+    return this._core.run("upwork.jobs", input, options);
   }
 }

@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -37,7 +37,34 @@ class TrustpilotReviewsInput(TypedDict, total=False):
 
 
 class TrustpilotReviewsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[TrustpilotReviewsItem] = Field(
+        description="Review records: star rating, review title and text, date, reviewer name and country, and company reply when present. Populated whenever the provider has data for the entity."
+    )
+
+
+class TrustpilotReviewsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    rating: float = Field(description="Star rating (1-5).")
+    text: str = Field(
+        description="Review body text. Populated whenever the provider has data for the entity."
+    )
+    title: str | None = Field(
+        default=None,
+        description="Review title or headline. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical review URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether the reviewer is verified."
+    )
 
 
 class TrustpilotNamespace:
@@ -51,7 +78,7 @@ class TrustpilotNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[TrustpilotReviewsInput],
-    ) -> BareRunResult[TrustpilotReviewsData]:
+    ) -> RunResult[TrustpilotReviewsData]:
         """Trustpilot Reviews
 
         Pull Trustpilot reviews for any company by brand name: star ratings, review
@@ -65,7 +92,7 @@ class TrustpilotNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "trustpilot.reviews", dict(input), options
         )
-        return BareRunResult[TrustpilotReviewsData].model_validate(raw)
+        return RunResult[TrustpilotReviewsData].model_validate(raw)
 
 
 class AsyncTrustpilotNamespace:
@@ -79,7 +106,7 @@ class AsyncTrustpilotNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[TrustpilotReviewsInput],
-    ) -> BareRunResult[TrustpilotReviewsData]:
+    ) -> RunResult[TrustpilotReviewsData]:
         """Trustpilot Reviews
 
         Pull Trustpilot reviews for any company by brand name: star ratings, review
@@ -93,4 +120,4 @@ class AsyncTrustpilotNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "trustpilot.reviews", dict(input), options
         )
-        return BareRunResult[TrustpilotReviewsData].model_validate(raw)
+        return RunResult[TrustpilotReviewsData].model_validate(raw)

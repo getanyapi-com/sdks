@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -27,6 +27,73 @@ class YelpSearchInput(TypedDict, total=False):
 
 
 class YelpSearchData(BaseModel):
+    items: list[YelpSearchItem] = Field(
+        description="Business listing records: name, categories, rating, review count, address, and core business info. Populated whenever the provider has data for the entity."
+    )
+
+
+class YelpSearchItem(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    address1: str | None = Field(
+        default=None, description="Primary street address line."
+    )
+    address2: str | None = Field(default=None, description="Secondary address line.")
+    address3: str | None = Field(default=None, description="Tertiary address line.")
+    alias: str = Field(
+        description="URL slug for the business. Populated whenever the provider has data for the entity."
+    )
+    avg_rating: float | None = Field(
+        default=None, description="Rounded average star rating."
+    )
+    categories: list[YelpSearchCategorie] | None = Field(
+        default=None, description="Business category tags."
+    )
+    city: str | None = Field(default=None, description="City name.")
+    country: str | None = Field(default=None, description="ISO country code.")
+    dialable_phone: str | None = Field(
+        default=None, description="Dialable phone number."
+    )
+    id: str = Field(
+        description="Stable Yelp business identifier. Populated whenever the provider has data for the entity."
+    )
+    is_closed: bool | None = Field(
+        default=None, description="Whether the business is permanently closed."
+    )
+    latitude: float | None = Field(
+        default=None, description="Latitude of the business."
+    )
+    localized_phone: str | None = Field(
+        default=None, description="Formatted local phone number."
+    )
+    localized_price: str | None = Field(
+        default=None, description="Localized price tier (e.g. $$)."
+    )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the business."
+    )
+    name: str = Field(
+        description="Business display name. Populated whenever the provider has data for the entity."
+    )
+    neighborhoods: list[str] | None = Field(
+        default=None, description="Neighborhood labels for the location."
+    )
+    phone: str | None = Field(default=None, description="Raw phone number.")
+    photo_count: int | None = Field(default=None, description="Total photo count.")
+    photo_url: str | None = Field(
+        default=None,
+        description="Primary photo URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    price: int | None = Field(default=None, description="Numeric price tier.")
+    review_count: int | None = Field(default=None, description="Number of reviews.")
+    state: str | None = Field(default=None, description="State or region code.")
+    unrounded_avg_rating: float | None = Field(
+        default=None, description="Unrounded average star rating."
+    )
+    zip: str | None = Field(default=None, description="Postal code.")
+
+
+class YelpSearchCategorie(BaseModel):
     model_config = ConfigDict(extra="allow")
 
 
@@ -38,7 +105,7 @@ class YelpNamespace:
 
     def search(
         self, *, options: RequestOptions | None = None, **input: Unpack[YelpSearchInput]
-    ) -> BareRunResult[YelpSearchData]:
+    ) -> RunResult[YelpSearchData]:
         """Yelp Search
 
         Search Yelp for businesses by keyword and location: up to 20 listings with
@@ -52,7 +119,7 @@ class YelpNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "yelp.search", dict(input), options
         )
-        return BareRunResult[YelpSearchData].model_validate(raw)
+        return RunResult[YelpSearchData].model_validate(raw)
 
 
 class AsyncYelpNamespace:
@@ -63,7 +130,7 @@ class AsyncYelpNamespace:
 
     async def search(
         self, *, options: RequestOptions | None = None, **input: Unpack[YelpSearchInput]
-    ) -> BareRunResult[YelpSearchData]:
+    ) -> RunResult[YelpSearchData]:
         """Yelp Search
 
         Search Yelp for businesses by keyword and location: up to 20 listings with
@@ -77,4 +144,4 @@ class AsyncYelpNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "yelp.search", dict(input), options
         )
-        return BareRunResult[YelpSearchData].model_validate(raw)
+        return RunResult[YelpSearchData].model_validate(raw)

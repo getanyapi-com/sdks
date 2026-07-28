@@ -20,6 +20,55 @@ describe("envelope crack (SPEC 1.4.1)", () => {
     expect(data.properties["found"]).toBeUndefined();
   });
 
+  it("preserves a found-data schema inside a nullable replay wrapper", () => {
+    const cracked = crackEnvelope({
+      responses: {
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                properties: {
+                  output: {
+                    anyOf: [
+                      {
+                        type: "object",
+                        required: ["found", "data"],
+                        properties: {
+                          found: { type: "boolean" },
+                          data: {
+                            oneOf: [
+                              { type: "null" },
+                              {
+                                type: "object",
+                                required: ["posts", "nextCursor"],
+                                properties: {
+                                  posts: {
+                                    type: "array",
+                                    items: { type: "object" },
+                                  },
+                                  nextCursor: { type: "string" },
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      },
+                      { type: "null" },
+                    ],
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    expect(cracked.bare).toBe(false);
+    const data = toSchemaNode(cracked.data) as ObjectNode;
+    expect(data.properties["posts"]?.kind).toBe("array");
+    expect(data.properties["nextCursor"]?.kind).toBe("string");
+  });
+
   it("uses the bare output object directly when there is no found/data wrapper", () => {
     const cracked = crackEnvelope({
       responses: {

@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -35,7 +35,70 @@ class GoogleShoppingSearchInput(TypedDict, total=False):
 
 
 class GoogleShoppingSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[GoogleShoppingSearchItem] = Field(
+        description="Matching Google Shopping product offers. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleShoppingSearchItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    brand: str | None = Field(
+        default=None, description="Product brand; empty when not reported."
+    )
+    currency: str | None = Field(
+        default=None,
+        description='Price currency code, e.g. "USD"; empty when not reported.',
+    )
+    discount_percent: str | None = Field(
+        default=None,
+        alias="discountPercent",
+        description='Discount label when on sale, e.g. "23% OFF"; empty otherwise.',
+    )
+    image: str | None = Field(
+        default=None,
+        description="Primary product image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    list_price: float | None = Field(
+        default=None,
+        alias="listPrice",
+        description="Pre-discount list price as a numeric amount; 0 when not on sale or reported only as text.",
+    )
+    list_price_text: str | None = Field(
+        default=None,
+        alias="listPriceText",
+        description='Pre-discount list price as displayed, e.g. "$130"; empty when not applicable.',
+    )
+    price: float | None = Field(
+        default=None,
+        description="Current price as a numeric amount; 0 when the lane reports price only as text (see priceText).",
+    )
+    price_text: str | None = Field(
+        default=None,
+        alias="priceText",
+        description='Current price as displayed, e.g. "$99.99"; empty when the lane reports a numeric price instead.',
+    )
+    product_id: str | None = Field(
+        default=None, alias="productId", description="Provider product identifier."
+    )
+    rating: float | None = Field(
+        default=None, description="Average product rating, 0-5; 0 when unrated."
+    )
+    reviews_count: int | None = Field(
+        default=None,
+        alias="reviewsCount",
+        description="Number of ratings / reviews; 0 when none reported.",
+    )
+    seller: str | None = Field(
+        default=None,
+        description='Store / seller name offering the product, e.g. "Target".',
+    )
+    title: str = Field(
+        description="Product title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Google Shopping product page URL (query retained; it encodes the product identity). Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleShoppingNamespace:
@@ -49,7 +112,7 @@ class GoogleShoppingNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleShoppingSearchInput],
-    ) -> BareRunResult[GoogleShoppingSearchData]:
+    ) -> RunResult[GoogleShoppingSearchData]:
         """Google Shopping Search
 
         Search Google Shopping by keyword and get up to 10 product offers (title,
@@ -63,7 +126,7 @@ class GoogleShoppingNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google_shopping.search", dict(input), options
         )
-        return BareRunResult[GoogleShoppingSearchData].model_validate(raw)
+        return RunResult[GoogleShoppingSearchData].model_validate(raw)
 
 
 class AsyncGoogleShoppingNamespace:
@@ -77,7 +140,7 @@ class AsyncGoogleShoppingNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleShoppingSearchInput],
-    ) -> BareRunResult[GoogleShoppingSearchData]:
+    ) -> RunResult[GoogleShoppingSearchData]:
         """Google Shopping Search
 
         Search Google Shopping by keyword and get up to 10 product offers (title,
@@ -91,4 +154,4 @@ class AsyncGoogleShoppingNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google_shopping.search", dict(input), options
         )
-        return BareRunResult[GoogleShoppingSearchData].model_validate(raw)
+        return RunResult[GoogleShoppingSearchData].model_validate(raw)

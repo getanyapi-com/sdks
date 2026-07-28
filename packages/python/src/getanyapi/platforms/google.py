@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -120,35 +120,244 @@ class GoogleVideosInput(TypedDict, total=False):
 
 
 class GoogleAutocompleteData(BaseModel):
+    query: str = Field(description="The partial query that was searched.")
+    suggestions: list[GoogleAutocompleteSuggestion] = Field(
+        description="Autocomplete suggestion records. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleAutocompleteSuggestion(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    value: str = Field(
+        description="Suggested query text. Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleImagesData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[GoogleImagesItem] = Field(
+        description="Image result records: image URL, dimensions, title, and the source page it appears on. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleImagesItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(default=None, description="Full image height in pixels.")
+    source: str | None = Field(
+        default=None,
+        description="Host domain of the page the image appears on. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    source_url: str | None = Field(
+        default=None,
+        alias="sourceUrl",
+        description="URL of the page the image appears on. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    thumbnail_url: str | None = Field(
+        default=None,
+        alias="thumbnailUrl",
+        description="URL to a thumbnail of the image.",
+    )
+    title: str = Field(
+        description="Image result title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Direct URL to the full-size image. Populated whenever the provider has data for the entity."
+    )
+    width: int | None = Field(default=None, description="Full image width in pixels.")
 
 
 class GoogleLensData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    results: list[GoogleLensResult] = Field(
+        description="Visual match result records. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(description="The input image URL that was searched.")
+
+
+class GoogleLensResult(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    image: str | None = Field(default=None, description="Matched image URL.")
+    link: str = Field(
+        description="URL to the matching web page. Populated whenever the provider has data for the entity."
+    )
+    source: str | None = Field(default=None, description="Source site name.")
+    thumbnail_url: str | None = Field(
+        default=None,
+        alias="thumbnailUrl",
+        description="Thumbnail image URL for the match.",
+    )
+    title: str = Field(
+        description="Title of the matching web page. Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleNewsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[GoogleNewsItem] = Field(
+        description="Article records: headline, source name, article link, and publish time. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleNewsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    snippet: str | None = Field(
+        default=None, description="Article snippet when available."
+    )
+    source: str | None = Field(
+        default=None,
+        description="Publisher name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    title: str = Field(
+        description="Article headline. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Article link. Populated whenever the provider has data for the entity."
+    )
 
 
 class GooglePatentsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    query: str = Field(description="The query that was searched.")
+    results: list[GooglePatentsResult] = Field(description="Patent result records.")
+
+
+class GooglePatentsResult(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    assignee: str | None = Field(default=None, description="Patent assignee.")
+    filed_utc: float | None = Field(
+        default=None,
+        alias="filedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    granted_utc: float | None = Field(
+        default=None,
+        alias="grantedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    image: str | None = Field(
+        default=None, description="First patent figure thumbnail image URL."
+    )
+    inventor: str | None = Field(
+        default=None, description="Named inventor or inventors."
+    )
+    link: str = Field(
+        description="URL to the patent. Populated whenever the provider has data for the entity."
+    )
+    pdf_url: str | None = Field(
+        default=None, alias="pdfUrl", description="URL to an available patent PDF."
+    )
+    priority_utc: float | None = Field(
+        default=None,
+        alias="priorityUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    publication_number: str = Field(
+        alias="publicationNumber",
+        description="Patent publication number (e.g. US11303135B2). Populated whenever the provider has data for the entity.",
+    )
+    published_utc: float | None = Field(
+        default=None,
+        alias="publishedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    snippet: str | None = Field(
+        default=None, description="Short patent description snippet."
+    )
+    title: str = Field(
+        description="Patent title. Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleScholarData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    query: str = Field(description="The query that was searched.")
+    results: list[GoogleScholarResult] = Field(
+        description="Academic paper result records."
+    )
+
+
+class GoogleScholarResult(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    cited_by: int | None = Field(
+        default=None,
+        alias="citedBy",
+        description="Number of citations reported by Google Scholar.",
+    )
+    id: str | None = Field(default=None, description="Result identifier.")
+    link: str = Field(
+        description="URL to the paper. Populated whenever the provider has data for the entity."
+    )
+    pdf_url: str | None = Field(
+        default=None, alias="pdfUrl", description="URL to an available PDF."
+    )
+    publication_info: str | None = Field(
+        default=None,
+        alias="publicationInfo",
+        description="Authors, venue, and publication year.",
+    )
+    snippet: str | None = Field(
+        default=None, description="Short paper description snippet."
+    )
+    title: str = Field(
+        description="Paper title. Populated whenever the provider has data for the entity."
+    )
+    year: int | None = Field(default=None, description="Publication year.")
 
 
 class GoogleSearchData(BaseModel):
+    query: str
+    results: list[GoogleSearchResult] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleSearchResult(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    link: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    position: int
+    snippet: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleVideosData(BaseModel):
+    query: str = Field(description="The query that was searched.")
+    results: list[GoogleVideosResult] = Field(
+        description="Video result records. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleVideosResult(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    image: str | None = Field(
+        default=None, description="Thumbnail image URL for the video."
+    )
+    link: str = Field(
+        description="URL to the video. Populated whenever the provider has data for the entity."
+    )
+    position: int | None = Field(
+        default=None, description="1-based rank in the result list."
+    )
+    snippet: str | None = Field(default=None, description="Short description snippet.")
+    source: str | None = Field(
+        default=None, description="Host platform (e.g. YouTube, Vimeo)."
+    )
+    title: str = Field(
+        description="Video title. Populated whenever the provider has data for the entity."
+    )
 
 
 class GoogleNamespace:
@@ -162,7 +371,7 @@ class GoogleNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAutocompleteInput],
-    ) -> BareRunResult[GoogleAutocompleteData]:
+    ) -> RunResult[GoogleAutocompleteData]:
         """Google Autocomplete
 
         Get Google search autocomplete suggestions for a partial query (keyword
@@ -176,14 +385,14 @@ class GoogleNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.autocomplete", dict(input), options
         )
-        return BareRunResult[GoogleAutocompleteData].model_validate(raw)
+        return RunResult[GoogleAutocompleteData].model_validate(raw)
 
     def images(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleImagesInput],
-    ) -> BareRunResult[GoogleImagesData]:
+    ) -> RunResult[GoogleImagesData]:
         """Google Images
 
         Run a Google Images search and get structured results: image URLs,
@@ -197,11 +406,11 @@ class GoogleNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.images", dict(input), options
         )
-        return BareRunResult[GoogleImagesData].model_validate(raw)
+        return RunResult[GoogleImagesData].model_validate(raw)
 
     def lens(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleLensInput]
-    ) -> BareRunResult[GoogleLensData]:
+    ) -> RunResult[GoogleLensData]:
         """Google Lens
 
         Reverse image search: find web pages and visual matches for an image URL.
@@ -214,11 +423,11 @@ class GoogleNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.lens", dict(input), options
         )
-        return BareRunResult[GoogleLensData].model_validate(raw)
+        return RunResult[GoogleLensData].model_validate(raw)
 
     def news(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleNewsInput]
-    ) -> BareRunResult[GoogleNewsData]:
+    ) -> RunResult[GoogleNewsData]:
         """Google News
 
         Search Google News by keyword and get fresh articles (headlines, sources,
@@ -232,14 +441,14 @@ class GoogleNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.news", dict(input), options
         )
-        return BareRunResult[GoogleNewsData].model_validate(raw)
+        return RunResult[GoogleNewsData].model_validate(raw)
 
     def patents(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GooglePatentsInput],
-    ) -> BareRunResult[GooglePatentsData]:
+    ) -> RunResult[GooglePatentsData]:
         """Google Patents
 
         Search Google Patents with title, patent number, inventor, assignee, key
@@ -253,14 +462,14 @@ class GoogleNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.patents", dict(input), options
         )
-        return BareRunResult[GooglePatentsData].model_validate(raw)
+        return RunResult[GooglePatentsData].model_validate(raw)
 
     def scholar(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleScholarInput],
-    ) -> BareRunResult[GoogleScholarData]:
+    ) -> RunResult[GoogleScholarData]:
         """Google Scholar
 
         Search Google Scholar for academic papers with title, authors, citation
@@ -274,14 +483,14 @@ class GoogleNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.scholar", dict(input), options
         )
-        return BareRunResult[GoogleScholarData].model_validate(raw)
+        return RunResult[GoogleScholarData].model_validate(raw)
 
     def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleSearchInput],
-    ) -> BareRunResult[GoogleSearchData]:
+    ) -> RunResult[GoogleSearchData]:
         """Google Search
 
         Run a Google web search and get the organic results (title, link, snippet,
@@ -295,14 +504,14 @@ class GoogleNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.search", dict(input), options
         )
-        return BareRunResult[GoogleSearchData].model_validate(raw)
+        return RunResult[GoogleSearchData].model_validate(raw)
 
     def videos(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleVideosInput],
-    ) -> BareRunResult[GoogleVideosData]:
+    ) -> RunResult[GoogleVideosData]:
         """Google Videos
 
         Search Google for video results (YouTube and others) with title, link,
@@ -316,7 +525,7 @@ class GoogleNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google.videos", dict(input), options
         )
-        return BareRunResult[GoogleVideosData].model_validate(raw)
+        return RunResult[GoogleVideosData].model_validate(raw)
 
 
 class AsyncGoogleNamespace:
@@ -330,7 +539,7 @@ class AsyncGoogleNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAutocompleteInput],
-    ) -> BareRunResult[GoogleAutocompleteData]:
+    ) -> RunResult[GoogleAutocompleteData]:
         """Google Autocomplete
 
         Get Google search autocomplete suggestions for a partial query (keyword
@@ -344,14 +553,14 @@ class AsyncGoogleNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.autocomplete", dict(input), options
         )
-        return BareRunResult[GoogleAutocompleteData].model_validate(raw)
+        return RunResult[GoogleAutocompleteData].model_validate(raw)
 
     async def images(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleImagesInput],
-    ) -> BareRunResult[GoogleImagesData]:
+    ) -> RunResult[GoogleImagesData]:
         """Google Images
 
         Run a Google Images search and get structured results: image URLs,
@@ -365,11 +574,11 @@ class AsyncGoogleNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.images", dict(input), options
         )
-        return BareRunResult[GoogleImagesData].model_validate(raw)
+        return RunResult[GoogleImagesData].model_validate(raw)
 
     async def lens(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleLensInput]
-    ) -> BareRunResult[GoogleLensData]:
+    ) -> RunResult[GoogleLensData]:
         """Google Lens
 
         Reverse image search: find web pages and visual matches for an image URL.
@@ -382,11 +591,11 @@ class AsyncGoogleNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.lens", dict(input), options
         )
-        return BareRunResult[GoogleLensData].model_validate(raw)
+        return RunResult[GoogleLensData].model_validate(raw)
 
     async def news(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleNewsInput]
-    ) -> BareRunResult[GoogleNewsData]:
+    ) -> RunResult[GoogleNewsData]:
         """Google News
 
         Search Google News by keyword and get fresh articles (headlines, sources,
@@ -400,14 +609,14 @@ class AsyncGoogleNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.news", dict(input), options
         )
-        return BareRunResult[GoogleNewsData].model_validate(raw)
+        return RunResult[GoogleNewsData].model_validate(raw)
 
     async def patents(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GooglePatentsInput],
-    ) -> BareRunResult[GooglePatentsData]:
+    ) -> RunResult[GooglePatentsData]:
         """Google Patents
 
         Search Google Patents with title, patent number, inventor, assignee, key
@@ -421,14 +630,14 @@ class AsyncGoogleNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.patents", dict(input), options
         )
-        return BareRunResult[GooglePatentsData].model_validate(raw)
+        return RunResult[GooglePatentsData].model_validate(raw)
 
     async def scholar(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleScholarInput],
-    ) -> BareRunResult[GoogleScholarData]:
+    ) -> RunResult[GoogleScholarData]:
         """Google Scholar
 
         Search Google Scholar for academic papers with title, authors, citation
@@ -442,14 +651,14 @@ class AsyncGoogleNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.scholar", dict(input), options
         )
-        return BareRunResult[GoogleScholarData].model_validate(raw)
+        return RunResult[GoogleScholarData].model_validate(raw)
 
     async def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleSearchInput],
-    ) -> BareRunResult[GoogleSearchData]:
+    ) -> RunResult[GoogleSearchData]:
         """Google Search
 
         Run a Google web search and get the organic results (title, link, snippet,
@@ -463,14 +672,14 @@ class AsyncGoogleNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.search", dict(input), options
         )
-        return BareRunResult[GoogleSearchData].model_validate(raw)
+        return RunResult[GoogleSearchData].model_validate(raw)
 
     async def videos(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleVideosInput],
-    ) -> BareRunResult[GoogleVideosData]:
+    ) -> RunResult[GoogleVideosData]:
         """Google Videos
 
         Search Google for video results (YouTube and others) with title, link,
@@ -484,4 +693,4 @@ class AsyncGoogleNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google.videos", dict(input), options
         )
-        return BareRunResult[GoogleVideosData].model_validate(raw)
+        return RunResult[GoogleVideosData].model_validate(raw)

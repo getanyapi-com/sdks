@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -100,7 +100,44 @@ class AirbnbSearchInput(TypedDict, total=False):
 
 
 class AirbnbSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[AirbnbSearchItem] = Field(
+        description="Listing records: name, total-stay price label, rating, location, host info, and availability details. Populated whenever the provider has data for the entity."
+    )
+
+
+class AirbnbSearchItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    host_name: str | None = Field(default=None, alias="hostName")
+    id: str = Field(
+        description="Airbnb listing identifier. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Primary listing image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    is_available: bool | None = Field(default=None, alias="isAvailable")
+    is_superhost: bool | None = Field(default=None, alias="isSuperhost")
+    latitude: float | None = None
+    location: str | None = Field(default=None, description="Location subtitle.")
+    longitude: float | None = None
+    person_capacity: int | None = Field(default=None, alias="personCapacity")
+    price: str | None = Field(
+        default=None,
+        description="Total-stay price label returned by Airbnb (e.g. $3,149 total).",
+    )
+    property_type: str | None = Field(default=None, alias="propertyType")
+    rating: float | None = Field(
+        default=None, description="Guest satisfaction rating (0-5)."
+    )
+    reviews_count: int | None = Field(default=None, alias="reviewsCount")
+    room_type: str | None = Field(default=None, alias="roomType")
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class AirbnbNamespace:
@@ -114,7 +151,7 @@ class AirbnbNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AirbnbSearchInput],
-    ) -> BareRunResult[AirbnbSearchData]:
+    ) -> RunResult[AirbnbSearchData]:
         """Airbnb Search
 
         Search Airbnb listings by location and dates with optional price,
@@ -129,7 +166,7 @@ class AirbnbNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "airbnb.search", dict(input), options
         )
-        return BareRunResult[AirbnbSearchData].model_validate(raw)
+        return RunResult[AirbnbSearchData].model_validate(raw)
 
 
 class AsyncAirbnbNamespace:
@@ -143,7 +180,7 @@ class AsyncAirbnbNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AirbnbSearchInput],
-    ) -> BareRunResult[AirbnbSearchData]:
+    ) -> RunResult[AirbnbSearchData]:
         """Airbnb Search
 
         Search Airbnb listings by location and dates with optional price,
@@ -158,4 +195,4 @@ class AsyncAirbnbNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "airbnb.search", dict(input), options
         )
-        return BareRunResult[AirbnbSearchData].model_validate(raw)
+        return RunResult[AirbnbSearchData].model_validate(raw)

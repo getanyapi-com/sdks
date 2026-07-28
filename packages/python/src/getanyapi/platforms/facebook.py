@@ -5,10 +5,16 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
+from .._pagination import (
+    AsyncPaginator,
+    Paginator,
+    apaginate,
+    paginate,
+)
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -321,103 +327,901 @@ class FacebookSearchPostsInput(TypedDict, total=False):
 
 
 class FacebookAdDetailsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    active: bool | None = Field(
+        default=None, description="Whether the ad is currently running."
+    )
+    ad_archive_id: str = Field(
+        alias="adArchiveId",
+        description="Ad Library archive ID (stable identity). Populated whenever the provider has data for the entity.",
+    )
+    cta_text: str | None = Field(
+        default=None,
+        alias="ctaText",
+        description="Call-to-action label. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    currency: str | None = Field(
+        default=None, description="Spend currency, may be empty."
+    )
+    display_format: str | None = Field(
+        default=None,
+        alias="displayFormat",
+        description="Ad creative format. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    end_date: int | None = Field(
+        default=None, alias="endDate", description="Run end, epoch seconds."
+    )
+    link_url: str | None = Field(
+        default=None,
+        alias="linkUrl",
+        description="Creative destination URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.",
+    )
+    page_name: str | None = Field(
+        default=None,
+        alias="pageName",
+        description="Advertiser page name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    platforms: list[str] | None = Field(
+        default=None,
+        description="Publisher platforms the ad runs on. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    start_date: int | None = Field(
+        default=None,
+        alias="startDate",
+        description="Run start, epoch seconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    text: str | None = Field(
+        default=None,
+        description="Ad body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    title: str | None = Field(
+        default=None,
+        description="Creative title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
 
 
 class FacebookAdTranscriptData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ad_id: str = Field(
+        alias="adId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    transcript: str = Field(description="Transcribed ad audio text.")
+    transcript_available: bool = Field(alias="transcriptAvailable")
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookAdsSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    ads: list[FacebookAdsSearchAd]
+    next_cursor: str = Field(alias="nextCursor")
+    total_results: int = Field(alias="totalResults")
+
+
+class FacebookAdsSearchAd(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    active: bool
+    ad_count: int = Field(
+        alias="adCount", description="Number of ads in this campaign (collation count)."
+    )
+    cta_text: str = Field(
+        alias="ctaText",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    cta_type: str = Field(
+        alias="ctaType",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    display_format: str = Field(
+        alias="displayFormat",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    end_date: int = Field(alias="endDate", description="Epoch seconds.")
+    id: str = Field(
+        description="Ad Library archive ID. Populated whenever the provider has data for the entity."
+    )
+    link_url: str = Field(
+        alias="linkUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    page_name: str = Field(
+        alias="pageName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    platforms: list[str] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    start_date: int = Field(
+        alias="startDate",
+        description="Epoch seconds. Populated whenever the provider has data for the entity.",
+    )
+    text: str = Field(
+        description="Ad body text. Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookCommentRepliesData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_next_page: bool = Field(
+        alias="hasNextPage",
+        description="True when more replies are available beyond this page.",
+    )
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of replies; empty when there are no more.",
+    )
+    replies: list[FacebookCommentRepliesReplie] = Field(
+        description="Replies to the comment. Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookCommentRepliesReplie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author_id: str = Field(
+        alias="authorId",
+        description="Identifier of the reply author. Populated whenever the provider has data for the entity.",
+    )
+    author_name: str = Field(
+        alias="authorName",
+        description="Display name of the reply author. Populated whenever the provider has data for the entity.",
+    )
+    author_profile_picture: str = Field(
+        alias="authorProfilePicture", description="URL of the author's profile picture."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    expansion_token: str | None = Field(
+        default=None,
+        alias="expansionToken",
+        description="Token used to expand nested replies, when present.",
+    )
+    feedback_id: str = Field(
+        alias="feedbackId",
+        description="Facebook feedback identifier for the reply. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Reply identifier. Populated whenever the provider has data for the entity."
+    )
+    reaction_count: int = Field(
+        alias="reactionCount", description="Number of reactions on the reply."
+    )
+    reply_count: int = Field(
+        alias="replyCount", description="Number of replies nested under this reply."
+    )
+    text: str = Field(
+        description="Reply text content. Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookCompanyAdsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    ads: list[FacebookCompanyAdsAd]
+    next_cursor: str = Field(alias="nextCursor")
+
+
+class FacebookCompanyAdsAd(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    active: bool
+    ad_count: int = Field(
+        alias="adCount", description="Number of ads in this campaign (collation count)."
+    )
+    currency: str
+    display_format: str = Field(
+        alias="displayFormat",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    end_date: int = Field(alias="endDate", description="Epoch seconds.")
+    id: str = Field(
+        description="Ad Library archive ID. Populated whenever the provider has data for the entity."
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    page_name: str = Field(
+        alias="pageName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    platforms: list[str] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    start_date: int = Field(
+        alias="startDate",
+        description="Epoch seconds. Populated whenever the provider has data for the entity.",
+    )
+    text: str = Field(
+        description="Ad body text. Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookEventDetailsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    city: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    cover_photo_url: str = Field(
+        alias="coverPhotoUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    day_time_sentence: str = Field(
+        alias="dayTimeSentence",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    end_time: str = Field(alias="endTime")
+    going_count: int = Field(alias="goingCount")
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    interested_count: int = Field(alias="interestedCount")
+    is_canceled: bool = Field(alias="isCanceled")
+    is_online: bool = Field(alias="isOnline")
+    location_name: str = Field(
+        alias="locationName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    start_time: str = Field(alias="startTime")
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookEventsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    events: list[FacebookEventsEvent]
+    next_cursor: str = Field(alias="nextCursor")
+
+
+class FacebookEventsEvent(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    day_time_sentence: str = Field(
+        alias="dayTimeSentence",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    going_count: int = Field(alias="goingCount")
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    interested_count: int = Field(alias="interestedCount")
+    is_online: bool = Field(alias="isOnline")
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    place_name: str = Field(
+        alias="placeName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    start_timestamp: int = Field(
+        alias="startTimestamp",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookEventsSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    events: list[FacebookEventsSearchEvent]
+    next_cursor: str = Field(alias="nextCursor")
+
+
+class FacebookEventsSearchEvent(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    cover_image: str = Field(
+        alias="coverImage",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    day_time_sentence: str = Field(
+        alias="dayTimeSentence",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    going_count: int = Field(alias="goingCount")
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    interested_count: int = Field(alias="interestedCount")
+    is_online: bool = Field(alias="isOnline")
+    is_past: bool = Field(alias="isPast")
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    place_name: str = Field(
+        alias="placeName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price_range_text: str = Field(alias="priceRangeText")
+    start_timestamp: int = Field(
+        alias="startTimestamp",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookFollowersData(BaseModel):
+    items: list[FacebookFollowersItem] = Field(
+        description="Follower or following records for the target page/profile. Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookFollowersItem(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    id: str = Field(
+        description="The account's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    name: str = Field(
+        description="The account's public display name. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the account's Facebook profile, with tracking query params stripped. Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookGroupPostsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(alias="nextCursor")
+    posts: list[FacebookGroupPostsPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookGroupPostsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author_id: str = Field(
+        alias="authorId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    author_name: str = Field(
+        alias="authorName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    comment_count: int = Field(alias="commentCount")
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    permalink: str
+    publish_time: int = Field(
+        alias="publishTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    reaction_count: int = Field(alias="reactionCount")
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookMarketplaceData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_next_page: bool = Field(alias="hasNextPage")
+    listings: list[FacebookMarketplaceListing]
+    next_cursor: str = Field(alias="nextCursor")
+
+
+class FacebookMarketplaceListing(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    is_sold: bool = Field(alias="isSold")
+    location_name: str = Field(
+        alias="locationName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    photo_url: str = Field(
+        alias="photoUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price_amount: float = Field(
+        alias="priceAmount",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price_formatted: str = Field(
+        alias="priceFormatted",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookMarketplaceItemData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    category_id: str = Field(
+        alias="categoryId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    creation_time: str = Field(
+        alias="creationTime",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    currency: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    is_live: bool = Field(alias="isLive")
+    is_sold: bool = Field(alias="isSold")
+    location_text: str = Field(
+        alias="locationText",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price_amount: float = Field(
+        alias="priceAmount",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    price_formatted: str = Field(
+        alias="priceFormatted",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookMarketplaceLocationSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    locations: list[FacebookMarketplaceLocationSearchLocation]
+
+
+class FacebookMarketplaceLocationSearchLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    city: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    latitude: float = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    longitude: float = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    postal_code: str = Field(
+        alias="postalCode",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    subtitle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookPageContactData(BaseModel):
+    items: list[FacebookPageContactItem] = Field(
+        description="Contact record for the requested Facebook Page (one item). Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookPageContactItem(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    address: str | None = Field(
+        default=None,
+        description="The page's public physical address. Empty when the page lists none.",
+    )
+    category: str | None = Field(
+        default=None,
+        description='The page\'s primary category (e.g. "Seafood Restaurant"). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
+    email: str | None = Field(
+        default=None,
+        description="The page's public contact email. Empty when the page lists none.",
+    )
+    followers: int | None = Field(
+        default=None, description="The page's follower count."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    phone: str | None = Field(
+        default=None,
+        description="The page's public phone number. Empty when the page lists none.",
+    )
+    title: str = Field(
+        description="The page's public name. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the Facebook Page, with tracking query params stripped. Populated whenever the provider has data for the entity."
+    )
+    website: str | None = Field(
+        default=None,
+        description="The page's public website URL. Empty when the page lists none.",
+    )
 
 
 class FacebookPhotosData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(alias="nextCursor")
+    next_page_id: str = Field(alias="nextPageId")
+    photos: list[FacebookPhotosPhoto] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookPhotosPhoto(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    image_height: int = Field(alias="imageHeight")
+    image_url: str = Field(
+        alias="imageUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    image_width: int = Field(alias="imageWidth")
+    photo_id: str = Field(
+        alias="photoId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    thumbnail: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookPostData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
+    comments: int
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    likes: int
+    shares: int
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    views: int
+
 
 class FacebookPostCommentsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    comments: list[FacebookPostCommentsComment] = Field(
+        description="Comments on the post. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of comments; empty when there are no more.",
+    )
+
+
+class FacebookPostCommentsComment(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Display name of the comment author. Populated whenever the provider has data for the entity."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Comment identifier. Populated whenever the provider has data for the entity."
+    )
+    reactions: int = Field(description="Number of reactions on the comment.")
+    replies: int = Field(description="Number of replies to the comment.")
+    text: str = Field(
+        description="Comment text content. Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookPostTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
+    transcript: str
+
 
 class FacebookProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    about: str
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    category: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    followers: int
+    likes: int
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookProfileEventsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    events: list[FacebookProfileEventsEvent] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    has_next_page: bool = Field(alias="hasNextPage")
+    next_cursor: str = Field(alias="nextCursor")
+    total_count: int = Field(alias="totalCount")
+
+
+class FacebookProfileEventsEvent(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    city: str
+    creator_name: str = Field(
+        alias="creatorName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    day_time_sentence: str = Field(alias="dayTimeSentence")
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    is_canceled: bool = Field(alias="isCanceled")
+    is_online: bool = Field(alias="isOnline")
+    is_past: bool = Field(alias="isPast")
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    place_name: str = Field(alias="placeName")
+    start_timestamp: int = Field(alias="startTimestamp")
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookProfilePostsData(BaseModel):
+    posts: list[FacebookProfilePostsPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookProfilePostsPost(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    author: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookProfileReelsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    reels: list[FacebookProfileReelsReel] = Field(
+        description="The profile's reels. Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookProfileReelsReel(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    caption: str = Field(
+        description="Reel caption text. Populated whenever the provider has data for the entity."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Reel identifier. Populated whenever the provider has data for the entity."
+    )
+    thumbnail: str = Field(
+        description="URL of the reel thumbnail image. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the reel. Populated whenever the provider has data for the entity."
+    )
+    views: int = Field(description="Number of views on the reel.")
 
 
 class FacebookSearchCompaniesData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    companies: list[FacebookSearchCompaniesCompanie]
+
+
+class FacebookSearchCompaniesCompanie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    category: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    country: str
+    entity_type: str = Field(
+        alias="entityType",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    ig_followers: int = Field(
+        alias="igFollowers",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    ig_username: str = Field(
+        alias="igUsername",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    image_url: str = Field(
+        alias="imageUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    likes: int
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    page_alias: str = Field(
+        alias="pageAlias",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    verification: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookSearchPagesData(BaseModel):
+    items: list[FacebookSearchPagesItem] = Field(
+        description="Matching Facebook Page records for the query. Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookSearchPagesItem(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    category: str | None = Field(
+        default=None,
+        description='The page\'s primary category (e.g. "Sportswear Store"). Empty when the upstream omits it.',
+    )
+    followers: int | None = Field(
+        default=None, description="The page's follower count."
+    )
+    id: str = Field(
+        description="The page's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    likes: int | None = Field(default=None, description="The page's like count.")
+    phone: str | None = Field(
+        default=None,
+        description="The page's public phone number. Empty when the upstream omits it.",
+    )
+    title: str = Field(
+        description="The page's public name. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the Facebook Page, with tracking query params stripped. Populated whenever the provider has data for the entity."
+    )
+    website: str | None = Field(
+        default=None,
+        description="The page's public website URL. Empty when the upstream omits it.",
+    )
 
 
 class FacebookSearchPostsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[FacebookSearchPostsItem] = Field(
+        description="Matching public Facebook post records for the query. Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookSearchPostsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the post's author. Empty when the upstream omits it.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical profile URL of the post's author, with tracking query params stripped. Empty when the upstream omits it.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Total number of comments on the post.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(
+        description="The post's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the post's primary image, with tracking query params stripped. Empty for text-only or video posts.",
+    )
+    reaction_count: int | None = Field(
+        default=None,
+        alias="reactionCount",
+        description="Total number of reactions on the post.",
+    )
+    share_count: int | None = Field(
+        default=None,
+        alias="shareCount",
+        description="Total number of shares/reshares of the post.",
+    )
+    text: str = Field(
+        description="The post's text/message. Empty for media-only posts with no caption."
+    )
+    url: str = Field(
+        description="Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity."
+    )
 
 
 class FacebookNamespace:
@@ -431,7 +1235,7 @@ class FacebookNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookAdDetailsInput],
-    ) -> BareRunResult[FacebookAdDetailsData]:
+    ) -> RunResult[FacebookAdDetailsData]:
         """Facebook Ad Details
 
         Look up a single Meta Ad Library ad by ID or URL and get the advertiser,
@@ -445,14 +1249,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details", dict(input), options
         )
-        return BareRunResult[FacebookAdDetailsData].model_validate(raw)
+        return RunResult[FacebookAdDetailsData].model_validate(raw)
 
     def ad_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookAdTranscriptInput],
-    ) -> BareRunResult[FacebookAdTranscriptData]:
+    ) -> RunResult[FacebookAdTranscriptData]:
         """Facebook Ad Transcript
 
         Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or
@@ -466,14 +1270,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_transcript", dict(input), options
         )
-        return BareRunResult[FacebookAdTranscriptData].model_validate(raw)
+        return RunResult[FacebookAdTranscriptData].model_validate(raw)
 
     def ads_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookAdsSearchInput],
-    ) -> BareRunResult[FacebookAdsSearchData]:
+    ) -> RunResult[FacebookAdsSearchData]:
         """Facebook Ad Search
 
         Search the Meta Ad Library by keyword and get matching ads (advertiser,
@@ -488,14 +1292,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ads_search", dict(input), options
         )
-        return BareRunResult[FacebookAdsSearchData].model_validate(raw)
+        return RunResult[FacebookAdsSearchData].model_validate(raw)
+
+    def iter_ads_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookAdsSearchInput],
+    ) -> Paginator[FacebookAdsSearchAd, FacebookAdsSearchData]:
+        """Iterate Facebook Ad Search results, following pagination cursors.
+
+        Yields validated `FacebookAdsSearchAd` items from the `ads` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.ads_search",
+            dict(input),
+            "ads",
+            item_model=FacebookAdsSearchAd,
+            data_model=FacebookAdsSearchData,
+            bare=False,
+            options=options,
+        )
 
     def comment_replies(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookCommentRepliesInput],
-    ) -> BareRunResult[FacebookCommentRepliesData]:
+    ) -> RunResult[FacebookCommentRepliesData]:
         """Facebook Comment Replies
 
         List the replies to a Facebook post comment (text, author, reactions, and
@@ -509,14 +1336,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.comment_replies", dict(input), options
         )
-        return BareRunResult[FacebookCommentRepliesData].model_validate(raw)
+        return RunResult[FacebookCommentRepliesData].model_validate(raw)
+
+    def iter_comment_replies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookCommentRepliesInput],
+    ) -> Paginator[FacebookCommentRepliesReplie, FacebookCommentRepliesData]:
+        """Iterate Facebook Comment Replies results, following pagination cursors.
+
+        Yields validated `FacebookCommentRepliesReplie` items from the `replies` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.comment_replies",
+            dict(input),
+            "replies",
+            item_model=FacebookCommentRepliesReplie,
+            data_model=FacebookCommentRepliesData,
+            bare=False,
+            options=options,
+        )
 
     def company_ads(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookCompanyAdsInput],
-    ) -> BareRunResult[FacebookCompanyAdsData]:
+    ) -> RunResult[FacebookCompanyAdsData]:
         """Facebook Company Ads
 
         List the Meta Ad Library ads a company is running by page ID or company name
@@ -530,14 +1380,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.company_ads", dict(input), options
         )
-        return BareRunResult[FacebookCompanyAdsData].model_validate(raw)
+        return RunResult[FacebookCompanyAdsData].model_validate(raw)
+
+    def iter_company_ads(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookCompanyAdsInput],
+    ) -> Paginator[FacebookCompanyAdsAd, FacebookCompanyAdsData]:
+        """Iterate Facebook Company Ads results, following pagination cursors.
+
+        Yields validated `FacebookCompanyAdsAd` items from the `ads` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.company_ads",
+            dict(input),
+            "ads",
+            item_model=FacebookCompanyAdsAd,
+            data_model=FacebookCompanyAdsData,
+            bare=False,
+            options=options,
+        )
 
     def event_details(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookEventDetailsInput],
-    ) -> BareRunResult[FacebookEventDetailsData]:
+    ) -> RunResult[FacebookEventDetailsData]:
         """Facebook Event Details
 
         Fetch full details for a single Facebook event by ID or URL (name, schedule,
@@ -551,14 +1424,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.event_details", dict(input), options
         )
-        return BareRunResult[FacebookEventDetailsData].model_validate(raw)
+        return RunResult[FacebookEventDetailsData].model_validate(raw)
 
     def events(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookEventsInput],
-    ) -> BareRunResult[FacebookEventsData]:
+    ) -> RunResult[FacebookEventsData]:
         """Facebook Events
 
         List public Facebook events for a city or place by its events-page URL
@@ -572,14 +1445,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.events", dict(input), options
         )
-        return BareRunResult[FacebookEventsData].model_validate(raw)
+        return RunResult[FacebookEventsData].model_validate(raw)
+
+    def iter_events(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookEventsInput],
+    ) -> Paginator[FacebookEventsEvent, FacebookEventsData]:
+        """Iterate Facebook Events results, following pagination cursors.
+
+        Yields validated `FacebookEventsEvent` items from the `events` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.events",
+            dict(input),
+            "events",
+            item_model=FacebookEventsEvent,
+            data_model=FacebookEventsData,
+            bare=False,
+            options=options,
+        )
 
     def events_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookEventsSearchInput],
-    ) -> BareRunResult[FacebookEventsSearchData]:
+    ) -> RunResult[FacebookEventsSearchData]:
         """Facebook Events Search
 
         Search public Facebook events by keyword and get structured event records
@@ -593,14 +1489,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.events_search", dict(input), options
         )
-        return BareRunResult[FacebookEventsSearchData].model_validate(raw)
+        return RunResult[FacebookEventsSearchData].model_validate(raw)
+
+    def iter_events_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookEventsSearchInput],
+    ) -> Paginator[FacebookEventsSearchEvent, FacebookEventsSearchData]:
+        """Iterate Facebook Events Search results, following pagination cursors.
+
+        Yields validated `FacebookEventsSearchEvent` items from the `events` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.events_search",
+            dict(input),
+            "events",
+            item_model=FacebookEventsSearchEvent,
+            data_model=FacebookEventsSearchData,
+            bare=False,
+            options=options,
+        )
 
     def followers(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookFollowersInput],
-    ) -> BareRunResult[FacebookFollowersData]:
+    ) -> RunResult[FacebookFollowersData]:
         """Facebook Followers
 
         List the public followers (or accounts followed) of any Facebook page or
@@ -614,14 +1533,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.followers", dict(input), options
         )
-        return BareRunResult[FacebookFollowersData].model_validate(raw)
+        return RunResult[FacebookFollowersData].model_validate(raw)
 
     def group_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookGroupPostsInput],
-    ) -> BareRunResult[FacebookGroupPostsData]:
+    ) -> RunResult[FacebookGroupPostsData]:
         """Facebook Group Posts
 
         Fetch recent posts from any public Facebook group by URL: text, author,
@@ -635,14 +1554,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.group_posts", dict(input), options
         )
-        return BareRunResult[FacebookGroupPostsData].model_validate(raw)
+        return RunResult[FacebookGroupPostsData].model_validate(raw)
+
+    def iter_group_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookGroupPostsInput],
+    ) -> Paginator[FacebookGroupPostsPost, FacebookGroupPostsData]:
+        """Iterate Facebook Group Posts results, following pagination cursors.
+
+        Yields validated `FacebookGroupPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.group_posts",
+            dict(input),
+            "posts",
+            item_model=FacebookGroupPostsPost,
+            data_model=FacebookGroupPostsData,
+            bare=False,
+            options=options,
+        )
 
     def marketplace(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookMarketplaceInput],
-    ) -> BareRunResult[FacebookMarketplaceData]:
+    ) -> RunResult[FacebookMarketplaceData]:
         """Facebook Marketplace
 
         Search Facebook Marketplace listings by keyword near a location, filter by
@@ -657,14 +1599,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.marketplace", dict(input), options
         )
-        return BareRunResult[FacebookMarketplaceData].model_validate(raw)
+        return RunResult[FacebookMarketplaceData].model_validate(raw)
+
+    def iter_marketplace(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookMarketplaceInput],
+    ) -> Paginator[FacebookMarketplaceListing, FacebookMarketplaceData]:
+        """Iterate Facebook Marketplace results, following pagination cursors.
+
+        Yields validated `FacebookMarketplaceListing` items from the `listings` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.marketplace",
+            dict(input),
+            "listings",
+            item_model=FacebookMarketplaceListing,
+            data_model=FacebookMarketplaceData,
+            bare=False,
+            options=options,
+        )
 
     def marketplace_item(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookMarketplaceItemInput],
-    ) -> BareRunResult[FacebookMarketplaceItemData]:
+    ) -> RunResult[FacebookMarketplaceItemData]:
         """Facebook Marketplace Item
 
         Fetch full details for a single Facebook Marketplace listing by ID or URL
@@ -678,14 +1643,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.marketplace_item", dict(input), options
         )
-        return BareRunResult[FacebookMarketplaceItemData].model_validate(raw)
+        return RunResult[FacebookMarketplaceItemData].model_validate(raw)
 
     def marketplace_location_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookMarketplaceLocationSearchInput],
-    ) -> BareRunResult[FacebookMarketplaceLocationSearchData]:
+    ) -> RunResult[FacebookMarketplaceLocationSearchData]:
         """Facebook Marketplace Location Search
 
         Resolve a place name to Facebook Marketplace locations with coordinates and
@@ -699,14 +1664,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.marketplace_location_search", dict(input), options
         )
-        return BareRunResult[FacebookMarketplaceLocationSearchData].model_validate(raw)
+        return RunResult[FacebookMarketplaceLocationSearchData].model_validate(raw)
 
     def page_contact(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPageContactInput],
-    ) -> BareRunResult[FacebookPageContactData]:
+    ) -> RunResult[FacebookPageContactData]:
         """Facebook Page Contact Info
 
         Look up a Facebook Page's public contact details (email, phone, website, and
@@ -720,14 +1685,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.page_contact", dict(input), options
         )
-        return BareRunResult[FacebookPageContactData].model_validate(raw)
+        return RunResult[FacebookPageContactData].model_validate(raw)
 
     def photos(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPhotosInput],
-    ) -> BareRunResult[FacebookPhotosData]:
+    ) -> RunResult[FacebookPhotosData]:
         """Facebook Page Photos
 
         Fetch recent photos posted by any public Facebook page or profile (image
@@ -741,14 +1706,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.photos", dict(input), options
         )
-        return BareRunResult[FacebookPhotosData].model_validate(raw)
+        return RunResult[FacebookPhotosData].model_validate(raw)
+
+    def iter_photos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookPhotosInput],
+    ) -> Paginator[FacebookPhotosPhoto, FacebookPhotosData]:
+        """Iterate Facebook Page Photos results, following pagination cursors.
+
+        Yields validated `FacebookPhotosPhoto` items from the `photos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.photos",
+            dict(input),
+            "photos",
+            item_model=FacebookPhotosPhoto,
+            data_model=FacebookPhotosData,
+            bare=False,
+            options=options,
+        )
 
     def post(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPostInput],
-    ) -> BareRunResult[FacebookPostData]:
+    ) -> RunResult[FacebookPostData]:
         """Facebook Post
 
         Fetch a single Facebook post by URL with its text and engagement counts
@@ -762,14 +1750,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.post", dict(input), options
         )
-        return BareRunResult[FacebookPostData].model_validate(raw)
+        return RunResult[FacebookPostData].model_validate(raw)
 
     def post_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPostCommentsInput],
-    ) -> BareRunResult[FacebookPostCommentsData]:
+    ) -> RunResult[FacebookPostCommentsData]:
         """Facebook Post Comments
 
         List the comments on a Facebook post by URL with cursor pagination (text,
@@ -783,14 +1771,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.post_comments", dict(input), options
         )
-        return BareRunResult[FacebookPostCommentsData].model_validate(raw)
+        return RunResult[FacebookPostCommentsData].model_validate(raw)
+
+    def iter_post_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookPostCommentsInput],
+    ) -> Paginator[FacebookPostCommentsComment, FacebookPostCommentsData]:
+        """Iterate Facebook Post Comments results, following pagination cursors.
+
+        Yields validated `FacebookPostCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.post_comments",
+            dict(input),
+            "comments",
+            item_model=FacebookPostCommentsComment,
+            data_model=FacebookPostCommentsData,
+            bare=False,
+            options=options,
+        )
 
     def post_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPostTranscriptInput],
-    ) -> BareRunResult[FacebookPostTranscriptData]:
+    ) -> RunResult[FacebookPostTranscriptData]:
         """Facebook Post Transcript
 
         Get the spoken-word transcript of any public Facebook video post by URL as
@@ -804,14 +1815,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.post_transcript", dict(input), options
         )
-        return BareRunResult[FacebookPostTranscriptData].model_validate(raw)
+        return RunResult[FacebookPostTranscriptData].model_validate(raw)
 
     def profile(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookProfileInput],
-    ) -> BareRunResult[FacebookProfileData]:
+    ) -> RunResult[FacebookProfileData]:
         """Facebook Profile
 
         Fetch a Facebook page's public profile (likes, followers, category, about)
@@ -825,14 +1836,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.profile", dict(input), options
         )
-        return BareRunResult[FacebookProfileData].model_validate(raw)
+        return RunResult[FacebookProfileData].model_validate(raw)
 
     def profile_events(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookProfileEventsInput],
-    ) -> BareRunResult[FacebookProfileEventsData]:
+    ) -> RunResult[FacebookProfileEventsData]:
         """Facebook Page Events
 
         List upcoming and past events hosted by any public Facebook page by URL
@@ -846,14 +1857,37 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.profile_events", dict(input), options
         )
-        return BareRunResult[FacebookProfileEventsData].model_validate(raw)
+        return RunResult[FacebookProfileEventsData].model_validate(raw)
+
+    def iter_profile_events(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookProfileEventsInput],
+    ) -> Paginator[FacebookProfileEventsEvent, FacebookProfileEventsData]:
+        """Iterate Facebook Page Events results, following pagination cursors.
+
+        Yields validated `FacebookProfileEventsEvent` items from the `events` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.profile_events",
+            dict(input),
+            "events",
+            item_model=FacebookProfileEventsEvent,
+            data_model=FacebookProfileEventsData,
+            bare=False,
+            options=options,
+        )
 
     def profile_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookProfilePostsInput],
-    ) -> BareRunResult[FacebookProfilePostsData]:
+    ) -> RunResult[FacebookProfilePostsData]:
         """Facebook Profile Posts
 
         List a Facebook page's recent posts by URL or page id with cursor pagination
@@ -867,14 +1901,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.profile_posts", dict(input), options
         )
-        return BareRunResult[FacebookProfilePostsData].model_validate(raw)
+        return RunResult[FacebookProfilePostsData].model_validate(raw)
 
     def profile_reels(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookProfileReelsInput],
-    ) -> BareRunResult[FacebookProfileReelsData]:
+    ) -> RunResult[FacebookProfileReelsData]:
         """Facebook Profile Reels
 
         List a Facebook page's reels by URL with cursor pagination (caption, view
@@ -888,14 +1922,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.profile_reels", dict(input), options
         )
-        return BareRunResult[FacebookProfileReelsData].model_validate(raw)
+        return RunResult[FacebookProfileReelsData].model_validate(raw)
 
     def search_companies(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookSearchCompaniesInput],
-    ) -> BareRunResult[FacebookSearchCompaniesData]:
+    ) -> RunResult[FacebookSearchCompaniesData]:
         """Facebook Company Search
 
         Search the Meta Ad Library for advertisers by keyword and get matching
@@ -910,14 +1944,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.search_companies", dict(input), options
         )
-        return BareRunResult[FacebookSearchCompaniesData].model_validate(raw)
+        return RunResult[FacebookSearchCompaniesData].model_validate(raw)
 
     def search_pages(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookSearchPagesInput],
-    ) -> BareRunResult[FacebookSearchPagesData]:
+    ) -> RunResult[FacebookSearchPagesData]:
         """Facebook Page Search
 
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
@@ -931,14 +1965,14 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.search_pages", dict(input), options
         )
-        return BareRunResult[FacebookSearchPagesData].model_validate(raw)
+        return RunResult[FacebookSearchPagesData].model_validate(raw)
 
     def search_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookSearchPostsInput],
-    ) -> BareRunResult[FacebookSearchPostsData]:
+    ) -> RunResult[FacebookSearchPostsData]:
         """Facebook Post Search
 
         Search public Facebook posts by keyword, optionally filtered by location,
@@ -952,7 +1986,7 @@ class FacebookNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.search_posts", dict(input), options
         )
-        return BareRunResult[FacebookSearchPostsData].model_validate(raw)
+        return RunResult[FacebookSearchPostsData].model_validate(raw)
 
 
 class AsyncFacebookNamespace:
@@ -966,7 +2000,7 @@ class AsyncFacebookNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookAdDetailsInput],
-    ) -> BareRunResult[FacebookAdDetailsData]:
+    ) -> RunResult[FacebookAdDetailsData]:
         """Facebook Ad Details
 
         Look up a single Meta Ad Library ad by ID or URL and get the advertiser,
@@ -980,14 +2014,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details", dict(input), options
         )
-        return BareRunResult[FacebookAdDetailsData].model_validate(raw)
+        return RunResult[FacebookAdDetailsData].model_validate(raw)
 
     async def ad_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookAdTranscriptInput],
-    ) -> BareRunResult[FacebookAdTranscriptData]:
+    ) -> RunResult[FacebookAdTranscriptData]:
         """Facebook Ad Transcript
 
         Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or
@@ -1001,14 +2035,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_transcript", dict(input), options
         )
-        return BareRunResult[FacebookAdTranscriptData].model_validate(raw)
+        return RunResult[FacebookAdTranscriptData].model_validate(raw)
 
     async def ads_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookAdsSearchInput],
-    ) -> BareRunResult[FacebookAdsSearchData]:
+    ) -> RunResult[FacebookAdsSearchData]:
         """Facebook Ad Search
 
         Search the Meta Ad Library by keyword and get matching ads (advertiser,
@@ -1023,14 +2057,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ads_search", dict(input), options
         )
-        return BareRunResult[FacebookAdsSearchData].model_validate(raw)
+        return RunResult[FacebookAdsSearchData].model_validate(raw)
+
+    def iter_ads_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookAdsSearchInput],
+    ) -> AsyncPaginator[FacebookAdsSearchAd, FacebookAdsSearchData]:
+        """Iterate Facebook Ad Search results, following pagination cursors.
+
+        Yields validated `FacebookAdsSearchAd` items from the `ads` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.ads_search",
+            dict(input),
+            "ads",
+            item_model=FacebookAdsSearchAd,
+            data_model=FacebookAdsSearchData,
+            bare=False,
+            options=options,
+        )
 
     async def comment_replies(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookCommentRepliesInput],
-    ) -> BareRunResult[FacebookCommentRepliesData]:
+    ) -> RunResult[FacebookCommentRepliesData]:
         """Facebook Comment Replies
 
         List the replies to a Facebook post comment (text, author, reactions, and
@@ -1044,14 +2101,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.comment_replies", dict(input), options
         )
-        return BareRunResult[FacebookCommentRepliesData].model_validate(raw)
+        return RunResult[FacebookCommentRepliesData].model_validate(raw)
+
+    def iter_comment_replies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookCommentRepliesInput],
+    ) -> AsyncPaginator[FacebookCommentRepliesReplie, FacebookCommentRepliesData]:
+        """Iterate Facebook Comment Replies results, following pagination cursors.
+
+        Yields validated `FacebookCommentRepliesReplie` items from the `replies` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.comment_replies",
+            dict(input),
+            "replies",
+            item_model=FacebookCommentRepliesReplie,
+            data_model=FacebookCommentRepliesData,
+            bare=False,
+            options=options,
+        )
 
     async def company_ads(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookCompanyAdsInput],
-    ) -> BareRunResult[FacebookCompanyAdsData]:
+    ) -> RunResult[FacebookCompanyAdsData]:
         """Facebook Company Ads
 
         List the Meta Ad Library ads a company is running by page ID or company name
@@ -1065,14 +2145,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.company_ads", dict(input), options
         )
-        return BareRunResult[FacebookCompanyAdsData].model_validate(raw)
+        return RunResult[FacebookCompanyAdsData].model_validate(raw)
+
+    def iter_company_ads(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookCompanyAdsInput],
+    ) -> AsyncPaginator[FacebookCompanyAdsAd, FacebookCompanyAdsData]:
+        """Iterate Facebook Company Ads results, following pagination cursors.
+
+        Yields validated `FacebookCompanyAdsAd` items from the `ads` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.company_ads",
+            dict(input),
+            "ads",
+            item_model=FacebookCompanyAdsAd,
+            data_model=FacebookCompanyAdsData,
+            bare=False,
+            options=options,
+        )
 
     async def event_details(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookEventDetailsInput],
-    ) -> BareRunResult[FacebookEventDetailsData]:
+    ) -> RunResult[FacebookEventDetailsData]:
         """Facebook Event Details
 
         Fetch full details for a single Facebook event by ID or URL (name, schedule,
@@ -1086,14 +2189,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.event_details", dict(input), options
         )
-        return BareRunResult[FacebookEventDetailsData].model_validate(raw)
+        return RunResult[FacebookEventDetailsData].model_validate(raw)
 
     async def events(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookEventsInput],
-    ) -> BareRunResult[FacebookEventsData]:
+    ) -> RunResult[FacebookEventsData]:
         """Facebook Events
 
         List public Facebook events for a city or place by its events-page URL
@@ -1107,14 +2210,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.events", dict(input), options
         )
-        return BareRunResult[FacebookEventsData].model_validate(raw)
+        return RunResult[FacebookEventsData].model_validate(raw)
+
+    def iter_events(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookEventsInput],
+    ) -> AsyncPaginator[FacebookEventsEvent, FacebookEventsData]:
+        """Iterate Facebook Events results, following pagination cursors.
+
+        Yields validated `FacebookEventsEvent` items from the `events` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.events",
+            dict(input),
+            "events",
+            item_model=FacebookEventsEvent,
+            data_model=FacebookEventsData,
+            bare=False,
+            options=options,
+        )
 
     async def events_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookEventsSearchInput],
-    ) -> BareRunResult[FacebookEventsSearchData]:
+    ) -> RunResult[FacebookEventsSearchData]:
         """Facebook Events Search
 
         Search public Facebook events by keyword and get structured event records
@@ -1128,14 +2254,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.events_search", dict(input), options
         )
-        return BareRunResult[FacebookEventsSearchData].model_validate(raw)
+        return RunResult[FacebookEventsSearchData].model_validate(raw)
+
+    def iter_events_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookEventsSearchInput],
+    ) -> AsyncPaginator[FacebookEventsSearchEvent, FacebookEventsSearchData]:
+        """Iterate Facebook Events Search results, following pagination cursors.
+
+        Yields validated `FacebookEventsSearchEvent` items from the `events` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.events_search",
+            dict(input),
+            "events",
+            item_model=FacebookEventsSearchEvent,
+            data_model=FacebookEventsSearchData,
+            bare=False,
+            options=options,
+        )
 
     async def followers(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookFollowersInput],
-    ) -> BareRunResult[FacebookFollowersData]:
+    ) -> RunResult[FacebookFollowersData]:
         """Facebook Followers
 
         List the public followers (or accounts followed) of any Facebook page or
@@ -1149,14 +2298,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.followers", dict(input), options
         )
-        return BareRunResult[FacebookFollowersData].model_validate(raw)
+        return RunResult[FacebookFollowersData].model_validate(raw)
 
     async def group_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookGroupPostsInput],
-    ) -> BareRunResult[FacebookGroupPostsData]:
+    ) -> RunResult[FacebookGroupPostsData]:
         """Facebook Group Posts
 
         Fetch recent posts from any public Facebook group by URL: text, author,
@@ -1170,14 +2319,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.group_posts", dict(input), options
         )
-        return BareRunResult[FacebookGroupPostsData].model_validate(raw)
+        return RunResult[FacebookGroupPostsData].model_validate(raw)
+
+    def iter_group_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookGroupPostsInput],
+    ) -> AsyncPaginator[FacebookGroupPostsPost, FacebookGroupPostsData]:
+        """Iterate Facebook Group Posts results, following pagination cursors.
+
+        Yields validated `FacebookGroupPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.group_posts",
+            dict(input),
+            "posts",
+            item_model=FacebookGroupPostsPost,
+            data_model=FacebookGroupPostsData,
+            bare=False,
+            options=options,
+        )
 
     async def marketplace(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookMarketplaceInput],
-    ) -> BareRunResult[FacebookMarketplaceData]:
+    ) -> RunResult[FacebookMarketplaceData]:
         """Facebook Marketplace
 
         Search Facebook Marketplace listings by keyword near a location, filter by
@@ -1192,14 +2364,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.marketplace", dict(input), options
         )
-        return BareRunResult[FacebookMarketplaceData].model_validate(raw)
+        return RunResult[FacebookMarketplaceData].model_validate(raw)
+
+    def iter_marketplace(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookMarketplaceInput],
+    ) -> AsyncPaginator[FacebookMarketplaceListing, FacebookMarketplaceData]:
+        """Iterate Facebook Marketplace results, following pagination cursors.
+
+        Yields validated `FacebookMarketplaceListing` items from the `listings` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.marketplace",
+            dict(input),
+            "listings",
+            item_model=FacebookMarketplaceListing,
+            data_model=FacebookMarketplaceData,
+            bare=False,
+            options=options,
+        )
 
     async def marketplace_item(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookMarketplaceItemInput],
-    ) -> BareRunResult[FacebookMarketplaceItemData]:
+    ) -> RunResult[FacebookMarketplaceItemData]:
         """Facebook Marketplace Item
 
         Fetch full details for a single Facebook Marketplace listing by ID or URL
@@ -1213,14 +2408,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.marketplace_item", dict(input), options
         )
-        return BareRunResult[FacebookMarketplaceItemData].model_validate(raw)
+        return RunResult[FacebookMarketplaceItemData].model_validate(raw)
 
     async def marketplace_location_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookMarketplaceLocationSearchInput],
-    ) -> BareRunResult[FacebookMarketplaceLocationSearchData]:
+    ) -> RunResult[FacebookMarketplaceLocationSearchData]:
         """Facebook Marketplace Location Search
 
         Resolve a place name to Facebook Marketplace locations with coordinates and
@@ -1234,14 +2429,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.marketplace_location_search", dict(input), options
         )
-        return BareRunResult[FacebookMarketplaceLocationSearchData].model_validate(raw)
+        return RunResult[FacebookMarketplaceLocationSearchData].model_validate(raw)
 
     async def page_contact(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPageContactInput],
-    ) -> BareRunResult[FacebookPageContactData]:
+    ) -> RunResult[FacebookPageContactData]:
         """Facebook Page Contact Info
 
         Look up a Facebook Page's public contact details (email, phone, website, and
@@ -1255,14 +2450,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.page_contact", dict(input), options
         )
-        return BareRunResult[FacebookPageContactData].model_validate(raw)
+        return RunResult[FacebookPageContactData].model_validate(raw)
 
     async def photos(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPhotosInput],
-    ) -> BareRunResult[FacebookPhotosData]:
+    ) -> RunResult[FacebookPhotosData]:
         """Facebook Page Photos
 
         Fetch recent photos posted by any public Facebook page or profile (image
@@ -1276,14 +2471,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.photos", dict(input), options
         )
-        return BareRunResult[FacebookPhotosData].model_validate(raw)
+        return RunResult[FacebookPhotosData].model_validate(raw)
+
+    def iter_photos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookPhotosInput],
+    ) -> AsyncPaginator[FacebookPhotosPhoto, FacebookPhotosData]:
+        """Iterate Facebook Page Photos results, following pagination cursors.
+
+        Yields validated `FacebookPhotosPhoto` items from the `photos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.photos",
+            dict(input),
+            "photos",
+            item_model=FacebookPhotosPhoto,
+            data_model=FacebookPhotosData,
+            bare=False,
+            options=options,
+        )
 
     async def post(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPostInput],
-    ) -> BareRunResult[FacebookPostData]:
+    ) -> RunResult[FacebookPostData]:
         """Facebook Post
 
         Fetch a single Facebook post by URL with its text and engagement counts
@@ -1297,14 +2515,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.post", dict(input), options
         )
-        return BareRunResult[FacebookPostData].model_validate(raw)
+        return RunResult[FacebookPostData].model_validate(raw)
 
     async def post_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPostCommentsInput],
-    ) -> BareRunResult[FacebookPostCommentsData]:
+    ) -> RunResult[FacebookPostCommentsData]:
         """Facebook Post Comments
 
         List the comments on a Facebook post by URL with cursor pagination (text,
@@ -1318,14 +2536,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.post_comments", dict(input), options
         )
-        return BareRunResult[FacebookPostCommentsData].model_validate(raw)
+        return RunResult[FacebookPostCommentsData].model_validate(raw)
+
+    def iter_post_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookPostCommentsInput],
+    ) -> AsyncPaginator[FacebookPostCommentsComment, FacebookPostCommentsData]:
+        """Iterate Facebook Post Comments results, following pagination cursors.
+
+        Yields validated `FacebookPostCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.post_comments",
+            dict(input),
+            "comments",
+            item_model=FacebookPostCommentsComment,
+            data_model=FacebookPostCommentsData,
+            bare=False,
+            options=options,
+        )
 
     async def post_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookPostTranscriptInput],
-    ) -> BareRunResult[FacebookPostTranscriptData]:
+    ) -> RunResult[FacebookPostTranscriptData]:
         """Facebook Post Transcript
 
         Get the spoken-word transcript of any public Facebook video post by URL as
@@ -1339,14 +2580,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.post_transcript", dict(input), options
         )
-        return BareRunResult[FacebookPostTranscriptData].model_validate(raw)
+        return RunResult[FacebookPostTranscriptData].model_validate(raw)
 
     async def profile(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookProfileInput],
-    ) -> BareRunResult[FacebookProfileData]:
+    ) -> RunResult[FacebookProfileData]:
         """Facebook Profile
 
         Fetch a Facebook page's public profile (likes, followers, category, about)
@@ -1360,14 +2601,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.profile", dict(input), options
         )
-        return BareRunResult[FacebookProfileData].model_validate(raw)
+        return RunResult[FacebookProfileData].model_validate(raw)
 
     async def profile_events(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookProfileEventsInput],
-    ) -> BareRunResult[FacebookProfileEventsData]:
+    ) -> RunResult[FacebookProfileEventsData]:
         """Facebook Page Events
 
         List upcoming and past events hosted by any public Facebook page by URL
@@ -1381,14 +2622,37 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.profile_events", dict(input), options
         )
-        return BareRunResult[FacebookProfileEventsData].model_validate(raw)
+        return RunResult[FacebookProfileEventsData].model_validate(raw)
+
+    def iter_profile_events(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookProfileEventsInput],
+    ) -> AsyncPaginator[FacebookProfileEventsEvent, FacebookProfileEventsData]:
+        """Iterate Facebook Page Events results, following pagination cursors.
+
+        Yields validated `FacebookProfileEventsEvent` items from the `events` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.profile_events",
+            dict(input),
+            "events",
+            item_model=FacebookProfileEventsEvent,
+            data_model=FacebookProfileEventsData,
+            bare=False,
+            options=options,
+        )
 
     async def profile_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookProfilePostsInput],
-    ) -> BareRunResult[FacebookProfilePostsData]:
+    ) -> RunResult[FacebookProfilePostsData]:
         """Facebook Profile Posts
 
         List a Facebook page's recent posts by URL or page id with cursor pagination
@@ -1402,14 +2666,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.profile_posts", dict(input), options
         )
-        return BareRunResult[FacebookProfilePostsData].model_validate(raw)
+        return RunResult[FacebookProfilePostsData].model_validate(raw)
 
     async def profile_reels(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookProfileReelsInput],
-    ) -> BareRunResult[FacebookProfileReelsData]:
+    ) -> RunResult[FacebookProfileReelsData]:
         """Facebook Profile Reels
 
         List a Facebook page's reels by URL with cursor pagination (caption, view
@@ -1423,14 +2687,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.profile_reels", dict(input), options
         )
-        return BareRunResult[FacebookProfileReelsData].model_validate(raw)
+        return RunResult[FacebookProfileReelsData].model_validate(raw)
 
     async def search_companies(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookSearchCompaniesInput],
-    ) -> BareRunResult[FacebookSearchCompaniesData]:
+    ) -> RunResult[FacebookSearchCompaniesData]:
         """Facebook Company Search
 
         Search the Meta Ad Library for advertisers by keyword and get matching
@@ -1445,14 +2709,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.search_companies", dict(input), options
         )
-        return BareRunResult[FacebookSearchCompaniesData].model_validate(raw)
+        return RunResult[FacebookSearchCompaniesData].model_validate(raw)
 
     async def search_pages(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookSearchPagesInput],
-    ) -> BareRunResult[FacebookSearchPagesData]:
+    ) -> RunResult[FacebookSearchPagesData]:
         """Facebook Page Search
 
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
@@ -1466,14 +2730,14 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.search_pages", dict(input), options
         )
-        return BareRunResult[FacebookSearchPagesData].model_validate(raw)
+        return RunResult[FacebookSearchPagesData].model_validate(raw)
 
     async def search_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FacebookSearchPostsInput],
-    ) -> BareRunResult[FacebookSearchPostsData]:
+    ) -> RunResult[FacebookSearchPostsData]:
         """Facebook Post Search
 
         Search public Facebook posts by keyword, optionally filtered by location,
@@ -1487,4 +2751,4 @@ class AsyncFacebookNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.search_posts", dict(input), options
         )
-        return BareRunResult[FacebookSearchPostsData].model_validate(raw)
+        return RunResult[FacebookSearchPostsData].model_validate(raw)

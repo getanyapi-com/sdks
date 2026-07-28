@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,7 +16,44 @@ export interface TruthsocialPostInput {
   url: string;
 }
 
-export type TruthsocialPostData = unknown;
+/**
+ * The `data` payload of Truth Social Post (truthsocial.post).
+ */
+export interface TruthsocialPostData {
+  /**
+   * Number of comments on the post.
+   */
+  comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Display name of the author. Populated whenever the provider has data for the entity.
+   */
+  displayName: string;
+  /**
+   * Post identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Number of likes on the post.
+   */
+  likes: number;
+  /**
+   * Number of reblogs of the post.
+   */
+  shares: number;
+  /**
+   * Post text content. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Username of the author. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for Truth Social Profile (truthsocial.profile).
@@ -28,7 +65,45 @@ export interface TruthsocialProfileInput {
   handle: string;
 }
 
-export type TruthsocialProfileData = unknown;
+/**
+ * The `data` payload of Truth Social Profile (truthsocial.profile).
+ */
+export interface TruthsocialProfileData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  avatarUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  bio: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  displayName: string;
+  followers: number;
+  following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  joinedAt: string;
+  postsCount: number;
+  private: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  verified: boolean;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for Truth Social User Posts (truthsocial.user_posts).
@@ -40,7 +115,47 @@ export interface TruthsocialUserPostsInput {
   handle: string;
 }
 
-export type TruthsocialUserPostsData = unknown;
+export interface TruthsocialUserPostsPost {
+  /**
+   * Number of comments on the post.
+   */
+  comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Post identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Number of likes on the post.
+   */
+  likes: number;
+  /**
+   * Number of reblogs of the post.
+   */
+  shares: number;
+  /**
+   * Post text content. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Truth Social User Posts (truthsocial.user_posts).
+ */
+export interface TruthsocialUserPostsData {
+  /**
+   * The user's recent posts. Populated whenever the provider has data for the entity.
+   */
+  posts: TruthsocialUserPostsPost[];
+}
 
 /**
  * Typed methods for the truthsocial platform. Attached to the AnyAPI client as
@@ -62,12 +177,8 @@ export class TruthsocialNamespace {
   post(
     input: TruthsocialPostInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TruthsocialPostData>> {
-    return this._core.run(
-      "truthsocial.post",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TruthsocialPostData>>;
+  ): Promise<RunResult<TruthsocialPostData>> {
+    return this._core.run("truthsocial.post", input, options);
   }
 
   /**
@@ -83,12 +194,8 @@ export class TruthsocialNamespace {
   profile(
     input: TruthsocialProfileInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TruthsocialProfileData>> {
-    return this._core.run(
-      "truthsocial.profile",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TruthsocialProfileData>>;
+  ): Promise<RunResult<TruthsocialProfileData>> {
+    return this._core.run("truthsocial.profile", input, options);
   }
 
   /**
@@ -104,11 +211,7 @@ export class TruthsocialNamespace {
   userPosts(
     input: TruthsocialUserPostsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TruthsocialUserPostsData>> {
-    return this._core.run(
-      "truthsocial.user_posts",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TruthsocialUserPostsData>>;
+  ): Promise<RunResult<TruthsocialUserPostsData>> {
+    return this._core.run("truthsocial.user_posts", input, options);
   }
 }

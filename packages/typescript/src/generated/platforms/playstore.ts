@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -57,7 +57,54 @@ export interface PlaystoreReviewsInput {
   sortBy?: string;
 }
 
-export type PlaystoreReviewsData = unknown;
+export interface PlaystoreReviewsItem {
+  /**
+   * Reviewer display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  author?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Number of helpful votes on the review.
+   */
+  helpfulVotes?: number;
+  /**
+   * Review identifier. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  id?: string;
+  /**
+   * Star rating, 1 to 5. Populated whenever the provider has data for the entity.
+   */
+  rating: number;
+  /**
+   * Review body text. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Review title, when the store provides one.
+   */
+  title?: string;
+  /**
+   * App version the review was left on.
+   */
+  version?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Play Reviews (playstore.reviews).
+ */
+export interface PlaystoreReviewsData {
+  /**
+   * Review records: star rating, review text, reviewer name, app version, helpfulness votes, and review date. Populated whenever the provider has data for the entity.
+   */
+  items: PlaystoreReviewsItem[];
+}
 
 /**
  * Typed methods for the playstore platform. Attached to the AnyAPI client as
@@ -79,11 +126,7 @@ export class PlaystoreNamespace {
   reviews(
     input: PlaystoreReviewsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<PlaystoreReviewsData>> {
-    return this._core.run(
-      "playstore.reviews",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<PlaystoreReviewsData>>;
+  ): Promise<RunResult<PlaystoreReviewsData>> {
+    return this._core.run("playstore.reviews", input, options);
   }
 }

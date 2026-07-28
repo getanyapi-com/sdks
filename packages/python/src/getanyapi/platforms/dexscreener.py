@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -63,7 +63,70 @@ class DexscreenerTokensInput(TypedDict, total=False):
 
 
 class DexscreenerTokensData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[DexscreenerTokensItem] = Field(
+        description="Token listing records: token name and symbol, price, liquidity, volume, transaction/maker counts, price change, market cap, and the DEX Screener pair URL. Populated whenever the provider has data for the entity."
+    )
+
+
+class DexscreenerTokensItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    age_hours: int | None = Field(
+        default=None, alias="ageHours", description="Age of the token pair in hours."
+    )
+    image: str | None = Field(default=None, description="Token logo image URL.")
+    liquidity_usd: float | None = Field(
+        default=None, alias="liquidityUsd", description="Total pool liquidity in USD."
+    )
+    maker_count: int | None = Field(
+        default=None,
+        alias="makerCount",
+        description="Number of distinct makers over the selected timeframe.",
+    )
+    market_cap_usd: float | None = Field(
+        default=None,
+        alias="marketCapUsd",
+        description="Token market capitalization in USD.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="Token full name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    pool_address: str | None = Field(
+        default=None,
+        alias="poolAddress",
+        description="On-chain address of the liquidity pool.",
+    )
+    price: float = Field(
+        description="Current token price in USD. Populated whenever the provider has data for the entity."
+    )
+    price_change1h: float | None = Field(
+        default=None,
+        alias="priceChange1h",
+        description="Fractional price change over the past hour.",
+    )
+    price_change24h: float | None = Field(
+        default=None,
+        alias="priceChange24h",
+        description="Fractional price change over the past 24 hours.",
+    )
+    symbol: str = Field(
+        description="Token ticker symbol. Populated whenever the provider has data for the entity."
+    )
+    transaction_count: int | None = Field(
+        default=None,
+        alias="transactionCount",
+        description="Number of transactions over the selected timeframe.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="DEX Screener URL for the trading pair. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    volume_usd: float | None = Field(
+        default=None,
+        alias="volumeUsd",
+        description="Trading volume in USD over the selected timeframe.",
+    )
 
 
 class DexscreenerNamespace:
@@ -77,7 +140,7 @@ class DexscreenerNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[DexscreenerTokensInput],
-    ) -> BareRunResult[DexscreenerTokensData]:
+    ) -> RunResult[DexscreenerTokensData]:
         """DEX Screener Tokens
 
         List trending tokens on any blockchain from DEX Screener (price, liquidity,
@@ -92,7 +155,7 @@ class DexscreenerNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "dexscreener.tokens", dict(input), options
         )
-        return BareRunResult[DexscreenerTokensData].model_validate(raw)
+        return RunResult[DexscreenerTokensData].model_validate(raw)
 
 
 class AsyncDexscreenerNamespace:
@@ -106,7 +169,7 @@ class AsyncDexscreenerNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[DexscreenerTokensInput],
-    ) -> BareRunResult[DexscreenerTokensData]:
+    ) -> RunResult[DexscreenerTokensData]:
         """DEX Screener Tokens
 
         List trending tokens on any blockchain from DEX Screener (price, liquidity,
@@ -121,4 +184,4 @@ class AsyncDexscreenerNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "dexscreener.tokens", dict(input), options
         )
-        return BareRunResult[DexscreenerTokensData].model_validate(raw)
+        return RunResult[DexscreenerTokensData].model_validate(raw)

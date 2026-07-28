@@ -262,11 +262,15 @@ function extractExample(op: RawSchema, inputSchema: RawSchema): unknown {
   return null;
 }
 
-// SPEC 1.4.1 (+ 1.2 bare erratum): crack the run envelope. A found-data output is
-// { properties: { found, data: { oneOf: [{type:null}, DATA] } } } and yields DATA (the
-// non-null branch), bare:false. A BARE output has no found/data wrapper - the `output`
-// schema IS the data object directly (required does not contain found+data); yield it as-is
-// with bare:true so the runtime knows there is no discriminated envelope to unwrap.
+// SPEC 1.4.1 (+ 1.2 bare erratum): crack the run envelope. The transport may first wrap
+// the SKU output in `anyOf: [SKU_OUTPUT, { type: "null" }]` because an idempotency replay
+// can outlive its retained payload. That transport-level nullability does not replace the
+// SKU schema, so select its single non-null branch before classifying the SKU envelope.
+// A found-data output is { properties: { found, data: { oneOf: [{type:null}, DATA] } } }
+// and yields DATA (the non-null branch), bare:false. A BARE output has no found/data
+// wrapper - the `output` schema IS the data object directly (required does not contain
+// found+data); yield it as-is with bare:true so the runtime knows there is no
+// discriminated envelope to unwrap.
 export function crackEnvelope(op: RawSchema): {
   data: RawSchema;
   bare: boolean;
@@ -275,7 +279,7 @@ export function crackEnvelope(op: RawSchema): {
   const ok = (responses["200"] as RawSchema).content as RawSchema;
   const out = ((ok["application/json"] as RawSchema).schema as RawSchema)
     .properties as RawSchema;
-  const output = (out.output as RawSchema) ?? {};
+  const output = collapseNullableOutput((out.output as RawSchema) ?? {});
   const outProps = (output.properties as RawSchema) ?? {};
   const data = outProps.data as RawSchema | undefined;
   const required = Array.isArray(output.required)
@@ -295,6 +299,16 @@ export function crackEnvelope(op: RawSchema): {
     return { data: branch ?? data, bare: false };
   }
   return { data, bare: false };
+}
+
+function collapseNullableOutput(output: RawSchema): RawSchema {
+  if (!Array.isArray(output.anyOf)) return output;
+  const branches = output.anyOf;
+  if (!branches.every(isRawSchema)) return output;
+  const schemas = branches as RawSchema[];
+  const nonNull = schemas.filter((branch) => branch.type !== "null");
+  const hasNull = nonNull.length !== schemas.length;
+  return hasNull && nonNull.length === 1 ? nonNull[0]! : output;
 }
 
 /**

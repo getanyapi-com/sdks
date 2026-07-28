@@ -1,10 +1,12 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
+  Paginator,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
+import { paginate } from "../../core/index.js";
 
 /**
  * Input for X / Twitter Article (twitter.article).
@@ -16,7 +18,190 @@ export interface TwitterArticleInput {
   url: string;
 }
 
-export type TwitterArticleData = unknown;
+export interface TwitterArticleContentBlock {
+  /**
+   * Entity references within the block text.
+   */
+  entities?: TwitterArticleEntitie[];
+  /**
+   * Image height in pixels when supplied.
+   * Range: minimum 0.
+   */
+  height?: number;
+  /**
+   * Canonical image URL for an image block.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * Formatting ranges within the block text.
+   */
+  inlineStyles?: TwitterArticleInlineStyle[];
+  /**
+   * Text content for a text-bearing block.
+   */
+  text?: string;
+  /**
+   * Block type reported by X, such as unstyled, header-two, image, divider, blockquote, or list item. Populated whenever the provider has data for the entity.
+   */
+  type: string;
+  /**
+   * Image width in pixels when supplied.
+   * Range: minimum 0.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+export interface TwitterArticleEntitie {
+  /**
+   * Upstream entity table key.
+   * Range: minimum 0.
+   */
+  key: number;
+  /**
+   * Entity character length.
+   * Range: minimum 0.
+   */
+  length: number;
+  /**
+   * Zero-based character offset.
+   * Range: minimum 0.
+   */
+  offset: number;
+  [extra: string]: unknown;
+}
+
+export interface TwitterArticleInlineStyle {
+  /**
+   * Formatted character length.
+   * Range: minimum 0.
+   */
+  length: number;
+  /**
+   * Zero-based character offset.
+   * Range: minimum 0.
+   */
+  offset: number;
+  /**
+   * Inline style name reported by X.
+   */
+  style: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Article (twitter.article).
+ */
+export interface TwitterArticleData {
+  /**
+   * Article author profile at retrieval time. Populated whenever the provider has data for the entity.
+   */
+  author: {
+    /**
+     * Profile avatar image URL.
+     * Format: uri.
+     */
+    avatarUrl?: string;
+    /**
+     * Profile biography.
+     */
+    bio?: string;
+    /**
+     * Whether the account has X blue verification.
+     */
+    blueVerified?: boolean;
+    /**
+     * Profile cover image URL when available.
+     * Format: uri.
+     */
+    coverUrl?: string;
+    /**
+     * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+     */
+    createdUtc?: number;
+    /**
+     * Follower count at retrieval time.
+     * Range: minimum 0.
+     */
+    followers?: number;
+    /**
+     * Following count at retrieval time.
+     * Range: minimum 0.
+     */
+    following?: number;
+    /**
+     * Current X handle without @. Populated whenever the provider has data for the entity.
+     */
+    handle: string;
+    /**
+     * Stable numeric X user ID. Populated whenever the provider has data for the entity.
+     */
+    id: string;
+    /**
+     * Self-reported profile location.
+     */
+    location?: string;
+    /**
+     * Profile display name.
+     */
+    name?: string;
+    /**
+     * Canonical public X profile URL. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     */
+    url: string;
+    /**
+     * Whether the account has legacy verification.
+     */
+    verified?: boolean;
+  };
+  /**
+   * Ordered, explicitly normalized article blocks. Unknown future block types remain representable through type and optional fields. Populated whenever the provider has data for the entity.
+   */
+  contentBlocks: TwitterArticleContentBlock[];
+  /**
+   * Canonical article cover image URL when available.
+   * Format: uri.
+   */
+  coverImage?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Stable X Article entity ID. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Wrapper post like count at retrieval time.
+   * Range: minimum 0.
+   */
+  likes?: number;
+  /**
+   * Preview text supplied by X.
+   */
+  previewText?: string;
+  /**
+   * Wrapper post quote count at retrieval time.
+   * Range: minimum 0.
+   */
+  quotes?: number;
+  /**
+   * Wrapper post reply count at retrieval time.
+   * Range: minimum 0.
+   */
+  replies?: number;
+  /**
+   * Article title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Wrapper post view count at retrieval time.
+   * Range: minimum 0.
+   */
+  views?: number;
+}
 
 /**
  * Input for Twitter Community (twitter.community).
@@ -28,7 +213,40 @@ export interface TwitterCommunityInput {
   url: string;
 }
 
-export type TwitterCommunityData = unknown;
+/**
+ * The `data` payload of Twitter Community (twitter.community).
+ */
+export interface TwitterCommunityData {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Handle of the account that created the community. Populated whenever the provider has data for the entity.
+   */
+  creatorHandle: string;
+  /**
+   * Community description text. Populated whenever the provider has data for the entity.
+   */
+  description: string;
+  /**
+   * Community identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * How members join, e.g. "open" or "restricted". Populated whenever the provider has data for the entity.
+   */
+  joinPolicy: string;
+  /**
+   * Number of members in the community.
+   */
+  memberCount: number;
+  /**
+   * Community name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for Twitter Community Tweets (twitter.community_tweets).
@@ -40,7 +258,39 @@ export interface TwitterCommunityTweetsInput {
   url: string;
 }
 
-export type TwitterCommunityTweetsData = unknown;
+export interface TwitterCommunityTweetsTweet {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  authorHandle: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  favoriteCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  quoteCount: number;
+  replyCount: number;
+  retweetCount: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Twitter Community Tweets (twitter.community_tweets).
+ */
+export interface TwitterCommunityTweetsData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  tweets: TwitterCommunityTweetsTweet[];
+}
 
 /**
  * Input for X / Twitter Followers (twitter.followers).
@@ -66,7 +316,55 @@ export interface TwitterFollowersInput {
   username: string;
 }
 
-export type TwitterFollowersData = unknown;
+export interface TwitterFollowersItem {
+  /**
+   * URL of the account's profile image (may be empty). Populated whenever the provider has data for the entity.
+   */
+  avatarUrl: string;
+  /**
+   * The account's profile bio/description.
+   */
+  bio: string;
+  /**
+   * How many followers this account has.
+   */
+  followers: number;
+  /**
+   * How many accounts this account follows.
+   */
+  following: number;
+  /**
+   * The account's self-reported location (may be empty).
+   */
+  location: string;
+  /**
+   * The account's display name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * Whether the account is verified.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Followers (twitter.followers).
+ */
+export interface TwitterFollowersData {
+  /**
+   * Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity.
+   */
+  items: TwitterFollowersItem[];
+  /**
+   * Opaque cursor for the next page of followers, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string;
+}
 
 /**
  * Input for X / Twitter Following (twitter.following).
@@ -92,7 +390,55 @@ export interface TwitterFollowingInput {
   username: string;
 }
 
-export type TwitterFollowingData = unknown;
+export interface TwitterFollowingItem {
+  /**
+   * URL of the account's profile image (may be empty). Populated whenever the provider has data for the entity.
+   */
+  avatarUrl: string;
+  /**
+   * The account's profile bio/description.
+   */
+  bio: string;
+  /**
+   * How many followers this account has.
+   */
+  followers: number;
+  /**
+   * How many accounts this account follows.
+   */
+  following: number;
+  /**
+   * The account's self-reported location (may be empty).
+   */
+  location: string;
+  /**
+   * The account's display name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * Whether the account is verified.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Following (twitter.following).
+ */
+export interface TwitterFollowingData {
+  /**
+   * Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity.
+   */
+  items: TwitterFollowingItem[];
+  /**
+   * Opaque cursor for the next page of followed accounts, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string;
+}
 
 /**
  * Input for Twitter Profile (twitter.profile).
@@ -104,7 +450,32 @@ export interface TwitterProfileInput {
   handle: string;
 }
 
-export type TwitterProfileData = unknown;
+/**
+ * The `data` payload of Twitter Profile (twitter.profile).
+ */
+export interface TwitterProfileData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  avatarUrl: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  bio: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  displayName: string;
+  followers: number;
+  following: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  handle: string;
+  tweets: number;
+  verified: boolean;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for X / Twitter Post Replies (twitter.replies).
@@ -121,7 +492,63 @@ export interface TwitterRepliesInput {
   url: string;
 }
 
-export type TwitterRepliesData = unknown;
+export interface TwitterRepliesItem {
+  /**
+   * Screen name / handle of the reply's author, without the @ prefix.
+   */
+  authorHandle?: string;
+  /**
+   * Display name of the reply's author. Empty when the upstream omits it.
+   */
+  authorName?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * The reply's numeric tweet ID, as a string. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Number of likes on this reply.
+   */
+  likeCount?: number;
+  /**
+   * Number of quote tweets of this reply.
+   */
+  quoteCount?: number;
+  /**
+   * Number of replies to this reply.
+   */
+  replyCount?: number;
+  /**
+   * Number of reposts/retweets of this reply.
+   */
+  repostCount?: number;
+  /**
+   * The reply's text. Empty for media-only replies with no text.
+   */
+  text: string;
+  /**
+   * Canonical x.com URL of the reply, with tracking query params stripped. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * Number of views of this reply.
+   */
+  viewCount?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Post Replies (twitter.replies).
+ */
+export interface TwitterRepliesData {
+  /**
+   * Reply records for the requested post. Populated whenever the provider has data for the entity.
+   */
+  items: TwitterRepliesItem[];
+}
 
 /**
  * Input for X / Twitter Search (twitter.search).
@@ -156,7 +583,60 @@ export interface TwitterSearchInput {
   requireSinglePage?: boolean;
 }
 
-export type TwitterSearchData = unknown;
+export interface TwitterSearchItem {
+  /**
+   * Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorName?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorUsername?: string;
+  authorVerified?: boolean;
+  bookmarkCount?: number;
+  conversationId?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  isReply?: boolean;
+  lang?: string;
+  likeCount?: number;
+  quoteCount?: number;
+  replyCount?: number;
+  retweetCount?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  viewCount?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Search (twitter.search).
+ */
+export interface TwitterSearchData {
+  /**
+   * Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity.
+   */
+  items: TwitterSearchItem[];
+  /**
+   * Opaque cursor for the next page of search results, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string;
+}
 
 /**
  * Input for X / Twitter Trends (twitter.trends).
@@ -174,7 +654,52 @@ export interface TwitterTrendsInput {
   location?: string;
 }
 
-export type TwitterTrendsData = unknown;
+export interface TwitterTrendsItem {
+  /**
+   * Whether the trend text is a hashtag.
+   */
+  isHashtag?: boolean;
+  /**
+   * Trend text displayed by X. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Whether X marks the trend as promoted.
+   */
+  promoted?: boolean;
+  /**
+   * Search query corresponding to the trend. Populated whenever the provider has data for the entity.
+   */
+  query: string;
+  /**
+   * One-based position in X's trend ranking. Populated whenever the provider has data for the entity.
+   * Range: minimum 1.
+   */
+  rank: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Trends (twitter.trends).
+ */
+export interface TwitterTrendsData {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  asOfUtc: number;
+  /**
+   * Current trends in X's own ranking order. Distinct ranks may carry the same trend name. Populated whenever the provider has data for the entity.
+   */
+  items: TwitterTrendsItem[];
+  /**
+   * Resolved X trend-location name. Populated whenever the provider has data for the entity.
+   */
+  location: string;
+  /**
+   * Resolved Yahoo WOEID used by X, exposed as a stable location identifier. Populated whenever the provider has data for the entity.
+   */
+  locationId: string;
+}
 
 /**
  * Input for Twitter Tweet (twitter.tweet).
@@ -186,7 +711,34 @@ export interface TwitterTweetInput {
   url: string;
 }
 
-export type TwitterTweetData = unknown;
+/**
+ * The `data` payload of Twitter Tweet (twitter.tweet).
+ */
+export interface TwitterTweetData {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  authorId: string;
+  bookmarks: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  likes: number;
+  quotes: number;
+  replies: number;
+  retweets: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  views: number;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for Twitter Tweet Transcript (twitter.tweet_transcript).
@@ -198,7 +750,13 @@ export interface TwitterTweetTranscriptInput {
   url: string;
 }
 
-export type TwitterTweetTranscriptData = unknown;
+/**
+ * The `data` payload of Twitter Tweet Transcript (twitter.tweet_transcript).
+ */
+export interface TwitterTweetTranscriptData {
+  transcript: string;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for X / Twitter User Posts (twitter.user_posts).
@@ -214,7 +772,76 @@ export interface TwitterUserPostsInput {
   handle: string;
 }
 
-export type TwitterUserPostsData = unknown;
+export interface TwitterUserPostsTweet {
+  /**
+   * Number of bookmarks.
+   */
+  bookmarks: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * The post's numeric tweet ID, represented as a string. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Whether X marks the post as pinned on the profile.
+   */
+  isPinned: boolean;
+  /**
+   * Whether X marks the record as a reply. Certified Posts-tab captures use this for self-thread continuations.
+   */
+  isReply?: boolean;
+  /**
+   * Language code reported for the post, when available.
+   */
+  lang?: string;
+  /**
+   * Number of likes.
+   */
+  likes: number;
+  /**
+   * Number of quote posts.
+   */
+  quotes?: number;
+  /**
+   * Number of replies.
+   */
+  replies: number;
+  /**
+   * Number of reposts or retweets.
+   */
+  retweets: number;
+  /**
+   * The post text. Empty for media-only posts. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Canonical x.com URL of the post. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Number of views.
+   */
+  views: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter User Posts (twitter.user_posts).
+ */
+export interface TwitterUserPostsData {
+  /**
+   * Opaque cursor for the next native Posts-tab page, or null when no more pages are available.
+   */
+  nextCursor: string;
+  /**
+   * Posts in profile order. A pinned post may appear before otherwise reverse-chronological results. Populated whenever the provider has data for the entity.
+   */
+  tweets: TwitterUserPostsTweet[];
+}
 
 /**
  * Input for X / Twitter User Tweets and Replies (twitter.user_tweets).
@@ -240,7 +867,48 @@ export interface TwitterUserTweetsInput {
   requireSinglePage?: boolean;
 }
 
-export type TwitterUserTweetsData = unknown;
+export interface TwitterUserTweetsTweet {
+  bookmarks: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  isPinned: boolean;
+  isReply?: boolean;
+  lang?: string;
+  likes: number;
+  quotes?: number;
+  replies: number;
+  retweets: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  views: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter User Tweets and Replies (twitter.user_tweets).
+ */
+export interface TwitterUserTweetsData {
+  /**
+   * Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.
+   */
+  nextCursor?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  tweets: TwitterUserTweetsTweet[];
+}
 
 /**
  * Typed methods for the twitter platform. Attached to the AnyAPI client as
@@ -262,12 +930,8 @@ export class TwitterNamespace {
   article(
     input: TwitterArticleInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterArticleData>> {
-    return this._core.run(
-      "twitter.article",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TwitterArticleData>>;
+  ): Promise<RunResult<TwitterArticleData>> {
+    return this._core.run("twitter.article", input, options);
   }
 
   /**
@@ -283,12 +947,8 @@ export class TwitterNamespace {
   community(
     input: TwitterCommunityInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterCommunityData>> {
-    return this._core.run(
-      "twitter.community",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TwitterCommunityData>>;
+  ): Promise<RunResult<TwitterCommunityData>> {
+    return this._core.run("twitter.community", input, options);
   }
 
   /**
@@ -304,12 +964,8 @@ export class TwitterNamespace {
   communityTweets(
     input: TwitterCommunityTweetsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterCommunityTweetsData>> {
-    return this._core.run(
-      "twitter.community_tweets",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TwitterCommunityTweetsData>>;
+  ): Promise<RunResult<TwitterCommunityTweetsData>> {
+    return this._core.run("twitter.community_tweets", input, options);
   }
 
   /**
@@ -325,12 +981,28 @@ export class TwitterNamespace {
   followers(
     input: TwitterFollowersInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterFollowersData>> {
-    return this._core.run(
+  ): Promise<RunResult<TwitterFollowersData>> {
+    return this._core.run("twitter.followers", input, options);
+  }
+
+  /**
+   * Iterate every result of X / Twitter Followers across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterFollowers(
+    input: TwitterFollowersInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterFollowersItem, RunResult<TwitterFollowersData>> {
+    return paginate<TwitterFollowersItem, RunResult<TwitterFollowersData>>(
+      this._core,
       "twitter.followers",
-      input,
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
       options,
-    ) as unknown as Promise<BareRunResult<TwitterFollowersData>>;
+    );
   }
 
   /**
@@ -346,12 +1018,28 @@ export class TwitterNamespace {
   following(
     input: TwitterFollowingInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterFollowingData>> {
-    return this._core.run(
+  ): Promise<RunResult<TwitterFollowingData>> {
+    return this._core.run("twitter.following", input, options);
+  }
+
+  /**
+   * Iterate every result of X / Twitter Following across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterFollowing(
+    input: TwitterFollowingInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterFollowingItem, RunResult<TwitterFollowingData>> {
+    return paginate<TwitterFollowingItem, RunResult<TwitterFollowingData>>(
+      this._core,
       "twitter.following",
-      input,
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
       options,
-    ) as unknown as Promise<BareRunResult<TwitterFollowingData>>;
+    );
   }
 
   /**
@@ -367,12 +1055,8 @@ export class TwitterNamespace {
   profile(
     input: TwitterProfileInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterProfileData>> {
-    return this._core.run(
-      "twitter.profile",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TwitterProfileData>>;
+  ): Promise<RunResult<TwitterProfileData>> {
+    return this._core.run("twitter.profile", input, options);
   }
 
   /**
@@ -388,12 +1072,8 @@ export class TwitterNamespace {
   replies(
     input: TwitterRepliesInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterRepliesData>> {
-    return this._core.run(
-      "twitter.replies",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TwitterRepliesData>>;
+  ): Promise<RunResult<TwitterRepliesData>> {
+    return this._core.run("twitter.replies", input, options);
   }
 
   /**
@@ -409,12 +1089,28 @@ export class TwitterNamespace {
   search(
     input: TwitterSearchInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterSearchData>> {
-    return this._core.run(
+  ): Promise<RunResult<TwitterSearchData>> {
+    return this._core.run("twitter.search", input, options);
+  }
+
+  /**
+   * Iterate every result of X / Twitter Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearch(
+    input: TwitterSearchInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterSearchItem, RunResult<TwitterSearchData>> {
+    return paginate<TwitterSearchItem, RunResult<TwitterSearchData>>(
+      this._core,
       "twitter.search",
-      input,
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
       options,
-    ) as unknown as Promise<BareRunResult<TwitterSearchData>>;
+    );
   }
 
   /**
@@ -430,12 +1126,8 @@ export class TwitterNamespace {
   trends(
     input: TwitterTrendsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterTrendsData>> {
-    return this._core.run(
-      "twitter.trends",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TwitterTrendsData>>;
+  ): Promise<RunResult<TwitterTrendsData>> {
+    return this._core.run("twitter.trends", input, options);
   }
 
   /**
@@ -451,12 +1143,8 @@ export class TwitterNamespace {
   tweet(
     input: TwitterTweetInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterTweetData>> {
-    return this._core.run(
-      "twitter.tweet",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TwitterTweetData>>;
+  ): Promise<RunResult<TwitterTweetData>> {
+    return this._core.run("twitter.tweet", input, options);
   }
 
   /**
@@ -472,12 +1160,8 @@ export class TwitterNamespace {
   tweetTranscript(
     input: TwitterTweetTranscriptInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterTweetTranscriptData>> {
-    return this._core.run(
-      "twitter.tweet_transcript",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TwitterTweetTranscriptData>>;
+  ): Promise<RunResult<TwitterTweetTranscriptData>> {
+    return this._core.run("twitter.tweet_transcript", input, options);
   }
 
   /**
@@ -493,12 +1177,28 @@ export class TwitterNamespace {
   userPosts(
     input: TwitterUserPostsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterUserPostsData>> {
-    return this._core.run(
+  ): Promise<RunResult<TwitterUserPostsData>> {
+    return this._core.run("twitter.user_posts", input, options);
+  }
+
+  /**
+   * Iterate every result of X / Twitter User Posts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterUserPosts(
+    input: TwitterUserPostsInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterUserPostsTweet, RunResult<TwitterUserPostsData>> {
+    return paginate<TwitterUserPostsTweet, RunResult<TwitterUserPostsData>>(
+      this._core,
       "twitter.user_posts",
-      input,
+      input as unknown as Record<string, unknown>,
+      "tweets",
+      false,
       options,
-    ) as unknown as Promise<BareRunResult<TwitterUserPostsData>>;
+    );
   }
 
   /**
@@ -514,11 +1214,27 @@ export class TwitterNamespace {
   userTweets(
     input: TwitterUserTweetsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TwitterUserTweetsData>> {
-    return this._core.run(
+  ): Promise<RunResult<TwitterUserTweetsData>> {
+    return this._core.run("twitter.user_tweets", input, options);
+  }
+
+  /**
+   * Iterate every result of X / Twitter User Tweets and Replies across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterUserTweets(
+    input: TwitterUserTweetsInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterUserTweetsTweet, RunResult<TwitterUserTweetsData>> {
+    return paginate<TwitterUserTweetsTweet, RunResult<TwitterUserTweetsData>>(
+      this._core,
       "twitter.user_tweets",
-      input,
+      input as unknown as Record<string, unknown>,
+      "tweets",
+      false,
       options,
-    ) as unknown as Promise<BareRunResult<TwitterUserTweetsData>>;
+    );
   }
 }

@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -27,7 +27,26 @@ class SocialFinderInput(TypedDict, total=False):
 
 
 class SocialFinderData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[SocialFinderItem] = Field(
+        description="Profile match records: the queried profile name, the social network, and the matching profile URL when one was found. Populated whenever the provider has data for the entity."
+    )
+
+
+class SocialFinderItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    input_profile_name: str | None = Field(
+        default=None,
+        alias="inputProfileName",
+        description="The name that was searched for. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    social: str = Field(
+        description="The social network checked (e.g. discord, facebook, github). Populated whenever the provider has data for the entity."
+    )
+    social_profile_url: str = Field(
+        alias="socialProfileUrl",
+        description="URL of the matching profile, or null when no account was found on that network.",
+    )
 
 
 class SocialNamespace:
@@ -41,7 +60,7 @@ class SocialNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SocialFinderInput],
-    ) -> BareRunResult[SocialFinderData]:
+    ) -> RunResult[SocialFinderData]:
         """Social Profile Finder
 
         Find a person's or brand's profiles across major social networks from a
@@ -55,7 +74,7 @@ class SocialNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "social.finder", dict(input), options
         )
-        return BareRunResult[SocialFinderData].model_validate(raw)
+        return RunResult[SocialFinderData].model_validate(raw)
 
 
 class AsyncSocialNamespace:
@@ -69,7 +88,7 @@ class AsyncSocialNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SocialFinderInput],
-    ) -> BareRunResult[SocialFinderData]:
+    ) -> RunResult[SocialFinderData]:
         """Social Profile Finder
 
         Find a person's or brand's profiles across major social networks from a
@@ -83,4 +102,4 @@ class AsyncSocialNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "social.finder", dict(input), options
         )
-        return BareRunResult[SocialFinderData].model_validate(raw)
+        return RunResult[SocialFinderData].model_validate(raw)

@@ -1,9 +1,41 @@
 import { describe, expect, it } from "vitest";
 import { AnyAPI, unwrap } from "../src/index.js";
 import { NotFoundError } from "../src/index.js";
+import type {
+  AmazonReviewsData,
+  RunResult,
+} from "../src/index.js";
 import { foundEnvelope, mockFetch, notFoundEnvelope } from "./helpers.js";
 
 describe("run: success envelope", () => {
+  it("infers a known SKU result type", async () => {
+    const { fetch } = mockFetch([
+      { body: foundEnvelope({ items: [] }) },
+    ]);
+    const client = new AnyAPI({ apiKey: "sk_test", fetch });
+
+    const res: RunResult<AmazonReviewsData> = await client.run(
+      "amazon.reviews",
+      { product: "B07" },
+    );
+
+    expect(res.output.found).toBe(true);
+  });
+
+  it("accepts an explicit result type", async () => {
+    const { fetch } = mockFetch([
+      { body: foundEnvelope({ title: "typed" }) },
+    ]);
+    const client = new AnyAPI({ apiKey: "sk_test", fetch });
+
+    const res = await client.run<{ title: string }>("custom.result", {});
+
+    expect(res.output.found).toBe(true);
+    if (res.output.found) {
+      expect(res.output.data.title).toBe("typed");
+    }
+  });
+
   it("parses a found envelope and posts to /v1/run/{slug} with Bearer auth", async () => {
     const { fetch, calls } = mockFetch([{ body: foundEnvelope({ title: "hi" }, { items: 1 }) }]);
     const client = new AnyAPI({ apiKey: "sk_test", fetch });

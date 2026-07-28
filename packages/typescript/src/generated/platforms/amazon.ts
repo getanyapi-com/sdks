@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -26,7 +26,54 @@ export interface AmazonAsinsInput {
   limit?: number;
 }
 
-export type AmazonAsinsData = unknown;
+export interface AmazonAsinsItem {
+  /**
+   * Amazon Standard Identification Number. Populated whenever the provider has data for the entity.
+   */
+  asin: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  brand?: string;
+  condition?: string;
+  currency?: string;
+  /**
+   * Primary product image URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  inStock?: boolean;
+  /**
+   * Buy-box price; 0 when no offer is available.
+   */
+  price?: number;
+  /**
+   * Average star rating, 0-5.
+   */
+  rating?: number;
+  reviewsCount?: number;
+  sellerName?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Amazon Products by ASIN (amazon.asins).
+ */
+export interface AmazonAsinsData {
+  /**
+   * Product records: ASIN, title, brand, price, ratings, images, and attributes. Populated whenever the provider has data for the entity.
+   */
+  items: AmazonAsinsItem[];
+}
 
 /**
  * Input for Amazon Bestsellers (amazon.bestsellers).
@@ -43,7 +90,63 @@ export interface AmazonBestsellersInput {
   url: string;
 }
 
-export type AmazonBestsellersData = unknown;
+export interface AmazonBestsellersItem {
+  /**
+   * Amazon Standard Identification Number. Populated whenever the provider has data for the entity.
+   */
+  asin: string;
+  /**
+   * Best Sellers category name the product ranks in.
+   */
+  categoryName?: string;
+  /**
+   * Price currency symbol or code, e.g. "$".
+   */
+  currency?: string;
+  /**
+   * Primary product thumbnail image URL.
+   */
+  image?: string;
+  /**
+   * Number of available offers; 0 when unknown.
+   */
+  offersCount?: number;
+  /**
+   * Listed price; 0 when no offer is available.
+   */
+  price?: number;
+  /**
+   * Best-seller rank within the category (1 = top).
+   */
+  rank?: number;
+  /**
+   * Average star rating, 0-5; 0 when unrated.
+   */
+  rating?: number;
+  /**
+   * Number of customer reviews; 0 when none.
+   */
+  reviewsCount?: number;
+  /**
+   * Product title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Canonical product detail page URL (tracking query params stripped). Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Amazon Bestsellers (amazon.bestsellers).
+ */
+export interface AmazonBestsellersData {
+  /**
+   * Best-seller product records ordered by category rank. Populated whenever the provider has data for the entity.
+   */
+  items: AmazonBestsellersItem[];
+}
 
 /**
  * Input for Amazon Product (amazon.product).
@@ -55,7 +158,85 @@ export interface AmazonProductInput {
   url: string;
 }
 
-export type AmazonProductData = unknown;
+export interface AmazonProductItem {
+  /**
+   * Amazon Standard Identification Number. Populated whenever the provider has data for the entity.
+   */
+  asin: string;
+  /**
+   * Manufacturer or brand name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  brand?: string;
+  /**
+   * Category breadcrumb path, e.g. "Health & Household > Household Supplies".
+   */
+  category?: string;
+  /**
+   * Item condition, e.g. "New"; empty when not reported.
+   */
+  condition?: string;
+  /**
+   * Price currency symbol or code, e.g. "$".
+   */
+  currency?: string;
+  /**
+   * Product description text; empty when the listing has none.
+   */
+  description?: string;
+  /**
+   * Bullet-point feature list from the listing.
+   */
+  features?: string[];
+  /**
+   * Primary product image URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * High-resolution product image URLs.
+   */
+  images?: string[];
+  /**
+   * True when the product is purchasable.
+   */
+  inStock?: boolean;
+  /**
+   * Current buy-box price as a numeric amount; 0 when the listing has no buyable price (out of stock).
+   */
+  price?: number;
+  /**
+   * Average customer star rating, 0-5; 0 when unrated.
+   */
+  rating?: number;
+  /**
+   * Total number of customer reviews; 0 when none.
+   */
+  reviewsCount?: number;
+  /**
+   * Name of the seller fulfilling the buy box.
+   */
+  sellerName?: string;
+  /**
+   * Product title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Canonical product detail page URL (tracking query params stripped). Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Amazon Product (amazon.product).
+ */
+export interface AmazonProductData {
+  /**
+   * Product detail records (one per requested product URL). Populated whenever the provider has data for the entity.
+   */
+  items: AmazonProductItem[];
+}
 
 /**
  * Input for Amazon Reviews (amazon.reviews).
@@ -127,7 +308,47 @@ export interface AmazonReviewsInput {
   verifiedOnly?: boolean;
 }
 
-export type AmazonReviewsData = unknown;
+export interface AmazonReviewsItem {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. 0 when the review date is not reported in a parseable form.
+   */
+  createdUtc?: number;
+  /**
+   * Number of "helpful" votes the review received; 0 when none.
+   */
+  helpfulVotes?: number;
+  /**
+   * Star rating the reviewer gave, 1-5; 0 when not reported.
+   */
+  rating: number;
+  /**
+   * Reviewer display name; empty when withheld.
+   */
+  reviewer?: string;
+  /**
+   * Full review body text. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Review headline / title; empty when the review has none.
+   */
+  title?: string;
+  /**
+   * True when Amazon marks the review a verified purchase.
+   */
+  verifiedPurchase?: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Amazon Reviews (amazon.reviews).
+ */
+export interface AmazonReviewsData {
+  /**
+   * Customer review records. Populated whenever the provider has data for the entity.
+   */
+  items: AmazonReviewsItem[];
+}
 
 /**
  * Input for Amazon Search (amazon.search).
@@ -144,7 +365,63 @@ export interface AmazonSearchInput {
   url: string;
 }
 
-export type AmazonSearchData = unknown;
+export interface AmazonSearchItem {
+  /**
+   * Amazon Standard Identification Number; use it with the Amazon Products by ASIN SKU for full detail. Populated whenever the provider has data for the entity.
+   */
+  asin: string;
+  /**
+   * Price currency symbol or code, e.g. "$".
+   */
+  currency?: string;
+  /**
+   * Primary product thumbnail image URL.
+   */
+  image?: string;
+  /**
+   * True when the result is a sponsored placement.
+   */
+  isSponsored?: boolean;
+  /**
+   * Pre-discount list price when on sale; 0 when not discounted.
+   */
+  listPrice?: number;
+  /**
+   * Number of available offers; 0 when unknown.
+   */
+  offersCount?: number;
+  /**
+   * 1-based position of the result on the search page.
+   */
+  position?: number;
+  /**
+   * Current price as a numeric amount; 0 when no offer is available.
+   */
+  price?: number;
+  /**
+   * Average star rating, 0-5; 0 when unrated.
+   */
+  rating?: number;
+  /**
+   * Number of customer reviews; 0 when none.
+   */
+  reviewsCount?: number;
+  /**
+   * Product title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Amazon Search (amazon.search).
+ */
+export interface AmazonSearchData {
+  /**
+   * Matching Amazon product records. Populated whenever the provider has data for the entity.
+   */
+  items: AmazonSearchItem[];
+}
 
 /**
  * Typed methods for the amazon platform. Attached to the AnyAPI client as
@@ -166,10 +443,8 @@ export class AmazonNamespace {
   asins(
     input: AmazonAsinsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<AmazonAsinsData>> {
-    return this._core.run("amazon.asins", input, options) as unknown as Promise<
-      BareRunResult<AmazonAsinsData>
-    >;
+  ): Promise<RunResult<AmazonAsinsData>> {
+    return this._core.run("amazon.asins", input, options);
   }
 
   /**
@@ -185,12 +460,8 @@ export class AmazonNamespace {
   bestsellers(
     input: AmazonBestsellersInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<AmazonBestsellersData>> {
-    return this._core.run(
-      "amazon.bestsellers",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<AmazonBestsellersData>>;
+  ): Promise<RunResult<AmazonBestsellersData>> {
+    return this._core.run("amazon.bestsellers", input, options);
   }
 
   /**
@@ -206,12 +477,8 @@ export class AmazonNamespace {
   product(
     input: AmazonProductInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<AmazonProductData>> {
-    return this._core.run(
-      "amazon.product",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<AmazonProductData>>;
+  ): Promise<RunResult<AmazonProductData>> {
+    return this._core.run("amazon.product", input, options);
   }
 
   /**
@@ -227,12 +494,8 @@ export class AmazonNamespace {
   reviews(
     input: AmazonReviewsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<AmazonReviewsData>> {
-    return this._core.run(
-      "amazon.reviews",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<AmazonReviewsData>>;
+  ): Promise<RunResult<AmazonReviewsData>> {
+    return this._core.run("amazon.reviews", input, options);
   }
 
   /**
@@ -248,11 +511,7 @@ export class AmazonNamespace {
   search(
     input: AmazonSearchInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<AmazonSearchData>> {
-    return this._core.run(
-      "amazon.search",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<AmazonSearchData>>;
+  ): Promise<RunResult<AmazonSearchData>> {
+    return this._core.run("amazon.search", input, options);
   }
 }

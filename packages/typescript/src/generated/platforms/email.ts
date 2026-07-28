@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -29,7 +29,31 @@ export interface EmailFindInput {
   };
 }
 
-export type EmailFindData = unknown;
+export interface EmailFindItem {
+  domain?: string;
+  /**
+   * Discovered email address, or empty when none was found. Populated whenever the provider has data for the entity.
+   */
+  email: string;
+  firstName?: string;
+  isDeliverable?: boolean;
+  lastName?: string;
+  /**
+   * Lookup status (e.g. found, not_found). Populated whenever the provider has data for the entity.
+   */
+  status: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Email Finder (email.find).
+ */
+export interface EmailFindData {
+  /**
+   * Email lookup records: the discovered email address, verification status, and the matched person and company details. Populated whenever the provider has data for the entity.
+   */
+  items: EmailFindItem[];
+}
 
 /**
  * Input for Email Verifier (email.verify).
@@ -41,7 +65,46 @@ export interface EmailVerifyInput {
   email: string;
 }
 
-export type EmailVerifyData = unknown;
+export interface EmailVerifyItem {
+  /**
+   * Domain accepts all addresses.
+   */
+  catchAll?: boolean;
+  disposable?: boolean;
+  domain?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  email: string;
+  /**
+   * Free email provider.
+   */
+  free?: boolean;
+  reason?: string;
+  /**
+   * Role-based address (e.g. info@).
+   */
+  role?: boolean;
+  /**
+   * Confidence score (0-100).
+   */
+  score?: number;
+  /**
+   * Deliverability verdict (e.g. valid, risky, invalid). Populated whenever the provider has data for the entity.
+   */
+  status: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Email Verifier (email.verify).
+ */
+export interface EmailVerifyData {
+  /**
+   * Verification records: the email address with its deliverability verdict and the domain, mailbox, and reputation signals behind it. A record is returned for every syntactically valid address, including ones the verdict marks undeliverable. Populated whenever the provider has data for the entity.
+   */
+  items: EmailVerifyItem[];
+}
 
 /**
  * Typed methods for the email platform. Attached to the AnyAPI client as
@@ -63,10 +126,8 @@ export class EmailNamespace {
   find(
     input: EmailFindInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<EmailFindData>> {
-    return this._core.run("email.find", input, options) as unknown as Promise<
-      BareRunResult<EmailFindData>
-    >;
+  ): Promise<RunResult<EmailFindData>> {
+    return this._core.run("email.find", input, options);
   }
 
   /**
@@ -82,9 +143,7 @@ export class EmailNamespace {
   verify(
     input: EmailVerifyInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<EmailVerifyData>> {
-    return this._core.run("email.verify", input, options) as unknown as Promise<
-      BareRunResult<EmailVerifyData>
-    >;
+  ): Promise<RunResult<EmailVerifyData>> {
+    return this._core.run("email.verify", input, options);
   }
 }

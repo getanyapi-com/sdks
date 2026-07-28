@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -25,7 +25,49 @@ class FiverrSearchInput(TypedDict, total=False):
 
 
 class FiverrSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[FiverrSearchItem] = Field(
+        description="Gig records from the search or category URL. Operators may return additional fields beyond those documented here. Populated whenever the provider has data for the entity."
+    )
+
+
+class FiverrSearchItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    duration: int | None = Field(default=None, description="Delivery time in days.")
+    gig_id: str = Field(
+        alias="gigId",
+        description="Stable Fiverr gig identifier. Populated whenever the provider has data for the entity.",
+    )
+    gig_url: str = Field(
+        alias="gigUrl",
+        description="Canonical Fiverr URL for the gig. Populated whenever the provider has data for the entity.",
+    )
+    image: str | None = Field(default=None, description="Primary gig thumbnail URL.")
+    price: float | None = Field(default=None, description="Starting price in USD.")
+    seller_country: str | None = Field(
+        default=None, alias="sellerCountry", description="Seller country code."
+    )
+    seller_display_name: str | None = Field(
+        default=None, alias="sellerDisplayName", description="Seller display name."
+    )
+    seller_level: str | None = Field(
+        default=None, alias="sellerLevel", description="Fiverr seller level."
+    )
+    seller_name: str | None = Field(
+        default=None, alias="sellerName", description="Seller username."
+    )
+    seller_rating_count: int | None = Field(
+        default=None, alias="sellerRatingCount", description="Number of seller ratings."
+    )
+    seller_rating_score: float | None = Field(
+        default=None, alias="sellerRatingScore", description="Average seller rating."
+    )
+    seller_url: str | None = Field(
+        default=None, alias="sellerUrl", description="Seller profile URL."
+    )
+    title: str = Field(
+        description="Gig headline. Populated whenever the provider has data for the entity."
+    )
 
 
 class FiverrNamespace:
@@ -39,7 +81,7 @@ class FiverrNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FiverrSearchInput],
-    ) -> BareRunResult[FiverrSearchData]:
+    ) -> RunResult[FiverrSearchData]:
         """Fiverr Gig Search
 
         Extract Fiverr gig listings from any search or category URL: titles,
@@ -53,7 +95,7 @@ class FiverrNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "fiverr.search", dict(input), options
         )
-        return BareRunResult[FiverrSearchData].model_validate(raw)
+        return RunResult[FiverrSearchData].model_validate(raw)
 
 
 class AsyncFiverrNamespace:
@@ -67,7 +109,7 @@ class AsyncFiverrNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[FiverrSearchInput],
-    ) -> BareRunResult[FiverrSearchData]:
+    ) -> RunResult[FiverrSearchData]:
         """Fiverr Gig Search
 
         Extract Fiverr gig listings from any search or category URL: titles,
@@ -81,4 +123,4 @@ class AsyncFiverrNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "fiverr.search", dict(input), options
         )
-        return BareRunResult[FiverrSearchData].model_validate(raw)
+        return RunResult[FiverrSearchData].model_validate(raw)

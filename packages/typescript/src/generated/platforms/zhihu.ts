@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,7 +16,67 @@ export interface ZhihuAnswerInput {
   answerId: string;
 }
 
-export type ZhihuAnswerData = unknown;
+/**
+ * The `data` payload of Zhihu Answer (zhihu.answer).
+ */
+export interface ZhihuAnswerData {
+  /**
+   * Author headline.
+   */
+  authorHeadline?: string;
+  /**
+   * Author avatar URL.
+   * Format: uri.
+   */
+  authorImage?: string;
+  /**
+   * Author display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorName?: string;
+  /**
+   * Author URL token.
+   */
+  authorToken?: string;
+  /**
+   * Author identifier.
+   */
+  authorUserId?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Answer excerpt. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  excerpt?: string;
+  /**
+   * Answer identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Parent question identifier. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  questionId?: string;
+  /**
+   * Parent question title. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  questionTitle?: string;
+  /**
+   * Last update UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  updatedUtc?: number;
+  /**
+   * Canonical answer URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for Zhihu Profile (zhihu.profile).
@@ -28,7 +88,65 @@ export interface ZhihuProfileInput {
   userToken: string;
 }
 
-export type ZhihuProfileData = unknown;
+/**
+ * The `data` payload of Zhihu Profile (zhihu.profile).
+ */
+export interface ZhihuProfileData {
+  /**
+   * Published answer count.
+   */
+  answers?: number;
+  /**
+   * Published article count.
+   */
+  articles?: number;
+  /**
+   * Follower count.
+   */
+  followers?: number;
+  /**
+   * Gender code reported by Zhihu.
+   */
+  gender?: number;
+  /**
+   * Profile headline. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  headline?: string;
+  /**
+   * User identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Profile image URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * IP location label reported by Zhihu.
+   */
+  ipLocation?: string;
+  /**
+   * Display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  name?: string;
+  /**
+   * Whether this is an organization profile.
+   */
+  organization?: boolean;
+  /**
+   * Canonical profile URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * User URL token. Populated whenever the provider has data for the entity.
+   */
+  userToken: string;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for Zhihu Question (zhihu.question).
@@ -40,7 +158,60 @@ export interface ZhihuQuestionInput {
   questionId: string;
 }
 
-export type ZhihuQuestionData = unknown;
+/**
+ * The `data` payload of Zhihu Question (zhihu.question).
+ */
+export interface ZhihuQuestionData {
+  /**
+   * Answer count.
+   */
+  answers?: number;
+  /**
+   * Comment count.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Question body as returned by Zhihu. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  description?: string;
+  /**
+   * Short question excerpt.
+   */
+  excerpt?: string;
+  /**
+   * Follower count.
+   */
+  followers?: number;
+  /**
+   * Question identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Question title. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  title?: string;
+  /**
+   * Last update UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  updatedUtc?: number;
+  /**
+   * Canonical question URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * View count.
+   */
+  views?: number;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for Zhihu Question Answers (zhihu.question_answers).
@@ -78,7 +249,88 @@ export interface ZhihuQuestionAnswersInput {
   sessionId?: string;
 }
 
-export type ZhihuQuestionAnswersData = unknown;
+export interface ZhihuQuestionAnswersAnswer {
+  /**
+   * Author avatar URL.
+   * Format: uri.
+   */
+  authorImage?: string;
+  /**
+   * Author display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorName?: string;
+  /**
+   * Author URL token.
+   */
+  authorToken?: string;
+  /**
+   * Author identifier.
+   */
+  authorUserId?: string;
+  /**
+   * Comment count.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Cursor associated with this answer; use the final item cursor for the next page.
+   */
+  cursor?: string;
+  /**
+   * Answer excerpt. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  excerpt?: string;
+  /**
+   * Answer identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Save count.
+   */
+  saves?: number;
+  /**
+   * Thanks count.
+   */
+  thanks?: number;
+  /**
+   * Last update UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  updatedUtc?: number;
+  /**
+   * Canonical answer URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Upvote count.
+   */
+  votes?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Zhihu Question Answers (zhihu.question_answers).
+ */
+export interface ZhihuQuestionAnswersData {
+  /**
+   * Normalized answers. Populated whenever the provider has data for the entity.
+   */
+  answers: ZhihuQuestionAnswersAnswer[];
+  /**
+   * Whether the result set has reached its final page.
+   */
+  isEnd: boolean;
+  /**
+   * Session identifier to pass when requesting another page.
+   */
+  sessionId: string;
+}
 
 /**
  * Input for Zhihu Article Search (zhihu.search_articles).
@@ -134,7 +386,88 @@ export interface ZhihuSearchArticlesInput {
   verticalInfo?: string;
 }
 
-export type ZhihuSearchArticlesData = unknown;
+export interface ZhihuSearchArticlesArticle {
+  /**
+   * Author avatar URL.
+   * Format: uri.
+   */
+  authorImage?: string;
+  /**
+   * Author display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorName?: string;
+  /**
+   * Author URL token.
+   */
+  authorToken?: string;
+  /**
+   * Author identifier.
+   */
+  authorUserId?: string;
+  /**
+   * Comment count.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Article excerpt. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  excerpt?: string;
+  /**
+   * Article identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Article title. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  title?: string;
+  /**
+   * Last update UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  updatedUtc?: number;
+  /**
+   * Canonical article URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Upvote count.
+   */
+  votes?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Zhihu Article Search (zhihu.search_articles).
+ */
+export interface ZhihuSearchArticlesData {
+  /**
+   * Normalized article results. Populated whenever the provider has data for the entity.
+   */
+  articles: ZhihuSearchArticlesArticle[];
+  /**
+   * Whether the result set has reached its final page.
+   */
+  isEnd: boolean;
+  /**
+   * Result offset to pass as offset when requesting the next page.
+   */
+  nextOffset: string;
+  /**
+   * Article-search vertical continuation state to pass as verticalInfo when requesting the next page.
+   */
+  nextVerticalInfo: string;
+  /**
+   * Search hash identifier to pass when requesting another page.
+   */
+  searchHashId: string;
+}
 
 /**
  * Typed methods for the zhihu platform. Attached to the AnyAPI client as
@@ -156,10 +489,8 @@ export class ZhihuNamespace {
   answer(
     input: ZhihuAnswerInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<ZhihuAnswerData>> {
-    return this._core.run("zhihu.answer", input, options) as unknown as Promise<
-      BareRunResult<ZhihuAnswerData>
-    >;
+  ): Promise<RunResult<ZhihuAnswerData>> {
+    return this._core.run("zhihu.answer", input, options);
   }
 
   /**
@@ -175,12 +506,8 @@ export class ZhihuNamespace {
   profile(
     input: ZhihuProfileInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<ZhihuProfileData>> {
-    return this._core.run(
-      "zhihu.profile",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<ZhihuProfileData>>;
+  ): Promise<RunResult<ZhihuProfileData>> {
+    return this._core.run("zhihu.profile", input, options);
   }
 
   /**
@@ -196,12 +523,8 @@ export class ZhihuNamespace {
   question(
     input: ZhihuQuestionInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<ZhihuQuestionData>> {
-    return this._core.run(
-      "zhihu.question",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<ZhihuQuestionData>>;
+  ): Promise<RunResult<ZhihuQuestionData>> {
+    return this._core.run("zhihu.question", input, options);
   }
 
   /**
@@ -217,12 +540,8 @@ export class ZhihuNamespace {
   questionAnswers(
     input: ZhihuQuestionAnswersInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<ZhihuQuestionAnswersData>> {
-    return this._core.run(
-      "zhihu.question_answers",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<ZhihuQuestionAnswersData>>;
+  ): Promise<RunResult<ZhihuQuestionAnswersData>> {
+    return this._core.run("zhihu.question_answers", input, options);
   }
 
   /**
@@ -238,11 +557,7 @@ export class ZhihuNamespace {
   searchArticles(
     input: ZhihuSearchArticlesInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<ZhihuSearchArticlesData>> {
-    return this._core.run(
-      "zhihu.search_articles",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<ZhihuSearchArticlesData>>;
+  ): Promise<RunResult<ZhihuSearchArticlesData>> {
+    return this._core.run("zhihu.search_articles", input, options);
   }
 }

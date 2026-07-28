@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -39,7 +39,64 @@ class UpworkJobsInput(TypedDict, total=False):
 
 
 class UpworkJobsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[UpworkJobsItem] = Field(
+        description="Job records: title, description, budget or hourly rate, required skills, posted date, and client details. Populated whenever the provider has data for the entity."
+    )
+
+
+class UpworkJobsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    budget: str | None = Field(
+        default=None, description="Fixed budget or hourly range."
+    )
+    client_location: str | None = Field(
+        default=None, alias="clientLocation", description="Client country or location."
+    )
+    client_rating: float | None = Field(
+        default=None, alias="clientRating", description="Client average rating."
+    )
+    client_total_spent: float | None = Field(
+        default=None,
+        alias="clientTotalSpent",
+        description="Client lifetime spend (USD).",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    description: str | None = Field(
+        default=None,
+        description="Full job posting description text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    experience_level: str | None = Field(
+        default=None,
+        alias="experienceLevel",
+        description="Required experience level (e.g. Entry, Intermediate, Expert).",
+    )
+    job_id: str = Field(
+        alias="jobId",
+        description="Upwork job identifier. Populated whenever the provider has data for the entity.",
+    )
+    job_type: str | None = Field(
+        default=None, alias="jobType", description="Fixed or Hourly."
+    )
+    payment_verified: bool | None = Field(
+        default=None,
+        alias="paymentVerified",
+        description="Whether the client's payment method is verified; null when Upwork reports it as unknown.",
+    )
+    proposals: int | None = Field(
+        default=None, description="Number of proposals submitted."
+    )
+    tags: list[str] | None = Field(default=None, description="Skill tags.")
+    title: str = Field(
+        description="Job posting title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Upwork job posting URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class UpworkNamespace:
@@ -50,7 +107,7 @@ class UpworkNamespace:
 
     def jobs(
         self, *, options: RequestOptions | None = None, **input: Unpack[UpworkJobsInput]
-    ) -> BareRunResult[UpworkJobsData]:
+    ) -> RunResult[UpworkJobsData]:
         """Upwork Jobs
 
         Search Upwork job postings by keyword, with up to 25 fresh listings per
@@ -64,7 +121,7 @@ class UpworkNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "upwork.jobs", dict(input), options
         )
-        return BareRunResult[UpworkJobsData].model_validate(raw)
+        return RunResult[UpworkJobsData].model_validate(raw)
 
 
 class AsyncUpworkNamespace:
@@ -75,7 +132,7 @@ class AsyncUpworkNamespace:
 
     async def jobs(
         self, *, options: RequestOptions | None = None, **input: Unpack[UpworkJobsInput]
-    ) -> BareRunResult[UpworkJobsData]:
+    ) -> RunResult[UpworkJobsData]:
         """Upwork Jobs
 
         Search Upwork job postings by keyword, with up to 25 fresh listings per
@@ -89,4 +146,4 @@ class AsyncUpworkNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "upwork.jobs", dict(input), options
         )
-        return BareRunResult[UpworkJobsData].model_validate(raw)
+        return RunResult[UpworkJobsData].model_validate(raw)

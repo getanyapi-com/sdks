@@ -3,12 +3,12 @@
 
 from __future__ import annotations
 
-from typing import Literal, TYPE_CHECKING
+from typing import Any, Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -586,91 +586,1256 @@ class LinkedinSearchProfilesThinInput(TypedDict, total=False):
 
 
 class LinkedinAdData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ad_type: str = Field(
+        alias="adType",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    advertiser: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    advertiser_linkedin_page: str = Field(
+        alias="advertiserLinkedinPage",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    cta: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    description: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    destination_url: str = Field(alias="destinationUrl")
+    end_date: str = Field(alias="endDate", description="ISO 8601 date.")
+    headline: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str
+    image: str
+    start_date: str = Field(alias="startDate", description="ISO 8601 date.")
+    total_impressions: str = Field(alias="totalImpressions")
 
 
 class LinkedinAdsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[LinkedinAdsItem] = Field(
+        description="Ad records from the LinkedIn Ad Library. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinAdsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    advertiser: str | None = Field(
+        default=None,
+        description="Advertiser (company) name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    advertiser_logo: str | None = Field(
+        default=None, alias="advertiserLogo", description="Advertiser logo image URL."
+    )
+    format: str | None = Field(
+        default=None, description="Ad format (e.g. SINGLE_IMAGE, VIDEO)."
+    )
+    id: str = Field(
+        description="LinkedIn ad id. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(default=None, description="Ad creative image URL.")
+    text: str | None = Field(default=None, description="Ad creative body text.")
+    url: str = Field(
+        description="Canonical LinkedIn Ad Library detail URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinAdsSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    ads: list[LinkedinAdsSearchAd] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str = Field(alias="nextCursor")
+    total_ads: int = Field(alias="totalAds")
+
+
+class LinkedinAdsSearchAd(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ad_type: str = Field(
+        alias="adType",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    advertiser: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    advertiser_linkedin_page: str = Field(alias="advertiserLinkedinPage")
+    cta: str
+    description: str
+    destination_url: str = Field(alias="destinationUrl")
+    end_date: str = Field(alias="endDate")
+    headline: str
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    start_date: str = Field(alias="startDate")
+    total_impressions: str = Field(alias="totalImpressions")
 
 
 class LinkedinCompanyData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_type: str | None = Field(
+        default=None,
+        alias="companyType",
+        description="Company type, e.g. Privately Held, Public Company.",
+    )
+    description: str = Field(
+        description="Company about/description text. Populated whenever the provider has data for the entity."
+    )
+    employee_count: int = Field(
+        alias="employeeCount",
+        description="Reported total employee count. Populated whenever the provider has data for the entity.",
+    )
+    employee_count_range: LinkedinCompanyEmployeeCountRange | None = Field(
+        default=None,
+        alias="employeeCountRange",
+        description="LinkedIn size bucket the company falls in.",
+    )
+    follower_count: int = Field(
+        alias="followerCount",
+        description="LinkedIn page follower count. Populated whenever the provider has data for the entity.",
+    )
+    founded_on: LinkedinCompanyFoundedOn | None = Field(
+        default=None,
+        alias="foundedOn",
+        description="Founding date (year populated when known).",
+    )
+    funding_data: LinkedinCompanyFundingData | None = Field(
+        default=None,
+        alias="fundingData",
+        description="Funding summary sourced from Crunchbase, when available.",
+    )
+    industry: str = Field(description="Primary industry.")
+    locations: list[LinkedinCompanyLocation] | None = Field(
+        default=None, description="Company office locations, including headquarters."
+    )
+    logo_url: str = Field(alias="logoUrl", description="Company logo image URL.")
+    name: str = Field(description="Company name.")
+    page_verified: bool | None = Field(
+        default=None,
+        alias="pageVerified",
+        description="Whether LinkedIn has verified the company page.",
+    )
+    similar_organizations: list[Any] | None = Field(
+        default=None,
+        alias="similarOrganizations",
+        description="Similar organizations surfaced by LinkedIn.",
+    )
+    specialities: list[Any] | None = Field(
+        default=None, description="Company-declared specialities."
+    )
+    tagline: str = Field(description="Company tagline/slogan.")
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="LinkedIn universal (vanity) name for the company.",
+    )
+    website: str = Field(description="Company website URL.")
+
+
+class LinkedinCompanyEmployeeCountRange(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    end: int | None = Field(
+        default=None, description="Upper bound of the employee-count bucket."
+    )
+    start: int | None = Field(
+        default=None, description="Lower bound of the employee-count bucket."
+    )
+
+
+class LinkedinCompanyFoundedOn(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    year: int | None = Field(default=None, description="Year the company was founded.")
+
+
+class LinkedinCompanyFundingData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_crunchbase_url: str | None = Field(
+        default=None,
+        alias="companyCrunchbaseUrl",
+        description="Crunchbase profile URL for the company.",
+    )
+    last_funding_type: str | None = Field(
+        default=None,
+        alias="lastFundingType",
+        description="Type of the most recent funding round.",
+    )
+    num_funding_rounds: int | None = Field(
+        default=None,
+        alias="numFundingRounds",
+        description="Total number of funding rounds.",
+    )
+
+
+class LinkedinCompanyLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    city: str | None = Field(default=None, description="City.")
+    country: str | None = Field(default=None, description="ISO country code.")
+    headquarter: bool | None = Field(
+        default=None, description="True when this location is the headquarters."
+    )
+    line1: str | None = Field(default=None, description="Street address line.")
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal code."
+    )
 
 
 class LinkedinCompanyEmployeesData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[LinkedinCompanyEmployeesItem] = Field(
+        description="Employee records for the company. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinCompanyEmployeesItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="First name."
+    )
+    handle: str | None = Field(
+        default=None,
+        description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(default=None, description="Profile picture URL.")
+    job_title: str | None = Field(
+        default=None,
+        alias="jobTitle",
+        description="The employee's current role or headline.",
+    )
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Last name."
+    )
+    location: str | None = Field(
+        default=None,
+        description="The employee's location as a single string (city, region, country).",
+    )
+    name: str | None = Field(
+        default=None,
+        description="Full name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url: str = Field(
+        description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinCompanyPostsData(BaseModel):
+    items: list[LinkedinCompanyPostsItem] = Field(
+        description="The company's recent posts. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinCompanyPostsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: LinkedinCompanyPostsAuthor | None = Field(
+        default=None, description="The post author (a company or a profile)."
+    )
+    content_attributes: list[LinkedinCompanyPostsContentAttribute] | None = Field(
+        default=None,
+        alias="contentAttributes",
+        description="Inline mentions and entity references in the post text.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    engagement: LinkedinCompanyPostsEngagement | None = Field(
+        default=None, description="Engagement metrics for the post."
+    )
+    id: str = Field(
+        description="Unique identifier of the post. Populated whenever the provider has data for the entity."
+    )
+    post_images: list[LinkedinCompanyPostsPostImage] | None = Field(
+        default=None, alias="postImages", description="Images attached to the post."
+    )
+    post_video: LinkedinCompanyPostsPostVideo | None = Field(
+        default=None,
+        alias="postVideo",
+        description="Video attached to the post, or null when absent.",
+    )
+    text: str = Field(description="Full text content of the post.")
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinCompanyPostsAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    followers: str | None = Field(
+        default=None,
+        description="Author follower count as displayed text (e.g. '1,543,793 followers').",
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn URL of the author.",
+    )
+    name: str | None = Field(default=None, description="Display name of the author.")
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Author kind, e.g. 'company' or 'profile'.",
+    )
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="URL-safe company/profile handle, when present.",
+    )
+
+
+class LinkedinCompanyPostsContentAttribute(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinCompanyPostsEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    comments: int | None = Field(
+        default=None, description="Number of comments on the post."
+    )
+    likes: int | None = Field(
+        default=None,
+        description="Total reaction count on the post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    reactions: list[LinkedinCompanyPostsReaction] | None = Field(
+        default=None, description="Per-reaction-type breakdown of the reaction total."
+    )
+    shares: int | None = Field(
+        default=None, description="Number of shares/reposts of the post."
+    )
+
+
+class LinkedinCompanyPostsReaction(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    count: int | None = Field(
+        default=None, description="Number of reactions of this type."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Reaction type, e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION.",
+    )
+
+
+class LinkedinCompanyPostsPostImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinCompanyPostsPostVideo(BaseModel):
     model_config = ConfigDict(extra="allow")
 
 
 class LinkedinCompanyPostsThinData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[LinkedinCompanyPostsThinItem] = Field(
+        description="The company's recent posts. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinCompanyPostsThinItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Unique identifier of the post. Populated whenever the provider has data for the entity."
+    )
+    text: str = Field(
+        description="Text content of the post. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinCompanyThinData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    description: str = Field(
+        description="Company about/description text. Populated whenever the provider has data for the entity."
+    )
+    employee_count: int = Field(
+        alias="employeeCount", description="Reported employee count."
+    )
+    industry: str = Field(
+        description="Primary industry. Populated whenever the provider has data for the entity."
+    )
+    logo_url: str = Field(
+        alias="logoUrl",
+        description="Company logo image URL. Populated whenever the provider has data for the entity.",
+    )
+    name: str = Field(description="Company name.")
+    tagline: str = Field(
+        description="Company tagline/slogan. Populated whenever the provider has data for the entity."
+    )
+    website: str = Field(
+        description="Company website URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinEmailData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(populate_by_name=True)
+
+    emails: list[LinkedinEmailEmail] = Field(
+        description="Deliverability-validated work emails discovered for the profile. Populated whenever the provider has data for the entity."
+    )
+    first_name: str | None = Field(
+        default=None,
+        alias="firstName",
+        description="First name on the LinkedIn profile.",
+    )
+    headline: str | None = Field(default=None, description="Profile headline.")
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Last name on the LinkedIn profile."
+    )
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="Canonical LinkedIn profile URL."
+    )
+
+
+class LinkedinEmailEmail(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    deliverable: bool | None = Field(
+        default=None,
+        description="True when the email passed deliverability checks (including SMTP).",
+    )
+    email: str = Field(
+        description="Discovered work email address. Populated whenever the provider has data for the entity."
+    )
+    quality_score: int | None = Field(
+        default=None,
+        alias="qualityScore",
+        description="Confidence score for the email, 0-100.",
+    )
+    status: str | None = Field(
+        default=None, description="Validation status of the email (e.g. valid)."
+    )
+    valid_email_server: bool | None = Field(
+        default=None,
+        alias="validEmailServer",
+        description="True when the domain has a valid mail server.",
+    )
 
 
 class LinkedinJobsData(BaseModel):
+    items: list[LinkedinJobsItem] = Field(
+        description="Full job listing records for the search. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinJobsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    applicants: int | None = Field(
+        default=None,
+        description="Number of applicants reported by LinkedIn. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    apply_url: str | None = Field(
+        default=None,
+        alias="applyUrl",
+        description="External company apply URL when the job applies off-site.",
+    )
+    benefits: list[str] | None = Field(default=None, description="Listed benefits.")
+    company: LinkedinJobsCompany | None = Field(
+        default=None, description="Hiring company details."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the job was posted. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    description_text: str | None = Field(
+        default=None,
+        alias="descriptionText",
+        description="Full job description as plain text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    easy_apply_url: str | None = Field(
+        default=None,
+        alias="easyApplyUrl",
+        description="LinkedIn Easy Apply URL when available.",
+    )
+    employment_type: str | None = Field(
+        default=None,
+        alias="employmentType",
+        description="Employment type (e.g. full_time, contract, part_time).",
+    )
+    experience_level: str | None = Field(
+        default=None,
+        alias="experienceLevel",
+        description="Seniority / experience level (e.g. Mid-Senior level, Entry level).",
+    )
+    id: str | None = Field(default=None, description="LinkedIn job listing id.")
+    industries: list[str] | None = Field(
+        default=None, description="Industries associated with the role."
+    )
+    location: str | None = Field(
+        default=None, description="Job location (city, region, or country)."
+    )
+    salary: LinkedinJobsSalary | None = Field(
+        default=None, description="Salary range when disclosed by the poster."
+    )
+    title: str = Field(description="Job title.")
+    url: str = Field(description="Canonical LinkedIn job listing URL.")
+    workplace_type: str | None = Field(
+        default=None,
+        alias="workplaceType",
+        description="Workplace type (e.g. remote, on_site, hybrid).",
+    )
+
+
+class LinkedinJobsCompany(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="Canonical LinkedIn company URL."
+    )
+    logo: str | None = Field(default=None, description="Company logo image URL.")
+    name: str | None = Field(default=None, description="Company name.")
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="Company LinkedIn universal (vanity) name.",
+    )
+
+
+class LinkedinJobsSalary(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    max: float | None = Field(default=None, description="Maximum salary.")
+    min: float | None = Field(default=None, description="Minimum salary.")
+    text: str | None = Field(
+        default=None, description="Salary as displayed (e.g. '300,000 - 330,000 USD')."
+    )
 
 
 class LinkedinJobsThinData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[LinkedinJobsThinItem] = Field(
+        description="Job listing index records for the search. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinJobsThinItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company: str | None = Field(
+        default=None,
+        description="Hiring company name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    company_url: str | None = Field(
+        default=None, alias="companyUrl", description="Canonical LinkedIn company URL."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str | None = Field(default=None, description="LinkedIn job listing id.")
+    location: str | None = Field(
+        default=None,
+        description="Job location (city, region). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    title: str = Field(
+        description="Job title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical LinkedIn job listing URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinPostData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Name of the post author. Populated whenever the provider has data for the entity."
+    )
+    comments: int = Field(description="Number of comments on the post.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    likes: int = Field(description="Number of likes on the post.")
+    text: str = Field(
+        description="Text content of the post. Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(description="Title of the post.")
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinPostCommentsData(BaseModel):
+    items: list[LinkedinPostCommentsItem] = Field(
+        description="The post's comments. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinPostCommentsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    actor: LinkedinPostCommentsActor | None = Field(
+        default=None, description="The commenter (a profile or a company)."
+    )
+    commentary: str = Field(
+        description="Full text of the comment. Populated whenever the provider has data for the entity."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    edited: bool | None = Field(
+        default=None, description="Whether the comment has been edited."
+    )
+    engagement: LinkedinPostCommentsEngagement | None = Field(
+        default=None, description="Engagement metrics for the comment."
+    )
+    id: str = Field(
+        description="Unique identifier of the comment. Populated whenever the provider has data for the entity."
+    )
+    pinned: bool | None = Field(
+        default=None, description="Whether the comment is pinned on the post."
+    )
+    url: str | None = Field(
+        default=None, description="Canonical permalink URL of the comment."
+    )
+
+
+class LinkedinPostCommentsActor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    image: str | None = Field(
+        default=None, description="Profile picture URL of the commenter."
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn URL of the commenter.",
+    )
+    name: str | None = Field(default=None, description="Display name of the commenter.")
+    position: str | None = Field(
+        default=None, description="Commenter's headline or job title as displayed."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Commenter kind, e.g. 'profile' or 'company'.",
+    )
+
+
+class LinkedinPostCommentsEngagement(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    comments: int | None = Field(
+        default=None, description="Number of replies to the comment."
+    )
+    likes: int | None = Field(
+        default=None, description="Number of likes on the comment."
+    )
 
 
 class LinkedinPostReactionsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[LinkedinPostReactionsItem] = Field(
+        description="Reactions on the post, one record per reactor."
+    )
+
+
+class LinkedinPostReactionsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    actor: LinkedinPostReactionsActor = Field(
+        description="The reactor - the person or company that reacted."
+    )
+    post_id: str | None = Field(
+        default=None,
+        alias="postId",
+        description="LinkedIn URN of the post that was reacted to.",
+    )
+    reaction_type: str = Field(
+        alias="reactionType",
+        description="Reaction kind (e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION, ENTERTAINMENT).",
+    )
+
+
+class LinkedinPostReactionsActor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str | None = Field(
+        default=None, description="LinkedIn member or company id of the reactor."
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn profile or company URL of the reactor.",
+    )
+    name: str = Field(
+        description="Full name of the reactor (or company name). Populated whenever the provider has data for the entity."
+    )
+    picture_url: str | None = Field(
+        default=None,
+        alias="pictureUrl",
+        description="Profile picture URL of the reactor.",
+    )
+    position: str | None = Field(
+        default=None,
+        description="Reactor's current job title / headline (or follower count for a company).",
+    )
 
 
 class LinkedinPostTranscriptData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    transcript: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    transcript_not_available: bool = Field(alias="transcriptNotAvailable")
+    url: str
 
 
 class LinkedinProfileData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    about: str | None = Field(
+        default=None, description="About/summary text of the profile."
+    )
+    certifications: list[LinkedinProfileCertification] | None = Field(
+        default=None, description="Licenses and certifications."
+    )
+    connections_count: int | None = Field(
+        default=None, alias="connectionsCount", description="Number of connections."
+    )
+    current_position: list[LinkedinProfileCurrentPosition] | None = Field(
+        default=None,
+        alias="currentPosition",
+        description="The member's current role(s).",
+    )
+    education: list[LinkedinProfileEducation] | None = Field(
+        default=None, description="Education entries."
+    )
+    experience: list[LinkedinProfileExperience] | None = Field(
+        default=None,
+        description="Full work experience with titles, descriptions, dates, and per-role skills. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    first_name: str = Field(
+        alias="firstName", description="First name of the profile owner."
+    )
+    follower_count: int | None = Field(
+        default=None, alias="followerCount", description="Number of followers."
+    )
+    headline: str = Field(
+        description="Professional headline shown under the name. Populated whenever the provider has data for the entity."
+    )
+    honors_and_awards: list[LinkedinProfileHonorsAndAward] | None = Field(
+        default=None, alias="honorsAndAwards", description="Honors and awards."
+    )
+    languages: list[Any] | None = Field(
+        default=None, description="Languages, as returned by LinkedIn when present."
+    )
+    last_name: str = Field(
+        alias="lastName", description="Last name of the profile owner."
+    )
+    location: str | None = Field(
+        default=None, description="Location of the profile owner."
+    )
+    open_to_work: bool | None = Field(
+        default=None,
+        alias="openToWork",
+        description="Whether the member is open to work.",
+    )
+    photo: str | None = Field(default=None, description="URL of the profile photo.")
+    premium: bool | None = Field(
+        default=None, description="Whether the member has LinkedIn Premium."
+    )
+    projects: list[Any] | None = Field(
+        default=None, description="Projects, as returned by LinkedIn when present."
+    )
+    public_identifier: str | None = Field(
+        default=None,
+        alias="publicIdentifier",
+        description="LinkedIn public identifier (the /in/ handle).",
+    )
+    publications: list[LinkedinProfilePublication] | None = Field(
+        default=None, description="Publications."
+    )
+    skills: list[LinkedinProfileSkill] | None = Field(
+        default=None, description="Endorsed skills."
+    )
+    top_skills: list[Any] | None = Field(
+        default=None,
+        alias="topSkills",
+        description="The member's top skills, as free-form strings when present.",
+    )
+    url: str = Field(description="Canonical LinkedIn profile URL.")
+    verified: bool | None = Field(
+        default=None, description="Whether the profile is identity-verified."
+    )
+
+
+class LinkedinProfileCertification(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    issued_at: str | None = Field(
+        default=None, alias="issuedAt", description="Issue date text."
+    )
+    issued_by: str | None = Field(
+        default=None, alias="issuedBy", description="Issuing organization."
+    )
+    title: str | None = Field(default=None, description="Certification title.")
+
+
+class LinkedinProfileCurrentPosition(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_linkedin_url: str | None = Field(
+        default=None, alias="companyLinkedinUrl", description="Company LinkedIn URL."
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Company name."
+    )
+    duration: str | None = Field(
+        default=None, description="Human-readable tenure, e.g. '12 yrs 6 mos'."
+    )
+    location: str | None = Field(default=None, description="Role location.")
+    position: str | None = Field(default=None, description="Job title.")
+
+
+class LinkedinProfileEducation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    degree: str | None = Field(default=None, description="Degree earned.")
+    end_date: str | None = Field(
+        default=None, alias="endDate", description="End date text."
+    )
+    field_of_study: str | None = Field(
+        default=None, alias="fieldOfStudy", description="Field of study."
+    )
+    school: str = Field(description="School name.")
+    school_url: str | None = Field(
+        default=None, alias="schoolUrl", description="School LinkedIn URL."
+    )
+    start_date: str | None = Field(
+        default=None, alias="startDate", description="Start date text."
+    )
+
+
+class LinkedinProfileExperience(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_linkedin_url: str | None = Field(
+        default=None, alias="companyLinkedinUrl", description="Company LinkedIn URL."
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Company name."
+    )
+    description: str | None = Field(default=None, description="Role description.")
+    duration: str | None = Field(
+        default=None, description="Human-readable tenure, e.g. '3 yrs 2 mos'."
+    )
+    employment_type: str | None = Field(
+        default=None,
+        alias="employmentType",
+        description="Employment type, e.g. 'Full-time'.",
+    )
+    end_date: str | None = Field(
+        default=None, alias="endDate", description="End date text, e.g. 'Present'."
+    )
+    location: str | None = Field(default=None, description="Role location.")
+    position: str = Field(
+        description="Job title. Populated whenever the provider has data for the entity."
+    )
+    skills: list[Any] | None = Field(
+        default=None, description="Skills associated with this role."
+    )
+    start_date: str | None = Field(
+        default=None, alias="startDate", description="Start date text, e.g. 'Feb 2014'."
+    )
+    workplace_type: str | None = Field(
+        default=None,
+        alias="workplaceType",
+        description="Workplace type, e.g. 'Remote' or 'On-site'.",
+    )
+
+
+class LinkedinProfileHonorsAndAward(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    description: str | None = Field(default=None, description="Award description.")
+    issued_at: str | None = Field(
+        default=None, alias="issuedAt", description="Issue date text."
+    )
+    issued_by: str | None = Field(
+        default=None, alias="issuedBy", description="Issuing organization."
+    )
+    title: str | None = Field(default=None, description="Award title.")
+
+
+class LinkedinProfilePublication(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    description: str | None = Field(
+        default=None, description="Publication description."
+    )
+    published_text: str | None = Field(
+        default=None,
+        alias="publishedText",
+        description="Publisher and/or date text as shown on LinkedIn.",
+    )
+    title: str | None = Field(default=None, description="Publication title.")
+
+
+class LinkedinProfileSkill(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    endorsements: str | None = Field(
+        default=None, description="Endorsement count text, e.g. '99+ endorsements'."
+    )
+    name: str | None = Field(default=None, description="Skill name.")
 
 
 class LinkedinProfileThinData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    about: str = Field(description="About/summary text of the profile.")
+    articles: list[LinkedinProfileThinArticle] = Field(
+        description="The profile's published articles."
+    )
+    avatar_url: str = Field(
+        alias="avatarUrl", description="URL of the profile avatar image."
+    )
+    education: list[LinkedinProfileThinEducation] = Field(
+        description="Education entries."
+    )
+    experience: list[LinkedinProfileThinExperience] = Field(
+        description="Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity."
+    )
+    followers: int = Field(description="Number of followers.")
+    location: str = Field(description="Location of the profile owner.")
+    name: str = Field(description="Full name of the profile owner.")
+    recent_posts: list[LinkedinProfileThinRecentPost] = Field(
+        alias="recentPosts", description="The profile's recent posts."
+    )
+
+
+class LinkedinProfileThinArticle(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    headline: str = Field(description="Headline of the article.")
+    url: str | None = Field(default=None, description="Canonical URL of the article.")
+
+
+class LinkedinProfileThinEducation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    end_date: str | None = Field(
+        default=None, alias="endDate", description="End date of study."
+    )
+    school: str = Field(description="Name of the school.")
+    school_url: str | None = Field(
+        default=None, alias="schoolUrl", description="URL of the school page."
+    )
+    start_date: str | None = Field(
+        default=None, alias="startDate", description="Start date of study."
+    )
+
+
+class LinkedinProfileThinExperience(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company: str = Field(description="Name of the company.")
+    company_url: str | None = Field(
+        default=None, alias="companyUrl", description="URL of the company page."
+    )
+    end_date: str | None = Field(
+        default=None, alias="endDate", description="End date of the role."
+    )
+    start_date: str | None = Field(
+        default=None, alias="startDate", description="Start date of the role."
+    )
+
+
+class LinkedinProfileThinRecentPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    activity_type: str | None = Field(
+        default=None, alias="activityType", description="Type of activity for the post."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(description="Unique identifier of the post.")
+    text: str | None = Field(default=None, description="Text content of the post.")
+    url: str | None = Field(default=None, description="Canonical URL of the post.")
 
 
 class LinkedinSearchCompaniesData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[LinkedinSearchCompaniesItem] = Field(
+        description="Matching company records. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchCompaniesItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    description: str | None = Field(
+        default=None, description="Company summary / about text."
+    )
+    followers_text: str | None = Field(
+        default=None,
+        alias="followersText",
+        description="Follower count as a display string (e.g. 105K followers).",
+    )
+    handle: str | None = Field(
+        default=None, description="Company universal name (the vanity slug in the URL)."
+    )
+    id: str = Field(
+        description="LinkedIn company id. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(default=None, description="Company logo image URL.")
+    industry: str | None = Field(default=None, description="Company industry.")
+    location: str | None = Field(
+        default=None, description="Company location as a single string (city, region)."
+    )
+    name: str = Field(
+        description="Company name. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical LinkedIn company URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinSearchPostsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    posts: list[LinkedinSearchPostsPost] = Field(
+        description="Posts matching the search query. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchPostsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    text: str = Field(
+        description="Text content of the post. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinSearchProfilesData(BaseModel):
+    items: list[LinkedinSearchProfilesItem] = Field(
+        description="Matched profile records. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchProfilesItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    about: str | None = Field(default=None, description="Profile about / summary text.")
+    current_position: list[LinkedinSearchProfilesCurrentPosition] | None = Field(
+        default=None,
+        alias="currentPosition",
+        description="Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile.",
+    )
+    education: list[LinkedinSearchProfilesEducation] | None = Field(
+        default=None,
+        description="Education history. Each entry is an open object with school, degree, and field of study; shape can vary by profile.",
+    )
+    experience: list[LinkedinSearchProfilesExperience] | None = Field(
+        default=None,
+        description="Full work history. Each entry is an open object with the position title, company, dates, and location; shape can vary by profile. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="Member's first name."
+    )
+    handle: str | None = Field(
+        default=None,
+        description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    headline: str | None = Field(
+        default=None,
+        description="Profile headline (the tagline under the name). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(description="LinkedIn member URN id for the profile.")
+    image: str | None = Field(default=None, description="Profile picture URL.")
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Member's last name."
+    )
+    location: str | None = Field(
+        default=None,
+        description="Member's location as a single string (city, region, country).",
+    )
+    open_to_work: bool | None = Field(
+        default=None,
+        alias="openToWork",
+        description="Whether the member has the Open to Work flag set.",
+    )
+    premium: bool | None = Field(
+        default=None,
+        description="Whether the member has a LinkedIn Premium subscription.",
+    )
+    skills: list[LinkedinSearchProfilesSkill] | None = Field(
+        default=None,
+        description="Listed skills. Each entry is an open object with the skill name and endorsement summary.",
+    )
+    url: str = Field(
+        description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchProfilesCurrentPosition(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEducation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesExperience(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesSkill(BaseModel):
     model_config = ConfigDict(extra="allow")
 
 
 class LinkedinSearchProfilesEmailData(BaseModel):
+    items: list[LinkedinSearchProfilesEmailItem] = Field(
+        description="Matched profile records, each with a discovered work email. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchProfilesEmailItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    about: str | None = Field(default=None, description="Profile about / summary text.")
+    current_position: list[LinkedinSearchProfilesEmailCurrentPosition] | None = Field(
+        default=None,
+        alias="currentPosition",
+        description="Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile.",
+    )
+    education: list[LinkedinSearchProfilesEmailEducation] | None = Field(
+        default=None,
+        description="Education history. Each entry is an open object with school, degree, and field of study; shape can vary by profile.",
+    )
+    emails: list[LinkedinSearchProfilesEmailEmail] | None = Field(
+        default=None,
+        description="Discovered work email(s) for the member. Each entry is an open object with the email address plus deliverability signals (deliverable, disposable, catchAllDomain, validEmailServer, qualityScore, status); may be empty when no email could be verified. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    experience: list[LinkedinSearchProfilesEmailExperience] | None = Field(
+        default=None,
+        description="Full work history. Each entry is an open object with the position title, company, dates, and location; shape can vary by profile. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="Member's first name."
+    )
+    handle: str | None = Field(
+        default=None,
+        description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    headline: str | None = Field(
+        default=None,
+        description="Profile headline (the tagline under the name). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(description="LinkedIn member URN id for the profile.")
+    image: str | None = Field(default=None, description="Profile picture URL.")
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Member's last name."
+    )
+    location: str | None = Field(
+        default=None,
+        description="Member's location as a single string (city, region, country).",
+    )
+    open_to_work: bool | None = Field(
+        default=None,
+        alias="openToWork",
+        description="Whether the member has the Open to Work flag set.",
+    )
+    premium: bool | None = Field(
+        default=None,
+        description="Whether the member has a LinkedIn Premium subscription.",
+    )
+    skills: list[LinkedinSearchProfilesEmailSkill] | None = Field(
+        default=None,
+        description="Listed skills. Each entry is an open object with the skill name and endorsement summary.",
+    )
+    url: str = Field(
+        description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchProfilesEmailCurrentPosition(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEmailEducation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEmailEmail(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEmailExperience(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinSearchProfilesEmailSkill(BaseModel):
     model_config = ConfigDict(extra="allow")
 
 
 class LinkedinSearchProfilesThinData(BaseModel):
+    items: list[LinkedinSearchProfilesThinItem] = Field(
+        description="Matched profile records (basic fields only). Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchProfilesThinItem(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    handle: str | None = Field(
+        default=None,
+        description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    headline: str | None = Field(
+        default=None,
+        description="Profile headline (the tagline under the name). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn member URN id for the profile."
+    )
+    image: str | None = Field(default=None, description="Profile picture URL.")
+    location: str | None = Field(
+        default=None,
+        description="Member's location as a single string (city, region, country).",
+    )
+    name: str | None = Field(default=None, description="Member's display name.")
+    url: str = Field(
+        description="Canonical LinkedIn vanity profile URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class LinkedinNamespace:
@@ -681,7 +1846,7 @@ class LinkedinNamespace:
 
     def ad(
         self, *, options: RequestOptions | None = None, **input: Unpack[LinkedinAdInput]
-    ) -> BareRunResult[LinkedinAdData]:
+    ) -> RunResult[LinkedinAdData]:
         """LinkedIn Ad Details
 
         Look up a single LinkedIn Ad Library ad by URL and get the advertiser,
@@ -696,14 +1861,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ad", dict(input), options
         )
-        return BareRunResult[LinkedinAdData].model_validate(raw)
+        return RunResult[LinkedinAdData].model_validate(raw)
 
     def ads(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinAdsInput],
-    ) -> BareRunResult[LinkedinAdsData]:
+    ) -> RunResult[LinkedinAdsData]:
         """LinkedIn Ads Library
 
         Search the LinkedIn Ad Library by search URL and list the matching ads
@@ -717,14 +1882,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ads", dict(input), options
         )
-        return BareRunResult[LinkedinAdsData].model_validate(raw)
+        return RunResult[LinkedinAdsData].model_validate(raw)
 
     def ads_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinAdsSearchInput],
-    ) -> BareRunResult[LinkedinAdsSearchData]:
+    ) -> RunResult[LinkedinAdsSearchData]:
         """LinkedIn Ad Search
 
         Search the LinkedIn Ad Library by company or keyword and list matching ads
@@ -739,14 +1904,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ads_search", dict(input), options
         )
-        return BareRunResult[LinkedinAdsSearchData].model_validate(raw)
+        return RunResult[LinkedinAdsSearchData].model_validate(raw)
 
     def company(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyInput],
-    ) -> BareRunResult[LinkedinCompanyData]:
+    ) -> RunResult[LinkedinCompanyData]:
         """LinkedIn Company
 
         Fetch a full LinkedIn company page by URL: name, description, industry,
@@ -761,14 +1926,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyData].model_validate(raw)
+        return RunResult[LinkedinCompanyData].model_validate(raw)
 
     def company_employees(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyEmployeesInput],
-    ) -> BareRunResult[LinkedinCompanyEmployeesData]:
+    ) -> RunResult[LinkedinCompanyEmployeesData]:
         """LinkedIn Company Employees
 
         List the employees of a LinkedIn company by name or company URL, with
@@ -782,14 +1947,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_employees", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyEmployeesData].model_validate(raw)
+        return RunResult[LinkedinCompanyEmployeesData].model_validate(raw)
 
     def company_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyPostsInput],
-    ) -> BareRunResult[LinkedinCompanyPostsData]:
+    ) -> RunResult[LinkedinCompanyPostsData]:
         """LinkedIn Company Posts
 
         List a LinkedIn company page's recent posts by URL: full text, canonical
@@ -804,14 +1969,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_posts", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyPostsData].model_validate(raw)
+        return RunResult[LinkedinCompanyPostsData].model_validate(raw)
 
     def company_posts_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyPostsThinInput],
-    ) -> BareRunResult[LinkedinCompanyPostsThinData]:
+    ) -> RunResult[LinkedinCompanyPostsThinData]:
         """LinkedIn Company Posts (basic)
 
         Post text and link only. No engagement counts, author details, media, or
@@ -825,14 +1990,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_posts_thin", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyPostsThinData].model_validate(raw)
+        return RunResult[LinkedinCompanyPostsThinData].model_validate(raw)
 
     def company_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyThinInput],
-    ) -> BareRunResult[LinkedinCompanyThinData]:
+    ) -> RunResult[LinkedinCompanyThinData]:
         """LinkedIn Company (basic)
 
         Basic company: name, description, employee count, industry, logo, website,
@@ -847,14 +2012,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_thin", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyThinData].model_validate(raw)
+        return RunResult[LinkedinCompanyThinData].model_validate(raw)
 
     def email(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinEmailInput],
-    ) -> BareRunResult[LinkedinEmailData]:
+    ) -> RunResult[LinkedinEmailData]:
         """LinkedIn Email Finder
 
         Find the deliverability-validated work email behind a LinkedIn profile URL
@@ -869,14 +2034,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.email", dict(input), options
         )
-        return BareRunResult[LinkedinEmailData].model_validate(raw)
+        return RunResult[LinkedinEmailData].model_validate(raw)
 
     def jobs(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinJobsInput],
-    ) -> BareRunResult[LinkedinJobsData]:
+    ) -> RunResult[LinkedinJobsData]:
         """LinkedIn Jobs
 
         Search LinkedIn job listings by title and location - full records with
@@ -891,14 +2056,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs", dict(input), options
         )
-        return BareRunResult[LinkedinJobsData].model_validate(raw)
+        return RunResult[LinkedinJobsData].model_validate(raw)
 
     def jobs_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinJobsThinInput],
-    ) -> BareRunResult[LinkedinJobsThinData]:
+    ) -> RunResult[LinkedinJobsThinData]:
         """LinkedIn Jobs (index)
 
         Cheap job index: title, company, location, posted date, URL. No description,
@@ -912,14 +2077,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs_thin", dict(input), options
         )
-        return BareRunResult[LinkedinJobsThinData].model_validate(raw)
+        return RunResult[LinkedinJobsThinData].model_validate(raw)
 
     def post(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinPostInput],
-    ) -> BareRunResult[LinkedinPostData]:
+    ) -> RunResult[LinkedinPostData]:
         """LinkedIn Post
 
         Fetch a single LinkedIn post or article by URL (title, text, author, like
@@ -933,14 +2098,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post", dict(input), options
         )
-        return BareRunResult[LinkedinPostData].model_validate(raw)
+        return RunResult[LinkedinPostData].model_validate(raw)
 
     def post_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinPostCommentsInput],
-    ) -> BareRunResult[LinkedinPostCommentsData]:
+    ) -> RunResult[LinkedinPostCommentsData]:
         """LinkedIn Post Comments
 
         List comments on a LinkedIn post - full text, commenter name/URL/job title,
@@ -954,14 +2119,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post_comments", dict(input), options
         )
-        return BareRunResult[LinkedinPostCommentsData].model_validate(raw)
+        return RunResult[LinkedinPostCommentsData].model_validate(raw)
 
     def post_reactions(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinPostReactionsInput],
-    ) -> BareRunResult[LinkedinPostReactionsData]:
+    ) -> RunResult[LinkedinPostReactionsData]:
         """LinkedIn Post Reactions
 
         List who reacted to a LinkedIn post - reactor name, profile URL, job title,
@@ -975,14 +2140,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post_reactions", dict(input), options
         )
-        return BareRunResult[LinkedinPostReactionsData].model_validate(raw)
+        return RunResult[LinkedinPostReactionsData].model_validate(raw)
 
     def post_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinPostTranscriptInput],
-    ) -> BareRunResult[LinkedinPostTranscriptData]:
+    ) -> RunResult[LinkedinPostTranscriptData]:
         """LinkedIn Post Transcript
 
         Get the spoken transcript of a LinkedIn video post by URL.
@@ -995,14 +2160,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post_transcript", dict(input), options
         )
-        return BareRunResult[LinkedinPostTranscriptData].model_validate(raw)
+        return RunResult[LinkedinPostTranscriptData].model_validate(raw)
 
     def profile(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinProfileInput],
-    ) -> BareRunResult[LinkedinProfileData]:
+    ) -> RunResult[LinkedinProfileData]:
         """LinkedIn Profile
 
         Fetch a rich LinkedIn member profile by URL: name, headline, avatar,
@@ -1020,14 +2185,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.profile", dict(input), options
         )
-        return BareRunResult[LinkedinProfileData].model_validate(raw)
+        return RunResult[LinkedinProfileData].model_validate(raw)
 
     def profile_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinProfileThinInput],
-    ) -> BareRunResult[LinkedinProfileThinData]:
+    ) -> RunResult[LinkedinProfileThinData]:
         """LinkedIn Profile (basic)
 
         Lightweight profile: name, avatar, location, followers, and a basic
@@ -1044,14 +2209,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.profile_thin", dict(input), options
         )
-        return BareRunResult[LinkedinProfileThinData].model_validate(raw)
+        return RunResult[LinkedinProfileThinData].model_validate(raw)
 
     def search_companies(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchCompaniesInput],
-    ) -> BareRunResult[LinkedinSearchCompaniesData]:
+    ) -> RunResult[LinkedinSearchCompaniesData]:
         """LinkedIn Company Search
 
         Search LinkedIn companies by keyword with optional location filtering,
@@ -1065,14 +2230,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_companies", dict(input), options
         )
-        return BareRunResult[LinkedinSearchCompaniesData].model_validate(raw)
+        return RunResult[LinkedinSearchCompaniesData].model_validate(raw)
 
     def search_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchPostsInput],
-    ) -> BareRunResult[LinkedinSearchPostsData]:
+    ) -> RunResult[LinkedinSearchPostsData]:
         """LinkedIn Post Search
 
         Search public LinkedIn posts by keyword (text, link, publish date),
@@ -1086,14 +2251,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_posts", dict(input), options
         )
-        return BareRunResult[LinkedinSearchPostsData].model_validate(raw)
+        return RunResult[LinkedinSearchPostsData].model_validate(raw)
 
     def search_profiles(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchProfilesInput],
-    ) -> BareRunResult[LinkedinSearchProfilesData]:
+    ) -> RunResult[LinkedinSearchProfilesData]:
         """LinkedIn Profile Search
 
         Search LinkedIn profiles by keyword with optional location and job-title
@@ -1111,14 +2276,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles", dict(input), options
         )
-        return BareRunResult[LinkedinSearchProfilesData].model_validate(raw)
+        return RunResult[LinkedinSearchProfilesData].model_validate(raw)
 
     def search_profiles_email(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchProfilesEmailInput],
-    ) -> BareRunResult[LinkedinSearchProfilesEmailData]:
+    ) -> RunResult[LinkedinSearchProfilesEmailData]:
         """LinkedIn Profile Search + Email
 
         People search returning a full profile AND a verified work email for each
@@ -1138,14 +2303,14 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles_email", dict(input), options
         )
-        return BareRunResult[LinkedinSearchProfilesEmailData].model_validate(raw)
+        return RunResult[LinkedinSearchProfilesEmailData].model_validate(raw)
 
     def search_profiles_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchProfilesThinInput],
-    ) -> BareRunResult[LinkedinSearchProfilesThinData]:
+    ) -> RunResult[LinkedinSearchProfilesThinData]:
         """LinkedIn Profile Search (basic)
 
         Cheap people search: name/handle, headline, VANITY profile URL, location. No
@@ -1160,7 +2325,7 @@ class LinkedinNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles_thin", dict(input), options
         )
-        return BareRunResult[LinkedinSearchProfilesThinData].model_validate(raw)
+        return RunResult[LinkedinSearchProfilesThinData].model_validate(raw)
 
 
 class AsyncLinkedinNamespace:
@@ -1171,7 +2336,7 @@ class AsyncLinkedinNamespace:
 
     async def ad(
         self, *, options: RequestOptions | None = None, **input: Unpack[LinkedinAdInput]
-    ) -> BareRunResult[LinkedinAdData]:
+    ) -> RunResult[LinkedinAdData]:
         """LinkedIn Ad Details
 
         Look up a single LinkedIn Ad Library ad by URL and get the advertiser,
@@ -1186,14 +2351,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ad", dict(input), options
         )
-        return BareRunResult[LinkedinAdData].model_validate(raw)
+        return RunResult[LinkedinAdData].model_validate(raw)
 
     async def ads(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinAdsInput],
-    ) -> BareRunResult[LinkedinAdsData]:
+    ) -> RunResult[LinkedinAdsData]:
         """LinkedIn Ads Library
 
         Search the LinkedIn Ad Library by search URL and list the matching ads
@@ -1207,14 +2372,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ads", dict(input), options
         )
-        return BareRunResult[LinkedinAdsData].model_validate(raw)
+        return RunResult[LinkedinAdsData].model_validate(raw)
 
     async def ads_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinAdsSearchInput],
-    ) -> BareRunResult[LinkedinAdsSearchData]:
+    ) -> RunResult[LinkedinAdsSearchData]:
         """LinkedIn Ad Search
 
         Search the LinkedIn Ad Library by company or keyword and list matching ads
@@ -1229,14 +2394,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.ads_search", dict(input), options
         )
-        return BareRunResult[LinkedinAdsSearchData].model_validate(raw)
+        return RunResult[LinkedinAdsSearchData].model_validate(raw)
 
     async def company(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyInput],
-    ) -> BareRunResult[LinkedinCompanyData]:
+    ) -> RunResult[LinkedinCompanyData]:
         """LinkedIn Company
 
         Fetch a full LinkedIn company page by URL: name, description, industry,
@@ -1251,14 +2416,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyData].model_validate(raw)
+        return RunResult[LinkedinCompanyData].model_validate(raw)
 
     async def company_employees(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyEmployeesInput],
-    ) -> BareRunResult[LinkedinCompanyEmployeesData]:
+    ) -> RunResult[LinkedinCompanyEmployeesData]:
         """LinkedIn Company Employees
 
         List the employees of a LinkedIn company by name or company URL, with
@@ -1272,14 +2437,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_employees", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyEmployeesData].model_validate(raw)
+        return RunResult[LinkedinCompanyEmployeesData].model_validate(raw)
 
     async def company_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyPostsInput],
-    ) -> BareRunResult[LinkedinCompanyPostsData]:
+    ) -> RunResult[LinkedinCompanyPostsData]:
         """LinkedIn Company Posts
 
         List a LinkedIn company page's recent posts by URL: full text, canonical
@@ -1294,14 +2459,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_posts", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyPostsData].model_validate(raw)
+        return RunResult[LinkedinCompanyPostsData].model_validate(raw)
 
     async def company_posts_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyPostsThinInput],
-    ) -> BareRunResult[LinkedinCompanyPostsThinData]:
+    ) -> RunResult[LinkedinCompanyPostsThinData]:
         """LinkedIn Company Posts (basic)
 
         Post text and link only. No engagement counts, author details, media, or
@@ -1315,14 +2480,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_posts_thin", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyPostsThinData].model_validate(raw)
+        return RunResult[LinkedinCompanyPostsThinData].model_validate(raw)
 
     async def company_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinCompanyThinInput],
-    ) -> BareRunResult[LinkedinCompanyThinData]:
+    ) -> RunResult[LinkedinCompanyThinData]:
         """LinkedIn Company (basic)
 
         Basic company: name, description, employee count, industry, logo, website,
@@ -1337,14 +2502,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.company_thin", dict(input), options
         )
-        return BareRunResult[LinkedinCompanyThinData].model_validate(raw)
+        return RunResult[LinkedinCompanyThinData].model_validate(raw)
 
     async def email(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinEmailInput],
-    ) -> BareRunResult[LinkedinEmailData]:
+    ) -> RunResult[LinkedinEmailData]:
         """LinkedIn Email Finder
 
         Find the deliverability-validated work email behind a LinkedIn profile URL
@@ -1359,14 +2524,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.email", dict(input), options
         )
-        return BareRunResult[LinkedinEmailData].model_validate(raw)
+        return RunResult[LinkedinEmailData].model_validate(raw)
 
     async def jobs(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinJobsInput],
-    ) -> BareRunResult[LinkedinJobsData]:
+    ) -> RunResult[LinkedinJobsData]:
         """LinkedIn Jobs
 
         Search LinkedIn job listings by title and location - full records with
@@ -1381,14 +2546,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs", dict(input), options
         )
-        return BareRunResult[LinkedinJobsData].model_validate(raw)
+        return RunResult[LinkedinJobsData].model_validate(raw)
 
     async def jobs_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinJobsThinInput],
-    ) -> BareRunResult[LinkedinJobsThinData]:
+    ) -> RunResult[LinkedinJobsThinData]:
         """LinkedIn Jobs (index)
 
         Cheap job index: title, company, location, posted date, URL. No description,
@@ -1402,14 +2567,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.jobs_thin", dict(input), options
         )
-        return BareRunResult[LinkedinJobsThinData].model_validate(raw)
+        return RunResult[LinkedinJobsThinData].model_validate(raw)
 
     async def post(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinPostInput],
-    ) -> BareRunResult[LinkedinPostData]:
+    ) -> RunResult[LinkedinPostData]:
         """LinkedIn Post
 
         Fetch a single LinkedIn post or article by URL (title, text, author, like
@@ -1423,14 +2588,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post", dict(input), options
         )
-        return BareRunResult[LinkedinPostData].model_validate(raw)
+        return RunResult[LinkedinPostData].model_validate(raw)
 
     async def post_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinPostCommentsInput],
-    ) -> BareRunResult[LinkedinPostCommentsData]:
+    ) -> RunResult[LinkedinPostCommentsData]:
         """LinkedIn Post Comments
 
         List comments on a LinkedIn post - full text, commenter name/URL/job title,
@@ -1444,14 +2609,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post_comments", dict(input), options
         )
-        return BareRunResult[LinkedinPostCommentsData].model_validate(raw)
+        return RunResult[LinkedinPostCommentsData].model_validate(raw)
 
     async def post_reactions(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinPostReactionsInput],
-    ) -> BareRunResult[LinkedinPostReactionsData]:
+    ) -> RunResult[LinkedinPostReactionsData]:
         """LinkedIn Post Reactions
 
         List who reacted to a LinkedIn post - reactor name, profile URL, job title,
@@ -1465,14 +2630,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post_reactions", dict(input), options
         )
-        return BareRunResult[LinkedinPostReactionsData].model_validate(raw)
+        return RunResult[LinkedinPostReactionsData].model_validate(raw)
 
     async def post_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinPostTranscriptInput],
-    ) -> BareRunResult[LinkedinPostTranscriptData]:
+    ) -> RunResult[LinkedinPostTranscriptData]:
         """LinkedIn Post Transcript
 
         Get the spoken transcript of a LinkedIn video post by URL.
@@ -1485,14 +2650,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.post_transcript", dict(input), options
         )
-        return BareRunResult[LinkedinPostTranscriptData].model_validate(raw)
+        return RunResult[LinkedinPostTranscriptData].model_validate(raw)
 
     async def profile(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinProfileInput],
-    ) -> BareRunResult[LinkedinProfileData]:
+    ) -> RunResult[LinkedinProfileData]:
         """LinkedIn Profile
 
         Fetch a rich LinkedIn member profile by URL: name, headline, avatar,
@@ -1510,14 +2675,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.profile", dict(input), options
         )
-        return BareRunResult[LinkedinProfileData].model_validate(raw)
+        return RunResult[LinkedinProfileData].model_validate(raw)
 
     async def profile_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinProfileThinInput],
-    ) -> BareRunResult[LinkedinProfileThinData]:
+    ) -> RunResult[LinkedinProfileThinData]:
         """LinkedIn Profile (basic)
 
         Lightweight profile: name, avatar, location, followers, and a basic
@@ -1534,14 +2699,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.profile_thin", dict(input), options
         )
-        return BareRunResult[LinkedinProfileThinData].model_validate(raw)
+        return RunResult[LinkedinProfileThinData].model_validate(raw)
 
     async def search_companies(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchCompaniesInput],
-    ) -> BareRunResult[LinkedinSearchCompaniesData]:
+    ) -> RunResult[LinkedinSearchCompaniesData]:
         """LinkedIn Company Search
 
         Search LinkedIn companies by keyword with optional location filtering,
@@ -1555,14 +2720,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_companies", dict(input), options
         )
-        return BareRunResult[LinkedinSearchCompaniesData].model_validate(raw)
+        return RunResult[LinkedinSearchCompaniesData].model_validate(raw)
 
     async def search_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchPostsInput],
-    ) -> BareRunResult[LinkedinSearchPostsData]:
+    ) -> RunResult[LinkedinSearchPostsData]:
         """LinkedIn Post Search
 
         Search public LinkedIn posts by keyword (text, link, publish date),
@@ -1576,14 +2741,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_posts", dict(input), options
         )
-        return BareRunResult[LinkedinSearchPostsData].model_validate(raw)
+        return RunResult[LinkedinSearchPostsData].model_validate(raw)
 
     async def search_profiles(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchProfilesInput],
-    ) -> BareRunResult[LinkedinSearchProfilesData]:
+    ) -> RunResult[LinkedinSearchProfilesData]:
         """LinkedIn Profile Search
 
         Search LinkedIn profiles by keyword with optional location and job-title
@@ -1601,14 +2766,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles", dict(input), options
         )
-        return BareRunResult[LinkedinSearchProfilesData].model_validate(raw)
+        return RunResult[LinkedinSearchProfilesData].model_validate(raw)
 
     async def search_profiles_email(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchProfilesEmailInput],
-    ) -> BareRunResult[LinkedinSearchProfilesEmailData]:
+    ) -> RunResult[LinkedinSearchProfilesEmailData]:
         """LinkedIn Profile Search + Email
 
         People search returning a full profile AND a verified work email for each
@@ -1628,14 +2793,14 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles_email", dict(input), options
         )
-        return BareRunResult[LinkedinSearchProfilesEmailData].model_validate(raw)
+        return RunResult[LinkedinSearchProfilesEmailData].model_validate(raw)
 
     async def search_profiles_thin(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchProfilesThinInput],
-    ) -> BareRunResult[LinkedinSearchProfilesThinData]:
+    ) -> RunResult[LinkedinSearchProfilesThinData]:
         """LinkedIn Profile Search (basic)
 
         Cheap people search: name/handle, headline, VANITY profile URL, location. No
@@ -1650,4 +2815,4 @@ class AsyncLinkedinNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.search_profiles_thin", dict(input), options
         )
-        return BareRunResult[LinkedinSearchProfilesThinData].model_validate(raw)
+        return RunResult[LinkedinSearchProfilesThinData].model_validate(raw)

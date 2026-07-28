@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -41,7 +41,76 @@ export interface GoogleShoppingSearchInput {
   sortBy?: "BEST_MATCH" | "LOWEST_PRICE" | "HIGHEST_PRICE" | "TOP_RATED";
 }
 
-export type GoogleShoppingSearchData = unknown;
+export interface GoogleShoppingSearchItem {
+  /**
+   * Product brand; empty when not reported.
+   */
+  brand?: string;
+  /**
+   * Price currency code, e.g. "USD"; empty when not reported.
+   */
+  currency?: string;
+  /**
+   * Discount label when on sale, e.g. "23% OFF"; empty otherwise.
+   */
+  discountPercent?: string;
+  /**
+   * Primary product image URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * Pre-discount list price as a numeric amount; 0 when not on sale or reported only as text.
+   */
+  listPrice?: number;
+  /**
+   * Pre-discount list price as displayed, e.g. "$130"; empty when not applicable.
+   */
+  listPriceText?: string;
+  /**
+   * Current price as a numeric amount; 0 when the lane reports price only as text (see priceText).
+   */
+  price?: number;
+  /**
+   * Current price as displayed, e.g. "$99.99"; empty when the lane reports a numeric price instead.
+   */
+  priceText?: string;
+  /**
+   * Provider product identifier.
+   */
+  productId?: string;
+  /**
+   * Average product rating, 0-5; 0 when unrated.
+   */
+  rating?: number;
+  /**
+   * Number of ratings / reviews; 0 when none reported.
+   */
+  reviewsCount?: number;
+  /**
+   * Store / seller name offering the product, e.g. "Target".
+   */
+  seller?: string;
+  /**
+   * Product title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Google Shopping product page URL (query retained; it encodes the product identity). Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Shopping Search (google_shopping.search).
+ */
+export interface GoogleShoppingSearchData {
+  /**
+   * Matching Google Shopping product offers. Populated whenever the provider has data for the entity.
+   */
+  items: GoogleShoppingSearchItem[];
+}
 
 /**
  * Typed methods for the google_shopping platform. Attached to the AnyAPI client as
@@ -63,11 +132,7 @@ export class GoogleShoppingNamespace {
   search(
     input: GoogleShoppingSearchInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<GoogleShoppingSearchData>> {
-    return this._core.run(
-      "google_shopping.search",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<GoogleShoppingSearchData>>;
+  ): Promise<RunResult<GoogleShoppingSearchData>> {
+    return this._core.run("google_shopping.search", input, options);
   }
 }

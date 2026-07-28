@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -52,19 +52,153 @@ class AhrefsOverviewInput(TypedDict, total=False):
 
 
 class AhrefsBacklinksData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[AhrefsBacklinksItem] = Field(
+        description="Referring pages that link to the domain or URL. Populated whenever the provider has data for the entity."
+    )
+
+
+class AhrefsBacklinksItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    anchor: str | None = Field(default=None, description="Anchor text of the link.")
+    context_after: str | None = Field(
+        default=None,
+        alias="contextAfter",
+        description="Text immediately after the anchor on the referring page.",
+    )
+    context_before: str | None = Field(
+        default=None,
+        alias="contextBefore",
+        description="Text immediately before the anchor on the referring page.",
+    )
+    domain_rating: float | None = Field(
+        default=None,
+        alias="domainRating",
+        description="Ahrefs Domain Rating (0-100) of the linking domain.",
+    )
+    title: str | None = Field(default=None, description="Title of the referring page.")
+    url_from: str = Field(
+        alias="urlFrom",
+        description="URL of the referring page that contains the link. Populated whenever the provider has data for the entity.",
+    )
+    url_to: str | None = Field(
+        default=None, alias="urlTo", description="Target URL the link points to."
+    )
 
 
 class AhrefsKeywordIdeasData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[AhrefsKeywordIdeasItem] = Field(
+        description="Keyword-idea records: the seed keyword and its related keyword suggestions, each with an Ahrefs difficulty and search-volume bucket. Populated whenever the provider has data for the entity."
+    )
+
+
+class AhrefsKeywordIdeasItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    country: str | None = Field(
+        default=None,
+        description="Two-letter country code the suggestions are scoped to.",
+    )
+    ideas: list[AhrefsKeywordIdeasIdea] | None = Field(
+        default=None,
+        description="Related keyword suggestions for the seed term. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    search_engine: str | None = Field(
+        default=None,
+        alias="searchEngine",
+        description="Search engine the suggestions are drawn from (e.g. Google).",
+    )
+    source_keyword: str = Field(
+        alias="sourceKeyword",
+        description="The seed keyword the suggestions were expanded from. Populated whenever the provider has data for the entity.",
+    )
+
+
+class AhrefsKeywordIdeasIdea(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    difficulty: str | None = Field(
+        default=None,
+        description="Relative Ahrefs difficulty bucket (a letter such as E, M, or H), not an exact number.",
+    )
+    keyword: str = Field(
+        description="The suggested related keyword. Populated whenever the provider has data for the entity."
+    )
+    updated_at: str | None = Field(
+        default=None,
+        alias="updatedAt",
+        description="Timestamp the suggestion metrics were last updated.",
+    )
+    volume: str | None = Field(
+        default=None,
+        description="Relative search-volume bucket (a letter grade), not an exact number.",
+    )
 
 
 class AhrefsKeywordsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[AhrefsKeywordsItem] = Field(
+        description="Keyword-difficulty records: the difficulty score and the referring-domain gap needed to rank in the top 10. Populated whenever the provider has data for the entity."
+    )
+
+
+class AhrefsKeywordsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    country: str | None = Field(
+        default=None, description="Two-letter country code the metrics are scoped to."
+    )
+    difficulty: int | None = Field(
+        default=None, description="Ahrefs Keyword Difficulty, 0-100."
+    )
+    keyword: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    referring_domains_to_rank: int | None = Field(
+        default=None,
+        alias="referringDomainsToRank",
+        description="Estimated number of referring domains a page needs to rank in the top 10 for this keyword.",
+    )
 
 
 class AhrefsOverviewData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[AhrefsOverviewItem] = Field(
+        description="Domain authority records: the requested domain plus its Domain Rating, total backlinks, and referring-domain counts. Populated whenever the provider has data for the entity."
+    )
+
+
+class AhrefsOverviewItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    backlinks: int | None = Field(
+        default=None, description="Total number of backlinks pointing to the domain."
+    )
+    dofollow_backlinks_pct: int | None = Field(
+        default=None,
+        alias="dofollowBacklinksPct",
+        description="Percentage (0-100) of backlinks that are dofollow.",
+    )
+    dofollow_referring_domains_pct: int | None = Field(
+        default=None,
+        alias="dofollowReferringDomainsPct",
+        description="Percentage (0-100) of referring domains that provide a dofollow link.",
+    )
+    domain: str = Field(
+        description="The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity."
+    )
+    domain_rating: float | None = Field(
+        default=None,
+        alias="domainRating",
+        description="Ahrefs Domain Rating, 0-100, measuring backlink-profile strength.",
+    )
+    mode: str | None = Field(
+        default=None,
+        description="Analysis scope used: subdomains (whole domain) or exact (the given URL only).",
+    )
+    referring_domains: int | None = Field(
+        default=None,
+        alias="referringDomains",
+        description="Number of unique referring domains linking to the domain.",
+    )
 
 
 class AhrefsNamespace:
@@ -78,7 +212,7 @@ class AhrefsNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AhrefsBacklinksInput],
-    ) -> BareRunResult[AhrefsBacklinksData]:
+    ) -> RunResult[AhrefsBacklinksData]:
         """Ahrefs Backlinks
 
         Get the referring pages linking to a domain or URL, each with the source
@@ -92,14 +226,14 @@ class AhrefsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.backlinks", dict(input), options
         )
-        return BareRunResult[AhrefsBacklinksData].model_validate(raw)
+        return RunResult[AhrefsBacklinksData].model_validate(raw)
 
     def keyword_ideas(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AhrefsKeywordIdeasInput],
-    ) -> BareRunResult[AhrefsKeywordIdeasData]:
+    ) -> RunResult[AhrefsKeywordIdeasData]:
         """Ahrefs Keyword Ideas
 
         Get related keyword suggestions for any seed term, each with an Ahrefs
@@ -113,14 +247,14 @@ class AhrefsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.keyword_ideas", dict(input), options
         )
-        return BareRunResult[AhrefsKeywordIdeasData].model_validate(raw)
+        return RunResult[AhrefsKeywordIdeasData].model_validate(raw)
 
     def keywords(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AhrefsKeywordsInput],
-    ) -> BareRunResult[AhrefsKeywordsData]:
+    ) -> RunResult[AhrefsKeywordsData]:
         """Ahrefs Keyword Difficulty
 
         Get the Ahrefs keyword-difficulty metrics for any search term: the
@@ -135,14 +269,14 @@ class AhrefsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.keywords", dict(input), options
         )
-        return BareRunResult[AhrefsKeywordsData].model_validate(raw)
+        return RunResult[AhrefsKeywordsData].model_validate(raw)
 
     def overview(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AhrefsOverviewInput],
-    ) -> BareRunResult[AhrefsOverviewData]:
+    ) -> RunResult[AhrefsOverviewData]:
         """Ahrefs Domain Overview
 
         Get an SEO authority overview for any domain or URL: Domain Rating, total
@@ -156,7 +290,7 @@ class AhrefsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.overview", dict(input), options
         )
-        return BareRunResult[AhrefsOverviewData].model_validate(raw)
+        return RunResult[AhrefsOverviewData].model_validate(raw)
 
 
 class AsyncAhrefsNamespace:
@@ -170,7 +304,7 @@ class AsyncAhrefsNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AhrefsBacklinksInput],
-    ) -> BareRunResult[AhrefsBacklinksData]:
+    ) -> RunResult[AhrefsBacklinksData]:
         """Ahrefs Backlinks
 
         Get the referring pages linking to a domain or URL, each with the source
@@ -184,14 +318,14 @@ class AsyncAhrefsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.backlinks", dict(input), options
         )
-        return BareRunResult[AhrefsBacklinksData].model_validate(raw)
+        return RunResult[AhrefsBacklinksData].model_validate(raw)
 
     async def keyword_ideas(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AhrefsKeywordIdeasInput],
-    ) -> BareRunResult[AhrefsKeywordIdeasData]:
+    ) -> RunResult[AhrefsKeywordIdeasData]:
         """Ahrefs Keyword Ideas
 
         Get related keyword suggestions for any seed term, each with an Ahrefs
@@ -205,14 +339,14 @@ class AsyncAhrefsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.keyword_ideas", dict(input), options
         )
-        return BareRunResult[AhrefsKeywordIdeasData].model_validate(raw)
+        return RunResult[AhrefsKeywordIdeasData].model_validate(raw)
 
     async def keywords(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AhrefsKeywordsInput],
-    ) -> BareRunResult[AhrefsKeywordsData]:
+    ) -> RunResult[AhrefsKeywordsData]:
         """Ahrefs Keyword Difficulty
 
         Get the Ahrefs keyword-difficulty metrics for any search term: the
@@ -227,14 +361,14 @@ class AsyncAhrefsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.keywords", dict(input), options
         )
-        return BareRunResult[AhrefsKeywordsData].model_validate(raw)
+        return RunResult[AhrefsKeywordsData].model_validate(raw)
 
     async def overview(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AhrefsOverviewInput],
-    ) -> BareRunResult[AhrefsOverviewData]:
+    ) -> RunResult[AhrefsOverviewData]:
         """Ahrefs Domain Overview
 
         Get an SEO authority overview for any domain or URL: Domain Rating, total
@@ -248,4 +382,4 @@ class AsyncAhrefsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ahrefs.overview", dict(input), options
         )
-        return BareRunResult[AhrefsOverviewData].model_validate(raw)
+        return RunResult[AhrefsOverviewData].model_validate(raw)

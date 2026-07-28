@@ -672,7 +672,7 @@ function emitClient(skus: SkuEntry[]): string {
     `    input: SkuMap[K]["input"],\n` +
     `    options?: RequestOptions,\n` +
     `  ): Promise<SkuMap[K]["result"]>;\n` +
-    `  run<S extends string, T = unknown>(\n` +
+    `  run<T = unknown, S extends string = string>(\n` +
     `    slug: S extends keyof SkuMap ? never : S,\n` +
     `    input: unknown,\n` +
     `    options?: RequestOptions,\n` +
