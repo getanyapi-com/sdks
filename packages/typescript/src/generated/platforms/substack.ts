@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -45,7 +45,83 @@ export interface SubstackPostsInput {
   url: string;
 }
 
-export type SubstackPostsData = unknown;
+export interface SubstackPostsItem {
+  /**
+   * Handle of the post author. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorHandle?: string;
+  /**
+   * Display name of the post author. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorName?: string;
+  /**
+   * Number of comments on the post.
+   */
+  commentCount?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Post description or article HTML/summary. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  description?: string;
+  /**
+   * Cover image URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * Whether the post is behind a paywall.
+   */
+  isPaid?: boolean;
+  /**
+   * Substack post identifier. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  postId?: string;
+  /**
+   * Post type (e.g. newsletter, podcast, thread). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  postType?: string;
+  /**
+   * Number of reactions on the post.
+   */
+  reactionCount?: number;
+  /**
+   * Post subtitle or deck. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  subtitle?: string;
+  /**
+   * Post title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Canonical post URL. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * Approximate word count of the article.
+   */
+  wordcount?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Substack Posts (substack.posts).
+ */
+export interface SubstackPostsData {
+  /**
+   * Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested. Populated whenever the provider has data for the entity.
+   */
+  items: SubstackPostsItem[];
+}
 
 /**
  * Typed methods for the substack platform. Attached to the AnyAPI client as
@@ -67,11 +143,7 @@ export class SubstackNamespace {
   posts(
     input: SubstackPostsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<SubstackPostsData>> {
-    return this._core.run(
-      "substack.posts",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<SubstackPostsData>>;
+  ): Promise<RunResult<SubstackPostsData>> {
+    return this._core.run("substack.posts", input, options);
   }
 }

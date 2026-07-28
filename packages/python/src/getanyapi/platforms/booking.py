@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -37,7 +37,47 @@ class BookingSearchInput(TypedDict, total=False):
 
 
 class BookingSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[BookingSearchItem] = Field(
+        description="Hotel result records: name, price, review score, star rating, address, and location. Populated whenever the provider has data for the entity."
+    )
+
+
+class BookingSearchItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    address: str | None = None
+    city: str | None = None
+    country: str | None = Field(default=None, description="ISO country code.")
+    currency: str | None = None
+    id: str | None = Field(
+        default=None,
+        description="Booking.com hotel identifier. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="Primary hotel photo URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    latitude: float | None = None
+    location: str | None = Field(
+        default=None, description="Neighborhood or area label."
+    )
+    longitude: float | None = None
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    price: float | None = Field(
+        default=None, description="Total stay price in the requested currency."
+    )
+    price_per_night: float | None = Field(default=None, alias="pricePerNight")
+    rating: float | None = Field(default=None, description="Guest review score (0-10).")
+    review_score: float | None = Field(
+        default=None, alias="reviewScore", description="Guest review score (0-10)."
+    )
+    reviews_count: int | None = Field(default=None, alias="reviewsCount")
+    stars: int | None = Field(default=None, description="Star rating class (1-5).")
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class BookingNamespace:
@@ -51,7 +91,7 @@ class BookingNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[BookingSearchInput],
-    ) -> BareRunResult[BookingSearchData]:
+    ) -> RunResult[BookingSearchData]:
         """Booking.com Search
 
         Search Booking.com stays by destination and dates with optional guest and
@@ -66,7 +106,7 @@ class BookingNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "booking.search", dict(input), options
         )
-        return BareRunResult[BookingSearchData].model_validate(raw)
+        return RunResult[BookingSearchData].model_validate(raw)
 
 
 class AsyncBookingNamespace:
@@ -80,7 +120,7 @@ class AsyncBookingNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[BookingSearchInput],
-    ) -> BareRunResult[BookingSearchData]:
+    ) -> RunResult[BookingSearchData]:
         """Booking.com Search
 
         Search Booking.com stays by destination and dates with optional guest and
@@ -95,4 +135,4 @@ class AsyncBookingNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "booking.search", dict(input), options
         )
-        return BareRunResult[BookingSearchData].model_validate(raw)
+        return RunResult[BookingSearchData].model_validate(raw)

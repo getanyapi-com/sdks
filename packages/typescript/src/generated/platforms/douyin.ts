@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,7 +16,60 @@ export interface DouyinProfileInput {
   secUserId: string;
 }
 
-export type DouyinProfileData = unknown;
+/**
+ * The `data` payload of Douyin Profile (douyin.profile).
+ */
+export interface DouyinProfileData {
+  /**
+   * Profile biography.
+   */
+  bio?: string;
+  /**
+   * Follower count.
+   */
+  followers?: number;
+  /**
+   * Following count.
+   */
+  following?: number;
+  /**
+   * Profile image URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * Total likes received.
+   */
+  likes?: number;
+  /**
+   * Display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  nickname?: string;
+  /**
+   * Published post count.
+   */
+  posts?: number;
+  /**
+   * Douyin sec_user_id. Populated whenever the provider has data for the entity.
+   */
+  secUserId: string;
+  /**
+   * Legacy numeric short ID.
+   */
+  shortId?: string;
+  /**
+   * Public Douyin handle when configured. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  uniqueId?: string;
+  /**
+   * Douyin user identifier. Populated whenever the provider has data for the entity.
+   */
+  userId: string;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for Douyin Video Search (douyin.search_videos).
@@ -59,7 +112,90 @@ export interface DouyinSearchVideosInput {
   sort?: "0" | "1" | "2";
 }
 
-export type DouyinSearchVideosData = unknown;
+export interface DouyinSearchVideosVideo {
+  /**
+   * Author display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorNickname?: string;
+  /**
+   * Author user identifier. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorUserId?: string;
+  /**
+   * Video caption. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  caption?: string;
+  /**
+   * Comment count.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Video identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Cover image URL.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * Like count.
+   */
+  likes?: number;
+  /**
+   * Save count.
+   */
+  saves?: number;
+  /**
+   * Share count.
+   */
+  shares?: number;
+  /**
+   * Canonical video URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  /**
+   * Play count.
+   */
+  views?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Douyin Video Search (douyin.search_videos).
+ */
+export interface DouyinSearchVideosData {
+  /**
+   * Backtrace token required for the next page.
+   */
+  backtrace: string;
+  /**
+   * Whether another page is available.
+   */
+  hasMore: boolean;
+  /**
+   * Cursor for the next page.
+   */
+  nextCursor: string;
+  /**
+   * Search ID required for the next page.
+   */
+  searchId: string;
+  /**
+   * Normalized matching videos. Populated whenever the provider has data for the entity.
+   */
+  videos: DouyinSearchVideosVideo[];
+}
 
 /**
  * Input for Douyin User Posts (douyin.user_posts).
@@ -85,7 +221,87 @@ export interface DouyinUserPostsInput {
   sort?: number;
 }
 
-export type DouyinUserPostsData = unknown;
+export interface DouyinUserPostsPost {
+  /**
+   * Author display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorNickname?: string;
+  /**
+   * Author sec_user_id. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorSecUserId?: string;
+  /**
+   * Author user identifier. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorUserId?: string;
+  /**
+   * Post caption. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  caption?: string;
+  /**
+   * Comment count.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Post identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Cover image URL.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * Like count.
+   */
+  likes?: number;
+  /**
+   * Save count.
+   */
+  saves?: number;
+  /**
+   * Share count.
+   */
+  shares?: number;
+  /**
+   * Canonical post URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  /**
+   * Play count.
+   */
+  views?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Douyin User Posts (douyin.user_posts).
+ */
+export interface DouyinUserPostsData {
+  /**
+   * Whether another page is available.
+   */
+  hasMore: boolean;
+  /**
+   * Cursor for the next page; empty when unavailable.
+   */
+  nextCursor: string;
+  /**
+   * Normalized Douyin posts. Populated whenever the provider has data for the entity.
+   */
+  posts: DouyinUserPostsPost[];
+}
 
 /**
  * Input for Douyin Video (douyin.video).
@@ -98,7 +314,76 @@ export interface DouyinVideoInput {
   url: string;
 }
 
-export type DouyinVideoData = unknown;
+/**
+ * The `data` payload of Douyin Video (douyin.video).
+ */
+export interface DouyinVideoData {
+  /**
+   * Author display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorNickname?: string;
+  /**
+   * Author sec_user_id. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorSecUserId?: string;
+  /**
+   * Author user identifier. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorUserId?: string;
+  /**
+   * Video caption. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  caption?: string;
+  /**
+   * Comment count.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Video duration in milliseconds.
+   */
+  durationMs?: number;
+  /**
+   * Video identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Video cover image URL.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * Like count.
+   */
+  likes?: number;
+  /**
+   * Save count.
+   */
+  saves?: number;
+  /**
+   * Share count.
+   */
+  shares?: number;
+  /**
+   * Canonical Douyin video URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  /**
+   * Play count.
+   */
+  views?: number;
+  [extra: string]: unknown;
+}
 
 /**
  * Input for Douyin Video Comments (douyin.video_comments).
@@ -115,7 +400,85 @@ export interface DouyinVideoCommentsInput {
   videoId: string;
 }
 
-export type DouyinVideoCommentsData = unknown;
+export interface DouyinVideoCommentsComment {
+  /**
+   * Author profile image URL.
+   * Format: uri.
+   */
+  authorImage?: string;
+  /**
+   * Author display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorNickname?: string;
+  /**
+   * Author sec_user_id. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorSecUserId?: string;
+  /**
+   * Author public handle.
+   */
+  authorUniqueId?: string;
+  /**
+   * Author user identifier. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorUserId?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Comment identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Approximate location label shown by Douyin.
+   */
+  ipLabel?: string;
+  /**
+   * Comment like count.
+   */
+  likes?: number;
+  /**
+   * Direct reply count.
+   */
+  replyCount?: number;
+  /**
+   * Comment text. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  text?: string;
+  /**
+   * Commented video identifier. Populated whenever the provider has data for the entity.
+   */
+  videoId: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Douyin Video Comments (douyin.video_comments).
+ */
+export interface DouyinVideoCommentsData {
+  /**
+   * Normalized video comments. Populated whenever the provider has data for the entity.
+   */
+  comments: DouyinVideoCommentsComment[];
+  /**
+   * Whether another page is available.
+   */
+  hasMore: boolean;
+  /**
+   * Cursor for the next page.
+   */
+  nextCursor: string;
+  /**
+   * Total comment count reported by Douyin.
+   */
+  total: number;
+}
 
 /**
  * Typed methods for the douyin platform. Attached to the AnyAPI client as
@@ -137,12 +500,8 @@ export class DouyinNamespace {
   profile(
     input: DouyinProfileInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<DouyinProfileData>> {
-    return this._core.run(
-      "douyin.profile",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<DouyinProfileData>>;
+  ): Promise<RunResult<DouyinProfileData>> {
+    return this._core.run("douyin.profile", input, options);
   }
 
   /**
@@ -158,12 +517,8 @@ export class DouyinNamespace {
   searchVideos(
     input: DouyinSearchVideosInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<DouyinSearchVideosData>> {
-    return this._core.run(
-      "douyin.search_videos",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<DouyinSearchVideosData>>;
+  ): Promise<RunResult<DouyinSearchVideosData>> {
+    return this._core.run("douyin.search_videos", input, options);
   }
 
   /**
@@ -179,12 +534,8 @@ export class DouyinNamespace {
   userPosts(
     input: DouyinUserPostsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<DouyinUserPostsData>> {
-    return this._core.run(
-      "douyin.user_posts",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<DouyinUserPostsData>>;
+  ): Promise<RunResult<DouyinUserPostsData>> {
+    return this._core.run("douyin.user_posts", input, options);
   }
 
   /**
@@ -200,10 +551,8 @@ export class DouyinNamespace {
   video(
     input: DouyinVideoInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<DouyinVideoData>> {
-    return this._core.run("douyin.video", input, options) as unknown as Promise<
-      BareRunResult<DouyinVideoData>
-    >;
+  ): Promise<RunResult<DouyinVideoData>> {
+    return this._core.run("douyin.video", input, options);
   }
 
   /**
@@ -219,11 +568,7 @@ export class DouyinNamespace {
   videoComments(
     input: DouyinVideoCommentsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<DouyinVideoCommentsData>> {
-    return this._core.run(
-      "douyin.video_comments",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<DouyinVideoCommentsData>>;
+  ): Promise<RunResult<DouyinVideoCommentsData>> {
+    return this._core.run("douyin.video_comments", input, options);
   }
 }

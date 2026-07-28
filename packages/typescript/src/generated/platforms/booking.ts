@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -49,7 +49,68 @@ export interface BookingSearchInput {
   rooms?: number;
 }
 
-export type BookingSearchData = unknown;
+export interface BookingSearchItem {
+  address?: string;
+  city?: string;
+  /**
+   * ISO country code.
+   */
+  country?: string;
+  currency?: string;
+  /**
+   * Booking.com hotel identifier. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  id?: string;
+  /**
+   * Primary hotel photo URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  latitude?: number;
+  /**
+   * Neighborhood or area label.
+   */
+  location?: string;
+  longitude?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Total stay price in the requested currency.
+   */
+  price?: number;
+  pricePerNight?: number;
+  /**
+   * Guest review score (0-10).
+   */
+  rating?: number;
+  /**
+   * Guest review score (0-10).
+   */
+  reviewScore?: number;
+  reviewsCount?: number;
+  /**
+   * Star rating class (1-5).
+   */
+  stars?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Booking.com Search (booking.search).
+ */
+export interface BookingSearchData {
+  /**
+   * Hotel result records: name, price, review score, star rating, address, and location. Populated whenever the provider has data for the entity.
+   */
+  items: BookingSearchItem[];
+}
 
 /**
  * Typed methods for the booking platform. Attached to the AnyAPI client as
@@ -71,11 +132,7 @@ export class BookingNamespace {
   search(
     input: BookingSearchInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<BookingSearchData>> {
-    return this._core.run(
-      "booking.search",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<BookingSearchData>>;
+  ): Promise<RunResult<BookingSearchData>> {
+    return this._core.run("booking.search", input, options);
   }
 }

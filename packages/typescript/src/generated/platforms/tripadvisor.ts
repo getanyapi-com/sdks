@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -33,7 +33,42 @@ export interface TripadvisorReviewsInput {
   url: string;
 }
 
-export type TripadvisorReviewsData = unknown;
+export interface TripadvisorReviewsItem {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Star rating (typically 1-5).
+   */
+  rating: number;
+  /**
+   * Review body text. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Review title or headline. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  title?: string;
+  /**
+   * Canonical review URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Tripadvisor Reviews (tripadvisor.reviews).
+ */
+export interface TripadvisorReviewsData {
+  /**
+   * Review records for the place: rating, title, review text, publish date, trip type, and reviewer details. Populated whenever the provider has data for the entity.
+   */
+  items: TripadvisorReviewsItem[];
+}
 
 /**
  * Input for Tripadvisor Search (tripadvisor.search).
@@ -70,7 +105,103 @@ export interface TripadvisorSearchInput {
   query: string;
 }
 
-export type TripadvisorSearchData = unknown;
+export interface TripadvisorSearchItem {
+  /**
+   * Full formatted street address.
+   */
+  address?: string;
+  /**
+   * High-level category (e.g. hotel, restaurant, attraction).
+   */
+  category?: string;
+  /**
+   * City the place is in.
+   */
+  city?: string;
+  /**
+   * Country the place is in.
+   */
+  country?: string;
+  /**
+   * Business contact email, when listed.
+   */
+  email?: string;
+  /**
+   * Star rating / hotel class, when applicable.
+   */
+  hotelClass?: string;
+  /**
+   * Tripadvisor location id (stable identifier for the place).
+   */
+  id?: string;
+  /**
+   * Primary place photo URL.
+   */
+  image?: string;
+  /**
+   * Latitude of the place in decimal degrees.
+   */
+  latitude?: number;
+  /**
+   * Longitude of the place in decimal degrees.
+   */
+  longitude?: number;
+  /**
+   * Business phone number, when listed.
+   */
+  phone?: string;
+  /**
+   * Postal code of the place.
+   */
+  postalCode?: string;
+  /**
+   * Relative price level indicator (e.g. $$, $$$$).
+   */
+  priceLevel?: string;
+  /**
+   * Nightly or per-visit price range in the requested currency.
+   */
+  priceRange?: string;
+  /**
+   * Ranking string within its location (e.g. "#2 of 1,885 hotels in Paris").
+   */
+  ranking?: string;
+  /**
+   * Average traveler rating out of 5. Populated whenever the provider has data for the entity.
+   */
+  rating: number;
+  /**
+   * Total number of traveler reviews.
+   */
+  reviewCount?: number;
+  /**
+   * Place name. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Tripadvisor place type (e.g. HOTEL, RESTAURANT, ATTRACTION).
+   */
+  type?: string;
+  /**
+   * Canonical Tripadvisor listing page URL. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * The place's own website URL, when listed.
+   */
+  website?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Tripadvisor Search (tripadvisor.search).
+ */
+export interface TripadvisorSearchData {
+  /**
+   * Matching Tripadvisor place records (hotels, restaurants, attractions). Populated whenever the provider has data for the entity.
+   */
+  items: TripadvisorSearchItem[];
+}
 
 /**
  * Typed methods for the tripadvisor platform. Attached to the AnyAPI client as
@@ -92,12 +223,8 @@ export class TripadvisorNamespace {
   reviews(
     input: TripadvisorReviewsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TripadvisorReviewsData>> {
-    return this._core.run(
-      "tripadvisor.reviews",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TripadvisorReviewsData>>;
+  ): Promise<RunResult<TripadvisorReviewsData>> {
+    return this._core.run("tripadvisor.reviews", input, options);
   }
 
   /**
@@ -113,11 +240,7 @@ export class TripadvisorNamespace {
   search(
     input: TripadvisorSearchInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<TripadvisorSearchData>> {
-    return this._core.run(
-      "tripadvisor.search",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<TripadvisorSearchData>>;
+  ): Promise<RunResult<TripadvisorSearchData>> {
+    return this._core.run("tripadvisor.search", input, options);
   }
 }

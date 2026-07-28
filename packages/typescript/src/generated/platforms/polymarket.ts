@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -39,7 +39,75 @@ export interface PolymarketMarketsInput {
   status?: "active" | "resolved";
 }
 
-export type PolymarketMarketsData = unknown;
+export interface PolymarketMarketsItem {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the market resolves/ends.
+   */
+  endsUtc?: number;
+  /**
+   * Title of the parent event grouping this market.
+   */
+  eventTitle?: string;
+  /**
+   * Polymarket market identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Event image URL.
+   */
+  image?: string;
+  /**
+   * Available liquidity in USD.
+   */
+  liquidityUsd?: number;
+  /**
+   * Market outcomes with their current implied prices.
+   */
+  outcomes?: PolymarketMarketsOutcome[];
+  /**
+   * Market status, e.g. active or closed.
+   */
+  status?: string;
+  /**
+   * The market question. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Polymarket URL for the market event. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * Traded volume in USD over the past 24 hours.
+   */
+  volume24hUsd?: number;
+  /**
+   * Total traded volume in USD.
+   */
+  volumeUsd?: number;
+  [extra: string]: unknown;
+}
+
+export interface PolymarketMarketsOutcome {
+  /**
+   * Outcome label, e.g. Yes or No.
+   */
+  name?: string;
+  /**
+   * Current implied probability price for the outcome (0 to 1).
+   */
+  price?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Polymarket Markets (polymarket.markets).
+ */
+export interface PolymarketMarketsData {
+  /**
+   * Prediction-market records: market question, outcomes with current prices, volume, liquidity, and end date. Populated whenever the provider has data for the entity.
+   */
+  items: PolymarketMarketsItem[];
+}
 
 /**
  * Typed methods for the polymarket platform. Attached to the AnyAPI client as
@@ -61,11 +129,7 @@ export class PolymarketNamespace {
   markets(
     input: PolymarketMarketsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<PolymarketMarketsData>> {
-    return this._core.run(
-      "polymarket.markets",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<PolymarketMarketsData>>;
+  ): Promise<RunResult<PolymarketMarketsData>> {
+    return this._core.run("polymarket.markets", input, options);
   }
 }

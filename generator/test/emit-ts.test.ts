@@ -284,6 +284,13 @@ describe("sku-map + client", () => {
     expect(client).toContain("get amazon(): AmazonNamespace");
     expect(client).toContain("extends AnyAPIBase");
   });
+
+  it("puts the explicit result type first in the unknown-slug run overload", async () => {
+    const files = await emitRelative(loadSampleIr());
+    expect(files["client.ts"]).toContain(
+      "run<T = unknown, S extends string = string>(",
+    );
+  });
 });
 
 describe("shared helper: docComment", () => {
@@ -426,7 +433,7 @@ const TSCONFIG = JSON.stringify(
 );
 
 describe("compile smoke test (tsc --noEmit over emitted + stub core)", () => {
-  it("emitted sample output type-checks against stub core", async () => {
+  it("emitted output preserves inferred and explicit run result types", async () => {
     const ir = loadSampleIr();
     // Emit under a temp `src/generated` root so relative `../../core` resolves.
     const dir = mkdtempSync(join(tmpdir(), "anyapi-emit-"));
@@ -444,6 +451,31 @@ describe("compile smoke test (tsc --noEmit over emitted + stub core)", () => {
         mkdirSync(dirname(path), { recursive: true });
         writeFileSync(path, content);
       }
+      writeFileSync(
+        join(srcDir, "run-usage.ts"),
+        [
+          'import { AnyAPI } from "./generated/index.js";',
+          'import type { RunResult } from "./generated/index.js";',
+          "",
+          "declare const client: AnyAPI;",
+          "",
+          "async function verifyRunTypes(): Promise<void> {",
+          '  const inferred = await client.run("amazon.reviews", { product: "B0" });',
+          "  if (inferred.output.found) {",
+          "    void inferred.output.data.items;",
+          "  }",
+          "",
+          '  const explicit = await client.run<{ value: string }>("custom.result", {});',
+          "  const expected: RunResult<{ value: string }> = explicit;",
+          "  if (expected.output.found) {",
+          "    void expected.output.data.value;",
+          "  }",
+          "}",
+          "",
+          "void verifyRunTypes;",
+          "",
+        ].join("\n"),
+      );
       writeFileSync(join(dir, "tsconfig.json"), TSCONFIG);
 
       const tscBin = fileURLToPath(

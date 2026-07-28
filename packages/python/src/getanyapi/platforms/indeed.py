@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -31,7 +31,47 @@ class IndeedJobsInput(TypedDict, total=False):
 
 
 class IndeedJobsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    items: list[IndeedJobsItem] = Field(
+        description="Job listing records: title, employer, location, salary when available, job type, posting date, and description. Populated whenever the provider has data for the entity."
+    )
+
+
+class IndeedJobsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    city: str | None = None
+    company: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    country: str | None = None
+    date_published: str | None = Field(
+        default=None, alias="datePublished", description="ISO 8601 publish date."
+    )
+    description: str | None = Field(
+        default=None, description="Plain-text job description."
+    )
+    expired: bool | None = None
+    job_id: str = Field(
+        alias="jobId",
+        description="Indeed job key. Populated whenever the provider has data for the entity.",
+    )
+    postal_code: str | None = Field(default=None, alias="postalCode")
+    salary_currency: str | None = Field(default=None, alias="salaryCurrency")
+    salary_max: float | None = Field(default=None, alias="salaryMax")
+    salary_min: float | None = Field(default=None, alias="salaryMin")
+    salary_unit: str | None = Field(
+        default=None,
+        alias="salaryUnit",
+        description="Salary period, e.g. YEAR or HOUR.",
+    )
+    state: str | None = None
+    title: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Indeed job posting URL. Populated whenever the provider has data for the entity."
+    )
 
 
 class IndeedNamespace:
@@ -42,7 +82,7 @@ class IndeedNamespace:
 
     def jobs(
         self, *, options: RequestOptions | None = None, **input: Unpack[IndeedJobsInput]
-    ) -> BareRunResult[IndeedJobsData]:
+    ) -> RunResult[IndeedJobsData]:
         """Indeed Jobs
 
         Search Indeed job listings by keyword, location, and country, with up to 20
@@ -56,7 +96,7 @@ class IndeedNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "indeed.jobs", dict(input), options
         )
-        return BareRunResult[IndeedJobsData].model_validate(raw)
+        return RunResult[IndeedJobsData].model_validate(raw)
 
 
 class AsyncIndeedNamespace:
@@ -67,7 +107,7 @@ class AsyncIndeedNamespace:
 
     async def jobs(
         self, *, options: RequestOptions | None = None, **input: Unpack[IndeedJobsInput]
-    ) -> BareRunResult[IndeedJobsData]:
+    ) -> RunResult[IndeedJobsData]:
         """Indeed Jobs
 
         Search Indeed job listings by keyword, location, and country, with up to 20
@@ -81,4 +121,4 @@ class AsyncIndeedNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "indeed.jobs", dict(input), options
         )
-        return BareRunResult[IndeedJobsData].model_validate(raw)
+        return RunResult[IndeedJobsData].model_validate(raw)

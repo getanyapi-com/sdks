@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,7 +16,61 @@ export interface YahooFinanceQuoteInput {
   ticker: string;
 }
 
-export type YahooFinanceQuoteData = unknown;
+export interface YahooFinanceQuoteItem {
+  /**
+   * Absolute price change from the previous close.
+   */
+  change?: number;
+  /**
+   * Percent price change from the previous close (e.g. 3.14 means +3.14%).
+   */
+  changePercent?: number;
+  /**
+   * Highest trade price during the current session.
+   */
+  dayHigh?: number;
+  /**
+   * Lowest trade price during the current session.
+   */
+  dayLow?: number;
+  /**
+   * Total market capitalization in the security's native currency.
+   */
+  marketCap?: number;
+  /**
+   * The security's display name, e.g. "Apple Inc.". Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  name?: string;
+  /**
+   * The previous session's closing price.
+   */
+  previousClose?: number;
+  /**
+   * The latest trade price in the security's native currency. Populated whenever the provider has data for the entity.
+   */
+  price: number;
+  /**
+   * The resolved ticker symbol for the quote, e.g. "AAPL". Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  symbol?: string;
+  /**
+   * Number of shares traded during the current session.
+   */
+  volume?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Yahoo Finance Quote (yahoo_finance.quote).
+ */
+export interface YahooFinanceQuoteData {
+  /**
+   * Quote records for the ticker: current price, day range, volume, and market cap. Populated whenever the provider has data for the entity.
+   */
+  items: YahooFinanceQuoteItem[];
+}
 
 /**
  * Typed methods for the yahoo_finance platform. Attached to the AnyAPI client as
@@ -38,11 +92,7 @@ export class YahooFinanceNamespace {
   quote(
     input: YahooFinanceQuoteInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<YahooFinanceQuoteData>> {
-    return this._core.run(
-      "yahoo_finance.quote",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<YahooFinanceQuoteData>>;
+  ): Promise<RunResult<YahooFinanceQuoteData>> {
+    return this._core.run("yahoo_finance.quote", input, options);
   }
 }

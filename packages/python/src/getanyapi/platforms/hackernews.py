@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -48,17 +48,82 @@ class HackernewsStoryCommentsInput(TypedDict, total=False):
 class HackernewsProfileData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
+    bio: str
+    karma: int
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
 
 class HackernewsSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    results: list[HackernewsSearchResult] = Field(
+        description="Matching Hacker News stories. Populated whenever the provider has data for the entity."
+    )
+
+
+class HackernewsSearchResult(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Submitting user's username. Populated whenever the provider has data for the entity."
+    )
+    comments: int = Field(description="Number of comments on the story.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Hacker News item id. Populated whenever the provider has data for the entity."
+    )
+    points: int = Field(description="Story score (upvotes).")
+    title: str = Field(
+        description="Story title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(description="Story link.")
 
 
 class HackernewsStoryData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Submitting user's username. Populated whenever the provider has data for the entity."
+    )
+    comments: int = Field(description="Number of comments on the story.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    points: int = Field(description="Story score (upvotes).")
+    title: str = Field(
+        description="Story title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(description="Story link.")
 
 
 class HackernewsStoryCommentsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    comments: list[HackernewsStoryCommentsComment] = Field(
+        description="Comments on the story. Populated whenever the provider has data for the entity."
+    )
+
+
+class HackernewsStoryCommentsComment(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Commenting user's username. Populated whenever the provider has data for the entity."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Hacker News comment id. Populated whenever the provider has data for the entity."
+    )
+    parent_id: str = Field(
+        alias="parentId",
+        description="Id of the parent item (story or comment) this reply belongs to.",
+    )
+    text: str = Field(description="Comment body text.")
 
 
 class HackernewsNamespace:
@@ -72,7 +137,7 @@ class HackernewsNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[HackernewsProfileInput],
-    ) -> BareRunResult[HackernewsProfileData]:
+    ) -> RunResult[HackernewsProfileData]:
         """Hacker News Profile
 
         Get a Hacker News user's public profile by username - karma, bio, and
@@ -86,14 +151,14 @@ class HackernewsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.profile", dict(input), options
         )
-        return BareRunResult[HackernewsProfileData].model_validate(raw)
+        return RunResult[HackernewsProfileData].model_validate(raw)
 
     def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[HackernewsSearchInput],
-    ) -> BareRunResult[HackernewsSearchData]:
+    ) -> RunResult[HackernewsSearchData]:
         """Hacker News Search
 
         Search Hacker News by keyword - matching stories with title, link, author,
@@ -107,14 +172,14 @@ class HackernewsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.search", dict(input), options
         )
-        return BareRunResult[HackernewsSearchData].model_validate(raw)
+        return RunResult[HackernewsSearchData].model_validate(raw)
 
     def story(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[HackernewsStoryInput],
-    ) -> BareRunResult[HackernewsStoryData]:
+    ) -> RunResult[HackernewsStoryData]:
         """Hacker News Story
 
         Get a Hacker News story by id - title, link, author, points, and comment
@@ -128,14 +193,14 @@ class HackernewsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.story", dict(input), options
         )
-        return BareRunResult[HackernewsStoryData].model_validate(raw)
+        return RunResult[HackernewsStoryData].model_validate(raw)
 
     def story_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[HackernewsStoryCommentsInput],
-    ) -> BareRunResult[HackernewsStoryCommentsData]:
+    ) -> RunResult[HackernewsStoryCommentsData]:
         """Hacker News Story Comments
 
         List the comments on a Hacker News story by id - text, author, and timestamp
@@ -149,7 +214,7 @@ class HackernewsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.story_comments", dict(input), options
         )
-        return BareRunResult[HackernewsStoryCommentsData].model_validate(raw)
+        return RunResult[HackernewsStoryCommentsData].model_validate(raw)
 
 
 class AsyncHackernewsNamespace:
@@ -163,7 +228,7 @@ class AsyncHackernewsNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[HackernewsProfileInput],
-    ) -> BareRunResult[HackernewsProfileData]:
+    ) -> RunResult[HackernewsProfileData]:
         """Hacker News Profile
 
         Get a Hacker News user's public profile by username - karma, bio, and
@@ -177,14 +242,14 @@ class AsyncHackernewsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.profile", dict(input), options
         )
-        return BareRunResult[HackernewsProfileData].model_validate(raw)
+        return RunResult[HackernewsProfileData].model_validate(raw)
 
     async def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[HackernewsSearchInput],
-    ) -> BareRunResult[HackernewsSearchData]:
+    ) -> RunResult[HackernewsSearchData]:
         """Hacker News Search
 
         Search Hacker News by keyword - matching stories with title, link, author,
@@ -198,14 +263,14 @@ class AsyncHackernewsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.search", dict(input), options
         )
-        return BareRunResult[HackernewsSearchData].model_validate(raw)
+        return RunResult[HackernewsSearchData].model_validate(raw)
 
     async def story(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[HackernewsStoryInput],
-    ) -> BareRunResult[HackernewsStoryData]:
+    ) -> RunResult[HackernewsStoryData]:
         """Hacker News Story
 
         Get a Hacker News story by id - title, link, author, points, and comment
@@ -219,14 +284,14 @@ class AsyncHackernewsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.story", dict(input), options
         )
-        return BareRunResult[HackernewsStoryData].model_validate(raw)
+        return RunResult[HackernewsStoryData].model_validate(raw)
 
     async def story_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[HackernewsStoryCommentsInput],
-    ) -> BareRunResult[HackernewsStoryCommentsData]:
+    ) -> RunResult[HackernewsStoryCommentsData]:
         """Hacker News Story Comments
 
         List the comments on a Hacker News story by id - text, author, and timestamp
@@ -240,4 +305,4 @@ class AsyncHackernewsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "hackernews.story_comments", dict(input), options
         )
-        return BareRunResult[HackernewsStoryCommentsData].model_validate(raw)
+        return RunResult[HackernewsStoryCommentsData].model_validate(raw)

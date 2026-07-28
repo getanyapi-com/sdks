@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -45,7 +45,119 @@ export interface MapsContactsInput {
   website?: "allPlaces" | "withWebsite" | "withoutWebsite";
 }
 
-export type MapsContactsData = unknown;
+export interface MapsContactsItem {
+  /**
+   * Full formatted street address.
+   */
+  address?: string;
+  /**
+   * Primary business category.
+   */
+  category?: string;
+  /**
+   * Google customer/place id (cid).
+   */
+  cid?: string;
+  /**
+   * City the business is in.
+   */
+  city?: string;
+  /**
+   * Two-letter country code.
+   */
+  countryCode?: string;
+  /**
+   * Email addresses scraped from the business website.
+   */
+  emails?: string[];
+  /**
+   * Facebook profile URLs found on the business website.
+   */
+  facebooks?: string[];
+  /**
+   * Primary business photo URL.
+   */
+  image?: string;
+  /**
+   * Instagram profile URLs found on the business website.
+   */
+  instagrams?: string[];
+  /**
+   * Latitude of the business in decimal degrees.
+   */
+  latitude?: number;
+  /**
+   * LinkedIn profile URLs found on the business website.
+   */
+  linkedIns?: string[];
+  /**
+   * Longitude of the business in decimal degrees.
+   */
+  longitude?: number;
+  /**
+   * Business name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Business phone number in E.164 format, when listed on Google Maps.
+   */
+  phone?: string;
+  /**
+   * Additional phone numbers scraped from the business website.
+   */
+  phones?: string[];
+  /**
+   * Google Maps place id (stable identifier for the business). Populated whenever the provider has data for the entity.
+   */
+  placeId: string;
+  /**
+   * Postal code of the business.
+   */
+  postalCode?: string;
+  /**
+   * Average star rating out of 5.
+   */
+  rating?: number;
+  /**
+   * Total number of reviews.
+   */
+  reviewCount?: number;
+  /**
+   * State or region the business is in.
+   */
+  state?: string;
+  /**
+   * TikTok profile URLs found on the business website.
+   */
+  tiktoks?: string[];
+  /**
+   * X/Twitter profile URLs found on the business website.
+   */
+  twitters?: string[];
+  /**
+   * Canonical Google Maps URL for the business. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * The business website URL, when listed.
+   */
+  website?: string;
+  /**
+   * YouTube channel URLs found on the business website.
+   */
+  youtubes?: string[];
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Maps Contacts (maps.contacts).
+ */
+export interface MapsContactsData {
+  /**
+   * Matching business records, each enriched with contact details scraped from the business website. Populated whenever the provider has data for the entity.
+   */
+  items: MapsContactsItem[];
+}
 
 /**
  * Input for Google Maps Place Lookup (maps.place).
@@ -81,7 +193,107 @@ export interface MapsPlaceInput {
   website?: "allPlaces" | "withWebsite" | "withoutWebsite";
 }
 
-export type MapsPlaceData = unknown;
+export interface MapsPlaceItem {
+  /**
+   * Full formatted street address. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  address?: string;
+  /**
+   * Primary Google Maps category (e.g. Coffee shop). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  category?: string;
+  city?: string;
+  /**
+   * Two-letter country code.
+   */
+  countryCode?: string;
+  /**
+   * Opening hours by day: each element is an object with the day name and its hours.
+   */
+  hours?: MapsPlaceHour[];
+  /**
+   * URL of the primary place photo.
+   */
+  image?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  latitude?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  longitude?: number;
+  /**
+   * Business or place name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  neighborhood?: string;
+  /**
+   * Whether the place is permanently closed.
+   */
+  permanentlyClosed?: boolean;
+  /**
+   * Formatted phone number.
+   */
+  phone?: string;
+  /**
+   * Google Maps place id. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  placeId?: string;
+  /**
+   * Google Plus Code for the location.
+   */
+  plusCode?: string;
+  postalCode?: string;
+  /**
+   * Price level indicator (e.g. a price range).
+   */
+  priceLevel?: string;
+  /**
+   * Average star rating.
+   */
+  rating?: number;
+  /**
+   * Total number of reviews.
+   */
+  reviewsCount?: number;
+  /**
+   * State or region name.
+   */
+  state?: string;
+  /**
+   * Street portion of the address.
+   */
+  street?: string;
+  /**
+   * Google Maps URL for the place. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * Business website URL.
+   */
+  website?: string;
+  [extra: string]: unknown;
+}
+
+export interface MapsPlaceHour {
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Maps Place Lookup (maps.place).
+ */
+export interface MapsPlaceData {
+  /**
+   * The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched). Populated whenever the provider has data for the entity.
+   */
+  items: MapsPlaceItem[];
+}
 
 /**
  * Input for Google Maps Reviews (maps.reviews).
@@ -118,7 +330,83 @@ export interface MapsReviewsInput {
   sort?: "newest" | "mostRelevant" | "highestRanking" | "lowestRanking";
 }
 
-export type MapsReviewsData = unknown;
+export interface MapsReviewsItem {
+  /**
+   * Reviewer display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  author?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Whether the reviewer is a Google Local Guide.
+   */
+  isLocalGuide?: boolean;
+  /**
+   * Number of likes on the review.
+   */
+  likes?: number;
+  /**
+   * Source of the review (e.g. Google).
+   */
+  origin?: string;
+  /**
+   * Owner's reply text; empty when there is none.
+   */
+  ownerResponse?: string;
+  /**
+   * ISO 8601 timestamp of the owner's reply; empty when there is none.
+   */
+  ownerResponseAt?: string;
+  /**
+   * Google Maps place id the review belongs to. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  placeId?: string;
+  /**
+   * Human-relative publish time (e.g. '7 hours ago').
+   */
+  publishedAgo?: string;
+  /**
+   * Star rating the reviewer gave (1-5).
+   */
+  rating?: number;
+  /**
+   * Stable Google review id. Populated whenever the provider has data for the entity.
+   */
+  reviewId: string;
+  /**
+   * Stable Google id of the reviewer.
+   */
+  reviewerId?: string;
+  /**
+   * Total number of reviews the reviewer has written.
+   */
+  reviewerReviewsCount?: number;
+  /**
+   * Review text; empty string when the reviewer left only a star rating.
+   */
+  text?: string;
+  /**
+   * Direct URL to the review on Google Maps. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Maps Reviews (maps.reviews).
+ */
+export interface MapsReviewsData {
+  /**
+   * Review records: reviewer, star rating, review text (empty when the reviewer left only a rating), publish date, likes, and owner response where present. Populated whenever the provider has data for the entity.
+   */
+  items: MapsReviewsItem[];
+}
 
 /**
  * Input for Google Maps Search (maps.search).
@@ -159,7 +447,99 @@ export interface MapsSearchInput {
   website?: "allPlaces" | "withWebsite" | "withoutWebsite";
 }
 
-export type MapsSearchData = unknown;
+export interface MapsSearchItem {
+  /**
+   * Full formatted street address.
+   */
+  address?: string;
+  /**
+   * Primary place category (e.g. Coffee shop).
+   */
+  category?: string;
+  /**
+   * Google customer/place id (cid).
+   */
+  cid?: string;
+  /**
+   * City the place is in.
+   */
+  city?: string;
+  /**
+   * Two-letter country code.
+   */
+  countryCode?: string;
+  /**
+   * Primary place photo URL.
+   */
+  image?: string;
+  /**
+   * Latitude of the place in decimal degrees.
+   */
+  latitude?: number;
+  /**
+   * Longitude of the place in decimal degrees.
+   */
+  longitude?: number;
+  /**
+   * Place name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * True when the place is marked permanently closed.
+   */
+  permanentlyClosed?: boolean;
+  /**
+   * Business phone number in E.164 format, when listed.
+   */
+  phone?: string;
+  /**
+   * Google Maps place id (stable identifier for the place). Populated whenever the provider has data for the entity.
+   */
+  placeId: string;
+  /**
+   * Postal code of the place.
+   */
+  postalCode?: string;
+  /**
+   * Relative price level indicator (e.g. $, $10-20).
+   */
+  priceLevel?: string;
+  /**
+   * Average star rating out of 5.
+   */
+  rating?: number;
+  /**
+   * Total number of reviews.
+   */
+  reviewCount?: number;
+  /**
+   * State or region the place is in.
+   */
+  state?: string;
+  /**
+   * Street line of the address.
+   */
+  street?: string;
+  /**
+   * Canonical Google Maps URL for the place. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * The place's own website URL, when listed.
+   */
+  website?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Maps Search (maps.search).
+ */
+export interface MapsSearchData {
+  /**
+   * Matching Google Maps place records. Populated whenever the provider has data for the entity.
+   */
+  items: MapsSearchItem[];
+}
 
 /**
  * Typed methods for the maps platform. Attached to the AnyAPI client as
@@ -181,12 +561,8 @@ export class MapsNamespace {
   contacts(
     input: MapsContactsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<MapsContactsData>> {
-    return this._core.run(
-      "maps.contacts",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<MapsContactsData>>;
+  ): Promise<RunResult<MapsContactsData>> {
+    return this._core.run("maps.contacts", input, options);
   }
 
   /**
@@ -202,10 +578,8 @@ export class MapsNamespace {
   place(
     input: MapsPlaceInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<MapsPlaceData>> {
-    return this._core.run("maps.place", input, options) as unknown as Promise<
-      BareRunResult<MapsPlaceData>
-    >;
+  ): Promise<RunResult<MapsPlaceData>> {
+    return this._core.run("maps.place", input, options);
   }
 
   /**
@@ -221,10 +595,8 @@ export class MapsNamespace {
   reviews(
     input: MapsReviewsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<MapsReviewsData>> {
-    return this._core.run("maps.reviews", input, options) as unknown as Promise<
-      BareRunResult<MapsReviewsData>
-    >;
+  ): Promise<RunResult<MapsReviewsData>> {
+    return this._core.run("maps.reviews", input, options);
   }
 
   /**
@@ -240,9 +612,7 @@ export class MapsNamespace {
   search(
     input: MapsSearchInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<MapsSearchData>> {
-    return this._core.run("maps.search", input, options) as unknown as Promise<
-      BareRunResult<MapsSearchData>
-    >;
+  ): Promise<RunResult<MapsSearchData>> {
+    return this._core.run("maps.search", input, options);
   }
 }

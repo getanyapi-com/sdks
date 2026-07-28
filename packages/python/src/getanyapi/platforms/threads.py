@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -51,23 +51,166 @@ class ThreadsUserPostsInput(TypedDict, total=False):
 
 
 class ThreadsPostData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    code: str = Field(description="Threads post shortcode.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    full_name: str = Field(
+        alias="fullName",
+        description="Display name of the author. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Post identifier. Populated whenever the provider has data for the entity."
+    )
+    like_count: int = Field(
+        alias="likeCount", description="Number of likes on the post."
+    )
+    quote_count: int = Field(alias="quoteCount", description="Number of quote posts.")
+    reply_count: int = Field(
+        alias="replyCount", description="Number of replies to the post."
+    )
+    repost_count: int = Field(
+        alias="repostCount", description="Number of reposts of the post."
+    )
+    text: str = Field(
+        description="Post text content. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the author. Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    biography: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    follower_count: int = Field(alias="followerCount")
+    full_name: str = Field(
+        alias="fullName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    is_private: bool = Field(alias="isPrivate")
+    is_verified: bool = Field(alias="isVerified")
+    profile_pic_url: str = Field(
+        alias="profilePicUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    posts: list[ThreadsSearchPost] = Field(
+        description="Matching public post records: text, author, engagement counts, timestamp, and URL. Populated whenever the provider has data for the entity."
+    )
+
+
+class ThreadsSearchPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    code: str = Field(description="Threads post shortcode.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    full_name: str = Field(
+        alias="fullName",
+        description="Display name of the author. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Post identifier. Populated whenever the provider has data for the entity."
+    )
+    like_count: int = Field(
+        alias="likeCount", description="Number of likes on the post."
+    )
+    reply_count: int = Field(
+        alias="replyCount", description="Number of replies to the post."
+    )
+    repost_count: int = Field(
+        alias="repostCount", description="Number of reposts of the post."
+    )
+    text: str = Field(
+        description="Post text content. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the author. Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsSearchUsersData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    users: list[ThreadsSearchUsersUser] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
+
+class ThreadsSearchUsersUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    full_name: str = Field(
+        alias="fullName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    is_verified: bool = Field(alias="isVerified")
+    profile_pic_url: str = Field(
+        alias="profilePicUrl",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    username: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsUserPostsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    posts: list[ThreadsUserPostsPost] = Field(
+        description="The user's recent posts. Populated whenever the provider has data for the entity."
+    )
+
+
+class ThreadsUserPostsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    code: str = Field(description="Threads post shortcode.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(
+        description="Post identifier. Populated whenever the provider has data for the entity."
+    )
+    like_count: int = Field(
+        alias="likeCount", description="Number of likes on the post."
+    )
+    quote_count: int = Field(alias="quoteCount", description="Number of quote posts.")
+    reply_count: int = Field(
+        alias="replyCount", description="Number of replies to the post."
+    )
+    repost_count: int = Field(
+        alias="repostCount", description="Number of reposts of the post."
+    )
+    text: str = Field(
+        description="Post text content. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the author. Populated whenever the provider has data for the entity."
+    )
 
 
 class ThreadsNamespace:
@@ -81,7 +224,7 @@ class ThreadsNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsPostInput],
-    ) -> BareRunResult[ThreadsPostData]:
+    ) -> RunResult[ThreadsPostData]:
         """Threads Post
 
         Fetch a single Threads post by URL: text, author, engagement counts, and
@@ -95,14 +238,14 @@ class ThreadsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.post", dict(input), options
         )
-        return BareRunResult[ThreadsPostData].model_validate(raw)
+        return RunResult[ThreadsPostData].model_validate(raw)
 
     def profile(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsProfileInput],
-    ) -> BareRunResult[ThreadsProfileData]:
+    ) -> RunResult[ThreadsProfileData]:
         """Threads Profile
 
         Fetch a Threads user's public profile (bio, follower count, verification,
@@ -116,14 +259,14 @@ class ThreadsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.profile", dict(input), options
         )
-        return BareRunResult[ThreadsProfileData].model_validate(raw)
+        return RunResult[ThreadsProfileData].model_validate(raw)
 
     def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsSearchInput],
-    ) -> BareRunResult[ThreadsSearchData]:
+    ) -> RunResult[ThreadsSearchData]:
         """Threads Search
 
         Search public Threads posts by keyword or hashtag and get normalized post
@@ -137,14 +280,14 @@ class ThreadsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.search", dict(input), options
         )
-        return BareRunResult[ThreadsSearchData].model_validate(raw)
+        return RunResult[ThreadsSearchData].model_validate(raw)
 
     def search_users(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsSearchUsersInput],
-    ) -> BareRunResult[ThreadsSearchUsersData]:
+    ) -> RunResult[ThreadsSearchUsersData]:
         """Threads User Search
 
         Search Threads users by name or username and get normalized profile records:
@@ -158,14 +301,14 @@ class ThreadsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.search_users", dict(input), options
         )
-        return BareRunResult[ThreadsSearchUsersData].model_validate(raw)
+        return RunResult[ThreadsSearchUsersData].model_validate(raw)
 
     def user_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsUserPostsInput],
-    ) -> BareRunResult[ThreadsUserPostsData]:
+    ) -> RunResult[ThreadsUserPostsData]:
         """Threads User Posts
 
         List a Threads user's recent public posts by username: text, engagement
@@ -179,7 +322,7 @@ class ThreadsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.user_posts", dict(input), options
         )
-        return BareRunResult[ThreadsUserPostsData].model_validate(raw)
+        return RunResult[ThreadsUserPostsData].model_validate(raw)
 
 
 class AsyncThreadsNamespace:
@@ -193,7 +336,7 @@ class AsyncThreadsNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsPostInput],
-    ) -> BareRunResult[ThreadsPostData]:
+    ) -> RunResult[ThreadsPostData]:
         """Threads Post
 
         Fetch a single Threads post by URL: text, author, engagement counts, and
@@ -207,14 +350,14 @@ class AsyncThreadsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.post", dict(input), options
         )
-        return BareRunResult[ThreadsPostData].model_validate(raw)
+        return RunResult[ThreadsPostData].model_validate(raw)
 
     async def profile(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsProfileInput],
-    ) -> BareRunResult[ThreadsProfileData]:
+    ) -> RunResult[ThreadsProfileData]:
         """Threads Profile
 
         Fetch a Threads user's public profile (bio, follower count, verification,
@@ -228,14 +371,14 @@ class AsyncThreadsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.profile", dict(input), options
         )
-        return BareRunResult[ThreadsProfileData].model_validate(raw)
+        return RunResult[ThreadsProfileData].model_validate(raw)
 
     async def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsSearchInput],
-    ) -> BareRunResult[ThreadsSearchData]:
+    ) -> RunResult[ThreadsSearchData]:
         """Threads Search
 
         Search public Threads posts by keyword or hashtag and get normalized post
@@ -249,14 +392,14 @@ class AsyncThreadsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.search", dict(input), options
         )
-        return BareRunResult[ThreadsSearchData].model_validate(raw)
+        return RunResult[ThreadsSearchData].model_validate(raw)
 
     async def search_users(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsSearchUsersInput],
-    ) -> BareRunResult[ThreadsSearchUsersData]:
+    ) -> RunResult[ThreadsSearchUsersData]:
         """Threads User Search
 
         Search Threads users by name or username and get normalized profile records:
@@ -270,14 +413,14 @@ class AsyncThreadsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.search_users", dict(input), options
         )
-        return BareRunResult[ThreadsSearchUsersData].model_validate(raw)
+        return RunResult[ThreadsSearchUsersData].model_validate(raw)
 
     async def user_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[ThreadsUserPostsInput],
-    ) -> BareRunResult[ThreadsUserPostsData]:
+    ) -> RunResult[ThreadsUserPostsData]:
         """Threads User Posts
 
         List a Threads user's recent public posts by username: text, engagement
@@ -291,4 +434,4 @@ class AsyncThreadsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "threads.user_posts", dict(input), options
         )
-        return BareRunResult[ThreadsUserPostsData].model_validate(raw)
+        return RunResult[ThreadsUserPostsData].model_validate(raw)

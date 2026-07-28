@@ -32,7 +32,7 @@ export class AnyAPI extends AnyAPIBase {
     input: SkuMap[K]["input"],
     options?: RequestOptions,
   ): Promise<SkuMap[K]["result"]>;
-  run<S extends string, T = unknown>(
+  run<T = unknown, S extends string = string>(
     slug: S extends keyof SkuMap ? never : S,
     input: unknown,
     options?: RequestOptions,

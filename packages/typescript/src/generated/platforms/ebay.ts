@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -50,7 +50,54 @@ export interface EbaySearchInput {
     | "price_high";
 }
 
-export type EbaySearchData = unknown;
+export interface EbaySearchItem {
+  condition?: string;
+  /**
+   * Primary listing image URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * eBay item identifier. Populated whenever the provider has data for the entity.
+   */
+  itemId: string;
+  /**
+   * Auction, FixedPrice, etc.
+   */
+  listingType?: string;
+  /**
+   * Listing price.
+   */
+  price?: number;
+  /**
+   * Seller positive-feedback percentage.
+   */
+  sellerFeedbackPercent?: number;
+  sellerName?: string;
+  /**
+   * Shipping cost or free-delivery label.
+   */
+  shippingCost?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of eBay Search (ebay.search).
+ */
+export interface EbaySearchData {
+  /**
+   * Listing records: title, price, condition, shipping cost, seller info, image, and item URL. Populated whenever the provider has data for the entity.
+   */
+  items: EbaySearchItem[];
+}
 
 /**
  * Input for eBay Sold Listings (ebay.sold_listings).
@@ -112,7 +159,52 @@ export interface EbaySoldListingsInput {
     | "distance_nearest";
 }
 
-export type EbaySoldListingsData = unknown;
+export interface EbaySoldListingsItem {
+  condition?: string;
+  /**
+   * Sale date (ISO 8601).
+   */
+  endedAt?: string;
+  /**
+   * Primary listing image URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * eBay item identifier. Populated whenever the provider has data for the entity.
+   */
+  itemId: string;
+  listingType?: string;
+  sellerUsername?: string;
+  soldCurrency?: string;
+  /**
+   * Final sold price.
+   */
+  soldPrice?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Sold price plus shipping.
+   */
+  totalPrice?: number;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of eBay Sold Listings (ebay.sold_listings).
+ */
+export interface EbaySoldListingsData {
+  /**
+   * Sold listing records: title, sold price, sale date, condition, shipping, and item URL. Populated whenever the provider has data for the entity.
+   */
+  items: EbaySoldListingsItem[];
+}
 
 /**
  * Typed methods for the ebay platform. Attached to the AnyAPI client as
@@ -134,10 +226,8 @@ export class EbayNamespace {
   search(
     input: EbaySearchInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<EbaySearchData>> {
-    return this._core.run("ebay.search", input, options) as unknown as Promise<
-      BareRunResult<EbaySearchData>
-    >;
+  ): Promise<RunResult<EbaySearchData>> {
+    return this._core.run("ebay.search", input, options);
   }
 
   /**
@@ -153,11 +243,7 @@ export class EbayNamespace {
   soldListings(
     input: EbaySoldListingsInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<EbaySoldListingsData>> {
-    return this._core.run(
-      "ebay.sold_listings",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<EbaySoldListingsData>>;
+  ): Promise<RunResult<EbaySoldListingsData>> {
+    return this._core.run("ebay.sold_listings", input, options);
   }
 }

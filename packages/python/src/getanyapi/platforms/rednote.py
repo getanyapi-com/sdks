@@ -5,10 +5,16 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import BareRunResult, RequestOptions
+from ..types import RequestOptions, RunResult
+from .._pagination import (
+    AsyncPaginator,
+    Paginator,
+    apaginate,
+    paginate,
+)
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -68,27 +74,401 @@ class RednoteUserNotesInput(TypedDict, total=False):
 
 
 class RednoteNoteData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="URL of the author's avatar. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_nickname: str | None = Field(
+        default=None,
+        alias="authorNickname",
+        description="Display name of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_red_id: str | None = Field(
+        default=None,
+        alias="authorRedId",
+        description="Author's public RedNote ID. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Identifier of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    collect_count: int | None = Field(
+        default=None,
+        alias="collectCount",
+        description="Number of times the note was collected.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the note.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    description: str | None = Field(
+        default=None,
+        description="Note body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the note cover image. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    language: str | None = Field(
+        default=None,
+        description="Detected language of the note. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the note."
+    )
+    note_id: str = Field(
+        alias="noteId",
+        description="Note identifier. Populated whenever the provider has data for the entity.",
+    )
+    share_count: int | None = Field(
+        default=None,
+        alias="shareCount",
+        description="Number of times the note was shared.",
+    )
+    title: str | None = Field(
+        default=None,
+        description="Note title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description='Note type, e.g. "normal" or "video". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
+    updated_utc: float | None = Field(
+        default=None,
+        alias="updatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical URL of the note. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
 
 
 class RednoteNoteCommentsData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    comments: list[RednoteNoteCommentsComment] = Field(
+        description="Comments on the note. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of comments; empty when there are no more.",
+    )
+
+
+class RednoteNoteCommentsComment(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    comment_id: str = Field(
+        alias="commentId",
+        description="Comment identifier. Populated whenever the provider has data for the entity.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the author's avatar. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    ip_location: str | None = Field(
+        default=None,
+        alias="ipLocation",
+        description="IP-based location shown for the commenter. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the comment."
+    )
+    nickname: str | None = Field(
+        default=None,
+        description="Display name of the comment author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    note_id: str | None = Field(
+        default=None,
+        alias="noteId",
+        description="Identifier of the note the comment belongs to. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    red_id: str | None = Field(
+        default=None,
+        alias="redId",
+        description="Author's public RedNote ID. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    reply_count: int | None = Field(
+        default=None,
+        alias="replyCount",
+        description="Number of replies to the comment.",
+    )
+    text: str | None = Field(
+        default=None,
+        description="Comment text content. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Identifier of the comment author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
 
 
 class RednoteProfileData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    collected_count: int | None = Field(default=None, alias="collectedCount")
+    description: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    followers: int | None = None
+    following: int | None = None
+    gender: int | None = None
+    image: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    liked_count: int | None = Field(default=None, alias="likedCount")
+    location: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    nickname: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    posted_notes: int | None = Field(default=None, alias="postedNotes")
+    red_id: str | None = Field(
+        default=None,
+        alias="redId",
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    share_url: str | None = Field(
+        default=None,
+        alias="shareUrl",
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    user_id: str = Field(
+        alias="userId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    verified: bool | None = None
+    verify_type: int | None = Field(default=None, alias="verifyType")
 
 
 class RednoteSearchData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of results; empty when there are no more.",
+    )
+    notes: list[RednoteSearchNote] = Field(
+        description="Notes matching the search. Populated whenever the provider has data for the entity."
+    )
+
+
+class RednoteSearchNote(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="URL of the author's avatar. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_nickname: str | None = Field(
+        default=None,
+        alias="authorNickname",
+        description="Display name of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_red_id: str | None = Field(
+        default=None,
+        alias="authorRedId",
+        description="Author's public RedNote ID. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Identifier of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    collect_count: int | None = Field(
+        default=None,
+        alias="collectCount",
+        description="Number of times the note was collected.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the note.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    description: str | None = Field(
+        default=None,
+        description="Note body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the note cover image. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the note."
+    )
+    note_id: str = Field(
+        alias="noteId",
+        description="Note identifier. Populated whenever the provider has data for the entity.",
+    )
+    share_count: int | None = Field(
+        default=None,
+        alias="shareCount",
+        description="Number of times the note was shared.",
+    )
+    title: str | None = Field(
+        default=None,
+        description="Note title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description='Note type, e.g. "normal" or "video". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
+    xsec_token: str | None = Field(
+        default=None,
+        alias="xsecToken",
+        description="Security token required to fetch the note's full detail. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
 
 
 class RednoteSearchUsersData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    next_cursor: str = Field(alias="nextCursor")
+    users: list[RednoteSearchUsersUser] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
+
+class RednoteSearchUsersUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    description: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    link: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    red_id: str | None = Field(
+        default=None,
+        alias="redId",
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    subtitle: str | None = Field(
+        default=None,
+        description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    user_id: str = Field(
+        alias="userId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    verified: bool | None = None
+    verify_type: int | None = Field(default=None, alias="verifyType")
 
 
 class RednoteUserNotesData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of results; empty when there are no more.",
+    )
+    notes: list[RednoteUserNotesNote] = Field(
+        description="The user's notes. Populated whenever the provider has data for the entity."
+    )
+
+
+class RednoteUserNotesNote(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="URL of the author's avatar. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_nickname: str | None = Field(
+        default=None,
+        alias="authorNickname",
+        description="Display name of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Identifier of the note author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    collect_count: int | None = Field(
+        default=None,
+        alias="collectCount",
+        description="Number of times the note was collected.",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the note.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    description: str | None = Field(
+        default=None,
+        description="Note body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the note cover image. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the note."
+    )
+    note_id: str = Field(
+        alias="noteId",
+        description="Note identifier. Populated whenever the provider has data for the entity.",
+    )
+    share_count: int | None = Field(
+        default=None,
+        alias="shareCount",
+        description="Number of times the note was shared.",
+    )
+    title: str | None = Field(
+        default=None,
+        description="Note title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description='Note type, e.g. "normal" or "video". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
 
 
 class RednoteNamespace:
@@ -102,7 +482,7 @@ class RednoteNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteNoteInput],
-    ) -> BareRunResult[RednoteNoteData]:
+    ) -> RunResult[RednoteNoteData]:
         """RedNote (Xiaohongshu) Note
 
         Look up a RedNote (Xiaohongshu) note by note ID and return normalized note
@@ -116,14 +496,14 @@ class RednoteNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note", dict(input), options
         )
-        return BareRunResult[RednoteNoteData].model_validate(raw)
+        return RunResult[RednoteNoteData].model_validate(raw)
 
     def note_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteNoteCommentsInput],
-    ) -> BareRunResult[RednoteNoteCommentsData]:
+    ) -> RunResult[RednoteNoteCommentsData]:
         """RedNote (Xiaohongshu) Note Comments
 
         List comments on a RedNote (Xiaohongshu) note and return normalized comment
@@ -137,14 +517,37 @@ class RednoteNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note_comments", dict(input), options
         )
-        return BareRunResult[RednoteNoteCommentsData].model_validate(raw)
+        return RunResult[RednoteNoteCommentsData].model_validate(raw)
+
+    def iter_note_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RednoteNoteCommentsInput],
+    ) -> Paginator[RednoteNoteCommentsComment, RednoteNoteCommentsData]:
+        """Iterate RedNote (Xiaohongshu) Note Comments results, following pagination cursors.
+
+        Yields validated `RednoteNoteCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "rednote.note_comments",
+            dict(input),
+            "comments",
+            item_model=RednoteNoteCommentsComment,
+            data_model=RednoteNoteCommentsData,
+            bare=False,
+            options=options,
+        )
 
     def profile(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteProfileInput],
-    ) -> BareRunResult[RednoteProfileData]:
+    ) -> RunResult[RednoteProfileData]:
         """RedNote (Xiaohongshu) Profile
 
         Look up a RedNote (Xiaohongshu) profile by user ID and return normalized
@@ -158,14 +561,14 @@ class RednoteNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.profile", dict(input), options
         )
-        return BareRunResult[RednoteProfileData].model_validate(raw)
+        return RunResult[RednoteProfileData].model_validate(raw)
 
     def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteSearchInput],
-    ) -> BareRunResult[RednoteSearchData]:
+    ) -> RunResult[RednoteSearchData]:
         """RedNote (Xiaohongshu) Search
 
         Search RedNote (Xiaohongshu) notes by keyword and return normalized note
@@ -179,14 +582,37 @@ class RednoteNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.search", dict(input), options
         )
-        return BareRunResult[RednoteSearchData].model_validate(raw)
+        return RunResult[RednoteSearchData].model_validate(raw)
+
+    def iter_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RednoteSearchInput],
+    ) -> Paginator[RednoteSearchNote, RednoteSearchData]:
+        """Iterate RedNote (Xiaohongshu) Search results, following pagination cursors.
+
+        Yields validated `RednoteSearchNote` items from the `notes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "rednote.search",
+            dict(input),
+            "notes",
+            item_model=RednoteSearchNote,
+            data_model=RednoteSearchData,
+            bare=False,
+            options=options,
+        )
 
     def search_users(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteSearchUsersInput],
-    ) -> BareRunResult[RednoteSearchUsersData]:
+    ) -> RunResult[RednoteSearchUsersData]:
         """RedNote (Xiaohongshu) User Search
 
         Search RedNote (Xiaohongshu) users by keyword and return normalized user
@@ -200,14 +626,37 @@ class RednoteNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.search_users", dict(input), options
         )
-        return BareRunResult[RednoteSearchUsersData].model_validate(raw)
+        return RunResult[RednoteSearchUsersData].model_validate(raw)
+
+    def iter_search_users(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RednoteSearchUsersInput],
+    ) -> Paginator[RednoteSearchUsersUser, RednoteSearchUsersData]:
+        """Iterate RedNote (Xiaohongshu) User Search results, following pagination cursors.
+
+        Yields validated `RednoteSearchUsersUser` items from the `users` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "rednote.search_users",
+            dict(input),
+            "users",
+            item_model=RednoteSearchUsersUser,
+            data_model=RednoteSearchUsersData,
+            bare=False,
+            options=options,
+        )
 
     def user_notes(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteUserNotesInput],
-    ) -> BareRunResult[RednoteUserNotesData]:
+    ) -> RunResult[RednoteUserNotesData]:
         """RedNote (Xiaohongshu) User Notes
 
         List notes posted by a RedNote (Xiaohongshu) user and return normalized note
@@ -221,7 +670,30 @@ class RednoteNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.user_notes", dict(input), options
         )
-        return BareRunResult[RednoteUserNotesData].model_validate(raw)
+        return RunResult[RednoteUserNotesData].model_validate(raw)
+
+    def iter_user_notes(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RednoteUserNotesInput],
+    ) -> Paginator[RednoteUserNotesNote, RednoteUserNotesData]:
+        """Iterate RedNote (Xiaohongshu) User Notes results, following pagination cursors.
+
+        Yields validated `RednoteUserNotesNote` items from the `notes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "rednote.user_notes",
+            dict(input),
+            "notes",
+            item_model=RednoteUserNotesNote,
+            data_model=RednoteUserNotesData,
+            bare=False,
+            options=options,
+        )
 
 
 class AsyncRednoteNamespace:
@@ -235,7 +707,7 @@ class AsyncRednoteNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteNoteInput],
-    ) -> BareRunResult[RednoteNoteData]:
+    ) -> RunResult[RednoteNoteData]:
         """RedNote (Xiaohongshu) Note
 
         Look up a RedNote (Xiaohongshu) note by note ID and return normalized note
@@ -249,14 +721,14 @@ class AsyncRednoteNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note", dict(input), options
         )
-        return BareRunResult[RednoteNoteData].model_validate(raw)
+        return RunResult[RednoteNoteData].model_validate(raw)
 
     async def note_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteNoteCommentsInput],
-    ) -> BareRunResult[RednoteNoteCommentsData]:
+    ) -> RunResult[RednoteNoteCommentsData]:
         """RedNote (Xiaohongshu) Note Comments
 
         List comments on a RedNote (Xiaohongshu) note and return normalized comment
@@ -270,14 +742,37 @@ class AsyncRednoteNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note_comments", dict(input), options
         )
-        return BareRunResult[RednoteNoteCommentsData].model_validate(raw)
+        return RunResult[RednoteNoteCommentsData].model_validate(raw)
+
+    def iter_note_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RednoteNoteCommentsInput],
+    ) -> AsyncPaginator[RednoteNoteCommentsComment, RednoteNoteCommentsData]:
+        """Iterate RedNote (Xiaohongshu) Note Comments results, following pagination cursors.
+
+        Yields validated `RednoteNoteCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "rednote.note_comments",
+            dict(input),
+            "comments",
+            item_model=RednoteNoteCommentsComment,
+            data_model=RednoteNoteCommentsData,
+            bare=False,
+            options=options,
+        )
 
     async def profile(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteProfileInput],
-    ) -> BareRunResult[RednoteProfileData]:
+    ) -> RunResult[RednoteProfileData]:
         """RedNote (Xiaohongshu) Profile
 
         Look up a RedNote (Xiaohongshu) profile by user ID and return normalized
@@ -291,14 +786,14 @@ class AsyncRednoteNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.profile", dict(input), options
         )
-        return BareRunResult[RednoteProfileData].model_validate(raw)
+        return RunResult[RednoteProfileData].model_validate(raw)
 
     async def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteSearchInput],
-    ) -> BareRunResult[RednoteSearchData]:
+    ) -> RunResult[RednoteSearchData]:
         """RedNote (Xiaohongshu) Search
 
         Search RedNote (Xiaohongshu) notes by keyword and return normalized note
@@ -312,14 +807,37 @@ class AsyncRednoteNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.search", dict(input), options
         )
-        return BareRunResult[RednoteSearchData].model_validate(raw)
+        return RunResult[RednoteSearchData].model_validate(raw)
+
+    def iter_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RednoteSearchInput],
+    ) -> AsyncPaginator[RednoteSearchNote, RednoteSearchData]:
+        """Iterate RedNote (Xiaohongshu) Search results, following pagination cursors.
+
+        Yields validated `RednoteSearchNote` items from the `notes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "rednote.search",
+            dict(input),
+            "notes",
+            item_model=RednoteSearchNote,
+            data_model=RednoteSearchData,
+            bare=False,
+            options=options,
+        )
 
     async def search_users(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteSearchUsersInput],
-    ) -> BareRunResult[RednoteSearchUsersData]:
+    ) -> RunResult[RednoteSearchUsersData]:
         """RedNote (Xiaohongshu) User Search
 
         Search RedNote (Xiaohongshu) users by keyword and return normalized user
@@ -333,14 +851,37 @@ class AsyncRednoteNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.search_users", dict(input), options
         )
-        return BareRunResult[RednoteSearchUsersData].model_validate(raw)
+        return RunResult[RednoteSearchUsersData].model_validate(raw)
+
+    def iter_search_users(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RednoteSearchUsersInput],
+    ) -> AsyncPaginator[RednoteSearchUsersUser, RednoteSearchUsersData]:
+        """Iterate RedNote (Xiaohongshu) User Search results, following pagination cursors.
+
+        Yields validated `RednoteSearchUsersUser` items from the `users` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "rednote.search_users",
+            dict(input),
+            "users",
+            item_model=RednoteSearchUsersUser,
+            data_model=RednoteSearchUsersData,
+            bare=False,
+            options=options,
+        )
 
     async def user_notes(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RednoteUserNotesInput],
-    ) -> BareRunResult[RednoteUserNotesData]:
+    ) -> RunResult[RednoteUserNotesData]:
         """RedNote (Xiaohongshu) User Notes
 
         List notes posted by a RedNote (Xiaohongshu) user and return normalized note
@@ -354,4 +895,27 @@ class AsyncRednoteNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.user_notes", dict(input), options
         )
-        return BareRunResult[RednoteUserNotesData].model_validate(raw)
+        return RunResult[RednoteUserNotesData].model_validate(raw)
+
+    def iter_user_notes(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RednoteUserNotesInput],
+    ) -> AsyncPaginator[RednoteUserNotesNote, RednoteUserNotesData]:
+        """Iterate RedNote (Xiaohongshu) User Notes results, following pagination cursors.
+
+        Yields validated `RednoteUserNotesNote` items from the `notes` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "rednote.user_notes",
+            dict(input),
+            "notes",
+            item_model=RednoteUserNotesNote,
+            data_model=RednoteUserNotesData,
+            bare=False,
+            options=options,
+        )

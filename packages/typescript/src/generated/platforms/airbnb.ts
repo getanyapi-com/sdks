@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
-  BareRunResult,
   ClientCore,
   RequestOptions,
+  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -130,7 +130,57 @@ export interface AirbnbSearchInput {
   priceMin?: number;
 }
 
-export type AirbnbSearchData = unknown;
+export interface AirbnbSearchItem {
+  hostName?: string;
+  /**
+   * Airbnb listing identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Primary listing image URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  isAvailable?: boolean;
+  isSuperhost?: boolean;
+  latitude?: number;
+  /**
+   * Location subtitle.
+   */
+  location?: string;
+  longitude?: number;
+  personCapacity?: number;
+  /**
+   * Total-stay price label returned by Airbnb (e.g. $3,149 total).
+   */
+  price?: string;
+  propertyType?: string;
+  /**
+   * Guest satisfaction rating (0-5).
+   */
+  rating?: number;
+  reviewsCount?: number;
+  roomType?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Airbnb Search (airbnb.search).
+ */
+export interface AirbnbSearchData {
+  /**
+   * Listing records: name, total-stay price label, rating, location, host info, and availability details. Populated whenever the provider has data for the entity.
+   */
+  items: AirbnbSearchItem[];
+}
 
 /**
  * Typed methods for the airbnb platform. Attached to the AnyAPI client as
@@ -152,11 +202,7 @@ export class AirbnbNamespace {
   search(
     input: AirbnbSearchInput,
     options?: RequestOptions,
-  ): Promise<BareRunResult<AirbnbSearchData>> {
-    return this._core.run(
-      "airbnb.search",
-      input,
-      options,
-    ) as unknown as Promise<BareRunResult<AirbnbSearchData>>;
+  ): Promise<RunResult<AirbnbSearchData>> {
+    return this._core.run("airbnb.search", input, options);
   }
 }

@@ -182,7 +182,10 @@ key (do not emit `"description": null`). All descriptions are dash-normalized.
 The IR extractor MUST apply these exactly. Emitter agents rely on the IR already being
 normalized, so they never re-parse raw JSON Schema.
 
-1. **Envelope crack.** Every output schema is
+1. **Envelope crack.** The transport may wrap the SKU output schema in
+   `anyOf: [SKU_OUTPUT, {type:null}]` because an idempotency replay can outlive its retained
+   payload. The extractor first selects the single non-null `SKU_OUTPUT` branch. Every
+   found-data SKU output schema is then
    `{type:object, required:[found,data], properties:{found:bool, data:{oneOf:[{type:null}, DATA]}}}`.
    The extractor produces `output.data = SchemaNode(DATA)` (the non-null branch). If a data
    schema is not wrapped in `oneOf` (some may be a bare object), use it directly. `found`
@@ -414,6 +417,17 @@ envelope. The generated `AnyAPI` subclass declares the typed `run` overloads rea
 core keeps only the untyped `run` seam. A consumer-artifact typecheck gate (packs the package
 and runs `tsc` over consumer code) guards that typed access compiles, bad input errors, and an
 unknown slug falls back to `RunResult<unknown>`.
+
+The unknown-slug overload puts the optional result type first so a caller can write
+`run<MyData>(slug, input)` while the slug type remains inferred for ordinary calls:
+
+```ts
+run<T = unknown, S extends string = string>(
+  slug: S extends keyof SkuMap ? never : S,
+  input: unknown,
+  options?: RequestOptions,
+): Promise<RunResult<T>>;
+```
 
 ### 2.4 Generated per-SKU method signature (target for the TS emitter)
 
