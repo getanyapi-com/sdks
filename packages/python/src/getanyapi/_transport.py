@@ -7,6 +7,7 @@ through here. The wire contract is frozen:
     Authorization: Bearer <api_key>
     Content-Type: application/json
     Accept: application/json
+    Idempotency-Key: <per-call key> (unless the client kill switch is off)
     body = json(input)
     query params (only when set): fields (comma-joined), max_items, summary=true
 
@@ -37,6 +38,10 @@ from ._errors import (
     TimeoutError,
     error_for_status,
 )
+from ._idempotency import (
+    generate_idempotency_key,
+    validate_idempotency_key,
+)
 from .types import RequestOptions, RunResult
 
 __all__ = [
@@ -46,6 +51,7 @@ __all__ = [
     "compute_delay",
     "RetryState",
     "error_message",
+    "error_details",
     "as_dict",
     "is_retryable_error",
     "sleep",
@@ -81,6 +87,7 @@ def build_request(
     api_key: str,
     options: RequestOptions | None,
     timeout: float,
+    idempotency: str,
 ) -> httpx.Request:
     """Assemble the httpx.Request for a SKU run (no client bound).
 
@@ -93,6 +100,16 @@ def build_request(
         "Content-Type": "application/json",
         "Accept": "application/json",
     }
+    if idempotency == "auto":
+        key = (
+            options["idempotency_key"]
+            if options is not None and "idempotency_key" in options
+            else generate_idempotency_key()
+        )
+        validate_idempotency_key(key)
+        headers["Idempotency-Key"] = key
+    # This request is built once before the retry loop. httpx serializes ``json``
+    # here, so every send reuses the exact raw body bytes used for fingerprinting.
     return httpx.Request(
         "POST",
         url,
@@ -115,11 +132,19 @@ def as_dict(value: object) -> dict[str, object]:
 
 
 def error_message(body: object, status: int) -> str:
-    """Extract the ``{error}`` string from a JSON body, else a generic message."""
-    err = as_dict(body).get("error")
+    """Extract the ``{error, code}`` details and return the message."""
+    return error_details(body, status)[0]
+
+
+def error_details(body: object, status: int) -> tuple[str, str | None]:
+    """Extract the error message and stable code from a JSON body."""
+    body_dict = as_dict(body)
+    err = body_dict.get("error")
+    code = body_dict.get("code")
+    parsed_code = code if isinstance(code, str) and code else None
     if isinstance(err, str):
-        return err
-    return _fallback_message(status)
+        return err, parsed_code
+    return _fallback_message(status), parsed_code
 
 
 def parse_raw(response: httpx.Response) -> dict[str, Any]:
@@ -153,9 +178,9 @@ def parse_raw(response: httpx.Response) -> dict[str, Any]:
         err_body = response.json()
     except ValueError:
         err_body = None
-    message = error_message(err_body, response.status_code)
+    message, code = error_details(err_body, response.status_code)
     raise error_for_status(
-        response.status_code, message, request_id=request_id
+        response.status_code, message, request_id=request_id, code=code
     )
 
 

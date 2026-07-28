@@ -9,13 +9,18 @@ export class AnyAPIError extends Error {
   readonly status: number;
   /** The x-request-id response header when present, else undefined. */
   readonly requestId?: string;
+  /** Stable gateway error code when the JSON body includes one, else undefined. */
+  readonly code?: string;
 
-  constructor(message: string, status: number, requestId?: string) {
+  constructor(message: string, status: number, requestId?: string, code?: string) {
     super(message);
     this.name = new.target.name;
     this.status = status;
     if (requestId !== undefined) {
       this.requestId = requestId;
+    }
+    if (code !== undefined) {
+      this.code = code;
     }
     // Restore prototype chain for downlevel targets / bundlers.
     Object.setPrototypeOf(this, new.target.prototype);
@@ -55,21 +60,22 @@ export function errorFromStatus(
   status: number,
   message: string,
   requestId?: string,
+  code?: string,
 ): AnyAPIError {
   switch (status) {
     case 400:
-      return new BadRequestError(message, status, requestId);
+      return new BadRequestError(message, status, requestId, code);
     case 401:
-      return new AuthenticationError(message, status, requestId);
+      return new AuthenticationError(message, status, requestId, code);
     case 402:
-      return new InsufficientBalanceError(message, status, requestId);
+      return new InsufficientBalanceError(message, status, requestId, code);
     case 404:
-      return new NotFoundError(message, status, requestId);
+      return new NotFoundError(message, status, requestId, code);
     case 429:
-      return new RateLimitedError(message, status, requestId);
+      return new RateLimitedError(message, status, requestId, code);
     case 502:
-      return new UpstreamError(message, status, requestId);
+      return new UpstreamError(message, status, requestId, code);
     default:
-      return new AnyAPIError(message, status, requestId);
+      return new AnyAPIError(message, status, requestId, code);
   }
 }

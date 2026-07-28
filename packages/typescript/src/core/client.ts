@@ -8,6 +8,10 @@ import {
   errorFromStatus,
 } from "./errors.js";
 import {
+  generateIdempotencyKey,
+  validateIdempotencyKey,
+} from "./idempotency.js";
+import {
   mapCatalogDetail,
   mapCatalogList,
   mapCatalogSearch,
@@ -267,21 +271,35 @@ function buildUrl(
 }
 
 /**
- * Extract an error message from a non-200 body: the JSON `error` field when present,
- * else a generic status-derived fallback.
+ * Extract error details from a non-200 body: JSON `error` and `code` fields when present,
+ * with a generic status-derived message fallback.
  */
-function messageFromBody(body: string, status: number): string {
+function messageFromBody(
+  body: string,
+  status: number,
+): { message: string; code?: string } {
   if (body) {
     try {
-      const parsed = JSON.parse(body) as { error?: unknown };
+      const parsed = JSON.parse(body) as { error?: unknown; code?: unknown };
+      const code =
+        typeof parsed.code === "string" && parsed.code !== ""
+          ? parsed.code
+          : undefined;
       if (typeof parsed.error === "string" && parsed.error !== "") {
-        return parsed.error;
+        return {
+          message: parsed.error,
+          ...(code !== undefined ? { code } : {}),
+        };
       }
+      return {
+        message: `request failed with status ${status}`,
+        ...(code !== undefined ? { code } : {}),
+      };
     } catch {
       // not JSON; fall through
     }
   }
-  return `request failed with status ${status}`;
+  return { message: `request failed with status ${status}` };
 }
 
 /**
@@ -294,6 +312,7 @@ export class AnyAPI implements ClientCore {
   private readonly fetchImpl: typeof fetch;
   private readonly maxRetries: number;
   private readonly timeoutMs: number;
+  private readonly idempotency: "auto" | "off";
 
   /**
    * The network seam the generated per-platform namespaces target. The base client IS a
@@ -318,6 +337,11 @@ export class AnyAPI implements ClientCore {
     this.fetchImpl = resolvedFetch;
     this.maxRetries = options.maxRetries ?? DEFAULT_MAX_RETRIES;
     this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+    const idempotency = options.idempotency ?? "auto";
+    if (idempotency !== "auto" && idempotency !== "off") {
+      throw new TypeError('idempotency must be "auto" or "off"');
+    }
+    this.idempotency = idempotency;
   }
 
   /**
@@ -330,13 +354,19 @@ export class AnyAPI implements ClientCore {
     input: unknown,
     options?: RequestOptions,
   ): Promise<RunResult<T>> {
+    // Serialize once before entering request's retry loop. Reusing this exact string keeps
+    // the raw body bytes stable for gateway idempotency fingerprinting.
+    const body = JSON.stringify(input ?? {});
     return this.request<RunResult<T>>(
       "POST",
       buildUrl(this.baseUrl, slug, options),
       {
-        body: JSON.stringify(input ?? {}),
+        body,
         timeoutMs: options?.timeoutMs ?? this.timeoutMs,
         maxRetries: options?.maxRetries ?? this.maxRetries,
+        ...(options?.idempotencyKey !== undefined
+          ? { idempotencyKey: options.idempotencyKey }
+          : {}),
         ...(options?.signal ? { signal: options.signal } : {}),
       },
     );
@@ -406,6 +436,7 @@ export class AnyAPI implements ClientCore {
       timeoutMs: number;
       maxRetries: number;
       signal?: AbortSignal;
+      idempotencyKey?: string;
     },
   ): Promise<T> {
     const headers: Record<string, string> = {
@@ -416,6 +447,12 @@ export class AnyAPI implements ClientCore {
     }
     if (this.apiKey) {
       headers["Authorization"] = `Bearer ${this.apiKey}`;
+    }
+    const billedPost = method === "POST" && opts.body !== undefined;
+    if (billedPost && this.idempotency === "auto") {
+      const key = opts.idempotencyKey ?? generateIdempotencyKey();
+      validateIdempotencyKey(key);
+      headers["Idempotency-Key"] = key;
     }
 
     let attempt = 0;
@@ -472,7 +509,7 @@ export class AnyAPI implements ClientCore {
 
       // Non-200: read body for the error message, then map to a typed error.
       const body = await response.text().catch(() => "");
-      const message = messageFromBody(body, response.status);
+      const { message, code } = messageFromBody(body, response.status);
 
       if (response.status === 429 && attempt < opts.maxRetries) {
         const retryAfter = parseRetryAfter(response.headers.get("retry-after"));
@@ -482,7 +519,7 @@ export class AnyAPI implements ClientCore {
         continue;
       }
 
-      throw errorFromStatus(response.status, message, requestId);
+      throw errorFromStatus(response.status, message, requestId, code);
     }
   }
 

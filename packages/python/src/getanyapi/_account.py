@@ -11,7 +11,7 @@ from __future__ import annotations
 from typing import Any, cast
 
 from ._errors import AnyAPIError, error_for_status
-from ._transport import as_dict, error_message
+from ._transport import as_dict, error_details
 from .types import (
     AccountProfile,
     AgentSignupResult,
@@ -141,4 +141,7 @@ def parse_signup(body: Any) -> AgentSignupResult:
 
 def map_error(status: int, body: object, request_id: str | None) -> AnyAPIError:
     """Map a non-2xx account/catalog response to the frozen error hierarchy."""
-    return error_for_status(status, error_message(body, status), request_id=request_id)
+    message, code = error_details(body, status)
+    return error_for_status(
+        status, message, request_id=request_id, code=code
+    )

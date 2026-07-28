@@ -59,6 +59,28 @@ def test_sync_pages_yields_whole_run_results() -> None:
     assert pages[0].output.data["ads"][0]["id"] == 1
 
 
+def test_sync_derives_distinct_bounded_idempotency_key_per_page() -> None:
+    client, rec = make_sync_client(_multi_page_responder())
+    base_key = "k" * 255
+    pages = list(
+        paginate(
+            client,
+            "facebook.ads_search",
+            {"q": "x"},
+            "ads",
+            options={"idempotency_key": base_key},
+        ).pages()
+    )
+
+    assert len(pages) == 3
+    keys = [request.headers["idempotency-key"] for request in rec.requests]
+    assert [len(key) for key in keys] == [255, 255, 255]
+    assert keys[0].endswith("-p1")
+    assert keys[1].endswith("-p2")
+    assert keys[2].endswith("-p3")
+    assert len(set(keys)) == 3
+
+
 def test_sync_stops_on_not_found() -> None:
     def respond(_req: httpx.Request) -> httpx.Response:
         return json_response(200, run_envelope(None, found=False))
@@ -188,3 +210,21 @@ async def test_async_pages_and_max_items() -> None:
     assert len(pages) == 3
     await client.aclose()
     await client2.aclose()
+
+
+async def test_async_derives_distinct_idempotency_key_per_page() -> None:
+    client, rec = make_async_client(_multi_page_responder())
+    paginator = apaginate(
+        client,
+        "facebook.ads_search",
+        {"q": "x"},
+        "ads",
+        options={"idempotency_key": "customer-key"},
+    )
+    pages = [page async for page in paginator.pages()]
+
+    assert len(pages) == 3
+    assert [
+        request.headers["idempotency-key"] for request in rec.requests
+    ] == ["customer-key-p1", "customer-key-p2", "customer-key-p3"]
+    await client.aclose()

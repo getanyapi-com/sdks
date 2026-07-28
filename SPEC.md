@@ -297,6 +297,8 @@ export interface ClientOptions {
   maxRetries?: number;
   /** Per-request timeout in milliseconds. Default 60000. */
   timeoutMs?: number;
+  /** Send Idempotency-Key on billed POSTs. Default "auto"; use "off" as a kill switch. */
+  idempotency?: "auto" | "off";
 }
 
 export declare class AnyAPI {
@@ -351,12 +353,25 @@ Wire behavior (FROZEN):
 
 - Method `POST`, path `/v1/run/{slug}`, body = `JSON.stringify(input)`.
 - Headers: `Authorization: Bearer <apiKey>`, `Content-Type: application/json`,
-  `Accept: application/json`. (Bearer is the canonical scheme; `X-API-Key` is NOT sent.)
+  `Accept: application/json`, and, unless client idempotency is `"off"`, exactly one
+  `Idempotency-Key: <key>`. (Bearer is the canonical scheme; `X-API-Key` is NOT sent.)
+- Automatic idempotency is enabled by default. Each billed POST gets a fresh key, built once before
+  its retry loop and reused by every internal attempt for that logical call. A request-level
+  `options.idempotencyKey` overrides the generated key. Client option `idempotency: "off"` is a
+  kill switch that omits the header, including when a request-level key is present.
+- An idempotency key is 1-255 bytes, with every byte visible ASCII in `[0x21, 0x7e]`. Invalid
+  explicit keys fail client-side before the request is sent. Automatic generation uses
+  `crypto.randomUUID()`, then `crypto.getRandomValues()`, then a documented non-cryptographic
+  `Math.random()` hex fallback. The token prevents accidental collisions within a customer scope
+  and is not a secret, so the final fallback is acceptable.
+- JSON serialization happens once before the retry loop. Every internal attempt sends the same
+  string and therefore the same raw body bytes, preserving the gateway fingerprint invariant.
 - Query params (only when set in `RequestOptions`): `fields` (comma-joined from
   `options.fields`), `max_items` (from `options.maxItems`), `summary=true` (from
   `options.summary`). These shape the response and do NOT change cost.
 - HTTP 200 -> parse JSON into `RunResult<T>`.
-- Non-200 -> parse `{ error: string }` and throw the mapped error (section 2.6). A
+- Non-200 -> parse `{ error: string, code?: string }` and throw the mapped error
+  (section 2.6). A
   network/transport failure throws `ConnectionError`; a timeout throws `TimeoutError`.
 
 ### 2.3 Result types
@@ -458,6 +473,9 @@ Walk semantics (FROZEN):
   iterator stops once the cap is reached; do NOT confuse with the wire `max_items` shaping
   param, which the iterator does NOT send - it manages paging itself).
 - `.pages()` yields each `RunResult` (including the last) and stops on null `nextCursor`.
+- When `options.idempotencyKey` is supplied, the paginator derives a distinct key for each page
+  (`<key>-p1`, `<key>-p2`, and so on). It truncates the base when needed so the derived key remains
+  within 255 visible-ASCII bytes. The caller's original options object is not mutated.
 
 ### 2.6 Error hierarchy (FROZEN)
 
@@ -467,7 +485,9 @@ export declare class AnyAPIError extends Error {
   readonly status: number;
   /** The x-request-id response header when present, else undefined. */
   readonly requestId?: string;
-  constructor(message: string, status: number, requestId?: string);
+  /** Stable gateway error code when present, else undefined. */
+  readonly code?: string;
+  constructor(message: string, status: number, requestId?: string, code?: string);
 }
 
 export declare class BadRequestError extends AnyAPIError {} // 400
@@ -486,6 +506,7 @@ Status -> class mapping (FROZEN):
 non-2xx status -> `AnyAPIError` (base) with that status. Transport failures ->
 `ConnectionError` (status 0); timeouts -> `TimeoutError` (status 0). The error `message`
 is the `error` field from the JSON body, or a generic fallback when the body is unparseable.
+The optional body `code` is copied to `AnyAPIError.code`.
 
 ### 2.7 Account, catalog, agent signup
 
@@ -503,6 +524,8 @@ export interface RequestOptions {
   signal?: AbortSignal;
   /** Override the client maxRetries for this call. */
   maxRetries?: number;
+  /** Override the generated Idempotency-Key for this billed POST. */
+  idempotencyKey?: string;
 }
 
 export interface AccountProfile {
@@ -634,6 +657,8 @@ export interface AgentSignupResult {
   `maxDelay = 8000ms`. `attempt` starts at 0 for the first retry.
 - Honor a `Retry-After` response header on 429 when present (seconds or HTTP-date); use it
   as the delay instead of the computed backoff, capped at `maxDelay`.
+- Sending `Idempotency-Key` does not expand retry eligibility. In particular, ambiguous billed
+  POST transport failures and 409 `idempotency_in_progress` responses remain non-retryable.
 
 ## 3. Python runtime API (`getanyapi`) - FROZEN signatures
 
@@ -652,6 +677,7 @@ class AnyAPI:
         base_url: str = "https://api.getanyapi.com",
         timeout: float = 60.0,           # seconds
         max_retries: int = 2,
+        idempotency: Literal["auto", "off"] = "auto",
         http_client: httpx.Client | None = None,
     ) -> None: ...
 
@@ -674,6 +700,7 @@ class AnyAPI:
 class AsyncAnyAPI:
     def __init__(self, *, api_key: str | None = None, base_url: str = "https://api.getanyapi.com",
                  timeout: float = 60.0, max_retries: int = 2,
+                 idempotency: Literal["auto", "off"] = "auto",
                  http_client: httpx.AsyncClient | None = None) -> None: ...
     async def run(self, slug: str, input: dict[str, Any], *, options: RequestOptions | None = None) -> RunResult[Any]: ...
     async def balance(self) -> Balance: ...
@@ -702,7 +729,9 @@ class Transport(Protocol):
 
 Wire behavior identical to TS 2.2: `POST /v1/run/{slug}`, `Authorization: Bearer`, JSON
 body, `fields` / `max_items` / `summary` query params, same status->error mapping, same
-retry policy (section 2.8).
+retry policy (section 2.8), and the same `Idempotency-Key` wire contract. Python uses
+stdlib `uuid.uuid4().hex` for automatic keys. `build_request` runs once before the retry
+loop, so httpx serializes JSON once and every send reuses the identical request body bytes.
 
 ### 3.3 Result models (pydantic v2)
 
@@ -790,14 +819,19 @@ class AsyncPaginator(Generic[Item, Data]):
 `iter_*` returns a `Paginator` (sync client) / `AsyncPaginator` (async client). Walk
 semantics identical to TS 2.5 (`cursor` in, `nextCursor` out, stop on null/empty,
 `options.max_items` caps total items yielded).
+When `options.idempotency_key` is supplied, sync and async paginators derive a distinct
+bounded key for every page (`<key>-p1`, `<key>-p2`, and so on) without mutating the caller's
+options dict.
 
 ### 3.6 Errors (Python)
 
 ```python
 class AnyAPIError(Exception):
-    def __init__(self, message: str, *, status: int, request_id: str | None = None) -> None:
+    def __init__(self, message: str, *, status: int, request_id: str | None = None,
+                 code: str | None = None) -> None:
         self.status = status
         self.request_id = request_id
+        self.code = code
 
 class BadRequestError(AnyAPIError): ...          # 400
 class AuthenticationError(AnyAPIError): ...      # 401
@@ -848,6 +882,8 @@ class RequestOptions(TypedDict, total=False):
     max_items: int
     summary: bool
     timeout: float
+    max_retries: int
+    idempotency_key: str
 
 class AgentSignupResult(BaseModel):
     secret: str

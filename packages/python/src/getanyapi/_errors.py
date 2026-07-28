@@ -39,14 +39,21 @@ class AnyAPIError(Exception):
     Attributes:
         status: HTTP status code, or 0 for transport-level failures.
         request_id: The x-request-id response header when present, else None.
+        code: Stable gateway error code when the JSON body includes one, else None.
     """
 
     def __init__(
-        self, message: str, *, status: int, request_id: str | None = None
+        self,
+        message: str,
+        *,
+        status: int,
+        request_id: str | None = None,
+        code: str | None = None,
     ) -> None:
         super().__init__(message)
         self.status = status
         self.request_id = request_id
+        self.code = code
 
 
 class BadRequestError(AnyAPIError):
@@ -108,8 +115,12 @@ _STATUS_MAP: dict[int, type[AnyAPIError]] = {
 
 
 def error_for_status(
-    status: int, message: str, *, request_id: str | None = None
+    status: int,
+    message: str,
+    *,
+    request_id: str | None = None,
+    code: str | None = None,
 ) -> AnyAPIError:
     """Build the mapped error for a non-2xx HTTP status (SPEC 3.6)."""
     cls = _STATUS_MAP.get(status, AnyAPIError)
-    return cls(message, status=status, request_id=request_id)
+    return cls(message, status=status, request_id=request_id, code=code)

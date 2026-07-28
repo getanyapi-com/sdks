@@ -36,6 +36,7 @@ from typing import (
 
 from pydantic import BaseModel
 
+from ._idempotency import page_idempotency_key
 from ._transport import as_dict, validate_run_result
 from .types import (
     AnyBareRunResult,
@@ -135,6 +136,7 @@ class Paginator(Generic[Item, Data]):
         self,
     ) -> Iterator[tuple[RunResult[Data] | BareRunResult[Data], dict[str, Any] | None]]:
         cursor: str | None = None
+        page_number = 1
         while True:
             page_input = dict(self._input)
             if cursor is not None:
@@ -142,7 +144,10 @@ class Paginator(Generic[Item, Data]):
             raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
                 self._slug,
                 page_input,
-                cast("RequestOptions | None", self._page_options),
+                cast(
+                    "RequestOptions | None",
+                    _options_for_page(self._page_options, page_number),
+                ),
             )
             page = _validate_page(raw, self._data_model, self._bare)
             data = _raw_page_data(raw, self._bare)
@@ -150,6 +155,7 @@ class Paginator(Generic[Item, Data]):
             cursor = _next_cursor(data)
             if cursor is None:
                 return
+            page_number += 1
 
     def pages(self) -> Iterator[RunResult[Data] | BareRunResult[Data]]:
         """Yield whole run-result pages (read ``cost_usd`` per page)."""
@@ -199,6 +205,7 @@ class AsyncPaginator(Generic[Item, Data]):
         tuple[RunResult[Data] | BareRunResult[Data], dict[str, Any] | None]
     ]:
         cursor: str | None = None
+        page_number = 1
         while True:
             page_input = dict(self._input)
             if cursor is not None:
@@ -206,7 +213,10 @@ class AsyncPaginator(Generic[Item, Data]):
             raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
                 self._slug,
                 page_input,
-                cast("RequestOptions | None", self._page_options),
+                cast(
+                    "RequestOptions | None",
+                    _options_for_page(self._page_options, page_number),
+                ),
             )
             page = _validate_page(raw, self._data_model, self._bare)
             data = _raw_page_data(raw, self._bare)
@@ -214,6 +224,7 @@ class AsyncPaginator(Generic[Item, Data]):
             cursor = _next_cursor(data)
             if cursor is None:
                 return
+            page_number += 1
 
     async def pages(self) -> AsyncIterator[RunResult[Data] | BareRunResult[Data]]:
         """Yield whole run-result pages (read ``cost_usd`` per page)."""
@@ -261,6 +272,19 @@ def _page_options(options: object) -> object:
     stripped: dict[str, object] = dict(source)
     stripped.pop("max_items", None)
     return stripped or None
+
+
+def _options_for_page(options: object, page_number: int) -> object:
+    """Derive a distinct explicit key for one page, preserving other options."""
+    if not isinstance(options, dict):
+        return options
+    source = as_dict(cast("object", options))
+    key = source.get("idempotency_key")
+    if not isinstance(key, str):
+        return source
+    page_options: dict[str, object] = dict(source)
+    page_options["idempotency_key"] = page_idempotency_key(key, page_number)
+    return page_options
 
 
 def paginate(

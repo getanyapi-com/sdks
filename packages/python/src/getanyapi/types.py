@@ -255,6 +255,7 @@ class RequestOptions(TypedDict, total=False):
     ``fields``, ``max_items``, and ``summary`` shape the response and do NOT
     change cost. ``timeout`` overrides the client per-request timeout (seconds).
     ``max_retries`` overrides the client retry cap for this call.
+    ``idempotency_key`` overrides the generated key for this billed POST.
     """
 
     fields: list[str]
@@ -262,6 +263,7 @@ class RequestOptions(TypedDict, total=False):
     summary: bool
     timeout: float
     max_retries: int
+    idempotency_key: str
 
 
 class AgentSignupResult(BaseModel):

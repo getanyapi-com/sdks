@@ -66,4 +66,24 @@ describe("status to error mapping", () => {
     const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 0 });
     await expect(client.run("a.b", {})).rejects.toBeInstanceOf(RateLimitedError);
   });
+
+  it("surfaces the stable code from an error body", async () => {
+    const { fetch } = mockFetch([
+      {
+        status: 409,
+        body: {
+          error: "the key is already running",
+          code: "idempotency_in_progress",
+        },
+      },
+    ]);
+    const client = new AnyAPI({ apiKey: "k", fetch, maxRetries: 0 });
+    try {
+      await client.run("a.b", {});
+      throw new Error("should have thrown");
+    } catch (error) {
+      expect(error).toBeInstanceOf(AnyAPIError);
+      expect((error as AnyAPIError).code).toBe("idempotency_in_progress");
+    }
+  });
 });

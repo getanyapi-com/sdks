@@ -2,6 +2,7 @@
 // `paginate(core, slug, input, itemsField, bare, options)`. Named exports only; zero deps.
 
 import type { ClientCore } from "./client.js";
+import { pageIdempotencyKey } from "./idempotency.js";
 import type { BareRunResult, RequestOptions, RunResult } from "./types.js";
 
 /**
@@ -56,12 +57,14 @@ export function paginate<Item, Page extends RunResult<unknown> | BareRunResult<u
 
   async function* walkPages(): AsyncGenerator<Page, void, unknown> {
     let cursor: string | undefined;
+    let pageNumber = 1;
     for (;;) {
       const pageInput: Record<string, unknown> = { ...input };
       if (cursor !== undefined) {
         pageInput["cursor"] = cursor;
       }
-      const result = (await core.run<unknown>(slug, pageInput, wireOptions)) as Page;
+      const pageOptions = optionsForPage(wireOptions, pageNumber);
+      const result = (await core.run<unknown>(slug, pageInput, pageOptions)) as Page;
       yield result;
 
       const data = pageData(result, bare);
@@ -73,6 +76,7 @@ export function paginate<Item, Page extends RunResult<unknown> | BareRunResult<u
         return;
       }
       cursor = next;
+      pageNumber += 1;
     }
   }
 
@@ -105,6 +109,20 @@ export function paginate<Item, Page extends RunResult<unknown> | BareRunResult<u
     pages: () => ({ [Symbol.asyncIterator]: () => walkPages() }),
   };
   return paginator;
+}
+
+/** Derive a distinct explicit key for each billed page while preserving all other options. */
+function optionsForPage(
+  options: RequestOptions | undefined,
+  pageNumber: number,
+): RequestOptions | undefined {
+  if (options?.idempotencyKey === undefined) {
+    return options;
+  }
+  return {
+    ...options,
+    idempotencyKey: pageIdempotencyKey(options.idempotencyKey, pageNumber),
+  };
 }
 
 /** Return options without the maxItems key (iterator caps totals client-side). */

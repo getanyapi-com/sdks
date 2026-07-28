@@ -32,7 +32,7 @@ from __future__ import annotations
 
 import importlib
 import os
-from typing import Any
+from typing import Any, Literal
 
 import httpx
 
@@ -91,12 +91,16 @@ class AnyAPI:
         base_url: str = _DEFAULT_BASE_URL,
         timeout: float = 60.0,
         max_retries: int = 2,
+        idempotency: Literal["auto", "off"] = "auto",
         http_client: httpx.Client | None = None,
     ) -> None:
         self._api_key = _resolve_api_key(api_key)
         self._base_url = base_url.rstrip("/")
         self._timeout = timeout
         self._max_retries = max_retries
+        if idempotency not in ("auto", "off"):
+            raise ValueError('idempotency must be "auto" or "off"')
+        self._idempotency = idempotency
         self._owns_client = http_client is None
         self._http = http_client or httpx.Client(timeout=timeout)
         self._namespaces: dict[str, Any] = {}
@@ -150,6 +154,7 @@ class AnyAPI:
             api_key=self._api_key,
             options=options,
             timeout=timeout,
+            idempotency=self._idempotency,
         )
         retry = RetryState(max_retries)
         while True:

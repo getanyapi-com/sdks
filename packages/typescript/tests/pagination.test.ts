@@ -143,6 +143,29 @@ describe("paginate: .pages()", () => {
     }
     expect(costs).toEqual([0.002, 0.002]);
   });
+
+  it("derives a distinct bounded key for every explicitly keyed page", async () => {
+    const { core, seen } = scriptedCore([page([1], "c1"), page([2], null)]);
+    const baseKey = "k".repeat(255);
+    for await (const _page of paginate<{ id: number }, RunResult<PageData>>(
+      core,
+      "s.a",
+      {},
+      "ads",
+      false,
+      { idempotencyKey: baseKey },
+    ).pages()) {
+      // Exhaust the paginator.
+    }
+
+    expect(seen[0]!.options?.idempotencyKey).toHaveLength(255);
+    expect(seen[0]!.options?.idempotencyKey).toMatch(/-p1$/);
+    expect(seen[1]!.options?.idempotencyKey).toHaveLength(255);
+    expect(seen[1]!.options?.idempotencyKey).toMatch(/-p2$/);
+    expect(seen[1]!.options?.idempotencyKey).not.toBe(
+      seen[0]!.options?.idempotencyKey,
+    );
+  });
 });
 
 describe("paginate: bare envelope", () => {
