@@ -353,12 +353,12 @@ export interface FlatPricingOffer { model: "flat"; unit: "request"; maxUsd: numb
 export interface LinearPricingOffer { model: "linear"; unit: string; baseUsd: number; perUnitUsd: number; maxUsd: number; }
 export type PricingOffer = FlatPricingOffer | LinearPricingOffer;
 export interface DiscoveryPricing { from: PricingOffer; failoverMaxUsd: number; }
-export interface LaneHealth { window: "30d"; uptimePct: number; latencyP50Ms: number; requests: number; }
+export interface LaneHealth { window: string; uptimePct: number; latencyP50Ms: number; requests: number; }
 export interface DiscoveryLane { pricing: PricingOffer; health?: LaneHealth; }
 export interface CatalogEntry {
   id: string; slug: string; name: string; category: string; description: string;
   provider: "AnyAPI"; pricing: DiscoveryPricing; lanes: DiscoveryLane[];
-  heavy: boolean; tryEligible: boolean;
+  heavy: boolean; tryEligible: boolean; failover?: boolean; excludesCallerDelay?: boolean;
 }
 export interface SearchOptions { query: string; category?: string; platform?: string; limit?: number; }
 export interface HighlightField { path: string; type: string; why?: string; }

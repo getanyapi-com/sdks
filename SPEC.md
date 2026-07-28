@@ -653,7 +653,7 @@ export interface DiscoveryPricing {
   failoverMaxUsd: number;
 }
 export interface LaneHealth {
-  window: "30d";
+  window: string;
   uptimePct: number;
   latencyP50Ms: number;
   requests: number;
@@ -674,6 +674,8 @@ export interface CatalogEntry {
   lanes: DiscoveryLane[];
   heavy: boolean;
   tryEligible: boolean;
+  failover?: boolean;
+  excludesCallerDelay?: boolean;
   inputSchema?: Record<string, unknown>;
   outputSchema?: Record<string, unknown>;
 }
@@ -723,9 +725,16 @@ export interface AgentSignupResult {
 - `search(options)` -> dedicated GET `/catalog/search?q=&category=&platform=&limit=` ->
   `{ results, total, ranking }` with nested pricing and relevance.
 - `describe(slug)` -> GET `/v1/apis/{slug}` -> one `CatalogEntry`. 404 -> `NotFoundError`.
-- Discovery parsing rejects legacy internal-unit fields, unknown provider identities, incomplete
-  offers, and malformed envelopes. The REST adapter omits `heavy` when false, so clients
-  normalize an omitted key to public `false` while rejecting non-boolean values.
+- Discovery is a tolerant-reader boundary. The gateway solely owns routing, lane order,
+  failover, pricing relationships, health semantics, provider normalization, schemas, and
+  billing. The handwritten clients recursively reject case-insensitive `*credit*` keys and
+  any `provider` field other than `"AnyAPI"`, validate the known fields needed by their public
+  types, explicitly project those fields, and ignore safe additions. They never compare
+  `pricing.from` with lane pricing, recompute `failoverMaxUsd`, derive failover from lane
+  count, or enforce a particular health window. Detail schemas are preserved as opaque JSON
+  objects after the safety scan.
+- The REST adapter omits `heavy` when false, so clients normalize an omitted key to public
+  `false` while rejecting non-boolean values.
 - `agentSignup()` -> POST `/agent/signup` (NO auth header) -> `AgentSignupResult` (map
   `capUsd`, `secret`, `claimToken`, `claimUrl`). The gateway body is a superset: it also
   carries `keyId`, `verificationStatus`, `expiresAt`, `notice`, `upgrade`, and (when the
@@ -735,12 +744,14 @@ export interface AgentSignupResult {
   structs, the ONLY conditionally-present fields on this surface are `email` (omitted when
   empty), `heavy` (omitted when false), `inputSchema` / `outputSchema` (omitted on
   browse/search, sent on detail), `lanes[].health` (omitted when no sampled window),
-  `highlightFields` (omitted when empty), and `highlightFields[].why`. Every other field on
+  `highlightFields` (omitted when empty), `highlightFields[].why`, `failover` (for compatibility
+  with older gateways), and `excludesCallerDelay`. Every other field on
   `AccountProfile`, `Balance`, `CatalogEntry`, `CatalogSearchResult`, `CatalogSearchResults`,
   `DiscoveryPricing`, `PricingOffer`, and `LaneHealth` carries no `omitempty` and is always
   sent, with one wrinkle inside `PricingOffer`: `baseUsd` and `perUnitUsd` are pointer fields
   present on every `linear` offer (including at value 0) and absent on every `flat` one,
-  which is exactly the discrimination both parsers already enforce.
+  which is exactly the discrimination both parsers enforce. `LaneHealth.window` is an
+  authoritative gateway label and is typed as a string rather than a client-enforced literal.
 
 ### 2.8 Retry policy (FROZEN, both languages)
 
@@ -1025,6 +1036,8 @@ class CatalogEntry(BaseModel):
     lanes: list[DiscoveryLane]
     heavy: bool
     try_eligible: bool       # alias "tryEligible"
+    failover: bool | None
+    excludes_caller_delay: bool | None  # alias "excludesCallerDelay"
     input_schema: dict[str, Any] | None   # alias "inputSchema"
     output_schema: dict[str, Any] | None  # alias "outputSchema"
 

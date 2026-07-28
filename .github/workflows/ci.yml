@@ -39,6 +39,8 @@ jobs:
         run: pnpm --filter @getanyapi/sdk run check
       - name: consumer-artifact typecheck (packed dist typing gate, B2)
         run: pnpm --filter @getanyapi/sdk run consumer-typecheck
+      - name: credentialless live discovery canary
+        run: node scripts/live-discovery-ts.mjs
 
   python:
     name: python (pyright + mypy --strict + pytest)
@@ -61,6 +63,8 @@ jobs:
       - name: pytest (runtime + per-SKU fixture sweep)
         run: pytest
         working-directory: packages/python
+      - name: credentialless live discovery canary
+        run: python scripts/live-discovery-python.py
 
   guards:
     name: guards (dash guard)

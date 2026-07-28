@@ -12,6 +12,10 @@ pay per request in real US dollars.
 Generated per-SKU methods track the platform's `/openapi.json`; the handwritten account and
 discovery clients are maintained separately and must be reviewed when catalog/search/detail
 contracts change. See the main repository's `ECOSYSTEM.md` before changing either surface.
+The gateway owns validation, routing, lane order, failover, pricing relationships, health
+semantics, and billing. The discovery clients safety-scan customer-facing invariants and
+project known fields, but intentionally ignore safe additive fields and do not reimplement
+gateway business rules.
 
 ## Quickstart (target surface)
 
@@ -104,9 +108,10 @@ openapi.json + catalog.json   (committed upstream snapshots)
   packages/*/src/generated/**   +   generator/fixtures.json
 ```
 
-The emitters read ONLY `ir.json`, never the raw OpenAPI. Discovery pricing is parsed
-strictly: the wrapper and model-specific offers reject missing, unknown, or legacy internal-unit
-fields, and every USD amount must be finite and non-negative rather than silently becoming zero.
+The emitters read ONLY `ir.json`, never the raw OpenAPI. During generation, snapshot pricing
+is checked for the fields required to document generated methods and every USD amount must be
+finite and non-negative rather than silently becoming zero. This build-time snapshot check is
+separate from the handwritten tolerant discovery readers.
 `pnpm generate` runs the whole
 pipeline; `pnpm generate:check` regenerates in memory and byte-compares against the
 committed output (the CI drift gate). Two runs on the same snapshots are byte-identical.
@@ -130,11 +135,12 @@ cd packages/python && pyright && mypy && pytest
 
 ### Published-artifact smoke
 
-`pnpm check` and the CI suite are mock-only: they never touch the registries. The
-published-artifact smoke fills that gap. It installs BOTH SDKs FROM the registries (npm +
-PyPI) into throwaway temp dirs outside the repo, mints an ephemeral capped key via the public
+The deterministic tests are mock-only, while required CI also runs credentialless live
+catalog/search/detail canaries through both handwritten readers. The published-artifact smoke
+adds registry and paid-run coverage. It installs BOTH SDKs FROM the registries (npm + PyPI)
+into throwaway temp dirs outside the repo, mints an ephemeral capped key via the public
 `/agent/signup` endpoint (no secrets needed), exercises catalog, search, and describe, then
-makes one real production call through each. This catches discovery drift as well as
+makes one real production call through each. Together these catch discovery drift as well as
 packaging bugs, missing files, broken exports or types, that source-tree tests cannot see.
 
 ```bash

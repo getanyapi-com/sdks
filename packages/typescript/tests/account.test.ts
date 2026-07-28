@@ -38,6 +38,8 @@ const linearApi = {
   ],
   heavy: true,
   tryEligible: true,
+  failover: true,
+  excludesCallerDelay: true,
 };
 
 const flatApi = {
@@ -153,52 +155,81 @@ describe("catalog", () => {
     ).rejects.toThrow("api.heavy");
   });
 
-  it.each([
-    [{ ...linearApi, lanes: [] }, "api.lanes"],
-    [{ ...linearApi, lanes: [{ pricing: flatOffer }] }, "api.pricing.from"],
-    [{ ...linearApi, unexpected: true }, "api.unexpected"],
-    [
-      {
-        ...linearApi,
-        pricing: { ...linearApi.pricing, from: { ...linearOffer, extra: 1 } },
+  it("accepts safe additive fields and gateway-owned relationship disagreements", async () => {
+    const api = {
+      ...linearApi,
+      unexpected: true,
+      pricing: {
+        ...linearApi.pricing,
+        failoverMaxUsd: 0.004,
+        unexpected: true,
+        from: { ...linearOffer, maxUsd: 0.02, unexpected: true },
       },
-      "api.pricing.from.extra",
+      lanes: [
+        {
+          pricing: flatOffer,
+          health: {
+            window: "7d",
+            uptimePct: 98,
+            latencyP50Ms: 10,
+            requests: 2,
+            unexpected: true,
+          },
+          unexpected: true,
+        },
+      ],
+    };
+    const { fetch } = mockFetch([
+      { body: { apis: [api], unexpected: true } },
+    ]);
+    const [entry] = await new AnyAPI({ apiKey: "k", fetch }).catalog();
+    expect(entry).toMatchObject({
+      pricing: {
+        from: { model: "linear", maxUsd: 0.02 },
+        failoverMaxUsd: 0.004,
+      },
+      lanes: [
+        {
+          pricing: flatOffer,
+          health: { window: "7d" },
+        },
+      ],
+      failover: true,
+      excludesCallerDelay: true,
+    });
+    expect("unexpected" in entry!).toBe(false);
+    expect("unexpected" in entry!.pricing).toBe(false);
+    expect("unexpected" in entry!.pricing.from).toBe(false);
+  });
+
+  it("accepts empty lanes and older responses without optional routing facts", async () => {
+    const {
+      failover: _failover,
+      excludesCallerDelay: _excludesCallerDelay,
+      ...older
+    } = linearApi;
+    const { fetch } = mockFetch([
+      { body: { apis: [{ ...older, lanes: [] }] } },
+    ]);
+    const [entry] = await new AnyAPI({ apiKey: "k", fetch }).catalog();
+    expect(entry!.lanes).toEqual([]);
+    expect(entry!.failover).toBeUndefined();
+    expect(entry!.excludesCallerDelay).toBeUndefined();
+  });
+
+  it.each([
+    [
+      { ...linearApi, future: { creditBalance: 1 } },
+      "catalog.apis[0].future.creditBalance",
     ],
-  ])("rejects invalid browse relationship/shape %#", async (api, message) => {
+    [
+      { ...linearApi, future: { provider: "upstream" } },
+      "catalog.apis[0].future.provider",
+    ],
+  ])("rejects unsafe fields before projection %#", async (api, message) => {
     const { fetch } = mockFetch([{ body: { apis: [api] } }]);
     await expect(new AnyAPI({ apiKey: "k", fetch }).catalog()).rejects.toThrow(
       message,
-    );
-  });
-
-  it.each([
-    [
-      "redundant mixed flat/linear lanes",
-      {
-        ...linearApi,
-        pricing: { ...linearApi.pricing, failoverMaxUsd: linearOffer.maxUsd },
-      },
-    ],
-    [
-      "one flat lane",
-      {
-        ...flatApi,
-        pricing: { ...flatApi.pricing, failoverMaxUsd: 0.004 },
-      },
-    ],
-  ])("rejects a wrong failover maximum for %s", async (_label, api) => {
-    const { fetch } = mockFetch([{ body: { apis: [api] } }]);
-    await expect(new AnyAPI({ apiKey: "k", fetch }).catalog()).rejects.toThrow(
-      "api.pricing.failoverMaxUsd",
-    );
-  });
-
-  it("rejects unexpected catalog envelope fields", async () => {
-    const { fetch } = mockFetch([
-      { body: { apis: [linearApi], unexpected: true } },
-    ]);
-    await expect(new AnyAPI({ apiKey: "k", fetch }).catalog()).rejects.toThrow(
-      "catalog.unexpected",
     );
   });
 });
@@ -266,7 +297,7 @@ describe("search", () => {
     );
   });
 
-  it("rejects lanes on search results and unexpected envelope fields", async () => {
+  it("drops safe additive search result and envelope fields", async () => {
     const result = {
       slug: linearApi.slug,
       platformId: "amazon",
@@ -274,30 +305,43 @@ describe("search", () => {
       description: linearApi.description,
       category: linearApi.category,
       provider: "AnyAPI",
-      pricing: linearApi.pricing,
+      pricing: {
+        ...linearApi.pricing,
+        future: true,
+        from: { ...linearApi.pricing.from, future: true },
+      },
       relevance: 1,
       lanes: linearApi.lanes,
+      future: true,
+      highlightFields: [
+        {
+          path: "items[].title",
+          type: "string",
+          why: "title",
+          future: true,
+        },
+      ],
     };
     const row = mockFetch([
-      { body: { results: [result], total: 1, ranking: "keyword" } },
-    ]);
-    await expect(
-      new AnyAPI({ apiKey: "k", fetch: row.fetch }).search({ query: "x" }),
-    ).rejects.toThrow("search.results[0].lanes");
-
-    const envelope = mockFetch([
       {
         body: {
-          results: [],
-          total: 0,
+          results: [result],
+          total: 1,
           ranking: "keyword",
           unexpected: true,
         },
       },
     ]);
-    await expect(
-      new AnyAPI({ apiKey: "k", fetch: envelope.fetch }).search({ query: "x" }),
-    ).rejects.toThrow("search.unexpected");
+    const found = await new AnyAPI({
+      apiKey: "k",
+      fetch: row.fetch,
+    }).search({ query: "x" });
+    expect(found.results).toHaveLength(1);
+    expect("lanes" in found.results[0]!).toBe(false);
+    expect("future" in found.results[0]!).toBe(false);
+    expect("future" in found.results[0]!.pricing).toBe(false);
+    expect("future" in found.results[0]!.pricing.from).toBe(false);
+    expect("future" in found.results[0]!.highlightFields![0]!).toBe(false);
   });
 });
 
@@ -310,15 +354,28 @@ describe("describe", () => {
           inputSchema: {
             type: "object",
             properties: { product: { type: "string" } },
+            unevaluatedProperties: false,
+            futureKeyword: { nested: [1, true, null] },
           },
-          outputSchema: { type: "object" },
+          outputSchema: {
+            type: "object",
+            $defs: { item: { type: "string", futureKeyword: true } },
+          },
         },
       },
     ]);
     const client = new AnyAPI({ apiKey: "k", fetch });
     const entry = await client.describe("amazon.reviews");
-    expect(entry.inputSchema).toMatchObject({ type: "object" });
-    expect(entry.outputSchema).toEqual({ type: "object" });
+    expect(entry.inputSchema).toEqual({
+      type: "object",
+      properties: { product: { type: "string" } },
+      unevaluatedProperties: false,
+      futureKeyword: { nested: [1, true, null] },
+    });
+    expect(entry.outputSchema).toEqual({
+      type: "object",
+      $defs: { item: { type: "string", futureKeyword: true } },
+    });
     expect(calls[0]!.url).toBe(
       "https://api.getanyapi.com/v1/apis/amazon.reviews",
     );
@@ -334,7 +391,7 @@ describe("describe", () => {
     );
   });
 
-  it("rejects a failover maximum below a redundant lane maximum", async () => {
+  it("accepts gateway-owned pricing and lane disagreements in detail", async () => {
     const { fetch } = mockFetch([
       {
         body: {
@@ -348,9 +405,11 @@ describe("describe", () => {
         },
       },
     ]);
-    await expect(
-      new AnyAPI({ apiKey: "k", fetch }).describe("amazon.reviews"),
-    ).rejects.toThrow("api.pricing.failoverMaxUsd");
+    const entry = await new AnyAPI({ apiKey: "k", fetch }).describe(
+      "amazon.reviews",
+    );
+    expect(entry.pricing.failoverMaxUsd).toBe(linearOffer.maxUsd);
+    expect(entry.lanes[1]!.pricing.maxUsd).toBe(failoverOffer.maxUsd);
   });
 
   it("rejects a detail response without schemas", async () => {

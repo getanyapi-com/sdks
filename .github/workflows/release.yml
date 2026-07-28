@@ -92,6 +92,10 @@ jobs:
           pyright
           mypy
           pytest
+      - name: credentialless TypeScript live discovery canary
+        run: node scripts/live-discovery-ts.mjs
+      - name: credentialless Python live discovery canary
+        run: python scripts/live-discovery-python.py
       - name: dash guard
         run: bash scripts/check-dashes.sh
 

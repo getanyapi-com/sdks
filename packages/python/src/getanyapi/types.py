@@ -212,7 +212,7 @@ class FlatPricingOffer(BaseModel):
     """A fixed, per-request discovery offer."""
 
     model_config = ConfigDict(
-        extra="forbid", strict=True, populate_by_name=True, allow_inf_nan=False
+        extra="ignore", strict=True, populate_by_name=True, allow_inf_nan=False
     )
 
     model: Literal["flat"]
@@ -224,7 +224,7 @@ class LinearPricingOffer(BaseModel):
     """A capped base-plus-unit discovery offer."""
 
     model_config = ConfigDict(
-        extra="forbid", strict=True, populate_by_name=True, allow_inf_nan=False
+        extra="ignore", strict=True, populate_by_name=True, allow_inf_nan=False
     )
 
     model: Literal["linear"]
@@ -241,7 +241,7 @@ PricingOffer = Annotated[
 
 class DiscoveryPricing(BaseModel):
     model_config = ConfigDict(
-        extra="forbid", strict=True, populate_by_name=True, allow_inf_nan=False
+        extra="ignore", strict=True, populate_by_name=True, allow_inf_nan=False
     )
 
     from_offer: PricingOffer = Field(alias="from")
@@ -249,16 +249,16 @@ class DiscoveryPricing(BaseModel):
 
 
 class LaneHealth(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
+    model_config = ConfigDict(extra="ignore", strict=True, populate_by_name=True)
 
-    window: Literal["30d"]
+    window: str
     uptime_pct: float = Field(alias="uptimePct", ge=0, le=100)
     latency_p50_ms: int = Field(alias="latencyP50Ms", ge=0)
     requests: int = Field(ge=0)
 
 
 class DiscoveryLane(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
+    model_config = ConfigDict(extra="ignore", strict=True, populate_by_name=True)
 
     pricing: PricingOffer
     health: LaneHealth | None = None
@@ -267,7 +267,7 @@ class DiscoveryLane(BaseModel):
 class CatalogEntry(BaseModel):
     """One customer-safe API returned by ``catalog`` or ``describe``."""
 
-    model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
+    model_config = ConfigDict(extra="ignore", strict=True, populate_by_name=True)
 
     id: str
     slug: str
@@ -276,26 +276,19 @@ class CatalogEntry(BaseModel):
     description: str
     provider: Literal["AnyAPI"]
     pricing: DiscoveryPricing
-    lanes: list[DiscoveryLane] = Field(min_length=1)
+    lanes: list[DiscoveryLane]
     heavy: bool = False
     try_eligible: bool = Field(alias="tryEligible")
+    failover: bool | None = None
+    excludes_caller_delay: bool | None = Field(
+        default=None, alias="excludesCallerDelay"
+    )
     input_schema: dict[str, Any] | None = Field(default=None, alias="inputSchema")
     output_schema: dict[str, Any] | None = Field(default=None, alias="outputSchema")
 
-    @model_validator(mode="after")
-    def pricing_from_matches_first_lane(self) -> CatalogEntry:
-        if self.pricing.from_offer != self.lanes[0].pricing:
-            raise ValueError("pricing.from must match lanes[0].pricing")
-        failover_max_usd = max(lane.pricing.max_usd for lane in self.lanes)
-        if self.pricing.failover_max_usd != failover_max_usd:
-            raise ValueError(
-                "pricing.failoverMaxUsd must match the greatest lane pricing.maxUsd"
-            )
-        return self
-
 
 class HighlightField(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True)
+    model_config = ConfigDict(extra="ignore", strict=True)
 
     path: str
     type: str
@@ -303,7 +296,7 @@ class HighlightField(BaseModel):
 
 
 class CatalogSearchResult(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
+    model_config = ConfigDict(extra="ignore", strict=True, populate_by_name=True)
 
     slug: str
     platform_id: str = Field(alias="platformId")
@@ -319,7 +312,7 @@ class CatalogSearchResult(BaseModel):
 
 
 class CatalogSearchResults(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True)
+    model_config = ConfigDict(extra="ignore", strict=True)
 
     results: list[CatalogSearchResult]
     total: int = Field(ge=0)
