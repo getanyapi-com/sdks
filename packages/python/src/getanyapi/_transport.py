@@ -11,8 +11,12 @@ through here. The wire contract is frozen:
     query params (only when set): fields (comma-joined), max_items, summary=true
 
 HTTP 200 parses into ``RunResult[Any]``; any other status maps to the frozen
-error hierarchy. Retries cover only HTTP 429 and network failures, never
-timeouts, with jittered exponential backoff honoring ``Retry-After`` on 429.
+error hierarchy. Retries cover HTTP 429 and retry-safe transport failures,
+never timeouts. Billed POSTs retry only connection-establishment failures that
+prove no request was delivered. A ``ReadError`` is ambiguous: it can occur
+before the server reads the request, as well as after a body was sent, so it
+must not retry. Idempotent or bodyless requests retry any transport failure.
+Backoff is jittered exponential and honors ``Retry-After`` on 429.
 """
 
 from __future__ import annotations
@@ -227,11 +231,34 @@ class RetryState:
         return delay
 
 
-def is_retryable_error(exc: AnyAPIError) -> bool:
-    """Retry only rate limits and connection failures, never timeouts."""
-    if isinstance(exc, TimeoutError):
+def is_retryable_error(
+    exc: AnyAPIError | httpx.HTTPError,
+    *,
+    request_may_be_billed: bool = False,
+) -> bool:
+    """Retry 429s and transport failures that are safe for this request shape.
+
+    Idempotent or bodyless requests retry any non-timeout transport failure.
+    A billed request retries only ``httpx.ConnectError``, the reliable pre-send
+    signal. ``httpx.ReadError`` does not establish that bytes were delivered:
+    an accept-then-close race or a stale keepalive connection can raise it
+    before the server reads the request. It is still unsafe to retry because
+    the same type can also represent a failure after delivery. The default
+    preserves the one-argument behavior for callers passing an ``AnyAPIError``.
+    """
+    # ConnectTimeout is a TimeoutException, not a ConnectError. The billed POST
+    # loops catch all TimeoutException instances before calling this predicate,
+    # so the httpx term is unreachable there. Retain it so direct callers stay
+    # timeout-safe and the predicate does not depend on caller catch ordering.
+    if isinstance(exc, (TimeoutError, httpx.TimeoutException)):
         return False
-    return isinstance(exc, (RateLimitedError, ConnectionError))
+    if isinstance(exc, RateLimitedError):
+        return True
+    if isinstance(exc, ConnectionError):
+        return not request_may_be_billed
+    if isinstance(exc, httpx.HTTPError):
+        return not request_may_be_billed or isinstance(exc, httpx.ConnectError)
+    return False
 
 
 def sleep(seconds: float) -> None:

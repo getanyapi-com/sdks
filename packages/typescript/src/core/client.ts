@@ -32,6 +32,18 @@ const DEFAULT_TIMEOUT_MS = 60_000;
 const DEFAULT_MAX_RETRIES = 2;
 const RETRY_BASE_DELAY_MS = 500;
 const RETRY_MAX_DELAY_MS = 8_000;
+const PRE_SEND_NETWORK_ERROR_CODES = new Set([
+  "EADDRNOTAVAIL",
+  "EAI_AGAIN",
+  "EAI_NODATA",
+  "EAI_NONAME",
+  "ECONNREFUSED",
+  "EHOSTUNREACH",
+  "ENETUNREACH",
+  "ENOTFOUND",
+  "UND_ERR_CONNECT_TIMEOUT",
+  "ConnectionRefused",
+]);
 
 /**
  * The single network seam that generated per-SKU methods call. See SPEC 2.2. The generated
@@ -170,6 +182,66 @@ function isTimeoutSignal(
   // If the caller signal also aborted, prefer the caller's cancellation semantics only
   // when the timeout did not fire; here timeout did fire, so treat as timeout.
   return callerSignal?.aborted !== true || timeoutSignal.aborted;
+}
+
+/**
+ * Return true only when structured runtime metadata proves that fetch failed before a
+ * connection could carry request bytes.
+ *
+ * IMPORTANT: the fetch standard does not expose whether a request body was written.
+ * Node fetch preserves system DNS/connect codes and undici socket byte counters under
+ * `cause`. Bun uses `ConnectionRefused` only while establishing a connection. Browsers
+ * commonly expose only an opaque TypeError. Unknown causes are therefore treated as
+ * potentially post-send and are not retried for a billed POST.
+ */
+function isDefinitelyPreSendConnectionError(error: unknown): boolean {
+  const seen = new Set<object>();
+
+  const visit = (value: unknown): boolean => {
+    if ((typeof value !== "object" && typeof value !== "function") || value === null) {
+      return false;
+    }
+    if (seen.has(value)) {
+      return false;
+    }
+    seen.add(value);
+
+    const candidate = value as {
+      code?: unknown;
+      syscall?: unknown;
+      socket?: {
+        bytesWritten?: unknown;
+      };
+      cause?: unknown;
+      errors?: unknown;
+    };
+    if (
+      typeof candidate.code === "string" &&
+      PRE_SEND_NETWORK_ERROR_CODES.has(candidate.code)
+    ) {
+      return true;
+    }
+    // ETIMEDOUT alone is ambiguous: a read can time out after the body was sent.
+    if (candidate.code === "ETIMEDOUT" && candidate.syscall === "connect") {
+      return true;
+    }
+    // undici SocketError exposes counters at `cause.socket`.
+    if (
+      candidate.code === "UND_ERR_SOCKET" &&
+      candidate.socket?.bytesWritten === 0
+    ) {
+      return true;
+    }
+    if (Array.isArray(candidate.errors) && candidate.errors.length > 0) {
+      return (
+        candidate.errors.some((item) => visit(item)) ||
+        visit(candidate.cause)
+      );
+    }
+    return visit(candidate.cause);
+  };
+
+  return visit(error);
 }
 
 /**
@@ -368,12 +440,14 @@ export class AnyAPI implements ClientCore {
         if (opts.signal?.aborted) {
           throw new ConnectionError("request aborted", 0);
         }
-        // Network / DNS / connection reset: retryable.
         const connErr = new ConnectionError(
           err instanceof Error ? err.message : "connection failed",
           0,
         );
-        if (attempt < opts.maxRetries) {
+        const requestMayBeBilled = method === "POST" && opts.body !== undefined;
+        const safeToRetry =
+          !requestMayBeBilled || isDefinitelyPreSendConnectionError(err);
+        if (safeToRetry && attempt < opts.maxRetries) {
           await sleep(backoffDelay(attempt), opts.signal);
           attempt += 1;
           continue;

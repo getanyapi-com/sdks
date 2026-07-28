@@ -126,13 +126,30 @@ Per-call transport overrides: `timeoutMs`, `maxRetries`, and an `AbortSignal` vi
 | `ResultNotFoundError`      | -    | `unwrap` on an empty found-data result     |
 | `RateLimitedError`         | 429  | Too many requests (retried automatically)  |
 | `UpstreamError`            | 502  | An upstream backend failed                 |
-| `ConnectionError`          | 0    | Network or transport failure (retried)     |
+| `ConnectionError`          | 0    | Network or transport failure               |
 | `TimeoutError`             | 0    | Request exceeded its timeout (not retried) |
 
 All extend `AnyAPIError` (with `status` and `requestId`). Retries cover only 429 and network
-failures, with jittered exponential backoff honoring `Retry-After`. Default `maxRetries` is 2
-(up to 3 attempts); set it on the client or per request. Timeouts are never retried. Configure
-with `new AnyAPI({ timeoutMs, maxRetries })`.
+failures proven to happen before a request was sent, with jittered exponential backoff honoring
+`Retry-After`. Default `maxRetries` is 2 (up to 3 attempts); set it on the client or per request.
+Timeouts are never retried. Connection failures during or after a billed `POST /v1/run` are not
+retried because the call may already have been charged. When the send phase is unknown, the SDK
+does not retry. Configure with `new AnyAPI({ timeoutMs, maxRetries })`.
+
+Automatic network retry of a billed `run()` requires structured runtime evidence that the
+request body was not sent:
+
+| Runtime | Automatic billed-run network retry | Evidence available to the SDK |
+| ------- | ---------------------------------- | ----------------------------- |
+| Node 18+ with built-in undici `fetch` | Yes | DNS and connect codes, connect-phase timeouts, or an undici socket reporting zero bytes written |
+| Bun 1.3.11 | Yes | `ConnectionRefused`, which Bun 1.3.11 emits only while establishing the origin or proxy connection |
+| Cloudflare Workers | No | `retryable: true` means transient, not undelivered; it can appear after the origin received the full body |
+| Deno | No | Fetch exposes only prose without a structured connection code |
+| Browsers | No | Fetch generally exposes an opaque `TypeError` |
+
+On a runtime without strict non-delivery evidence, the SDK makes no automatic network retry for a
+billed `run()`. HTTP 429 retry is unchanged. Handle other retries explicitly only when your
+application can establish non-delivery.
 
 ## Agent signup
 

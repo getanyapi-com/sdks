@@ -109,13 +109,23 @@ res = client.google.search(
 | `ResultNotFoundError`      | -    | `unwrap` on an empty found-data result     |
 | `RateLimitedError`         | 429  | Too many requests (retried automatically)  |
 | `UpstreamError`            | 502  | An upstream backend failed                 |
-| `ConnectionError`          | 0    | Network or transport failure (retried)     |
+| `ConnectionError`          | 0    | Network or transport failure               |
 | `TimeoutError`             | 0    | Request exceeded its timeout (not retried) |
 
 All extend `AnyAPIError` (with `.status` and `.request_id`). Retries cover only 429 and network
-failures, with jittered exponential backoff honoring `Retry-After`. Default `max_retries` is 2
-(up to 3 attempts); set it on the client (`AnyAPI(max_retries=...)`) or per request via
-`options`. Timeouts are never retried.
+failures proven to happen before a request was sent, with jittered exponential backoff honoring
+`Retry-After`. Default `max_retries` is 2 (up to 3 attempts); set it on the client
+(`AnyAPI(max_retries=...)`) or per request via `options`. Timeouts are never retried. Connection
+failures during or after a billed `POST /v1/run` are not retried because the call may already have
+been charged. When the send phase is unknown, the SDK does not retry.
+
+Automatic retry of a billed `run()` requires structured transport evidence that the request was
+not delivered. Python's `httpx` transport provides that evidence for `ConnectError`, so DNS
+resolution failures and refused or unreachable connections retry. `ConnectTimeout` is a
+`TimeoutException` and does not retry. `ReadError` does not retry: it can mean either that a
+connection closed before the server read the request or that the connection failed after delivery.
+If a custom transport hides the connection phase, handle retries explicitly and only when your
+application can establish non-delivery.
 
 ## Agent signup
 
