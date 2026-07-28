@@ -7283,7 +7283,7 @@
       "operationId": "email_verify",
       "name": "Email Verifier",
       "category": "data",
-      "description": "Verify any email address for deliverability: syntax, domain, and mailbox checks in one normalized response.",
+      "description": "Verify an email address for deliverability: a status verdict (valid, risky, or invalid) with domain, mailbox, catch-all, disposable, and role signals plus a confidence score. Malformed addresses are rejected by the input schema with no charge; every syntactically valid address returns a billed verdict, including undeliverable ones.",
       "pricing": {
         "priceUsd": 0.0008,
         "baseUsd": 0,
@@ -7306,7 +7306,7 @@
         "properties": {
           "email": {
             "kind": "string",
-            "description": "The email address to verify (e.g. jane.doe@acme.com).",
+            "description": "The email address to verify (e.g. jane.doe@acme.com). Exactly one @, a dotted domain, no whitespace or angle brackets. Addresses on reserved, never-deliverable TLDs (.invalid, .test, .example, .localhost, .local, .internal, .blink) and HTML/JSON escape artifacts (a u003e prefix) are rejected locally with no charge.",
             "enum": null,
             "default": null,
             "format": null
@@ -7324,7 +7324,7 @@
           "properties": {
             "items": {
               "kind": "array",
-              "description": "Verification records: the email address with its deliverability verdict and syntax, domain, and mailbox check details. Populated whenever the provider has data for the entity.",
+              "description": "Verification records: the email address with its deliverability verdict and the domain, mailbox, and reputation signals behind it. A record is returned for every syntactically valid address, including ones the verdict marks undeliverable. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
@@ -8199,7 +8199,7 @@
         "properties": {
           "companyName": {
             "kind": "string",
-            "description": "Company name to search (e.g. \"nike\"). Provide either pageId or companyName.",
+            "description": "Company name to search (e.g. \"nike\"). Exact-match and case-sensitive against the Meta Ad Library index; an advertiser with no indexed page returns found:false.",
             "enum": null,
             "default": null,
             "format": null
