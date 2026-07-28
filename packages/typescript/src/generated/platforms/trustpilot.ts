@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -47,46 +47,7 @@ export interface TrustpilotReviewsInput {
   verifiedOnly?: boolean;
 }
 
-export interface TrustpilotReviewsItem {
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  createdUtc?: number;
-  /**
-   * Star rating (1-5).
-   */
-  rating: number;
-  /**
-   * Review body text. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  /**
-   * Review title or headline. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  title?: string;
-  /**
-   * Canonical review URL. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  url?: string;
-  /**
-   * Whether the reviewer is verified.
-   */
-  verified?: boolean;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Trustpilot Reviews (trustpilot.reviews).
- */
-export interface TrustpilotReviewsData {
-  /**
-   * Review records: star rating, review title and text, date, reviewer name and country, and company reply when present. Populated whenever the provider has data for the entity.
-   */
-  items: TrustpilotReviewsItem[];
-}
+export type TrustpilotReviewsData = unknown;
 
 /**
  * Typed methods for the trustpilot platform. Attached to the AnyAPI client as
@@ -108,7 +69,11 @@ export class TrustpilotNamespace {
   reviews(
     input: TrustpilotReviewsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TrustpilotReviewsData>> {
-    return this._core.run("trustpilot.reviews", input, options);
+  ): Promise<BareRunResult<TrustpilotReviewsData>> {
+    return this._core.run(
+      "trustpilot.reviews",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TrustpilotReviewsData>>;
   }
 }

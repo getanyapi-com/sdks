@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -27,42 +27,7 @@ class AppstoreReviewsInput(TypedDict, total=False):
 
 
 class AppstoreReviewsData(BaseModel):
-    items: list[AppstoreReviewsItem] = Field(
-        description="Review records: star rating, review title and text, reviewer nickname, app version, and review date. Populated whenever the provider has data for the entity."
-    )
-
-
-class AppstoreReviewsItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    author: str | None = Field(
-        default=None,
-        description="Reviewer nickname. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    created_utc: float | None = Field(
-        default=None,
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    helpful_votes: int | None = Field(
-        default=None,
-        alias="helpfulVotes",
-        description="Number of helpful votes on the review.",
-    )
-    id: str | None = Field(
-        default=None,
-        description="Review identifier. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    rating: float = Field(
-        description="Star rating, 1 to 5. Populated whenever the provider has data for the entity."
-    )
-    text: str = Field(
-        description="Review body text. Populated whenever the provider has data for the entity."
-    )
-    title: str | None = Field(default=None, description="Review title.")
-    version: str | None = Field(
-        default=None, description="App version the review was left on."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class AppstoreNamespace:
@@ -76,7 +41,7 @@ class AppstoreNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AppstoreReviewsInput],
-    ) -> RunResult[AppstoreReviewsData]:
+    ) -> BareRunResult[AppstoreReviewsData]:
         """App Store Reviews
 
         Get App Store reviews for any iOS app by app ID, in any storefront country:
@@ -90,7 +55,7 @@ class AppstoreNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "appstore.reviews", dict(input), options
         )
-        return RunResult[AppstoreReviewsData].model_validate(raw)
+        return BareRunResult[AppstoreReviewsData].model_validate(raw)
 
 
 class AsyncAppstoreNamespace:
@@ -104,7 +69,7 @@ class AsyncAppstoreNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[AppstoreReviewsInput],
-    ) -> RunResult[AppstoreReviewsData]:
+    ) -> BareRunResult[AppstoreReviewsData]:
         """App Store Reviews
 
         Get App Store reviews for any iOS app by app ID, in any storefront country:
@@ -118,4 +83,4 @@ class AsyncAppstoreNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "appstore.reviews", dict(input), options
         )
-        return RunResult[AppstoreReviewsData].model_validate(raw)
+        return BareRunResult[AppstoreReviewsData].model_validate(raw)

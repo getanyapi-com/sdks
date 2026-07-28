@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -27,19 +27,7 @@ class PinterestSearchInput(TypedDict, total=False):
 
 
 class PinterestSearchData(BaseModel):
-    items: list[PinterestSearchItem] = Field(
-        description="Matching Pinterest records: pin or board title, description, image/video URL, creator, and link. Populated whenever the provider has data for the entity."
-    )
-
-
-class PinterestSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow")
-
-    id: str
-    title: str
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
 
 
 class PinterestNamespace:
@@ -53,7 +41,7 @@ class PinterestNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PinterestSearchInput],
-    ) -> RunResult[PinterestSearchData]:
+    ) -> BareRunResult[PinterestSearchData]:
         """Pinterest Search
 
         Search Pinterest by keyword and get pin, video, board, or profile results
@@ -67,7 +55,7 @@ class PinterestNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "pinterest.search", dict(input), options
         )
-        return RunResult[PinterestSearchData].model_validate(raw)
+        return BareRunResult[PinterestSearchData].model_validate(raw)
 
 
 class AsyncPinterestNamespace:
@@ -81,7 +69,7 @@ class AsyncPinterestNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PinterestSearchInput],
-    ) -> RunResult[PinterestSearchData]:
+    ) -> BareRunResult[PinterestSearchData]:
         """Pinterest Search
 
         Search Pinterest by keyword and get pin, video, board, or profile results
@@ -95,4 +83,4 @@ class AsyncPinterestNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "pinterest.search", dict(input), options
         )
-        return RunResult[PinterestSearchData].model_validate(raw)
+        return BareRunResult[PinterestSearchData].model_validate(raw)

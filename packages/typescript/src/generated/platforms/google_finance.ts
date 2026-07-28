@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,106 +16,7 @@ export interface GoogleFinanceQuoteInput {
   symbol: string;
 }
 
-export interface GoogleFinanceQuoteItem {
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  asOfUtc?: number;
-  /**
-   * Current ask price.
-   */
-  ask?: number;
-  /**
-   * Instrument class (e.g. EQUITY, ETF, CRYPTOCURRENCY, CURRENCY, INDEX, MUTUALFUND, FUTURE).
-   */
-  assetType?: string;
-  /**
-   * Average daily trading volume.
-   */
-  averageVolume?: number;
-  /**
-   * Current bid price.
-   */
-  bid?: number;
-  /**
-   * Absolute price change on the day, in the quote currency.
-   */
-  change?: number;
-  /**
-   * Percent price change on the day.
-   */
-  changePercent?: number;
-  /**
-   * ISO currency the quote is priced in (e.g. USD). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  currency?: string;
-  /**
-   * Highest price so far in the current session.
-   */
-  dayHigh?: number;
-  /**
-   * Lowest price so far in the current session.
-   */
-  dayLow?: number;
-  /**
-   * Exchange the instrument trades on (e.g. NasdaqGS). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  exchange?: string;
-  /**
-   * Highest price over the trailing 52 weeks.
-   */
-  fiftyTwoWeekHigh?: number;
-  /**
-   * Lowest price over the trailing 52 weeks.
-   */
-  fiftyTwoWeekLow?: number;
-  /**
-   * Market capitalization in the quote currency.
-   */
-  marketCap?: number;
-  /**
-   * Current market state (e.g. REGULAR, PRE, POST, CLOSED).
-   */
-  marketState?: string;
-  /**
-   * Instrument or company name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  name?: string;
-  /**
-   * Opening price for the current session.
-   */
-  open?: number;
-  /**
-   * Previous session close price.
-   */
-  previousClose?: number;
-  /**
-   * Current price in the quote currency.
-   */
-  price: number;
-  /**
-   * Resolved ticker symbol for the quote. Populated whenever the provider has data for the entity.
-   */
-  symbol: string;
-  /**
-   * Traded volume for the current session.
-   */
-  volume?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Google Finance Quote (google_finance.quote).
- */
-export interface GoogleFinanceQuoteData {
-  /**
-   * The quote for the requested symbol: name, current price, day change (absolute and percent), quote currency, exchange and market state, plus intraday and reference figures. Up to one element (empty when the symbol did not resolve). Populated whenever the provider has data for the entity.
-   */
-  items: GoogleFinanceQuoteItem[];
-}
+export type GoogleFinanceQuoteData = unknown;
 
 /**
  * Typed methods for the google_finance platform. Attached to the AnyAPI client as
@@ -137,7 +38,11 @@ export class GoogleFinanceNamespace {
   quote(
     input: GoogleFinanceQuoteInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GoogleFinanceQuoteData>> {
-    return this._core.run("google_finance.quote", input, options);
+  ): Promise<BareRunResult<GoogleFinanceQuoteData>> {
+    return this._core.run(
+      "google_finance.quote",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GoogleFinanceQuoteData>>;
   }
 }

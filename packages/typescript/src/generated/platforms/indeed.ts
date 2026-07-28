@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -35,56 +35,7 @@ export interface IndeedJobsInput {
   query: string;
 }
 
-export interface IndeedJobsItem {
-  city?: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  company?: string;
-  country?: string;
-  /**
-   * ISO 8601 publish date.
-   */
-  datePublished?: string;
-  /**
-   * Plain-text job description.
-   */
-  description?: string;
-  expired?: boolean;
-  /**
-   * Indeed job key. Populated whenever the provider has data for the entity.
-   */
-  jobId: string;
-  postalCode?: string;
-  salaryCurrency?: string;
-  salaryMax?: number;
-  salaryMin?: number;
-  /**
-   * Salary period, e.g. YEAR or HOUR.
-   */
-  salaryUnit?: string;
-  state?: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Indeed job posting URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Indeed Jobs (indeed.jobs).
- */
-export interface IndeedJobsData {
-  /**
-   * Job listing records: title, employer, location, salary when available, job type, posting date, and description. Populated whenever the provider has data for the entity.
-   */
-  items: IndeedJobsItem[];
-}
+export type IndeedJobsData = unknown;
 
 /**
  * Typed methods for the indeed platform. Attached to the AnyAPI client as
@@ -106,7 +57,9 @@ export class IndeedNamespace {
   jobs(
     input: IndeedJobsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<IndeedJobsData>> {
-    return this._core.run("indeed.jobs", input, options);
+  ): Promise<BareRunResult<IndeedJobsData>> {
+    return this._core.run("indeed.jobs", input, options) as unknown as Promise<
+      BareRunResult<IndeedJobsData>
+    >;
   }
 }

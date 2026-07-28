@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -33,55 +33,7 @@ class SecFilingsInput(TypedDict, total=False):
 
 
 class SecFilingsData(BaseModel):
-    items: list[SecFilingsItem] = Field(
-        description="Filing records: company and CIK, form type, filing date, accession number, and document links. Populated whenever the provider has data for the entity."
-    )
-
-
-class SecFilingsItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    accession_number: str = Field(
-        alias="accessionNumber",
-        description="SEC accession number uniquely identifying the filing. Populated whenever the provider has data for the entity.",
-    )
-    cik: str | None = Field(
-        default=None,
-        description="SEC Central Index Key for the filer. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    company_name: str | None = Field(
-        default=None,
-        alias="companyName",
-        description="Filer company name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    description: str | None = Field(
-        default=None, description="Primary document description, e.g. the form label."
-    )
-    filed_utc: float | None = Field(
-        default=None,
-        alias="filedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the filing was filed. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    filing_url: str | None = Field(
-        default=None,
-        alias="filingUrl",
-        description="Link to the filing index/folder on sec.gov.",
-    )
-    form: str | None = Field(
-        default=None,
-        description="SEC form type, e.g. 10-K, 10-Q, 8-K. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    reported_utc: float | None = Field(
-        default=None,
-        alias="reportedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Period-of-report date for the filing.",
-    )
-    ticker: str | None = Field(
-        default=None, description="Stock ticker symbol of the filer, when known."
-    )
-    url: str = Field(
-        description="Direct link to the primary filing document on sec.gov. Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SecNamespace:
@@ -92,7 +44,7 @@ class SecNamespace:
 
     def filings(
         self, *, options: RequestOptions | None = None, **input: Unpack[SecFilingsInput]
-    ) -> RunResult[SecFilingsData]:
+    ) -> BareRunResult[SecFilingsData]:
         """SEC EDGAR Filings
 
         List a public company's SEC EDGAR filings - form type, filing date,
@@ -107,7 +59,7 @@ class SecNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "sec.filings", dict(input), options
         )
-        return RunResult[SecFilingsData].model_validate(raw)
+        return BareRunResult[SecFilingsData].model_validate(raw)
 
 
 class AsyncSecNamespace:
@@ -118,7 +70,7 @@ class AsyncSecNamespace:
 
     async def filings(
         self, *, options: RequestOptions | None = None, **input: Unpack[SecFilingsInput]
-    ) -> RunResult[SecFilingsData]:
+    ) -> BareRunResult[SecFilingsData]:
         """SEC EDGAR Filings
 
         List a public company's SEC EDGAR filings - form type, filing date,
@@ -133,4 +85,4 @@ class AsyncSecNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "sec.filings", dict(input), options
         )
-        return RunResult[SecFilingsData].model_validate(raw)
+        return BareRunResult[SecFilingsData].model_validate(raw)

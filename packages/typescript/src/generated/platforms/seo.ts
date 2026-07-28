@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -41,45 +41,7 @@ export interface SeoCompetitorsDomainInput {
   target: string;
 }
 
-export interface SeoCompetitorsDomainCompetitor {
-  /**
-   * Average ranking position across shared keywords. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  avgPosition?: number;
-  /**
-   * Competing domain. Populated whenever the provider has data for the entity.
-   */
-  domain: string;
-  /**
-   * Number of keywords shared with the target domain. Populated whenever the provider has data for the entity.
-   */
-  intersections: number;
-  /**
-   * Estimated monthly organic search traffic for the competitor domain.
-   */
-  organicEtv?: number;
-  /**
-   * Number of organic search results where the competitor domain appears.
-   */
-  organicKeywords?: number;
-  /**
-   * Sum of ranking positions across shared keywords. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  sumPosition?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Competitor Domains (seo.competitors_domain).
- */
-export interface SeoCompetitorsDomainData {
-  /**
-   * SEO competitor domain records. Populated whenever the provider has data for the entity.
-   */
-  competitors: SeoCompetitorsDomainCompetitor[];
-}
+export type SeoCompetitorsDomainData = unknown;
 
 /**
  * Input for SEO Domain Intersection (seo.domain_intersection).
@@ -125,55 +87,7 @@ export interface SeoDomainIntersectionInput {
   target2: string;
 }
 
-export interface SeoDomainIntersectionKeyword {
-  /**
-   * Average paid-search cost per click in USD.
-   */
-  cpc?: number;
-  /**
-   * Absolute organic ranking position for the first domain. Populated whenever the provider has data for the entity.
-   */
-  firstRank: number;
-  /**
-   * Ranking URL for the first domain.
-   */
-  firstUrl?: string;
-  /**
-   * Keyword phrase both domains rank for. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Estimated organic ranking difficulty on a 0-100 scale.
-   */
-  keywordDifficulty?: number;
-  /**
-   * Average monthly search volume for the keyword.
-   */
-  searchVolume?: number;
-  /**
-   * Absolute organic ranking position for the second domain. Absent when intersections is false (the second domain does not rank for this keyword).
-   */
-  secondRank?: number;
-  /**
-   * Ranking URL for the second domain. Absent when intersections is false.
-   */
-  secondUrl?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  updatedUtc?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Domain Intersection (seo.domain_intersection).
- */
-export interface SeoDomainIntersectionData {
-  /**
-   * SEO keyword records both domains rank for. Populated whenever the provider has data for the entity.
-   */
-  keywords: SeoDomainIntersectionKeyword[];
-}
+export type SeoDomainIntersectionData = unknown;
 
 /**
  * Input for SEO Domain Rank Overview (seo.domain_rank_overview).
@@ -195,78 +109,7 @@ export interface SeoDomainRankOverviewInput {
   target: string;
 }
 
-/**
- * The `data` payload of SEO Domain Rank Overview (seo.domain_rank_overview).
- */
-export interface SeoDomainRankOverviewData {
-  /**
-   * Analyzed domain. Populated whenever the provider has data for the entity.
-   */
-  domain: string;
-  /**
-   * Language code the metrics are scoped to.
-   */
-  language?: string;
-  /**
-   * Location code the metrics are scoped to.
-   */
-  location?: number;
-  /**
-   * Number of organic search results where the domain appears. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  organicKeywords?: number;
-  /**
-   * Number of organic search results where the domain ranks first. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  organicPos1?: number;
-  /**
-   * Number of organic search results where the domain ranks second or third. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  organicPos2To3?: number;
-  /**
-   * Number of organic search results where the domain ranks fourth through tenth. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  organicPos4To10?: number;
-  /**
-   * Estimated monthly organic search traffic. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  organicTraffic?: number;
-  /**
-   * Estimated USD value of the organic search traffic. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  organicTrafficCostUsd?: number;
-  /**
-   * Number of paid search results where the domain appears.
-   */
-  paidKeywords?: number;
-  /**
-   * Number of paid search results where the domain ranks first.
-   */
-  paidPos1?: number;
-  /**
-   * Number of paid search results where the domain ranks second or third.
-   */
-  paidPos2To3?: number;
-  /**
-   * Number of paid search results where the domain ranks fourth through tenth.
-   */
-  paidPos4To10?: number;
-  /**
-   * Estimated monthly paid search traffic.
-   */
-  paidTraffic?: number;
-  /**
-   * Estimated USD value of the paid search traffic.
-   */
-  paidTrafficCostUsd?: number;
-  [extra: string]: unknown;
-}
+export type SeoDomainRankOverviewData = unknown;
 
 /**
  * Input for SEO Keyword Difficulty (seo.keyword_difficulty).
@@ -288,28 +131,7 @@ export interface SeoKeywordDifficultyInput {
   location?: number;
 }
 
-export interface SeoKeywordDifficultyDifficultie {
-  /**
-   * Keyword phrase. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Estimated organic ranking difficulty on a 0-100 scale. Omitted when the upstream has no difficulty for the keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  keywordDifficulty?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Keyword Difficulty (seo.keyword_difficulty).
- */
-export interface SeoKeywordDifficultyData {
-  /**
-   * SEO keyword difficulty records. Populated whenever the provider has data for the entity.
-   */
-  difficulties: SeoKeywordDifficultyDifficultie[];
-}
+export type SeoKeywordDifficultyData = unknown;
 
 /**
  * Input for SEO Keyword Ideas (seo.keyword_ideas).
@@ -351,52 +173,7 @@ export interface SeoKeywordIdeasInput {
     | "difficulty_desc";
 }
 
-export interface SeoKeywordIdeasIdea {
-  /**
-   * Paid-search competition level for the keyword idea. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  competition?: string;
-  /**
-   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  cpc?: number;
-  /**
-   * Keyword idea phrase. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  keywordDifficulty?: number;
-  /**
-   * Primary SEO search intent for the keyword idea. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchIntent?: string;
-  /**
-   * Average monthly search volume for the keyword idea. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchVolume?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  updatedUtc?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Keyword Ideas (seo.keyword_ideas).
- */
-export interface SeoKeywordIdeasData {
-  /**
-   * SEO keyword idea records. Populated whenever the provider has data for the entity.
-   */
-  ideas: SeoKeywordIdeasIdea[];
-}
+export type SeoKeywordIdeasData = unknown;
 
 /**
  * Input for SEO Keyword Overview (seo.keyword_overview).
@@ -418,80 +195,7 @@ export interface SeoKeywordOverviewInput {
   location?: number;
 }
 
-export interface SeoKeywordOverviewKeyword {
-  /**
-   * Upper bound of the estimated paid-search top-of-page bid in USD.
-   */
-  bidHigh?: number;
-  /**
-   * Lower bound of the estimated paid-search top-of-page bid in USD.
-   */
-  bidLow?: number;
-  /**
-   * Paid-search competition level for the keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  competition?: string;
-  /**
-   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  cpc?: number;
-  /**
-   * Keyword phrase. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  keywordDifficulty?: number;
-  /**
-   * Monthly search-volume history for the keyword.
-   */
-  monthlySearches?: SeoKeywordOverviewMonthlySearche[];
-  /**
-   * Primary SEO search intent for the keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchIntent?: string;
-  /**
-   * Average monthly search volume for the keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchVolume?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  updatedUtc?: number;
-  [extra: string]: unknown;
-}
-
-export interface SeoKeywordOverviewMonthlySearche {
-  /**
-   * Calendar month number for the monthly search-volume record.
-   */
-  month?: number;
-  /**
-   * Search volume for the month.
-   */
-  searchVolume?: number;
-  /**
-   * Calendar year for the monthly search-volume record.
-   */
-  year?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Keyword Overview (seo.keyword_overview).
- */
-export interface SeoKeywordOverviewData {
-  /**
-   * SEO keyword metric records. Populated whenever the provider has data for the entity.
-   */
-  keywords: SeoKeywordOverviewKeyword[];
-}
+export type SeoKeywordOverviewData = unknown;
 
 /**
  * Input for SEO Keyword Suggestions (seo.keyword_suggestions).
@@ -533,52 +237,7 @@ export interface SeoKeywordSuggestionsInput {
     | "difficulty_desc";
 }
 
-export interface SeoKeywordSuggestionsSuggestion {
-  /**
-   * Paid-search competition level for the keyword suggestion. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  competition?: string;
-  /**
-   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  cpc?: number;
-  /**
-   * Keyword suggestion phrase. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  keywordDifficulty?: number;
-  /**
-   * Primary SEO search intent for the keyword suggestion. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchIntent?: string;
-  /**
-   * Average monthly search volume for the keyword suggestion. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchVolume?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  updatedUtc?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Keyword Suggestions (seo.keyword_suggestions).
- */
-export interface SeoKeywordSuggestionsData {
-  /**
-   * SEO keyword suggestion records. Populated whenever the provider has data for the entity.
-   */
-  suggestions: SeoKeywordSuggestionsSuggestion[];
-}
+export type SeoKeywordSuggestionsData = unknown;
 
 /**
  * Input for SEO Local Pack (seo.local_pack).
@@ -609,69 +268,7 @@ export interface SeoLocalPackInput {
   locationCoordinate?: string;
 }
 
-export interface SeoLocalPackPlace {
-  /**
-   * Full formatted street address. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  address?: string;
-  /**
-   * Primary place category.
-   */
-  category?: string;
-  /**
-   * True when the place listing is claimed.
-   */
-  claimed?: boolean;
-  /**
-   * Latitude of the place in decimal degrees.
-   */
-  latitude?: number;
-  /**
-   * Longitude of the place in decimal degrees.
-   */
-  longitude?: number;
-  /**
-   * Place name. Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  /**
-   * Business phone number, when listed.
-   */
-  phone?: string;
-  /**
-   * Place identifier.
-   */
-  placeId?: string;
-  /**
-   * Absolute ranking position in the local pack results. Populated whenever the provider has data for the entity.
-   */
-  rankAbsolute: number;
-  /**
-   * Average star rating out of 5. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  rating?: number;
-  /**
-   * Total number of reviews.
-   */
-  reviewsCount?: number;
-  /**
-   * Canonical place URL.
-   */
-  url?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Local Pack (seo.local_pack).
- */
-export interface SeoLocalPackData {
-  /**
-   * SEO local pack place records. Populated whenever the provider has data for the entity.
-   */
-  places: SeoLocalPackPlace[];
-}
+export type SeoLocalPackData = unknown;
 
 /**
  * Input for SEO Ranked Keywords (seo.ranked_keywords).
@@ -704,61 +301,7 @@ export interface SeoRankedKeywordsInput {
   target: string;
 }
 
-export interface SeoRankedKeywordsRankedKeyword {
-  /**
-   * Average paid-search cost per click in USD.
-   */
-  cpc?: number;
-  /**
-   * Estimated organic search traffic for the ranking URL.
-   */
-  etv?: number;
-  /**
-   * Keyword phrase the domain ranks for. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Estimated organic ranking difficulty on a 0-100 scale.
-   */
-  keywordDifficulty?: number;
-  /**
-   * Absolute organic ranking position for the keyword. Populated whenever the provider has data for the entity.
-   */
-  rankAbsolute: number;
-  /**
-   * Grouped organic ranking position for the keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  rankGroup?: number;
-  /**
-   * Primary SEO search intent for the keyword.
-   */
-  searchIntent?: string;
-  /**
-   * Average monthly search volume for the keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchVolume?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  updatedUtc?: number;
-  /**
-   * Ranking URL for the domain.
-   */
-  url?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Ranked Keywords (seo.ranked_keywords).
- */
-export interface SeoRankedKeywordsData {
-  /**
-   * SEO ranked keyword records for the domain. Populated whenever the provider has data for the entity.
-   */
-  rankedKeywords: SeoRankedKeywordsRankedKeyword[];
-}
+export type SeoRankedKeywordsData = unknown;
 
 /**
  * Input for SEO Related Keywords (seo.related_keywords).
@@ -801,57 +344,7 @@ export interface SeoRelatedKeywordsInput {
     | "difficulty_desc";
 }
 
-export interface SeoRelatedKeywordsRelatedKeyword {
-  /**
-   * Paid-search competition level for the related keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  competition?: string;
-  /**
-   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  cpc?: number;
-  /**
-   * Related-keyword graph depth from the seed keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  depth?: number;
-  /**
-   * Related keyword phrase. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  keywordDifficulty?: number;
-  /**
-   * Primary SEO search intent for the related keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchIntent?: string;
-  /**
-   * Average monthly search volume for the related keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchVolume?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  updatedUtc?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Related Keywords (seo.related_keywords).
- */
-export interface SeoRelatedKeywordsData {
-  /**
-   * SEO related keyword records. Populated whenever the provider has data for the entity.
-   */
-  relatedKeywords: SeoRelatedKeywordsRelatedKeyword[];
-}
+export type SeoRelatedKeywordsData = unknown;
 
 /**
  * Input for SEO Search Intent (seo.search_intent).
@@ -868,27 +361,7 @@ export interface SeoSearchIntentInput {
   language?: string;
 }
 
-export interface SeoSearchIntentIntent {
-  /**
-   * Primary SEO search intent for the keyword. Populated whenever the provider has data for the entity.
-   */
-  intent: string;
-  /**
-   * Keyword phrase. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Search Intent (seo.search_intent).
- */
-export interface SeoSearchIntentData {
-  /**
-   * SEO keyword search intent records. Populated whenever the provider has data for the entity.
-   */
-  intents: SeoSearchIntentIntent[];
-}
+export type SeoSearchIntentData = unknown;
 
 /**
  * Input for SEO Search Volume (seo.search_volume).
@@ -922,70 +395,7 @@ export interface SeoSearchVolumeInput {
   searchPartners?: boolean;
 }
 
-export interface SeoSearchVolumeKeyword {
-  /**
-   * Upper bound of the estimated paid-search top-of-page bid in USD.
-   */
-  bidHigh?: number;
-  /**
-   * Lower bound of the estimated paid-search top-of-page bid in USD.
-   */
-  bidLow?: number;
-  /**
-   * Paid-search competition level for the keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  competition?: string;
-  /**
-   * Paid-search competition index for the keyword.
-   */
-  competitionIndex?: number;
-  /**
-   * Average paid-search cost per click in USD. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  cpc?: number;
-  /**
-   * Keyword phrase. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Monthly search-volume history for the keyword.
-   */
-  monthlySearches?: SeoSearchVolumeMonthlySearche[];
-  /**
-   * Average monthly search volume for the keyword. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  searchVolume?: number;
-  [extra: string]: unknown;
-}
-
-export interface SeoSearchVolumeMonthlySearche {
-  /**
-   * Calendar month number for the monthly search-volume record.
-   */
-  month?: number;
-  /**
-   * Search volume for the month.
-   */
-  searchVolume?: number;
-  /**
-   * Calendar year for the monthly search-volume record.
-   */
-  year?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEO Search Volume (seo.search_volume).
- */
-export interface SeoSearchVolumeData {
-  /**
-   * SEO keyword search-volume records. Populated whenever the provider has data for the entity.
-   */
-  keywords: SeoSearchVolumeKeyword[];
-}
+export type SeoSearchVolumeData = unknown;
 
 /**
  * Typed methods for the seo platform. Attached to the AnyAPI client as
@@ -1007,8 +417,12 @@ export class SeoNamespace {
   competitorsDomain(
     input: SeoCompetitorsDomainInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoCompetitorsDomainData>> {
-    return this._core.run("seo.competitors_domain", input, options);
+  ): Promise<BareRunResult<SeoCompetitorsDomainData>> {
+    return this._core.run(
+      "seo.competitors_domain",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoCompetitorsDomainData>>;
   }
 
   /**
@@ -1024,8 +438,12 @@ export class SeoNamespace {
   domainIntersection(
     input: SeoDomainIntersectionInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoDomainIntersectionData>> {
-    return this._core.run("seo.domain_intersection", input, options);
+  ): Promise<BareRunResult<SeoDomainIntersectionData>> {
+    return this._core.run(
+      "seo.domain_intersection",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoDomainIntersectionData>>;
   }
 
   /**
@@ -1041,8 +459,12 @@ export class SeoNamespace {
   domainRankOverview(
     input: SeoDomainRankOverviewInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoDomainRankOverviewData>> {
-    return this._core.run("seo.domain_rank_overview", input, options);
+  ): Promise<BareRunResult<SeoDomainRankOverviewData>> {
+    return this._core.run(
+      "seo.domain_rank_overview",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoDomainRankOverviewData>>;
   }
 
   /**
@@ -1058,8 +480,12 @@ export class SeoNamespace {
   keywordDifficulty(
     input: SeoKeywordDifficultyInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoKeywordDifficultyData>> {
-    return this._core.run("seo.keyword_difficulty", input, options);
+  ): Promise<BareRunResult<SeoKeywordDifficultyData>> {
+    return this._core.run(
+      "seo.keyword_difficulty",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoKeywordDifficultyData>>;
   }
 
   /**
@@ -1075,8 +501,12 @@ export class SeoNamespace {
   keywordIdeas(
     input: SeoKeywordIdeasInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoKeywordIdeasData>> {
-    return this._core.run("seo.keyword_ideas", input, options);
+  ): Promise<BareRunResult<SeoKeywordIdeasData>> {
+    return this._core.run(
+      "seo.keyword_ideas",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoKeywordIdeasData>>;
   }
 
   /**
@@ -1092,8 +522,12 @@ export class SeoNamespace {
   keywordOverview(
     input: SeoKeywordOverviewInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoKeywordOverviewData>> {
-    return this._core.run("seo.keyword_overview", input, options);
+  ): Promise<BareRunResult<SeoKeywordOverviewData>> {
+    return this._core.run(
+      "seo.keyword_overview",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoKeywordOverviewData>>;
   }
 
   /**
@@ -1109,8 +543,12 @@ export class SeoNamespace {
   keywordSuggestions(
     input: SeoKeywordSuggestionsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoKeywordSuggestionsData>> {
-    return this._core.run("seo.keyword_suggestions", input, options);
+  ): Promise<BareRunResult<SeoKeywordSuggestionsData>> {
+    return this._core.run(
+      "seo.keyword_suggestions",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoKeywordSuggestionsData>>;
   }
 
   /**
@@ -1126,8 +564,12 @@ export class SeoNamespace {
   localPack(
     input: SeoLocalPackInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoLocalPackData>> {
-    return this._core.run("seo.local_pack", input, options);
+  ): Promise<BareRunResult<SeoLocalPackData>> {
+    return this._core.run(
+      "seo.local_pack",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoLocalPackData>>;
   }
 
   /**
@@ -1143,8 +585,12 @@ export class SeoNamespace {
   rankedKeywords(
     input: SeoRankedKeywordsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoRankedKeywordsData>> {
-    return this._core.run("seo.ranked_keywords", input, options);
+  ): Promise<BareRunResult<SeoRankedKeywordsData>> {
+    return this._core.run(
+      "seo.ranked_keywords",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoRankedKeywordsData>>;
   }
 
   /**
@@ -1160,8 +606,12 @@ export class SeoNamespace {
   relatedKeywords(
     input: SeoRelatedKeywordsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoRelatedKeywordsData>> {
-    return this._core.run("seo.related_keywords", input, options);
+  ): Promise<BareRunResult<SeoRelatedKeywordsData>> {
+    return this._core.run(
+      "seo.related_keywords",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoRelatedKeywordsData>>;
   }
 
   /**
@@ -1177,8 +627,12 @@ export class SeoNamespace {
   searchIntent(
     input: SeoSearchIntentInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoSearchIntentData>> {
-    return this._core.run("seo.search_intent", input, options);
+  ): Promise<BareRunResult<SeoSearchIntentData>> {
+    return this._core.run(
+      "seo.search_intent",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoSearchIntentData>>;
   }
 
   /**
@@ -1194,7 +648,11 @@ export class SeoNamespace {
   searchVolume(
     input: SeoSearchVolumeInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SeoSearchVolumeData>> {
-    return this._core.run("seo.search_volume", input, options);
+  ): Promise<BareRunResult<SeoSearchVolumeData>> {
+    return this._core.run(
+      "seo.search_volume",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SeoSearchVolumeData>>;
   }
 }

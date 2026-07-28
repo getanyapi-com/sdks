@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -23,69 +23,7 @@ class WalmartProductInput(TypedDict, total=False):
 
 
 class WalmartProductData(BaseModel):
-    items: list[WalmartProductItem] = Field(
-        description="Product detail records (one per requested product URL). Populated whenever the provider has data for the entity."
-    )
-
-
-class WalmartProductItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    availability: str | None = Field(
-        default=None, description='Stock status, e.g. "IN_STOCK".'
-    )
-    brand: str | None = Field(
-        default=None, description="Brand name; empty when not reported."
-    )
-    description: str | None = Field(
-        default=None,
-        description="Short product description; empty when the listing has none.",
-    )
-    image: str | None = Field(
-        default=None,
-        description="Primary product image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    images: list[str] | None = Field(
-        default=None, description="All product image URLs."
-    )
-    item_id: str | None = Field(
-        default=None,
-        alias="itemId",
-        description="Walmart US item id (usItemId). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    model: str | None = Field(
-        default=None, description="Manufacturer model number; empty when not reported."
-    )
-    price_text: str | None = Field(
-        default=None,
-        alias="priceText",
-        description='Current price as displayed, e.g. "$125.00"; empty when unavailable (Walmart returns a formatted string, not a numeric value).',
-    )
-    product_id: str | None = Field(
-        default=None, alias="productId", description="Walmart internal product id."
-    )
-    rating: float | None = Field(
-        default=None, description="Average customer rating, 0-5; 0 when unrated."
-    )
-    reviews_count: int | None = Field(
-        default=None,
-        alias="reviewsCount",
-        description="Number of customer reviews; 0 when none.",
-    )
-    seller_name: str | None = Field(
-        default=None,
-        alias="sellerName",
-        description="Name of the seller fulfilling the offer.",
-    )
-    title: str = Field(
-        description="Product title. Populated whenever the provider has data for the entity."
-    )
-    upc: str | None = Field(
-        default=None, description="Universal Product Code; empty when not reported."
-    )
-    url: str = Field(
-        description="Canonical Walmart product page URL (condition query param retained, as it selects the offer). Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class WalmartNamespace:
@@ -99,7 +37,7 @@ class WalmartNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[WalmartProductInput],
-    ) -> RunResult[WalmartProductData]:
+    ) -> BareRunResult[WalmartProductData]:
         """Walmart Product
 
         Fetch a Walmart product page by URL and get full product details (title,
@@ -113,7 +51,7 @@ class WalmartNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "walmart.product", dict(input), options
         )
-        return RunResult[WalmartProductData].model_validate(raw)
+        return BareRunResult[WalmartProductData].model_validate(raw)
 
 
 class AsyncWalmartNamespace:
@@ -127,7 +65,7 @@ class AsyncWalmartNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[WalmartProductInput],
-    ) -> RunResult[WalmartProductData]:
+    ) -> BareRunResult[WalmartProductData]:
         """Walmart Product
 
         Fetch a Walmart product page by URL and get full product details (title,
@@ -141,4 +79,4 @@ class AsyncWalmartNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "walmart.product", dict(input), options
         )
-        return RunResult[WalmartProductData].model_validate(raw)
+        return BareRunResult[WalmartProductData].model_validate(raw)

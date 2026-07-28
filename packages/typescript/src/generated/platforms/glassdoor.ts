@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -48,80 +48,7 @@ export interface GlassdoorJobsInput {
   workplaceType?: "remote" | "hybrid" | "onsite";
 }
 
-/**
- * A Glassdoor job listing: title, employer, location, salary estimate, rating, and the listing URL.
- */
-export interface GlassdoorJobsItem {
-  /**
-   * Days since the listing was posted.
-   */
-  ageInDays?: number;
-  /**
-   * Hiring employer name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  company?: string;
-  /**
-   * Full job description (may contain HTML).
-   */
-  description?: string;
-  /**
-   * Glassdoor job listing id. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Job location (city, region).
-   */
-  location?: string;
-  /**
-   * Employer Glassdoor star rating (0 when not rated).
-   */
-  rating?: number;
-  /**
-   * Estimated salary range for the listing.
-   */
-  salary?: {
-    /**
-     * ISO currency code for the salary figures.
-     */
-    currency?: string;
-    /**
-     * High end of the estimated salary range.
-     */
-    max?: number;
-    /**
-     * Median of the estimated salary range.
-     */
-    median?: number;
-    /**
-     * Low end of the estimated salary range.
-     */
-    min?: number;
-    /**
-     * Pay period the figures cover (e.g. ANNUAL, HOURLY).
-     */
-    period?: string;
-  };
-  /**
-   * Job title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Absolute Glassdoor job listing URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Glassdoor Jobs (glassdoor.jobs).
- */
-export interface GlassdoorJobsData {
-  /**
-   * Job listing records for the search or company page. Populated whenever the provider has data for the entity.
-   */
-  items: GlassdoorJobsItem[];
-}
+export type GlassdoorJobsData = unknown;
 
 /**
  * Typed methods for the glassdoor platform. Attached to the AnyAPI client as
@@ -143,7 +70,11 @@ export class GlassdoorNamespace {
   jobs(
     input: GlassdoorJobsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GlassdoorJobsData>> {
-    return this._core.run("glassdoor.jobs", input, options);
+  ): Promise<BareRunResult<GlassdoorJobsData>> {
+    return this._core.run(
+      "glassdoor.jobs",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GlassdoorJobsData>>;
   }
 }

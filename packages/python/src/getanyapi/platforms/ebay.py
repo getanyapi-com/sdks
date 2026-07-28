@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -81,82 +81,11 @@ class EbaySoldListingsInput(TypedDict, total=False):
 
 
 class EbaySearchData(BaseModel):
-    items: list[EbaySearchItem] = Field(
-        description="Listing records: title, price, condition, shipping cost, seller info, image, and item URL. Populated whenever the provider has data for the entity."
-    )
-
-
-class EbaySearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    condition: str | None = None
-    image: str | None = Field(
-        default=None,
-        description="Primary listing image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    item_id: str = Field(
-        alias="itemId",
-        description="eBay item identifier. Populated whenever the provider has data for the entity.",
-    )
-    listing_type: str | None = Field(
-        default=None, alias="listingType", description="Auction, FixedPrice, etc."
-    )
-    price: float | None = Field(default=None, description="Listing price.")
-    seller_feedback_percent: float | None = Field(
-        default=None,
-        alias="sellerFeedbackPercent",
-        description="Seller positive-feedback percentage.",
-    )
-    seller_name: str | None = Field(default=None, alias="sellerName")
-    shipping_cost: str | None = Field(
-        default=None,
-        alias="shippingCost",
-        description="Shipping cost or free-delivery label.",
-    )
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class EbaySoldListingsData(BaseModel):
-    items: list[EbaySoldListingsItem] = Field(
-        description="Sold listing records: title, sold price, sale date, condition, shipping, and item URL. Populated whenever the provider has data for the entity."
-    )
-
-
-class EbaySoldListingsItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    condition: str | None = None
-    ended_at: str | None = Field(
-        default=None, alias="endedAt", description="Sale date (ISO 8601)."
-    )
-    image: str | None = Field(
-        default=None,
-        description="Primary listing image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    item_id: str = Field(
-        alias="itemId",
-        description="eBay item identifier. Populated whenever the provider has data for the entity.",
-    )
-    listing_type: str | None = Field(default=None, alias="listingType")
-    seller_username: str | None = Field(default=None, alias="sellerUsername")
-    sold_currency: str | None = Field(default=None, alias="soldCurrency")
-    sold_price: float | None = Field(
-        default=None, alias="soldPrice", description="Final sold price."
-    )
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    total_price: float | None = Field(
-        default=None, alias="totalPrice", description="Sold price plus shipping."
-    )
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class EbayNamespace:
@@ -167,7 +96,7 @@ class EbayNamespace:
 
     def search(
         self, *, options: RequestOptions | None = None, **input: Unpack[EbaySearchInput]
-    ) -> RunResult[EbaySearchData]:
+    ) -> BareRunResult[EbaySearchData]:
         """eBay Search
 
         Search eBay active listings by keyword with optional price-range,
@@ -182,14 +111,14 @@ class EbayNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.search", dict(input), options
         )
-        return RunResult[EbaySearchData].model_validate(raw)
+        return BareRunResult[EbaySearchData].model_validate(raw)
 
     def sold_listings(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[EbaySoldListingsInput],
-    ) -> RunResult[EbaySoldListingsData]:
+    ) -> BareRunResult[EbaySoldListingsData]:
         """eBay Sold Listings
 
         Retrieve recently sold eBay listings for any keyword with optional
@@ -204,7 +133,7 @@ class EbayNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.sold_listings", dict(input), options
         )
-        return RunResult[EbaySoldListingsData].model_validate(raw)
+        return BareRunResult[EbaySoldListingsData].model_validate(raw)
 
 
 class AsyncEbayNamespace:
@@ -215,7 +144,7 @@ class AsyncEbayNamespace:
 
     async def search(
         self, *, options: RequestOptions | None = None, **input: Unpack[EbaySearchInput]
-    ) -> RunResult[EbaySearchData]:
+    ) -> BareRunResult[EbaySearchData]:
         """eBay Search
 
         Search eBay active listings by keyword with optional price-range,
@@ -230,14 +159,14 @@ class AsyncEbayNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.search", dict(input), options
         )
-        return RunResult[EbaySearchData].model_validate(raw)
+        return BareRunResult[EbaySearchData].model_validate(raw)
 
     async def sold_listings(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[EbaySoldListingsInput],
-    ) -> RunResult[EbaySoldListingsData]:
+    ) -> BareRunResult[EbaySoldListingsData]:
         """eBay Sold Listings
 
         Retrieve recently sold eBay listings for any keyword with optional
@@ -252,4 +181,4 @@ class AsyncEbayNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "ebay.sold_listings", dict(input), options
         )
-        return RunResult[EbaySoldListingsData].model_validate(raw)
+        return BareRunResult[EbaySoldListingsData].model_validate(raw)

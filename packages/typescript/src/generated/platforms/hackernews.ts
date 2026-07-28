@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,18 +16,7 @@ export interface HackernewsProfileInput {
   handle: string;
 }
 
-/**
- * The `data` payload of Hacker News Profile (hackernews.profile).
- */
-export interface HackernewsProfileData {
-  bio: string;
-  karma: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  [extra: string]: unknown;
-}
+export type HackernewsProfileData = unknown;
 
 /**
  * Input for Hacker News Search (hackernews.search).
@@ -43,47 +32,7 @@ export interface HackernewsSearchInput {
   tags?: string;
 }
 
-export interface HackernewsSearchResult {
-  /**
-   * Submitting user's username. Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * Number of comments on the story.
-   */
-  comments: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Hacker News item id. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Story score (upvotes).
-   */
-  points: number;
-  /**
-   * Story title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Story link.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Hacker News Search (hackernews.search).
- */
-export interface HackernewsSearchData {
-  /**
-   * Matching Hacker News stories. Populated whenever the provider has data for the entity.
-   */
-  results: HackernewsSearchResult[];
-}
+export type HackernewsSearchData = unknown;
 
 /**
  * Input for Hacker News Story (hackernews.story).
@@ -95,36 +44,7 @@ export interface HackernewsStoryInput {
   id: string;
 }
 
-/**
- * The `data` payload of Hacker News Story (hackernews.story).
- */
-export interface HackernewsStoryData {
-  /**
-   * Submitting user's username. Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * Number of comments on the story.
-   */
-  comments: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Story score (upvotes).
-   */
-  points: number;
-  /**
-   * Story title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Story link.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
+export type HackernewsStoryData = unknown;
 
 /**
  * Input for Hacker News Story Comments (hackernews.story_comments).
@@ -136,39 +56,7 @@ export interface HackernewsStoryCommentsInput {
   id: string;
 }
 
-export interface HackernewsStoryCommentsComment {
-  /**
-   * Commenting user's username. Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Hacker News comment id. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Id of the parent item (story or comment) this reply belongs to.
-   */
-  parentId: string;
-  /**
-   * Comment body text.
-   */
-  text: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Hacker News Story Comments (hackernews.story_comments).
- */
-export interface HackernewsStoryCommentsData {
-  /**
-   * Comments on the story. Populated whenever the provider has data for the entity.
-   */
-  comments: HackernewsStoryCommentsComment[];
-}
+export type HackernewsStoryCommentsData = unknown;
 
 /**
  * Typed methods for the hackernews platform. Attached to the AnyAPI client as
@@ -190,8 +78,12 @@ export class HackernewsNamespace {
   profile(
     input: HackernewsProfileInput,
     options?: RequestOptions,
-  ): Promise<RunResult<HackernewsProfileData>> {
-    return this._core.run("hackernews.profile", input, options);
+  ): Promise<BareRunResult<HackernewsProfileData>> {
+    return this._core.run(
+      "hackernews.profile",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<HackernewsProfileData>>;
   }
 
   /**
@@ -207,8 +99,12 @@ export class HackernewsNamespace {
   search(
     input: HackernewsSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<HackernewsSearchData>> {
-    return this._core.run("hackernews.search", input, options);
+  ): Promise<BareRunResult<HackernewsSearchData>> {
+    return this._core.run(
+      "hackernews.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<HackernewsSearchData>>;
   }
 
   /**
@@ -224,8 +120,12 @@ export class HackernewsNamespace {
   story(
     input: HackernewsStoryInput,
     options?: RequestOptions,
-  ): Promise<RunResult<HackernewsStoryData>> {
-    return this._core.run("hackernews.story", input, options);
+  ): Promise<BareRunResult<HackernewsStoryData>> {
+    return this._core.run(
+      "hackernews.story",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<HackernewsStoryData>>;
   }
 
   /**
@@ -241,7 +141,11 @@ export class HackernewsNamespace {
   storyComments(
     input: HackernewsStoryCommentsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<HackernewsStoryCommentsData>> {
-    return this._core.run("hackernews.story_comments", input, options);
+  ): Promise<BareRunResult<HackernewsStoryCommentsData>> {
+    return this._core.run(
+      "hackernews.story_comments",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<HackernewsStoryCommentsData>>;
   }
 }

@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -21,99 +21,7 @@ export interface RedfinSearchInput {
   url: string;
 }
 
-export interface RedfinSearchItem {
-  /**
-   * Street address line of the home.
-   */
-  addressLine?: string;
-  /**
-   * Number of bathrooms (fractional for half baths).
-   */
-  baths?: number;
-  /**
-   * Number of bedrooms.
-   */
-  beds?: number;
-  /**
-   * City the home is in.
-   */
-  city?: string;
-  /**
-   * Latitude of the home in decimal degrees.
-   */
-  latitude?: number;
-  /**
-   * Redfin listing id for this specific listing.
-   */
-  listingId?: string;
-  /**
-   * Longitude of the home in decimal degrees.
-   */
-  longitude?: number;
-  /**
-   * Lot size in square feet.
-   */
-  lotSize?: number;
-  /**
-   * MLS number for the listing.
-   */
-  mlsId?: string;
-  /**
-   * Postal (ZIP) code of the home.
-   */
-  postalCode?: string;
-  /**
-   * List (or last sale) price in US dollars.
-   */
-  price?: number;
-  /**
-   * Price per square foot in US dollars.
-   */
-  pricePerSqft?: number;
-  /**
-   * Redfin property id (stable identifier for the home). Populated whenever the provider has data for the entity.
-   */
-  propertyId: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  soldUtc?: number;
-  /**
-   * Interior living area in square feet.
-   */
-  sqft?: number;
-  /**
-   * Two-letter state code the home is in.
-   */
-  state?: string;
-  /**
-   * MLS listing status (e.g. Active, Coming Soon, Sold).
-   */
-  status?: string;
-  /**
-   * Street address line used as the listing title.
-   */
-  title?: string;
-  /**
-   * Canonical Redfin listing detail page URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  /**
-   * Year the home was built.
-   */
-  yearBuilt?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Redfin Search (redfin.search).
- */
-export interface RedfinSearchData {
-  /**
-   * Matching Redfin home listing records. Populated whenever the provider has data for the entity.
-   */
-  items: RedfinSearchItem[];
-}
+export type RedfinSearchData = unknown;
 
 /**
  * Typed methods for the redfin platform. Attached to the AnyAPI client as
@@ -135,7 +43,11 @@ export class RedfinNamespace {
   search(
     input: RedfinSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedfinSearchData>> {
-    return this._core.run("redfin.search", input, options);
+  ): Promise<BareRunResult<RedfinSearchData>> {
+    return this._core.run(
+      "redfin.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<RedfinSearchData>>;
   }
 }

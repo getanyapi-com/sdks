@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -21,71 +21,7 @@ export interface FiverrSearchInput {
   url: string;
 }
 
-export interface FiverrSearchItem {
-  /**
-   * Delivery time in days.
-   */
-  duration?: number;
-  /**
-   * Stable Fiverr gig identifier. Populated whenever the provider has data for the entity.
-   */
-  gigId: string;
-  /**
-   * Canonical Fiverr URL for the gig. Populated whenever the provider has data for the entity.
-   */
-  gigUrl: string;
-  /**
-   * Primary gig thumbnail URL.
-   */
-  image?: string;
-  /**
-   * Starting price in USD.
-   */
-  price?: number;
-  /**
-   * Seller country code.
-   */
-  sellerCountry?: string;
-  /**
-   * Seller display name.
-   */
-  sellerDisplayName?: string;
-  /**
-   * Fiverr seller level.
-   */
-  sellerLevel?: string;
-  /**
-   * Seller username.
-   */
-  sellerName?: string;
-  /**
-   * Number of seller ratings.
-   */
-  sellerRatingCount?: number;
-  /**
-   * Average seller rating.
-   */
-  sellerRatingScore?: number;
-  /**
-   * Seller profile URL.
-   */
-  sellerUrl?: string;
-  /**
-   * Gig headline. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Fiverr Gig Search (fiverr.search).
- */
-export interface FiverrSearchData {
-  /**
-   * Gig records from the search or category URL. Operators may return additional fields beyond those documented here. Populated whenever the provider has data for the entity.
-   */
-  items: FiverrSearchItem[];
-}
+export type FiverrSearchData = unknown;
 
 /**
  * Typed methods for the fiverr platform. Attached to the AnyAPI client as
@@ -107,7 +43,11 @@ export class FiverrNamespace {
   search(
     input: FiverrSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<FiverrSearchData>> {
-    return this._core.run("fiverr.search", input, options);
+  ): Promise<BareRunResult<FiverrSearchData>> {
+    return this._core.run(
+      "fiverr.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<FiverrSearchData>>;
   }
 }

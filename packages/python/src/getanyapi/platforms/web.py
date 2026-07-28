@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -70,76 +70,19 @@ class WebScreenshotInput(TypedDict, total=False):
 
 
 class WebCrawlData(BaseModel):
-    items: list[WebCrawlItem] = Field(
-        description="Crawled page records: URL, page title, and extracted text content for each page. Populated whenever the provider has data for the entity."
-    )
-
-
-class WebCrawlItem(BaseModel):
     model_config = ConfigDict(extra="allow")
-
-    domain: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    text: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
 
 
 class WebMapData(BaseModel):
-    results: list[WebMapResult] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class WebMapResult(BaseModel):
     model_config = ConfigDict(extra="allow")
-
-    description: str
-    title: str
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
 
 
 class WebScrapeData(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    description: str = Field(description="The page meta description.")
-    html: str | None = Field(
-        default=None,
-        description="The cleaned page HTML. Present only when 'html' is among the requested formats.",
-    )
-    markdown: str = Field(
-        description="The page content as clean Markdown. Present when 'markdown' is among the requested formats (the default). Populated whenever the provider has data for the entity."
-    )
-    raw_html: str | None = Field(
-        default=None,
-        alias="rawHtml",
-        description="The verbatim page HTML before cleaning. Present only when 'rawHtml' is among the requested formats.",
-    )
-    title: str = Field(description="The page title from its metadata.")
-    url: str = Field(
-        description="The canonical source URL of the scraped page. Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class WebScreenshotData(BaseModel):
-    items: list[WebScreenshotItem] = Field(
-        description="Screenshot records: the requested page URL and a link to the captured image. Populated whenever the provider has data for the entity."
-    )
-
-
-class WebScreenshotItem(BaseModel):
     model_config = ConfigDict(extra="allow")
-
-    image: str | None = Field(
-        default=None,
-        description="Link to the captured screenshot image. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    url: str = Field(
-        description="The final page URL that was captured. Populated whenever the provider has data for the entity."
-    )
 
 
 class WebNamespace:
@@ -150,7 +93,7 @@ class WebNamespace:
 
     def crawl(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebCrawlInput]
-    ) -> RunResult[WebCrawlData]:
+    ) -> BareRunResult[WebCrawlData]:
         """Website Crawl
 
         Crawl a website and get clean text content from up to 10 pages in one
@@ -164,11 +107,11 @@ class WebNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.crawl", dict(input), options
         )
-        return RunResult[WebCrawlData].model_validate(raw)
+        return BareRunResult[WebCrawlData].model_validate(raw)
 
     def map(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebMapInput]
-    ) -> RunResult[WebMapData]:
+    ) -> BareRunResult[WebMapData]:
         """Web Map
 
         Map an entire website into a clean list of its URLs (with titles and
@@ -182,11 +125,11 @@ class WebNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.map", dict(input), options
         )
-        return RunResult[WebMapData].model_validate(raw)
+        return BareRunResult[WebMapData].model_validate(raw)
 
     def scrape(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebScrapeInput]
-    ) -> RunResult[WebScrapeData]:
+    ) -> BareRunResult[WebScrapeData]:
         """Web Scrape
 
         Scrape any web page and get its content back as clean Markdown (or HTML, or
@@ -200,14 +143,14 @@ class WebNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options
         )
-        return RunResult[WebScrapeData].model_validate(raw)
+        return BareRunResult[WebScrapeData].model_validate(raw)
 
     def screenshot(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[WebScreenshotInput],
-    ) -> RunResult[WebScreenshotData]:
+    ) -> BareRunResult[WebScreenshotData]:
         """Website Screenshot
 
         Capture a real-browser screenshot of any web page URL.
@@ -220,7 +163,7 @@ class WebNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.screenshot", dict(input), options
         )
-        return RunResult[WebScreenshotData].model_validate(raw)
+        return BareRunResult[WebScreenshotData].model_validate(raw)
 
 
 class AsyncWebNamespace:
@@ -231,7 +174,7 @@ class AsyncWebNamespace:
 
     async def crawl(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebCrawlInput]
-    ) -> RunResult[WebCrawlData]:
+    ) -> BareRunResult[WebCrawlData]:
         """Website Crawl
 
         Crawl a website and get clean text content from up to 10 pages in one
@@ -245,11 +188,11 @@ class AsyncWebNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.crawl", dict(input), options
         )
-        return RunResult[WebCrawlData].model_validate(raw)
+        return BareRunResult[WebCrawlData].model_validate(raw)
 
     async def map(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebMapInput]
-    ) -> RunResult[WebMapData]:
+    ) -> BareRunResult[WebMapData]:
         """Web Map
 
         Map an entire website into a clean list of its URLs (with titles and
@@ -263,11 +206,11 @@ class AsyncWebNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.map", dict(input), options
         )
-        return RunResult[WebMapData].model_validate(raw)
+        return BareRunResult[WebMapData].model_validate(raw)
 
     async def scrape(
         self, *, options: RequestOptions | None = None, **input: Unpack[WebScrapeInput]
-    ) -> RunResult[WebScrapeData]:
+    ) -> BareRunResult[WebScrapeData]:
         """Web Scrape
 
         Scrape any web page and get its content back as clean Markdown (or HTML, or
@@ -281,14 +224,14 @@ class AsyncWebNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options
         )
-        return RunResult[WebScrapeData].model_validate(raw)
+        return BareRunResult[WebScrapeData].model_validate(raw)
 
     async def screenshot(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[WebScreenshotInput],
-    ) -> RunResult[WebScreenshotData]:
+    ) -> BareRunResult[WebScreenshotData]:
         """Website Screenshot
 
         Capture a real-browser screenshot of any web page URL.
@@ -301,4 +244,4 @@ class AsyncWebNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.screenshot", dict(input), options
         )
-        return RunResult[WebScreenshotData].model_validate(raw)
+        return BareRunResult[WebScreenshotData].model_validate(raw)

@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -37,70 +37,7 @@ export interface CongressTradesInput {
   ticker?: string;
 }
 
-export interface CongressTradesItem {
-  /**
-   * Disclosed dollar amount range for the transaction.
-   */
-  amountRange?: string;
-  /**
-   * Full name of the traded asset. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  assetName?: string;
-  /**
-   * Congressional chamber, e.g. House or Senate.
-   */
-  chamber?: string;
-  /**
-   * Member's first name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  firstName?: string;
-  /**
-   * Stable disclosure record identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Member's last name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  lastName?: string;
-  /**
-   * Trade owner code, e.g. SP (spouse), JT (joint), DC (dependent child).
-   */
-  owner?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the transaction was reported/disclosed.
-   */
-  reportedUtc?: number;
-  /**
-   * Member's state and district, e.g. PA11.
-   */
-  stateDistrict?: string;
-  /**
-   * Stock ticker symbol of the traded asset. Populated whenever the provider has data for the entity.
-   */
-  symbol: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the transaction occurred.
-   */
-  tradedUtc?: number;
-  /**
-   * Transaction type code, e.g. P (purchase), S (sale).
-   */
-  transactionType?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Congress Stock Trades (congress.trades).
- */
-export interface CongressTradesData {
-  /**
-   * Disclosure records: member name and chamber, stock ticker, transaction type, amount range, and transaction/report dates. Populated whenever the provider has data for the entity.
-   */
-  items: CongressTradesItem[];
-}
+export type CongressTradesData = unknown;
 
 /**
  * Typed methods for the congress platform. Attached to the AnyAPI client as
@@ -122,7 +59,11 @@ export class CongressNamespace {
   trades(
     input: CongressTradesInput,
     options?: RequestOptions,
-  ): Promise<RunResult<CongressTradesData>> {
-    return this._core.run("congress.trades", input, options);
+  ): Promise<BareRunResult<CongressTradesData>> {
+    return this._core.run(
+      "congress.trades",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<CongressTradesData>>;
   }
 }

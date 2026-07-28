@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,38 +16,7 @@ export interface WhatsappValidateInput {
   phone: string;
 }
 
-/**
- * A WhatsApp validation result: the phone number with its registration status.
- */
-export interface WhatsappValidateItem {
-  /**
-   * UTC epoch timestamp in seconds (Unix time) when the check ran. Multiply by 1000 for a JS Date in milliseconds.
-   */
-  checkedUtc?: number;
-  /**
-   * True when the number is registered on WhatsApp.
-   */
-  exists: boolean;
-  /**
-   * True when the number is a valid, reachable WhatsApp account.
-   */
-  isValid?: boolean;
-  /**
-   * The phone number that was checked, in international format. Populated whenever the provider has data for the entity.
-   */
-  phone: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of WhatsApp Number Validator (whatsapp.validate).
- */
-export interface WhatsappValidateData {
-  /**
-   * Validation records for the phone number. Populated whenever the provider has data for the entity.
-   */
-  items: WhatsappValidateItem[];
-}
+export type WhatsappValidateData = unknown;
 
 /**
  * Typed methods for the whatsapp platform. Attached to the AnyAPI client as
@@ -69,7 +38,11 @@ export class WhatsappNamespace {
   validate(
     input: WhatsappValidateInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WhatsappValidateData>> {
-    return this._core.run("whatsapp.validate", input, options);
+  ): Promise<BareRunResult<WhatsappValidateData>> {
+    return this._core.run(
+      "whatsapp.validate",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<WhatsappValidateData>>;
   }
 }

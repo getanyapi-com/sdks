@@ -1,12 +1,10 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
-  Paginator,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
-import { paginate } from "../../core/index.js";
 
 /**
  * Input for YouTube Channel (youtube.channel).
@@ -22,28 +20,7 @@ export interface YoutubeChannelInput {
   handle?: string;
 }
 
-/**
- * The `data` payload of YouTube Channel (youtube.channel).
- */
-export interface YoutubeChannelData {
-  avatarUrl: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  channelId: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  description: string;
-  subscribers: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  videos: number;
-  views: number;
-  [extra: string]: unknown;
-}
+export type YoutubeChannelData = unknown;
 
 /**
  * Input for YouTube Channel Community Posts (youtube.channel_community_posts).
@@ -63,38 +40,7 @@ export interface YoutubeChannelCommunityPostsInput {
   handle?: string;
 }
 
-export interface YoutubeChannelCommunityPostsPost {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  content: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  image: string;
-  likeCount: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  publishedTime: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Channel Community Posts (youtube.channel_community_posts).
- */
-export interface YoutubeChannelCommunityPostsData {
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  posts: YoutubeChannelCommunityPostsPost[];
-}
+export type YoutubeChannelCommunityPostsData = unknown;
 
 /**
  * Input for YouTube Channel Live Streams (youtube.channel_lives).
@@ -114,38 +60,7 @@ export interface YoutubeChannelLivesInput {
   handle?: string;
 }
 
-export interface YoutubeChannelLivesLive {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  lengthText: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  publishedTime: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Channel Live Streams (youtube.channel_lives).
- */
-export interface YoutubeChannelLivesData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  lives: YoutubeChannelLivesLive[];
-  nextCursor: string;
-}
+export type YoutubeChannelLivesData = unknown;
 
 /**
  * Input for YouTube Channel Playlists (youtube.channel_playlists).
@@ -165,34 +80,7 @@ export interface YoutubeChannelPlaylistsInput {
   handle?: string;
 }
 
-export interface YoutubeChannelPlaylistsPlaylist {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  playlistUrl: string;
-  thumbnail: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  videoCount: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Channel Playlists (youtube.channel_playlists).
- */
-export interface YoutubeChannelPlaylistsData {
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  playlists: YoutubeChannelPlaylistsPlaylist[];
-}
+export type YoutubeChannelPlaylistsData = unknown;
 
 /**
  * Input for YouTube Channel Shorts (youtube.channel_shorts).
@@ -217,35 +105,7 @@ export interface YoutubeChannelShortsInput {
   sort?: "newest" | "popular";
 }
 
-export interface YoutubeChannelShortsShort {
-  duration: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Channel Shorts (youtube.channel_shorts).
- */
-export interface YoutubeChannelShortsData {
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  shorts: YoutubeChannelShortsShort[];
-}
+export type YoutubeChannelShortsData = unknown;
 
 /**
  * Input for YouTube Channel Videos (youtube.channel_videos).
@@ -270,38 +130,7 @@ export interface YoutubeChannelVideosInput {
   sort?: "latest" | "popular";
 }
 
-export interface YoutubeChannelVideosVideo {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  lengthText: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  publishedTime: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Channel Videos (youtube.channel_videos).
- */
-export interface YoutubeChannelVideosData {
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videos: YoutubeChannelVideosVideo[];
-}
+export type YoutubeChannelVideosData = unknown;
 
 /**
  * Input for YouTube Comment Replies (youtube.comment_replies).
@@ -313,37 +142,7 @@ export interface YoutubeCommentRepliesInput {
   continuationToken: string;
 }
 
-export interface YoutubeCommentRepliesComment {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  authorName: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  content: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  publishedTime: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Comment Replies (youtube.comment_replies).
- */
-export interface YoutubeCommentRepliesData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  comments: YoutubeCommentRepliesComment[];
-  nextCursor: string;
-}
+export type YoutubeCommentRepliesData = unknown;
 
 /**
  * Input for YouTube Community Post (youtube.community_post).
@@ -355,32 +154,7 @@ export interface YoutubeCommunityPostInput {
   url: string;
 }
 
-/**
- * The `data` payload of YouTube Community Post (youtube.community_post).
- */
-export interface YoutubeCommunityPostData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  channelHandle: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  channelTitle: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  content: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  publishedTime: string;
-  [extra: string]: unknown;
-}
+export type YoutubeCommunityPostData = unknown;
 
 /**
  * Input for YouTube Playlist (youtube.playlist).
@@ -392,50 +166,7 @@ export interface YoutubePlaylistInput {
   playlistId: string;
 }
 
-export interface YoutubePlaylistVideo {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  channel: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  lengthSeconds: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  lengthText: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  thumbnail: string;
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Playlist (youtube.playlist).
- */
-export interface YoutubePlaylistData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  owner: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  totalVideos: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videos: YoutubePlaylistVideo[];
-}
+export type YoutubePlaylistData = unknown;
 
 /**
  * Input for YouTube Search (youtube.search).
@@ -462,41 +193,7 @@ export interface YoutubeSearchInput {
   uploadDate?: "today" | "this_week" | "this_month" | "this_year";
 }
 
-export interface YoutubeSearchVideo {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  channel: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  lengthText: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  publishedTime: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Search (youtube.search).
- */
-export interface YoutubeSearchData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videos: YoutubeSearchVideo[];
-}
+export type YoutubeSearchData = unknown;
 
 /**
  * Input for YouTube Hashtag Search (youtube.search_hashtag).
@@ -517,83 +214,14 @@ export interface YoutubeSearchHashtagInput {
   type?: "all" | "shorts";
 }
 
-export interface YoutubeSearchHashtagVideo {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  channelTitle: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  lengthText: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  publishedTime: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Hashtag Search (youtube.search_hashtag).
- */
-export interface YoutubeSearchHashtagData {
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videos: YoutubeSearchHashtagVideo[];
-}
+export type YoutubeSearchHashtagData = unknown;
 
 /**
  * Input for YouTube Trending Shorts (youtube.trending_shorts).
  */
 export interface YoutubeTrendingShortsInput {}
 
-export interface YoutubeTrendingShortsShort {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  channelTitle: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  duration: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Trending Shorts (youtube.trending_shorts).
- */
-export interface YoutubeTrendingShortsData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  shorts: YoutubeTrendingShortsShort[];
-}
+export type YoutubeTrendingShortsData = unknown;
 
 /**
  * Input for YouTube Video (youtube.video).
@@ -609,44 +237,7 @@ export interface YoutubeVideoInput {
   url?: string;
 }
 
-/**
- * The `data` payload of YouTube Video (youtube.video).
- */
-export interface YoutubeVideoData {
-  /**
-   * Name of the channel that published the video. Populated whenever the provider has data for the entity.
-   */
-  channel: string;
-  /**
-   * Number of comments.
-   */
-  comments: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Duration of the video in milliseconds.
-   */
-  durationMs: number;
-  /**
-   * Unique identifier of the video. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Number of likes.
-   */
-  likes: number;
-  /**
-   * Title of the video. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Number of views.
-   */
-  views: number;
-  [extra: string]: unknown;
-}
+export type YoutubeVideoData = unknown;
 
 /**
  * Input for YouTube Video Comments (youtube.video_comments).
@@ -666,38 +257,7 @@ export interface YoutubeVideoCommentsInput {
   url: string;
 }
 
-export interface YoutubeVideoCommentsComment {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  publishedTime: string;
-  replies: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Video Comments (youtube.video_comments).
- */
-export interface YoutubeVideoCommentsData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  comments: YoutubeVideoCommentsComment[];
-  nextCursor: string;
-}
+export type YoutubeVideoCommentsData = unknown;
 
 /**
  * Input for YouTube Video Sponsors (youtube.video_sponsors).
@@ -713,32 +273,7 @@ export interface YoutubeVideoSponsorsInput {
   url: string;
 }
 
-export interface YoutubeVideoSponsorsSuspectedSponsor {
-  confidence: string;
-  name: string;
-  website: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of YouTube Video Sponsors (youtube.video_sponsors).
- */
-export interface YoutubeVideoSponsorsData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  detectionStatus: string;
-  isPaidPromotion: boolean;
-  suspectedSponsors: YoutubeVideoSponsorsSuspectedSponsor[];
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videoId: string;
-}
+export type YoutubeVideoSponsorsData = unknown;
 
 /**
  * Input for YouTube Video Transcript (youtube.video_transcript).
@@ -754,20 +289,7 @@ export interface YoutubeVideoTranscriptInput {
   url?: string;
 }
 
-/**
- * The `data` payload of YouTube Video Transcript (youtube.video_transcript).
- */
-export interface YoutubeVideoTranscriptData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  language: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  transcript: string;
-  [extra: string]: unknown;
-}
+export type YoutubeVideoTranscriptData = unknown;
 
 /**
  * Typed methods for the youtube platform. Attached to the AnyAPI client as
@@ -789,8 +311,12 @@ export class YoutubeNamespace {
   channel(
     input: YoutubeChannelInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeChannelData>> {
-    return this._core.run("youtube.channel", input, options);
+  ): Promise<BareRunResult<YoutubeChannelData>> {
+    return this._core.run(
+      "youtube.channel",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<YoutubeChannelData>>;
   }
 
   /**
@@ -806,34 +332,12 @@ export class YoutubeNamespace {
   channelCommunityPosts(
     input: YoutubeChannelCommunityPostsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeChannelCommunityPostsData>> {
-    return this._core.run("youtube.channel_community_posts", input, options);
-  }
-
-  /**
-   * Iterate every result of YouTube Channel Community Posts across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterChannelCommunityPosts(
-    input: YoutubeChannelCommunityPostsInput,
-    options?: RequestOptions,
-  ): Paginator<
-    YoutubeChannelCommunityPostsPost,
-    RunResult<YoutubeChannelCommunityPostsData>
-  > {
-    return paginate<
-      YoutubeChannelCommunityPostsPost,
-      RunResult<YoutubeChannelCommunityPostsData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<YoutubeChannelCommunityPostsData>> {
+    return this._core.run(
       "youtube.channel_community_posts",
-      input as unknown as Record<string, unknown>,
-      "posts",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<YoutubeChannelCommunityPostsData>>;
   }
 
   /**
@@ -849,31 +353,12 @@ export class YoutubeNamespace {
   channelLives(
     input: YoutubeChannelLivesInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeChannelLivesData>> {
-    return this._core.run("youtube.channel_lives", input, options);
-  }
-
-  /**
-   * Iterate every result of YouTube Channel Live Streams across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterChannelLives(
-    input: YoutubeChannelLivesInput,
-    options?: RequestOptions,
-  ): Paginator<YoutubeChannelLivesLive, RunResult<YoutubeChannelLivesData>> {
-    return paginate<
-      YoutubeChannelLivesLive,
-      RunResult<YoutubeChannelLivesData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<YoutubeChannelLivesData>> {
+    return this._core.run(
       "youtube.channel_lives",
-      input as unknown as Record<string, unknown>,
-      "lives",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<YoutubeChannelLivesData>>;
   }
 
   /**
@@ -889,34 +374,12 @@ export class YoutubeNamespace {
   channelPlaylists(
     input: YoutubeChannelPlaylistsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeChannelPlaylistsData>> {
-    return this._core.run("youtube.channel_playlists", input, options);
-  }
-
-  /**
-   * Iterate every result of YouTube Channel Playlists across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterChannelPlaylists(
-    input: YoutubeChannelPlaylistsInput,
-    options?: RequestOptions,
-  ): Paginator<
-    YoutubeChannelPlaylistsPlaylist,
-    RunResult<YoutubeChannelPlaylistsData>
-  > {
-    return paginate<
-      YoutubeChannelPlaylistsPlaylist,
-      RunResult<YoutubeChannelPlaylistsData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<YoutubeChannelPlaylistsData>> {
+    return this._core.run(
       "youtube.channel_playlists",
-      input as unknown as Record<string, unknown>,
-      "playlists",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<YoutubeChannelPlaylistsData>>;
   }
 
   /**
@@ -932,31 +395,12 @@ export class YoutubeNamespace {
   channelShorts(
     input: YoutubeChannelShortsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeChannelShortsData>> {
-    return this._core.run("youtube.channel_shorts", input, options);
-  }
-
-  /**
-   * Iterate every result of YouTube Channel Shorts across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterChannelShorts(
-    input: YoutubeChannelShortsInput,
-    options?: RequestOptions,
-  ): Paginator<YoutubeChannelShortsShort, RunResult<YoutubeChannelShortsData>> {
-    return paginate<
-      YoutubeChannelShortsShort,
-      RunResult<YoutubeChannelShortsData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<YoutubeChannelShortsData>> {
+    return this._core.run(
       "youtube.channel_shorts",
-      input as unknown as Record<string, unknown>,
-      "shorts",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<YoutubeChannelShortsData>>;
   }
 
   /**
@@ -972,31 +416,12 @@ export class YoutubeNamespace {
   channelVideos(
     input: YoutubeChannelVideosInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeChannelVideosData>> {
-    return this._core.run("youtube.channel_videos", input, options);
-  }
-
-  /**
-   * Iterate every result of YouTube Channel Videos across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterChannelVideos(
-    input: YoutubeChannelVideosInput,
-    options?: RequestOptions,
-  ): Paginator<YoutubeChannelVideosVideo, RunResult<YoutubeChannelVideosData>> {
-    return paginate<
-      YoutubeChannelVideosVideo,
-      RunResult<YoutubeChannelVideosData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<YoutubeChannelVideosData>> {
+    return this._core.run(
       "youtube.channel_videos",
-      input as unknown as Record<string, unknown>,
-      "videos",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<YoutubeChannelVideosData>>;
   }
 
   /**
@@ -1012,8 +437,12 @@ export class YoutubeNamespace {
   commentReplies(
     input: YoutubeCommentRepliesInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeCommentRepliesData>> {
-    return this._core.run("youtube.comment_replies", input, options);
+  ): Promise<BareRunResult<YoutubeCommentRepliesData>> {
+    return this._core.run(
+      "youtube.comment_replies",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<YoutubeCommentRepliesData>>;
   }
 
   /**
@@ -1029,8 +458,12 @@ export class YoutubeNamespace {
   communityPost(
     input: YoutubeCommunityPostInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeCommunityPostData>> {
-    return this._core.run("youtube.community_post", input, options);
+  ): Promise<BareRunResult<YoutubeCommunityPostData>> {
+    return this._core.run(
+      "youtube.community_post",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<YoutubeCommunityPostData>>;
   }
 
   /**
@@ -1046,8 +479,12 @@ export class YoutubeNamespace {
   playlist(
     input: YoutubePlaylistInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubePlaylistData>> {
-    return this._core.run("youtube.playlist", input, options);
+  ): Promise<BareRunResult<YoutubePlaylistData>> {
+    return this._core.run(
+      "youtube.playlist",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<YoutubePlaylistData>>;
   }
 
   /**
@@ -1063,8 +500,12 @@ export class YoutubeNamespace {
   search(
     input: YoutubeSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeSearchData>> {
-    return this._core.run("youtube.search", input, options);
+  ): Promise<BareRunResult<YoutubeSearchData>> {
+    return this._core.run(
+      "youtube.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<YoutubeSearchData>>;
   }
 
   /**
@@ -1080,31 +521,12 @@ export class YoutubeNamespace {
   searchHashtag(
     input: YoutubeSearchHashtagInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeSearchHashtagData>> {
-    return this._core.run("youtube.search_hashtag", input, options);
-  }
-
-  /**
-   * Iterate every result of YouTube Hashtag Search across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterSearchHashtag(
-    input: YoutubeSearchHashtagInput,
-    options?: RequestOptions,
-  ): Paginator<YoutubeSearchHashtagVideo, RunResult<YoutubeSearchHashtagData>> {
-    return paginate<
-      YoutubeSearchHashtagVideo,
-      RunResult<YoutubeSearchHashtagData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<YoutubeSearchHashtagData>> {
+    return this._core.run(
       "youtube.search_hashtag",
-      input as unknown as Record<string, unknown>,
-      "videos",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<YoutubeSearchHashtagData>>;
   }
 
   /**
@@ -1120,8 +542,12 @@ export class YoutubeNamespace {
   trendingShorts(
     input: YoutubeTrendingShortsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeTrendingShortsData>> {
-    return this._core.run("youtube.trending_shorts", input, options);
+  ): Promise<BareRunResult<YoutubeTrendingShortsData>> {
+    return this._core.run(
+      "youtube.trending_shorts",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<YoutubeTrendingShortsData>>;
   }
 
   /**
@@ -1137,8 +563,12 @@ export class YoutubeNamespace {
   video(
     input: YoutubeVideoInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeVideoData>> {
-    return this._core.run("youtube.video", input, options);
+  ): Promise<BareRunResult<YoutubeVideoData>> {
+    return this._core.run(
+      "youtube.video",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<YoutubeVideoData>>;
   }
 
   /**
@@ -1154,34 +584,12 @@ export class YoutubeNamespace {
   videoComments(
     input: YoutubeVideoCommentsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeVideoCommentsData>> {
-    return this._core.run("youtube.video_comments", input, options);
-  }
-
-  /**
-   * Iterate every result of YouTube Video Comments across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterVideoComments(
-    input: YoutubeVideoCommentsInput,
-    options?: RequestOptions,
-  ): Paginator<
-    YoutubeVideoCommentsComment,
-    RunResult<YoutubeVideoCommentsData>
-  > {
-    return paginate<
-      YoutubeVideoCommentsComment,
-      RunResult<YoutubeVideoCommentsData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<YoutubeVideoCommentsData>> {
+    return this._core.run(
       "youtube.video_comments",
-      input as unknown as Record<string, unknown>,
-      "comments",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<YoutubeVideoCommentsData>>;
   }
 
   /**
@@ -1197,8 +605,12 @@ export class YoutubeNamespace {
   videoSponsors(
     input: YoutubeVideoSponsorsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeVideoSponsorsData>> {
-    return this._core.run("youtube.video_sponsors", input, options);
+  ): Promise<BareRunResult<YoutubeVideoSponsorsData>> {
+    return this._core.run(
+      "youtube.video_sponsors",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<YoutubeVideoSponsorsData>>;
   }
 
   /**
@@ -1214,7 +626,11 @@ export class YoutubeNamespace {
   videoTranscript(
     input: YoutubeVideoTranscriptInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YoutubeVideoTranscriptData>> {
-    return this._core.run("youtube.video_transcript", input, options);
+  ): Promise<BareRunResult<YoutubeVideoTranscriptData>> {
+    return this._core.run(
+      "youtube.video_transcript",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<YoutubeVideoTranscriptData>>;
   }
 }

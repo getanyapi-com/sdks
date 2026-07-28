@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -63,97 +63,7 @@ class RealtorSearchInput(TypedDict, total=False):
 
 
 class RealtorSearchData(BaseModel):
-    items: list[RealtorSearchItem] = Field(
-        description="Matching Realtor.com property listing records. Populated whenever the provider has data for the entity."
-    )
-
-
-class RealtorSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    address_line: str | None = Field(
-        default=None,
-        alias="addressLine",
-        description="Street address line of the property.",
-    )
-    baths: str | None = Field(
-        default=None,
-        description='Consolidated bathroom count (e.g. "3.5" for three full and one half bath).',
-    )
-    beds: float | None = Field(default=None, description="Number of bedrooms.")
-    city: str | None = Field(default=None, description="City the property is in.")
-    created_utc: float | None = Field(
-        default=None,
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
-    days_on_market: float | None = Field(
-        default=None,
-        alias="daysOnMarket",
-        description="Number of days the listing has been on the market.",
-    )
-    image: str | None = Field(default=None, description="Primary listing photo URL.")
-    latitude: float | None = Field(
-        default=None, description="Latitude of the property in decimal degrees."
-    )
-    listing_id: str | None = Field(
-        default=None,
-        alias="listingId",
-        description="Realtor.com listing id for this specific listing of the property.",
-    )
-    longitude: float | None = Field(
-        default=None, description="Longitude of the property in decimal degrees."
-    )
-    lot_sqft: float | None = Field(
-        default=None, alias="lotSqft", description="Lot size in square feet."
-    )
-    postal_code: str | None = Field(
-        default=None,
-        alias="postalCode",
-        description="Postal (ZIP) code of the property.",
-    )
-    price: float | None = Field(
-        default=None, description="Current list price in US dollars."
-    )
-    price_per_sqft: float | None = Field(
-        default=None,
-        alias="pricePerSqft",
-        description="List price per square foot in US dollars.",
-    )
-    property_id: str = Field(
-        alias="propertyId",
-        description="Realtor.com property id (stable identifier for the listing). Populated whenever the provider has data for the entity.",
-    )
-    property_type: str | None = Field(
-        default=None,
-        alias="propertyType",
-        description="Property type (e.g. single_family, condos, townhomes).",
-    )
-    sqft: float | None = Field(
-        default=None, description="Interior living area in square feet."
-    )
-    state: str | None = Field(
-        default=None, description="Two-letter state code the property is in."
-    )
-    status: (
-        Literal[
-            "for_sale", "ready_to_build", "sold", "pending", "contingent", "coming_soon"
-        ]
-        | None
-    ) = Field(
-        default=None,
-        description="Display listing status, including ready-to-build, pending, contingent, and coming-soon sub-statuses when present.",
-    )
-    title: str | None = Field(
-        default=None,
-        description="Human-readable street address line used as the listing title.",
-    )
-    url: str = Field(
-        description="Canonical Realtor.com listing detail page URL. Populated whenever the provider has data for the entity."
-    )
-    year_built: float | None = Field(
-        default=None, alias="yearBuilt", description="Year the property was built."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class RealtorNamespace:
@@ -167,7 +77,7 @@ class RealtorNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RealtorSearchInput],
-    ) -> RunResult[RealtorSearchData]:
+    ) -> BareRunResult[RealtorSearchData]:
         """Realtor.com Search
 
         Search Realtor.com listings by location with optional price, property-type,
@@ -182,7 +92,7 @@ class RealtorNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "realtor.search", dict(input), options
         )
-        return RunResult[RealtorSearchData].model_validate(raw)
+        return BareRunResult[RealtorSearchData].model_validate(raw)
 
 
 class AsyncRealtorNamespace:
@@ -196,7 +106,7 @@ class AsyncRealtorNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RealtorSearchInput],
-    ) -> RunResult[RealtorSearchData]:
+    ) -> BareRunResult[RealtorSearchData]:
         """Realtor.com Search
 
         Search Realtor.com listings by location with optional price, property-type,
@@ -211,4 +121,4 @@ class AsyncRealtorNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "realtor.search", dict(input), options
         )
-        return RunResult[RealtorSearchData].model_validate(raw)
+        return BareRunResult[RealtorSearchData].model_validate(raw)

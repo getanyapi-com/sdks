@@ -1,12 +1,10 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
-  Paginator,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
-import { paginate } from "../../core/index.js";
 
 /**
  * Input for GitHub Repository (github.repository).
@@ -18,93 +16,7 @@ export interface GithubRepositoryInput {
   url: string;
 }
 
-/**
- * The `data` payload of GitHub Repository (github.repository).
- */
-export interface GithubRepositoryData {
-  /**
-   * Whether the repository is archived.
-   */
-  archived?: boolean;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  createdUtc?: number;
-  /**
-   * Name of the default branch. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  defaultBranch?: string;
-  /**
-   * Short repository description, or null if none.
-   */
-  description?: string;
-  /**
-   * Whether the repository is a fork.
-   */
-  fork?: boolean;
-  /**
-   * Number of forks.
-   */
-  forks?: number;
-  /**
-   * Full repository name in owner/name form. Populated whenever the provider has data for the entity.
-   */
-  fullName: string;
-  /**
-   * Project homepage URL, or null if none.
-   */
-  homepage?: string;
-  /**
-   * Primary programming language, or null if undetected.
-   */
-  language?: string;
-  /**
-   * License name, or null if unlicensed.
-   */
-  license?: string;
-  /**
-   * Repository short name (without owner). Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  /**
-   * Count of open issues and pull requests.
-   */
-  openIssues?: number;
-  /**
-   * Login of the repository owner (user or organization). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  owner?: string;
-  /**
-   * Last push timestamp (ISO 8601). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  pushedAt?: string;
-  /**
-   * Number of stargazers.
-   */
-  stars?: number;
-  /**
-   * Repository topic tags.
-   */
-  topics?: string[];
-  /**
-   * Last metadata update timestamp (ISO 8601). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  updatedAt?: string;
-  /**
-   * Canonical URL of the repository. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  /**
-   * Number of watchers.
-   */
-  watchers?: number;
-  [extra: string]: unknown;
-}
+export type GithubRepositoryData = unknown;
 
 /**
  * Input for GitHub Trending Developers (github.trending_developers).
@@ -120,41 +32,7 @@ export interface GithubTrendingDevelopersInput {
   since?: string;
 }
 
-export interface GithubTrendingDevelopersDeveloper {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  avatarUrl: string;
-  name: string;
-  popularRepo: string;
-  popularRepoDescription: string;
-  popularRepoUrl: string;
-  rank: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of GitHub Trending Developers (github.trending_developers).
- */
-export interface GithubTrendingDevelopersData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  developers: GithubTrendingDevelopersDeveloper[];
-  language: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  since: string;
-}
+export type GithubTrendingDevelopersData = unknown;
 
 /**
  * Input for GitHub Trending Repositories (github.trending_repositories).
@@ -172,33 +50,7 @@ export interface GithubTrendingRepositoriesInput {
   since?: "daily" | "weekly" | "monthly";
 }
 
-export interface GithubTrendingRepositoriesRepo {
-  description: string;
-  forks: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  fullName: string;
-  language: string;
-  rank: number;
-  stars: number;
-  starsToday: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of GitHub Trending Repositories (github.trending_repositories).
- */
-export interface GithubTrendingRepositoriesData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  repos: GithubTrendingRepositoriesRepo[];
-}
+export type GithubTrendingRepositoriesData = unknown;
 
 /**
  * Input for GitHub User (github.user).
@@ -210,69 +62,7 @@ export interface GithubUserInput {
   handle: string;
 }
 
-/**
- * The `data` payload of GitHub User (github.user).
- */
-export interface GithubUserData {
-  /**
-   * URL of the profile avatar image. Populated whenever the provider has data for the entity.
-   */
-  avatarUrl: string;
-  /**
-   * Profile bio text.
-   */
-  bio: string;
-  /**
-   * Blog or website URL from the profile.
-   */
-  blog?: string;
-  /**
-   * Company listed on the profile.
-   */
-  company?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  createdUtc?: number;
-  /**
-   * Number of followers.
-   */
-  followers: number;
-  /**
-   * Number of accounts the user follows.
-   */
-  following: number;
-  /**
-   * Location listed on the profile.
-   */
-  location?: string;
-  /**
-   * GitHub username (handle). Populated whenever the provider has data for the entity.
-   */
-  login: string;
-  /**
-   * Display name, or empty string if unset. Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  /**
-   * Count of public gists.
-   */
-  publicGists?: number;
-  /**
-   * Count of public repositories.
-   */
-  publicRepos: number;
-  /**
-   * Linked X/Twitter username.
-   */
-  twitterUsername?: string;
-  /**
-   * "User" or "Organization".
-   */
-  type?: string;
-  [extra: string]: unknown;
-}
+export type GithubUserData = unknown;
 
 /**
  * Input for GitHub User Activity (github.user_activity).
@@ -292,34 +82,7 @@ export interface GithubUserActivityInput {
   year?: string;
 }
 
-export interface GithubUserActivityActivity {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  summary: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of GitHub User Activity (github.user_activity).
- */
-export interface GithubUserActivityData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  activity: GithubUserActivityActivity[];
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  month: string;
-  nextCursor: string;
-  noActivity: boolean;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  year: number;
-}
+export type GithubUserActivityData = unknown;
 
 /**
  * Input for GitHub User Contributions (github.user_contributions).
@@ -335,43 +98,7 @@ export interface GithubUserContributionsInput {
   year?: number;
 }
 
-export interface GithubUserContributionsDay {
-  /**
-   * Number of contributions on this day.
-   */
-  count: number;
-  /**
-   * UTC epoch seconds at 00:00 UTC of the contribution day. Populated whenever the provider has data for the entity.
-   */
-  dateUtc: number;
-  /**
-   * Heatmap level 0-4.
-   */
-  intensity: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of GitHub User Contributions (github.user_contributions).
- */
-export interface GithubUserContributionsData {
-  /**
-   * Per-day contribution buckets for the year. Populated whenever the provider has data for the entity.
-   */
-  days: GithubUserContributionsDay[];
-  /**
-   * Total contributions across the year.
-   */
-  total: number;
-  /**
-   * GitHub username the contribution graph belongs to. Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  /**
-   * Calendar year of the contribution graph.
-   */
-  year: number;
-}
+export type GithubUserContributionsData = unknown;
 
 /**
  * Input for GitHub User Followers (github.user_followers).
@@ -387,38 +114,7 @@ export interface GithubUserFollowersInput {
   handle: string;
 }
 
-export interface GithubUserFollowersFollower {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  avatarUrl: string;
-  id: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  login: string;
-  siteAdmin: boolean;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  type: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of GitHub User Followers (github.user_followers).
- */
-export interface GithubUserFollowersData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  followers: GithubUserFollowersFollower[];
-  nextCursor: string;
-}
+export type GithubUserFollowersData = unknown;
 
 /**
  * Input for GitHub User Following (github.user_following).
@@ -434,38 +130,7 @@ export interface GithubUserFollowingInput {
   handle: string;
 }
 
-export interface GithubUserFollowingFollowing {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  avatarUrl: string;
-  id: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  login: string;
-  siteAdmin: boolean;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  type: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of GitHub User Following (github.user_following).
- */
-export interface GithubUserFollowingData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  following: GithubUserFollowingFollowing[];
-  nextCursor: string;
-}
+export type GithubUserFollowingData = unknown;
 
 /**
  * Input for GitHub User Pull Requests (github.user_pull_requests).
@@ -489,47 +154,7 @@ export interface GithubUserPullRequestsInput {
   until?: string;
 }
 
-export interface GithubUserPullRequestsPullRequest {
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Repository the pull request targets, in owner/name form. Populated whenever the provider has data for the entity.
-   */
-  repo: string;
-  /**
-   * Pull request state (e.g. open, closed, merged). Populated whenever the provider has data for the entity.
-   */
-  state: string;
-  /**
-   * Pull request title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Canonical URL of the pull request. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of GitHub User Pull Requests (github.user_pull_requests).
- */
-export interface GithubUserPullRequestsData {
-  /**
-   * Whether more pull requests are available beyond this page.
-   */
-  hasMore: boolean;
-  /**
-   * Opaque cursor for the next page, or empty string when none.
-   */
-  nextCursor: string;
-  /**
-   * The user's public pull requests for this page. Populated whenever the provider has data for the entity.
-   */
-  pullRequests: GithubUserPullRequestsPullRequest[];
-}
+export type GithubUserPullRequestsData = unknown;
 
 /**
  * Input for GitHub User Repositories (github.user_repositories).
@@ -563,41 +188,7 @@ export interface GithubUserRepositoriesInput {
   type?: "owner" | "all" | "member";
 }
 
-export interface GithubUserRepositoriesRepo {
-  archived: boolean;
-  description: string;
-  fork: boolean;
-  forks: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  fullName: string;
-  language: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  pushedAt: string;
-  stars: number;
-  updatedAt: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of GitHub User Repositories (github.user_repositories).
- */
-export interface GithubUserRepositoriesData {
-  hasMore: boolean;
-  nextCursor: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  repos: GithubUserRepositoriesRepo[];
-}
+export type GithubUserRepositoriesData = unknown;
 
 /**
  * Typed methods for the github platform. Attached to the AnyAPI client as
@@ -619,8 +210,12 @@ export class GithubNamespace {
   repository(
     input: GithubRepositoryInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubRepositoryData>> {
-    return this._core.run("github.repository", input, options);
+  ): Promise<BareRunResult<GithubRepositoryData>> {
+    return this._core.run(
+      "github.repository",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GithubRepositoryData>>;
   }
 
   /**
@@ -636,8 +231,12 @@ export class GithubNamespace {
   trendingDevelopers(
     input: GithubTrendingDevelopersInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubTrendingDevelopersData>> {
-    return this._core.run("github.trending_developers", input, options);
+  ): Promise<BareRunResult<GithubTrendingDevelopersData>> {
+    return this._core.run(
+      "github.trending_developers",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GithubTrendingDevelopersData>>;
   }
 
   /**
@@ -653,8 +252,12 @@ export class GithubNamespace {
   trendingRepositories(
     input: GithubTrendingRepositoriesInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubTrendingRepositoriesData>> {
-    return this._core.run("github.trending_repositories", input, options);
+  ): Promise<BareRunResult<GithubTrendingRepositoriesData>> {
+    return this._core.run(
+      "github.trending_repositories",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GithubTrendingRepositoriesData>>;
   }
 
   /**
@@ -670,8 +273,10 @@ export class GithubNamespace {
   user(
     input: GithubUserInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubUserData>> {
-    return this._core.run("github.user", input, options);
+  ): Promise<BareRunResult<GithubUserData>> {
+    return this._core.run("github.user", input, options) as unknown as Promise<
+      BareRunResult<GithubUserData>
+    >;
   }
 
   /**
@@ -687,31 +292,12 @@ export class GithubNamespace {
   userActivity(
     input: GithubUserActivityInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubUserActivityData>> {
-    return this._core.run("github.user_activity", input, options);
-  }
-
-  /**
-   * Iterate every result of GitHub User Activity across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterUserActivity(
-    input: GithubUserActivityInput,
-    options?: RequestOptions,
-  ): Paginator<GithubUserActivityActivity, RunResult<GithubUserActivityData>> {
-    return paginate<
-      GithubUserActivityActivity,
-      RunResult<GithubUserActivityData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<GithubUserActivityData>> {
+    return this._core.run(
       "github.user_activity",
-      input as unknown as Record<string, unknown>,
-      "activity",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<GithubUserActivityData>>;
   }
 
   /**
@@ -727,8 +313,12 @@ export class GithubNamespace {
   userContributions(
     input: GithubUserContributionsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubUserContributionsData>> {
-    return this._core.run("github.user_contributions", input, options);
+  ): Promise<BareRunResult<GithubUserContributionsData>> {
+    return this._core.run(
+      "github.user_contributions",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GithubUserContributionsData>>;
   }
 
   /**
@@ -744,34 +334,12 @@ export class GithubNamespace {
   userFollowers(
     input: GithubUserFollowersInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubUserFollowersData>> {
-    return this._core.run("github.user_followers", input, options);
-  }
-
-  /**
-   * Iterate every result of GitHub User Followers across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterUserFollowers(
-    input: GithubUserFollowersInput,
-    options?: RequestOptions,
-  ): Paginator<
-    GithubUserFollowersFollower,
-    RunResult<GithubUserFollowersData>
-  > {
-    return paginate<
-      GithubUserFollowersFollower,
-      RunResult<GithubUserFollowersData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<GithubUserFollowersData>> {
+    return this._core.run(
       "github.user_followers",
-      input as unknown as Record<string, unknown>,
-      "followers",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<GithubUserFollowersData>>;
   }
 
   /**
@@ -787,34 +355,12 @@ export class GithubNamespace {
   userFollowing(
     input: GithubUserFollowingInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubUserFollowingData>> {
-    return this._core.run("github.user_following", input, options);
-  }
-
-  /**
-   * Iterate every result of GitHub User Following across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterUserFollowing(
-    input: GithubUserFollowingInput,
-    options?: RequestOptions,
-  ): Paginator<
-    GithubUserFollowingFollowing,
-    RunResult<GithubUserFollowingData>
-  > {
-    return paginate<
-      GithubUserFollowingFollowing,
-      RunResult<GithubUserFollowingData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<GithubUserFollowingData>> {
+    return this._core.run(
       "github.user_following",
-      input as unknown as Record<string, unknown>,
-      "following",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<GithubUserFollowingData>>;
   }
 
   /**
@@ -830,34 +376,12 @@ export class GithubNamespace {
   userPullRequests(
     input: GithubUserPullRequestsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubUserPullRequestsData>> {
-    return this._core.run("github.user_pull_requests", input, options);
-  }
-
-  /**
-   * Iterate every result of GitHub User Pull Requests across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterUserPullRequests(
-    input: GithubUserPullRequestsInput,
-    options?: RequestOptions,
-  ): Paginator<
-    GithubUserPullRequestsPullRequest,
-    RunResult<GithubUserPullRequestsData>
-  > {
-    return paginate<
-      GithubUserPullRequestsPullRequest,
-      RunResult<GithubUserPullRequestsData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<GithubUserPullRequestsData>> {
+    return this._core.run(
       "github.user_pull_requests",
-      input as unknown as Record<string, unknown>,
-      "pullRequests",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<GithubUserPullRequestsData>>;
   }
 
   /**
@@ -873,7 +397,11 @@ export class GithubNamespace {
   userRepositories(
     input: GithubUserRepositoriesInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GithubUserRepositoriesData>> {
-    return this._core.run("github.user_repositories", input, options);
+  ): Promise<BareRunResult<GithubUserRepositoriesData>> {
+    return this._core.run(
+      "github.user_repositories",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GithubUserRepositoriesData>>;
   }
 }

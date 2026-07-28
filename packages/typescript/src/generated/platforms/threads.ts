@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,52 +16,7 @@ export interface ThreadsPostInput {
   url: string;
 }
 
-/**
- * The `data` payload of Threads Post (threads.post).
- */
-export interface ThreadsPostData {
-  /**
-   * Threads post shortcode.
-   */
-  code: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * Display name of the author. Populated whenever the provider has data for the entity.
-   */
-  fullName: string;
-  /**
-   * Post identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Number of likes on the post.
-   */
-  likeCount: number;
-  /**
-   * Number of quote posts.
-   */
-  quoteCount: number;
-  /**
-   * Number of replies to the post.
-   */
-  replyCount: number;
-  /**
-   * Number of reposts of the post.
-   */
-  repostCount: number;
-  /**
-   * Post text content. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  /**
-   * Username of the author. Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  [extra: string]: unknown;
-}
+export type ThreadsPostData = unknown;
 
 /**
  * Input for Threads Profile (threads.profile).
@@ -73,35 +28,7 @@ export interface ThreadsProfileInput {
   username: string;
 }
 
-/**
- * The `data` payload of Threads Profile (threads.profile).
- */
-export interface ThreadsProfileData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  biography: string;
-  followerCount: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  fullName: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  isPrivate: boolean;
-  isVerified: boolean;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  profilePicUrl: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  [extra: string]: unknown;
-}
+export type ThreadsProfileData = unknown;
 
 /**
  * Input for Threads Search (threads.search).
@@ -113,59 +40,7 @@ export interface ThreadsSearchInput {
   query: string;
 }
 
-export interface ThreadsSearchPost {
-  /**
-   * Threads post shortcode.
-   */
-  code: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * Display name of the author. Populated whenever the provider has data for the entity.
-   */
-  fullName: string;
-  /**
-   * Post identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Number of likes on the post.
-   */
-  likeCount: number;
-  /**
-   * Number of replies to the post.
-   */
-  replyCount: number;
-  /**
-   * Number of reposts of the post.
-   */
-  repostCount: number;
-  /**
-   * Post text content. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  /**
-   * Canonical URL of the post. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  /**
-   * Username of the author. Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Threads Search (threads.search).
- */
-export interface ThreadsSearchData {
-  /**
-   * Matching public post records: text, author, engagement counts, timestamp, and URL. Populated whenever the provider has data for the entity.
-   */
-  posts: ThreadsSearchPost[];
-}
+export type ThreadsSearchData = unknown;
 
 /**
  * Input for Threads User Search (threads.search_users).
@@ -177,36 +52,7 @@ export interface ThreadsSearchUsersInput {
   query: string;
 }
 
-export interface ThreadsSearchUsersUser {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  fullName: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  isVerified: boolean;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  profilePicUrl: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Threads User Search (threads.search_users).
- */
-export interface ThreadsSearchUsersData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  users: ThreadsSearchUsersUser[];
-}
+export type ThreadsSearchUsersData = unknown;
 
 /**
  * Input for Threads User Posts (threads.user_posts).
@@ -218,59 +64,7 @@ export interface ThreadsUserPostsInput {
   handle: string;
 }
 
-export interface ThreadsUserPostsPost {
-  /**
-   * Threads post shortcode.
-   */
-  code: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * Post identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Number of likes on the post.
-   */
-  likeCount: number;
-  /**
-   * Number of quote posts.
-   */
-  quoteCount: number;
-  /**
-   * Number of replies to the post.
-   */
-  replyCount: number;
-  /**
-   * Number of reposts of the post.
-   */
-  repostCount: number;
-  /**
-   * Post text content. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  /**
-   * Canonical URL of the post. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  /**
-   * Username of the author. Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Threads User Posts (threads.user_posts).
- */
-export interface ThreadsUserPostsData {
-  /**
-   * The user's recent posts. Populated whenever the provider has data for the entity.
-   */
-  posts: ThreadsUserPostsPost[];
-}
+export type ThreadsUserPostsData = unknown;
 
 /**
  * Typed methods for the threads platform. Attached to the AnyAPI client as
@@ -292,8 +86,10 @@ export class ThreadsNamespace {
   post(
     input: ThreadsPostInput,
     options?: RequestOptions,
-  ): Promise<RunResult<ThreadsPostData>> {
-    return this._core.run("threads.post", input, options);
+  ): Promise<BareRunResult<ThreadsPostData>> {
+    return this._core.run("threads.post", input, options) as unknown as Promise<
+      BareRunResult<ThreadsPostData>
+    >;
   }
 
   /**
@@ -309,8 +105,12 @@ export class ThreadsNamespace {
   profile(
     input: ThreadsProfileInput,
     options?: RequestOptions,
-  ): Promise<RunResult<ThreadsProfileData>> {
-    return this._core.run("threads.profile", input, options);
+  ): Promise<BareRunResult<ThreadsProfileData>> {
+    return this._core.run(
+      "threads.profile",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<ThreadsProfileData>>;
   }
 
   /**
@@ -326,8 +126,12 @@ export class ThreadsNamespace {
   search(
     input: ThreadsSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<ThreadsSearchData>> {
-    return this._core.run("threads.search", input, options);
+  ): Promise<BareRunResult<ThreadsSearchData>> {
+    return this._core.run(
+      "threads.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<ThreadsSearchData>>;
   }
 
   /**
@@ -343,8 +147,12 @@ export class ThreadsNamespace {
   searchUsers(
     input: ThreadsSearchUsersInput,
     options?: RequestOptions,
-  ): Promise<RunResult<ThreadsSearchUsersData>> {
-    return this._core.run("threads.search_users", input, options);
+  ): Promise<BareRunResult<ThreadsSearchUsersData>> {
+    return this._core.run(
+      "threads.search_users",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<ThreadsSearchUsersData>>;
   }
 
   /**
@@ -360,7 +168,11 @@ export class ThreadsNamespace {
   userPosts(
     input: ThreadsUserPostsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<ThreadsUserPostsData>> {
-    return this._core.run("threads.user_posts", input, options);
+  ): Promise<BareRunResult<ThreadsUserPostsData>> {
+    return this._core.run(
+      "threads.user_posts",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<ThreadsUserPostsData>>;
   }
 }

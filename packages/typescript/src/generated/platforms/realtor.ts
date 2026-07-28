@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -73,114 +73,7 @@ export interface RealtorSearchInput {
   )[];
 }
 
-export interface RealtorSearchItem {
-  /**
-   * Street address line of the property.
-   */
-  addressLine?: string;
-  /**
-   * Consolidated bathroom count (e.g. "3.5" for three full and one half bath).
-   */
-  baths?: string;
-  /**
-   * Number of bedrooms.
-   */
-  beds?: number;
-  /**
-   * City the property is in.
-   */
-  city?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Number of days the listing has been on the market.
-   */
-  daysOnMarket?: number;
-  /**
-   * Primary listing photo URL.
-   */
-  image?: string;
-  /**
-   * Latitude of the property in decimal degrees.
-   */
-  latitude?: number;
-  /**
-   * Realtor.com listing id for this specific listing of the property.
-   */
-  listingId?: string;
-  /**
-   * Longitude of the property in decimal degrees.
-   */
-  longitude?: number;
-  /**
-   * Lot size in square feet.
-   */
-  lotSqft?: number;
-  /**
-   * Postal (ZIP) code of the property.
-   */
-  postalCode?: string;
-  /**
-   * Current list price in US dollars.
-   */
-  price?: number;
-  /**
-   * List price per square foot in US dollars.
-   */
-  pricePerSqft?: number;
-  /**
-   * Realtor.com property id (stable identifier for the listing). Populated whenever the provider has data for the entity.
-   */
-  propertyId: string;
-  /**
-   * Property type (e.g. single_family, condos, townhomes).
-   */
-  propertyType?: string;
-  /**
-   * Interior living area in square feet.
-   */
-  sqft?: number;
-  /**
-   * Two-letter state code the property is in.
-   */
-  state?: string;
-  /**
-   * Display listing status, including ready-to-build, pending, contingent, and coming-soon sub-statuses when present.
-   * One of: for_sale, ready_to_build, sold, pending, contingent, coming_soon.
-   */
-  status?:
-    | "for_sale"
-    | "ready_to_build"
-    | "sold"
-    | "pending"
-    | "contingent"
-    | "coming_soon";
-  /**
-   * Human-readable street address line used as the listing title.
-   */
-  title?: string;
-  /**
-   * Canonical Realtor.com listing detail page URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  /**
-   * Year the property was built.
-   */
-  yearBuilt?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Realtor.com Search (realtor.search).
- */
-export interface RealtorSearchData {
-  /**
-   * Matching Realtor.com property listing records. Populated whenever the provider has data for the entity.
-   */
-  items: RealtorSearchItem[];
-}
+export type RealtorSearchData = unknown;
 
 /**
  * Typed methods for the realtor platform. Attached to the AnyAPI client as
@@ -202,7 +95,11 @@ export class RealtorNamespace {
   search(
     input: RealtorSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RealtorSearchData>> {
-    return this._core.run("realtor.search", input, options);
+  ): Promise<BareRunResult<RealtorSearchData>> {
+    return this._core.run(
+      "realtor.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<RealtorSearchData>>;
   }
 }

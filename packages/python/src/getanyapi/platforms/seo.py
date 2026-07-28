@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -215,566 +215,51 @@ class SeoSearchVolumeInput(TypedDict, total=False):
 
 
 class SeoCompetitorsDomainData(BaseModel):
-    competitors: list[SeoCompetitorsDomainCompetitor] = Field(
-        description="SEO competitor domain records. Populated whenever the provider has data for the entity."
-    )
-
-
-class SeoCompetitorsDomainCompetitor(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    avg_position: float | None = Field(
-        default=None,
-        alias="avgPosition",
-        description="Average ranking position across shared keywords. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    domain: str = Field(
-        description="Competing domain. Populated whenever the provider has data for the entity."
-    )
-    intersections: int = Field(
-        description="Number of keywords shared with the target domain. Populated whenever the provider has data for the entity."
-    )
-    organic_etv: float | None = Field(
-        default=None,
-        alias="organicEtv",
-        description="Estimated monthly organic search traffic for the competitor domain.",
-    )
-    organic_keywords: int | None = Field(
-        default=None,
-        alias="organicKeywords",
-        description="Number of organic search results where the competitor domain appears.",
-    )
-    sum_position: int | None = Field(
-        default=None,
-        alias="sumPosition",
-        description="Sum of ranking positions across shared keywords. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoDomainIntersectionData(BaseModel):
-    keywords: list[SeoDomainIntersectionKeyword] = Field(
-        description="SEO keyword records both domains rank for. Populated whenever the provider has data for the entity."
-    )
-
-
-class SeoDomainIntersectionKeyword(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    cpc: float | None = Field(
-        default=None, description="Average paid-search cost per click in USD."
-    )
-    first_rank: int = Field(
-        alias="firstRank",
-        description="Absolute organic ranking position for the first domain. Populated whenever the provider has data for the entity.",
-    )
-    first_url: str | None = Field(
-        default=None, alias="firstUrl", description="Ranking URL for the first domain."
-    )
-    keyword: str = Field(
-        description="Keyword phrase both domains rank for. Populated whenever the provider has data for the entity."
-    )
-    keyword_difficulty: int | None = Field(
-        default=None,
-        alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale.",
-    )
-    search_volume: int | None = Field(
-        default=None,
-        alias="searchVolume",
-        description="Average monthly search volume for the keyword.",
-    )
-    second_rank: int | None = Field(
-        default=None,
-        alias="secondRank",
-        description="Absolute organic ranking position for the second domain. Absent when intersections is false (the second domain does not rank for this keyword).",
-    )
-    second_url: str | None = Field(
-        default=None,
-        alias="secondUrl",
-        description="Ranking URL for the second domain. Absent when intersections is false.",
-    )
-    updated_utc: float | None = Field(
-        default=None,
-        alias="updatedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoDomainRankOverviewData(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    domain: str = Field(
-        description="Analyzed domain. Populated whenever the provider has data for the entity."
-    )
-    language: str | None = Field(
-        default=None, description="Language code the metrics are scoped to."
-    )
-    location: int | None = Field(
-        default=None, description="Location code the metrics are scoped to."
-    )
-    organic_keywords: int | None = Field(
-        default=None,
-        alias="organicKeywords",
-        description="Number of organic search results where the domain appears. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    organic_pos1: int | None = Field(
-        default=None,
-        alias="organicPos1",
-        description="Number of organic search results where the domain ranks first. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    organic_pos2_to3: int | None = Field(
-        default=None,
-        alias="organicPos2To3",
-        description="Number of organic search results where the domain ranks second or third. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    organic_pos4_to10: int | None = Field(
-        default=None,
-        alias="organicPos4To10",
-        description="Number of organic search results where the domain ranks fourth through tenth. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    organic_traffic: float | None = Field(
-        default=None,
-        alias="organicTraffic",
-        description="Estimated monthly organic search traffic. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    organic_traffic_cost_usd: float | None = Field(
-        default=None,
-        alias="organicTrafficCostUsd",
-        description="Estimated USD value of the organic search traffic. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    paid_keywords: int | None = Field(
-        default=None,
-        alias="paidKeywords",
-        description="Number of paid search results where the domain appears.",
-    )
-    paid_pos1: int | None = Field(
-        default=None,
-        alias="paidPos1",
-        description="Number of paid search results where the domain ranks first.",
-    )
-    paid_pos2_to3: int | None = Field(
-        default=None,
-        alias="paidPos2To3",
-        description="Number of paid search results where the domain ranks second or third.",
-    )
-    paid_pos4_to10: int | None = Field(
-        default=None,
-        alias="paidPos4To10",
-        description="Number of paid search results where the domain ranks fourth through tenth.",
-    )
-    paid_traffic: float | None = Field(
-        default=None,
-        alias="paidTraffic",
-        description="Estimated monthly paid search traffic.",
-    )
-    paid_traffic_cost_usd: float | None = Field(
-        default=None,
-        alias="paidTrafficCostUsd",
-        description="Estimated USD value of the paid search traffic.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoKeywordDifficultyData(BaseModel):
-    difficulties: list[SeoKeywordDifficultyDifficultie] = Field(
-        description="SEO keyword difficulty records. Populated whenever the provider has data for the entity."
-    )
-
-
-class SeoKeywordDifficultyDifficultie(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    keyword: str = Field(
-        description="Keyword phrase. Populated whenever the provider has data for the entity."
-    )
-    keyword_difficulty: int | None = Field(
-        default=None,
-        alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale. Omitted when the upstream has no difficulty for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoKeywordIdeasData(BaseModel):
-    ideas: list[SeoKeywordIdeasIdea] = Field(
-        description="SEO keyword idea records. Populated whenever the provider has data for the entity."
-    )
-
-
-class SeoKeywordIdeasIdea(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    competition: str | None = Field(
-        default=None,
-        description="Paid-search competition level for the keyword idea. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    cpc: float | None = Field(
-        default=None,
-        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    keyword: str = Field(
-        description="Keyword idea phrase. Populated whenever the provider has data for the entity."
-    )
-    keyword_difficulty: int | None = Field(
-        default=None,
-        alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    search_intent: str | None = Field(
-        default=None,
-        alias="searchIntent",
-        description="Primary SEO search intent for the keyword idea. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    search_volume: int | None = Field(
-        default=None,
-        alias="searchVolume",
-        description="Average monthly search volume for the keyword idea. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    updated_utc: float | None = Field(
-        default=None,
-        alias="updatedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoKeywordOverviewData(BaseModel):
-    keywords: list[SeoKeywordOverviewKeyword] = Field(
-        description="SEO keyword metric records. Populated whenever the provider has data for the entity."
-    )
-
-
-class SeoKeywordOverviewKeyword(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    bid_high: float | None = Field(
-        default=None,
-        alias="bidHigh",
-        description="Upper bound of the estimated paid-search top-of-page bid in USD.",
-    )
-    bid_low: float | None = Field(
-        default=None,
-        alias="bidLow",
-        description="Lower bound of the estimated paid-search top-of-page bid in USD.",
-    )
-    competition: str | None = Field(
-        default=None,
-        description="Paid-search competition level for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    cpc: float | None = Field(
-        default=None,
-        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    keyword: str = Field(
-        description="Keyword phrase. Populated whenever the provider has data for the entity."
-    )
-    keyword_difficulty: int | None = Field(
-        default=None,
-        alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    monthly_searches: list[SeoKeywordOverviewMonthlySearche] | None = Field(
-        default=None,
-        alias="monthlySearches",
-        description="Monthly search-volume history for the keyword.",
-    )
-    search_intent: str | None = Field(
-        default=None,
-        alias="searchIntent",
-        description="Primary SEO search intent for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    search_volume: int | None = Field(
-        default=None,
-        alias="searchVolume",
-        description="Average monthly search volume for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    updated_utc: float | None = Field(
-        default=None,
-        alias="updatedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
-
-
-class SeoKeywordOverviewMonthlySearche(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    month: int | None = Field(
-        default=None,
-        description="Calendar month number for the monthly search-volume record.",
-    )
-    search_volume: int | None = Field(
-        default=None, alias="searchVolume", description="Search volume for the month."
-    )
-    year: int | None = Field(
-        default=None, description="Calendar year for the monthly search-volume record."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoKeywordSuggestionsData(BaseModel):
-    suggestions: list[SeoKeywordSuggestionsSuggestion] = Field(
-        description="SEO keyword suggestion records. Populated whenever the provider has data for the entity."
-    )
-
-
-class SeoKeywordSuggestionsSuggestion(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    competition: str | None = Field(
-        default=None,
-        description="Paid-search competition level for the keyword suggestion. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    cpc: float | None = Field(
-        default=None,
-        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    keyword: str = Field(
-        description="Keyword suggestion phrase. Populated whenever the provider has data for the entity."
-    )
-    keyword_difficulty: int | None = Field(
-        default=None,
-        alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    search_intent: str | None = Field(
-        default=None,
-        alias="searchIntent",
-        description="Primary SEO search intent for the keyword suggestion. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    search_volume: int | None = Field(
-        default=None,
-        alias="searchVolume",
-        description="Average monthly search volume for the keyword suggestion. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    updated_utc: float | None = Field(
-        default=None,
-        alias="updatedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoLocalPackData(BaseModel):
-    places: list[SeoLocalPackPlace] = Field(
-        description="SEO local pack place records. Populated whenever the provider has data for the entity."
-    )
-
-
-class SeoLocalPackPlace(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    address: str | None = Field(
-        default=None,
-        description="Full formatted street address. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    category: str | None = Field(default=None, description="Primary place category.")
-    claimed: bool | None = Field(
-        default=None, description="True when the place listing is claimed."
-    )
-    latitude: float | None = Field(
-        default=None, description="Latitude of the place in decimal degrees."
-    )
-    longitude: float | None = Field(
-        default=None, description="Longitude of the place in decimal degrees."
-    )
-    name: str = Field(
-        description="Place name. Populated whenever the provider has data for the entity."
-    )
-    phone: str | None = Field(
-        default=None, description="Business phone number, when listed."
-    )
-    place_id: str | None = Field(
-        default=None, alias="placeId", description="Place identifier."
-    )
-    rank_absolute: int = Field(
-        alias="rankAbsolute",
-        description="Absolute ranking position in the local pack results. Populated whenever the provider has data for the entity.",
-    )
-    rating: float | None = Field(
-        default=None,
-        description="Average star rating out of 5. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    reviews_count: int | None = Field(
-        default=None, alias="reviewsCount", description="Total number of reviews."
-    )
-    url: str | None = Field(default=None, description="Canonical place URL.")
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoRankedKeywordsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    ranked_keywords: list[SeoRankedKeywordsRankedKeyword] = Field(
-        alias="rankedKeywords",
-        description="SEO ranked keyword records for the domain. Populated whenever the provider has data for the entity.",
-    )
-
-
-class SeoRankedKeywordsRankedKeyword(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    cpc: float | None = Field(
-        default=None, description="Average paid-search cost per click in USD."
-    )
-    etv: float | None = Field(
-        default=None,
-        description="Estimated organic search traffic for the ranking URL.",
-    )
-    keyword: str = Field(
-        description="Keyword phrase the domain ranks for. Populated whenever the provider has data for the entity."
-    )
-    keyword_difficulty: int | None = Field(
-        default=None,
-        alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale.",
-    )
-    rank_absolute: int = Field(
-        alias="rankAbsolute",
-        description="Absolute organic ranking position for the keyword. Populated whenever the provider has data for the entity.",
-    )
-    rank_group: int | None = Field(
-        default=None,
-        alias="rankGroup",
-        description="Grouped organic ranking position for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    search_intent: str | None = Field(
-        default=None,
-        alias="searchIntent",
-        description="Primary SEO search intent for the keyword.",
-    )
-    search_volume: int | None = Field(
-        default=None,
-        alias="searchVolume",
-        description="Average monthly search volume for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    updated_utc: float | None = Field(
-        default=None,
-        alias="updatedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
-    url: str | None = Field(default=None, description="Ranking URL for the domain.")
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoRelatedKeywordsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    related_keywords: list[SeoRelatedKeywordsRelatedKeyword] = Field(
-        alias="relatedKeywords",
-        description="SEO related keyword records. Populated whenever the provider has data for the entity.",
-    )
-
-
-class SeoRelatedKeywordsRelatedKeyword(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    competition: str | None = Field(
-        default=None,
-        description="Paid-search competition level for the related keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    cpc: float | None = Field(
-        default=None,
-        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    depth: int | None = Field(
-        default=None,
-        description="Related-keyword graph depth from the seed keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    keyword: str = Field(
-        description="Related keyword phrase. Populated whenever the provider has data for the entity."
-    )
-    keyword_difficulty: int | None = Field(
-        default=None,
-        alias="keywordDifficulty",
-        description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    search_intent: str | None = Field(
-        default=None,
-        alias="searchIntent",
-        description="Primary SEO search intent for the related keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    search_volume: int | None = Field(
-        default=None,
-        alias="searchVolume",
-        description="Average monthly search volume for the related keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    updated_utc: float | None = Field(
-        default=None,
-        alias="updatedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoSearchIntentData(BaseModel):
-    intents: list[SeoSearchIntentIntent] = Field(
-        description="SEO keyword search intent records. Populated whenever the provider has data for the entity."
-    )
-
-
-class SeoSearchIntentIntent(BaseModel):
     model_config = ConfigDict(extra="allow")
-
-    intent: str = Field(
-        description="Primary SEO search intent for the keyword. Populated whenever the provider has data for the entity."
-    )
-    keyword: str = Field(
-        description="Keyword phrase. Populated whenever the provider has data for the entity."
-    )
 
 
 class SeoSearchVolumeData(BaseModel):
-    keywords: list[SeoSearchVolumeKeyword] = Field(
-        description="SEO keyword search-volume records. Populated whenever the provider has data for the entity."
-    )
-
-
-class SeoSearchVolumeKeyword(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    bid_high: float | None = Field(
-        default=None,
-        alias="bidHigh",
-        description="Upper bound of the estimated paid-search top-of-page bid in USD.",
-    )
-    bid_low: float | None = Field(
-        default=None,
-        alias="bidLow",
-        description="Lower bound of the estimated paid-search top-of-page bid in USD.",
-    )
-    competition: str | None = Field(
-        default=None,
-        description="Paid-search competition level for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    competition_index: int | None = Field(
-        default=None,
-        alias="competitionIndex",
-        description="Paid-search competition index for the keyword.",
-    )
-    cpc: float | None = Field(
-        default=None,
-        description="Average paid-search cost per click in USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    keyword: str = Field(
-        description="Keyword phrase. Populated whenever the provider has data for the entity."
-    )
-    monthly_searches: list[SeoSearchVolumeMonthlySearche] | None = Field(
-        default=None,
-        alias="monthlySearches",
-        description="Monthly search-volume history for the keyword.",
-    )
-    search_volume: int | None = Field(
-        default=None,
-        alias="searchVolume",
-        description="Average monthly search volume for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-
-
-class SeoSearchVolumeMonthlySearche(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    month: int | None = Field(
-        default=None,
-        description="Calendar month number for the monthly search-volume record.",
-    )
-    search_volume: int | None = Field(
-        default=None, alias="searchVolume", description="Search volume for the month."
-    )
-    year: int | None = Field(
-        default=None, description="Calendar year for the monthly search-volume record."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoNamespace:
@@ -788,7 +273,7 @@ class SeoNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoCompetitorsDomainInput],
-    ) -> RunResult[SeoCompetitorsDomainData]:
+    ) -> BareRunResult[SeoCompetitorsDomainData]:
         """SEO Competitor Domains
 
         Get AnyAPI SEO competitor domains for a target domain with shared keyword
@@ -802,14 +287,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.competitors_domain", dict(input), options
         )
-        return RunResult[SeoCompetitorsDomainData].model_validate(raw)
+        return BareRunResult[SeoCompetitorsDomainData].model_validate(raw)
 
     def domain_intersection(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoDomainIntersectionInput],
-    ) -> RunResult[SeoDomainIntersectionData]:
+    ) -> BareRunResult[SeoDomainIntersectionData]:
         """SEO Domain Intersection
 
         Get AnyAPI SEO keyword overlap for two domains with each domain's rankings,
@@ -823,14 +308,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.domain_intersection", dict(input), options
         )
-        return RunResult[SeoDomainIntersectionData].model_validate(raw)
+        return BareRunResult[SeoDomainIntersectionData].model_validate(raw)
 
     def domain_rank_overview(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoDomainRankOverviewInput],
-    ) -> RunResult[SeoDomainRankOverviewData]:
+    ) -> BareRunResult[SeoDomainRankOverviewData]:
         """SEO Domain Rank Overview
 
         Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as
@@ -844,14 +329,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.domain_rank_overview", dict(input), options
         )
-        return RunResult[SeoDomainRankOverviewData].model_validate(raw)
+        return BareRunResult[SeoDomainRankOverviewData].model_validate(raw)
 
     def keyword_difficulty(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoKeywordDifficultyInput],
-    ) -> RunResult[SeoKeywordDifficultyData]:
+    ) -> BareRunResult[SeoKeywordDifficultyData]:
         """SEO Keyword Difficulty
 
         Get AnyAPI SEO keyword difficulty scores for one or more keywords as
@@ -865,14 +350,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_difficulty", dict(input), options
         )
-        return RunResult[SeoKeywordDifficultyData].model_validate(raw)
+        return BareRunResult[SeoKeywordDifficultyData].model_validate(raw)
 
     def keyword_ideas(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoKeywordIdeasInput],
-    ) -> RunResult[SeoKeywordIdeasData]:
+    ) -> BareRunResult[SeoKeywordIdeasData]:
         """SEO Keyword Ideas
 
         Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition,
@@ -886,14 +371,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_ideas", dict(input), options
         )
-        return RunResult[SeoKeywordIdeasData].model_validate(raw)
+        return BareRunResult[SeoKeywordIdeasData].model_validate(raw)
 
     def keyword_overview(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoKeywordOverviewInput],
-    ) -> RunResult[SeoKeywordOverviewData]:
+    ) -> BareRunResult[SeoKeywordOverviewData]:
         """SEO Keyword Overview
 
         Get AnyAPI SEO keyword metrics including search volume, CPC, competition,
@@ -907,14 +392,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_overview", dict(input), options
         )
-        return RunResult[SeoKeywordOverviewData].model_validate(raw)
+        return BareRunResult[SeoKeywordOverviewData].model_validate(raw)
 
     def keyword_suggestions(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoKeywordSuggestionsInput],
-    ) -> RunResult[SeoKeywordSuggestionsData]:
+    ) -> BareRunResult[SeoKeywordSuggestionsData]:
         """SEO Keyword Suggestions
 
         Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC,
@@ -928,14 +413,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_suggestions", dict(input), options
         )
-        return RunResult[SeoKeywordSuggestionsData].model_validate(raw)
+        return BareRunResult[SeoKeywordSuggestionsData].model_validate(raw)
 
     def local_pack(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoLocalPackInput],
-    ) -> RunResult[SeoLocalPackData]:
+    ) -> BareRunResult[SeoLocalPackData]:
         """SEO Local Pack
 
         Search AnyAPI SEO local pack results with rankings, ratings, addresses, and
@@ -949,14 +434,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.local_pack", dict(input), options
         )
-        return RunResult[SeoLocalPackData].model_validate(raw)
+        return BareRunResult[SeoLocalPackData].model_validate(raw)
 
     def ranked_keywords(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoRankedKeywordsInput],
-    ) -> RunResult[SeoRankedKeywordsData]:
+    ) -> BareRunResult[SeoRankedKeywordsData]:
         """SEO Ranked Keywords
 
         Get AnyAPI SEO ranked keywords for a domain with rankings, traffic
@@ -970,14 +455,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.ranked_keywords", dict(input), options
         )
-        return RunResult[SeoRankedKeywordsData].model_validate(raw)
+        return BareRunResult[SeoRankedKeywordsData].model_validate(raw)
 
     def related_keywords(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoRelatedKeywordsInput],
-    ) -> RunResult[SeoRelatedKeywordsData]:
+    ) -> BareRunResult[SeoRelatedKeywordsData]:
         """SEO Related Keywords
 
         Find AnyAPI SEO related keywords from a seed term with volume, CPC,
@@ -991,14 +476,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.related_keywords", dict(input), options
         )
-        return RunResult[SeoRelatedKeywordsData].model_validate(raw)
+        return BareRunResult[SeoRelatedKeywordsData].model_validate(raw)
 
     def search_intent(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoSearchIntentInput],
-    ) -> RunResult[SeoSearchIntentData]:
+    ) -> BareRunResult[SeoSearchIntentData]:
         """SEO Search Intent
 
         Classify AnyAPI SEO keyword search intent as normalized JSON.
@@ -1011,14 +496,14 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.search_intent", dict(input), options
         )
-        return RunResult[SeoSearchIntentData].model_validate(raw)
+        return BareRunResult[SeoSearchIntentData].model_validate(raw)
 
     def search_volume(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoSearchVolumeInput],
-    ) -> RunResult[SeoSearchVolumeData]:
+    ) -> BareRunResult[SeoSearchVolumeData]:
         """SEO Search Volume
 
         Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and
@@ -1032,7 +517,7 @@ class SeoNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.search_volume", dict(input), options
         )
-        return RunResult[SeoSearchVolumeData].model_validate(raw)
+        return BareRunResult[SeoSearchVolumeData].model_validate(raw)
 
 
 class AsyncSeoNamespace:
@@ -1046,7 +531,7 @@ class AsyncSeoNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoCompetitorsDomainInput],
-    ) -> RunResult[SeoCompetitorsDomainData]:
+    ) -> BareRunResult[SeoCompetitorsDomainData]:
         """SEO Competitor Domains
 
         Get AnyAPI SEO competitor domains for a target domain with shared keyword
@@ -1060,14 +545,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.competitors_domain", dict(input), options
         )
-        return RunResult[SeoCompetitorsDomainData].model_validate(raw)
+        return BareRunResult[SeoCompetitorsDomainData].model_validate(raw)
 
     async def domain_intersection(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoDomainIntersectionInput],
-    ) -> RunResult[SeoDomainIntersectionData]:
+    ) -> BareRunResult[SeoDomainIntersectionData]:
         """SEO Domain Intersection
 
         Get AnyAPI SEO keyword overlap for two domains with each domain's rankings,
@@ -1081,14 +566,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.domain_intersection", dict(input), options
         )
-        return RunResult[SeoDomainIntersectionData].model_validate(raw)
+        return BareRunResult[SeoDomainIntersectionData].model_validate(raw)
 
     async def domain_rank_overview(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoDomainRankOverviewInput],
-    ) -> RunResult[SeoDomainRankOverviewData]:
+    ) -> BareRunResult[SeoDomainRankOverviewData]:
         """SEO Domain Rank Overview
 
         Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as
@@ -1102,14 +587,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.domain_rank_overview", dict(input), options
         )
-        return RunResult[SeoDomainRankOverviewData].model_validate(raw)
+        return BareRunResult[SeoDomainRankOverviewData].model_validate(raw)
 
     async def keyword_difficulty(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoKeywordDifficultyInput],
-    ) -> RunResult[SeoKeywordDifficultyData]:
+    ) -> BareRunResult[SeoKeywordDifficultyData]:
         """SEO Keyword Difficulty
 
         Get AnyAPI SEO keyword difficulty scores for one or more keywords as
@@ -1123,14 +608,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_difficulty", dict(input), options
         )
-        return RunResult[SeoKeywordDifficultyData].model_validate(raw)
+        return BareRunResult[SeoKeywordDifficultyData].model_validate(raw)
 
     async def keyword_ideas(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoKeywordIdeasInput],
-    ) -> RunResult[SeoKeywordIdeasData]:
+    ) -> BareRunResult[SeoKeywordIdeasData]:
         """SEO Keyword Ideas
 
         Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition,
@@ -1144,14 +629,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_ideas", dict(input), options
         )
-        return RunResult[SeoKeywordIdeasData].model_validate(raw)
+        return BareRunResult[SeoKeywordIdeasData].model_validate(raw)
 
     async def keyword_overview(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoKeywordOverviewInput],
-    ) -> RunResult[SeoKeywordOverviewData]:
+    ) -> BareRunResult[SeoKeywordOverviewData]:
         """SEO Keyword Overview
 
         Get AnyAPI SEO keyword metrics including search volume, CPC, competition,
@@ -1165,14 +650,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_overview", dict(input), options
         )
-        return RunResult[SeoKeywordOverviewData].model_validate(raw)
+        return BareRunResult[SeoKeywordOverviewData].model_validate(raw)
 
     async def keyword_suggestions(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoKeywordSuggestionsInput],
-    ) -> RunResult[SeoKeywordSuggestionsData]:
+    ) -> BareRunResult[SeoKeywordSuggestionsData]:
         """SEO Keyword Suggestions
 
         Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC,
@@ -1186,14 +671,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.keyword_suggestions", dict(input), options
         )
-        return RunResult[SeoKeywordSuggestionsData].model_validate(raw)
+        return BareRunResult[SeoKeywordSuggestionsData].model_validate(raw)
 
     async def local_pack(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoLocalPackInput],
-    ) -> RunResult[SeoLocalPackData]:
+    ) -> BareRunResult[SeoLocalPackData]:
         """SEO Local Pack
 
         Search AnyAPI SEO local pack results with rankings, ratings, addresses, and
@@ -1207,14 +692,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.local_pack", dict(input), options
         )
-        return RunResult[SeoLocalPackData].model_validate(raw)
+        return BareRunResult[SeoLocalPackData].model_validate(raw)
 
     async def ranked_keywords(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoRankedKeywordsInput],
-    ) -> RunResult[SeoRankedKeywordsData]:
+    ) -> BareRunResult[SeoRankedKeywordsData]:
         """SEO Ranked Keywords
 
         Get AnyAPI SEO ranked keywords for a domain with rankings, traffic
@@ -1228,14 +713,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.ranked_keywords", dict(input), options
         )
-        return RunResult[SeoRankedKeywordsData].model_validate(raw)
+        return BareRunResult[SeoRankedKeywordsData].model_validate(raw)
 
     async def related_keywords(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoRelatedKeywordsInput],
-    ) -> RunResult[SeoRelatedKeywordsData]:
+    ) -> BareRunResult[SeoRelatedKeywordsData]:
         """SEO Related Keywords
 
         Find AnyAPI SEO related keywords from a seed term with volume, CPC,
@@ -1249,14 +734,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.related_keywords", dict(input), options
         )
-        return RunResult[SeoRelatedKeywordsData].model_validate(raw)
+        return BareRunResult[SeoRelatedKeywordsData].model_validate(raw)
 
     async def search_intent(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoSearchIntentInput],
-    ) -> RunResult[SeoSearchIntentData]:
+    ) -> BareRunResult[SeoSearchIntentData]:
         """SEO Search Intent
 
         Classify AnyAPI SEO keyword search intent as normalized JSON.
@@ -1269,14 +754,14 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.search_intent", dict(input), options
         )
-        return RunResult[SeoSearchIntentData].model_validate(raw)
+        return BareRunResult[SeoSearchIntentData].model_validate(raw)
 
     async def search_volume(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SeoSearchVolumeInput],
-    ) -> RunResult[SeoSearchVolumeData]:
+    ) -> BareRunResult[SeoSearchVolumeData]:
         """SEO Search Volume
 
         Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and
@@ -1290,4 +775,4 @@ class AsyncSeoNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.search_volume", dict(input), options
         )
-        return RunResult[SeoSearchVolumeData].model_validate(raw)
+        return BareRunResult[SeoSearchVolumeData].model_validate(raw)

@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -23,56 +23,7 @@ class YahooFinanceQuoteInput(TypedDict, total=False):
 
 
 class YahooFinanceQuoteData(BaseModel):
-    items: list[YahooFinanceQuoteItem] = Field(
-        description="Quote records for the ticker: current price, day range, volume, and market cap. Populated whenever the provider has data for the entity."
-    )
-
-
-class YahooFinanceQuoteItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    change: float | None = Field(
-        default=None, description="Absolute price change from the previous close."
-    )
-    change_percent: float | None = Field(
-        default=None,
-        alias="changePercent",
-        description="Percent price change from the previous close (e.g. 3.14 means +3.14%).",
-    )
-    day_high: float | None = Field(
-        default=None,
-        alias="dayHigh",
-        description="Highest trade price during the current session.",
-    )
-    day_low: float | None = Field(
-        default=None,
-        alias="dayLow",
-        description="Lowest trade price during the current session.",
-    )
-    market_cap: int | None = Field(
-        default=None,
-        alias="marketCap",
-        description="Total market capitalization in the security's native currency.",
-    )
-    name: str | None = Field(
-        default=None,
-        description='The security\'s display name, e.g. "Apple Inc.". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
-    )
-    previous_close: float | None = Field(
-        default=None,
-        alias="previousClose",
-        description="The previous session's closing price.",
-    )
-    price: float = Field(
-        description="The latest trade price in the security's native currency. Populated whenever the provider has data for the entity."
-    )
-    symbol: str | None = Field(
-        default=None,
-        description='The resolved ticker symbol for the quote, e.g. "AAPL". Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
-    )
-    volume: int | None = Field(
-        default=None, description="Number of shares traded during the current session."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class YahooFinanceNamespace:
@@ -86,7 +37,7 @@ class YahooFinanceNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YahooFinanceQuoteInput],
-    ) -> RunResult[YahooFinanceQuoteData]:
+    ) -> BareRunResult[YahooFinanceQuoteData]:
         """Yahoo Finance Quote
 
         Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote
@@ -100,7 +51,7 @@ class YahooFinanceNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "yahoo_finance.quote", dict(input), options
         )
-        return RunResult[YahooFinanceQuoteData].model_validate(raw)
+        return BareRunResult[YahooFinanceQuoteData].model_validate(raw)
 
 
 class AsyncYahooFinanceNamespace:
@@ -114,7 +65,7 @@ class AsyncYahooFinanceNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YahooFinanceQuoteInput],
-    ) -> RunResult[YahooFinanceQuoteData]:
+    ) -> BareRunResult[YahooFinanceQuoteData]:
         """Yahoo Finance Quote
 
         Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote
@@ -128,4 +79,4 @@ class AsyncYahooFinanceNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "yahoo_finance.quote", dict(input), options
         )
-        return RunResult[YahooFinanceQuoteData].model_validate(raw)
+        return BareRunResult[YahooFinanceQuoteData].model_validate(raw)

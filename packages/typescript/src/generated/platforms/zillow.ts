@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,99 +16,7 @@ export interface ZillowPropertyInput {
   url: string;
 }
 
-export interface ZillowPropertyItem {
-  /**
-   * Street address line of the property.
-   */
-  addressLine?: string;
-  /**
-   * Number of bathrooms.
-   */
-  baths?: number;
-  /**
-   * Number of bedrooms.
-   */
-  beds?: number;
-  /**
-   * City the property is in.
-   */
-  city?: string;
-  /**
-   * County the property is in.
-   */
-  county?: string;
-  /**
-   * Currency code for the price (e.g. USD).
-   */
-  currency?: string;
-  /**
-   * Listing description text.
-   */
-  description?: string;
-  /**
-   * Listing status (e.g. FOR_SALE, RECENTLY_SOLD, OTHER).
-   */
-  homeStatus?: string;
-  /**
-   * Home type (e.g. SINGLE_FAMILY, CONDO, TOWNHOUSE).
-   */
-  homeType?: string;
-  /**
-   * Primary listing photo URL.
-   */
-  image?: string;
-  /**
-   * Latitude of the property in decimal degrees.
-   */
-  latitude?: number;
-  /**
-   * Longitude of the property in decimal degrees.
-   */
-  longitude?: number;
-  /**
-   * Postal (ZIP) code of the property.
-   */
-  postalCode?: string;
-  /**
-   * Listed price in the listing currency.
-   */
-  price?: number;
-  /**
-   * Annual property tax rate as a percentage.
-   */
-  propertyTaxRate?: number;
-  /**
-   * Interior living area in square feet.
-   */
-  sqft?: number;
-  /**
-   * Two-letter state code the property is in.
-   */
-  state?: string;
-  /**
-   * Street address line used as the property title.
-   */
-  title?: string;
-  /**
-   * Canonical Zillow property detail page URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  /**
-   * Zillow property id (zpid), the stable identifier for the property. Populated whenever the provider has data for the entity.
-   */
-  zpid: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Zillow Property (zillow.property).
- */
-export interface ZillowPropertyData {
-  /**
-   * The matched property record (single element for a property lookup). Populated whenever the provider has data for the entity.
-   */
-  items: ZillowPropertyItem[];
-}
+export type ZillowPropertyData = unknown;
 
 /**
  * Input for Zillow Search (zillow.search).
@@ -228,90 +136,7 @@ export interface ZillowSearchInput {
     | "rentalPriorityScore";
 }
 
-export interface ZillowSearchItem {
-  /**
-   * Number of bathrooms.
-   */
-  baths?: number;
-  /**
-   * Number of bedrooms.
-   */
-  beds?: number;
-  city?: string;
-  /**
-   * ISO currency code of the price (e.g. usd).
-   */
-  currency?: string;
-  /**
-   * Days the listing has been on Zillow.
-   */
-  daysOnZillow?: number;
-  /**
-   * URL of the primary listing photo. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  image?: string;
-  latitude?: number;
-  /**
-   * Interior living area in square feet.
-   */
-  livingArea?: number;
-  longitude?: number;
-  /**
-   * Lot size in square feet.
-   */
-  lotSize?: number;
-  /**
-   * List price in the listing currency.
-   */
-  price?: number;
-  /**
-   * Property type (e.g. singleFamily, condo, townhouse).
-   */
-  propertyType?: string;
-  /**
-   * Zillow estimated monthly rent.
-   */
-  rentZestimate?: number;
-  /**
-   * Two-letter state code.
-   */
-  state?: string;
-  /**
-   * Listing status (e.g. forSale, forRent, sold).
-   */
-  status?: string;
-  /**
-   * Street address of the property. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  streetAddress?: string;
-  /**
-   * Absolute Zillow listing URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  yearBuilt?: number;
-  /**
-   * Zillow estimated market value.
-   */
-  zestimate?: number;
-  zipcode?: string;
-  /**
-   * Zillow property id (zpid). Populated whenever the provider has data for the entity.
-   */
-  zpid: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Zillow Search (zillow.search).
- */
-export interface ZillowSearchData {
-  /**
-   * Property listing records matching the search: address, price, beds, baths, living area, property type, status, Zestimate, and coordinates. Populated whenever the provider has data for the entity.
-   */
-  items: ZillowSearchItem[];
-}
+export type ZillowSearchData = unknown;
 
 /**
  * Typed methods for the zillow platform. Attached to the AnyAPI client as
@@ -333,8 +158,12 @@ export class ZillowNamespace {
   property(
     input: ZillowPropertyInput,
     options?: RequestOptions,
-  ): Promise<RunResult<ZillowPropertyData>> {
-    return this._core.run("zillow.property", input, options);
+  ): Promise<BareRunResult<ZillowPropertyData>> {
+    return this._core.run(
+      "zillow.property",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<ZillowPropertyData>>;
   }
 
   /**
@@ -350,7 +179,11 @@ export class ZillowNamespace {
   search(
     input: ZillowSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<ZillowSearchData>> {
-    return this._core.run("zillow.search", input, options);
+  ): Promise<BareRunResult<ZillowSearchData>> {
+    return this._core.run(
+      "zillow.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<ZillowSearchData>>;
   }
 }

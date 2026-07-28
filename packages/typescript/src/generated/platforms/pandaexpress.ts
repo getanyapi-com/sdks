@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -32,59 +32,7 @@ export interface PandaexpressLocationsInput {
   radius?: number;
 }
 
-export interface PandaexpressLocationsRestaurant {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  address: string;
-  canDeliver: boolean;
-  canPickup: boolean;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  city: string;
-  distanceMiles: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: number;
-  isOpen: boolean;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  latitude: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  longitude: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  phone: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  state: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  zip: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Panda Express Locations (pandaexpress.locations).
- */
-export interface PandaexpressLocationsData {
-  /**
-   * Nearby Panda Express restaurants, nearest first. Populated whenever the provider has data for the entity.
-   */
-  restaurants: PandaexpressLocationsRestaurant[];
-}
+export type PandaexpressLocationsData = unknown;
 
 /**
  * Input for Panda Express Menu (pandaexpress.menu).
@@ -96,44 +44,7 @@ export interface PandaexpressMenuInput {
   restaurantId: string;
 }
 
-/**
- * Populated whenever the provider has data for the entity.
- */
-export interface PandaexpressMenuCategorie {
-  items: PandaexpressMenuItem[];
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  [extra: string]: unknown;
-}
-
-export interface PandaexpressMenuItem {
-  /**
-   * Base calories when published by the restaurant, else 0.
-   */
-  calories: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  description: string;
-  name: string;
-  /**
-   * Item price in USD (0 for items priced only via size/option selection).
-   */
-  priceUsd: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Panda Express Menu (pandaexpress.menu).
- */
-export interface PandaexpressMenuData {
-  /**
-   * Menu categories in display order. Populated whenever the provider has data for the entity.
-   */
-  categories: PandaexpressMenuCategorie[];
-}
+export type PandaexpressMenuData = unknown;
 
 /**
  * Input for Panda Express Nutrition (pandaexpress.nutrition).
@@ -145,34 +56,7 @@ export interface PandaexpressNutritionInput {
   query: string;
 }
 
-export interface PandaexpressNutritionItem {
-  calories: number;
-  cholesterolMg: number;
-  dietaryFiberG: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  proteinG: number;
-  saturatedFatG: number;
-  servingSizeOz: number;
-  sodiumMg: number;
-  sugarsG: number;
-  totalCarbG: number;
-  totalFatG: number;
-  transFatG: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Panda Express Nutrition (pandaexpress.nutrition).
- */
-export interface PandaexpressNutritionData {
-  /**
-   * Matching menu items with official nutrition facts. Populated whenever the provider has data for the entity.
-   */
-  items: PandaexpressNutritionItem[];
-}
+export type PandaexpressNutritionData = unknown;
 
 /**
  * Typed methods for the pandaexpress platform. Attached to the AnyAPI client as
@@ -194,8 +78,12 @@ export class PandaexpressNamespace {
   locations(
     input: PandaexpressLocationsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<PandaexpressLocationsData>> {
-    return this._core.run("pandaexpress.locations", input, options);
+  ): Promise<BareRunResult<PandaexpressLocationsData>> {
+    return this._core.run(
+      "pandaexpress.locations",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<PandaexpressLocationsData>>;
   }
 
   /**
@@ -211,8 +99,12 @@ export class PandaexpressNamespace {
   menu(
     input: PandaexpressMenuInput,
     options?: RequestOptions,
-  ): Promise<RunResult<PandaexpressMenuData>> {
-    return this._core.run("pandaexpress.menu", input, options);
+  ): Promise<BareRunResult<PandaexpressMenuData>> {
+    return this._core.run(
+      "pandaexpress.menu",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<PandaexpressMenuData>>;
   }
 
   /**
@@ -228,7 +120,11 @@ export class PandaexpressNamespace {
   nutrition(
     input: PandaexpressNutritionInput,
     options?: RequestOptions,
-  ): Promise<RunResult<PandaexpressNutritionData>> {
-    return this._core.run("pandaexpress.nutrition", input, options);
+  ): Promise<BareRunResult<PandaexpressNutritionData>> {
+    return this._core.run(
+      "pandaexpress.nutrition",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<PandaexpressNutritionData>>;
   }
 }

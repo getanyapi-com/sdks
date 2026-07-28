@@ -1,12 +1,10 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
-  Paginator,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
-import { paginate } from "../../core/index.js";
 
 /**
  * Input for TikTok Ad Library Ad (tiktok.ad_library_ad).
@@ -18,46 +16,7 @@ export interface TiktokAdLibraryAdInput {
   adId: string;
 }
 
-/**
- * The `data` payload of TikTok Ad Library Ad (tiktok.ad_library_ad).
- */
-export interface TiktokAdLibraryAdData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  adId: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  adTitle: string;
-  brandName: string;
-  comments: number;
-  cost: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  coverUrl: string;
-  ctr: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  industry: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  landingPage: string;
-  likes: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  objective: string;
-  shares: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videoUrl: string;
-  [extra: string]: unknown;
-}
+export type TiktokAdLibraryAdData = unknown;
 
 /**
  * Input for TikTok Ad Library Search (tiktok.ad_library_search).
@@ -168,50 +127,7 @@ export interface TiktokAdLibrarySearchInput {
   region?: string;
 }
 
-export interface TiktokAdLibrarySearchAd {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  adId: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  adTitle: string;
-  brandName: string;
-  cost: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  coverUrl: string;
-  ctr: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  industry: string;
-  likes: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  objective: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videoUrl: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Ad Library Search (tiktok.ad_library_search).
- */
-export interface TiktokAdLibrarySearchData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  ads: TiktokAdLibrarySearchAd[];
-  hasMore: boolean;
-  nextCursor: string;
-  total: number;
-}
+export type TiktokAdLibrarySearchData = unknown;
 
 /**
  * Input for TikTok Audience Demographics (tiktok.audience_demographics).
@@ -223,29 +139,7 @@ export interface TiktokAudienceDemographicsInput {
   handle: string;
 }
 
-export interface TiktokAudienceDemographicsAudienceLocation {
-  count: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  country: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  countryCode: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  percentage: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Audience Demographics (tiktok.audience_demographics).
- */
-export interface TiktokAudienceDemographicsData {
-  audienceLocations: TiktokAudienceDemographicsAudienceLocation[];
-}
+export type TiktokAudienceDemographicsData = unknown;
 
 /**
  * Input for TikTok Comment Replies (tiktok.comment_replies).
@@ -265,34 +159,7 @@ export interface TiktokCommentRepliesInput {
   url: string;
 }
 
-export interface TiktokCommentRepliesComment {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Comment Replies (tiktok.comment_replies).
- */
-export interface TiktokCommentRepliesData {
-  comments: TiktokCommentRepliesComment[];
-  nextCursor: string;
-}
+export type TiktokCommentRepliesData = unknown;
 
 /**
  * Input for TikTok Followers (tiktok.followers).
@@ -308,37 +175,7 @@ export interface TiktokFollowersInput {
   handle: string;
 }
 
-export interface TiktokFollowersFollower {
-  avatarUrl: string;
-  followerCount: number;
-  followingCount: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  nickname: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  region: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  userId: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  username: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Followers (tiktok.followers).
- */
-export interface TiktokFollowersData {
-  followers: TiktokFollowersFollower[];
-  nextCursor: string;
-  total: number;
-}
+export type TiktokFollowersData = unknown;
 
 /**
  * Input for TikTok Following (tiktok.following).
@@ -354,35 +191,7 @@ export interface TiktokFollowingInput {
   handle: string;
 }
 
-export interface TiktokFollowingFollowing {
-  bio: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  displayName: string;
-  followers: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  handle: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  region: string;
-  videos: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Following (tiktok.following).
- */
-export interface TiktokFollowingData {
-  following: TiktokFollowingFollowing[];
-}
+export type TiktokFollowingData = unknown;
 
 /**
  * Input for TikTok Hashtag Videos (tiktok.hashtag_videos).
@@ -399,59 +208,7 @@ export interface TiktokHashtagVideosInput {
   limit?: number;
 }
 
-export interface TiktokHashtagVideosItem {
-  /**
-   * Username of the video's creator, without the @ prefix. Empty when the upstream omits it.
-   */
-  authorHandle?: string;
-  /**
-   * Number of comments on the video.
-   */
-  commentCount?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * The video's numeric TikTok ID, as a string. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * URL of the video's cover/thumbnail image, with tracking query params stripped. Empty when the upstream omits it.
-   */
-  image?: string;
-  /**
-   * Number of likes on the video.
-   */
-  likeCount?: number;
-  /**
-   * Number of views/plays of the video.
-   */
-  playCount?: number;
-  /**
-   * Number of shares of the video.
-   */
-  shareCount?: number;
-  /**
-   * The video caption text. Empty for videos with no caption.
-   */
-  text?: string;
-  /**
-   * Canonical tiktok.com URL of the video, with tracking query params stripped. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Hashtag Videos (tiktok.hashtag_videos).
- */
-export interface TiktokHashtagVideosData {
-  /**
-   * Recent TikTok video records for the hashtag. Populated whenever the provider has data for the entity.
-   */
-  items: TiktokHashtagVideosItem[];
-}
+export type TiktokHashtagVideosData = unknown;
 
 /**
  * Input for TikTok Live (tiktok.live).
@@ -463,36 +220,7 @@ export interface TiktokLiveInput {
   handle: string;
 }
 
-/**
- * The `data` payload of TikTok Live (tiktok.live).
- */
-export interface TiktokLiveData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  coverUrl: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  displayName: string;
-  enterCount: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  handle: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  roomId: string;
-  startTime: number;
-  status: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  viewers: number;
-  [extra: string]: unknown;
-}
+export type TiktokLiveData = unknown;
 
 /**
  * Input for TikTok Profile (tiktok.profile).
@@ -504,33 +232,7 @@ export interface TiktokProfileInput {
   handle: string;
 }
 
-/**
- * The `data` payload of TikTok Profile (tiktok.profile).
- */
-export interface TiktokProfileData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  avatarUrl: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  bio: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  displayName: string;
-  followers: number;
-  following: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  handle: string;
-  likes: number;
-  verified: boolean;
-  videos: number;
-  [extra: string]: unknown;
-}
+export type TiktokProfileData = unknown;
 
 /**
  * Input for TikTok Profile Region (tiktok.profile_region).
@@ -542,24 +244,7 @@ export interface TiktokProfileRegionInput {
   handle: string;
 }
 
-/**
- * The `data` payload of TikTok Profile Region (tiktok.profile_region).
- */
-export interface TiktokProfileRegionData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  handle: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  profileUrl: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  region: string;
-  [extra: string]: unknown;
-}
+export type TiktokProfileRegionData = unknown;
 
 /**
  * Input for TikTok Profile Videos (tiktok.profile_videos).
@@ -575,40 +260,7 @@ export interface TiktokProfileVideosInput {
   handle: string;
 }
 
-export interface TiktokProfileVideosVideo {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  caption: string;
-  comments: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Absent when the upstream provides no cover.
-   */
-  image?: string;
-  likes: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Profile Videos (tiktok.profile_videos).
- */
-export interface TiktokProfileVideosData {
-  nextCursor: string;
-  videos: TiktokProfileVideosVideo[];
-}
+export type TiktokProfileVideosData = unknown;
 
 /**
  * Input for TikTok Hashtag Search (tiktok.search_hashtag).
@@ -624,39 +276,7 @@ export interface TiktokSearchHashtagInput {
   query: string;
 }
 
-export interface TiktokSearchHashtagVideo {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  caption: string;
-  comments: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  shares: number;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Hashtag Search (tiktok.search_hashtag).
- */
-export interface TiktokSearchHashtagData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videos: TiktokSearchHashtagVideo[];
-}
+export type TiktokSearchHashtagData = unknown;
 
 /**
  * Input for TikTok Keyword Search (tiktok.search_keyword).
@@ -680,32 +300,7 @@ export interface TiktokSearchKeywordInput {
   sortBy?: string;
 }
 
-export interface TiktokSearchKeywordVideo {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  caption: string;
-  comments: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  region: string;
-  shares: number;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Keyword Search (tiktok.search_keyword).
- */
-export interface TiktokSearchKeywordData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videos: TiktokSearchKeywordVideo[];
-}
+export type TiktokSearchKeywordData = unknown;
 
 /**
  * Input for TikTok Top Search (tiktok.search_top).
@@ -733,41 +328,7 @@ export interface TiktokSearchTopInput {
   sortBy?: string;
 }
 
-export interface TiktokSearchTopItem {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  caption: string;
-  comments: number;
-  contentType: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  shares: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Top Search (tiktok.search_top).
- */
-export interface TiktokSearchTopData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  items: TiktokSearchTopItem[];
-  nextCursor: string;
-}
+export type TiktokSearchTopData = unknown;
 
 /**
  * Input for TikTok User Search (tiktok.search_users).
@@ -783,34 +344,7 @@ export interface TiktokSearchUsersInput {
   query: string;
 }
 
-export interface TiktokSearchUsersUser {
-  followers: number;
-  following: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  handle: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  nickname: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  userId: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok User Search (tiktok.search_users).
- */
-export interface TiktokSearchUsersData {
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  users: TiktokSearchUsersUser[];
-}
+export type TiktokSearchUsersData = unknown;
 
 /**
  * Input for TikTok Song (tiktok.song).
@@ -822,42 +356,7 @@ export interface TiktokSongInput {
   clipId: string;
 }
 
-/**
- * The `data` payload of TikTok Song (tiktok.song).
- */
-export interface TiktokSongData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  album: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  coverUrl: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  duration: number;
-  isOriginal: boolean;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  shareUrl: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  songId: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  videoCount: number;
-  [extra: string]: unknown;
-}
+export type TiktokSongData = unknown;
 
 /**
  * Input for TikTok Song Videos (tiktok.song_videos).
@@ -873,39 +372,7 @@ export interface TiktokSongVideosInput {
   cursor?: string;
 }
 
-export interface TiktokSongVideosVideo {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  authorHandle: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  authorName: string;
-  commentCount: number;
-  createTime: number;
-  description: string;
-  likeCount: number;
-  playCount: number;
-  shareCount: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videoId: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Song Videos (tiktok.song_videos).
- */
-export interface TiktokSongVideosData {
-  hasMore: number;
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videos: TiktokSongVideosVideo[];
-}
+export type TiktokSongVideosData = unknown;
 
 /**
  * Input for TikTok Trending Feed (tiktok.trending_feed).
@@ -921,44 +388,7 @@ export interface TiktokTrendingFeedInput {
   trim?: string;
 }
 
-export interface TiktokTrendingFeedVideo {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  caption: string;
-  comments: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  region: string;
-  shares: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  views: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Trending Feed (tiktok.trending_feed).
- */
-export interface TiktokTrendingFeedData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  videos: TiktokTrendingFeedVideo[];
-}
+export type TiktokTrendingFeedData = unknown;
 
 /**
  * Input for TikTok Video (tiktok.video).
@@ -970,30 +400,7 @@ export interface TiktokVideoInput {
   url: string;
 }
 
-/**
- * The `data` payload of TikTok Video (tiktok.video).
- */
-export interface TiktokVideoData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  caption: string;
-  comments: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Absent when the upstream provides no cover.
-   */
-  image?: string;
-  likes: number;
-  region: string;
-  saves: number;
-  shares: number;
-  views: number;
-  [extra: string]: unknown;
-}
+export type TiktokVideoData = unknown;
 
 /**
  * Input for TikTok Video Comments (tiktok.video_comments).
@@ -1009,35 +416,7 @@ export interface TiktokVideoCommentsInput {
   url: string;
 }
 
-export interface TiktokVideoCommentsComment {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  likes: number;
-  replies: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Video Comments (tiktok.video_comments).
- */
-export interface TiktokVideoCommentsData {
-  comments: TiktokVideoCommentsComment[];
-  nextCursor: string;
-}
+export type TiktokVideoCommentsData = unknown;
 
 /**
  * Input for TikTok Video Transcript (tiktok.video_transcript).
@@ -1049,17 +428,7 @@ export interface TiktokVideoTranscriptInput {
   url: string;
 }
 
-/**
- * The `data` payload of TikTok Video Transcript (tiktok.video_transcript).
- */
-export interface TiktokVideoTranscriptData {
-  language: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  transcript: string;
-  [extra: string]: unknown;
-}
+export type TiktokVideoTranscriptData = unknown;
 
 /**
  * Typed methods for the tiktok platform. Attached to the AnyAPI client as
@@ -1081,8 +450,12 @@ export class TiktokNamespace {
   adLibraryAd(
     input: TiktokAdLibraryAdInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokAdLibraryAdData>> {
-    return this._core.run("tiktok.ad_library_ad", input, options);
+  ): Promise<BareRunResult<TiktokAdLibraryAdData>> {
+    return this._core.run(
+      "tiktok.ad_library_ad",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokAdLibraryAdData>>;
   }
 
   /**
@@ -1098,31 +471,12 @@ export class TiktokNamespace {
   adLibrarySearch(
     input: TiktokAdLibrarySearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokAdLibrarySearchData>> {
-    return this._core.run("tiktok.ad_library_search", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok Ad Library Search across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterAdLibrarySearch(
-    input: TiktokAdLibrarySearchInput,
-    options?: RequestOptions,
-  ): Paginator<TiktokAdLibrarySearchAd, RunResult<TiktokAdLibrarySearchData>> {
-    return paginate<
-      TiktokAdLibrarySearchAd,
-      RunResult<TiktokAdLibrarySearchData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<TiktokAdLibrarySearchData>> {
+    return this._core.run(
       "tiktok.ad_library_search",
-      input as unknown as Record<string, unknown>,
-      "ads",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokAdLibrarySearchData>>;
   }
 
   /**
@@ -1138,8 +492,12 @@ export class TiktokNamespace {
   audienceDemographics(
     input: TiktokAudienceDemographicsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokAudienceDemographicsData>> {
-    return this._core.run("tiktok.audience_demographics", input, options);
+  ): Promise<BareRunResult<TiktokAudienceDemographicsData>> {
+    return this._core.run(
+      "tiktok.audience_demographics",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokAudienceDemographicsData>>;
   }
 
   /**
@@ -1155,34 +513,12 @@ export class TiktokNamespace {
   commentReplies(
     input: TiktokCommentRepliesInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokCommentRepliesData>> {
-    return this._core.run("tiktok.comment_replies", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok Comment Replies across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterCommentReplies(
-    input: TiktokCommentRepliesInput,
-    options?: RequestOptions,
-  ): Paginator<
-    TiktokCommentRepliesComment,
-    RunResult<TiktokCommentRepliesData>
-  > {
-    return paginate<
-      TiktokCommentRepliesComment,
-      RunResult<TiktokCommentRepliesData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<TiktokCommentRepliesData>> {
+    return this._core.run(
       "tiktok.comment_replies",
-      input as unknown as Record<string, unknown>,
-      "comments",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokCommentRepliesData>>;
   }
 
   /**
@@ -1198,28 +534,12 @@ export class TiktokNamespace {
   followers(
     input: TiktokFollowersInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokFollowersData>> {
-    return this._core.run("tiktok.followers", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok Followers across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterFollowers(
-    input: TiktokFollowersInput,
-    options?: RequestOptions,
-  ): Paginator<TiktokFollowersFollower, RunResult<TiktokFollowersData>> {
-    return paginate<TiktokFollowersFollower, RunResult<TiktokFollowersData>>(
-      this._core,
+  ): Promise<BareRunResult<TiktokFollowersData>> {
+    return this._core.run(
       "tiktok.followers",
-      input as unknown as Record<string, unknown>,
-      "followers",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokFollowersData>>;
   }
 
   /**
@@ -1235,8 +555,12 @@ export class TiktokNamespace {
   following(
     input: TiktokFollowingInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokFollowingData>> {
-    return this._core.run("tiktok.following", input, options);
+  ): Promise<BareRunResult<TiktokFollowingData>> {
+    return this._core.run(
+      "tiktok.following",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokFollowingData>>;
   }
 
   /**
@@ -1252,8 +576,12 @@ export class TiktokNamespace {
   hashtagVideos(
     input: TiktokHashtagVideosInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokHashtagVideosData>> {
-    return this._core.run("tiktok.hashtag_videos", input, options);
+  ): Promise<BareRunResult<TiktokHashtagVideosData>> {
+    return this._core.run(
+      "tiktok.hashtag_videos",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokHashtagVideosData>>;
   }
 
   /**
@@ -1269,8 +597,10 @@ export class TiktokNamespace {
   live(
     input: TiktokLiveInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokLiveData>> {
-    return this._core.run("tiktok.live", input, options);
+  ): Promise<BareRunResult<TiktokLiveData>> {
+    return this._core.run("tiktok.live", input, options) as unknown as Promise<
+      BareRunResult<TiktokLiveData>
+    >;
   }
 
   /**
@@ -1286,8 +616,12 @@ export class TiktokNamespace {
   profile(
     input: TiktokProfileInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokProfileData>> {
-    return this._core.run("tiktok.profile", input, options);
+  ): Promise<BareRunResult<TiktokProfileData>> {
+    return this._core.run(
+      "tiktok.profile",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokProfileData>>;
   }
 
   /**
@@ -1303,8 +637,12 @@ export class TiktokNamespace {
   profileRegion(
     input: TiktokProfileRegionInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokProfileRegionData>> {
-    return this._core.run("tiktok.profile_region", input, options);
+  ): Promise<BareRunResult<TiktokProfileRegionData>> {
+    return this._core.run(
+      "tiktok.profile_region",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokProfileRegionData>>;
   }
 
   /**
@@ -1320,31 +658,12 @@ export class TiktokNamespace {
   profileVideos(
     input: TiktokProfileVideosInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokProfileVideosData>> {
-    return this._core.run("tiktok.profile_videos", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok Profile Videos across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterProfileVideos(
-    input: TiktokProfileVideosInput,
-    options?: RequestOptions,
-  ): Paginator<TiktokProfileVideosVideo, RunResult<TiktokProfileVideosData>> {
-    return paginate<
-      TiktokProfileVideosVideo,
-      RunResult<TiktokProfileVideosData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<TiktokProfileVideosData>> {
+    return this._core.run(
       "tiktok.profile_videos",
-      input as unknown as Record<string, unknown>,
-      "videos",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokProfileVideosData>>;
   }
 
   /**
@@ -1360,8 +679,12 @@ export class TiktokNamespace {
   searchHashtag(
     input: TiktokSearchHashtagInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokSearchHashtagData>> {
-    return this._core.run("tiktok.search_hashtag", input, options);
+  ): Promise<BareRunResult<TiktokSearchHashtagData>> {
+    return this._core.run(
+      "tiktok.search_hashtag",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokSearchHashtagData>>;
   }
 
   /**
@@ -1377,8 +700,12 @@ export class TiktokNamespace {
   searchKeyword(
     input: TiktokSearchKeywordInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokSearchKeywordData>> {
-    return this._core.run("tiktok.search_keyword", input, options);
+  ): Promise<BareRunResult<TiktokSearchKeywordData>> {
+    return this._core.run(
+      "tiktok.search_keyword",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokSearchKeywordData>>;
   }
 
   /**
@@ -1394,28 +721,12 @@ export class TiktokNamespace {
   searchTop(
     input: TiktokSearchTopInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokSearchTopData>> {
-    return this._core.run("tiktok.search_top", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok Top Search across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterSearchTop(
-    input: TiktokSearchTopInput,
-    options?: RequestOptions,
-  ): Paginator<TiktokSearchTopItem, RunResult<TiktokSearchTopData>> {
-    return paginate<TiktokSearchTopItem, RunResult<TiktokSearchTopData>>(
-      this._core,
+  ): Promise<BareRunResult<TiktokSearchTopData>> {
+    return this._core.run(
       "tiktok.search_top",
-      input as unknown as Record<string, unknown>,
-      "items",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokSearchTopData>>;
   }
 
   /**
@@ -1431,28 +742,12 @@ export class TiktokNamespace {
   searchUsers(
     input: TiktokSearchUsersInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokSearchUsersData>> {
-    return this._core.run("tiktok.search_users", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok User Search across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterSearchUsers(
-    input: TiktokSearchUsersInput,
-    options?: RequestOptions,
-  ): Paginator<TiktokSearchUsersUser, RunResult<TiktokSearchUsersData>> {
-    return paginate<TiktokSearchUsersUser, RunResult<TiktokSearchUsersData>>(
-      this._core,
+  ): Promise<BareRunResult<TiktokSearchUsersData>> {
+    return this._core.run(
       "tiktok.search_users",
-      input as unknown as Record<string, unknown>,
-      "users",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokSearchUsersData>>;
   }
 
   /**
@@ -1468,8 +763,10 @@ export class TiktokNamespace {
   song(
     input: TiktokSongInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokSongData>> {
-    return this._core.run("tiktok.song", input, options);
+  ): Promise<BareRunResult<TiktokSongData>> {
+    return this._core.run("tiktok.song", input, options) as unknown as Promise<
+      BareRunResult<TiktokSongData>
+    >;
   }
 
   /**
@@ -1485,28 +782,12 @@ export class TiktokNamespace {
   songVideos(
     input: TiktokSongVideosInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokSongVideosData>> {
-    return this._core.run("tiktok.song_videos", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok Song Videos across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterSongVideos(
-    input: TiktokSongVideosInput,
-    options?: RequestOptions,
-  ): Paginator<TiktokSongVideosVideo, RunResult<TiktokSongVideosData>> {
-    return paginate<TiktokSongVideosVideo, RunResult<TiktokSongVideosData>>(
-      this._core,
+  ): Promise<BareRunResult<TiktokSongVideosData>> {
+    return this._core.run(
       "tiktok.song_videos",
-      input as unknown as Record<string, unknown>,
-      "videos",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokSongVideosData>>;
   }
 
   /**
@@ -1522,8 +803,12 @@ export class TiktokNamespace {
   trendingFeed(
     input: TiktokTrendingFeedInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokTrendingFeedData>> {
-    return this._core.run("tiktok.trending_feed", input, options);
+  ): Promise<BareRunResult<TiktokTrendingFeedData>> {
+    return this._core.run(
+      "tiktok.trending_feed",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokTrendingFeedData>>;
   }
 
   /**
@@ -1539,8 +824,10 @@ export class TiktokNamespace {
   video(
     input: TiktokVideoInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokVideoData>> {
-    return this._core.run("tiktok.video", input, options);
+  ): Promise<BareRunResult<TiktokVideoData>> {
+    return this._core.run("tiktok.video", input, options) as unknown as Promise<
+      BareRunResult<TiktokVideoData>
+    >;
   }
 
   /**
@@ -1556,31 +843,12 @@ export class TiktokNamespace {
   videoComments(
     input: TiktokVideoCommentsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokVideoCommentsData>> {
-    return this._core.run("tiktok.video_comments", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok Video Comments across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterVideoComments(
-    input: TiktokVideoCommentsInput,
-    options?: RequestOptions,
-  ): Paginator<TiktokVideoCommentsComment, RunResult<TiktokVideoCommentsData>> {
-    return paginate<
-      TiktokVideoCommentsComment,
-      RunResult<TiktokVideoCommentsData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<TiktokVideoCommentsData>> {
+    return this._core.run(
       "tiktok.video_comments",
-      input as unknown as Record<string, unknown>,
-      "comments",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokVideoCommentsData>>;
   }
 
   /**
@@ -1596,7 +864,11 @@ export class TiktokNamespace {
   videoTranscript(
     input: TiktokVideoTranscriptInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokVideoTranscriptData>> {
-    return this._core.run("tiktok.video_transcript", input, options);
+  ): Promise<BareRunResult<TiktokVideoTranscriptData>> {
+    return this._core.run(
+      "tiktok.video_transcript",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokVideoTranscriptData>>;
   }
 }

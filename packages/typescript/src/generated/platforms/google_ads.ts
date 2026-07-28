@@ -1,12 +1,10 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
-  Paginator,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
-import { paginate } from "../../core/index.js";
 
 /**
  * Input for Google Ads Ad Details (google_ads.ad_details).
@@ -18,46 +16,7 @@ export interface GoogleAdsAdDetailsInput {
   url: string;
 }
 
-export interface GoogleAdsAdDetailsVariation {
-  allText: string;
-  description: string;
-  destinationUrl: string;
-  headline: string;
-  imageUrl: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Google Ads Ad Details (google_ads.ad_details).
- */
-export interface GoogleAdsAdDetailsData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  advertiserId: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  creativeId: string;
-  /**
-   * ISO 8601 date.
-   */
-  firstShown: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  format: string;
-  impressionsMax: number;
-  impressionsMin: number;
-  /**
-   * ISO 8601 date.
-   */
-  lastShown: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  variations: GoogleAdsAdDetailsVariation[];
-}
+export type GoogleAdsAdDetailsData = unknown;
 
 /**
  * Input for Google Ads Advertiser Search (google_ads.advertiser_search).
@@ -73,35 +32,7 @@ export interface GoogleAdsAdvertiserSearchInput {
   region?: string;
 }
 
-export interface GoogleAdsAdvertiserSearchAdvertiser {
-  /**
-   * Estimated number of ads for this advertiser/region.
-   */
-  adsEstimate: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  advertiserId: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  region: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Google Ads Advertiser Search (google_ads.advertiser_search).
- */
-export interface GoogleAdsAdvertiserSearchData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  advertisers: GoogleAdsAdvertiserSearchAdvertiser[];
-}
+export type GoogleAdsAdvertiserSearchData = unknown;
 
 /**
  * Input for Google Ads Company Ads (google_ads.company_ads).
@@ -153,53 +84,7 @@ export interface GoogleAdsCompanyAdsInput {
   topic?: "all" | "political";
 }
 
-export interface GoogleAdsCompanyAdsAd {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  adUrl: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  advertiserId: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  advertiserName: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  creativeId: string;
-  /**
-   * ISO 8601 date.
-   */
-  firstShown: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  format: string;
-  imageUrl: string;
-  /**
-   * ISO 8601 date.
-   */
-  lastShown: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Google Ads Company Ads (google_ads.company_ads).
- */
-export interface GoogleAdsCompanyAdsData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  ads: GoogleAdsCompanyAdsAd[];
-  /**
-   * Estimated total number of ads.
-   */
-  adsEstimate: number;
-  nextCursor: string;
-}
+export type GoogleAdsCompanyAdsData = unknown;
 
 /**
  * Input for Google Ads Transparency (google_ads.search).
@@ -216,76 +101,7 @@ export interface GoogleAdsSearchInput {
   url: string;
 }
 
-export interface GoogleAdsSearchItem {
-  /**
-   * Advertiser display name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  advertiser?: string;
-  /**
-   * Google Ads advertiser identifier.
-   */
-  advertiserId?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was first shown.
-   */
-  firstShownUtc?: number;
-  /**
-   * Ad format, e.g. TEXT, IMAGE, VIDEO.
-   */
-  format?: string;
-  /**
-   * Google Ads creative identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was last shown.
-   */
-  lastShownUtc?: number;
-  /**
-   * Number of days the ad has been served.
-   */
-  numServedDays?: number;
-  /**
-   * URL to a rendered preview of the creative.
-   */
-  previewUrl?: string;
-  /**
-   * Ads Transparency Center URL for the creative. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  /**
-   * Creative variations for the ad, each with image, headline, and body text where present.
-   */
-  variations?: GoogleAdsSearchVariation[];
-  [extra: string]: unknown;
-}
-
-export interface GoogleAdsSearchVariation {
-  /**
-   * Creative headline text.
-   */
-  headline?: string;
-  /**
-   * Creative image URL.
-   */
-  imageUrl?: string;
-  /**
-   * Creative body/description text.
-   */
-  text?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Google Ads Transparency (google_ads.search).
- */
-export interface GoogleAdsSearchData {
-  /**
-   * Ad records from the Transparency Center: advertiser, ad format, creative details, preview URL, and first/last shown dates. Populated whenever the provider has data for the entity.
-   */
-  items: GoogleAdsSearchItem[];
-}
+export type GoogleAdsSearchData = unknown;
 
 /**
  * Typed methods for the google_ads platform. Attached to the AnyAPI client as
@@ -307,8 +123,12 @@ export class GoogleAdsNamespace {
   adDetails(
     input: GoogleAdsAdDetailsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GoogleAdsAdDetailsData>> {
-    return this._core.run("google_ads.ad_details", input, options);
+  ): Promise<BareRunResult<GoogleAdsAdDetailsData>> {
+    return this._core.run(
+      "google_ads.ad_details",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GoogleAdsAdDetailsData>>;
   }
 
   /**
@@ -324,8 +144,12 @@ export class GoogleAdsNamespace {
   advertiserSearch(
     input: GoogleAdsAdvertiserSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GoogleAdsAdvertiserSearchData>> {
-    return this._core.run("google_ads.advertiser_search", input, options);
+  ): Promise<BareRunResult<GoogleAdsAdvertiserSearchData>> {
+    return this._core.run(
+      "google_ads.advertiser_search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GoogleAdsAdvertiserSearchData>>;
   }
 
   /**
@@ -341,28 +165,12 @@ export class GoogleAdsNamespace {
   companyAds(
     input: GoogleAdsCompanyAdsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GoogleAdsCompanyAdsData>> {
-    return this._core.run("google_ads.company_ads", input, options);
-  }
-
-  /**
-   * Iterate every result of Google Ads Company Ads across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterCompanyAds(
-    input: GoogleAdsCompanyAdsInput,
-    options?: RequestOptions,
-  ): Paginator<GoogleAdsCompanyAdsAd, RunResult<GoogleAdsCompanyAdsData>> {
-    return paginate<GoogleAdsCompanyAdsAd, RunResult<GoogleAdsCompanyAdsData>>(
-      this._core,
+  ): Promise<BareRunResult<GoogleAdsCompanyAdsData>> {
+    return this._core.run(
       "google_ads.company_ads",
-      input as unknown as Record<string, unknown>,
-      "ads",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<GoogleAdsCompanyAdsData>>;
   }
 
   /**
@@ -378,7 +186,11 @@ export class GoogleAdsNamespace {
   search(
     input: GoogleAdsSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<GoogleAdsSearchData>> {
-    return this._core.run("google_ads.search", input, options);
+  ): Promise<BareRunResult<GoogleAdsSearchData>> {
+    return this._core.run(
+      "google_ads.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<GoogleAdsSearchData>>;
   }
 }

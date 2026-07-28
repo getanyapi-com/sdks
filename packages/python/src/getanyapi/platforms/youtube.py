@@ -5,16 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
-from .._pagination import (
-    AsyncPaginator,
-    Paginator,
-    apaginate,
-    paginate,
-)
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -177,434 +171,67 @@ class YoutubeVideoTranscriptInput(TypedDict, total=False):
 
 
 class YoutubeChannelData(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    avatar_url: str = Field(alias="avatarUrl")
-    channel_id: str = Field(
-        alias="channelId",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    description: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    subscribers: int
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    videos: int
-    views: int
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeChannelCommunityPostsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    next_cursor: str = Field(alias="nextCursor")
-    posts: list[YoutubeChannelCommunityPostsPost] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class YoutubeChannelCommunityPostsPost(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    content: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    image: str
-    like_count: int = Field(alias="likeCount")
-    published_time: str = Field(
-        alias="publishedTime",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeChannelLivesData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    lives: list[YoutubeChannelLivesLive] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    next_cursor: str = Field(alias="nextCursor")
-
-
-class YoutubeChannelLivesLive(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    length_text: str = Field(alias="lengthText")
-    published_time: str = Field(
-        alias="publishedTime",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    views: int
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeChannelPlaylistsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    next_cursor: str = Field(alias="nextCursor")
-    playlists: list[YoutubeChannelPlaylistsPlaylist] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class YoutubeChannelPlaylistsPlaylist(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    playlist_url: str = Field(
-        alias="playlistUrl",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    thumbnail: str
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    video_count: int = Field(alias="videoCount")
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeChannelShortsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    next_cursor: str = Field(alias="nextCursor")
-    shorts: list[YoutubeChannelShortsShort] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class YoutubeChannelShortsShort(BaseModel):
     model_config = ConfigDict(extra="allow")
-
-    duration: str
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    likes: int
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    views: int
 
 
 class YoutubeChannelVideosData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    next_cursor: str = Field(alias="nextCursor")
-    videos: list[YoutubeChannelVideosVideo] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class YoutubeChannelVideosVideo(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    length_text: str = Field(alias="lengthText")
-    published_time: str = Field(
-        alias="publishedTime",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    views: int
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeCommentRepliesData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    comments: list[YoutubeCommentRepliesComment] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    next_cursor: str = Field(alias="nextCursor")
-
-
-class YoutubeCommentRepliesComment(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    author_name: str = Field(
-        alias="authorName",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    content: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    likes: int
-    published_time: str = Field(
-        alias="publishedTime",
-        description="Populated whenever the provider has data for the entity.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeCommunityPostData(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    channel_handle: str = Field(
-        alias="channelHandle",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    channel_title: str = Field(
-        alias="channelTitle",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    content: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    published_time: str = Field(
-        alias="publishedTime",
-        description="Populated whenever the provider has data for the entity.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubePlaylistData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    owner: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    total_videos: int = Field(alias="totalVideos")
-    videos: list[YoutubePlaylistVideo] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class YoutubePlaylistVideo(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    channel: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    length_seconds: int = Field(alias="lengthSeconds")
-    length_text: str = Field(
-        alias="lengthText",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    thumbnail: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    title: str
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeSearchData(BaseModel):
-    videos: list[YoutubeSearchVideo] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class YoutubeSearchVideo(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    channel: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    length_text: str = Field(alias="lengthText")
-    published_time: str = Field(
-        alias="publishedTime",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    views: int
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeSearchHashtagData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    next_cursor: str = Field(alias="nextCursor")
-    videos: list[YoutubeSearchHashtagVideo] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class YoutubeSearchHashtagVideo(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    channel_title: str = Field(
-        alias="channelTitle",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    length_text: str = Field(alias="lengthText")
-    published_time: str = Field(
-        alias="publishedTime",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    views: int
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeTrendingShortsData(BaseModel):
-    shorts: list[YoutubeTrendingShortsShort] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class YoutubeTrendingShortsShort(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    channel_title: str = Field(
-        alias="channelTitle",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    duration: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    likes: int
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    views: int
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeVideoData(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    channel: str = Field(
-        description="Name of the channel that published the video. Populated whenever the provider has data for the entity."
-    )
-    comments: int = Field(description="Number of comments.")
-    created_utc: float = Field(
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
-    )
-    duration_ms: int = Field(
-        alias="durationMs", description="Duration of the video in milliseconds."
-    )
-    id: str = Field(
-        description="Unique identifier of the video. Populated whenever the provider has data for the entity."
-    )
-    likes: int = Field(description="Number of likes.")
-    title: str = Field(
-        description="Title of the video. Populated whenever the provider has data for the entity."
-    )
-    views: int = Field(description="Number of views.")
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeVideoCommentsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    comments: list[YoutubeVideoCommentsComment] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    next_cursor: str = Field(alias="nextCursor")
-
-
-class YoutubeVideoCommentsComment(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    author: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    likes: int
-    published_time: str = Field(
-        alias="publishedTime",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    replies: int
-    text: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class YoutubeVideoSponsorsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    detection_status: str = Field(
-        alias="detectionStatus",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    is_paid_promotion: bool = Field(alias="isPaidPromotion")
-    suspected_sponsors: list[YoutubeVideoSponsorsSuspectedSponsor] = Field(
-        alias="suspectedSponsors"
-    )
-    title: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    video_id: str = Field(
-        alias="videoId",
-        description="Populated whenever the provider has data for the entity.",
-    )
-
-
-class YoutubeVideoSponsorsSuspectedSponsor(BaseModel):
     model_config = ConfigDict(extra="allow")
-
-    confidence: str
-    name: str
-    website: str
 
 
 class YoutubeVideoTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow")
-
-    language: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    transcript: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
 
 
 class YoutubeNamespace:
@@ -618,7 +245,7 @@ class YoutubeNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelInput],
-    ) -> RunResult[YoutubeChannelData]:
+    ) -> BareRunResult[YoutubeChannelData]:
         """YouTube Channel
 
         Fetch a YouTube channel's stats (subscribers, video count, total views,
@@ -632,14 +259,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel", dict(input), options
         )
-        return RunResult[YoutubeChannelData].model_validate(raw)
+        return BareRunResult[YoutubeChannelData].model_validate(raw)
 
     def channel_community_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelCommunityPostsInput],
-    ) -> RunResult[YoutubeChannelCommunityPostsData]:
+    ) -> BareRunResult[YoutubeChannelCommunityPostsData]:
         """YouTube Channel Community Posts
 
         List a YouTube channel's community posts by handle or channel ID with cursor
@@ -653,37 +280,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_community_posts", dict(input), options
         )
-        return RunResult[YoutubeChannelCommunityPostsData].model_validate(raw)
-
-    def iter_channel_community_posts(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelCommunityPostsInput],
-    ) -> Paginator[YoutubeChannelCommunityPostsPost, YoutubeChannelCommunityPostsData]:
-        """Iterate YouTube Channel Community Posts results, following pagination cursors.
-
-        Yields validated `YoutubeChannelCommunityPostsPost` items from the `posts` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "youtube.channel_community_posts",
-            dict(input),
-            "posts",
-            item_model=YoutubeChannelCommunityPostsPost,
-            data_model=YoutubeChannelCommunityPostsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelCommunityPostsData].model_validate(raw)
 
     def channel_lives(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelLivesInput],
-    ) -> RunResult[YoutubeChannelLivesData]:
+    ) -> BareRunResult[YoutubeChannelLivesData]:
         """YouTube Channel Live Streams
 
         List a YouTube channel's live and past-live streams by handle or channel ID
@@ -698,37 +302,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_lives", dict(input), options
         )
-        return RunResult[YoutubeChannelLivesData].model_validate(raw)
-
-    def iter_channel_lives(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelLivesInput],
-    ) -> Paginator[YoutubeChannelLivesLive, YoutubeChannelLivesData]:
-        """Iterate YouTube Channel Live Streams results, following pagination cursors.
-
-        Yields validated `YoutubeChannelLivesLive` items from the `lives` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "youtube.channel_lives",
-            dict(input),
-            "lives",
-            item_model=YoutubeChannelLivesLive,
-            data_model=YoutubeChannelLivesData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelLivesData].model_validate(raw)
 
     def channel_playlists(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelPlaylistsInput],
-    ) -> RunResult[YoutubeChannelPlaylistsData]:
+    ) -> BareRunResult[YoutubeChannelPlaylistsData]:
         """YouTube Channel Playlists
 
         List a YouTube channel's playlists by handle or channel ID with cursor
@@ -742,37 +323,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_playlists", dict(input), options
         )
-        return RunResult[YoutubeChannelPlaylistsData].model_validate(raw)
-
-    def iter_channel_playlists(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelPlaylistsInput],
-    ) -> Paginator[YoutubeChannelPlaylistsPlaylist, YoutubeChannelPlaylistsData]:
-        """Iterate YouTube Channel Playlists results, following pagination cursors.
-
-        Yields validated `YoutubeChannelPlaylistsPlaylist` items from the `playlists` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "youtube.channel_playlists",
-            dict(input),
-            "playlists",
-            item_model=YoutubeChannelPlaylistsPlaylist,
-            data_model=YoutubeChannelPlaylistsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelPlaylistsData].model_validate(raw)
 
     def channel_shorts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelShortsInput],
-    ) -> RunResult[YoutubeChannelShortsData]:
+    ) -> BareRunResult[YoutubeChannelShortsData]:
         """YouTube Channel Shorts
 
         List a YouTube channel's Shorts by handle or channel ID with cursor
@@ -786,37 +344,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_shorts", dict(input), options
         )
-        return RunResult[YoutubeChannelShortsData].model_validate(raw)
-
-    def iter_channel_shorts(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelShortsInput],
-    ) -> Paginator[YoutubeChannelShortsShort, YoutubeChannelShortsData]:
-        """Iterate YouTube Channel Shorts results, following pagination cursors.
-
-        Yields validated `YoutubeChannelShortsShort` items from the `shorts` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "youtube.channel_shorts",
-            dict(input),
-            "shorts",
-            item_model=YoutubeChannelShortsShort,
-            data_model=YoutubeChannelShortsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelShortsData].model_validate(raw)
 
     def channel_videos(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelVideosInput],
-    ) -> RunResult[YoutubeChannelVideosData]:
+    ) -> BareRunResult[YoutubeChannelVideosData]:
         """YouTube Channel Videos
 
         List a YouTube channel's videos by handle or channel ID with cursor
@@ -831,37 +366,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_videos", dict(input), options
         )
-        return RunResult[YoutubeChannelVideosData].model_validate(raw)
-
-    def iter_channel_videos(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelVideosInput],
-    ) -> Paginator[YoutubeChannelVideosVideo, YoutubeChannelVideosData]:
-        """Iterate YouTube Channel Videos results, following pagination cursors.
-
-        Yields validated `YoutubeChannelVideosVideo` items from the `videos` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "youtube.channel_videos",
-            dict(input),
-            "videos",
-            item_model=YoutubeChannelVideosVideo,
-            data_model=YoutubeChannelVideosData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelVideosData].model_validate(raw)
 
     def comment_replies(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeCommentRepliesInput],
-    ) -> RunResult[YoutubeCommentRepliesData]:
+    ) -> BareRunResult[YoutubeCommentRepliesData]:
         """YouTube Comment Replies
 
         List replies to a YouTube comment using a continuation token with cursor
@@ -875,14 +387,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.comment_replies", dict(input), options
         )
-        return RunResult[YoutubeCommentRepliesData].model_validate(raw)
+        return BareRunResult[YoutubeCommentRepliesData].model_validate(raw)
 
     def community_post(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeCommunityPostInput],
-    ) -> RunResult[YoutubeCommunityPostData]:
+    ) -> BareRunResult[YoutubeCommunityPostData]:
         """YouTube Community Post
 
         Fetch a single YouTube community post by URL (text, images, channel, publish
@@ -896,14 +408,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.community_post", dict(input), options
         )
-        return RunResult[YoutubeCommunityPostData].model_validate(raw)
+        return BareRunResult[YoutubeCommunityPostData].model_validate(raw)
 
     def playlist(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubePlaylistInput],
-    ) -> RunResult[YoutubePlaylistData]:
+    ) -> BareRunResult[YoutubePlaylistData]:
         """YouTube Playlist
 
         List every video in a YouTube playlist (title, length, and channel per video
@@ -918,14 +430,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.playlist", dict(input), options
         )
-        return RunResult[YoutubePlaylistData].model_validate(raw)
+        return BareRunResult[YoutubePlaylistData].model_validate(raw)
 
     def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeSearchInput],
-    ) -> RunResult[YoutubeSearchData]:
+    ) -> BareRunResult[YoutubeSearchData]:
         """YouTube Search
 
         Search YouTube and get matching videos (title, channel, views, length,
@@ -940,14 +452,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.search", dict(input), options
         )
-        return RunResult[YoutubeSearchData].model_validate(raw)
+        return BareRunResult[YoutubeSearchData].model_validate(raw)
 
     def search_hashtag(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeSearchHashtagInput],
-    ) -> RunResult[YoutubeSearchHashtagData]:
+    ) -> BareRunResult[YoutubeSearchHashtagData]:
         """YouTube Hashtag Search
 
         Search YouTube videos by hashtag with cursor pagination (title, channel,
@@ -961,37 +473,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.search_hashtag", dict(input), options
         )
-        return RunResult[YoutubeSearchHashtagData].model_validate(raw)
-
-    def iter_search_hashtag(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeSearchHashtagInput],
-    ) -> Paginator[YoutubeSearchHashtagVideo, YoutubeSearchHashtagData]:
-        """Iterate YouTube Hashtag Search results, following pagination cursors.
-
-        Yields validated `YoutubeSearchHashtagVideo` items from the `videos` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "youtube.search_hashtag",
-            dict(input),
-            "videos",
-            item_model=YoutubeSearchHashtagVideo,
-            data_model=YoutubeSearchHashtagData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeSearchHashtagData].model_validate(raw)
 
     def trending_shorts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeTrendingShortsInput],
-    ) -> RunResult[YoutubeTrendingShortsData]:
+    ) -> BareRunResult[YoutubeTrendingShortsData]:
         """YouTube Trending Shorts
 
         List currently trending YouTube Shorts (title, channel, views, likes,
@@ -1005,14 +494,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.trending_shorts", dict(input), options
         )
-        return RunResult[YoutubeTrendingShortsData].model_validate(raw)
+        return BareRunResult[YoutubeTrendingShortsData].model_validate(raw)
 
     def video(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeVideoInput],
-    ) -> RunResult[YoutubeVideoData]:
+    ) -> BareRunResult[YoutubeVideoData]:
         """YouTube Video
 
         Fetch a YouTube video's metadata (title, channel, views, likes, duration,
@@ -1026,14 +515,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.video", dict(input), options
         )
-        return RunResult[YoutubeVideoData].model_validate(raw)
+        return BareRunResult[YoutubeVideoData].model_validate(raw)
 
     def video_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeVideoCommentsInput],
-    ) -> RunResult[YoutubeVideoCommentsData]:
+    ) -> BareRunResult[YoutubeVideoCommentsData]:
         """YouTube Video Comments
 
         List the comments on a YouTube video by URL with cursor pagination (text,
@@ -1047,37 +536,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.video_comments", dict(input), options
         )
-        return RunResult[YoutubeVideoCommentsData].model_validate(raw)
-
-    def iter_video_comments(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeVideoCommentsInput],
-    ) -> Paginator[YoutubeVideoCommentsComment, YoutubeVideoCommentsData]:
-        """Iterate YouTube Video Comments results, following pagination cursors.
-
-        Yields validated `YoutubeVideoCommentsComment` items from the `comments` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "youtube.video_comments",
-            dict(input),
-            "comments",
-            item_model=YoutubeVideoCommentsComment,
-            data_model=YoutubeVideoCommentsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeVideoCommentsData].model_validate(raw)
 
     def video_sponsors(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeVideoSponsorsInput],
-    ) -> RunResult[YoutubeVideoSponsorsData]:
+    ) -> BareRunResult[YoutubeVideoSponsorsData]:
         """YouTube Video Sponsors
 
         Detect suspected sponsors and paid promotions in a YouTube video by URL
@@ -1091,14 +557,14 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.video_sponsors", dict(input), options
         )
-        return RunResult[YoutubeVideoSponsorsData].model_validate(raw)
+        return BareRunResult[YoutubeVideoSponsorsData].model_validate(raw)
 
     def video_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeVideoTranscriptInput],
-    ) -> RunResult[YoutubeVideoTranscriptData]:
+    ) -> BareRunResult[YoutubeVideoTranscriptData]:
         """YouTube Video Transcript
 
         Fetch the transcript/captions of a YouTube video by URL or ID, normalized
@@ -1112,7 +578,7 @@ class YoutubeNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.video_transcript", dict(input), options
         )
-        return RunResult[YoutubeVideoTranscriptData].model_validate(raw)
+        return BareRunResult[YoutubeVideoTranscriptData].model_validate(raw)
 
 
 class AsyncYoutubeNamespace:
@@ -1126,7 +592,7 @@ class AsyncYoutubeNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelInput],
-    ) -> RunResult[YoutubeChannelData]:
+    ) -> BareRunResult[YoutubeChannelData]:
         """YouTube Channel
 
         Fetch a YouTube channel's stats (subscribers, video count, total views,
@@ -1140,14 +606,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel", dict(input), options
         )
-        return RunResult[YoutubeChannelData].model_validate(raw)
+        return BareRunResult[YoutubeChannelData].model_validate(raw)
 
     async def channel_community_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelCommunityPostsInput],
-    ) -> RunResult[YoutubeChannelCommunityPostsData]:
+    ) -> BareRunResult[YoutubeChannelCommunityPostsData]:
         """YouTube Channel Community Posts
 
         List a YouTube channel's community posts by handle or channel ID with cursor
@@ -1161,39 +627,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_community_posts", dict(input), options
         )
-        return RunResult[YoutubeChannelCommunityPostsData].model_validate(raw)
-
-    def iter_channel_community_posts(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelCommunityPostsInput],
-    ) -> AsyncPaginator[
-        YoutubeChannelCommunityPostsPost, YoutubeChannelCommunityPostsData
-    ]:
-        """Iterate YouTube Channel Community Posts results, following pagination cursors.
-
-        Yields validated `YoutubeChannelCommunityPostsPost` items from the `posts` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "youtube.channel_community_posts",
-            dict(input),
-            "posts",
-            item_model=YoutubeChannelCommunityPostsPost,
-            data_model=YoutubeChannelCommunityPostsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelCommunityPostsData].model_validate(raw)
 
     async def channel_lives(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelLivesInput],
-    ) -> RunResult[YoutubeChannelLivesData]:
+    ) -> BareRunResult[YoutubeChannelLivesData]:
         """YouTube Channel Live Streams
 
         List a YouTube channel's live and past-live streams by handle or channel ID
@@ -1208,37 +649,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_lives", dict(input), options
         )
-        return RunResult[YoutubeChannelLivesData].model_validate(raw)
-
-    def iter_channel_lives(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelLivesInput],
-    ) -> AsyncPaginator[YoutubeChannelLivesLive, YoutubeChannelLivesData]:
-        """Iterate YouTube Channel Live Streams results, following pagination cursors.
-
-        Yields validated `YoutubeChannelLivesLive` items from the `lives` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "youtube.channel_lives",
-            dict(input),
-            "lives",
-            item_model=YoutubeChannelLivesLive,
-            data_model=YoutubeChannelLivesData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelLivesData].model_validate(raw)
 
     async def channel_playlists(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelPlaylistsInput],
-    ) -> RunResult[YoutubeChannelPlaylistsData]:
+    ) -> BareRunResult[YoutubeChannelPlaylistsData]:
         """YouTube Channel Playlists
 
         List a YouTube channel's playlists by handle or channel ID with cursor
@@ -1252,37 +670,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_playlists", dict(input), options
         )
-        return RunResult[YoutubeChannelPlaylistsData].model_validate(raw)
-
-    def iter_channel_playlists(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelPlaylistsInput],
-    ) -> AsyncPaginator[YoutubeChannelPlaylistsPlaylist, YoutubeChannelPlaylistsData]:
-        """Iterate YouTube Channel Playlists results, following pagination cursors.
-
-        Yields validated `YoutubeChannelPlaylistsPlaylist` items from the `playlists` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "youtube.channel_playlists",
-            dict(input),
-            "playlists",
-            item_model=YoutubeChannelPlaylistsPlaylist,
-            data_model=YoutubeChannelPlaylistsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelPlaylistsData].model_validate(raw)
 
     async def channel_shorts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelShortsInput],
-    ) -> RunResult[YoutubeChannelShortsData]:
+    ) -> BareRunResult[YoutubeChannelShortsData]:
         """YouTube Channel Shorts
 
         List a YouTube channel's Shorts by handle or channel ID with cursor
@@ -1296,37 +691,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_shorts", dict(input), options
         )
-        return RunResult[YoutubeChannelShortsData].model_validate(raw)
-
-    def iter_channel_shorts(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelShortsInput],
-    ) -> AsyncPaginator[YoutubeChannelShortsShort, YoutubeChannelShortsData]:
-        """Iterate YouTube Channel Shorts results, following pagination cursors.
-
-        Yields validated `YoutubeChannelShortsShort` items from the `shorts` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "youtube.channel_shorts",
-            dict(input),
-            "shorts",
-            item_model=YoutubeChannelShortsShort,
-            data_model=YoutubeChannelShortsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelShortsData].model_validate(raw)
 
     async def channel_videos(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeChannelVideosInput],
-    ) -> RunResult[YoutubeChannelVideosData]:
+    ) -> BareRunResult[YoutubeChannelVideosData]:
         """YouTube Channel Videos
 
         List a YouTube channel's videos by handle or channel ID with cursor
@@ -1341,37 +713,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_videos", dict(input), options
         )
-        return RunResult[YoutubeChannelVideosData].model_validate(raw)
-
-    def iter_channel_videos(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeChannelVideosInput],
-    ) -> AsyncPaginator[YoutubeChannelVideosVideo, YoutubeChannelVideosData]:
-        """Iterate YouTube Channel Videos results, following pagination cursors.
-
-        Yields validated `YoutubeChannelVideosVideo` items from the `videos` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "youtube.channel_videos",
-            dict(input),
-            "videos",
-            item_model=YoutubeChannelVideosVideo,
-            data_model=YoutubeChannelVideosData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeChannelVideosData].model_validate(raw)
 
     async def comment_replies(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeCommentRepliesInput],
-    ) -> RunResult[YoutubeCommentRepliesData]:
+    ) -> BareRunResult[YoutubeCommentRepliesData]:
         """YouTube Comment Replies
 
         List replies to a YouTube comment using a continuation token with cursor
@@ -1385,14 +734,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.comment_replies", dict(input), options
         )
-        return RunResult[YoutubeCommentRepliesData].model_validate(raw)
+        return BareRunResult[YoutubeCommentRepliesData].model_validate(raw)
 
     async def community_post(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeCommunityPostInput],
-    ) -> RunResult[YoutubeCommunityPostData]:
+    ) -> BareRunResult[YoutubeCommunityPostData]:
         """YouTube Community Post
 
         Fetch a single YouTube community post by URL (text, images, channel, publish
@@ -1406,14 +755,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.community_post", dict(input), options
         )
-        return RunResult[YoutubeCommunityPostData].model_validate(raw)
+        return BareRunResult[YoutubeCommunityPostData].model_validate(raw)
 
     async def playlist(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubePlaylistInput],
-    ) -> RunResult[YoutubePlaylistData]:
+    ) -> BareRunResult[YoutubePlaylistData]:
         """YouTube Playlist
 
         List every video in a YouTube playlist (title, length, and channel per video
@@ -1428,14 +777,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.playlist", dict(input), options
         )
-        return RunResult[YoutubePlaylistData].model_validate(raw)
+        return BareRunResult[YoutubePlaylistData].model_validate(raw)
 
     async def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeSearchInput],
-    ) -> RunResult[YoutubeSearchData]:
+    ) -> BareRunResult[YoutubeSearchData]:
         """YouTube Search
 
         Search YouTube and get matching videos (title, channel, views, length,
@@ -1450,14 +799,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.search", dict(input), options
         )
-        return RunResult[YoutubeSearchData].model_validate(raw)
+        return BareRunResult[YoutubeSearchData].model_validate(raw)
 
     async def search_hashtag(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeSearchHashtagInput],
-    ) -> RunResult[YoutubeSearchHashtagData]:
+    ) -> BareRunResult[YoutubeSearchHashtagData]:
         """YouTube Hashtag Search
 
         Search YouTube videos by hashtag with cursor pagination (title, channel,
@@ -1471,37 +820,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.search_hashtag", dict(input), options
         )
-        return RunResult[YoutubeSearchHashtagData].model_validate(raw)
-
-    def iter_search_hashtag(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeSearchHashtagInput],
-    ) -> AsyncPaginator[YoutubeSearchHashtagVideo, YoutubeSearchHashtagData]:
-        """Iterate YouTube Hashtag Search results, following pagination cursors.
-
-        Yields validated `YoutubeSearchHashtagVideo` items from the `videos` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "youtube.search_hashtag",
-            dict(input),
-            "videos",
-            item_model=YoutubeSearchHashtagVideo,
-            data_model=YoutubeSearchHashtagData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeSearchHashtagData].model_validate(raw)
 
     async def trending_shorts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeTrendingShortsInput],
-    ) -> RunResult[YoutubeTrendingShortsData]:
+    ) -> BareRunResult[YoutubeTrendingShortsData]:
         """YouTube Trending Shorts
 
         List currently trending YouTube Shorts (title, channel, views, likes,
@@ -1515,14 +841,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.trending_shorts", dict(input), options
         )
-        return RunResult[YoutubeTrendingShortsData].model_validate(raw)
+        return BareRunResult[YoutubeTrendingShortsData].model_validate(raw)
 
     async def video(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeVideoInput],
-    ) -> RunResult[YoutubeVideoData]:
+    ) -> BareRunResult[YoutubeVideoData]:
         """YouTube Video
 
         Fetch a YouTube video's metadata (title, channel, views, likes, duration,
@@ -1536,14 +862,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.video", dict(input), options
         )
-        return RunResult[YoutubeVideoData].model_validate(raw)
+        return BareRunResult[YoutubeVideoData].model_validate(raw)
 
     async def video_comments(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeVideoCommentsInput],
-    ) -> RunResult[YoutubeVideoCommentsData]:
+    ) -> BareRunResult[YoutubeVideoCommentsData]:
         """YouTube Video Comments
 
         List the comments on a YouTube video by URL with cursor pagination (text,
@@ -1557,37 +883,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.video_comments", dict(input), options
         )
-        return RunResult[YoutubeVideoCommentsData].model_validate(raw)
-
-    def iter_video_comments(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[YoutubeVideoCommentsInput],
-    ) -> AsyncPaginator[YoutubeVideoCommentsComment, YoutubeVideoCommentsData]:
-        """Iterate YouTube Video Comments results, following pagination cursors.
-
-        Yields validated `YoutubeVideoCommentsComment` items from the `comments` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "youtube.video_comments",
-            dict(input),
-            "comments",
-            item_model=YoutubeVideoCommentsComment,
-            data_model=YoutubeVideoCommentsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[YoutubeVideoCommentsData].model_validate(raw)
 
     async def video_sponsors(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeVideoSponsorsInput],
-    ) -> RunResult[YoutubeVideoSponsorsData]:
+    ) -> BareRunResult[YoutubeVideoSponsorsData]:
         """YouTube Video Sponsors
 
         Detect suspected sponsors and paid promotions in a YouTube video by URL
@@ -1601,14 +904,14 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.video_sponsors", dict(input), options
         )
-        return RunResult[YoutubeVideoSponsorsData].model_validate(raw)
+        return BareRunResult[YoutubeVideoSponsorsData].model_validate(raw)
 
     async def video_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[YoutubeVideoTranscriptInput],
-    ) -> RunResult[YoutubeVideoTranscriptData]:
+    ) -> BareRunResult[YoutubeVideoTranscriptData]:
         """YouTube Video Transcript
 
         Fetch the transcript/captions of a YouTube video by URL or ID, normalized
@@ -1622,4 +925,4 @@ class AsyncYoutubeNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.video_transcript", dict(input), options
         )
-        return RunResult[YoutubeVideoTranscriptData].model_validate(raw)
+        return BareRunResult[YoutubeVideoTranscriptData].model_validate(raw)

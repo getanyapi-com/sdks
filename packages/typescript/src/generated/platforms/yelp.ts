@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -25,124 +25,7 @@ export interface YelpSearchInput {
   query: string;
 }
 
-export interface YelpSearchItem {
-  /**
-   * Primary street address line.
-   */
-  address1?: string;
-  /**
-   * Secondary address line.
-   */
-  address2?: string;
-  /**
-   * Tertiary address line.
-   */
-  address3?: string;
-  /**
-   * URL slug for the business. Populated whenever the provider has data for the entity.
-   */
-  alias: string;
-  /**
-   * Rounded average star rating.
-   */
-  avg_rating?: number;
-  /**
-   * Business category tags.
-   */
-  categories?: YelpSearchCategorie[];
-  /**
-   * City name.
-   */
-  city?: string;
-  /**
-   * ISO country code.
-   */
-  country?: string;
-  /**
-   * Dialable phone number.
-   */
-  dialable_phone?: string;
-  /**
-   * Stable Yelp business identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Whether the business is permanently closed.
-   */
-  is_closed?: boolean;
-  /**
-   * Latitude of the business.
-   */
-  latitude?: number;
-  /**
-   * Formatted local phone number.
-   */
-  localized_phone?: string;
-  /**
-   * Localized price tier (e.g. $$).
-   */
-  localized_price?: string;
-  /**
-   * Longitude of the business.
-   */
-  longitude?: number;
-  /**
-   * Business display name. Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  /**
-   * Neighborhood labels for the location.
-   */
-  neighborhoods?: string[];
-  /**
-   * Raw phone number.
-   */
-  phone?: string;
-  /**
-   * Total photo count.
-   */
-  photo_count?: number;
-  /**
-   * Primary photo URL. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  photo_url?: string;
-  /**
-   * Numeric price tier.
-   */
-  price?: number;
-  /**
-   * Number of reviews.
-   */
-  review_count?: number;
-  /**
-   * State or region code.
-   */
-  state?: string;
-  /**
-   * Unrounded average star rating.
-   */
-  unrounded_avg_rating?: number;
-  /**
-   * Postal code.
-   */
-  zip?: string;
-  [extra: string]: unknown;
-}
-
-export interface YelpSearchCategorie {
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Yelp Search (yelp.search).
- */
-export interface YelpSearchData {
-  /**
-   * Business listing records: name, categories, rating, review count, address, and core business info. Populated whenever the provider has data for the entity.
-   */
-  items: YelpSearchItem[];
-}
+export type YelpSearchData = unknown;
 
 /**
  * Typed methods for the yelp platform. Attached to the AnyAPI client as
@@ -164,7 +47,9 @@ export class YelpNamespace {
   search(
     input: YelpSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<YelpSearchData>> {
-    return this._core.run("yelp.search", input, options);
+  ): Promise<BareRunResult<YelpSearchData>> {
+    return this._core.run("yelp.search", input, options) as unknown as Promise<
+      BareRunResult<YelpSearchData>
+    >;
   }
 }

@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -21,27 +21,7 @@ export interface WebCrawlInput {
   url: string;
 }
 
-export interface WebCrawlItem {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  domain: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Website Crawl (web.crawl).
- */
-export interface WebCrawlData {
-  /**
-   * Crawled page records: URL, page title, and extracted text content for each page. Populated whenever the provider has data for the entity.
-   */
-  items: WebCrawlItem[];
-}
+export type WebCrawlData = unknown;
 
 /**
  * Input for Web Map (web.map).
@@ -72,25 +52,7 @@ export interface WebMapInput {
   url: string;
 }
 
-export interface WebMapResult {
-  description: string;
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Web Map (web.map).
- */
-export interface WebMapData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  results: WebMapResult[];
-}
+export type WebMapData = unknown;
 
 /**
  * Input for Web Scrape (web.scrape).
@@ -133,36 +95,7 @@ export interface WebScrapeInput {
   waitFor?: number;
 }
 
-/**
- * The `data` payload of Web Scrape (web.scrape).
- */
-export interface WebScrapeData {
-  /**
-   * The page meta description.
-   */
-  description: string;
-  /**
-   * The cleaned page HTML. Present only when 'html' is among the requested formats.
-   */
-  html?: string;
-  /**
-   * The page content as clean Markdown. Present when 'markdown' is among the requested formats (the default). Populated whenever the provider has data for the entity.
-   */
-  markdown: string;
-  /**
-   * The verbatim page HTML before cleaning. Present only when 'rawHtml' is among the requested formats.
-   */
-  rawHtml?: string;
-  /**
-   * The page title from its metadata.
-   */
-  title: string;
-  /**
-   * The canonical source URL of the scraped page. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
+export type WebScrapeData = unknown;
 
 /**
  * Input for Website Screenshot (web.screenshot).
@@ -179,28 +112,7 @@ export interface WebScreenshotInput {
   viewportWidth?: number;
 }
 
-export interface WebScreenshotItem {
-  /**
-   * Link to the captured screenshot image. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  image?: string;
-  /**
-   * The final page URL that was captured. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Website Screenshot (web.screenshot).
- */
-export interface WebScreenshotData {
-  /**
-   * Screenshot records: the requested page URL and a link to the captured image. Populated whenever the provider has data for the entity.
-   */
-  items: WebScreenshotItem[];
-}
+export type WebScreenshotData = unknown;
 
 /**
  * Typed methods for the web platform. Attached to the AnyAPI client as
@@ -222,8 +134,10 @@ export class WebNamespace {
   crawl(
     input: WebCrawlInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WebCrawlData>> {
-    return this._core.run("web.crawl", input, options);
+  ): Promise<BareRunResult<WebCrawlData>> {
+    return this._core.run("web.crawl", input, options) as unknown as Promise<
+      BareRunResult<WebCrawlData>
+    >;
   }
 
   /**
@@ -239,8 +153,10 @@ export class WebNamespace {
   map(
     input: WebMapInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WebMapData>> {
-    return this._core.run("web.map", input, options);
+  ): Promise<BareRunResult<WebMapData>> {
+    return this._core.run("web.map", input, options) as unknown as Promise<
+      BareRunResult<WebMapData>
+    >;
   }
 
   /**
@@ -256,8 +172,10 @@ export class WebNamespace {
   scrape(
     input: WebScrapeInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WebScrapeData>> {
-    return this._core.run("web.scrape", input, options);
+  ): Promise<BareRunResult<WebScrapeData>> {
+    return this._core.run("web.scrape", input, options) as unknown as Promise<
+      BareRunResult<WebScrapeData>
+    >;
   }
 
   /**
@@ -273,7 +191,11 @@ export class WebNamespace {
   screenshot(
     input: WebScreenshotInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WebScreenshotData>> {
-    return this._core.run("web.screenshot", input, options);
+  ): Promise<BareRunResult<WebScreenshotData>> {
+    return this._core.run(
+      "web.screenshot",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<WebScreenshotData>>;
   }
 }

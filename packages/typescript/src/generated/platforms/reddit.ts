@@ -1,12 +1,10 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
-  Paginator,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
-import { paginate } from "../../core/index.js";
 
 /**
  * Input for Reddit Post Comments (reddit.post_comments).
@@ -22,39 +20,7 @@ export interface RedditPostCommentsInput {
   url: string;
 }
 
-export interface RedditPostCommentsComment {
-  /**
-   * Commenter username, without the u/ prefix. Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * Comment text, as Markdown. Populated whenever the provider has data for the entity.
-   */
-  body: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * Reddit comment ID (base-36, without the t1_ prefix). Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Permalink to the comment on reddit.com. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Reddit Post Comments (reddit.post_comments).
- */
-export interface RedditPostCommentsData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  comments: RedditPostCommentsComment[];
-}
+export type RedditPostCommentsData = unknown;
 
 /**
  * Input for Reddit Post Transcript (reddit.post_transcript).
@@ -70,22 +36,7 @@ export interface RedditPostTranscriptInput {
   url: string;
 }
 
-/**
- * The `data` payload of Reddit Post Transcript (reddit.post_transcript).
- */
-export interface RedditPostTranscriptData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  language: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  postId: string;
-  transcript: string;
-  transcriptNotAvailable: boolean;
-  [extra: string]: unknown;
-}
+export type RedditPostTranscriptData = unknown;
 
 /**
  * Input for Reddit Search (reddit.search).
@@ -111,59 +62,7 @@ export interface RedditSearchInput {
   timeframe?: "hour" | "day" | "week" | "month" | "year" | "all";
 }
 
-export interface RedditSearchPost {
-  /**
-   * Author username, without the u/ prefix. Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Total number of comments on the post.
-   */
-  numComments: number;
-  /**
-   * Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it. Populated whenever the provider has data for the entity.
-   */
-  permalink: string;
-  /**
-   * Net score (upvotes minus downvotes) at fetch time.
-   */
-  score: number;
-  /**
-   * Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.
-   */
-  subreddit: string;
-  /**
-   * Post title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Reddit Search (reddit.search).
- */
-export interface RedditSearchData {
-  /**
-   * Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more results.
-   */
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  posts: RedditSearchPost[];
-}
+export type RedditSearchData = unknown;
 
 /**
  * Input for Reddit Subreddit Details (reddit.subreddit_details).
@@ -175,40 +74,7 @@ export interface RedditSubredditDetailsInput {
   subreddit: string;
 }
 
-/**
- * The `data` payload of Reddit Subreddit Details (reddit.subreddit_details).
- */
-export interface RedditSubredditDetailsData {
-  /**
-   * Reddit advertiser category for the subreddit.
-   */
-  advertiserCategory: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Subreddit description text. Populated whenever the provider has data for the entity.
-   */
-  description: string;
-  /**
-   * URL of the subreddit icon. Populated whenever the provider has data for the entity.
-   */
-  iconUrl: string;
-  /**
-   * Reddit fullname, e.g. "t5_2qh1i". Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Subreddit name (without the r/ prefix). Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  /**
-   * Number of users active in the past week.
-   */
-  weeklyActiveUsers: number;
-  [extra: string]: unknown;
-}
+export type RedditSubredditDetailsData = unknown;
 
 /**
  * Input for Reddit Subreddit Posts (reddit.subreddit_posts).
@@ -241,59 +107,7 @@ export interface RedditSubredditPostsInput {
   timeframe?: "all" | "year" | "month" | "week" | "day" | "hour";
 }
 
-export interface RedditSubredditPostsPost {
-  /**
-   * Author username, without the u/ prefix. Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Total number of comments on the post.
-   */
-  numComments: number;
-  /**
-   * Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it. Populated whenever the provider has data for the entity.
-   */
-  permalink: string;
-  /**
-   * Net score (upvotes minus downvotes) at fetch time.
-   */
-  score: number;
-  /**
-   * Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.
-   */
-  subreddit: string;
-  /**
-   * Post title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Reddit Subreddit Posts (reddit.subreddit_posts).
- */
-export interface RedditSubredditPostsData {
-  /**
-   * Cursor for the next page of results; pass it back as the `after` input to fetch the following page. Empty string when there are no more results.
-   */
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  posts: RedditSubredditPostsPost[];
-}
+export type RedditSubredditPostsData = unknown;
 
 /**
  * Input for Reddit Subreddit Search (reddit.subreddit_search).
@@ -321,60 +135,7 @@ export interface RedditSubredditSearchInput {
   timeframe?: string;
 }
 
-export interface RedditSubredditSearchPost {
-  /**
-   * Author username, without the u/ prefix. Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * Post creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc: number;
-  /**
-   * Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Whether the post is marked NSFW (over 18).
-   */
-  nsfw: boolean;
-  /**
-   * Total number of comments on the post.
-   */
-  numComments: number;
-  /**
-   * Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Populated whenever the provider has data for the entity.
-   */
-  permalink: string;
-  /**
-   * Net score (upvotes minus downvotes) at fetch time.
-   */
-  score: number;
-  /**
-   * Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.
-   */
-  subreddit: string;
-  /**
-   * Post title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Reddit Subreddit Search (reddit.subreddit_search).
- */
-export interface RedditSubredditSearchData {
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  posts: RedditSubredditSearchPost[];
-}
+export type RedditSubredditSearchData = unknown;
 
 /**
  * Typed methods for the reddit platform. Attached to the AnyAPI client as
@@ -396,8 +157,12 @@ export class RedditNamespace {
   postComments(
     input: RedditPostCommentsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedditPostCommentsData>> {
-    return this._core.run("reddit.post_comments", input, options);
+  ): Promise<BareRunResult<RedditPostCommentsData>> {
+    return this._core.run(
+      "reddit.post_comments",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<RedditPostCommentsData>>;
   }
 
   /**
@@ -413,8 +178,12 @@ export class RedditNamespace {
   postTranscript(
     input: RedditPostTranscriptInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedditPostTranscriptData>> {
-    return this._core.run("reddit.post_transcript", input, options);
+  ): Promise<BareRunResult<RedditPostTranscriptData>> {
+    return this._core.run(
+      "reddit.post_transcript",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<RedditPostTranscriptData>>;
   }
 
   /**
@@ -430,28 +199,12 @@ export class RedditNamespace {
   search(
     input: RedditSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedditSearchData>> {
-    return this._core.run("reddit.search", input, options);
-  }
-
-  /**
-   * Iterate every result of Reddit Search across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterSearch(
-    input: RedditSearchInput,
-    options?: RequestOptions,
-  ): Paginator<RedditSearchPost, RunResult<RedditSearchData>> {
-    return paginate<RedditSearchPost, RunResult<RedditSearchData>>(
-      this._core,
+  ): Promise<BareRunResult<RedditSearchData>> {
+    return this._core.run(
       "reddit.search",
-      input as unknown as Record<string, unknown>,
-      "posts",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<RedditSearchData>>;
   }
 
   /**
@@ -467,8 +220,12 @@ export class RedditNamespace {
   subredditDetails(
     input: RedditSubredditDetailsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedditSubredditDetailsData>> {
-    return this._core.run("reddit.subreddit_details", input, options);
+  ): Promise<BareRunResult<RedditSubredditDetailsData>> {
+    return this._core.run(
+      "reddit.subreddit_details",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<RedditSubredditDetailsData>>;
   }
 
   /**
@@ -484,8 +241,12 @@ export class RedditNamespace {
   subredditPosts(
     input: RedditSubredditPostsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedditSubredditPostsData>> {
-    return this._core.run("reddit.subreddit_posts", input, options);
+  ): Promise<BareRunResult<RedditSubredditPostsData>> {
+    return this._core.run(
+      "reddit.subreddit_posts",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<RedditSubredditPostsData>>;
   }
 
   /**
@@ -501,33 +262,11 @@ export class RedditNamespace {
   subredditSearch(
     input: RedditSubredditSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<RedditSubredditSearchData>> {
-    return this._core.run("reddit.subreddit_search", input, options);
-  }
-
-  /**
-   * Iterate every result of Reddit Subreddit Search across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterSubredditSearch(
-    input: RedditSubredditSearchInput,
-    options?: RequestOptions,
-  ): Paginator<
-    RedditSubredditSearchPost,
-    RunResult<RedditSubredditSearchData>
-  > {
-    return paginate<
-      RedditSubredditSearchPost,
-      RunResult<RedditSubredditSearchData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<RedditSubredditSearchData>> {
+    return this._core.run(
       "reddit.subreddit_search",
-      input as unknown as Record<string, unknown>,
-      "posts",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<RedditSubredditSearchData>>;
   }
 }

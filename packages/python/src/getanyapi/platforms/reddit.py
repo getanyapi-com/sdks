@@ -5,16 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
-from .._pagination import (
-    AsyncPaginator,
-    Paginator,
-    apaginate,
-    paginate,
-)
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -90,201 +84,27 @@ class RedditSubredditSearchInput(TypedDict, total=False):
 
 
 class RedditPostCommentsData(BaseModel):
-    comments: list[RedditPostCommentsComment] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class RedditPostCommentsComment(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    author: str = Field(
-        description="Commenter username, without the u/ prefix. Populated whenever the provider has data for the entity."
-    )
-    body: str = Field(
-        description="Comment text, as Markdown. Populated whenever the provider has data for the entity."
-    )
-    created_utc: float = Field(
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
-    id: str = Field(
-        description="Reddit comment ID (base-36, without the t1_ prefix). Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="Permalink to the comment on reddit.com. Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class RedditPostTranscriptData(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    language: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    post_id: str = Field(
-        alias="postId",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    transcript: str
-    transcript_not_available: bool = Field(alias="transcriptNotAvailable")
+    model_config = ConfigDict(extra="allow")
 
 
 class RedditSearchData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    next_cursor: str = Field(
-        alias="nextCursor",
-        description="Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more results.",
-    )
-    posts: list[RedditSearchPost] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class RedditSearchPost(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    author: str = Field(
-        description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
-    )
-    created_utc: float = Field(
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
-    id: str = Field(
-        description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
-    )
-    num_comments: int = Field(
-        alias="numComments", description="Total number of comments on the post."
-    )
-    permalink: str = Field(
-        description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it. Populated whenever the provider has data for the entity.'
-    )
-    score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
-    subreddit: str = Field(
-        description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
-    )
-    title: str = Field(
-        description="Post title. Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class RedditSubredditDetailsData(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    advertiser_category: str = Field(
-        alias="advertiserCategory",
-        description="Reddit advertiser category for the subreddit.",
-    )
-    created_utc: float = Field(
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
-    )
-    description: str = Field(
-        description="Subreddit description text. Populated whenever the provider has data for the entity."
-    )
-    icon_url: str = Field(
-        alias="iconUrl",
-        description="URL of the subreddit icon. Populated whenever the provider has data for the entity.",
-    )
-    id: str = Field(
-        description='Reddit fullname, e.g. "t5_2qh1i". Populated whenever the provider has data for the entity.'
-    )
-    name: str = Field(
-        description="Subreddit name (without the r/ prefix). Populated whenever the provider has data for the entity."
-    )
-    weekly_active_users: int = Field(
-        alias="weeklyActiveUsers",
-        description="Number of users active in the past week.",
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class RedditSubredditPostsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    next_cursor: str = Field(
-        alias="nextCursor",
-        description="Cursor for the next page of results; pass it back as the `after` input to fetch the following page. Empty string when there are no more results.",
-    )
-    posts: list[RedditSubredditPostsPost] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class RedditSubredditPostsPost(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    author: str = Field(
-        description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
-    )
-    created_utc: float = Field(
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
-    )
-    id: str = Field(
-        description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
-    )
-    num_comments: int = Field(
-        alias="numComments", description="Total number of comments on the post."
-    )
-    permalink: str = Field(
-        description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it. Populated whenever the provider has data for the entity.'
-    )
-    score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
-    subreddit: str = Field(
-        description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
-    )
-    title: str = Field(
-        description="Post title. Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class RedditSubredditSearchData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    next_cursor: str = Field(alias="nextCursor")
-    posts: list[RedditSubredditSearchPost] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class RedditSubredditSearchPost(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    author: str = Field(
-        description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
-    )
-    created_utc: float = Field(
-        alias="createdUtc",
-        description="Post creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
-    id: str = Field(
-        description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
-    )
-    nsfw: bool = Field(description="Whether the post is marked NSFW (over 18).")
-    num_comments: int = Field(
-        alias="numComments", description="Total number of comments on the post."
-    )
-    permalink: str = Field(
-        description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Populated whenever the provider has data for the entity.'
-    )
-    score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
-    subreddit: str = Field(
-        description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
-    )
-    title: str = Field(
-        description="Post title. Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class RedditNamespace:
@@ -298,7 +118,7 @@ class RedditNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditPostCommentsInput],
-    ) -> RunResult[RedditPostCommentsData]:
+    ) -> BareRunResult[RedditPostCommentsData]:
         """Reddit Post Comments
 
         List the top-level comments on a Reddit post by URL (author, body, score,
@@ -312,14 +132,14 @@ class RedditNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.post_comments", dict(input), options
         )
-        return RunResult[RedditPostCommentsData].model_validate(raw)
+        return BareRunResult[RedditPostCommentsData].model_validate(raw)
 
     def post_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditPostTranscriptInput],
-    ) -> RunResult[RedditPostTranscriptData]:
+    ) -> BareRunResult[RedditPostTranscriptData]:
         """Reddit Post Transcript
 
         Extract the spoken transcript from a Reddit video post by URL, normalized
@@ -333,14 +153,14 @@ class RedditNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.post_transcript", dict(input), options
         )
-        return RunResult[RedditPostTranscriptData].model_validate(raw)
+        return BareRunResult[RedditPostTranscriptData].model_validate(raw)
 
     def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSearchInput],
-    ) -> RunResult[RedditSearchData]:
+    ) -> BareRunResult[RedditSearchData]:
         """Reddit Search
 
         Search Reddit posts across all subreddits by query, normalized across
@@ -354,37 +174,14 @@ class RedditNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.search", dict(input), options
         )
-        return RunResult[RedditSearchData].model_validate(raw)
-
-    def iter_search(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[RedditSearchInput],
-    ) -> Paginator[RedditSearchPost, RedditSearchData]:
-        """Iterate Reddit Search results, following pagination cursors.
-
-        Yields validated `RedditSearchPost` items from the `posts` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "reddit.search",
-            dict(input),
-            "posts",
-            item_model=RedditSearchPost,
-            data_model=RedditSearchData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[RedditSearchData].model_validate(raw)
 
     def subreddit_details(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSubredditDetailsInput],
-    ) -> RunResult[RedditSubredditDetailsData]:
+    ) -> BareRunResult[RedditSubredditDetailsData]:
         """Reddit Subreddit Details
 
         Fetch a subreddit's metadata (weekly active users, description, and
@@ -398,14 +195,14 @@ class RedditNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.subreddit_details", dict(input), options
         )
-        return RunResult[RedditSubredditDetailsData].model_validate(raw)
+        return BareRunResult[RedditSubredditDetailsData].model_validate(raw)
 
     def subreddit_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSubredditPostsInput],
-    ) -> RunResult[RedditSubredditPostsData]:
+    ) -> BareRunResult[RedditSubredditPostsData]:
         """Reddit Subreddit Posts
 
         Fetch posts from a subreddit listing (hot, new, or top), normalized across
@@ -419,14 +216,14 @@ class RedditNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.subreddit_posts", dict(input), options
         )
-        return RunResult[RedditSubredditPostsData].model_validate(raw)
+        return BareRunResult[RedditSubredditPostsData].model_validate(raw)
 
     def subreddit_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSubredditSearchInput],
-    ) -> RunResult[RedditSubredditSearchData]:
+    ) -> BareRunResult[RedditSubredditSearchData]:
         """Reddit Subreddit Search
 
         Search posts within a single subreddit by query, sort, and timeframe,
@@ -440,30 +237,7 @@ class RedditNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.subreddit_search", dict(input), options
         )
-        return RunResult[RedditSubredditSearchData].model_validate(raw)
-
-    def iter_subreddit_search(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[RedditSubredditSearchInput],
-    ) -> Paginator[RedditSubredditSearchPost, RedditSubredditSearchData]:
-        """Iterate Reddit Subreddit Search results, following pagination cursors.
-
-        Yields validated `RedditSubredditSearchPost` items from the `posts` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "reddit.subreddit_search",
-            dict(input),
-            "posts",
-            item_model=RedditSubredditSearchPost,
-            data_model=RedditSubredditSearchData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[RedditSubredditSearchData].model_validate(raw)
 
 
 class AsyncRedditNamespace:
@@ -477,7 +251,7 @@ class AsyncRedditNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditPostCommentsInput],
-    ) -> RunResult[RedditPostCommentsData]:
+    ) -> BareRunResult[RedditPostCommentsData]:
         """Reddit Post Comments
 
         List the top-level comments on a Reddit post by URL (author, body, score,
@@ -491,14 +265,14 @@ class AsyncRedditNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.post_comments", dict(input), options
         )
-        return RunResult[RedditPostCommentsData].model_validate(raw)
+        return BareRunResult[RedditPostCommentsData].model_validate(raw)
 
     async def post_transcript(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditPostTranscriptInput],
-    ) -> RunResult[RedditPostTranscriptData]:
+    ) -> BareRunResult[RedditPostTranscriptData]:
         """Reddit Post Transcript
 
         Extract the spoken transcript from a Reddit video post by URL, normalized
@@ -512,14 +286,14 @@ class AsyncRedditNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.post_transcript", dict(input), options
         )
-        return RunResult[RedditPostTranscriptData].model_validate(raw)
+        return BareRunResult[RedditPostTranscriptData].model_validate(raw)
 
     async def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSearchInput],
-    ) -> RunResult[RedditSearchData]:
+    ) -> BareRunResult[RedditSearchData]:
         """Reddit Search
 
         Search Reddit posts across all subreddits by query, normalized across
@@ -533,37 +307,14 @@ class AsyncRedditNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.search", dict(input), options
         )
-        return RunResult[RedditSearchData].model_validate(raw)
-
-    def iter_search(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[RedditSearchInput],
-    ) -> AsyncPaginator[RedditSearchPost, RedditSearchData]:
-        """Iterate Reddit Search results, following pagination cursors.
-
-        Yields validated `RedditSearchPost` items from the `posts` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "reddit.search",
-            dict(input),
-            "posts",
-            item_model=RedditSearchPost,
-            data_model=RedditSearchData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[RedditSearchData].model_validate(raw)
 
     async def subreddit_details(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSubredditDetailsInput],
-    ) -> RunResult[RedditSubredditDetailsData]:
+    ) -> BareRunResult[RedditSubredditDetailsData]:
         """Reddit Subreddit Details
 
         Fetch a subreddit's metadata (weekly active users, description, and
@@ -577,14 +328,14 @@ class AsyncRedditNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.subreddit_details", dict(input), options
         )
-        return RunResult[RedditSubredditDetailsData].model_validate(raw)
+        return BareRunResult[RedditSubredditDetailsData].model_validate(raw)
 
     async def subreddit_posts(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSubredditPostsInput],
-    ) -> RunResult[RedditSubredditPostsData]:
+    ) -> BareRunResult[RedditSubredditPostsData]:
         """Reddit Subreddit Posts
 
         Fetch posts from a subreddit listing (hot, new, or top), normalized across
@@ -598,14 +349,14 @@ class AsyncRedditNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.subreddit_posts", dict(input), options
         )
-        return RunResult[RedditSubredditPostsData].model_validate(raw)
+        return BareRunResult[RedditSubredditPostsData].model_validate(raw)
 
     async def subreddit_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[RedditSubredditSearchInput],
-    ) -> RunResult[RedditSubredditSearchData]:
+    ) -> BareRunResult[RedditSubredditSearchData]:
         """Reddit Subreddit Search
 
         Search posts within a single subreddit by query, sort, and timeframe,
@@ -619,27 +370,4 @@ class AsyncRedditNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "reddit.subreddit_search", dict(input), options
         )
-        return RunResult[RedditSubredditSearchData].model_validate(raw)
-
-    def iter_subreddit_search(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[RedditSubredditSearchInput],
-    ) -> AsyncPaginator[RedditSubredditSearchPost, RedditSubredditSearchData]:
-        """Iterate Reddit Subreddit Search results, following pagination cursors.
-
-        Yields validated `RedditSubredditSearchPost` items from the `posts` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "reddit.subreddit_search",
-            dict(input),
-            "posts",
-            item_model=RedditSubredditSearchPost,
-            data_model=RedditSubredditSearchData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[RedditSubredditSearchData].model_validate(raw)

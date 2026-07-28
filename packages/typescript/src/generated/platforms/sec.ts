@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -37,63 +37,7 @@ export interface SecFilingsInput {
   ticker?: string;
 }
 
-export interface SecFilingsItem {
-  /**
-   * SEC accession number uniquely identifying the filing. Populated whenever the provider has data for the entity.
-   */
-  accessionNumber: string;
-  /**
-   * SEC Central Index Key for the filer. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  cik?: string;
-  /**
-   * Filer company name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  companyName?: string;
-  /**
-   * Primary document description, e.g. the form label.
-   */
-  description?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the filing was filed. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  filedUtc?: number;
-  /**
-   * Link to the filing index/folder on sec.gov.
-   */
-  filingUrl?: string;
-  /**
-   * SEC form type, e.g. 10-K, 10-Q, 8-K. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  form?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Period-of-report date for the filing.
-   */
-  reportedUtc?: number;
-  /**
-   * Stock ticker symbol of the filer, when known.
-   */
-  ticker?: string;
-  /**
-   * Direct link to the primary filing document on sec.gov. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of SEC EDGAR Filings (sec.filings).
- */
-export interface SecFilingsData {
-  /**
-   * Filing records: company and CIK, form type, filing date, accession number, and document links. Populated whenever the provider has data for the entity.
-   */
-  items: SecFilingsItem[];
-}
+export type SecFilingsData = unknown;
 
 /**
  * Typed methods for the sec platform. Attached to the AnyAPI client as
@@ -115,7 +59,9 @@ export class SecNamespace {
   filings(
     input: SecFilingsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SecFilingsData>> {
-    return this._core.run("sec.filings", input, options);
+  ): Promise<BareRunResult<SecFilingsData>> {
+    return this._core.run("sec.filings", input, options) as unknown as Promise<
+      BareRunResult<SecFilingsData>
+    >;
   }
 }

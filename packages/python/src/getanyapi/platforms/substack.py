@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -35,75 +35,7 @@ class SubstackPostsInput(TypedDict, total=False):
 
 
 class SubstackPostsData(BaseModel):
-    items: list[SubstackPostsItem] = Field(
-        description="Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested. Populated whenever the provider has data for the entity."
-    )
-
-
-class SubstackPostsItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    author_handle: str | None = Field(
-        default=None,
-        alias="authorHandle",
-        description="Handle of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    author_name: str | None = Field(
-        default=None,
-        alias="authorName",
-        description="Display name of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    comment_count: int | None = Field(
-        default=None,
-        alias="commentCount",
-        description="Number of comments on the post.",
-    )
-    created_utc: float | None = Field(
-        default=None,
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    description: str | None = Field(
-        default=None,
-        description="Post description or article HTML/summary. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    image: str | None = Field(
-        default=None,
-        description="Cover image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    is_paid: bool | None = Field(
-        default=None,
-        alias="isPaid",
-        description="Whether the post is behind a paywall.",
-    )
-    post_id: str | None = Field(
-        default=None,
-        alias="postId",
-        description="Substack post identifier. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    post_type: str | None = Field(
-        default=None,
-        alias="postType",
-        description="Post type (e.g. newsletter, podcast, thread). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    reaction_count: int | None = Field(
-        default=None,
-        alias="reactionCount",
-        description="Number of reactions on the post.",
-    )
-    subtitle: str | None = Field(
-        default=None,
-        description="Post subtitle or deck. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    title: str = Field(
-        description="Post title. Populated whenever the provider has data for the entity."
-    )
-    url: str = Field(
-        description="Canonical post URL. Populated whenever the provider has data for the entity."
-    )
-    wordcount: int | None = Field(
-        default=None, description="Approximate word count of the article."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class SubstackNamespace:
@@ -117,7 +49,7 @@ class SubstackNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SubstackPostsInput],
-    ) -> RunResult[SubstackPostsData]:
+    ) -> BareRunResult[SubstackPostsData]:
         """Substack Posts
 
         Pull posts from any Substack publication by its URL, or pass a single post
@@ -133,7 +65,7 @@ class SubstackNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "substack.posts", dict(input), options
         )
-        return RunResult[SubstackPostsData].model_validate(raw)
+        return BareRunResult[SubstackPostsData].model_validate(raw)
 
 
 class AsyncSubstackNamespace:
@@ -147,7 +79,7 @@ class AsyncSubstackNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[SubstackPostsInput],
-    ) -> RunResult[SubstackPostsData]:
+    ) -> BareRunResult[SubstackPostsData]:
         """Substack Posts
 
         Pull posts from any Substack publication by its URL, or pass a single post
@@ -163,4 +95,4 @@ class AsyncSubstackNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "substack.posts", dict(input), options
         )
-        return RunResult[SubstackPostsData].model_validate(raw)
+        return BareRunResult[SubstackPostsData].model_validate(raw)

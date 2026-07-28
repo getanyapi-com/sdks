@@ -5,16 +5,10 @@ from __future__ import annotations
 
 from typing import Literal, TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
-from .._pagination import (
-    AsyncPaginator,
-    Paginator,
-    apaginate,
-    paginate,
-)
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -74,165 +68,19 @@ class GoogleAdsSearchInput(TypedDict, total=False):
 
 
 class GoogleAdsAdDetailsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    advertiser_id: str = Field(
-        alias="advertiserId",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    creative_id: str = Field(
-        alias="creativeId",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    first_shown: str = Field(alias="firstShown", description="ISO 8601 date.")
-    format: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    impressions_max: int = Field(alias="impressionsMax")
-    impressions_min: int = Field(alias="impressionsMin")
-    last_shown: str = Field(alias="lastShown", description="ISO 8601 date.")
-    variations: list[GoogleAdsAdDetailsVariation] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class GoogleAdsAdDetailsVariation(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    all_text: str = Field(alias="allText")
-    description: str
-    destination_url: str = Field(alias="destinationUrl")
-    headline: str
-    image_url: str = Field(alias="imageUrl")
+    model_config = ConfigDict(extra="allow")
 
 
 class GoogleAdsAdvertiserSearchData(BaseModel):
-    advertisers: list[GoogleAdsAdvertiserSearchAdvertiser] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class GoogleAdsAdvertiserSearchAdvertiser(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    ads_estimate: int = Field(
-        alias="adsEstimate",
-        description="Estimated number of ads for this advertiser/region.",
-    )
-    advertiser_id: str = Field(
-        alias="advertiserId",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    name: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    region: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class GoogleAdsCompanyAdsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    ads: list[GoogleAdsCompanyAdsAd] = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    ads_estimate: int = Field(
-        alias="adsEstimate", description="Estimated total number of ads."
-    )
-    next_cursor: str = Field(alias="nextCursor")
-
-
-class GoogleAdsCompanyAdsAd(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    ad_url: str = Field(
-        alias="adUrl",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    advertiser_id: str = Field(
-        alias="advertiserId",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    advertiser_name: str = Field(
-        alias="advertiserName",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    creative_id: str = Field(
-        alias="creativeId",
-        description="Populated whenever the provider has data for the entity.",
-    )
-    first_shown: str = Field(alias="firstShown", description="ISO 8601 date.")
-    format: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    image_url: str = Field(alias="imageUrl")
-    last_shown: str = Field(alias="lastShown", description="ISO 8601 date.")
+    model_config = ConfigDict(extra="allow")
 
 
 class GoogleAdsSearchData(BaseModel):
-    items: list[GoogleAdsSearchItem] = Field(
-        description="Ad records from the Transparency Center: advertiser, ad format, creative details, preview URL, and first/last shown dates. Populated whenever the provider has data for the entity."
-    )
-
-
-class GoogleAdsSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    advertiser: str | None = Field(
-        default=None,
-        description="Advertiser display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    advertiser_id: str | None = Field(
-        default=None,
-        alias="advertiserId",
-        description="Google Ads advertiser identifier.",
-    )
-    first_shown_utc: float | None = Field(
-        default=None,
-        alias="firstShownUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was first shown.",
-    )
-    format: str | None = Field(
-        default=None, description="Ad format, e.g. TEXT, IMAGE, VIDEO."
-    )
-    id: str = Field(
-        description="Google Ads creative identifier. Populated whenever the provider has data for the entity."
-    )
-    last_shown_utc: float | None = Field(
-        default=None,
-        alias="lastShownUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was last shown.",
-    )
-    num_served_days: int | None = Field(
-        default=None,
-        alias="numServedDays",
-        description="Number of days the ad has been served.",
-    )
-    preview_url: str | None = Field(
-        default=None,
-        alias="previewUrl",
-        description="URL to a rendered preview of the creative.",
-    )
-    url: str = Field(
-        description="Ads Transparency Center URL for the creative. Populated whenever the provider has data for the entity."
-    )
-    variations: list[GoogleAdsSearchVariation] | None = Field(
-        default=None,
-        description="Creative variations for the ad, each with image, headline, and body text where present.",
-    )
-
-
-class GoogleAdsSearchVariation(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    headline: str | None = Field(default=None, description="Creative headline text.")
-    image_url: str | None = Field(
-        default=None, alias="imageUrl", description="Creative image URL."
-    )
-    text: str | None = Field(
-        default=None, description="Creative body/description text."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class GoogleAdsNamespace:
@@ -246,7 +94,7 @@ class GoogleAdsNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAdsAdDetailsInput],
-    ) -> RunResult[GoogleAdsAdDetailsData]:
+    ) -> BareRunResult[GoogleAdsAdDetailsData]:
         """Google Ads Ad Details
 
         Look up a single Google Ads Transparency Center creative by URL and get its
@@ -261,14 +109,14 @@ class GoogleAdsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.ad_details", dict(input), options
         )
-        return RunResult[GoogleAdsAdDetailsData].model_validate(raw)
+        return BareRunResult[GoogleAdsAdDetailsData].model_validate(raw)
 
     def advertiser_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAdsAdvertiserSearchInput],
-    ) -> RunResult[GoogleAdsAdvertiserSearchData]:
+    ) -> BareRunResult[GoogleAdsAdvertiserSearchData]:
         """Google Ads Advertiser Search
 
         Search the Google Ads Transparency Center for advertisers by keyword and get
@@ -282,14 +130,14 @@ class GoogleAdsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.advertiser_search", dict(input), options
         )
-        return RunResult[GoogleAdsAdvertiserSearchData].model_validate(raw)
+        return BareRunResult[GoogleAdsAdvertiserSearchData].model_validate(raw)
 
     def company_ads(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAdsCompanyAdsInput],
-    ) -> RunResult[GoogleAdsCompanyAdsData]:
+    ) -> BareRunResult[GoogleAdsCompanyAdsData]:
         """Google Ads Company Ads
 
         List the ads a company is running from the Google Ads Transparency Center by
@@ -304,37 +152,14 @@ class GoogleAdsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.company_ads", dict(input), options
         )
-        return RunResult[GoogleAdsCompanyAdsData].model_validate(raw)
-
-    def iter_company_ads(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[GoogleAdsCompanyAdsInput],
-    ) -> Paginator[GoogleAdsCompanyAdsAd, GoogleAdsCompanyAdsData]:
-        """Iterate Google Ads Company Ads results, following pagination cursors.
-
-        Yields validated `GoogleAdsCompanyAdsAd` items from the `ads` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return paginate(
-            self._client,
-            "google_ads.company_ads",
-            dict(input),
-            "ads",
-            item_model=GoogleAdsCompanyAdsAd,
-            data_model=GoogleAdsCompanyAdsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[GoogleAdsCompanyAdsData].model_validate(raw)
 
     def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAdsSearchInput],
-    ) -> RunResult[GoogleAdsSearchData]:
+    ) -> BareRunResult[GoogleAdsSearchData]:
         """Google Ads Transparency
 
         Pull the ads an advertiser is currently running from the Google Ads
@@ -349,7 +174,7 @@ class GoogleAdsNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.search", dict(input), options
         )
-        return RunResult[GoogleAdsSearchData].model_validate(raw)
+        return BareRunResult[GoogleAdsSearchData].model_validate(raw)
 
 
 class AsyncGoogleAdsNamespace:
@@ -363,7 +188,7 @@ class AsyncGoogleAdsNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAdsAdDetailsInput],
-    ) -> RunResult[GoogleAdsAdDetailsData]:
+    ) -> BareRunResult[GoogleAdsAdDetailsData]:
         """Google Ads Ad Details
 
         Look up a single Google Ads Transparency Center creative by URL and get its
@@ -378,14 +203,14 @@ class AsyncGoogleAdsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.ad_details", dict(input), options
         )
-        return RunResult[GoogleAdsAdDetailsData].model_validate(raw)
+        return BareRunResult[GoogleAdsAdDetailsData].model_validate(raw)
 
     async def advertiser_search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAdsAdvertiserSearchInput],
-    ) -> RunResult[GoogleAdsAdvertiserSearchData]:
+    ) -> BareRunResult[GoogleAdsAdvertiserSearchData]:
         """Google Ads Advertiser Search
 
         Search the Google Ads Transparency Center for advertisers by keyword and get
@@ -399,14 +224,14 @@ class AsyncGoogleAdsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.advertiser_search", dict(input), options
         )
-        return RunResult[GoogleAdsAdvertiserSearchData].model_validate(raw)
+        return BareRunResult[GoogleAdsAdvertiserSearchData].model_validate(raw)
 
     async def company_ads(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAdsCompanyAdsInput],
-    ) -> RunResult[GoogleAdsCompanyAdsData]:
+    ) -> BareRunResult[GoogleAdsCompanyAdsData]:
         """Google Ads Company Ads
 
         List the ads a company is running from the Google Ads Transparency Center by
@@ -421,37 +246,14 @@ class AsyncGoogleAdsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.company_ads", dict(input), options
         )
-        return RunResult[GoogleAdsCompanyAdsData].model_validate(raw)
-
-    def iter_company_ads(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[GoogleAdsCompanyAdsInput],
-    ) -> AsyncPaginator[GoogleAdsCompanyAdsAd, GoogleAdsCompanyAdsData]:
-        """Iterate Google Ads Company Ads results, following pagination cursors.
-
-        Yields validated `GoogleAdsCompanyAdsAd` items from the `ads` field of
-        each page. Use `.pages()` on the returned paginator to walk whole
-        `RunResult` pages.
-        """
-        return apaginate(
-            self._client,
-            "google_ads.company_ads",
-            dict(input),
-            "ads",
-            item_model=GoogleAdsCompanyAdsAd,
-            data_model=GoogleAdsCompanyAdsData,
-            bare=False,
-            options=options,
-        )
+        return BareRunResult[GoogleAdsCompanyAdsData].model_validate(raw)
 
     async def search(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[GoogleAdsSearchInput],
-    ) -> RunResult[GoogleAdsSearchData]:
+    ) -> BareRunResult[GoogleAdsSearchData]:
         """Google Ads Transparency
 
         Pull the ads an advertiser is currently running from the Google Ads
@@ -466,4 +268,4 @@ class AsyncGoogleAdsNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.search", dict(input), options
         )
-        return RunResult[GoogleAdsSearchData].model_validate(raw)
+        return BareRunResult[GoogleAdsSearchData].model_validate(raw)

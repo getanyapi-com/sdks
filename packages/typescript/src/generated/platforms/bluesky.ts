@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,36 +16,7 @@ export interface BlueskyPostInput {
   url: string;
 }
 
-/**
- * The `data` payload of Bluesky Post (bluesky.post).
- */
-export interface BlueskyPostData {
-  /**
-   * Handle of the account that authored the post. Populated whenever the provider has data for the entity.
-   */
-  authorHandle: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Number of likes on the post.
-   */
-  likes: number;
-  /**
-   * Number of replies to the post.
-   */
-  replies: number;
-  /**
-   * Number of reposts of the post.
-   */
-  reposts: number;
-  /**
-   * The post's text content. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  [extra: string]: unknown;
-}
+export type BlueskyPostData = unknown;
 
 /**
  * Input for Bluesky Profile (bluesky.profile).
@@ -57,27 +28,7 @@ export interface BlueskyProfileInput {
   handle: string;
 }
 
-/**
- * The `data` payload of Bluesky Profile (bluesky.profile).
- */
-export interface BlueskyProfileData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  description: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  displayName: string;
-  followers: number;
-  following: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  handle: string;
-  postsCount: number;
-  [extra: string]: unknown;
-}
+export type BlueskyProfileData = unknown;
 
 /**
  * Input for Bluesky User Posts (bluesky.user_posts).
@@ -89,43 +40,7 @@ export interface BlueskyUserPostsInput {
   handle: string;
 }
 
-export interface BlueskyUserPostsPost {
-  /**
-   * Handle of the account that authored the post. Populated whenever the provider has data for the entity.
-   */
-  authorHandle: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Number of likes on the post.
-   */
-  likes: number;
-  /**
-   * Number of replies to the post.
-   */
-  replies: number;
-  /**
-   * Number of reposts of the post.
-   */
-  reposts: number;
-  /**
-   * The post's text content. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Bluesky User Posts (bluesky.user_posts).
- */
-export interface BlueskyUserPostsData {
-  /**
-   * The account's recent posts. Populated whenever the provider has data for the entity.
-   */
-  posts: BlueskyUserPostsPost[];
-}
+export type BlueskyUserPostsData = unknown;
 
 /**
  * Typed methods for the bluesky platform. Attached to the AnyAPI client as
@@ -147,8 +62,10 @@ export class BlueskyNamespace {
   post(
     input: BlueskyPostInput,
     options?: RequestOptions,
-  ): Promise<RunResult<BlueskyPostData>> {
-    return this._core.run("bluesky.post", input, options);
+  ): Promise<BareRunResult<BlueskyPostData>> {
+    return this._core.run("bluesky.post", input, options) as unknown as Promise<
+      BareRunResult<BlueskyPostData>
+    >;
   }
 
   /**
@@ -164,8 +81,12 @@ export class BlueskyNamespace {
   profile(
     input: BlueskyProfileInput,
     options?: RequestOptions,
-  ): Promise<RunResult<BlueskyProfileData>> {
-    return this._core.run("bluesky.profile", input, options);
+  ): Promise<BareRunResult<BlueskyProfileData>> {
+    return this._core.run(
+      "bluesky.profile",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<BlueskyProfileData>>;
   }
 
   /**
@@ -181,7 +102,11 @@ export class BlueskyNamespace {
   userPosts(
     input: BlueskyUserPostsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<BlueskyUserPostsData>> {
-    return this._core.run("bluesky.user_posts", input, options);
+  ): Promise<BareRunResult<BlueskyUserPostsData>> {
+    return this._core.run(
+      "bluesky.user_posts",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<BlueskyUserPostsData>>;
   }
 }

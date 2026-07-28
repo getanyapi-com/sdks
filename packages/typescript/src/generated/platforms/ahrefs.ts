@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -22,47 +22,7 @@ export interface AhrefsBacklinksInput {
   url: string;
 }
 
-export interface AhrefsBacklinksItem {
-  /**
-   * Anchor text of the link.
-   */
-  anchor?: string;
-  /**
-   * Text immediately after the anchor on the referring page.
-   */
-  contextAfter?: string;
-  /**
-   * Text immediately before the anchor on the referring page.
-   */
-  contextBefore?: string;
-  /**
-   * Ahrefs Domain Rating (0-100) of the linking domain.
-   */
-  domainRating?: number;
-  /**
-   * Title of the referring page.
-   */
-  title?: string;
-  /**
-   * URL of the referring page that contains the link. Populated whenever the provider has data for the entity.
-   */
-  urlFrom: string;
-  /**
-   * Target URL the link points to.
-   */
-  urlTo?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Ahrefs Backlinks (ahrefs.backlinks).
- */
-export interface AhrefsBacklinksData {
-  /**
-   * Referring pages that link to the domain or URL. Populated whenever the provider has data for the entity.
-   */
-  items: AhrefsBacklinksItem[];
-}
+export type AhrefsBacklinksData = unknown;
 
 /**
  * Input for Ahrefs Keyword Ideas (ahrefs.keyword_ideas).
@@ -79,56 +39,7 @@ export interface AhrefsKeywordIdeasInput {
   keyword: string;
 }
 
-export interface AhrefsKeywordIdeasItem {
-  /**
-   * Two-letter country code the suggestions are scoped to.
-   */
-  country?: string;
-  /**
-   * Related keyword suggestions for the seed term. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  ideas?: AhrefsKeywordIdeasIdea[];
-  /**
-   * Search engine the suggestions are drawn from (e.g. Google).
-   */
-  searchEngine?: string;
-  /**
-   * The seed keyword the suggestions were expanded from. Populated whenever the provider has data for the entity.
-   */
-  sourceKeyword: string;
-  [extra: string]: unknown;
-}
-
-export interface AhrefsKeywordIdeasIdea {
-  /**
-   * Relative Ahrefs difficulty bucket (a letter such as E, M, or H), not an exact number.
-   */
-  difficulty?: string;
-  /**
-   * The suggested related keyword. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Timestamp the suggestion metrics were last updated.
-   */
-  updatedAt?: string;
-  /**
-   * Relative search-volume bucket (a letter grade), not an exact number.
-   */
-  volume?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Ahrefs Keyword Ideas (ahrefs.keyword_ideas).
- */
-export interface AhrefsKeywordIdeasData {
-  /**
-   * Keyword-idea records: the seed keyword and its related keyword suggestions, each with an Ahrefs difficulty and search-volume bucket. Populated whenever the provider has data for the entity.
-   */
-  items: AhrefsKeywordIdeasItem[];
-}
+export type AhrefsKeywordIdeasData = unknown;
 
 /**
  * Input for Ahrefs Keyword Difficulty (ahrefs.keywords).
@@ -145,35 +56,7 @@ export interface AhrefsKeywordsInput {
   keyword: string;
 }
 
-export interface AhrefsKeywordsItem {
-  /**
-   * Two-letter country code the metrics are scoped to.
-   */
-  country?: string;
-  /**
-   * Ahrefs Keyword Difficulty, 0-100.
-   */
-  difficulty?: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Estimated number of referring domains a page needs to rank in the top 10 for this keyword.
-   */
-  referringDomainsToRank?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Ahrefs Keyword Difficulty (ahrefs.keywords).
- */
-export interface AhrefsKeywordsData {
-  /**
-   * Keyword-difficulty records: the difficulty score and the referring-domain gap needed to rank in the top 10. Populated whenever the provider has data for the entity.
-   */
-  items: AhrefsKeywordsItem[];
-}
+export type AhrefsKeywordsData = unknown;
 
 /**
  * Input for Ahrefs Domain Overview (ahrefs.overview).
@@ -191,47 +74,7 @@ export interface AhrefsOverviewInput {
   url: string;
 }
 
-export interface AhrefsOverviewItem {
-  /**
-   * Total number of backlinks pointing to the domain.
-   */
-  backlinks?: number;
-  /**
-   * Percentage (0-100) of backlinks that are dofollow.
-   */
-  dofollowBacklinksPct?: number;
-  /**
-   * Percentage (0-100) of referring domains that provide a dofollow link.
-   */
-  dofollowReferringDomainsPct?: number;
-  /**
-   * The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity.
-   */
-  domain: string;
-  /**
-   * Ahrefs Domain Rating, 0-100, measuring backlink-profile strength.
-   */
-  domainRating?: number;
-  /**
-   * Analysis scope used: subdomains (whole domain) or exact (the given URL only).
-   */
-  mode?: string;
-  /**
-   * Number of unique referring domains linking to the domain.
-   */
-  referringDomains?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Ahrefs Domain Overview (ahrefs.overview).
- */
-export interface AhrefsOverviewData {
-  /**
-   * Domain authority records: the requested domain plus its Domain Rating, total backlinks, and referring-domain counts. Populated whenever the provider has data for the entity.
-   */
-  items: AhrefsOverviewItem[];
-}
+export type AhrefsOverviewData = unknown;
 
 /**
  * Typed methods for the ahrefs platform. Attached to the AnyAPI client as
@@ -253,8 +96,12 @@ export class AhrefsNamespace {
   backlinks(
     input: AhrefsBacklinksInput,
     options?: RequestOptions,
-  ): Promise<RunResult<AhrefsBacklinksData>> {
-    return this._core.run("ahrefs.backlinks", input, options);
+  ): Promise<BareRunResult<AhrefsBacklinksData>> {
+    return this._core.run(
+      "ahrefs.backlinks",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<AhrefsBacklinksData>>;
   }
 
   /**
@@ -270,8 +117,12 @@ export class AhrefsNamespace {
   keywordIdeas(
     input: AhrefsKeywordIdeasInput,
     options?: RequestOptions,
-  ): Promise<RunResult<AhrefsKeywordIdeasData>> {
-    return this._core.run("ahrefs.keyword_ideas", input, options);
+  ): Promise<BareRunResult<AhrefsKeywordIdeasData>> {
+    return this._core.run(
+      "ahrefs.keyword_ideas",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<AhrefsKeywordIdeasData>>;
   }
 
   /**
@@ -287,8 +138,12 @@ export class AhrefsNamespace {
   keywords(
     input: AhrefsKeywordsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<AhrefsKeywordsData>> {
-    return this._core.run("ahrefs.keywords", input, options);
+  ): Promise<BareRunResult<AhrefsKeywordsData>> {
+    return this._core.run(
+      "ahrefs.keywords",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<AhrefsKeywordsData>>;
   }
 
   /**
@@ -304,7 +159,11 @@ export class AhrefsNamespace {
   overview(
     input: AhrefsOverviewInput,
     options?: RequestOptions,
-  ): Promise<RunResult<AhrefsOverviewData>> {
-    return this._core.run("ahrefs.overview", input, options);
+  ): Promise<BareRunResult<AhrefsOverviewData>> {
+    return this._core.run(
+      "ahrefs.overview",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<AhrefsOverviewData>>;
   }
 }

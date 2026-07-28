@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -25,32 +25,7 @@ export interface SocialFinderInput {
   platform?: string;
 }
 
-export interface SocialFinderItem {
-  /**
-   * The name that was searched for. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  inputProfileName?: string;
-  /**
-   * The social network checked (e.g. discord, facebook, github). Populated whenever the provider has data for the entity.
-   */
-  social: string;
-  /**
-   * URL of the matching profile, or null when no account was found on that network.
-   */
-  socialProfileUrl: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Social Profile Finder (social.finder).
- */
-export interface SocialFinderData {
-  /**
-   * Profile match records: the queried profile name, the social network, and the matching profile URL when one was found. Populated whenever the provider has data for the entity.
-   */
-  items: SocialFinderItem[];
-}
+export type SocialFinderData = unknown;
 
 /**
  * Typed methods for the social platform. Attached to the AnyAPI client as
@@ -72,7 +47,11 @@ export class SocialNamespace {
   finder(
     input: SocialFinderInput,
     options?: RequestOptions,
-  ): Promise<RunResult<SocialFinderData>> {
-    return this._core.run("social.finder", input, options);
+  ): Promise<BareRunResult<SocialFinderData>> {
+    return this._core.run(
+      "social.finder",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<SocialFinderData>>;
   }
 }

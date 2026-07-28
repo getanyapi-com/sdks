@@ -1,55 +1,17 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
-  Paginator,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
-import { paginate } from "../../core/index.js";
 
 /**
  * Input for Weibo Hot Search (weibo.hot_search).
  */
 export interface WeiboHotSearchInput {}
 
-export interface WeiboHotSearchTopic {
-  /**
-   * Topic popularity value.
-   */
-  heat?: string;
-  /**
-   * Hot-search keyword. Populated whenever the provider has data for the entity.
-   */
-  keyword: string;
-  /**
-   * Whether the topic is pinned.
-   */
-  pinned?: boolean;
-  /**
-   * Ranking position; zero may indicate pinned content. Populated whenever the provider has data for the entity.
-   */
-  rank: number;
-  /**
-   * Hot-search label.
-   */
-  tag?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Weibo Hot Search (weibo.hot_search).
- */
-export interface WeiboHotSearchData {
-  /**
-   * Ranked hot-search topics. Populated whenever the provider has data for the entity.
-   */
-  topics: WeiboHotSearchTopic[];
-  /**
-   * Total topics.
-   */
-  total: number;
-}
+export type WeiboHotSearchData = unknown;
 
 /**
  * Input for Weibo Post (weibo.post).
@@ -66,70 +28,7 @@ export interface WeiboPostInput {
   postId: string;
 }
 
-/**
- * The `data` payload of Weibo Post (weibo.post).
- */
-export interface WeiboPostData {
-  /**
-   * Author avatar URL.
-   * Format: uri.
-   */
-  authorImage?: string;
-  /**
-   * Author display name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  authorName?: string;
-  /**
-   * Author user identifier. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  authorUserId?: string;
-  /**
-   * Whether the author is verified.
-   */
-  authorVerified?: boolean;
-  /**
-   * Comment count.
-   */
-  comments?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  createdUtc?: number;
-  /**
-   * Post identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Attached image count.
-   */
-  imageCount?: number;
-  /**
-   * Like count.
-   */
-  likes?: number;
-  /**
-   * Region label reported by Weibo.
-   */
-  region?: string;
-  /**
-   * Repost count.
-   */
-  reposts?: number;
-  /**
-   * Short Weibo post identifier. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  shortId?: string;
-  /**
-   * Plain post text. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  text?: string;
-  [extra: string]: unknown;
-}
+export type WeiboPostData = unknown;
 
 /**
  * Input for Weibo Post Comments (weibo.post_comments).
@@ -150,64 +49,7 @@ export interface WeiboPostCommentsInput {
   postId: string;
 }
 
-export interface WeiboPostCommentsComment {
-  /**
-   * Comment author avatar URL.
-   * Format: uri.
-   */
-  authorImage?: string;
-  /**
-   * Comment author display name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  authorName?: string;
-  /**
-   * Comment author user identifier. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  authorUserId?: string;
-  /**
-   * Whether the comment author is verified.
-   */
-  authorVerified?: boolean;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  createdUtc?: number;
-  /**
-   * Comment identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Like count.
-   */
-  likes?: number;
-  /**
-   * Plain comment text. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  text?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Weibo Post Comments (weibo.post_comments).
- */
-export interface WeiboPostCommentsData {
-  /**
-   * Normalized first-level comments. Populated whenever the provider has data for the entity.
-   */
-  comments: WeiboPostCommentsComment[];
-  /**
-   * Cursor for the next page; empty when unavailable.
-   */
-  nextCursor: string;
-  /**
-   * Total comments reported by Weibo.
-   */
-  total: number;
-}
+export type WeiboPostCommentsData = unknown;
 
 /**
  * Input for Weibo Profile (weibo.profile).
@@ -219,68 +61,7 @@ export interface WeiboProfileInput {
   userId: string;
 }
 
-/**
- * The `data` payload of Weibo Profile (weibo.profile).
- */
-export interface WeiboProfileData {
-  /**
-   * Profile biography.
-   */
-  bio?: string;
-  /**
-   * Custom Weibo username when configured.
-   */
-  customName?: string;
-  /**
-   * External profile URL.
-   * Format: uri.
-   */
-  externalUrl?: string;
-  /**
-   * Follower count.
-   */
-  followers?: number;
-  /**
-   * Following count.
-   */
-  following?: number;
-  /**
-   * Gender code reported by Weibo.
-   */
-  gender?: string;
-  /**
-   * Profile image URL. Populated whenever the provider has data for the entity.
-   * Format: uri.
-   * Present whenever the upstream returns this record.
-   */
-  image?: string;
-  /**
-   * Profile location.
-   */
-  location?: string;
-  /**
-   * Display name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  name?: string;
-  /**
-   * Published post count.
-   */
-  posts?: number;
-  /**
-   * User identifier. Populated whenever the provider has data for the entity.
-   */
-  userId: string;
-  /**
-   * Whether the account is verified.
-   */
-  verified?: boolean;
-  /**
-   * Verification reason.
-   */
-  verifiedReason?: string;
-  [extra: string]: unknown;
-}
+export type WeiboProfileData = unknown;
 
 /**
  * Input for Weibo Advanced Search (weibo.search).
@@ -309,81 +90,7 @@ export interface WeiboSearchInput {
   timeScope?: string;
 }
 
-export interface WeiboSearchPost {
-  /**
-   * Author avatar URL.
-   * Format: uri.
-   */
-  authorImage?: string;
-  /**
-   * Author display name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  authorName?: string;
-  /**
-   * Comment count.
-   */
-  comments?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  createdUtc?: number;
-  /**
-   * Whether the result contains an image.
-   */
-  hasImage?: boolean;
-  /**
-   * Whether the result contains a video.
-   */
-  hasVideo?: boolean;
-  /**
-   * Post identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Like count.
-   */
-  likes?: number;
-  /**
-   * Repost count.
-   */
-  reposts?: number;
-  /**
-   * Post text. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  text?: string;
-  /**
-   * Post type.
-   */
-  type?: string;
-  /**
-   * Canonical post URL. Populated whenever the provider has data for the entity.
-   * Format: uri.
-   * Present whenever the upstream returns this record.
-   */
-  url?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Weibo Advanced Search (weibo.search).
- */
-export interface WeiboSearchData {
-  /**
-   * Whether another result page is available.
-   */
-  hasMore: boolean;
-  /**
-   * Normalized Weibo search results. Populated whenever the provider has data for the entity.
-   */
-  posts: WeiboSearchPost[];
-  /**
-   * Result count reported for this page.
-   */
-  resultCount: number;
-}
+export type WeiboSearchData = unknown;
 
 /**
  * Input for Weibo User Posts (weibo.user_posts).
@@ -409,78 +116,7 @@ export interface WeiboUserPostsInput {
   userId: string;
 }
 
-export interface WeiboUserPostsPost {
-  /**
-   * Author avatar URL.
-   * Format: uri.
-   */
-  authorImage?: string;
-  /**
-   * Author display name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  authorName?: string;
-  /**
-   * Author user identifier. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  authorUserId?: string;
-  /**
-   * Whether the author is verified.
-   */
-  authorVerified?: boolean;
-  /**
-   * Comment count.
-   */
-  comments?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  createdUtc?: number;
-  /**
-   * Post identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Post preview image URL.
-   * Format: uri.
-   */
-  image?: string;
-  /**
-   * Like count.
-   */
-  likes?: number;
-  /**
-   * Repost count.
-   */
-  reposts?: number;
-  /**
-   * Short Weibo post identifier. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  shortId?: string;
-  /**
-   * Plain post text. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  text?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Weibo User Posts (weibo.user_posts).
- */
-export interface WeiboUserPostsData {
-  /**
-   * Cursor for the next page; empty when unavailable.
-   */
-  nextCursor: string;
-  /**
-   * Normalized Weibo posts. Populated whenever the provider has data for the entity.
-   */
-  posts: WeiboUserPostsPost[];
-}
+export type WeiboUserPostsData = unknown;
 
 /**
  * Typed methods for the weibo platform. Attached to the AnyAPI client as
@@ -502,8 +138,12 @@ export class WeiboNamespace {
   hotSearch(
     input: WeiboHotSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WeiboHotSearchData>> {
-    return this._core.run("weibo.hot_search", input, options);
+  ): Promise<BareRunResult<WeiboHotSearchData>> {
+    return this._core.run(
+      "weibo.hot_search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<WeiboHotSearchData>>;
   }
 
   /**
@@ -519,8 +159,10 @@ export class WeiboNamespace {
   post(
     input: WeiboPostInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WeiboPostData>> {
-    return this._core.run("weibo.post", input, options);
+  ): Promise<BareRunResult<WeiboPostData>> {
+    return this._core.run("weibo.post", input, options) as unknown as Promise<
+      BareRunResult<WeiboPostData>
+    >;
   }
 
   /**
@@ -536,28 +178,12 @@ export class WeiboNamespace {
   postComments(
     input: WeiboPostCommentsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WeiboPostCommentsData>> {
-    return this._core.run("weibo.post_comments", input, options);
-  }
-
-  /**
-   * Iterate every result of Weibo Post Comments across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterPostComments(
-    input: WeiboPostCommentsInput,
-    options?: RequestOptions,
-  ): Paginator<WeiboPostCommentsComment, RunResult<WeiboPostCommentsData>> {
-    return paginate<WeiboPostCommentsComment, RunResult<WeiboPostCommentsData>>(
-      this._core,
+  ): Promise<BareRunResult<WeiboPostCommentsData>> {
+    return this._core.run(
       "weibo.post_comments",
-      input as unknown as Record<string, unknown>,
-      "comments",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<WeiboPostCommentsData>>;
   }
 
   /**
@@ -573,8 +199,12 @@ export class WeiboNamespace {
   profile(
     input: WeiboProfileInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WeiboProfileData>> {
-    return this._core.run("weibo.profile", input, options);
+  ): Promise<BareRunResult<WeiboProfileData>> {
+    return this._core.run(
+      "weibo.profile",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<WeiboProfileData>>;
   }
 
   /**
@@ -590,8 +220,10 @@ export class WeiboNamespace {
   search(
     input: WeiboSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WeiboSearchData>> {
-    return this._core.run("weibo.search", input, options);
+  ): Promise<BareRunResult<WeiboSearchData>> {
+    return this._core.run("weibo.search", input, options) as unknown as Promise<
+      BareRunResult<WeiboSearchData>
+    >;
   }
 
   /**
@@ -607,27 +239,11 @@ export class WeiboNamespace {
   userPosts(
     input: WeiboUserPostsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<WeiboUserPostsData>> {
-    return this._core.run("weibo.user_posts", input, options);
-  }
-
-  /**
-   * Iterate every result of Weibo User Posts across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterUserPosts(
-    input: WeiboUserPostsInput,
-    options?: RequestOptions,
-  ): Paginator<WeiboUserPostsPost, RunResult<WeiboUserPostsData>> {
-    return paginate<WeiboUserPostsPost, RunResult<WeiboUserPostsData>>(
-      this._core,
+  ): Promise<BareRunResult<WeiboUserPostsData>> {
+    return this._core.run(
       "weibo.user_posts",
-      input as unknown as Record<string, unknown>,
-      "posts",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<WeiboUserPostsData>>;
   }
 }

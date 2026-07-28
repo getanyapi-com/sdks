@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -27,25 +27,7 @@ export interface PinterestSearchInput {
   type?: "all-pins" | "videos" | "boards" | "profiles";
 }
 
-export interface PinterestSearchItem {
-  id: string;
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of Pinterest Search (pinterest.search).
- */
-export interface PinterestSearchData {
-  /**
-   * Matching Pinterest records: pin or board title, description, image/video URL, creator, and link. Populated whenever the provider has data for the entity.
-   */
-  items: PinterestSearchItem[];
-}
+export type PinterestSearchData = unknown;
 
 /**
  * Typed methods for the pinterest platform. Attached to the AnyAPI client as
@@ -67,7 +49,11 @@ export class PinterestNamespace {
   search(
     input: PinterestSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<PinterestSearchData>> {
-    return this._core.run("pinterest.search", input, options);
+  ): Promise<BareRunResult<PinterestSearchData>> {
+    return this._core.run(
+      "pinterest.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<PinterestSearchData>>;
   }
 }

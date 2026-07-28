@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -16,48 +16,7 @@ export interface LinkedinAdInput {
   url: string;
 }
 
-/**
- * The `data` payload of LinkedIn Ad Details (linkedin.ad).
- */
-export interface LinkedinAdData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  adType: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  advertiser: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  advertiserLinkedinPage: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  cta: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  description: string;
-  destinationUrl: string;
-  /**
-   * ISO 8601 date.
-   */
-  endDate: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  headline: string;
-  id: string;
-  image: string;
-  /**
-   * ISO 8601 date.
-   */
-  startDate: string;
-  totalImpressions: string;
-  [extra: string]: unknown;
-}
+export type LinkedinAdData = unknown;
 
 /**
  * Input for LinkedIn Ads Library (linkedin.ads).
@@ -74,51 +33,7 @@ export interface LinkedinAdsInput {
   url: string;
 }
 
-/**
- * A LinkedIn ad: advertiser, creative text, format, and ad library URL.
- */
-export interface LinkedinAdsItem {
-  /**
-   * Advertiser (company) name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  advertiser?: string;
-  /**
-   * Advertiser logo image URL.
-   */
-  advertiserLogo?: string;
-  /**
-   * Ad format (e.g. SINGLE_IMAGE, VIDEO).
-   */
-  format?: string;
-  /**
-   * LinkedIn ad id. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Ad creative image URL.
-   */
-  image?: string;
-  /**
-   * Ad creative body text.
-   */
-  text?: string;
-  /**
-   * Canonical LinkedIn Ad Library detail URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Ads Library (linkedin.ads).
- */
-export interface LinkedinAdsData {
-  /**
-   * Ad records from the LinkedIn Ad Library. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinAdsItem[];
-}
+export type LinkedinAdsData = unknown;
 
 /**
  * Input for LinkedIn Ad Search (linkedin.ads_search).
@@ -154,41 +69,7 @@ export interface LinkedinAdsSearchInput {
   startDate?: string;
 }
 
-export interface LinkedinAdsSearchAd {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  adType: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  advertiser: string;
-  advertiserLinkedinPage: string;
-  cta: string;
-  description: string;
-  destinationUrl: string;
-  endDate: string;
-  headline: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  startDate: string;
-  totalImpressions: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Ad Search (linkedin.ads_search).
- */
-export interface LinkedinAdsSearchData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  ads: LinkedinAdsSearchAd[];
-  nextCursor: string;
-  totalAds: number;
-}
+export type LinkedinAdsSearchData = unknown;
 
 /**
  * Input for LinkedIn Company (linkedin.company).
@@ -200,131 +81,7 @@ export interface LinkedinCompanyInput {
   url: string;
 }
 
-export interface LinkedinCompanyLocation {
-  /**
-   * City.
-   */
-  city?: string;
-  /**
-   * ISO country code.
-   */
-  country?: string;
-  /**
-   * True when this location is the headquarters.
-   */
-  headquarter?: boolean;
-  /**
-   * Street address line.
-   */
-  line1?: string;
-  /**
-   * Postal code.
-   */
-  postalCode?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Company (linkedin.company).
- */
-export interface LinkedinCompanyData {
-  /**
-   * Company type, e.g. Privately Held, Public Company.
-   */
-  companyType?: string;
-  /**
-   * Company about/description text. Populated whenever the provider has data for the entity.
-   */
-  description: string;
-  /**
-   * Reported total employee count. Populated whenever the provider has data for the entity.
-   */
-  employeeCount: number;
-  /**
-   * LinkedIn size bucket the company falls in.
-   */
-  employeeCountRange?: {
-    /**
-     * Upper bound of the employee-count bucket.
-     */
-    end?: number;
-    /**
-     * Lower bound of the employee-count bucket.
-     */
-    start?: number;
-  };
-  /**
-   * LinkedIn page follower count. Populated whenever the provider has data for the entity.
-   */
-  followerCount: number;
-  /**
-   * Founding date (year populated when known).
-   */
-  foundedOn?: {
-    /**
-     * Year the company was founded.
-     */
-    year?: number;
-  };
-  /**
-   * Funding summary sourced from Crunchbase, when available.
-   */
-  fundingData?: {
-    /**
-     * Crunchbase profile URL for the company.
-     */
-    companyCrunchbaseUrl?: string;
-    /**
-     * Type of the most recent funding round.
-     */
-    lastFundingType?: string;
-    /**
-     * Total number of funding rounds.
-     */
-    numFundingRounds?: number;
-  };
-  /**
-   * Primary industry.
-   */
-  industry: string;
-  /**
-   * Company office locations, including headquarters.
-   */
-  locations?: LinkedinCompanyLocation[];
-  /**
-   * Company logo image URL.
-   */
-  logoUrl: string;
-  /**
-   * Company name.
-   */
-  name: string;
-  /**
-   * Whether LinkedIn has verified the company page.
-   */
-  pageVerified?: boolean;
-  /**
-   * Similar organizations surfaced by LinkedIn.
-   */
-  similarOrganizations?: unknown[];
-  /**
-   * Company-declared specialities.
-   */
-  specialities?: unknown[];
-  /**
-   * Company tagline/slogan.
-   */
-  tagline: string;
-  /**
-   * LinkedIn universal (vanity) name for the company.
-   */
-  universalName?: string;
-  /**
-   * Company website URL.
-   */
-  website: string;
-  [extra: string]: unknown;
-}
+export type LinkedinCompanyData = unknown;
 
 /**
  * Input for LinkedIn Company Employees (linkedin.company_employees).
@@ -345,56 +102,7 @@ export interface LinkedinCompanyEmployeesInput {
   limit?: number;
 }
 
-/**
- * An employee: name, headline, location, handle, and LinkedIn profile URL.
- */
-export interface LinkedinCompanyEmployeesItem {
-  /**
-   * First name.
-   */
-  firstName?: string;
-  /**
-   * Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  handle?: string;
-  /**
-   * Profile picture URL.
-   */
-  image?: string;
-  /**
-   * The employee's current role or headline.
-   */
-  jobTitle?: string;
-  /**
-   * Last name.
-   */
-  lastName?: string;
-  /**
-   * The employee's location as a single string (city, region, country).
-   */
-  location?: string;
-  /**
-   * Full name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  name?: string;
-  /**
-   * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Company Employees (linkedin.company_employees).
- */
-export interface LinkedinCompanyEmployeesData {
-  /**
-   * Employee records for the company. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinCompanyEmployeesItem[];
-}
+export type LinkedinCompanyEmployeesData = unknown;
 
 /**
  * Input for LinkedIn Company Posts (linkedin.company_posts).
@@ -426,114 +134,7 @@ export interface LinkedinCompanyPostsInput {
   url: string;
 }
 
-export interface LinkedinCompanyPostsItem {
-  /**
-   * The post author (a company or a profile).
-   */
-  author?: {
-    /**
-     * Author follower count as displayed text (e.g. '1,543,793 followers').
-     */
-    followers?: string;
-    /**
-     * Canonical LinkedIn URL of the author.
-     */
-    linkedinUrl?: string;
-    /**
-     * Display name of the author.
-     */
-    name?: string;
-    /**
-     * Author kind, e.g. 'company' or 'profile'.
-     */
-    type?: string;
-    /**
-     * URL-safe company/profile handle, when present.
-     */
-    universalName?: string;
-  };
-  /**
-   * Inline mentions and entity references in the post text.
-   */
-  contentAttributes?: LinkedinCompanyPostsContentAttribute[];
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Engagement metrics for the post.
-   */
-  engagement?: {
-    /**
-     * Number of comments on the post.
-     */
-    comments?: number;
-    /**
-     * Total reaction count on the post. Populated whenever the provider has data for the entity.
-     * Present whenever the upstream returns this record.
-     */
-    likes?: number;
-    /**
-     * Per-reaction-type breakdown of the reaction total.
-     */
-    reactions?: LinkedinCompanyPostsReaction[];
-    /**
-     * Number of shares/reposts of the post.
-     */
-    shares?: number;
-  };
-  /**
-   * Unique identifier of the post. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Images attached to the post.
-   */
-  postImages?: LinkedinCompanyPostsPostImage[];
-  /**
-   * Video attached to the post, or null when absent.
-   */
-  postVideo?: {};
-  /**
-   * Full text content of the post.
-   */
-  text: string;
-  /**
-   * Canonical URL of the post. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinCompanyPostsContentAttribute {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinCompanyPostsReaction {
-  /**
-   * Number of reactions of this type.
-   */
-  count?: number;
-  /**
-   * Reaction type, e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION.
-   */
-  type?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinCompanyPostsPostImage {
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Company Posts (linkedin.company_posts).
- */
-export interface LinkedinCompanyPostsData {
-  /**
-   * The company's recent posts. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinCompanyPostsItem[];
-}
+export type LinkedinCompanyPostsData = unknown;
 
 /**
  * Input for LinkedIn Company Posts (basic) (linkedin.company_posts_thin).
@@ -550,35 +151,7 @@ export interface LinkedinCompanyPostsThinInput {
   url: string;
 }
 
-export interface LinkedinCompanyPostsThinItem {
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Unique identifier of the post. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Text content of the post. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  /**
-   * Canonical URL of the post. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Company Posts (basic) (linkedin.company_posts_thin).
- */
-export interface LinkedinCompanyPostsThinData {
-  /**
-   * The company's recent posts. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinCompanyPostsThinItem[];
-}
+export type LinkedinCompanyPostsThinData = unknown;
 
 /**
  * Input for LinkedIn Company (basic) (linkedin.company_thin).
@@ -590,40 +163,7 @@ export interface LinkedinCompanyThinInput {
   url: string;
 }
 
-/**
- * The `data` payload of LinkedIn Company (basic) (linkedin.company_thin).
- */
-export interface LinkedinCompanyThinData {
-  /**
-   * Company about/description text. Populated whenever the provider has data for the entity.
-   */
-  description: string;
-  /**
-   * Reported employee count.
-   */
-  employeeCount: number;
-  /**
-   * Primary industry. Populated whenever the provider has data for the entity.
-   */
-  industry: string;
-  /**
-   * Company logo image URL. Populated whenever the provider has data for the entity.
-   */
-  logoUrl: string;
-  /**
-   * Company name.
-   */
-  name: string;
-  /**
-   * Company tagline/slogan. Populated whenever the provider has data for the entity.
-   */
-  tagline: string;
-  /**
-   * Company website URL. Populated whenever the provider has data for the entity.
-   */
-  website: string;
-  [extra: string]: unknown;
-}
+export type LinkedinCompanyThinData = unknown;
 
 /**
  * Input for LinkedIn Email Finder (linkedin.email).
@@ -635,58 +175,7 @@ export interface LinkedinEmailInput {
   profileUrl: string;
 }
 
-/**
- * A discovered email with its deliverability and validation signals.
- */
-export interface LinkedinEmailEmail {
-  /**
-   * True when the email passed deliverability checks (including SMTP).
-   */
-  deliverable?: boolean;
-  /**
-   * Discovered work email address. Populated whenever the provider has data for the entity.
-   */
-  email: string;
-  /**
-   * Confidence score for the email, 0-100.
-   */
-  qualityScore?: number;
-  /**
-   * Validation status of the email (e.g. valid).
-   */
-  status?: string;
-  /**
-   * True when the domain has a valid mail server.
-   */
-  validEmailServer?: boolean;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Email Finder (linkedin.email).
- */
-export interface LinkedinEmailData {
-  /**
-   * Deliverability-validated work emails discovered for the profile. Populated whenever the provider has data for the entity.
-   */
-  emails: LinkedinEmailEmail[];
-  /**
-   * First name on the LinkedIn profile.
-   */
-  firstName?: string;
-  /**
-   * Profile headline.
-   */
-  headline?: string;
-  /**
-   * Last name on the LinkedIn profile.
-   */
-  lastName?: string;
-  /**
-   * Canonical LinkedIn profile URL.
-   */
-  linkedinUrl?: string;
-}
+export type LinkedinEmailData = unknown;
 
 /**
  * Input for LinkedIn Jobs (linkedin.jobs).
@@ -765,118 +254,7 @@ export interface LinkedinJobsInput {
   workplaceType?: "remote" | "hybrid" | "onsite";
 }
 
-/**
- * A LinkedIn job listing with full detail: title, description, salary, applicant count, seniority, company, and benefits.
- */
-export interface LinkedinJobsItem {
-  /**
-   * Number of applicants reported by LinkedIn. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  applicants?: number;
-  /**
-   * External company apply URL when the job applies off-site.
-   */
-  applyUrl?: string;
-  /**
-   * Listed benefits.
-   */
-  benefits?: string[];
-  /**
-   * Hiring company details.
-   */
-  company?: {
-    /**
-     * Canonical LinkedIn company URL.
-     */
-    linkedinUrl?: string;
-    /**
-     * Company logo image URL.
-     */
-    logo?: string;
-    /**
-     * Company name.
-     */
-    name?: string;
-    /**
-     * Company LinkedIn universal (vanity) name.
-     */
-    universalName?: string;
-  };
-  /**
-   * UTC epoch timestamp in seconds (Unix time) the job was posted. Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Full job description as plain text. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  descriptionText?: string;
-  /**
-   * LinkedIn Easy Apply URL when available.
-   */
-  easyApplyUrl?: string;
-  /**
-   * Employment type (e.g. full_time, contract, part_time).
-   */
-  employmentType?: string;
-  /**
-   * Seniority / experience level (e.g. Mid-Senior level, Entry level).
-   */
-  experienceLevel?: string;
-  /**
-   * LinkedIn job listing id.
-   */
-  id?: string;
-  /**
-   * Industries associated with the role.
-   */
-  industries?: string[];
-  /**
-   * Job location (city, region, or country).
-   */
-  location?: string;
-  /**
-   * Salary range when disclosed by the poster.
-   */
-  salary?: {
-    /**
-     * Maximum salary.
-     */
-    max?: number;
-    /**
-     * Minimum salary.
-     */
-    min?: number;
-    /**
-     * Salary as displayed (e.g. '300,000 - 330,000 USD').
-     */
-    text?: string;
-  };
-  /**
-   * Job title.
-   */
-  title: string;
-  /**
-   * Canonical LinkedIn job listing URL.
-   */
-  url: string;
-  /**
-   * Workplace type (e.g. remote, on_site, hybrid).
-   */
-  workplaceType?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Jobs (linkedin.jobs).
- */
-export interface LinkedinJobsData {
-  /**
-   * Full job listing records for the search. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinJobsItem[];
-}
+export type LinkedinJobsData = unknown;
 
 /**
  * Input for LinkedIn Jobs (index) (linkedin.jobs_thin).
@@ -932,52 +310,7 @@ export interface LinkedinJobsThinInput {
   workplaceType?: "remote" | "hybrid" | "onsite";
 }
 
-/**
- * A LinkedIn job listing index entry: title, company, location, posting date, and the listing URL.
- */
-export interface LinkedinJobsThinItem {
-  /**
-   * Hiring company name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  company?: string;
-  /**
-   * Canonical LinkedIn company URL.
-   */
-  companyUrl?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * LinkedIn job listing id.
-   */
-  id?: string;
-  /**
-   * Job location (city, region). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  location?: string;
-  /**
-   * Job title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Canonical LinkedIn job listing URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Jobs (index) (linkedin.jobs_thin).
- */
-export interface LinkedinJobsThinData {
-  /**
-   * Job listing index records for the search. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinJobsThinItem[];
-}
+export type LinkedinJobsThinData = unknown;
 
 /**
  * Input for LinkedIn Post (linkedin.post).
@@ -989,40 +322,7 @@ export interface LinkedinPostInput {
   url: string;
 }
 
-/**
- * The `data` payload of LinkedIn Post (linkedin.post).
- */
-export interface LinkedinPostData {
-  /**
-   * Name of the post author. Populated whenever the provider has data for the entity.
-   */
-  author: string;
-  /**
-   * Number of comments on the post.
-   */
-  comments: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Number of likes on the post.
-   */
-  likes: number;
-  /**
-   * Text content of the post. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  /**
-   * Title of the post.
-   */
-  title: string;
-  /**
-   * Canonical URL of the post. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
+export type LinkedinPostData = unknown;
 
 /**
  * Input for LinkedIn Post Comments (linkedin.post_comments).
@@ -1046,81 +346,7 @@ export interface LinkedinPostCommentsInput {
   url: string;
 }
 
-export interface LinkedinPostCommentsItem {
-  /**
-   * The commenter (a profile or a company).
-   */
-  actor?: {
-    /**
-     * Profile picture URL of the commenter.
-     */
-    image?: string;
-    /**
-     * Canonical LinkedIn URL of the commenter.
-     */
-    linkedinUrl?: string;
-    /**
-     * Display name of the commenter.
-     */
-    name?: string;
-    /**
-     * Commenter's headline or job title as displayed.
-     */
-    position?: string;
-    /**
-     * Commenter kind, e.g. 'profile' or 'company'.
-     */
-    type?: string;
-  };
-  /**
-   * Full text of the comment. Populated whenever the provider has data for the entity.
-   */
-  commentary: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Whether the comment has been edited.
-   */
-  edited?: boolean;
-  /**
-   * Engagement metrics for the comment.
-   */
-  engagement?: {
-    /**
-     * Number of replies to the comment.
-     */
-    comments?: number;
-    /**
-     * Number of likes on the comment.
-     */
-    likes?: number;
-  };
-  /**
-   * Unique identifier of the comment. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Whether the comment is pinned on the post.
-   */
-  pinned?: boolean;
-  /**
-   * Canonical permalink URL of the comment.
-   */
-  url?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Post Comments (linkedin.post_comments).
- */
-export interface LinkedinPostCommentsData {
-  /**
-   * The post's comments. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinPostCommentsItem[];
-}
+export type LinkedinPostCommentsData = unknown;
 
 /**
  * Input for LinkedIn Post Reactions (linkedin.post_reactions).
@@ -1137,53 +363,7 @@ export interface LinkedinPostReactionsInput {
   url: string;
 }
 
-export interface LinkedinPostReactionsItem {
-  /**
-   * The reactor - the person or company that reacted.
-   */
-  actor: {
-    /**
-     * LinkedIn member or company id of the reactor.
-     */
-    id?: string;
-    /**
-     * Canonical LinkedIn profile or company URL of the reactor.
-     * Format: uri.
-     */
-    linkedinUrl?: string;
-    /**
-     * Full name of the reactor (or company name). Populated whenever the provider has data for the entity.
-     */
-    name: string;
-    /**
-     * Profile picture URL of the reactor.
-     */
-    pictureUrl?: string;
-    /**
-     * Reactor's current job title / headline (or follower count for a company).
-     */
-    position?: string;
-  };
-  /**
-   * LinkedIn URN of the post that was reacted to.
-   */
-  postId?: string;
-  /**
-   * Reaction kind (e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION, ENTERTAINMENT).
-   */
-  reactionType: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Post Reactions (linkedin.post_reactions).
- */
-export interface LinkedinPostReactionsData {
-  /**
-   * Reactions on the post, one record per reactor.
-   */
-  items: LinkedinPostReactionsItem[];
-}
+export type LinkedinPostReactionsData = unknown;
 
 /**
  * Input for LinkedIn Post Transcript (linkedin.post_transcript).
@@ -1195,18 +375,7 @@ export interface LinkedinPostTranscriptInput {
   url: string;
 }
 
-/**
- * The `data` payload of LinkedIn Post Transcript (linkedin.post_transcript).
- */
-export interface LinkedinPostTranscriptData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  transcript: string;
-  transcriptNotAvailable: boolean;
-  url: string;
-  [extra: string]: unknown;
-}
+export type LinkedinPostTranscriptData = unknown;
 
 /**
  * Input for LinkedIn Profile (linkedin.profile).
@@ -1218,269 +387,7 @@ export interface LinkedinProfileInput {
   url: string;
 }
 
-export interface LinkedinProfileCertification {
-  /**
-   * Issue date text.
-   */
-  issuedAt?: string;
-  /**
-   * Issuing organization.
-   */
-  issuedBy?: string;
-  /**
-   * Certification title.
-   */
-  title?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinProfileCurrentPosition {
-  /**
-   * Company LinkedIn URL.
-   */
-  companyLinkedinUrl?: string;
-  /**
-   * Company name.
-   */
-  companyName?: string;
-  /**
-   * Human-readable tenure, e.g. '12 yrs 6 mos'.
-   */
-  duration?: string;
-  /**
-   * Role location.
-   */
-  location?: string;
-  /**
-   * Job title.
-   */
-  position?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinProfileEducation {
-  /**
-   * Degree earned.
-   */
-  degree?: string;
-  /**
-   * End date text.
-   */
-  endDate?: string;
-  /**
-   * Field of study.
-   */
-  fieldOfStudy?: string;
-  /**
-   * School name.
-   */
-  school: string;
-  /**
-   * School LinkedIn URL.
-   */
-  schoolUrl?: string;
-  /**
-   * Start date text.
-   */
-  startDate?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinProfileExperience {
-  /**
-   * Company LinkedIn URL.
-   */
-  companyLinkedinUrl?: string;
-  /**
-   * Company name.
-   */
-  companyName?: string;
-  /**
-   * Role description.
-   */
-  description?: string;
-  /**
-   * Human-readable tenure, e.g. '3 yrs 2 mos'.
-   */
-  duration?: string;
-  /**
-   * Employment type, e.g. 'Full-time'.
-   */
-  employmentType?: string;
-  /**
-   * End date text, e.g. 'Present'.
-   */
-  endDate?: string;
-  /**
-   * Role location.
-   */
-  location?: string;
-  /**
-   * Job title. Populated whenever the provider has data for the entity.
-   */
-  position: string;
-  /**
-   * Skills associated with this role.
-   */
-  skills?: unknown[];
-  /**
-   * Start date text, e.g. 'Feb 2014'.
-   */
-  startDate?: string;
-  /**
-   * Workplace type, e.g. 'Remote' or 'On-site'.
-   */
-  workplaceType?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinProfileHonorsAndAward {
-  /**
-   * Award description.
-   */
-  description?: string;
-  /**
-   * Issue date text.
-   */
-  issuedAt?: string;
-  /**
-   * Issuing organization.
-   */
-  issuedBy?: string;
-  /**
-   * Award title.
-   */
-  title?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinProfilePublication {
-  /**
-   * Publication description.
-   */
-  description?: string;
-  /**
-   * Publisher and/or date text as shown on LinkedIn.
-   */
-  publishedText?: string;
-  /**
-   * Publication title.
-   */
-  title?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinProfileSkill {
-  /**
-   * Endorsement count text, e.g. '99+ endorsements'.
-   */
-  endorsements?: string;
-  /**
-   * Skill name.
-   */
-  name?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Profile (linkedin.profile).
- */
-export interface LinkedinProfileData {
-  /**
-   * About/summary text of the profile.
-   */
-  about?: string;
-  /**
-   * Licenses and certifications.
-   */
-  certifications?: LinkedinProfileCertification[];
-  /**
-   * Number of connections.
-   */
-  connectionsCount?: number;
-  /**
-   * The member's current role(s).
-   */
-  currentPosition?: LinkedinProfileCurrentPosition[];
-  /**
-   * Education entries.
-   */
-  education?: LinkedinProfileEducation[];
-  /**
-   * Full work experience with titles, descriptions, dates, and per-role skills. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  experience?: LinkedinProfileExperience[];
-  /**
-   * First name of the profile owner.
-   */
-  firstName: string;
-  /**
-   * Number of followers.
-   */
-  followerCount?: number;
-  /**
-   * Professional headline shown under the name. Populated whenever the provider has data for the entity.
-   */
-  headline: string;
-  /**
-   * Honors and awards.
-   */
-  honorsAndAwards?: LinkedinProfileHonorsAndAward[];
-  /**
-   * Languages, as returned by LinkedIn when present.
-   */
-  languages?: unknown[];
-  /**
-   * Last name of the profile owner.
-   */
-  lastName: string;
-  /**
-   * Location of the profile owner.
-   */
-  location?: string;
-  /**
-   * Whether the member is open to work.
-   */
-  openToWork?: boolean;
-  /**
-   * URL of the profile photo.
-   */
-  photo?: string;
-  /**
-   * Whether the member has LinkedIn Premium.
-   */
-  premium?: boolean;
-  /**
-   * Projects, as returned by LinkedIn when present.
-   */
-  projects?: unknown[];
-  /**
-   * LinkedIn public identifier (the /in/ handle).
-   */
-  publicIdentifier?: string;
-  /**
-   * Publications.
-   */
-  publications?: LinkedinProfilePublication[];
-  /**
-   * Endorsed skills.
-   */
-  skills?: LinkedinProfileSkill[];
-  /**
-   * The member's top skills, as free-form strings when present.
-   */
-  topSkills?: unknown[];
-  /**
-   * Canonical LinkedIn profile URL.
-   */
-  url: string;
-  /**
-   * Whether the profile is identity-verified.
-   */
-  verified?: boolean;
-  [extra: string]: unknown;
-}
+export type LinkedinProfileData = unknown;
 
 /**
  * Input for LinkedIn Profile (basic) (linkedin.profile_thin).
@@ -1492,128 +399,7 @@ export interface LinkedinProfileThinInput {
   url: string;
 }
 
-export interface LinkedinProfileThinArticle {
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Headline of the article.
-   */
-  headline: string;
-  /**
-   * Canonical URL of the article.
-   */
-  url?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinProfileThinEducation {
-  /**
-   * End date of study.
-   */
-  endDate?: string;
-  /**
-   * Name of the school.
-   */
-  school: string;
-  /**
-   * URL of the school page.
-   */
-  schoolUrl?: string;
-  /**
-   * Start date of study.
-   */
-  startDate?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinProfileThinExperience {
-  /**
-   * Name of the company.
-   */
-  company: string;
-  /**
-   * URL of the company page.
-   */
-  companyUrl?: string;
-  /**
-   * End date of the role.
-   */
-  endDate?: string;
-  /**
-   * Start date of the role.
-   */
-  startDate?: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinProfileThinRecentPost {
-  /**
-   * Type of activity for the post.
-   */
-  activityType?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Unique identifier of the post.
-   */
-  id: string;
-  /**
-   * Text content of the post.
-   */
-  text?: string;
-  /**
-   * Canonical URL of the post.
-   */
-  url?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Profile (basic) (linkedin.profile_thin).
- */
-export interface LinkedinProfileThinData {
-  /**
-   * About/summary text of the profile.
-   */
-  about: string;
-  /**
-   * The profile's published articles.
-   */
-  articles: LinkedinProfileThinArticle[];
-  /**
-   * URL of the profile avatar image.
-   */
-  avatarUrl: string;
-  /**
-   * Education entries.
-   */
-  education: LinkedinProfileThinEducation[];
-  /**
-   * Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity.
-   */
-  experience: LinkedinProfileThinExperience[];
-  /**
-   * Number of followers.
-   */
-  followers: number;
-  /**
-   * Location of the profile owner.
-   */
-  location: string;
-  /**
-   * Full name of the profile owner.
-   */
-  name: string;
-  /**
-   * The profile's recent posts.
-   */
-  recentPosts: LinkedinProfileThinRecentPost[];
-  [extra: string]: unknown;
-}
+export type LinkedinProfileThinData = unknown;
 
 /**
  * Input for LinkedIn Company Search (linkedin.search_companies).
@@ -1634,58 +420,7 @@ export interface LinkedinSearchCompaniesInput {
   query: string;
 }
 
-/**
- * A LinkedIn company: name, URL, industry, location, follower count, and description.
- */
-export interface LinkedinSearchCompaniesItem {
-  /**
-   * Company summary / about text.
-   */
-  description?: string;
-  /**
-   * Follower count as a display string (e.g. 105K followers).
-   */
-  followersText?: string;
-  /**
-   * Company universal name (the vanity slug in the URL).
-   */
-  handle?: string;
-  /**
-   * LinkedIn company id. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Company logo image URL.
-   */
-  image?: string;
-  /**
-   * Company industry.
-   */
-  industry?: string;
-  /**
-   * Company location as a single string (city, region).
-   */
-  location?: string;
-  /**
-   * Company name. Populated whenever the provider has data for the entity.
-   */
-  name: string;
-  /**
-   * Canonical LinkedIn company URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Company Search (linkedin.search_companies).
- */
-export interface LinkedinSearchCompaniesData {
-  /**
-   * Matching company records. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinSearchCompaniesItem[];
-}
+export type LinkedinSearchCompaniesData = unknown;
 
 /**
  * Input for LinkedIn Post Search (linkedin.search_posts).
@@ -1707,31 +442,7 @@ export interface LinkedinSearchPostsInput {
   query: string;
 }
 
-export interface LinkedinSearchPostsPost {
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Text content of the post. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  /**
-   * Canonical URL of the post. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Post Search (linkedin.search_posts).
- */
-export interface LinkedinSearchPostsData {
-  /**
-   * Posts matching the search query. Populated whenever the provider has data for the entity.
-   */
-  posts: LinkedinSearchPostsPost[];
-}
+export type LinkedinSearchPostsData = unknown;
 
 /**
  * Input for LinkedIn Profile Search (linkedin.search_profiles).
@@ -1951,101 +662,7 @@ export interface LinkedinSearchProfilesInput {
   yearsOfExperienceIds?: ("1" | "2" | "3" | "4" | "5")[];
 }
 
-/**
- * A full LinkedIn profile: name, headline, location, about, current position, work experience, education, and skills, plus the profile URL, handle, and id.
- */
-export interface LinkedinSearchProfilesItem {
-  /**
-   * Profile about / summary text.
-   */
-  about?: string;
-  /**
-   * Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile.
-   */
-  currentPosition?: LinkedinSearchProfilesCurrentPosition[];
-  /**
-   * Education history. Each entry is an open object with school, degree, and field of study; shape can vary by profile.
-   */
-  education?: LinkedinSearchProfilesEducation[];
-  /**
-   * Full work history. Each entry is an open object with the position title, company, dates, and location; shape can vary by profile. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  experience?: LinkedinSearchProfilesExperience[];
-  /**
-   * Member's first name.
-   */
-  firstName?: string;
-  /**
-   * Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  handle?: string;
-  /**
-   * Profile headline (the tagline under the name). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  headline?: string;
-  /**
-   * LinkedIn member URN id for the profile.
-   */
-  id: string;
-  /**
-   * Profile picture URL.
-   */
-  image?: string;
-  /**
-   * Member's last name.
-   */
-  lastName?: string;
-  /**
-   * Member's location as a single string (city, region, country).
-   */
-  location?: string;
-  /**
-   * Whether the member has the Open to Work flag set.
-   */
-  openToWork?: boolean;
-  /**
-   * Whether the member has a LinkedIn Premium subscription.
-   */
-  premium?: boolean;
-  /**
-   * Listed skills. Each entry is an open object with the skill name and endorsement summary.
-   */
-  skills?: LinkedinSearchProfilesSkill[];
-  /**
-   * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesCurrentPosition {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesEducation {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesExperience {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesSkill {
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Profile Search (linkedin.search_profiles).
- */
-export interface LinkedinSearchProfilesData {
-  /**
-   * Matched profile records. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinSearchProfilesItem[];
-}
+export type LinkedinSearchProfilesData = unknown;
 
 /**
  * Input for LinkedIn Profile Search + Email (linkedin.search_profiles_email).
@@ -2265,110 +882,7 @@ export interface LinkedinSearchProfilesEmailInput {
   yearsOfExperienceIds?: ("1" | "2" | "3" | "4" | "5")[];
 }
 
-/**
- * A full LinkedIn profile: name, headline, location, about, current position, work experience, education, and skills, plus the profile URL, handle, id, and a discovered work email with deliverability.
- */
-export interface LinkedinSearchProfilesEmailItem {
-  /**
-   * Profile about / summary text.
-   */
-  about?: string;
-  /**
-   * Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile.
-   */
-  currentPosition?: LinkedinSearchProfilesEmailCurrentPosition[];
-  /**
-   * Education history. Each entry is an open object with school, degree, and field of study; shape can vary by profile.
-   */
-  education?: LinkedinSearchProfilesEmailEducation[];
-  /**
-   * Discovered work email(s) for the member. Each entry is an open object with the email address plus deliverability signals (deliverable, disposable, catchAllDomain, validEmailServer, qualityScore, status); may be empty when no email could be verified. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  emails?: LinkedinSearchProfilesEmailEmail[];
-  /**
-   * Full work history. Each entry is an open object with the position title, company, dates, and location; shape can vary by profile. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  experience?: LinkedinSearchProfilesEmailExperience[];
-  /**
-   * Member's first name.
-   */
-  firstName?: string;
-  /**
-   * Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  handle?: string;
-  /**
-   * Profile headline (the tagline under the name). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  headline?: string;
-  /**
-   * LinkedIn member URN id for the profile.
-   */
-  id: string;
-  /**
-   * Profile picture URL.
-   */
-  image?: string;
-  /**
-   * Member's last name.
-   */
-  lastName?: string;
-  /**
-   * Member's location as a single string (city, region, country).
-   */
-  location?: string;
-  /**
-   * Whether the member has the Open to Work flag set.
-   */
-  openToWork?: boolean;
-  /**
-   * Whether the member has a LinkedIn Premium subscription.
-   */
-  premium?: boolean;
-  /**
-   * Listed skills. Each entry is an open object with the skill name and endorsement summary.
-   */
-  skills?: LinkedinSearchProfilesEmailSkill[];
-  /**
-   * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesEmailCurrentPosition {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesEmailEducation {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesEmailEmail {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesEmailExperience {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesEmailSkill {
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Profile Search + Email (linkedin.search_profiles_email).
- */
-export interface LinkedinSearchProfilesEmailData {
-  /**
-   * Matched profile records, each with a discovered work email. Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinSearchProfilesEmailItem[];
-}
+export type LinkedinSearchProfilesEmailData = unknown;
 
 /**
  * Input for LinkedIn Profile Search (basic) (linkedin.search_profiles_thin).
@@ -2380,52 +894,7 @@ export interface LinkedinSearchProfilesThinInput {
   query: string;
 }
 
-/**
- * A basic LinkedIn profile record: name, handle, headline, vanity profile URL, and location.
- */
-export interface LinkedinSearchProfilesThinItem {
-  /**
-   * Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  handle?: string;
-  /**
-   * Profile headline (the tagline under the name). Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  headline?: string;
-  /**
-   * LinkedIn member URN id for the profile.
-   */
-  id?: string;
-  /**
-   * Profile picture URL.
-   */
-  image?: string;
-  /**
-   * Member's location as a single string (city, region, country).
-   */
-  location?: string;
-  /**
-   * Member's display name.
-   */
-  name?: string;
-  /**
-   * Canonical LinkedIn vanity profile URL. Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of LinkedIn Profile Search (basic) (linkedin.search_profiles_thin).
- */
-export interface LinkedinSearchProfilesThinData {
-  /**
-   * Matched profile records (basic fields only). Populated whenever the provider has data for the entity.
-   */
-  items: LinkedinSearchProfilesThinItem[];
-}
+export type LinkedinSearchProfilesThinData = unknown;
 
 /**
  * Typed methods for the linkedin platform. Attached to the AnyAPI client as
@@ -2447,8 +916,10 @@ export class LinkedinNamespace {
   ad(
     input: LinkedinAdInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinAdData>> {
-    return this._core.run("linkedin.ad", input, options);
+  ): Promise<BareRunResult<LinkedinAdData>> {
+    return this._core.run("linkedin.ad", input, options) as unknown as Promise<
+      BareRunResult<LinkedinAdData>
+    >;
   }
 
   /**
@@ -2464,8 +935,10 @@ export class LinkedinNamespace {
   ads(
     input: LinkedinAdsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinAdsData>> {
-    return this._core.run("linkedin.ads", input, options);
+  ): Promise<BareRunResult<LinkedinAdsData>> {
+    return this._core.run("linkedin.ads", input, options) as unknown as Promise<
+      BareRunResult<LinkedinAdsData>
+    >;
   }
 
   /**
@@ -2481,8 +954,12 @@ export class LinkedinNamespace {
   adsSearch(
     input: LinkedinAdsSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinAdsSearchData>> {
-    return this._core.run("linkedin.ads_search", input, options);
+  ): Promise<BareRunResult<LinkedinAdsSearchData>> {
+    return this._core.run(
+      "linkedin.ads_search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinAdsSearchData>>;
   }
 
   /**
@@ -2498,8 +975,12 @@ export class LinkedinNamespace {
   company(
     input: LinkedinCompanyInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinCompanyData>> {
-    return this._core.run("linkedin.company", input, options);
+  ): Promise<BareRunResult<LinkedinCompanyData>> {
+    return this._core.run(
+      "linkedin.company",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinCompanyData>>;
   }
 
   /**
@@ -2515,8 +996,12 @@ export class LinkedinNamespace {
   companyEmployees(
     input: LinkedinCompanyEmployeesInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinCompanyEmployeesData>> {
-    return this._core.run("linkedin.company_employees", input, options);
+  ): Promise<BareRunResult<LinkedinCompanyEmployeesData>> {
+    return this._core.run(
+      "linkedin.company_employees",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinCompanyEmployeesData>>;
   }
 
   /**
@@ -2532,8 +1017,12 @@ export class LinkedinNamespace {
   companyPosts(
     input: LinkedinCompanyPostsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinCompanyPostsData>> {
-    return this._core.run("linkedin.company_posts", input, options);
+  ): Promise<BareRunResult<LinkedinCompanyPostsData>> {
+    return this._core.run(
+      "linkedin.company_posts",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinCompanyPostsData>>;
   }
 
   /**
@@ -2549,8 +1038,12 @@ export class LinkedinNamespace {
   companyPostsThin(
     input: LinkedinCompanyPostsThinInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinCompanyPostsThinData>> {
-    return this._core.run("linkedin.company_posts_thin", input, options);
+  ): Promise<BareRunResult<LinkedinCompanyPostsThinData>> {
+    return this._core.run(
+      "linkedin.company_posts_thin",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinCompanyPostsThinData>>;
   }
 
   /**
@@ -2566,8 +1059,12 @@ export class LinkedinNamespace {
   companyThin(
     input: LinkedinCompanyThinInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinCompanyThinData>> {
-    return this._core.run("linkedin.company_thin", input, options);
+  ): Promise<BareRunResult<LinkedinCompanyThinData>> {
+    return this._core.run(
+      "linkedin.company_thin",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinCompanyThinData>>;
   }
 
   /**
@@ -2583,8 +1080,12 @@ export class LinkedinNamespace {
   email(
     input: LinkedinEmailInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinEmailData>> {
-    return this._core.run("linkedin.email", input, options);
+  ): Promise<BareRunResult<LinkedinEmailData>> {
+    return this._core.run(
+      "linkedin.email",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinEmailData>>;
   }
 
   /**
@@ -2600,8 +1101,12 @@ export class LinkedinNamespace {
   jobs(
     input: LinkedinJobsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinJobsData>> {
-    return this._core.run("linkedin.jobs", input, options);
+  ): Promise<BareRunResult<LinkedinJobsData>> {
+    return this._core.run(
+      "linkedin.jobs",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinJobsData>>;
   }
 
   /**
@@ -2617,8 +1122,12 @@ export class LinkedinNamespace {
   jobsThin(
     input: LinkedinJobsThinInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinJobsThinData>> {
-    return this._core.run("linkedin.jobs_thin", input, options);
+  ): Promise<BareRunResult<LinkedinJobsThinData>> {
+    return this._core.run(
+      "linkedin.jobs_thin",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinJobsThinData>>;
   }
 
   /**
@@ -2634,8 +1143,12 @@ export class LinkedinNamespace {
   post(
     input: LinkedinPostInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinPostData>> {
-    return this._core.run("linkedin.post", input, options);
+  ): Promise<BareRunResult<LinkedinPostData>> {
+    return this._core.run(
+      "linkedin.post",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinPostData>>;
   }
 
   /**
@@ -2651,8 +1164,12 @@ export class LinkedinNamespace {
   postComments(
     input: LinkedinPostCommentsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinPostCommentsData>> {
-    return this._core.run("linkedin.post_comments", input, options);
+  ): Promise<BareRunResult<LinkedinPostCommentsData>> {
+    return this._core.run(
+      "linkedin.post_comments",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinPostCommentsData>>;
   }
 
   /**
@@ -2668,8 +1185,12 @@ export class LinkedinNamespace {
   postReactions(
     input: LinkedinPostReactionsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinPostReactionsData>> {
-    return this._core.run("linkedin.post_reactions", input, options);
+  ): Promise<BareRunResult<LinkedinPostReactionsData>> {
+    return this._core.run(
+      "linkedin.post_reactions",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinPostReactionsData>>;
   }
 
   /**
@@ -2685,8 +1206,12 @@ export class LinkedinNamespace {
   postTranscript(
     input: LinkedinPostTranscriptInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinPostTranscriptData>> {
-    return this._core.run("linkedin.post_transcript", input, options);
+  ): Promise<BareRunResult<LinkedinPostTranscriptData>> {
+    return this._core.run(
+      "linkedin.post_transcript",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinPostTranscriptData>>;
   }
 
   /**
@@ -2702,8 +1227,12 @@ export class LinkedinNamespace {
   profile(
     input: LinkedinProfileInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinProfileData>> {
-    return this._core.run("linkedin.profile", input, options);
+  ): Promise<BareRunResult<LinkedinProfileData>> {
+    return this._core.run(
+      "linkedin.profile",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinProfileData>>;
   }
 
   /**
@@ -2719,8 +1248,12 @@ export class LinkedinNamespace {
   profileThin(
     input: LinkedinProfileThinInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinProfileThinData>> {
-    return this._core.run("linkedin.profile_thin", input, options);
+  ): Promise<BareRunResult<LinkedinProfileThinData>> {
+    return this._core.run(
+      "linkedin.profile_thin",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinProfileThinData>>;
   }
 
   /**
@@ -2736,8 +1269,12 @@ export class LinkedinNamespace {
   searchCompanies(
     input: LinkedinSearchCompaniesInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinSearchCompaniesData>> {
-    return this._core.run("linkedin.search_companies", input, options);
+  ): Promise<BareRunResult<LinkedinSearchCompaniesData>> {
+    return this._core.run(
+      "linkedin.search_companies",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinSearchCompaniesData>>;
   }
 
   /**
@@ -2753,8 +1290,12 @@ export class LinkedinNamespace {
   searchPosts(
     input: LinkedinSearchPostsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinSearchPostsData>> {
-    return this._core.run("linkedin.search_posts", input, options);
+  ): Promise<BareRunResult<LinkedinSearchPostsData>> {
+    return this._core.run(
+      "linkedin.search_posts",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinSearchPostsData>>;
   }
 
   /**
@@ -2770,8 +1311,12 @@ export class LinkedinNamespace {
   searchProfiles(
     input: LinkedinSearchProfilesInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinSearchProfilesData>> {
-    return this._core.run("linkedin.search_profiles", input, options);
+  ): Promise<BareRunResult<LinkedinSearchProfilesData>> {
+    return this._core.run(
+      "linkedin.search_profiles",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinSearchProfilesData>>;
   }
 
   /**
@@ -2787,8 +1332,12 @@ export class LinkedinNamespace {
   searchProfilesEmail(
     input: LinkedinSearchProfilesEmailInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinSearchProfilesEmailData>> {
-    return this._core.run("linkedin.search_profiles_email", input, options);
+  ): Promise<BareRunResult<LinkedinSearchProfilesEmailData>> {
+    return this._core.run(
+      "linkedin.search_profiles_email",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinSearchProfilesEmailData>>;
   }
 
   /**
@@ -2804,7 +1353,11 @@ export class LinkedinNamespace {
   searchProfilesThin(
     input: LinkedinSearchProfilesThinInput,
     options?: RequestOptions,
-  ): Promise<RunResult<LinkedinSearchProfilesThinData>> {
-    return this._core.run("linkedin.search_profiles_thin", input, options);
+  ): Promise<BareRunResult<LinkedinSearchProfilesThinData>> {
+    return this._core.run(
+      "linkedin.search_profiles_thin",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<LinkedinSearchProfilesThinData>>;
   }
 }

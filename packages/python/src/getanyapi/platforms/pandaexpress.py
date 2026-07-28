@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
-from ..types import RequestOptions, RunResult
+from ..types import BareRunResult, RequestOptions
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -43,101 +43,15 @@ class PandaexpressNutritionInput(TypedDict, total=False):
 
 
 class PandaexpressLocationsData(BaseModel):
-    restaurants: list[PandaexpressLocationsRestaurant] = Field(
-        description="Nearby Panda Express restaurants, nearest first. Populated whenever the provider has data for the entity."
-    )
-
-
-class PandaexpressLocationsRestaurant(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    address: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    can_deliver: bool = Field(alias="canDeliver")
-    can_pickup: bool = Field(alias="canPickup")
-    city: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    distance_miles: float = Field(alias="distanceMiles")
-    id: int = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    is_open: bool = Field(alias="isOpen")
-    latitude: float = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    longitude: float = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    name: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    phone: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    state: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    zip: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
+    model_config = ConfigDict(extra="allow")
 
 
 class PandaexpressMenuData(BaseModel):
-    categories: list[PandaexpressMenuCategorie] = Field(
-        description="Menu categories in display order. Populated whenever the provider has data for the entity."
-    )
-
-
-class PandaexpressMenuCategorie(BaseModel):
     model_config = ConfigDict(extra="allow")
-
-    items: list[PandaexpressMenuItem]
-    name: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-
-
-class PandaexpressMenuItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    calories: int = Field(
-        description="Base calories when published by the restaurant, else 0."
-    )
-    description: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    name: str
-    price_usd: float = Field(
-        alias="priceUsd",
-        description="Item price in USD (0 for items priced only via size/option selection).",
-    )
 
 
 class PandaexpressNutritionData(BaseModel):
-    items: list[PandaexpressNutritionItem] = Field(
-        description="Matching menu items with official nutrition facts. Populated whenever the provider has data for the entity."
-    )
-
-
-class PandaexpressNutritionItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    calories: float
-    cholesterol_mg: float = Field(alias="cholesterolMg")
-    dietary_fiber_g: float = Field(alias="dietaryFiberG")
-    name: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    protein_g: float = Field(alias="proteinG")
-    saturated_fat_g: float = Field(alias="saturatedFatG")
-    serving_size_oz: float = Field(alias="servingSizeOz")
-    sodium_mg: float = Field(alias="sodiumMg")
-    sugars_g: float = Field(alias="sugarsG")
-    total_carb_g: float = Field(alias="totalCarbG")
-    total_fat_g: float = Field(alias="totalFatG")
-    trans_fat_g: float = Field(alias="transFatG")
+    model_config = ConfigDict(extra="allow")
 
 
 class PandaexpressNamespace:
@@ -151,7 +65,7 @@ class PandaexpressNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PandaexpressLocationsInput],
-    ) -> RunResult[PandaexpressLocationsData]:
+    ) -> BareRunResult[PandaexpressLocationsData]:
         """Panda Express Locations
 
         Find Panda Express restaurants near a latitude/longitude, sorted by
@@ -166,14 +80,14 @@ class PandaexpressNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "pandaexpress.locations", dict(input), options
         )
-        return RunResult[PandaexpressLocationsData].model_validate(raw)
+        return BareRunResult[PandaexpressLocationsData].model_validate(raw)
 
     def menu(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PandaexpressMenuInput],
-    ) -> RunResult[PandaexpressMenuData]:
+    ) -> BareRunResult[PandaexpressMenuData]:
         """Panda Express Menu
 
         Get the live menu for a Panda Express restaurant by id: categories with item
@@ -188,14 +102,14 @@ class PandaexpressNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "pandaexpress.menu", dict(input), options
         )
-        return RunResult[PandaexpressMenuData].model_validate(raw)
+        return BareRunResult[PandaexpressMenuData].model_validate(raw)
 
     def nutrition(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PandaexpressNutritionInput],
-    ) -> RunResult[PandaexpressNutritionData]:
+    ) -> BareRunResult[PandaexpressNutritionData]:
         """Panda Express Nutrition
 
         Look up official Panda Express nutrition facts by item name: serving size,
@@ -209,7 +123,7 @@ class PandaexpressNamespace:
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "pandaexpress.nutrition", dict(input), options
         )
-        return RunResult[PandaexpressNutritionData].model_validate(raw)
+        return BareRunResult[PandaexpressNutritionData].model_validate(raw)
 
 
 class AsyncPandaexpressNamespace:
@@ -223,7 +137,7 @@ class AsyncPandaexpressNamespace:
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PandaexpressLocationsInput],
-    ) -> RunResult[PandaexpressLocationsData]:
+    ) -> BareRunResult[PandaexpressLocationsData]:
         """Panda Express Locations
 
         Find Panda Express restaurants near a latitude/longitude, sorted by
@@ -238,14 +152,14 @@ class AsyncPandaexpressNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "pandaexpress.locations", dict(input), options
         )
-        return RunResult[PandaexpressLocationsData].model_validate(raw)
+        return BareRunResult[PandaexpressLocationsData].model_validate(raw)
 
     async def menu(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PandaexpressMenuInput],
-    ) -> RunResult[PandaexpressMenuData]:
+    ) -> BareRunResult[PandaexpressMenuData]:
         """Panda Express Menu
 
         Get the live menu for a Panda Express restaurant by id: categories with item
@@ -260,14 +174,14 @@ class AsyncPandaexpressNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "pandaexpress.menu", dict(input), options
         )
-        return RunResult[PandaexpressMenuData].model_validate(raw)
+        return BareRunResult[PandaexpressMenuData].model_validate(raw)
 
     async def nutrition(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PandaexpressNutritionInput],
-    ) -> RunResult[PandaexpressNutritionData]:
+    ) -> BareRunResult[PandaexpressNutritionData]:
         """Panda Express Nutrition
 
         Look up official Panda Express nutrition facts by item name: serving size,
@@ -281,4 +195,4 @@ class AsyncPandaexpressNamespace:
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "pandaexpress.nutrition", dict(input), options
         )
-        return RunResult[PandaexpressNutritionData].model_validate(raw)
+        return BareRunResult[PandaexpressNutritionData].model_validate(raw)

@@ -669,1371 +669,1371 @@ export interface SkuMap {
   "ahrefs.backlinks": {
     input: AhrefsBacklinksInput;
     data: AhrefsBacklinksData;
-    result: RunResult<AhrefsBacklinksData>;
+    result: BareRunResult<AhrefsBacklinksData>;
   };
   "ahrefs.keyword_ideas": {
     input: AhrefsKeywordIdeasInput;
     data: AhrefsKeywordIdeasData;
-    result: RunResult<AhrefsKeywordIdeasData>;
+    result: BareRunResult<AhrefsKeywordIdeasData>;
   };
   "ahrefs.keywords": {
     input: AhrefsKeywordsInput;
     data: AhrefsKeywordsData;
-    result: RunResult<AhrefsKeywordsData>;
+    result: BareRunResult<AhrefsKeywordsData>;
   };
   "ahrefs.overview": {
     input: AhrefsOverviewInput;
     data: AhrefsOverviewData;
-    result: RunResult<AhrefsOverviewData>;
+    result: BareRunResult<AhrefsOverviewData>;
   };
   "airbnb.search": {
     input: AirbnbSearchInput;
     data: AirbnbSearchData;
-    result: RunResult<AirbnbSearchData>;
+    result: BareRunResult<AirbnbSearchData>;
   };
   "alibaba.search": {
     input: AlibabaSearchInput;
     data: AlibabaSearchData;
-    result: RunResult<AlibabaSearchData>;
+    result: BareRunResult<AlibabaSearchData>;
   };
   "amazon.asins": {
     input: AmazonAsinsInput;
     data: AmazonAsinsData;
-    result: RunResult<AmazonAsinsData>;
+    result: BareRunResult<AmazonAsinsData>;
   };
   "amazon.bestsellers": {
     input: AmazonBestsellersInput;
     data: AmazonBestsellersData;
-    result: RunResult<AmazonBestsellersData>;
+    result: BareRunResult<AmazonBestsellersData>;
   };
   "amazon.product": {
     input: AmazonProductInput;
     data: AmazonProductData;
-    result: RunResult<AmazonProductData>;
+    result: BareRunResult<AmazonProductData>;
   };
   "amazon.reviews": {
     input: AmazonReviewsInput;
     data: AmazonReviewsData;
-    result: RunResult<AmazonReviewsData>;
+    result: BareRunResult<AmazonReviewsData>;
   };
   "amazon.search": {
     input: AmazonSearchInput;
     data: AmazonSearchData;
-    result: RunResult<AmazonSearchData>;
+    result: BareRunResult<AmazonSearchData>;
   };
   "apollo.organization": {
     input: ApolloOrganizationInput;
     data: ApolloOrganizationData;
-    result: RunResult<ApolloOrganizationData>;
+    result: BareRunResult<ApolloOrganizationData>;
   };
   "apollo.organization_enrich": {
     input: ApolloOrganizationEnrichInput;
     data: ApolloOrganizationEnrichData;
-    result: RunResult<ApolloOrganizationEnrichData>;
+    result: BareRunResult<ApolloOrganizationEnrichData>;
   };
   "apollo.organization_jobs": {
     input: ApolloOrganizationJobsInput;
     data: ApolloOrganizationJobsData;
-    result: RunResult<ApolloOrganizationJobsData>;
+    result: BareRunResult<ApolloOrganizationJobsData>;
   };
   "apollo.organization_news": {
     input: ApolloOrganizationNewsInput;
     data: ApolloOrganizationNewsData;
-    result: RunResult<ApolloOrganizationNewsData>;
+    result: BareRunResult<ApolloOrganizationNewsData>;
   };
   "apollo.organizations_bulk_enrich": {
     input: ApolloOrganizationsBulkEnrichInput;
     data: ApolloOrganizationsBulkEnrichData;
-    result: RunResult<ApolloOrganizationsBulkEnrichData>;
+    result: BareRunResult<ApolloOrganizationsBulkEnrichData>;
   };
   "apollo.organizations_search": {
     input: ApolloOrganizationsSearchInput;
     data: ApolloOrganizationsSearchData;
-    result: RunResult<ApolloOrganizationsSearchData>;
+    result: BareRunResult<ApolloOrganizationsSearchData>;
   };
   "apollo.people_search": {
     input: ApolloPeopleSearchInput;
     data: ApolloPeopleSearchData;
-    result: RunResult<ApolloPeopleSearchData>;
+    result: BareRunResult<ApolloPeopleSearchData>;
   };
   "apollo.person_enrich": {
     input: ApolloPersonEnrichInput;
     data: ApolloPersonEnrichData;
-    result: RunResult<ApolloPersonEnrichData>;
+    result: BareRunResult<ApolloPersonEnrichData>;
   };
   "appstore.reviews": {
     input: AppstoreReviewsInput;
     data: AppstoreReviewsData;
-    result: RunResult<AppstoreReviewsData>;
+    result: BareRunResult<AppstoreReviewsData>;
   };
   "bluesky.post": {
     input: BlueskyPostInput;
     data: BlueskyPostData;
-    result: RunResult<BlueskyPostData>;
+    result: BareRunResult<BlueskyPostData>;
   };
   "bluesky.profile": {
     input: BlueskyProfileInput;
     data: BlueskyProfileData;
-    result: RunResult<BlueskyProfileData>;
+    result: BareRunResult<BlueskyProfileData>;
   };
   "bluesky.user_posts": {
     input: BlueskyUserPostsInput;
     data: BlueskyUserPostsData;
-    result: RunResult<BlueskyUserPostsData>;
+    result: BareRunResult<BlueskyUserPostsData>;
   };
   "booking.search": {
     input: BookingSearchInput;
     data: BookingSearchData;
-    result: RunResult<BookingSearchData>;
+    result: BareRunResult<BookingSearchData>;
   };
   "coinmarketcap.listings": {
     input: CoinmarketcapListingsInput;
     data: CoinmarketcapListingsData;
-    result: RunResult<CoinmarketcapListingsData>;
+    result: BareRunResult<CoinmarketcapListingsData>;
   };
   "congress.trades": {
     input: CongressTradesInput;
     data: CongressTradesData;
-    result: RunResult<CongressTradesData>;
+    result: BareRunResult<CongressTradesData>;
   };
   "dexscreener.tokens": {
     input: DexscreenerTokensInput;
     data: DexscreenerTokensData;
-    result: RunResult<DexscreenerTokensData>;
+    result: BareRunResult<DexscreenerTokensData>;
   };
   "douyin.profile": {
     input: DouyinProfileInput;
     data: DouyinProfileData;
-    result: RunResult<DouyinProfileData>;
+    result: BareRunResult<DouyinProfileData>;
   };
   "douyin.search_videos": {
     input: DouyinSearchVideosInput;
     data: DouyinSearchVideosData;
-    result: RunResult<DouyinSearchVideosData>;
+    result: BareRunResult<DouyinSearchVideosData>;
   };
   "douyin.user_posts": {
     input: DouyinUserPostsInput;
     data: DouyinUserPostsData;
-    result: RunResult<DouyinUserPostsData>;
+    result: BareRunResult<DouyinUserPostsData>;
   };
   "douyin.video": {
     input: DouyinVideoInput;
     data: DouyinVideoData;
-    result: RunResult<DouyinVideoData>;
+    result: BareRunResult<DouyinVideoData>;
   };
   "douyin.video_comments": {
     input: DouyinVideoCommentsInput;
     data: DouyinVideoCommentsData;
-    result: RunResult<DouyinVideoCommentsData>;
+    result: BareRunResult<DouyinVideoCommentsData>;
   };
   "ebay.search": {
     input: EbaySearchInput;
     data: EbaySearchData;
-    result: RunResult<EbaySearchData>;
+    result: BareRunResult<EbaySearchData>;
   };
   "ebay.sold_listings": {
     input: EbaySoldListingsInput;
     data: EbaySoldListingsData;
-    result: RunResult<EbaySoldListingsData>;
+    result: BareRunResult<EbaySoldListingsData>;
   };
   "email.find": {
     input: EmailFindInput;
     data: EmailFindData;
-    result: RunResult<EmailFindData>;
+    result: BareRunResult<EmailFindData>;
   };
   "email.verify": {
     input: EmailVerifyInput;
     data: EmailVerifyData;
-    result: RunResult<EmailVerifyData>;
+    result: BareRunResult<EmailVerifyData>;
   };
   "facebook.ad_details": {
     input: FacebookAdDetailsInput;
     data: FacebookAdDetailsData;
-    result: RunResult<FacebookAdDetailsData>;
+    result: BareRunResult<FacebookAdDetailsData>;
   };
   "facebook.ad_transcript": {
     input: FacebookAdTranscriptInput;
     data: FacebookAdTranscriptData;
-    result: RunResult<FacebookAdTranscriptData>;
+    result: BareRunResult<FacebookAdTranscriptData>;
   };
   "facebook.ads_search": {
     input: FacebookAdsSearchInput;
     data: FacebookAdsSearchData;
-    result: RunResult<FacebookAdsSearchData>;
+    result: BareRunResult<FacebookAdsSearchData>;
   };
   "facebook.comment_replies": {
     input: FacebookCommentRepliesInput;
     data: FacebookCommentRepliesData;
-    result: RunResult<FacebookCommentRepliesData>;
+    result: BareRunResult<FacebookCommentRepliesData>;
   };
   "facebook.company_ads": {
     input: FacebookCompanyAdsInput;
     data: FacebookCompanyAdsData;
-    result: RunResult<FacebookCompanyAdsData>;
+    result: BareRunResult<FacebookCompanyAdsData>;
   };
   "facebook.event_details": {
     input: FacebookEventDetailsInput;
     data: FacebookEventDetailsData;
-    result: RunResult<FacebookEventDetailsData>;
+    result: BareRunResult<FacebookEventDetailsData>;
   };
   "facebook.events": {
     input: FacebookEventsInput;
     data: FacebookEventsData;
-    result: RunResult<FacebookEventsData>;
+    result: BareRunResult<FacebookEventsData>;
   };
   "facebook.events_search": {
     input: FacebookEventsSearchInput;
     data: FacebookEventsSearchData;
-    result: RunResult<FacebookEventsSearchData>;
+    result: BareRunResult<FacebookEventsSearchData>;
   };
   "facebook.followers": {
     input: FacebookFollowersInput;
     data: FacebookFollowersData;
-    result: RunResult<FacebookFollowersData>;
+    result: BareRunResult<FacebookFollowersData>;
   };
   "facebook.group_posts": {
     input: FacebookGroupPostsInput;
     data: FacebookGroupPostsData;
-    result: RunResult<FacebookGroupPostsData>;
+    result: BareRunResult<FacebookGroupPostsData>;
   };
   "facebook.marketplace": {
     input: FacebookMarketplaceInput;
     data: FacebookMarketplaceData;
-    result: RunResult<FacebookMarketplaceData>;
+    result: BareRunResult<FacebookMarketplaceData>;
   };
   "facebook.marketplace_item": {
     input: FacebookMarketplaceItemInput;
     data: FacebookMarketplaceItemData;
-    result: RunResult<FacebookMarketplaceItemData>;
+    result: BareRunResult<FacebookMarketplaceItemData>;
   };
   "facebook.marketplace_location_search": {
     input: FacebookMarketplaceLocationSearchInput;
     data: FacebookMarketplaceLocationSearchData;
-    result: RunResult<FacebookMarketplaceLocationSearchData>;
+    result: BareRunResult<FacebookMarketplaceLocationSearchData>;
   };
   "facebook.page_contact": {
     input: FacebookPageContactInput;
     data: FacebookPageContactData;
-    result: RunResult<FacebookPageContactData>;
+    result: BareRunResult<FacebookPageContactData>;
   };
   "facebook.photos": {
     input: FacebookPhotosInput;
     data: FacebookPhotosData;
-    result: RunResult<FacebookPhotosData>;
+    result: BareRunResult<FacebookPhotosData>;
   };
   "facebook.post": {
     input: FacebookPostInput;
     data: FacebookPostData;
-    result: RunResult<FacebookPostData>;
+    result: BareRunResult<FacebookPostData>;
   };
   "facebook.post_comments": {
     input: FacebookPostCommentsInput;
     data: FacebookPostCommentsData;
-    result: RunResult<FacebookPostCommentsData>;
+    result: BareRunResult<FacebookPostCommentsData>;
   };
   "facebook.post_transcript": {
     input: FacebookPostTranscriptInput;
     data: FacebookPostTranscriptData;
-    result: RunResult<FacebookPostTranscriptData>;
+    result: BareRunResult<FacebookPostTranscriptData>;
   };
   "facebook.profile": {
     input: FacebookProfileInput;
     data: FacebookProfileData;
-    result: RunResult<FacebookProfileData>;
+    result: BareRunResult<FacebookProfileData>;
   };
   "facebook.profile_events": {
     input: FacebookProfileEventsInput;
     data: FacebookProfileEventsData;
-    result: RunResult<FacebookProfileEventsData>;
+    result: BareRunResult<FacebookProfileEventsData>;
   };
   "facebook.profile_posts": {
     input: FacebookProfilePostsInput;
     data: FacebookProfilePostsData;
-    result: RunResult<FacebookProfilePostsData>;
+    result: BareRunResult<FacebookProfilePostsData>;
   };
   "facebook.profile_reels": {
     input: FacebookProfileReelsInput;
     data: FacebookProfileReelsData;
-    result: RunResult<FacebookProfileReelsData>;
+    result: BareRunResult<FacebookProfileReelsData>;
   };
   "facebook.search_companies": {
     input: FacebookSearchCompaniesInput;
     data: FacebookSearchCompaniesData;
-    result: RunResult<FacebookSearchCompaniesData>;
+    result: BareRunResult<FacebookSearchCompaniesData>;
   };
   "facebook.search_pages": {
     input: FacebookSearchPagesInput;
     data: FacebookSearchPagesData;
-    result: RunResult<FacebookSearchPagesData>;
+    result: BareRunResult<FacebookSearchPagesData>;
   };
   "facebook.search_posts": {
     input: FacebookSearchPostsInput;
     data: FacebookSearchPostsData;
-    result: RunResult<FacebookSearchPostsData>;
+    result: BareRunResult<FacebookSearchPostsData>;
   };
   "fiverr.search": {
     input: FiverrSearchInput;
     data: FiverrSearchData;
-    result: RunResult<FiverrSearchData>;
+    result: BareRunResult<FiverrSearchData>;
   };
   "github.repository": {
     input: GithubRepositoryInput;
     data: GithubRepositoryData;
-    result: RunResult<GithubRepositoryData>;
+    result: BareRunResult<GithubRepositoryData>;
   };
   "github.trending_developers": {
     input: GithubTrendingDevelopersInput;
     data: GithubTrendingDevelopersData;
-    result: RunResult<GithubTrendingDevelopersData>;
+    result: BareRunResult<GithubTrendingDevelopersData>;
   };
   "github.trending_repositories": {
     input: GithubTrendingRepositoriesInput;
     data: GithubTrendingRepositoriesData;
-    result: RunResult<GithubTrendingRepositoriesData>;
+    result: BareRunResult<GithubTrendingRepositoriesData>;
   };
   "github.user": {
     input: GithubUserInput;
     data: GithubUserData;
-    result: RunResult<GithubUserData>;
+    result: BareRunResult<GithubUserData>;
   };
   "github.user_activity": {
     input: GithubUserActivityInput;
     data: GithubUserActivityData;
-    result: RunResult<GithubUserActivityData>;
+    result: BareRunResult<GithubUserActivityData>;
   };
   "github.user_contributions": {
     input: GithubUserContributionsInput;
     data: GithubUserContributionsData;
-    result: RunResult<GithubUserContributionsData>;
+    result: BareRunResult<GithubUserContributionsData>;
   };
   "github.user_followers": {
     input: GithubUserFollowersInput;
     data: GithubUserFollowersData;
-    result: RunResult<GithubUserFollowersData>;
+    result: BareRunResult<GithubUserFollowersData>;
   };
   "github.user_following": {
     input: GithubUserFollowingInput;
     data: GithubUserFollowingData;
-    result: RunResult<GithubUserFollowingData>;
+    result: BareRunResult<GithubUserFollowingData>;
   };
   "github.user_pull_requests": {
     input: GithubUserPullRequestsInput;
     data: GithubUserPullRequestsData;
-    result: RunResult<GithubUserPullRequestsData>;
+    result: BareRunResult<GithubUserPullRequestsData>;
   };
   "github.user_repositories": {
     input: GithubUserRepositoriesInput;
     data: GithubUserRepositoriesData;
-    result: RunResult<GithubUserRepositoriesData>;
+    result: BareRunResult<GithubUserRepositoriesData>;
   };
   "glassdoor.jobs": {
     input: GlassdoorJobsInput;
     data: GlassdoorJobsData;
-    result: RunResult<GlassdoorJobsData>;
+    result: BareRunResult<GlassdoorJobsData>;
   };
   "google.autocomplete": {
     input: GoogleAutocompleteInput;
     data: GoogleAutocompleteData;
-    result: RunResult<GoogleAutocompleteData>;
+    result: BareRunResult<GoogleAutocompleteData>;
   };
   "google.images": {
     input: GoogleImagesInput;
     data: GoogleImagesData;
-    result: RunResult<GoogleImagesData>;
+    result: BareRunResult<GoogleImagesData>;
   };
   "google.lens": {
     input: GoogleLensInput;
     data: GoogleLensData;
-    result: RunResult<GoogleLensData>;
+    result: BareRunResult<GoogleLensData>;
   };
   "google.news": {
     input: GoogleNewsInput;
     data: GoogleNewsData;
-    result: RunResult<GoogleNewsData>;
+    result: BareRunResult<GoogleNewsData>;
   };
   "google.patents": {
     input: GooglePatentsInput;
     data: GooglePatentsData;
-    result: RunResult<GooglePatentsData>;
+    result: BareRunResult<GooglePatentsData>;
   };
   "google.scholar": {
     input: GoogleScholarInput;
     data: GoogleScholarData;
-    result: RunResult<GoogleScholarData>;
+    result: BareRunResult<GoogleScholarData>;
   };
   "google.search": {
     input: GoogleSearchInput;
     data: GoogleSearchData;
-    result: RunResult<GoogleSearchData>;
+    result: BareRunResult<GoogleSearchData>;
   };
   "google.videos": {
     input: GoogleVideosInput;
     data: GoogleVideosData;
-    result: RunResult<GoogleVideosData>;
+    result: BareRunResult<GoogleVideosData>;
   };
   "google_ads.ad_details": {
     input: GoogleAdsAdDetailsInput;
     data: GoogleAdsAdDetailsData;
-    result: RunResult<GoogleAdsAdDetailsData>;
+    result: BareRunResult<GoogleAdsAdDetailsData>;
   };
   "google_ads.advertiser_search": {
     input: GoogleAdsAdvertiserSearchInput;
     data: GoogleAdsAdvertiserSearchData;
-    result: RunResult<GoogleAdsAdvertiserSearchData>;
+    result: BareRunResult<GoogleAdsAdvertiserSearchData>;
   };
   "google_ads.company_ads": {
     input: GoogleAdsCompanyAdsInput;
     data: GoogleAdsCompanyAdsData;
-    result: RunResult<GoogleAdsCompanyAdsData>;
+    result: BareRunResult<GoogleAdsCompanyAdsData>;
   };
   "google_ads.search": {
     input: GoogleAdsSearchInput;
     data: GoogleAdsSearchData;
-    result: RunResult<GoogleAdsSearchData>;
+    result: BareRunResult<GoogleAdsSearchData>;
   };
   "google_finance.quote": {
     input: GoogleFinanceQuoteInput;
     data: GoogleFinanceQuoteData;
-    result: RunResult<GoogleFinanceQuoteData>;
+    result: BareRunResult<GoogleFinanceQuoteData>;
   };
   "google_shopping.search": {
     input: GoogleShoppingSearchInput;
     data: GoogleShoppingSearchData;
-    result: RunResult<GoogleShoppingSearchData>;
+    result: BareRunResult<GoogleShoppingSearchData>;
   };
   "hackernews.profile": {
     input: HackernewsProfileInput;
     data: HackernewsProfileData;
-    result: RunResult<HackernewsProfileData>;
+    result: BareRunResult<HackernewsProfileData>;
   };
   "hackernews.search": {
     input: HackernewsSearchInput;
     data: HackernewsSearchData;
-    result: RunResult<HackernewsSearchData>;
+    result: BareRunResult<HackernewsSearchData>;
   };
   "hackernews.story": {
     input: HackernewsStoryInput;
     data: HackernewsStoryData;
-    result: RunResult<HackernewsStoryData>;
+    result: BareRunResult<HackernewsStoryData>;
   };
   "hackernews.story_comments": {
     input: HackernewsStoryCommentsInput;
     data: HackernewsStoryCommentsData;
-    result: RunResult<HackernewsStoryCommentsData>;
+    result: BareRunResult<HackernewsStoryCommentsData>;
   };
   "indeed.jobs": {
     input: IndeedJobsInput;
     data: IndeedJobsData;
-    result: RunResult<IndeedJobsData>;
+    result: BareRunResult<IndeedJobsData>;
   };
   "instagram.audio_reels": {
     input: InstagramAudioReelsInput;
     data: InstagramAudioReelsData;
-    result: RunResult<InstagramAudioReelsData>;
+    result: BareRunResult<InstagramAudioReelsData>;
   };
   "instagram.basic_profile": {
     input: InstagramBasicProfileInput;
     data: InstagramBasicProfileData;
-    result: RunResult<InstagramBasicProfileData>;
+    result: BareRunResult<InstagramBasicProfileData>;
   };
   "instagram.embed": {
     input: InstagramEmbedInput;
     data: InstagramEmbedData;
-    result: RunResult<InstagramEmbedData>;
+    result: BareRunResult<InstagramEmbedData>;
   };
   "instagram.followers": {
     input: InstagramFollowersInput;
     data: InstagramFollowersData;
-    result: RunResult<InstagramFollowersData>;
+    result: BareRunResult<InstagramFollowersData>;
   };
   "instagram.following": {
     input: InstagramFollowingInput;
     data: InstagramFollowingData;
-    result: RunResult<InstagramFollowingData>;
+    result: BareRunResult<InstagramFollowingData>;
   };
   "instagram.hashtag_analytics": {
     input: InstagramHashtagAnalyticsInput;
     data: InstagramHashtagAnalyticsData;
-    result: RunResult<InstagramHashtagAnalyticsData>;
+    result: BareRunResult<InstagramHashtagAnalyticsData>;
   };
   "instagram.highlight_detail": {
     input: InstagramHighlightDetailInput;
     data: InstagramHighlightDetailData;
-    result: RunResult<InstagramHighlightDetailData>;
+    result: BareRunResult<InstagramHighlightDetailData>;
   };
   "instagram.media_transcript": {
     input: InstagramMediaTranscriptInput;
     data: InstagramMediaTranscriptData;
-    result: RunResult<InstagramMediaTranscriptData>;
+    result: BareRunResult<InstagramMediaTranscriptData>;
   };
   "instagram.post": {
     input: InstagramPostInput;
     data: InstagramPostData;
-    result: RunResult<InstagramPostData>;
+    result: BareRunResult<InstagramPostData>;
   };
   "instagram.post_comments": {
     input: InstagramPostCommentsInput;
     data: InstagramPostCommentsData;
-    result: RunResult<InstagramPostCommentsData>;
+    result: BareRunResult<InstagramPostCommentsData>;
   };
   "instagram.profile": {
     input: InstagramProfileInput;
     data: InstagramProfileData;
-    result: RunResult<InstagramProfileData>;
+    result: BareRunResult<InstagramProfileData>;
   };
   "instagram.reel_transcript": {
     input: InstagramReelTranscriptInput;
     data: InstagramReelTranscriptData;
-    result: RunResult<InstagramReelTranscriptData>;
+    result: BareRunResult<InstagramReelTranscriptData>;
   };
   "instagram.reels_search": {
     input: InstagramReelsSearchInput;
     data: InstagramReelsSearchData;
-    result: RunResult<InstagramReelsSearchData>;
+    result: BareRunResult<InstagramReelsSearchData>;
   };
   "instagram.search": {
     input: InstagramSearchInput;
     data: InstagramSearchData;
-    result: RunResult<InstagramSearchData>;
+    result: BareRunResult<InstagramSearchData>;
   };
   "instagram.search_hashtag": {
     input: InstagramSearchHashtagInput;
     data: InstagramSearchHashtagData;
-    result: RunResult<InstagramSearchHashtagData>;
+    result: BareRunResult<InstagramSearchHashtagData>;
   };
   "instagram.search_profiles": {
     input: InstagramSearchProfilesInput;
     data: InstagramSearchProfilesData;
-    result: RunResult<InstagramSearchProfilesData>;
+    result: BareRunResult<InstagramSearchProfilesData>;
   };
   "instagram.stories_full": {
     input: InstagramStoriesFullInput;
     data: InstagramStoriesFullData;
-    result: RunResult<InstagramStoriesFullData>;
+    result: BareRunResult<InstagramStoriesFullData>;
   };
   "instagram.stories_thin": {
     input: InstagramStoriesThinInput;
     data: InstagramStoriesThinData;
-    result: RunResult<InstagramStoriesThinData>;
+    result: BareRunResult<InstagramStoriesThinData>;
   };
   "instagram.trending_reels": {
     input: InstagramTrendingReelsInput;
     data: InstagramTrendingReelsData;
-    result: RunResult<InstagramTrendingReelsData>;
+    result: BareRunResult<InstagramTrendingReelsData>;
   };
   "instagram.user_highlights": {
     input: InstagramUserHighlightsInput;
     data: InstagramUserHighlightsData;
-    result: RunResult<InstagramUserHighlightsData>;
+    result: BareRunResult<InstagramUserHighlightsData>;
   };
   "instagram.user_posts": {
     input: InstagramUserPostsInput;
     data: InstagramUserPostsData;
-    result: RunResult<InstagramUserPostsData>;
+    result: BareRunResult<InstagramUserPostsData>;
   };
   "instagram.user_reels": {
     input: InstagramUserReelsInput;
     data: InstagramUserReelsData;
-    result: RunResult<InstagramUserReelsData>;
+    result: BareRunResult<InstagramUserReelsData>;
   };
   "linkedin.ad": {
     input: LinkedinAdInput;
     data: LinkedinAdData;
-    result: RunResult<LinkedinAdData>;
+    result: BareRunResult<LinkedinAdData>;
   };
   "linkedin.ads": {
     input: LinkedinAdsInput;
     data: LinkedinAdsData;
-    result: RunResult<LinkedinAdsData>;
+    result: BareRunResult<LinkedinAdsData>;
   };
   "linkedin.ads_search": {
     input: LinkedinAdsSearchInput;
     data: LinkedinAdsSearchData;
-    result: RunResult<LinkedinAdsSearchData>;
+    result: BareRunResult<LinkedinAdsSearchData>;
   };
   "linkedin.company": {
     input: LinkedinCompanyInput;
     data: LinkedinCompanyData;
-    result: RunResult<LinkedinCompanyData>;
+    result: BareRunResult<LinkedinCompanyData>;
   };
   "linkedin.company_employees": {
     input: LinkedinCompanyEmployeesInput;
     data: LinkedinCompanyEmployeesData;
-    result: RunResult<LinkedinCompanyEmployeesData>;
+    result: BareRunResult<LinkedinCompanyEmployeesData>;
   };
   "linkedin.company_posts": {
     input: LinkedinCompanyPostsInput;
     data: LinkedinCompanyPostsData;
-    result: RunResult<LinkedinCompanyPostsData>;
+    result: BareRunResult<LinkedinCompanyPostsData>;
   };
   "linkedin.company_posts_thin": {
     input: LinkedinCompanyPostsThinInput;
     data: LinkedinCompanyPostsThinData;
-    result: RunResult<LinkedinCompanyPostsThinData>;
+    result: BareRunResult<LinkedinCompanyPostsThinData>;
   };
   "linkedin.company_thin": {
     input: LinkedinCompanyThinInput;
     data: LinkedinCompanyThinData;
-    result: RunResult<LinkedinCompanyThinData>;
+    result: BareRunResult<LinkedinCompanyThinData>;
   };
   "linkedin.email": {
     input: LinkedinEmailInput;
     data: LinkedinEmailData;
-    result: RunResult<LinkedinEmailData>;
+    result: BareRunResult<LinkedinEmailData>;
   };
   "linkedin.jobs": {
     input: LinkedinJobsInput;
     data: LinkedinJobsData;
-    result: RunResult<LinkedinJobsData>;
+    result: BareRunResult<LinkedinJobsData>;
   };
   "linkedin.jobs_thin": {
     input: LinkedinJobsThinInput;
     data: LinkedinJobsThinData;
-    result: RunResult<LinkedinJobsThinData>;
+    result: BareRunResult<LinkedinJobsThinData>;
   };
   "linkedin.post": {
     input: LinkedinPostInput;
     data: LinkedinPostData;
-    result: RunResult<LinkedinPostData>;
+    result: BareRunResult<LinkedinPostData>;
   };
   "linkedin.post_comments": {
     input: LinkedinPostCommentsInput;
     data: LinkedinPostCommentsData;
-    result: RunResult<LinkedinPostCommentsData>;
+    result: BareRunResult<LinkedinPostCommentsData>;
   };
   "linkedin.post_reactions": {
     input: LinkedinPostReactionsInput;
     data: LinkedinPostReactionsData;
-    result: RunResult<LinkedinPostReactionsData>;
+    result: BareRunResult<LinkedinPostReactionsData>;
   };
   "linkedin.post_transcript": {
     input: LinkedinPostTranscriptInput;
     data: LinkedinPostTranscriptData;
-    result: RunResult<LinkedinPostTranscriptData>;
+    result: BareRunResult<LinkedinPostTranscriptData>;
   };
   "linkedin.profile": {
     input: LinkedinProfileInput;
     data: LinkedinProfileData;
-    result: RunResult<LinkedinProfileData>;
+    result: BareRunResult<LinkedinProfileData>;
   };
   "linkedin.profile_thin": {
     input: LinkedinProfileThinInput;
     data: LinkedinProfileThinData;
-    result: RunResult<LinkedinProfileThinData>;
+    result: BareRunResult<LinkedinProfileThinData>;
   };
   "linkedin.search_companies": {
     input: LinkedinSearchCompaniesInput;
     data: LinkedinSearchCompaniesData;
-    result: RunResult<LinkedinSearchCompaniesData>;
+    result: BareRunResult<LinkedinSearchCompaniesData>;
   };
   "linkedin.search_posts": {
     input: LinkedinSearchPostsInput;
     data: LinkedinSearchPostsData;
-    result: RunResult<LinkedinSearchPostsData>;
+    result: BareRunResult<LinkedinSearchPostsData>;
   };
   "linkedin.search_profiles": {
     input: LinkedinSearchProfilesInput;
     data: LinkedinSearchProfilesData;
-    result: RunResult<LinkedinSearchProfilesData>;
+    result: BareRunResult<LinkedinSearchProfilesData>;
   };
   "linkedin.search_profiles_email": {
     input: LinkedinSearchProfilesEmailInput;
     data: LinkedinSearchProfilesEmailData;
-    result: RunResult<LinkedinSearchProfilesEmailData>;
+    result: BareRunResult<LinkedinSearchProfilesEmailData>;
   };
   "linkedin.search_profiles_thin": {
     input: LinkedinSearchProfilesThinInput;
     data: LinkedinSearchProfilesThinData;
-    result: RunResult<LinkedinSearchProfilesThinData>;
+    result: BareRunResult<LinkedinSearchProfilesThinData>;
   };
   "maps.contacts": {
     input: MapsContactsInput;
     data: MapsContactsData;
-    result: RunResult<MapsContactsData>;
+    result: BareRunResult<MapsContactsData>;
   };
   "maps.place": {
     input: MapsPlaceInput;
     data: MapsPlaceData;
-    result: RunResult<MapsPlaceData>;
+    result: BareRunResult<MapsPlaceData>;
   };
   "maps.reviews": {
     input: MapsReviewsInput;
     data: MapsReviewsData;
-    result: RunResult<MapsReviewsData>;
+    result: BareRunResult<MapsReviewsData>;
   };
   "maps.search": {
     input: MapsSearchInput;
     data: MapsSearchData;
-    result: RunResult<MapsSearchData>;
+    result: BareRunResult<MapsSearchData>;
   };
   "pandaexpress.locations": {
     input: PandaexpressLocationsInput;
     data: PandaexpressLocationsData;
-    result: RunResult<PandaexpressLocationsData>;
+    result: BareRunResult<PandaexpressLocationsData>;
   };
   "pandaexpress.menu": {
     input: PandaexpressMenuInput;
     data: PandaexpressMenuData;
-    result: RunResult<PandaexpressMenuData>;
+    result: BareRunResult<PandaexpressMenuData>;
   };
   "pandaexpress.nutrition": {
     input: PandaexpressNutritionInput;
     data: PandaexpressNutritionData;
-    result: RunResult<PandaexpressNutritionData>;
+    result: BareRunResult<PandaexpressNutritionData>;
   };
   "person.skip_trace": {
     input: PersonSkipTraceInput;
     data: PersonSkipTraceData;
-    result: RunResult<PersonSkipTraceData>;
+    result: BareRunResult<PersonSkipTraceData>;
   };
   "pinterest.search": {
     input: PinterestSearchInput;
     data: PinterestSearchData;
-    result: RunResult<PinterestSearchData>;
+    result: BareRunResult<PinterestSearchData>;
   };
   "playstore.reviews": {
     input: PlaystoreReviewsInput;
     data: PlaystoreReviewsData;
-    result: RunResult<PlaystoreReviewsData>;
+    result: BareRunResult<PlaystoreReviewsData>;
   };
   "polymarket.markets": {
     input: PolymarketMarketsInput;
     data: PolymarketMarketsData;
-    result: RunResult<PolymarketMarketsData>;
+    result: BareRunResult<PolymarketMarketsData>;
   };
   "realtor.search": {
     input: RealtorSearchInput;
     data: RealtorSearchData;
-    result: RunResult<RealtorSearchData>;
+    result: BareRunResult<RealtorSearchData>;
   };
   "reddit.post_comments": {
     input: RedditPostCommentsInput;
     data: RedditPostCommentsData;
-    result: RunResult<RedditPostCommentsData>;
+    result: BareRunResult<RedditPostCommentsData>;
   };
   "reddit.post_transcript": {
     input: RedditPostTranscriptInput;
     data: RedditPostTranscriptData;
-    result: RunResult<RedditPostTranscriptData>;
+    result: BareRunResult<RedditPostTranscriptData>;
   };
   "reddit.search": {
     input: RedditSearchInput;
     data: RedditSearchData;
-    result: RunResult<RedditSearchData>;
+    result: BareRunResult<RedditSearchData>;
   };
   "reddit.subreddit_details": {
     input: RedditSubredditDetailsInput;
     data: RedditSubredditDetailsData;
-    result: RunResult<RedditSubredditDetailsData>;
+    result: BareRunResult<RedditSubredditDetailsData>;
   };
   "reddit.subreddit_posts": {
     input: RedditSubredditPostsInput;
     data: RedditSubredditPostsData;
-    result: RunResult<RedditSubredditPostsData>;
+    result: BareRunResult<RedditSubredditPostsData>;
   };
   "reddit.subreddit_search": {
     input: RedditSubredditSearchInput;
     data: RedditSubredditSearchData;
-    result: RunResult<RedditSubredditSearchData>;
+    result: BareRunResult<RedditSubredditSearchData>;
   };
   "redfin.search": {
     input: RedfinSearchInput;
     data: RedfinSearchData;
-    result: RunResult<RedfinSearchData>;
+    result: BareRunResult<RedfinSearchData>;
   };
   "rednote.note": {
     input: RednoteNoteInput;
     data: RednoteNoteData;
-    result: RunResult<RednoteNoteData>;
+    result: BareRunResult<RednoteNoteData>;
   };
   "rednote.note_comments": {
     input: RednoteNoteCommentsInput;
     data: RednoteNoteCommentsData;
-    result: RunResult<RednoteNoteCommentsData>;
+    result: BareRunResult<RednoteNoteCommentsData>;
   };
   "rednote.profile": {
     input: RednoteProfileInput;
     data: RednoteProfileData;
-    result: RunResult<RednoteProfileData>;
+    result: BareRunResult<RednoteProfileData>;
   };
   "rednote.search": {
     input: RednoteSearchInput;
     data: RednoteSearchData;
-    result: RunResult<RednoteSearchData>;
+    result: BareRunResult<RednoteSearchData>;
   };
   "rednote.search_users": {
     input: RednoteSearchUsersInput;
     data: RednoteSearchUsersData;
-    result: RunResult<RednoteSearchUsersData>;
+    result: BareRunResult<RednoteSearchUsersData>;
   };
   "rednote.user_notes": {
     input: RednoteUserNotesInput;
     data: RednoteUserNotesData;
-    result: RunResult<RednoteUserNotesData>;
+    result: BareRunResult<RednoteUserNotesData>;
   };
   "sec.filings": {
     input: SecFilingsInput;
     data: SecFilingsData;
-    result: RunResult<SecFilingsData>;
+    result: BareRunResult<SecFilingsData>;
   };
   "semrush.keywords": {
     input: SemrushKeywordsInput;
     data: SemrushKeywordsData;
-    result: RunResult<SemrushKeywordsData>;
+    result: BareRunResult<SemrushKeywordsData>;
   };
   "semrush.overview": {
     input: SemrushOverviewInput;
     data: SemrushOverviewData;
-    result: RunResult<SemrushOverviewData>;
+    result: BareRunResult<SemrushOverviewData>;
   };
   "seo.competitors_domain": {
     input: SeoCompetitorsDomainInput;
     data: SeoCompetitorsDomainData;
-    result: RunResult<SeoCompetitorsDomainData>;
+    result: BareRunResult<SeoCompetitorsDomainData>;
   };
   "seo.domain_intersection": {
     input: SeoDomainIntersectionInput;
     data: SeoDomainIntersectionData;
-    result: RunResult<SeoDomainIntersectionData>;
+    result: BareRunResult<SeoDomainIntersectionData>;
   };
   "seo.domain_rank_overview": {
     input: SeoDomainRankOverviewInput;
     data: SeoDomainRankOverviewData;
-    result: RunResult<SeoDomainRankOverviewData>;
+    result: BareRunResult<SeoDomainRankOverviewData>;
   };
   "seo.keyword_difficulty": {
     input: SeoKeywordDifficultyInput;
     data: SeoKeywordDifficultyData;
-    result: RunResult<SeoKeywordDifficultyData>;
+    result: BareRunResult<SeoKeywordDifficultyData>;
   };
   "seo.keyword_ideas": {
     input: SeoKeywordIdeasInput;
     data: SeoKeywordIdeasData;
-    result: RunResult<SeoKeywordIdeasData>;
+    result: BareRunResult<SeoKeywordIdeasData>;
   };
   "seo.keyword_overview": {
     input: SeoKeywordOverviewInput;
     data: SeoKeywordOverviewData;
-    result: RunResult<SeoKeywordOverviewData>;
+    result: BareRunResult<SeoKeywordOverviewData>;
   };
   "seo.keyword_suggestions": {
     input: SeoKeywordSuggestionsInput;
     data: SeoKeywordSuggestionsData;
-    result: RunResult<SeoKeywordSuggestionsData>;
+    result: BareRunResult<SeoKeywordSuggestionsData>;
   };
   "seo.local_pack": {
     input: SeoLocalPackInput;
     data: SeoLocalPackData;
-    result: RunResult<SeoLocalPackData>;
+    result: BareRunResult<SeoLocalPackData>;
   };
   "seo.ranked_keywords": {
     input: SeoRankedKeywordsInput;
     data: SeoRankedKeywordsData;
-    result: RunResult<SeoRankedKeywordsData>;
+    result: BareRunResult<SeoRankedKeywordsData>;
   };
   "seo.related_keywords": {
     input: SeoRelatedKeywordsInput;
     data: SeoRelatedKeywordsData;
-    result: RunResult<SeoRelatedKeywordsData>;
+    result: BareRunResult<SeoRelatedKeywordsData>;
   };
   "seo.search_intent": {
     input: SeoSearchIntentInput;
     data: SeoSearchIntentData;
-    result: RunResult<SeoSearchIntentData>;
+    result: BareRunResult<SeoSearchIntentData>;
   };
   "seo.search_volume": {
     input: SeoSearchVolumeInput;
     data: SeoSearchVolumeData;
-    result: RunResult<SeoSearchVolumeData>;
+    result: BareRunResult<SeoSearchVolumeData>;
   };
   "snapchat.profile": {
     input: SnapchatProfileInput;
     data: SnapchatProfileData;
-    result: RunResult<SnapchatProfileData>;
+    result: BareRunResult<SnapchatProfileData>;
   };
   "social.finder": {
     input: SocialFinderInput;
     data: SocialFinderData;
-    result: RunResult<SocialFinderData>;
+    result: BareRunResult<SocialFinderData>;
   };
   "spotify.album": {
     input: SpotifyAlbumInput;
     data: SpotifyAlbumData;
-    result: RunResult<SpotifyAlbumData>;
+    result: BareRunResult<SpotifyAlbumData>;
   };
   "spotify.artist": {
     input: SpotifyArtistInput;
     data: SpotifyArtistData;
-    result: RunResult<SpotifyArtistData>;
+    result: BareRunResult<SpotifyArtistData>;
   };
   "spotify.play_count": {
     input: SpotifyPlayCountInput;
     data: SpotifyPlayCountData;
-    result: RunResult<SpotifyPlayCountData>;
+    result: BareRunResult<SpotifyPlayCountData>;
   };
   "spotify.podcast": {
     input: SpotifyPodcastInput;
     data: SpotifyPodcastData;
-    result: RunResult<SpotifyPodcastData>;
+    result: BareRunResult<SpotifyPodcastData>;
   };
   "spotify.podcast_episodes": {
     input: SpotifyPodcastEpisodesInput;
     data: SpotifyPodcastEpisodesData;
-    result: RunResult<SpotifyPodcastEpisodesData>;
+    result: BareRunResult<SpotifyPodcastEpisodesData>;
   };
   "spotify.search": {
     input: SpotifySearchInput;
     data: SpotifySearchData;
-    result: RunResult<SpotifySearchData>;
+    result: BareRunResult<SpotifySearchData>;
   };
   "spotify.track": {
     input: SpotifyTrackInput;
     data: SpotifyTrackData;
-    result: RunResult<SpotifyTrackData>;
+    result: BareRunResult<SpotifyTrackData>;
   };
   "substack.posts": {
     input: SubstackPostsInput;
     data: SubstackPostsData;
-    result: RunResult<SubstackPostsData>;
+    result: BareRunResult<SubstackPostsData>;
   };
   "threads.post": {
     input: ThreadsPostInput;
     data: ThreadsPostData;
-    result: RunResult<ThreadsPostData>;
+    result: BareRunResult<ThreadsPostData>;
   };
   "threads.profile": {
     input: ThreadsProfileInput;
     data: ThreadsProfileData;
-    result: RunResult<ThreadsProfileData>;
+    result: BareRunResult<ThreadsProfileData>;
   };
   "threads.search": {
     input: ThreadsSearchInput;
     data: ThreadsSearchData;
-    result: RunResult<ThreadsSearchData>;
+    result: BareRunResult<ThreadsSearchData>;
   };
   "threads.search_users": {
     input: ThreadsSearchUsersInput;
     data: ThreadsSearchUsersData;
-    result: RunResult<ThreadsSearchUsersData>;
+    result: BareRunResult<ThreadsSearchUsersData>;
   };
   "threads.user_posts": {
     input: ThreadsUserPostsInput;
     data: ThreadsUserPostsData;
-    result: RunResult<ThreadsUserPostsData>;
+    result: BareRunResult<ThreadsUserPostsData>;
   };
   "tiktok.ad_library_ad": {
     input: TiktokAdLibraryAdInput;
     data: TiktokAdLibraryAdData;
-    result: RunResult<TiktokAdLibraryAdData>;
+    result: BareRunResult<TiktokAdLibraryAdData>;
   };
   "tiktok.ad_library_search": {
     input: TiktokAdLibrarySearchInput;
     data: TiktokAdLibrarySearchData;
-    result: RunResult<TiktokAdLibrarySearchData>;
+    result: BareRunResult<TiktokAdLibrarySearchData>;
   };
   "tiktok.audience_demographics": {
     input: TiktokAudienceDemographicsInput;
     data: TiktokAudienceDemographicsData;
-    result: RunResult<TiktokAudienceDemographicsData>;
+    result: BareRunResult<TiktokAudienceDemographicsData>;
   };
   "tiktok.comment_replies": {
     input: TiktokCommentRepliesInput;
     data: TiktokCommentRepliesData;
-    result: RunResult<TiktokCommentRepliesData>;
+    result: BareRunResult<TiktokCommentRepliesData>;
   };
   "tiktok.followers": {
     input: TiktokFollowersInput;
     data: TiktokFollowersData;
-    result: RunResult<TiktokFollowersData>;
+    result: BareRunResult<TiktokFollowersData>;
   };
   "tiktok.following": {
     input: TiktokFollowingInput;
     data: TiktokFollowingData;
-    result: RunResult<TiktokFollowingData>;
+    result: BareRunResult<TiktokFollowingData>;
   };
   "tiktok.hashtag_videos": {
     input: TiktokHashtagVideosInput;
     data: TiktokHashtagVideosData;
-    result: RunResult<TiktokHashtagVideosData>;
+    result: BareRunResult<TiktokHashtagVideosData>;
   };
   "tiktok.live": {
     input: TiktokLiveInput;
     data: TiktokLiveData;
-    result: RunResult<TiktokLiveData>;
+    result: BareRunResult<TiktokLiveData>;
   };
   "tiktok.profile": {
     input: TiktokProfileInput;
     data: TiktokProfileData;
-    result: RunResult<TiktokProfileData>;
+    result: BareRunResult<TiktokProfileData>;
   };
   "tiktok.profile_region": {
     input: TiktokProfileRegionInput;
     data: TiktokProfileRegionData;
-    result: RunResult<TiktokProfileRegionData>;
+    result: BareRunResult<TiktokProfileRegionData>;
   };
   "tiktok.profile_videos": {
     input: TiktokProfileVideosInput;
     data: TiktokProfileVideosData;
-    result: RunResult<TiktokProfileVideosData>;
+    result: BareRunResult<TiktokProfileVideosData>;
   };
   "tiktok.search_hashtag": {
     input: TiktokSearchHashtagInput;
     data: TiktokSearchHashtagData;
-    result: RunResult<TiktokSearchHashtagData>;
+    result: BareRunResult<TiktokSearchHashtagData>;
   };
   "tiktok.search_keyword": {
     input: TiktokSearchKeywordInput;
     data: TiktokSearchKeywordData;
-    result: RunResult<TiktokSearchKeywordData>;
+    result: BareRunResult<TiktokSearchKeywordData>;
   };
   "tiktok.search_top": {
     input: TiktokSearchTopInput;
     data: TiktokSearchTopData;
-    result: RunResult<TiktokSearchTopData>;
+    result: BareRunResult<TiktokSearchTopData>;
   };
   "tiktok.search_users": {
     input: TiktokSearchUsersInput;
     data: TiktokSearchUsersData;
-    result: RunResult<TiktokSearchUsersData>;
+    result: BareRunResult<TiktokSearchUsersData>;
   };
   "tiktok.song": {
     input: TiktokSongInput;
     data: TiktokSongData;
-    result: RunResult<TiktokSongData>;
+    result: BareRunResult<TiktokSongData>;
   };
   "tiktok.song_videos": {
     input: TiktokSongVideosInput;
     data: TiktokSongVideosData;
-    result: RunResult<TiktokSongVideosData>;
+    result: BareRunResult<TiktokSongVideosData>;
   };
   "tiktok.trending_feed": {
     input: TiktokTrendingFeedInput;
     data: TiktokTrendingFeedData;
-    result: RunResult<TiktokTrendingFeedData>;
+    result: BareRunResult<TiktokTrendingFeedData>;
   };
   "tiktok.video": {
     input: TiktokVideoInput;
     data: TiktokVideoData;
-    result: RunResult<TiktokVideoData>;
+    result: BareRunResult<TiktokVideoData>;
   };
   "tiktok.video_comments": {
     input: TiktokVideoCommentsInput;
     data: TiktokVideoCommentsData;
-    result: RunResult<TiktokVideoCommentsData>;
+    result: BareRunResult<TiktokVideoCommentsData>;
   };
   "tiktok.video_transcript": {
     input: TiktokVideoTranscriptInput;
     data: TiktokVideoTranscriptData;
-    result: RunResult<TiktokVideoTranscriptData>;
+    result: BareRunResult<TiktokVideoTranscriptData>;
   };
   "tiktok_shop.product": {
     input: TiktokShopProductInput;
     data: TiktokShopProductData;
-    result: RunResult<TiktokShopProductData>;
+    result: BareRunResult<TiktokShopProductData>;
   };
   "tiktok_shop.product_reviews": {
     input: TiktokShopProductReviewsInput;
     data: TiktokShopProductReviewsData;
-    result: RunResult<TiktokShopProductReviewsData>;
+    result: BareRunResult<TiktokShopProductReviewsData>;
   };
   "tiktok_shop.search": {
     input: TiktokShopSearchInput;
     data: TiktokShopSearchData;
-    result: RunResult<TiktokShopSearchData>;
+    result: BareRunResult<TiktokShopSearchData>;
   };
   "tiktok_shop.shop_products": {
     input: TiktokShopShopProductsInput;
     data: TiktokShopShopProductsData;
-    result: RunResult<TiktokShopShopProductsData>;
+    result: BareRunResult<TiktokShopShopProductsData>;
   };
   "tiktok_shop.user_showcase": {
     input: TiktokShopUserShowcaseInput;
     data: TiktokShopUserShowcaseData;
-    result: RunResult<TiktokShopUserShowcaseData>;
+    result: BareRunResult<TiktokShopUserShowcaseData>;
   };
   "tripadvisor.reviews": {
     input: TripadvisorReviewsInput;
     data: TripadvisorReviewsData;
-    result: RunResult<TripadvisorReviewsData>;
+    result: BareRunResult<TripadvisorReviewsData>;
   };
   "tripadvisor.search": {
     input: TripadvisorSearchInput;
     data: TripadvisorSearchData;
-    result: RunResult<TripadvisorSearchData>;
+    result: BareRunResult<TripadvisorSearchData>;
   };
   "trustpilot.reviews": {
     input: TrustpilotReviewsInput;
     data: TrustpilotReviewsData;
-    result: RunResult<TrustpilotReviewsData>;
+    result: BareRunResult<TrustpilotReviewsData>;
   };
   "truthsocial.post": {
     input: TruthsocialPostInput;
     data: TruthsocialPostData;
-    result: RunResult<TruthsocialPostData>;
+    result: BareRunResult<TruthsocialPostData>;
   };
   "truthsocial.profile": {
     input: TruthsocialProfileInput;
     data: TruthsocialProfileData;
-    result: RunResult<TruthsocialProfileData>;
+    result: BareRunResult<TruthsocialProfileData>;
   };
   "truthsocial.user_posts": {
     input: TruthsocialUserPostsInput;
     data: TruthsocialUserPostsData;
-    result: RunResult<TruthsocialUserPostsData>;
+    result: BareRunResult<TruthsocialUserPostsData>;
   };
   "twitter.article": {
     input: TwitterArticleInput;
     data: TwitterArticleData;
-    result: RunResult<TwitterArticleData>;
+    result: BareRunResult<TwitterArticleData>;
   };
   "twitter.community": {
     input: TwitterCommunityInput;
     data: TwitterCommunityData;
-    result: RunResult<TwitterCommunityData>;
+    result: BareRunResult<TwitterCommunityData>;
   };
   "twitter.community_tweets": {
     input: TwitterCommunityTweetsInput;
     data: TwitterCommunityTweetsData;
-    result: RunResult<TwitterCommunityTweetsData>;
+    result: BareRunResult<TwitterCommunityTweetsData>;
   };
   "twitter.followers": {
     input: TwitterFollowersInput;
     data: TwitterFollowersData;
-    result: RunResult<TwitterFollowersData>;
+    result: BareRunResult<TwitterFollowersData>;
   };
   "twitter.following": {
     input: TwitterFollowingInput;
     data: TwitterFollowingData;
-    result: RunResult<TwitterFollowingData>;
+    result: BareRunResult<TwitterFollowingData>;
   };
   "twitter.profile": {
     input: TwitterProfileInput;
     data: TwitterProfileData;
-    result: RunResult<TwitterProfileData>;
+    result: BareRunResult<TwitterProfileData>;
   };
   "twitter.replies": {
     input: TwitterRepliesInput;
     data: TwitterRepliesData;
-    result: RunResult<TwitterRepliesData>;
+    result: BareRunResult<TwitterRepliesData>;
   };
   "twitter.search": {
     input: TwitterSearchInput;
     data: TwitterSearchData;
-    result: RunResult<TwitterSearchData>;
+    result: BareRunResult<TwitterSearchData>;
   };
   "twitter.trends": {
     input: TwitterTrendsInput;
     data: TwitterTrendsData;
-    result: RunResult<TwitterTrendsData>;
+    result: BareRunResult<TwitterTrendsData>;
   };
   "twitter.tweet": {
     input: TwitterTweetInput;
     data: TwitterTweetData;
-    result: RunResult<TwitterTweetData>;
+    result: BareRunResult<TwitterTweetData>;
   };
   "twitter.tweet_transcript": {
     input: TwitterTweetTranscriptInput;
     data: TwitterTweetTranscriptData;
-    result: RunResult<TwitterTweetTranscriptData>;
+    result: BareRunResult<TwitterTweetTranscriptData>;
   };
   "twitter.user_posts": {
     input: TwitterUserPostsInput;
     data: TwitterUserPostsData;
-    result: RunResult<TwitterUserPostsData>;
+    result: BareRunResult<TwitterUserPostsData>;
   };
   "twitter.user_tweets": {
     input: TwitterUserTweetsInput;
     data: TwitterUserTweetsData;
-    result: RunResult<TwitterUserTweetsData>;
+    result: BareRunResult<TwitterUserTweetsData>;
   };
   "upwork.jobs": {
     input: UpworkJobsInput;
     data: UpworkJobsData;
-    result: RunResult<UpworkJobsData>;
+    result: BareRunResult<UpworkJobsData>;
   };
   "walmart.product": {
     input: WalmartProductInput;
     data: WalmartProductData;
-    result: RunResult<WalmartProductData>;
+    result: BareRunResult<WalmartProductData>;
   };
   "web.crawl": {
     input: WebCrawlInput;
     data: WebCrawlData;
-    result: RunResult<WebCrawlData>;
+    result: BareRunResult<WebCrawlData>;
   };
   "web.map": {
     input: WebMapInput;
     data: WebMapData;
-    result: RunResult<WebMapData>;
+    result: BareRunResult<WebMapData>;
   };
   "web.scrape": {
     input: WebScrapeInput;
     data: WebScrapeData;
-    result: RunResult<WebScrapeData>;
+    result: BareRunResult<WebScrapeData>;
   };
   "web.screenshot": {
     input: WebScreenshotInput;
     data: WebScreenshotData;
-    result: RunResult<WebScreenshotData>;
+    result: BareRunResult<WebScreenshotData>;
   };
   "weibo.hot_search": {
     input: WeiboHotSearchInput;
     data: WeiboHotSearchData;
-    result: RunResult<WeiboHotSearchData>;
+    result: BareRunResult<WeiboHotSearchData>;
   };
   "weibo.post": {
     input: WeiboPostInput;
     data: WeiboPostData;
-    result: RunResult<WeiboPostData>;
+    result: BareRunResult<WeiboPostData>;
   };
   "weibo.post_comments": {
     input: WeiboPostCommentsInput;
     data: WeiboPostCommentsData;
-    result: RunResult<WeiboPostCommentsData>;
+    result: BareRunResult<WeiboPostCommentsData>;
   };
   "weibo.profile": {
     input: WeiboProfileInput;
     data: WeiboProfileData;
-    result: RunResult<WeiboProfileData>;
+    result: BareRunResult<WeiboProfileData>;
   };
   "weibo.search": {
     input: WeiboSearchInput;
     data: WeiboSearchData;
-    result: RunResult<WeiboSearchData>;
+    result: BareRunResult<WeiboSearchData>;
   };
   "weibo.user_posts": {
     input: WeiboUserPostsInput;
     data: WeiboUserPostsData;
-    result: RunResult<WeiboUserPostsData>;
+    result: BareRunResult<WeiboUserPostsData>;
   };
   "whatsapp.validate": {
     input: WhatsappValidateInput;
     data: WhatsappValidateData;
-    result: RunResult<WhatsappValidateData>;
+    result: BareRunResult<WhatsappValidateData>;
   };
   "yahoo_finance.quote": {
     input: YahooFinanceQuoteInput;
     data: YahooFinanceQuoteData;
-    result: RunResult<YahooFinanceQuoteData>;
+    result: BareRunResult<YahooFinanceQuoteData>;
   };
   "yelp.search": {
     input: YelpSearchInput;
     data: YelpSearchData;
-    result: RunResult<YelpSearchData>;
+    result: BareRunResult<YelpSearchData>;
   };
   "youtube.channel": {
     input: YoutubeChannelInput;
     data: YoutubeChannelData;
-    result: RunResult<YoutubeChannelData>;
+    result: BareRunResult<YoutubeChannelData>;
   };
   "youtube.channel_community_posts": {
     input: YoutubeChannelCommunityPostsInput;
     data: YoutubeChannelCommunityPostsData;
-    result: RunResult<YoutubeChannelCommunityPostsData>;
+    result: BareRunResult<YoutubeChannelCommunityPostsData>;
   };
   "youtube.channel_lives": {
     input: YoutubeChannelLivesInput;
     data: YoutubeChannelLivesData;
-    result: RunResult<YoutubeChannelLivesData>;
+    result: BareRunResult<YoutubeChannelLivesData>;
   };
   "youtube.channel_playlists": {
     input: YoutubeChannelPlaylistsInput;
     data: YoutubeChannelPlaylistsData;
-    result: RunResult<YoutubeChannelPlaylistsData>;
+    result: BareRunResult<YoutubeChannelPlaylistsData>;
   };
   "youtube.channel_shorts": {
     input: YoutubeChannelShortsInput;
     data: YoutubeChannelShortsData;
-    result: RunResult<YoutubeChannelShortsData>;
+    result: BareRunResult<YoutubeChannelShortsData>;
   };
   "youtube.channel_videos": {
     input: YoutubeChannelVideosInput;
     data: YoutubeChannelVideosData;
-    result: RunResult<YoutubeChannelVideosData>;
+    result: BareRunResult<YoutubeChannelVideosData>;
   };
   "youtube.comment_replies": {
     input: YoutubeCommentRepliesInput;
     data: YoutubeCommentRepliesData;
-    result: RunResult<YoutubeCommentRepliesData>;
+    result: BareRunResult<YoutubeCommentRepliesData>;
   };
   "youtube.community_post": {
     input: YoutubeCommunityPostInput;
     data: YoutubeCommunityPostData;
-    result: RunResult<YoutubeCommunityPostData>;
+    result: BareRunResult<YoutubeCommunityPostData>;
   };
   "youtube.playlist": {
     input: YoutubePlaylistInput;
     data: YoutubePlaylistData;
-    result: RunResult<YoutubePlaylistData>;
+    result: BareRunResult<YoutubePlaylistData>;
   };
   "youtube.search": {
     input: YoutubeSearchInput;
     data: YoutubeSearchData;
-    result: RunResult<YoutubeSearchData>;
+    result: BareRunResult<YoutubeSearchData>;
   };
   "youtube.search_hashtag": {
     input: YoutubeSearchHashtagInput;
     data: YoutubeSearchHashtagData;
-    result: RunResult<YoutubeSearchHashtagData>;
+    result: BareRunResult<YoutubeSearchHashtagData>;
   };
   "youtube.trending_shorts": {
     input: YoutubeTrendingShortsInput;
     data: YoutubeTrendingShortsData;
-    result: RunResult<YoutubeTrendingShortsData>;
+    result: BareRunResult<YoutubeTrendingShortsData>;
   };
   "youtube.video": {
     input: YoutubeVideoInput;
     data: YoutubeVideoData;
-    result: RunResult<YoutubeVideoData>;
+    result: BareRunResult<YoutubeVideoData>;
   };
   "youtube.video_comments": {
     input: YoutubeVideoCommentsInput;
     data: YoutubeVideoCommentsData;
-    result: RunResult<YoutubeVideoCommentsData>;
+    result: BareRunResult<YoutubeVideoCommentsData>;
   };
   "youtube.video_sponsors": {
     input: YoutubeVideoSponsorsInput;
     data: YoutubeVideoSponsorsData;
-    result: RunResult<YoutubeVideoSponsorsData>;
+    result: BareRunResult<YoutubeVideoSponsorsData>;
   };
   "youtube.video_transcript": {
     input: YoutubeVideoTranscriptInput;
     data: YoutubeVideoTranscriptData;
-    result: RunResult<YoutubeVideoTranscriptData>;
+    result: BareRunResult<YoutubeVideoTranscriptData>;
   };
   "zhihu.answer": {
     input: ZhihuAnswerInput;
     data: ZhihuAnswerData;
-    result: RunResult<ZhihuAnswerData>;
+    result: BareRunResult<ZhihuAnswerData>;
   };
   "zhihu.profile": {
     input: ZhihuProfileInput;
     data: ZhihuProfileData;
-    result: RunResult<ZhihuProfileData>;
+    result: BareRunResult<ZhihuProfileData>;
   };
   "zhihu.question": {
     input: ZhihuQuestionInput;
     data: ZhihuQuestionData;
-    result: RunResult<ZhihuQuestionData>;
+    result: BareRunResult<ZhihuQuestionData>;
   };
   "zhihu.question_answers": {
     input: ZhihuQuestionAnswersInput;
     data: ZhihuQuestionAnswersData;
-    result: RunResult<ZhihuQuestionAnswersData>;
+    result: BareRunResult<ZhihuQuestionAnswersData>;
   };
   "zhihu.search_articles": {
     input: ZhihuSearchArticlesInput;
     data: ZhihuSearchArticlesData;
-    result: RunResult<ZhihuSearchArticlesData>;
+    result: BareRunResult<ZhihuSearchArticlesData>;
   };
   "zillow.property": {
     input: ZillowPropertyInput;
     data: ZillowPropertyData;
-    result: RunResult<ZillowPropertyData>;
+    result: BareRunResult<ZillowPropertyData>;
   };
   "zillow.search": {
     input: ZillowSearchInput;
     data: ZillowSearchData;
-    result: RunResult<ZillowSearchData>;
+    result: BareRunResult<ZillowSearchData>;
   };
 }

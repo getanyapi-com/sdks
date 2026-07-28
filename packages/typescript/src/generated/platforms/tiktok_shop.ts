@@ -1,12 +1,10 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
-  Paginator,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
-import { paginate } from "../../core/index.js";
 
 /**
  * Input for TikTok Shop Product (tiktok_shop.product).
@@ -22,40 +20,7 @@ export interface TiktokShopProductInput {
   url: string;
 }
 
-/**
- * The `data` payload of TikTok Shop Product (tiktok_shop.product).
- */
-export interface TiktokShopProductData {
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  currency: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  originalPrice: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  price: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  productId: string;
-  rating: number;
-  reviewCount: number;
-  sellerLocation: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  sellerName: string;
-  soldCount: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  [extra: string]: unknown;
-}
+export type TiktokShopProductData = unknown;
 
 /**
  * Input for TikTok Shop Product Reviews (tiktok_shop.product_reviews).
@@ -77,63 +42,7 @@ export interface TiktokShopProductReviewsInput {
   url: string;
 }
 
-export interface TiktokShopProductReviewsReview {
-  /**
-   * Reviewer's country code.
-   */
-  country: string;
-  /**
-   * Review time as epoch milliseconds. Populated whenever the provider has data for the entity.
-   */
-  createdUtc: number;
-  /**
-   * Review identifier. Populated whenever the provider has data for the entity.
-   */
-  id: string;
-  /**
-   * Star rating for this review (1-5).
-   */
-  rating: number;
-  /**
-   * Display name of the reviewer. Populated whenever the provider has data for the entity.
-   */
-  reviewerName: string;
-  /**
-   * Variant bought, e.g. "Color: Black". Populated whenever the provider has data for the entity.
-   */
-  sku: string;
-  /**
-   * Review text content. Populated whenever the provider has data for the entity.
-   */
-  text: string;
-  /**
-   * True when the review is from a verified purchase.
-   */
-  verifiedPurchase: boolean;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Shop Product Reviews (tiktok_shop.product_reviews).
- */
-export interface TiktokShopProductReviewsData {
-  /**
-   * True when more reviews are available beyond this page.
-   */
-  hasMore: boolean;
-  /**
-   * Overall product score (1-5).
-   */
-  rating: number;
-  /**
-   * Product reviews. Populated whenever the provider has data for the entity.
-   */
-  reviews: TiktokShopProductReviewsReview[];
-  /**
-   * Total number of reviews for the product.
-   */
-  totalReviews: number;
-}
+export type TiktokShopProductReviewsData = unknown;
 
 /**
  * Input for TikTok Shop Search (tiktok_shop.search).
@@ -171,56 +80,7 @@ export interface TiktokShopSearchInput {
   query: string;
 }
 
-export interface TiktokShopSearchItem {
-  /**
-   * ISO currency name, e.g. USD.
-   */
-  currency?: string;
-  /**
-   * Pre-discount list price (0 when not on sale).
-   */
-  originalPrice?: number;
-  /**
-   * Current sale price.
-   */
-  price?: number;
-  /**
-   * TikTok Shop product id. Populated whenever the provider has data for the entity.
-   */
-  productId: string;
-  /**
-   * Average review score.
-   */
-  rating?: number;
-  /**
-   * Seller shop name.
-   */
-  shopName?: string;
-  /**
-   * Units sold.
-   */
-  soldCount?: number;
-  /**
-   * Product title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Canonical product detail page URL. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  url?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Shop Search (tiktok_shop.search).
- */
-export interface TiktokShopSearchData {
-  /**
-   * Product records matching the search query: id, title, price, sales count, rating, seller, and product URL. Populated whenever the provider has data for the entity.
-   */
-  items: TiktokShopSearchItem[];
-}
+export type TiktokShopSearchData = unknown;
 
 /**
  * Input for TikTok Shop Store Products (tiktok_shop.shop_products).
@@ -246,46 +106,7 @@ export interface TiktokShopShopProductsInput {
   url: string;
 }
 
-export interface TiktokShopShopProductsProduct {
-  currency: string;
-  originalPrice: number;
-  price: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  productId: string;
-  rating: number;
-  reviewCount: number;
-  soldCount: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Shop Store Products (tiktok_shop.shop_products).
- */
-export interface TiktokShopShopProductsData {
-  hasMore: boolean;
-  nextCursor: string;
-  productCount: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  products: TiktokShopShopProductsProduct[];
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  shopName: string;
-  shopRating: number;
-  soldCount: number;
-}
+export type TiktokShopShopProductsData = unknown;
 
 /**
  * Input for TikTok Shop User Showcase (tiktok_shop.user_showcase).
@@ -305,42 +126,7 @@ export interface TiktokShopUserShowcaseInput {
   region?: string;
 }
 
-export interface TiktokShopUserShowcaseProduct {
-  currency: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  imageUrl: string;
-  originalPrice: string;
-  price: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  productId: string;
-  rating: number;
-  reviewCount: number;
-  soldCount: number;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  url: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Shop User Showcase (tiktok_shop.user_showcase).
- */
-export interface TiktokShopUserShowcaseData {
-  nextCursor: string;
-  /**
-   * Populated whenever the provider has data for the entity.
-   */
-  products: TiktokShopUserShowcaseProduct[];
-}
+export type TiktokShopUserShowcaseData = unknown;
 
 /**
  * Typed methods for the tiktok_shop platform. Attached to the AnyAPI client as
@@ -362,8 +148,12 @@ export class TiktokShopNamespace {
   product(
     input: TiktokShopProductInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokShopProductData>> {
-    return this._core.run("tiktok_shop.product", input, options);
+  ): Promise<BareRunResult<TiktokShopProductData>> {
+    return this._core.run(
+      "tiktok_shop.product",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokShopProductData>>;
   }
 
   /**
@@ -379,8 +169,12 @@ export class TiktokShopNamespace {
   productReviews(
     input: TiktokShopProductReviewsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokShopProductReviewsData>> {
-    return this._core.run("tiktok_shop.product_reviews", input, options);
+  ): Promise<BareRunResult<TiktokShopProductReviewsData>> {
+    return this._core.run(
+      "tiktok_shop.product_reviews",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokShopProductReviewsData>>;
   }
 
   /**
@@ -396,8 +190,12 @@ export class TiktokShopNamespace {
   search(
     input: TiktokShopSearchInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokShopSearchData>> {
-    return this._core.run("tiktok_shop.search", input, options);
+  ): Promise<BareRunResult<TiktokShopSearchData>> {
+    return this._core.run(
+      "tiktok_shop.search",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<TiktokShopSearchData>>;
   }
 
   /**
@@ -413,34 +211,12 @@ export class TiktokShopNamespace {
   shopProducts(
     input: TiktokShopShopProductsInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokShopShopProductsData>> {
-    return this._core.run("tiktok_shop.shop_products", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok Shop Store Products across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterShopProducts(
-    input: TiktokShopShopProductsInput,
-    options?: RequestOptions,
-  ): Paginator<
-    TiktokShopShopProductsProduct,
-    RunResult<TiktokShopShopProductsData>
-  > {
-    return paginate<
-      TiktokShopShopProductsProduct,
-      RunResult<TiktokShopShopProductsData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<TiktokShopShopProductsData>> {
+    return this._core.run(
       "tiktok_shop.shop_products",
-      input as unknown as Record<string, unknown>,
-      "products",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokShopShopProductsData>>;
   }
 
   /**
@@ -456,33 +232,11 @@ export class TiktokShopNamespace {
   userShowcase(
     input: TiktokShopUserShowcaseInput,
     options?: RequestOptions,
-  ): Promise<RunResult<TiktokShopUserShowcaseData>> {
-    return this._core.run("tiktok_shop.user_showcase", input, options);
-  }
-
-  /**
-   * Iterate every result of TikTok Shop User Showcase across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterUserShowcase(
-    input: TiktokShopUserShowcaseInput,
-    options?: RequestOptions,
-  ): Paginator<
-    TiktokShopUserShowcaseProduct,
-    RunResult<TiktokShopUserShowcaseData>
-  > {
-    return paginate<
-      TiktokShopUserShowcaseProduct,
-      RunResult<TiktokShopUserShowcaseData>
-    >(
-      this._core,
+  ): Promise<BareRunResult<TiktokShopUserShowcaseData>> {
+    return this._core.run(
       "tiktok_shop.user_showcase",
-      input as unknown as Record<string, unknown>,
-      "products",
-      false,
+      input,
       options,
-    );
+    ) as unknown as Promise<BareRunResult<TiktokShopUserShowcaseData>>;
   }
 }

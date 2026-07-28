@@ -1,9 +1,9 @@
 // Generated - do not edit. Regenerate with: pnpm generate
 
 import type {
+  BareRunResult,
   ClientCore,
   RequestOptions,
-  RunResult,
 } from "../../core/index.js";
 
 /**
@@ -112,77 +112,7 @@ export interface DexscreenerTokensInput {
   timeframe?: string;
 }
 
-export interface DexscreenerTokensItem {
-  /**
-   * Age of the token pair in hours.
-   */
-  ageHours?: number;
-  /**
-   * Token logo image URL.
-   */
-  image?: string;
-  /**
-   * Total pool liquidity in USD.
-   */
-  liquidityUsd?: number;
-  /**
-   * Number of distinct makers over the selected timeframe.
-   */
-  makerCount?: number;
-  /**
-   * Token market capitalization in USD.
-   */
-  marketCapUsd?: number;
-  /**
-   * Token full name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  name?: string;
-  /**
-   * On-chain address of the liquidity pool.
-   */
-  poolAddress?: string;
-  /**
-   * Current token price in USD. Populated whenever the provider has data for the entity.
-   */
-  price: number;
-  /**
-   * Fractional price change over the past hour.
-   */
-  priceChange1h?: number;
-  /**
-   * Fractional price change over the past 24 hours.
-   */
-  priceChange24h?: number;
-  /**
-   * Token ticker symbol. Populated whenever the provider has data for the entity.
-   */
-  symbol: string;
-  /**
-   * Number of transactions over the selected timeframe.
-   */
-  transactionCount?: number;
-  /**
-   * DEX Screener URL for the trading pair. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  url?: string;
-  /**
-   * Trading volume in USD over the selected timeframe.
-   */
-  volumeUsd?: number;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of DEX Screener Tokens (dexscreener.tokens).
- */
-export interface DexscreenerTokensData {
-  /**
-   * Token listing records: token name and symbol, price, liquidity, volume, transaction/maker counts, price change, market cap, and the DEX Screener pair URL. Populated whenever the provider has data for the entity.
-   */
-  items: DexscreenerTokensItem[];
-}
+export type DexscreenerTokensData = unknown;
 
 /**
  * Typed methods for the dexscreener platform. Attached to the AnyAPI client as
@@ -204,7 +134,11 @@ export class DexscreenerNamespace {
   tokens(
     input: DexscreenerTokensInput,
     options?: RequestOptions,
-  ): Promise<RunResult<DexscreenerTokensData>> {
-    return this._core.run("dexscreener.tokens", input, options);
+  ): Promise<BareRunResult<DexscreenerTokensData>> {
+    return this._core.run(
+      "dexscreener.tokens",
+      input,
+      options,
+    ) as unknown as Promise<BareRunResult<DexscreenerTokensData>>;
   }
 }
