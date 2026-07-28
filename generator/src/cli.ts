@@ -21,7 +21,7 @@ import {
 import { join, relative } from "node:path";
 import { buildIr, serializeIr, generateIr } from "./ir.js";
 import { buildFixtures, serializeFixtures, generateFixtures } from "./fixtures.js";
-import { validateIr } from "./validate.js";
+import { assertCatalogHealth, validateIr } from "./validate.js";
 import { refreshSnapshots } from "./fetch.js";
 import { irOutPath, fixturesOutPath, repoRoot } from "./paths.js";
 import { emitTypescript, writeFileMap } from "./emit-ts.js";
@@ -56,10 +56,15 @@ function readIfExists(path: string): string | null {
   return existsSync(path) ? readFileSync(path, "utf8") : null;
 }
 
-/** buildIr returns the extractor's Ir shape; emitters read the structurally-identical IR. */
+/**
+ * buildIr returns the extractor's Ir shape; emitters read the structurally-identical IR.
+ * Shape validation answers "is this a well-formed IR"; the health invariant answers "is this
+ * a sane one" - the question the drift gate structurally cannot ask.
+ */
 function buildValidatedIr(): IR {
   const built = buildIr();
   validateIr(built);
+  assertCatalogHealth(built);
   return built as unknown as IR;
 }
 

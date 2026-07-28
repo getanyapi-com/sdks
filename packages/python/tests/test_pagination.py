@@ -151,11 +151,13 @@ def test_sync_bare_envelope_walks_output_root() -> None:
     pages = [
         {
             "output": {"posts": [{"id": 1}, {"id": 2}], "nextCursor": "c1"},
+            "replayed": False,
             "provider": "AnyAPI",
             "costUsd": 0.003,
         },
         {
             "output": {"posts": [{"id": 3}], "nextCursor": ""},
+            "replayed": False,
             "provider": "AnyAPI",
             "costUsd": 0.003,
         },

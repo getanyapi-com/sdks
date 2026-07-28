@@ -15,6 +15,8 @@ interface Fixture {
   provider: "AnyAPI";
   costUsd: number;
   items: number;
+  // The gateway always sends `replayed`; a fixture is a fresh run, so it is always false.
+  replayed: false;
 }
 
 /** Build the full fixtures map (slug -> fixture) from the IR. */
@@ -42,6 +44,7 @@ function buildFixture(sku: SkuEntry): Fixture {
     provider: "AnyAPI",
     costUsd: 0.001,
     items: 1,
+    replayed: false,
   };
 }
 

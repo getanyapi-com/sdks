@@ -53,6 +53,7 @@ export function foundEnvelope<T>(data: T, extra: Record<string, unknown> = {}): 
     output: { found: true, data },
     provider: "AnyAPI",
     costUsd: 0.001,
+    replayed: false,
     ...extra,
   };
 }
@@ -63,5 +64,20 @@ export function notFoundEnvelope(): unknown {
     output: { found: false, data: null },
     provider: "AnyAPI",
     costUsd: 0,
+    replayed: false,
+  };
+}
+
+/**
+ * An idempotent replay the gateway can no longer back with a payload: the metadata is
+ * intact and `output` is legally null (a 24h TTL expiry, or a payload over the size cap).
+ */
+export function replayedWithoutOutputEnvelope(): unknown {
+  return {
+    output: null,
+    provider: "AnyAPI",
+    costUsd: 0.001,
+    items: 3,
+    replayed: true,
   };
 }

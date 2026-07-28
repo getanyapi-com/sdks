@@ -314,6 +314,9 @@ export interface RunResult<T> {
   provider: "AnyAPI";
   costUsd: number;
   items?: number;
+  replayed: boolean;
+  resultId?: string;
+  jqError?: string;
   hint?: string;
 }
 export type Output<T> = { found: true; data: T } | { found: false; data: null };
@@ -326,7 +329,8 @@ export interface RequestOptions {
   maxRetries?: number;
 }
 export interface BareRunResult<T> {
-  output: T; provider: "AnyAPI"; costUsd: number; items?: number; hint?: string;
+  output: T; provider: "AnyAPI"; costUsd: number; items?: number;
+  replayed: boolean; resultId?: string; jqError?: string; hint?: string;
 }
 export interface Paginator<Item, Page> extends AsyncIterable<Item> {
   pages(): AsyncIterable<Page>;

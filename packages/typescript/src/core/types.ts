@@ -13,6 +13,26 @@ export interface RunResult<T> {
   costUsd: number;
   /** Number of result rows returned (present on per-result SKUs). */
   items?: number;
+  /**
+   * True when the gateway served a stored response for a repeated Idempotency-Key instead
+   * of running the SKU again. A replay is not billed twice. Always present on the wire.
+   *
+   * A replay whose stored payload is no longer retained (a 24h TTL expiry, or a payload
+   * that exceeded the storage size cap) arrives with the metadata only and `output` null,
+   * which {@link unwrap} rejects. See SPEC 2.3.
+   */
+  replayed: boolean;
+  /**
+   * Opaque handle to the full unshaped result, cached for about 15 minutes, so it can be
+   * re-read and re-shaped for free via GET /v1/results/{id}. Absent when the gateway did
+   * not cache the result.
+   */
+  resultId?: string;
+  /**
+   * Why a requested jq reshape did not apply. The run was still billed and `output` carries
+   * the full unshaped result. Absent when no jq was requested or it succeeded.
+   */
+  jqError?: string;
   /** Optional server nudge when a large result was returned untrimmed. */
   hint?: string;
 }
@@ -36,21 +56,57 @@ export interface BareRunResult<T> {
   costUsd: number;
   /** Number of result rows returned (present on per-result SKUs). */
   items?: number;
+  /**
+   * True when the gateway served a stored response for a repeated Idempotency-Key instead
+   * of running the SKU again. A replay is not billed twice. Always present on the wire.
+   *
+   * A replay whose stored payload is no longer retained (a 24h TTL expiry, or a payload
+   * that exceeded the storage size cap) arrives with the metadata only and `output` null,
+   * which {@link unwrap} rejects. See SPEC 2.3.
+   */
+  replayed: boolean;
+  /**
+   * Opaque handle to the full unshaped result, cached for about 15 minutes, so it can be
+   * re-read and re-shaped for free via GET /v1/results/{id}. Absent when the gateway did
+   * not cache the result.
+   */
+  resultId?: string;
+  /**
+   * Why a requested jq reshape did not apply. The run was still billed and `output` carries
+   * the full unshaped result. Absent when no jq was requested or it succeeded.
+   */
+  jqError?: string;
   /** Optional server nudge when a large result was returned untrimmed. */
   hint?: string;
 }
+
+/**
+ * Message for a replay whose stored payload the gateway no longer holds. Kept as a constant
+ * so the runtime and its tests cannot drift apart on the wording.
+ */
+const OUTPUT_NOT_RETAINED =
+  "the run output was not retained: this response is an idempotent replay whose stored " +
+  "payload has expired or was too large to store, so only the run metadata came back. " +
+  "Re-run the request without the idempotency key (or with a fresh one) to fetch the data again.";
 
 /**
  * Return the data payload when found, or throw ResultNotFoundError when the upstream had no
  * matching entity. Narrows Output<T> to T.
  *
  * Two overloads: a found-data RunResult may be empty (throws when found is false); a bare
- * result always carries its data (returns output directly, never throws).
+ * result always carries its data (returns output directly).
+ *
+ * Either shape throws AnyAPIError when `output` is null: an idempotent replay can outlive
+ * its stored payload, and the caller must not receive `null` typed as T. See SPEC 2.3.
  */
 export function unwrap<T>(result: BareRunResult<T>): T;
 export function unwrap<T>(result: RunResult<T>): T;
 export function unwrap<T>(result: RunResult<T> | BareRunResult<T>): T {
   const output = (result as { output: unknown }).output;
+  // A metadata-only replay: the run happened and was not re-billed, but the payload is gone.
+  if (output === null || output === undefined) {
+    throw new AnyAPIError(OUTPUT_NOT_RETAINED, 200);
+  }
   // Found-data envelope: an object carrying a boolean `found` discriminator.
   if (
     output !== null &&
@@ -230,4 +286,4 @@ export interface AgentSignupResult {
   claimUrl: string;
 }
 
-import { ResultNotFoundError } from "./errors.js";
+import { AnyAPIError, ResultNotFoundError } from "./errors.js";
