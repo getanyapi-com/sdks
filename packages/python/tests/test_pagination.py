@@ -154,12 +154,14 @@ def test_sync_bare_envelope_walks_output_root() -> None:
             "replayed": False,
             "provider": "AnyAPI",
             "costUsd": 0.003,
+            "items": 2,
         },
         {
             "output": {"posts": [{"id": 3}], "nextCursor": ""},
             "replayed": False,
             "provider": "AnyAPI",
             "costUsd": 0.003,
+            "items": 1,
         },
     ]
     state = {"i": 0}

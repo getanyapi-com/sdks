@@ -42,6 +42,7 @@ function page(ads: number[], nextCursor: string | null): RunResult<PageData> {
     },
     provider: "AnyAPI",
     costUsd: 0.002,
+    items: ads.length,
     replayed: false,
   };
 }
@@ -90,6 +91,7 @@ describe("paginate: multi-page walk", () => {
       output: { found: false, data: null },
       provider: "AnyAPI",
       costUsd: 0,
+      items: 0,
       replayed: false,
     };
     const { core } = scriptedCore([notFound]);
@@ -180,6 +182,7 @@ describe("paginate: bare envelope", () => {
       output: { ads: posts.map((id) => ({ id })), nextCursor },
       provider: "AnyAPI",
       costUsd: 0.003,
+      items: posts.length,
       replayed: false,
     };
   }

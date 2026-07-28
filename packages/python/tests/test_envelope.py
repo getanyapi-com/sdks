@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 import pytest
+from pydantic import ValidationError
 
 from getanyapi import AnyAPIError, BareRunResult, NotFoundError, RunResult, unwrap
 from getanyapi.types import OutputFound, OutputNotFound
@@ -39,13 +40,14 @@ def test_not_found_envelope() -> None:
             "output": {"found": False, "data": None},
             "provider": "AnyAPI",
             "costUsd": 0.0,
+            "items": 0,
             "replayed": False,
         }
     )
     assert isinstance(result.output, OutputNotFound)
     assert result.output.found is False
     assert result.output.data is None
-    assert result.items is None
+    assert result.items == 0
     assert result.hint is None
 
 
@@ -55,6 +57,7 @@ def test_unwrap_returns_data_when_found() -> None:
             "output": {"found": True, "data": {"x": 1}},
             "provider": "AnyAPI",
             "costUsd": 0.1,
+            "items": 1,
             "replayed": False,
         }
     )
@@ -67,6 +70,7 @@ def test_unwrap_raises_not_found() -> None:
             "output": {"found": False, "data": None},
             "provider": "AnyAPI",
             "costUsd": 0.0,
+            "items": 0,
             "replayed": False,
         }
     )
@@ -82,6 +86,7 @@ def test_replay_metadata_parses_with_aliases() -> None:
             "output": {"found": True, "data": {"x": 1}},
             "provider": "AnyAPI",
             "costUsd": 0.1,
+            "items": 1,
             "replayed": True,
             "resultId": "res_abc",
             "jqError": "jq: compile error",
@@ -103,6 +108,7 @@ def test_fresh_run_defaults_the_optional_replay_metadata() -> None:
             "output": {"found": True, "data": {"x": 1}},
             "provider": "AnyAPI",
             "costUsd": 0.1,
+            "items": 1,
             "replayed": False,
         }
     )
@@ -133,15 +139,64 @@ def test_unwrap_raises_when_replayed_output_was_not_retained() -> None:
 
 
 def test_unwrap_raises_on_a_bare_replay_without_a_retained_output() -> None:
-    result = BareRunResult[Any].model_validate(
-        {
-            "output": None,
-            "provider": "AnyAPI",
-            "costUsd": 0.001,
-            "replayed": True,
-        }
+    result: BareRunResult[Any] = BareRunResult[Any].model_construct(
+        output=None,
+        provider="AnyAPI",
+        cost_usd=0.001,
+        items=3,
+        replayed=True,
     )
     with pytest.raises(AnyAPIError) as exc:
         unwrap(result)
     assert "was not retained" in str(exc.value)
     assert not isinstance(exc.value, NotFoundError)
+
+
+@pytest.mark.parametrize("model", [RunResult, BareRunResult])
+def test_parsing_a_null_output_raises_the_not_retained_error(model: Any) -> None:
+    # The gateway sends `output` on every success envelope, but a replay can outlive its
+    # stored payload, so `{"output": null, ...}` is a legal body. Neither declared output
+    # type admits None, so the guard must fire BEFORE pydantic reports a shape mismatch:
+    # a raw ValidationError never mentions idempotency.
+    with pytest.raises(AnyAPIError) as exc:
+        model[dict[str, Any]].model_validate(
+            {
+                "output": None,
+                "provider": "AnyAPI",
+                "costUsd": 0.001,
+                "items": 3,
+                "replayed": True,
+            }
+        )
+    message = str(exc.value)
+    assert "was not retained" in message
+    assert "idempotent replay" in message
+    assert "without the idempotency key" in message
+    assert exc.value.status == 200
+    assert not isinstance(exc.value, NotFoundError)
+
+
+@pytest.mark.parametrize("model", [RunResult, BareRunResult])
+def test_parsing_an_absent_output_raises_the_not_retained_error(model: Any) -> None:
+    # SPEC 2.3 treats a missing `output` exactly like a null one, in both languages.
+    with pytest.raises(AnyAPIError) as exc:
+        model[dict[str, Any]].model_validate(
+            {"provider": "AnyAPI", "costUsd": 0.001, "items": 3, "replayed": True}
+        )
+    assert "was not retained" in str(exc.value)
+
+
+@pytest.mark.parametrize("model", [RunResult, BareRunResult])
+def test_items_is_required_on_both_envelopes(model: Any) -> None:
+    # `items` carries no omitempty on the gateway struct, so a body without it is
+    # malformed rather than an "input-priced SKU" signal.
+    with pytest.raises(ValidationError) as exc:
+        model[dict[str, Any]].model_validate(
+            {
+                "output": {"found": True, "data": {"x": 1}},
+                "provider": "AnyAPI",
+                "costUsd": 0.1,
+                "replayed": False,
+            }
+        )
+    assert "items" in str(exc.value)

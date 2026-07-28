@@ -10,7 +10,7 @@ unknown fields, exposed via ``.model_extra``.
 
 from __future__ import annotations
 
-from typing import Annotated, Any, Generic, Literal, TypeVar
+from typing import Annotated, Any, Generic, Literal, TypeVar, cast
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from typing_extensions import TypedDict
@@ -61,6 +61,40 @@ class OutputNotFound(BaseModel):
 Output = OutputFound[T] | OutputNotFound
 
 
+_OUTPUT_NOT_RETAINED = (
+    "the run output was not retained: this response is an idempotent replay whose "
+    "stored payload has expired or was too large to store, so only the run metadata "
+    "came back. Re-run the request without the idempotency key (or with a fresh one) "
+    "to fetch the data again."
+)
+
+
+def _reject_unretained_output(data: Any) -> Any:
+    """Raise the actionable not-retained error before ``output`` is validated.
+
+    The wire sends ``output`` on every success envelope, but an idempotent replay
+    can outlive the payload it replays (24h TTL, or a payload over the storage size
+    cap), so the body is legally ``{"output": null, ...}``. Neither declared
+    ``output`` type admits None, so without this guard pydantic would reject the
+    body with a generic ``ValidationError`` that never mentions idempotency, and a
+    caller of a generated typed method would never reach :func:`unwrap`.
+
+    Raising a non-``ValueError`` is deliberate: pydantic propagates it unchanged
+    rather than folding it into a ``ValidationError``, so the caller sees the same
+    :class:`AnyAPIError` (status 200, same message) the TypeScript SDK raises.
+    A missing ``output`` key is treated identically, matching SPEC 2.3.
+    """
+    # Narrow a copy so ``data`` itself keeps its declared type and is returned unchanged
+    # (pydantic then validates the original body, guard or no guard).
+    incoming: object = data
+    if (
+        isinstance(incoming, dict)
+        and cast("dict[str, object]", incoming).get("output") is None
+    ):
+        raise AnyAPIError(_OUTPUT_NOT_RETAINED, status=200)
+    return data
+
+
 class RunResult(BaseModel, Generic[T]):
     """The normalized run envelope returned by ``POST /v1/run/{slug}``.
 
@@ -76,6 +110,10 @@ class RunResult(BaseModel, Generic[T]):
     the full unshaped result, cached about 15 minutes for a free re-read via
     ``GET /v1/results/{id}``. ``jq_error`` explains why a requested jq reshape did
     not apply; the run was still billed and ``output`` carries the full result.
+
+    ``items`` is REQUIRED: the gateway sends it on every success envelope (its Go
+    struct tag carries no ``omitempty``), including a metadata-only replay and the
+    free re-read of a cached result.
     """
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
@@ -83,11 +121,16 @@ class RunResult(BaseModel, Generic[T]):
     output: OutputFound[T] | OutputNotFound = Field(discriminator="found")
     provider: Literal["AnyAPI"]
     cost_usd: float = Field(alias="costUsd")
-    items: int | None = None
+    items: int
     replayed: bool
     result_id: str | None = Field(default=None, alias="resultId")
     jq_error: str | None = Field(default=None, alias="jqError")
     hint: str | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _guard_unretained_output(cls, data: Any) -> Any:
+        return _reject_unretained_output(data)
 
 
 class BareRunResult(BaseModel, Generic[T]):
@@ -97,8 +140,8 @@ class BareRunResult(BaseModel, Generic[T]):
     data payload directly. There is no not-found branch to discriminate, so
     ``unwrap`` returns ``output`` directly unless the payload was not retained.
 
-    ``replayed``, ``result_id``, and ``jq_error`` carry the same meaning as on
-    :class:`RunResult`.
+    ``items``, ``replayed``, ``result_id``, and ``jq_error`` carry the same meaning
+    and the same wire presence as on :class:`RunResult`.
     """
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
@@ -106,19 +149,16 @@ class BareRunResult(BaseModel, Generic[T]):
     output: T
     provider: Literal["AnyAPI"]
     cost_usd: float = Field(alias="costUsd")
-    items: int | None = None
+    items: int
     replayed: bool
     result_id: str | None = Field(default=None, alias="resultId")
     jq_error: str | None = Field(default=None, alias="jqError")
     hint: str | None = None
 
-
-_OUTPUT_NOT_RETAINED = (
-    "the run output was not retained: this response is an idempotent replay whose "
-    "stored payload has expired or was too large to store, so only the run metadata "
-    "came back. Re-run the request without the idempotency key (or with a fresh one) "
-    "to fetch the data again."
-)
+    @model_validator(mode="before")
+    @classmethod
+    def _guard_unretained_output(cls, data: Any) -> Any:
+        return _reject_unretained_output(data)
 
 
 def unwrap(result: RunResult[T] | BareRunResult[T]) -> T:
@@ -130,7 +170,9 @@ def unwrap(result: RunResult[T] | BareRunResult[T]) -> T:
 
     Either shape raises :class:`AnyAPIError` when ``output`` is None: an idempotent
     replay can outlive its stored payload, and the caller must never receive None
-    typed as ``T``. See SPEC 2.3 / 3.3.
+    typed as ``T``. See SPEC 2.3 / 3.3. Parsing a wire body normally raises that
+    same error earlier (``_reject_unretained_output`` runs before field validation),
+    so this guard covers models built by ``model_construct`` or by hand.
 
     Catching ``NotFoundError`` catches both an HTTP 404 and an empty found-data
     result; catch ``ResultNotFoundError`` to handle only empty results.

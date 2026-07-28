@@ -126,7 +126,13 @@ describe("run: query param shaping", () => {
 describe("unwrap", () => {
   it("returns data when found", () => {
     expect(
-      unwrap({ output: { found: true, data: 42 }, provider: "AnyAPI", costUsd: 0, replayed: false }),
+      unwrap({
+        output: { found: true, data: 42 },
+        provider: "AnyAPI",
+        costUsd: 0,
+        items: 1,
+        replayed: false,
+      }),
     ).toBe(42);
   });
 
@@ -152,6 +158,8 @@ describe("unwrap", () => {
       expect(err.message).toContain("was not retained");
       expect(err.message).toContain("idempotent replay");
       expect(err.message).toContain("without the idempotency key");
+      // Python raises the identical class, status, and wording from its parse guard.
+      expect(err.status).toBe(200);
     }
   });
 

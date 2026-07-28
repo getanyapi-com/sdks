@@ -1,7 +1,12 @@
 // Handwritten runtime core: account/discovery response mapping and standalone agent
 // signup. See SPEC.md 2.7. Discovery is parsed strictly at this public Seam.
 
-import { AnyAPIError, ConnectionError, errorFromStatus } from "./errors.js";
+import {
+  AnyAPIError,
+  ConnectionError,
+  errorFromStatus,
+  requestIdOf,
+} from "./errors.js";
 import type {
   AccountProfile,
   AgentSignupOptions,
@@ -415,7 +420,7 @@ export async function agentSignup(
     );
   }
 
-  const requestId = response.headers.get("x-request-id") ?? undefined;
+  const requestId = requestIdOf(response.headers);
   const text = await response.text().catch(() => "");
   if (response.status !== 200) {
     let message = `request failed with status ${response.status}`;

@@ -36,7 +36,8 @@ def test_status_maps_to_error_class(
         return json_response(
             status,
             {"error": f"boom {status}"},
-            headers={"x-request-id": "req-123"},
+            # The gateway's real header name (SPEC 2.6), not the conventional one.
+            headers={"X-Anyapi-Request-Id": "req-123"},
         )
 
     client, _ = make_sync_client(respond, max_retries=0)
@@ -74,3 +75,30 @@ def test_error_body_code_is_exposed() -> None:
     with pytest.raises(AnyAPIError) as exc:
         client.run("amazon.reviews", {"product": "B0"})
     assert exc.value.code == "idempotency_in_progress"
+
+
+def _request_id_for(headers: dict[str, str]) -> str | None:
+    def respond(_req: httpx.Request) -> httpx.Response:
+        return json_response(400, {"error": "nope"}, headers=headers)
+
+    client, _ = make_sync_client(respond, max_retries=0)
+    with pytest.raises(BadRequestError) as exc:
+        client.run("amazon.reviews", {"product": "B0"})
+    return exc.value.request_id
+
+
+@pytest.mark.parametrize(
+    ("headers", "expected"),
+    [
+        # Through v0.9.7 the SDK read only x-request-id, which the gateway never sends,
+        # so request_id was always None in production.
+        ({"X-Anyapi-Request-Id": "req_gw"}, "req_gw"),
+        ({"x-request-id": "req_proxy"}, "req_proxy"),
+        ({"X-Anyapi-Request-Id": "req_gw", "x-request-id": "req_proxy"}, "req_gw"),
+        ({}, None),
+    ],
+)
+def test_request_id_header_resolution(
+    headers: dict[str, str], expected: str | None
+) -> None:
+    assert _request_id_for(headers) == expected

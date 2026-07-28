@@ -6,6 +6,7 @@ import {
   ConnectionError,
   TimeoutError,
   errorFromStatus,
+  requestIdOf,
 } from "./errors.js";
 import {
   generateIdempotencyKey,
@@ -492,7 +493,7 @@ export class AnyAPI implements ClientCore {
         throw connErr;
       }
 
-      const requestId = response.headers.get("x-request-id") ?? undefined;
+      const requestId = requestIdOf(response.headers);
 
       if (response.status === 200) {
         const text = await response.text();

@@ -388,8 +388,8 @@ export interface RunResult<T> {
   provider: "AnyAPI";
   /** Amount charged in USD for this call. */
   costUsd: number;
-  /** Number of result rows returned (present on per-result SKUs). */
-  items?: number;
+  /** Number of result rows returned. Always present on the wire. */
+  items: number;
   /** True when the gateway served a stored response for a repeated Idempotency-Key. */
   replayed: boolean;
   /** Handle for a free re-read of the full unshaped result via GET /v1/results/{id}. */
@@ -416,6 +416,23 @@ so `catch (NotFoundError)` still catches an empty-result unwrap AND an HTTP 404;
 `ResultNotFoundError` to handle only empty results. `unwrap` also has a `BareRunResult<T>`
 overload that returns `output` directly.
 
+**(v1 erratum) Run-envelope field presence.** The gateway's Go struct tags are the
+authoritative statement of what reaches the wire; a field without `omitempty` is ALWAYS sent.
+By that rule `output`, `provider`, `costUsd`, `items`, and `replayed` are REQUIRED, and
+`hint`, `resultId`, and `jqError` are optional (omitted when empty). Both languages declare
+exactly that set, on `RunResult<T>` and `BareRunResult<T>` alike.
+
+**(v1 erratum) `items` is REQUIRED.** It was declared optional in both SDKs through v0.9.7
+and is now required, for the same reason `replayed` became required: the gateway's field
+carries no `omitempty`, so every success envelope sends it. That includes the two envelope
+writers that exist - `POST /v1/run/{sku}` (all entry paths: keyed wallet and every
+agent-payment rail) and the free re-read `GET /v1/results/{id}` - and it includes a
+metadata-only replay, which preserves the original run's count even when the payload itself
+is gone. `items` is the count the per-item charge was computed against; on an input-priced
+SKU the charge is per submitted input and is independent of it, but the field is still sent.
+Note the gateway's own OpenAPI document omits `items` from its `required` list; the Go
+struct, not that document, is the contract these SDKs follow.
+
 **(v1 erratum) Replay metadata.** `replayed` is REQUIRED: the gateway sends it on every
 success envelope (it carries no `omitempty`). `resultId` and `jqError` are optional and are
 omitted when empty. `BareRunResult<T>` carries the same three fields with the same meaning,
@@ -435,6 +452,19 @@ response is an idempotent replay, and that re-running without the idempotency ke
 fresh one) fetches the data again. It is deliberately NOT a `ResultNotFoundError`: "the
 upstream had no match" and "we no longer hold your payload" are different outcomes and must
 not share a handler. Both overloads enforce this, in both languages.
+
+Python enforces it EARLIER as well, and must: its models really validate, so a null `output`
+would otherwise be rejected by pydantic before the caller could ever reach `unwrap`, with a
+generic `ValidationError` ("Input should be a valid dictionary or object to extract fields
+from") that never mentions idempotency. Generated typed methods call
+`RunResult[XData].model_validate(raw)` directly, so the guard lives on the models: a
+`mode="before"` model validator on `RunResult` and `BareRunResult` raises the same
+`AnyAPIError` (status 200, same wording) when the incoming body's `output` is null or absent.
+Raising a non-`ValueError` is deliberate - pydantic propagates it unchanged instead of
+folding it into a `ValidationError`. The `unwrap` guard stays as well, covering models built
+by `model_construct` or by hand. TypeScript does no runtime validation of the envelope, so
+there the error surfaces at `unwrap`; the error CLASS, STATUS, and MESSAGE are identical in
+both languages, which is what the lockstep rule requires.
 
 **(v1 erratum) SkuMap + typed run.** The generated `SkuMap` is a CONCRETE interface (not a
 module augmentation, which does not survive `.d.ts` bundling) mapping each slug to
@@ -523,7 +553,7 @@ Walk semantics (FROZEN):
 export declare class AnyAPIError extends Error {
   /** HTTP status code, or 0 for transport-level failures (connection/timeout). */
   readonly status: number;
-  /** The x-request-id response header when present, else undefined. */
+  /** The gateway's X-Anyapi-Request-Id response header when present, else undefined. */
   readonly requestId?: string;
   /** Stable gateway error code when present, else undefined. */
   readonly code?: string;
@@ -547,6 +577,27 @@ non-2xx status -> `AnyAPIError` (base) with that status. Transport failures ->
 `ConnectionError` (status 0); timeouts -> `TimeoutError` (status 0). The error `message`
 is the `error` field from the JSON body, or a generic fallback when the body is unparseable.
 The optional body `code` is copied to `AnyAPIError.code`.
+
+**(v1 erratum) Request-id header name.** The gateway's support handle is
+`X-Anyapi-Request-Id`, not the conventional `x-request-id`: that is the name it sets on run
+responses (including the idempotency-owner echo on a 409) and the only request-id header its
+CORS layer lists in `Access-Control-Expose-Headers`. Both SDKs read `x-anyapi-request-id`
+first and fall back to `x-request-id` for a proxy that stamps the conventional name. Through
+v0.9.7 both read only `x-request-id`, so `requestId` / `request_id` was always
+undefined/None against the real gateway. The field stays OPTIONAL: account, catalog, and
+signup responses do not carry the header at all.
+
+Gateway `code` values reaching these SDKs today (informational; the field is typed as an
+open string so a new code never breaks a client): `all_providers_failed`,
+`forbidden`, `grant_cap_exceeded`, `idempotency_conflict`, `idempotency_in_progress`,
+`idempotency_needs_review`, `idempotency_unavailable`, `insufficient_credits`,
+`internal_error`, `invalid_idempotency_key`, `invalid_input`, `key_cap_exceeded`,
+`key_disabled`, `key_expired`, `no_providers`, `pinned_lane_unavailable`,
+`provider_rate_limited`, `provider_rejected_request`, `sku_not_found`, `unauthorized`, plus
+the per-failure classification codes carried by a provider failure. Note the gateway also
+emits statuses outside the frozen mapping - 403 (`forbidden`), 409 (the three idempotency
+codes), 500 (`internal_error`), 503 (`idempotency_unavailable`) - which land on the
+`AnyAPIError` base carrying that status, identically in both languages.
 
 ### 2.7 Account, catalog, agent signup
 
@@ -672,7 +723,20 @@ export interface AgentSignupResult {
   offers, and malformed envelopes. The REST adapter omits `heavy` when false, so clients
   normalize an omitted key to public `false` while rejecting non-boolean values.
 - `agentSignup()` -> POST `/agent/signup` (NO auth header) -> `AgentSignupResult` (map
-  `capUsd`, `secret`, `claimToken`, `claimUrl`).
+  `capUsd`, `secret`, `claimToken`, `claimUrl`). The gateway body is a superset: it also
+  carries `keyId`, `verificationStatus`, `expiresAt`, `notice`, `upgrade`, and (when the
+  trial's OAuth client was pre-registered) `clientId`. The four mapped fields are all sent
+  unconditionally; the rest are a deliberate projection, not a wire mismatch.
+- **(v1 erratum) Account/discovery field presence.** Audited against the gateway response
+  structs, the ONLY conditionally-present fields on this surface are `email` (omitted when
+  empty), `heavy` (omitted when false), `inputSchema` / `outputSchema` (omitted on
+  browse/search, sent on detail), `lanes[].health` (omitted when no sampled window),
+  `highlightFields` (omitted when empty), and `highlightFields[].why`. Every other field on
+  `AccountProfile`, `Balance`, `CatalogEntry`, `CatalogSearchResult`, `CatalogSearchResults`,
+  `DiscoveryPricing`, `PricingOffer`, and `LaneHealth` carries no `omitempty` and is always
+  sent, with one wrinkle inside `PricingOffer`: `baseUsd` and `perUnitUsd` are pointer fields
+  present on every `linear` offer (including at value 0) and absent on every `flat` one,
+  which is exactly the discrimination both parsers already enforce.
 
 ### 2.8 Retry policy (FROZEN, both languages)
 
@@ -796,7 +860,7 @@ class RunResult(BaseModel, Generic[T]):
     output: "OutputFound[T] | OutputNotFound"
     provider: Literal["AnyAPI"]
     cost_usd: float                     # alias "costUsd"
-    items: int | None = None
+    items: int                          # required; the gateway always sends it
     replayed: bool                      # required; the gateway always sends it
     result_id: str | None = None        # alias "resultId"
     jq_error: str | None = None         # alias "jqError"
@@ -805,10 +869,13 @@ def unwrap(result: "RunResult[T]") -> T:
     """Return data when found, else raise NotFoundError."""
 ```
 
-`replayed`, `result_id`, and `jq_error` mirror the TypeScript fields of 2.3 exactly, on both
-`RunResult[T]` and `BareRunResult[T]`. `unwrap` applies the same unretained-replay guard: a
-None `output` raises `AnyAPIError` (status 200) with the message described in 2.3, never a
-`ResultNotFoundError` and never a None typed as `T`.
+`items`, `replayed`, `result_id`, and `jq_error` mirror the TypeScript fields of 2.3 exactly,
+including presence and optionality, on both `RunResult[T]` and `BareRunResult[T]`. `unwrap`
+applies the same unretained-replay guard: a None `output` raises `AnyAPIError` (status 200)
+with the message described in 2.3, never a `ResultNotFoundError` and never a None typed as
+`T`. Both models additionally carry the `mode="before"` guard described in 2.3, so a null or
+absent `output` raises that same error at parse time - the only path a generated typed
+method can reach.
 
 Field aliasing: wire keys are camelCase (`costUsd`); models use `populate_by_name=True`
 and `alias="costUsd"` (snake_case attribute, camelCase wire). Output data models set
@@ -891,7 +958,8 @@ class ConnectionError(AnyAPIError): ...          # status 0 (network); name shad
 class TimeoutError(AnyAPIError): ...             # status 0 (timeout); shadows builtin intentionally
 ```
 
-Status mapping and retry policy identical to section 2.6 / 2.8.
+Status mapping, request-id header resolution, and retry policy identical to section
+2.6 / 2.8.
 
 ### 3.7 Account / catalog / signup (Python)
 
@@ -959,8 +1027,9 @@ Fixture JSON shape (exactly what a mocked `POST /v1/run/{slug}` returns, HTTP 20
 }
 ```
 
-`replayed` is present on every fixture because it is required on the wire (2.3). The
-optional `resultId` / `jqError` fields are omitted: a fixture models the success path.
+`items` and `replayed` are present on every fixture because both are required on the wire
+(2.3). The optional `resultId` / `jqError` fields are omitted: a fixture models the success
+path.
 
 `SYNTH_DATA` construction rules (deterministic):
 
@@ -1040,3 +1109,6 @@ operator/seller endpoints, OAuth. Not modeled in the SDK surface.
 - `pyright` + `mypy --strict` pass over generated + core Python.
 - Dash guard: a grep over all tracked files EXCEPT `openapi.json` finds no U+2014 / U+2013.
 - Fixture integration suites pass in both languages.
+- Run-envelope wire parity: every emitted fixture carries `items` (Python
+  `test_every_fixture_carries_items`), and a null-`output` body raises the unretained-replay
+  `AnyAPIError` from a GENERATED typed method, sync and async, not just from `unwrap`.

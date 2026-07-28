@@ -7,7 +7,10 @@
 export class AnyAPIError extends Error {
   /** HTTP status code, or 0 for transport-level failures (connection/timeout). */
   readonly status: number;
-  /** The x-request-id response header when present, else undefined. */
+  /**
+   * The gateway's X-Anyapi-Request-Id response header when present (falling back to a
+   * proxy-set x-request-id), else undefined. Quote it to AnyAPI support.
+   */
   readonly requestId?: string;
   /** Stable gateway error code when the JSON body includes one, else undefined. */
   readonly code?: string;
@@ -50,6 +53,22 @@ export class UpstreamError extends AnyAPIError {}
 export class ConnectionError extends AnyAPIError {}
 /** status 0, request timed out. */
 export class TimeoutError extends AnyAPIError {}
+
+/**
+ * The gateway emits its support handle as `X-Anyapi-Request-Id` (the only request-id header
+ * its CORS layer exposes to a browser). The generic `x-request-id` is read as a fallback for
+ * a proxy that stamps the conventional name in front of us.
+ */
+const REQUEST_ID_HEADERS = ["x-anyapi-request-id", "x-request-id"] as const;
+
+/** Read the support request id from a response, preferring the gateway's own header. */
+export function requestIdOf(headers: Headers): string | undefined {
+  for (const name of REQUEST_ID_HEADERS) {
+    const value = headers.get(name);
+    if (value) return value;
+  }
+  return undefined;
+}
 
 /**
  * Map a non-2xx HTTP status to the corresponding error class and construct it.

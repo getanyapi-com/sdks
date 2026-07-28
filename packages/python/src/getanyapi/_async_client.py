@@ -199,7 +199,7 @@ class AsyncAnyAPI:
                 ) from exc
 
     def _json_or_raise(self, response: httpx.Response) -> object:
-        request_id = response.headers.get("x-request-id")
+        request_id = _transport.request_id_of(response)
         body: object = None
         try:
             body = response.json()

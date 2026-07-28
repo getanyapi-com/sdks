@@ -68,12 +68,16 @@ def run_envelope(
     data: Any,
     *,
     cost_usd: float = 0.001,
-    items: int | None = None,
+    items: int = 1,
     found: bool = True,
     replayed: bool = False,
     extra: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Build a /v1/run response body (SPEC 4 fixture shape)."""
+    """Build a /v1/run response body (SPEC 4 fixture shape).
+
+    ``items`` is always emitted: the gateway's field carries no ``omitempty``, so a
+    body without it is not a body the wire can produce.
+    """
     output = (
         {"found": True, "data": data}
         if found
@@ -83,10 +87,9 @@ def run_envelope(
         "output": output,
         "provider": "AnyAPI",
         "costUsd": cost_usd,
+        "items": items,
         "replayed": replayed,
     }
-    if items is not None:
-        body["items"] = items
     if extra:
         body.update(extra)
     return body
