@@ -33,7 +33,22 @@ import type {
 } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://api.getanyapi.com";
-const DEFAULT_TIMEOUT_MS = 60_000;
+/**
+ * Whole-call deadline, sized to the longest run the GATEWAY can legitimately take
+ * rather than to a round number. The gateway's execution budget is its lock TTL
+ * minus the settlement recovery window (7m - 2m at the defaults) = 5m, and the
+ * slowest lane declares a 240s per-attempt ceiling, so any value below this can
+ * abort a run the server was still going to answer.
+ *
+ * It was 60s, which sat BELOW the measured p50 of live SKUs (upwork.jobs ~68s,
+ * linkedin.search_profiles_email ~62s over a 71-call sample): the default failed
+ * those calls more often than not. Worse, a client-side abort cancels the inbound
+ * request context, which the gateway records as a provider transport error, so a
+ * too-short default also corrupts the published health of the lane it gave up on.
+ * Override per client or per request with `timeoutMs` when a caller would rather
+ * fail fast.
+ */
+const DEFAULT_TIMEOUT_MS = 300_000;
 const DEFAULT_MAX_RETRIES = 2;
 const RETRY_BASE_DELAY_MS = 500;
 const RETRY_MAX_DELAY_MS = 8_000;

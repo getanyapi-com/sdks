@@ -164,7 +164,11 @@ export interface ClientOptions {
   fetch?: typeof fetch;
   /** Max retry attempts for retryable failures (429 + retry-safe network). Default 2. */
   maxRetries?: number;
-  /** Per-request timeout in milliseconds. Default 60000. */
+  /**
+   * Per-request timeout in milliseconds. Default 300000, matching the gateway's own
+   * execution budget: the slowest lane declares a 240s per-attempt ceiling, so a
+   * smaller default can abort a run the server was still going to answer.
+   */
   timeoutMs?: number;
   /** Send Idempotency-Key on billed POSTs. Default "auto"; use "off" as a kill switch. */
   idempotency?: "auto" | "off";

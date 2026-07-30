@@ -298,7 +298,12 @@ export interface ClientOptions {
   fetch?: typeof fetch;
   /** Max retry attempts for retryable failures (429 + retry-safe network). Default 2. */
   maxRetries?: number;
-  /** Per-request timeout in milliseconds. Default 60000. */
+  /**
+   * Per-request timeout in milliseconds. Default 300000, which is the gateway's own
+   * execution budget (lock TTL minus the settlement recovery window); the slowest
+   * lane declares a 240s per-attempt ceiling, so a smaller default can abort a run
+   * the server was still going to answer.
+   */
   timeoutMs?: number;
   /** Send Idempotency-Key on billed POSTs. Default "auto"; use "off" as a kill switch. */
   idempotency?: "auto" | "off";
@@ -828,7 +833,7 @@ class AnyAPI:
         *,
         api_key: str | None = None,      # falls back to os.environ["ANYAPI_API_KEY"]
         base_url: str = "https://api.getanyapi.com",
-        timeout: float = 60.0,           # seconds
+        timeout: float = 300.0,          # seconds; matches the gateway execution budget
         max_retries: int = 2,
         idempotency: Literal["auto", "off"] = "auto",
         max_in_progress_wait: float = 60.0,  # seconds
@@ -853,7 +858,7 @@ class AnyAPI:
 
 class AsyncAnyAPI:
     def __init__(self, *, api_key: str | None = None, base_url: str = "https://api.getanyapi.com",
-                 timeout: float = 60.0, max_retries: int = 2,
+                 timeout: float = 300.0, max_retries: int = 2,
                  idempotency: Literal["auto", "off"] = "auto",
                  max_in_progress_wait: float = 60.0,
                  http_client: httpx.AsyncClient | None = None) -> None: ...

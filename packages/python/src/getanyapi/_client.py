@@ -91,7 +91,7 @@ class AnyAPI:
         *,
         api_key: str | None = None,
         base_url: str = _DEFAULT_BASE_URL,
-        timeout: float = 60.0,
+        timeout: float = 300.0,
         max_retries: int = 2,
         idempotency: Literal["auto", "off"] = "auto",
         max_in_progress_wait: float = DEFAULT_MAX_IN_PROGRESS_WAIT,
