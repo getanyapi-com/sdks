@@ -27,7 +27,7 @@ class UpworkJobsInput(TypedDict, total=False):
     jobType: NotRequired[Literal["fixed", "hourly"]]
     """Filter by payment type: fixed-price or hourly jobs."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
+    """Maximum number of results to return (10-25, default 25). You are billed per result returned, so a lower limit costs less. This search has a floor of 10 results per page. Range: 10 to 25."""
     location: NotRequired[str]
     """Filter by client location - a region, subregion, or country (e.g. United States, Europe)."""
     paymentVerified: NotRequired[bool]

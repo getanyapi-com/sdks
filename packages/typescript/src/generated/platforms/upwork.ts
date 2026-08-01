@@ -29,8 +29,8 @@ export interface UpworkJobsInput {
    */
   jobType?: "fixed" | "hourly";
   /**
-   * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
-   * Range: minimum 1, maximum 25.
+   * Maximum number of results to return (10-25, default 25). You are billed per result returned, so a lower limit costs less. This search has a floor of 10 results per page.
+   * Range: minimum 10, maximum 25.
    */
   limit?: number;
   /**

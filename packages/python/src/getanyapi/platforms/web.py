@@ -57,7 +57,7 @@ class WebScrapeInput(TypedDict, total=False):
     url: Required[str]
     """The URL of the page to scrape."""
     waitFor: NotRequired[int]
-    """Milliseconds to wait for the page to finish rendering before capture. Use this for JavaScript-heavy pages or single-page apps whose content loads after the initial paint. Capped at 15000 to stay within the request timeout. Range: 0 to 15000."""
+    """Milliseconds to wait for the page to finish rendering before capture. Use this for JavaScript-heavy pages or single-page apps whose content loads after the initial paint. Capped at 15000 to stay within the request timeout. This wait is time you asked us to spend, so your response takes this much longer, and it is excluded from the latency published for this endpoint. Range: 0 to 15000."""
 
 
 class WebScreenshotInput(TypedDict, total=False):
@@ -192,10 +192,10 @@ class WebNamespace:
         Scrape any web page and get its content back as clean Markdown (or HTML, or
         raw HTML) plus title and metadata.
 
-        Price: $0.0009 per request.
+        Price: $0.0005 per request.
 
         Example:
-            res = client.web.scrape(formats=["markdown", "html", "rawHtml"], onlyMainContent=True, url="https://example.com")
+            res = client.web.scrape(formats=["markdown", "rawHtml"], onlyMainContent=False, url="https://example.com")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options
@@ -273,10 +273,10 @@ class AsyncWebNamespace:
         Scrape any web page and get its content back as clean Markdown (or HTML, or
         raw HTML) plus title and metadata.
 
-        Price: $0.0009 per request.
+        Price: $0.0005 per request.
 
         Example:
-            res = client.web.scrape(formats=["markdown", "html", "rawHtml"], onlyMainContent=True, url="https://example.com")
+            res = client.web.scrape(formats=["markdown", "rawHtml"], onlyMainContent=False, url="https://example.com")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options
