@@ -18897,12 +18897,12 @@
       "operationId": "instagram_stories_full",
       "name": "Instagram Stories (full)",
       "category": "social",
-      "description": "Fetch public Instagram accounts' currently live stories with the full record - media (image and video), type, dimensions, posting time, 24h expiry, and caption. Up to 100 usernames per request.",
+      "description": "Fetch a public Instagram account's currently live stories with media, type, dimensions, posting time, and 24-hour expiry by username.",
       "pricing": {
-        "priceUsd": 0.102,
-        "baseUsd": 0.099,
-        "perItemUsd": 0.003,
-        "perItemUnit": "username"
+        "priceUsd": 0.002,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "instagram",
       "tsMethod": "storiesFull",
@@ -18913,27 +18913,21 @@
       "inputTypeName": "InstagramStoriesFullInput",
       "outputTypeName": "InstagramStoriesFullData",
       "example": {
-        "usernames": [
-          "natgeo"
-        ]
+        "username": "natgeo"
       },
       "input": {
         "kind": "object",
         "properties": {
-          "usernames": {
-            "kind": "array",
-            "description": "Instagram usernames/handles (without the @). A flat run fee is shared across the batch, so request several at once to lower the cost per account. Up to 100 usernames per request.",
-            "items": {
-              "kind": "string",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "mustPopulate": false
+          "username": {
+            "kind": "string",
+            "description": "Instagram username or handle without the @.",
+            "enum": null,
+            "default": null,
+            "format": null
           }
         },
         "required": [
-          "usernames"
+          "username"
         ],
         "open": false
       },
@@ -18944,62 +18938,55 @@
           "properties": {
             "items": {
               "kind": "array",
-              "description": "Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption. Populated whenever the provider has data for the entity.",
+              "description": "Currently live story records for the requested account, with media, type, dimensions, posting time, and expiry. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
-                  "caption": {
-                    "kind": "string",
-                    "description": "Story caption text, when present.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
                   "code": {
                     "kind": "string",
-                    "description": "Instagram media shortcode.",
+                    "description": "Instagram media shortcode. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "createdUtc": {
                     "kind": "number",
-                    "description": "Posting time (Unix seconds).",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
-                  "expiresAt": {
-                    "kind": "integer",
-                    "description": "Expiry time, 24h after posting (Unix seconds).",
+                  "expiresUtc": {
+                    "kind": "number",
+                    "description": "Expiry UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "height": {
                     "kind": "integer",
-                    "description": "Media pixel height.",
+                    "description": "Media pixel height. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "id": {
                     "kind": "string",
-                    "description": "Story identifier.",
+                    "description": "Story identifier. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
-                  "imageUrl": {
+                  "image": {
                     "kind": "string",
-                    "description": "Direct URL to the story image (highest resolution).",
+                    "description": "Direct URL to the story image (highest resolution). Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "mediaType": {
                     "kind": "integer",
-                    "description": "Media type: 1 = image, 2 = video.",
+                    "description": "Media type: 1 = image, 2 = video. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -19013,14 +19000,14 @@
                   },
                   "videoUrl": {
                     "kind": "string",
-                    "description": "Direct URL to the story video, when the story is a video.",
+                    "description": "Direct URL to the story video, when the story is a video. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "width": {
                     "kind": "integer",
-                    "description": "Media pixel width.",
+                    "description": "Media pixel width. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -19031,7 +19018,16 @@
                 ],
                 "open": true,
                 "mustPopulate": [
-                  "username"
+                  "code",
+                  "createdUtc",
+                  "expiresUtc",
+                  "height",
+                  "id",
+                  "image",
+                  "mediaType",
+                  "username",
+                  "videoUrl",
+                  "width"
                 ]
               },
               "mustPopulate": true

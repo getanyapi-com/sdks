@@ -176,8 +176,8 @@ class InstagramSearchProfilesInput(TypedDict, total=False):
 class InstagramStoriesFullInput(TypedDict, total=False):
     """Input for Instagram Stories (full)."""
 
-    usernames: Required[list[str]]
-    """Instagram usernames/handles (without the @). A flat run fee is shared across the batch, so request several at once to lower the cost per account. Up to 100 usernames per request."""
+    username: Required[str]
+    """Instagram username or handle without the @."""
 
 
 class InstagramStoriesThinInput(TypedDict, total=False):
@@ -733,34 +733,42 @@ class InstagramSearchProfilesProfile(BaseModel):
 
 class InstagramStoriesFullData(BaseModel):
     items: list[InstagramStoriesFullItem] = Field(
-        description="Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption. Populated whenever the provider has data for the entity."
+        description="Currently live story records for the requested account, with media, type, dimensions, posting time, and expiry. Populated whenever the provider has data for the entity."
     )
 
 
 class InstagramStoriesFullItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str | None = Field(
-        default=None, description="Story caption text, when present."
+    code: str | None = Field(
+        default=None,
+        description="Instagram media shortcode. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    code: str | None = Field(default=None, description="Instagram media shortcode.")
     created_utc: float | None = Field(
-        default=None, alias="createdUtc", description="Posting time (Unix seconds)."
-    )
-    expires_at: int | None = Field(
         default=None,
-        alias="expiresAt",
-        description="Expiry time, 24h after posting (Unix seconds).",
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    height: int | None = Field(default=None, description="Media pixel height.")
-    id: str = Field(description="Story identifier.")
-    image_url: str | None = Field(
+    expires_utc: float | None = Field(
         default=None,
-        alias="imageUrl",
-        description="Direct URL to the story image (highest resolution).",
+        alias="expiresUtc",
+        description="Expiry UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    height: int | None = Field(
+        default=None,
+        description="Media pixel height. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(
+        description="Story identifier. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Direct URL to the story image (highest resolution). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     media_type: int | None = Field(
-        default=None, alias="mediaType", description="Media type: 1 = image, 2 = video."
+        default=None,
+        alias="mediaType",
+        description="Media type: 1 = image, 2 = video. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     username: str | None = Field(
         default=None,
@@ -769,9 +777,12 @@ class InstagramStoriesFullItem(BaseModel):
     video_url: str | None = Field(
         default=None,
         alias="videoUrl",
-        description="Direct URL to the story video, when the story is a video.",
+        description="Direct URL to the story video, when the story is a video. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    width: int | None = Field(default=None, description="Media pixel width.")
+    width: int | None = Field(
+        default=None,
+        description="Media pixel width. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
 
 
 class InstagramStoriesThinData(BaseModel):
@@ -1355,14 +1366,13 @@ class InstagramNamespace:
     ) -> RunResult[InstagramStoriesFullData]:
         """Instagram Stories (full)
 
-        Fetch public Instagram accounts' currently live stories with the full record
-        - media (image and video), type, dimensions, posting time, 24h expiry, and
-        caption. Up to 100 usernames per request.
+        Fetch a public Instagram account's currently live stories with media, type,
+        dimensions, posting time, and 24-hour expiry by username.
 
-        Price: $0.099 per request plus $0.003 per username (maximum $0.102).
+        Price: $0.002 per request.
 
         Example:
-            res = client.instagram.stories_full(usernames=["natgeo"])
+            res = client.instagram.stories_full(username="natgeo")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_full", dict(input), options
@@ -1960,14 +1970,13 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramStoriesFullData]:
         """Instagram Stories (full)
 
-        Fetch public Instagram accounts' currently live stories with the full record
-        - media (image and video), type, dimensions, posting time, 24h expiry, and
-        caption. Up to 100 usernames per request.
+        Fetch a public Instagram account's currently live stories with media, type,
+        dimensions, posting time, and 24-hour expiry by username.
 
-        Price: $0.099 per request plus $0.003 per username (maximum $0.102).
+        Price: $0.002 per request.
 
         Example:
-            res = client.instagram.stories_full(usernames=["natgeo"])
+            res = client.instagram.stories_full(username="natgeo")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_full", dict(input), options

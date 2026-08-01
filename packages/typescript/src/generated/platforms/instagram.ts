@@ -868,42 +868,44 @@ export interface InstagramSearchProfilesData {
  */
 export interface InstagramStoriesFullInput {
   /**
-   * Instagram usernames/handles (without the @). A flat run fee is shared across the batch, so request several at once to lower the cost per account. Up to 100 usernames per request.
+   * Instagram username or handle without the @.
    */
-  usernames: string[];
+  username: string;
 }
 
 export interface InstagramStoriesFullItem {
   /**
-   * Story caption text, when present.
-   */
-  caption?: string;
-  /**
-   * Instagram media shortcode.
+   * Instagram media shortcode. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   code?: string;
   /**
-   * Posting time (Unix seconds).
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
   /**
-   * Expiry time, 24h after posting (Unix seconds).
+   * Expiry UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
-  expiresAt?: number;
+  expiresUtc?: number;
   /**
-   * Media pixel height.
+   * Media pixel height. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   height?: number;
   /**
-   * Story identifier.
+   * Story identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * Direct URL to the story image (highest resolution).
+   * Direct URL to the story image (highest resolution). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
-  imageUrl?: string;
+  image?: string;
   /**
-   * Media type: 1 = image, 2 = video.
+   * Media type: 1 = image, 2 = video. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   mediaType?: number;
   /**
@@ -912,11 +914,13 @@ export interface InstagramStoriesFullItem {
    */
   username?: string;
   /**
-   * Direct URL to the story video, when the story is a video.
+   * Direct URL to the story video, when the story is a video. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   videoUrl?: string;
   /**
-   * Media pixel width.
+   * Media pixel width. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   width?: number;
   [extra: string]: unknown;
@@ -927,7 +931,7 @@ export interface InstagramStoriesFullItem {
  */
 export interface InstagramStoriesFullData {
   /**
-   * Story records across the requested accounts, each with full media, type, dimensions, posting + expiry time, and caption. Populated whenever the provider has data for the entity.
+   * Currently live story records for the requested account, with media, type, dimensions, posting time, and expiry. Populated whenever the provider has data for the entity.
    */
   items: InstagramStoriesFullItem[];
 }
@@ -1532,12 +1536,12 @@ export class InstagramNamespace {
   /**
    * Instagram Stories (full)
    *
-   * Fetch public Instagram accounts' currently live stories with the full record - media (image and video), type, dimensions, posting time, 24h expiry, and caption. Up to 100 usernames per request.
+   * Fetch a public Instagram account's currently live stories with media, type, dimensions, posting time, and 24-hour expiry by username.
    *
-   * Price: $0.099 per request plus $0.003 per username (maximum $0.102).
+   * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.storiesFull({ usernames: ["natgeo"] });
+   * const res = await client.instagram.storiesFull({ username: "natgeo" });
    */
   storiesFull(
     input: InstagramStoriesFullInput,
