@@ -2999,9 +2999,9 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 745,
-            "uptimeSample": 2833,
-            "latencySample": 2833,
-            "requests": 2833
+            "uptimeSample": 2826,
+            "latencySample": 2826,
+            "requests": 2826
           }
         }
       ],
@@ -3379,9 +3379,9 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 75,
-            "uptimeSample": 541,
-            "latencySample": 541,
-            "requests": 541
+            "uptimeSample": 544,
+            "latencySample": 544,
+            "requests": 544
           }
         }
       ],
@@ -3835,11 +3835,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.95918367346938,
-            "latencyP50Ms": 1540,
-            "uptimeSample": 294,
-            "latencySample": 288,
-            "requests": 295
+            "uptimePct": 97.97297297297297,
+            "latencyP50Ms": 1542,
+            "uptimeSample": 296,
+            "latencySample": 290,
+            "requests": 297
           }
         },
         {
@@ -3941,11 +3941,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.945085118067,
-            "latencyP50Ms": 3366,
-            "uptimeSample": 1821,
-            "latencySample": 1820,
-            "requests": 1823
+            "uptimePct": 99.94511525795829,
+            "latencyP50Ms": 3364,
+            "uptimeSample": 1822,
+            "latencySample": 1821,
+            "requests": 1824
           }
         },
         {
@@ -4043,11 +4043,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 89.24489089019744,
-            "latencyP50Ms": 2515,
-            "uptimeSample": 5774,
-            "latencySample": 5153,
-            "requests": 5774
+            "uptimePct": 89.24861495844875,
+            "latencyP50Ms": 2518,
+            "uptimeSample": 5776,
+            "latencySample": 5155,
+            "requests": 5776
           }
         }
       ],
@@ -4136,11 +4136,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 95.28301886792453,
-            "latencyP50Ms": 5154,
-            "uptimeSample": 106,
-            "latencySample": 101,
-            "requests": 107
+            "uptimePct": 95.32710280373831,
+            "latencyP50Ms": 5086,
+            "uptimeSample": 107,
+            "latencySample": 102,
+            "requests": 108
           }
         }
       ],
@@ -5404,11 +5404,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.44134078212291,
-            "latencyP50Ms": 17865,
-            "uptimeSample": 179,
-            "latencySample": 178,
-            "requests": 179
+            "uptimePct": 99.45054945054945,
+            "latencyP50Ms": 17750,
+            "uptimeSample": 182,
+            "latencySample": 181,
+            "requests": 182
           }
         }
       ],
@@ -5763,6 +5763,52 @@
       "failover": false
     },
     {
+      "id": "reddit.post",
+      "slug": "reddit.post",
+      "category": "social",
+      "name": "Reddit Post",
+      "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.",
+      "method": "POST",
+      "path": "/v1/run/reddit.post",
+      "provider": "AnyAPI",
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.001
+        },
+        "failoverMaxUsd": 0.00204
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001
+          }
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.002
+          }
+        },
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00204,
+            "perUnitUsd": 0,
+            "maxUsd": 0.00204
+          }
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": true
+    },
+    {
       "id": "reddit.post_comments",
       "slug": "reddit.post_comments",
       "category": "social",
@@ -5788,11 +5834,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.79140592407175,
-            "latencyP50Ms": 2341,
-            "uptimeSample": 2397,
-            "latencySample": 2392,
-            "requests": 2410
+            "uptimePct": 99.78920741989882,
+            "latencyP50Ms": 2340,
+            "uptimeSample": 2372,
+            "latencySample": 2367,
+            "requests": 2385
           }
         },
         {
@@ -5846,6 +5892,45 @@
       "failover": false
     },
     {
+      "id": "reddit.profile",
+      "slug": "reddit.profile",
+      "category": "social",
+      "name": "Reddit Profile",
+      "description": "Fetch a Reddit user's public profile (karma split, post and comment counts, bio, avatar, account age) by username.",
+      "method": "POST",
+      "path": "/v1/run/reddit.profile",
+      "provider": "AnyAPI",
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.001
+        },
+        "failoverMaxUsd": 0.00204
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001
+          }
+        },
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00204,
+            "perUnitUsd": 0,
+            "maxUsd": 0.00204
+          }
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": true
+    },
+    {
       "id": "reddit.search",
       "slug": "reddit.search",
       "category": "social",
@@ -5871,11 +5956,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.54081632653062,
-            "latencyP50Ms": 2644,
-            "uptimeSample": 1960,
-            "latencySample": 1951,
-            "requests": 2100
+            "uptimePct": 99.54175152749491,
+            "latencyP50Ms": 2643,
+            "uptimeSample": 1964,
+            "latencySample": 1955,
+            "requests": 2104
           }
         },
         {
@@ -5886,11 +5971,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.81422924901186,
-            "latencyP50Ms": 8310,
-            "uptimeSample": 253,
-            "latencySample": 250,
-            "requests": 253
+            "uptimePct": 98.80952380952381,
+            "latencyP50Ms": 8303,
+            "uptimeSample": 252,
+            "latencySample": 249,
+            "requests": 252
           }
         },
         {
@@ -6055,6 +6140,66 @@
       "tryEligible": true,
       "tryMaxItems": 3,
       "failover": true
+    },
+    {
+      "id": "reddit.user_comments",
+      "slug": "reddit.user_comments",
+      "category": "social",
+      "name": "Reddit User Comments",
+      "description": "List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.",
+      "method": "POST",
+      "path": "/v1/run/reddit.user_comments",
+      "provider": "AnyAPI",
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.001
+        },
+        "failoverMaxUsd": 0.001
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001
+          }
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": false
+    },
+    {
+      "id": "reddit.user_posts",
+      "slug": "reddit.user_posts",
+      "category": "social",
+      "name": "Reddit User Posts",
+      "description": "List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.",
+      "method": "POST",
+      "path": "/v1/run/reddit.user_posts",
+      "provider": "AnyAPI",
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.001
+        },
+        "failoverMaxUsd": 0.001
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001
+          }
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": false
     },
     {
       "id": "redfin.search",
@@ -7961,10 +8106,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1590,
-            "uptimeSample": 45,
-            "latencySample": 45,
-            "requests": 45
+            "latencyP50Ms": 1574,
+            "uptimeSample": 47,
+            "latencySample": 47,
+            "requests": 47
           }
         },
         {
@@ -8020,11 +8165,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.8220640569395,
-            "latencyP50Ms": 3830,
-            "uptimeSample": 1124,
-            "latencySample": 1122,
-            "requests": 1124
+            "uptimePct": 99.82253771073647,
+            "latencyP50Ms": 3831,
+            "uptimeSample": 1127,
+            "latencySample": 1125,
+            "requests": 1127
           }
         },
         {
@@ -9129,10 +9274,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1890,
-            "uptimeSample": 422,
-            "latencySample": 422,
-            "requests": 422
+            "latencyP50Ms": 1901,
+            "uptimeSample": 425,
+            "latencySample": 425,
+            "requests": 425
           }
         },
         {
@@ -9540,10 +9685,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1198,
-            "uptimeSample": 4,
-            "latencySample": 4,
-            "requests": 4
+            "latencyP50Ms": 1054,
+            "uptimeSample": 9,
+            "latencySample": 9,
+            "requests": 9
           }
         },
         {
@@ -9554,11 +9699,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 87.15697036223929,
-            "latencyP50Ms": 588,
-            "uptimeSample": 1822,
-            "latencySample": 1588,
-            "requests": 1911
+            "uptimePct": 87.1499176276771,
+            "latencyP50Ms": 587,
+            "uptimeSample": 1821,
+            "latencySample": 1587,
+            "requests": 1910
           }
         },
         {
@@ -9566,6 +9711,14 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.0045
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 241,
+            "uptimeSample": 1,
+            "latencySample": 1,
+            "requests": 1
           }
         }
       ],
@@ -10350,11 +10503,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.5703544575725,
-            "latencyP50Ms": 1637,
-            "uptimeSample": 931,
-            "latencySample": 927,
-            "requests": 931
+            "uptimePct": 99.57173447537473,
+            "latencyP50Ms": 1636,
+            "uptimeSample": 934,
+            "latencySample": 930,
+            "requests": 934
           }
         },
         {

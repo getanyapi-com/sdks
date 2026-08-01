@@ -364,8 +364,12 @@ import type {
 import type {
   RedditPostCommentsData,
   RedditPostCommentsInput,
+  RedditPostData,
+  RedditPostInput,
   RedditPostTranscriptData,
   RedditPostTranscriptInput,
+  RedditProfileData,
+  RedditProfileInput,
   RedditSearchData,
   RedditSearchInput,
   RedditSubredditDetailsData,
@@ -374,6 +378,10 @@ import type {
   RedditSubredditPostsInput,
   RedditSubredditSearchData,
   RedditSubredditSearchInput,
+  RedditUserCommentsData,
+  RedditUserCommentsInput,
+  RedditUserPostsData,
+  RedditUserPostsInput,
 } from "./platforms/reddit.js";
 import type {
   RedfinSearchData,
@@ -1406,6 +1414,11 @@ export interface SkuMap {
     data: RealtorSearchData;
     result: RunResult<RealtorSearchData>;
   };
+  "reddit.post": {
+    input: RedditPostInput;
+    data: RedditPostData;
+    result: RunResult<RedditPostData>;
+  };
   "reddit.post_comments": {
     input: RedditPostCommentsInput;
     data: RedditPostCommentsData;
@@ -1415,6 +1428,11 @@ export interface SkuMap {
     input: RedditPostTranscriptInput;
     data: RedditPostTranscriptData;
     result: RunResult<RedditPostTranscriptData>;
+  };
+  "reddit.profile": {
+    input: RedditProfileInput;
+    data: RedditProfileData;
+    result: RunResult<RedditProfileData>;
   };
   "reddit.search": {
     input: RedditSearchInput;
@@ -1435,6 +1453,16 @@ export interface SkuMap {
     input: RedditSubredditSearchInput;
     data: RedditSubredditSearchData;
     result: RunResult<RedditSubredditSearchData>;
+  };
+  "reddit.user_comments": {
+    input: RedditUserCommentsInput;
+    data: RedditUserCommentsData;
+    result: RunResult<RedditUserCommentsData>;
+  };
+  "reddit.user_posts": {
+    input: RedditUserPostsInput;
+    data: RedditUserPostsData;
+    result: RunResult<RedditUserPostsData>;
   };
   "redfin.search": {
     input: RedfinSearchInput;

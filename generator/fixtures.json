@@ -3016,6 +3016,27 @@
     "items": 1,
     "replayed": false
   },
+  "reddit.post": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "title": "sample",
+        "author": "sample",
+        "score": 1,
+        "numComments": 1,
+        "url": "sample",
+        "permalink": "sample",
+        "createdUtc": 1.5,
+        "subreddit": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "reddit.post_comments": {
     "output": {
       "found": true,
@@ -3029,7 +3050,8 @@
             "createdUtc": 1.5,
             "_extra": "passthrough"
           }
-        ]
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
@@ -3045,6 +3067,20 @@
         "language": "sample",
         "transcript": "sample",
         "transcriptNotAvailable": true,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "reddit.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "username": "sample",
         "_extra": "passthrough"
       }
     },
@@ -3144,6 +3180,48 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "reddit.user_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "author": "sample",
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "reddit.user_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "title": "sample",
+            "author": "sample",
+            "permalink": "sample",
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
