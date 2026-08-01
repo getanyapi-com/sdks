@@ -1587,10 +1587,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 4643,
-            "uptimeSample": 23,
-            "latencySample": 23,
-            "requests": 31
+            "latencyP50Ms": 4319,
+            "uptimeSample": 27,
+            "latencySample": 27,
+            "requests": 35
           }
         }
       ],
@@ -2999,9 +2999,9 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 745,
-            "uptimeSample": 2826,
-            "latencySample": 2826,
-            "requests": 2826
+            "uptimeSample": 2830,
+            "latencySample": 2830,
+            "requests": 2830
           }
         }
       ],
@@ -3378,10 +3378,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 75,
-            "uptimeSample": 544,
-            "latencySample": 544,
-            "requests": 544
+            "latencyP50Ms": 76,
+            "uptimeSample": 548,
+            "latencySample": 548,
+            "requests": 548
           }
         }
       ],
@@ -5404,11 +5404,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.45054945054945,
-            "latencyP50Ms": 17750,
-            "uptimeSample": 182,
-            "latencySample": 181,
-            "requests": 182
+            "uptimePct": 99.46236559139786,
+            "latencyP50Ms": 17815,
+            "uptimeSample": 186,
+            "latencySample": 185,
+            "requests": 186
           }
         }
       ],
@@ -5785,6 +5785,14 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.001
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 444,
+            "uptimeSample": 1,
+            "latencySample": 1,
+            "requests": 1
           }
         },
         {
@@ -5914,6 +5922,14 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.001
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 284,
+            "uptimeSample": 1,
+            "latencySample": 1,
+            "requests": 1
           }
         },
         {
@@ -5956,11 +5972,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.54175152749491,
-            "latencyP50Ms": 2643,
-            "uptimeSample": 1964,
-            "latencySample": 1955,
-            "requests": 2104
+            "uptimePct": 99.54268292682927,
+            "latencyP50Ms": 2642,
+            "uptimeSample": 1968,
+            "latencySample": 1959,
+            "requests": 2108
           }
         },
         {
@@ -6164,6 +6180,14 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.001
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 465,
+            "uptimeSample": 1,
+            "latencySample": 1,
+            "requests": 1
           }
         }
       ],
@@ -6194,6 +6218,14 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.001
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 1984,
+            "uptimeSample": 1,
+            "latencySample": 1,
+            "requests": 1
           }
         }
       ],
@@ -9686,9 +9718,9 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 1054,
-            "uptimeSample": 9,
-            "latencySample": 9,
-            "requests": 9
+            "uptimeSample": 13,
+            "latencySample": 13,
+            "requests": 13
           }
         },
         {
@@ -9992,40 +10024,6 @@
             "uptimeSample": 5,
             "latencySample": 5,
             "requests": 5
-          }
-        }
-      ],
-      "tryEligible": true,
-      "tryMaxItems": 3,
-      "failover": false
-    },
-    {
-      "id": "whatsapp.validate",
-      "slug": "whatsapp.validate",
-      "category": "data",
-      "name": "WhatsApp Number Validator",
-      "description": "Check whether a phone number is registered on WhatsApp.",
-      "method": "POST",
-      "path": "/v1/run/whatsapp.validate",
-      "provider": "AnyAPI",
-      "pricing": {
-        "from": {
-          "model": "linear",
-          "unit": "result",
-          "baseUsd": 0.0035,
-          "perUnitUsd": 0.001,
-          "maxUsd": 0.0045
-        },
-        "failoverMaxUsd": 0.0045
-      },
-      "lanes": [
-        {
-          "pricing": {
-            "model": "linear",
-            "unit": "result",
-            "baseUsd": 0.0035,
-            "perUnitUsd": 0.001,
-            "maxUsd": 0.0045
           }
         }
       ],

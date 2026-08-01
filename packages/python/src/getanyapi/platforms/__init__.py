@@ -79,7 +79,6 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "walmart": ("walmart", "WalmartNamespace", "AsyncWalmartNamespace"),
     "web": ("web", "WebNamespace", "AsyncWebNamespace"),
     "weibo": ("weibo", "WeiboNamespace", "AsyncWeiboNamespace"),
-    "whatsapp": ("whatsapp", "WhatsappNamespace", "AsyncWhatsappNamespace"),
     "yahoo_finance": (
         "yahoo_finance",
         "YahooFinanceNamespace",

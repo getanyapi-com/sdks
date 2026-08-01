@@ -606,10 +606,6 @@ import type {
   WeiboUserPostsInput,
 } from "./platforms/weibo.js";
 import type {
-  WhatsappValidateData,
-  WhatsappValidateInput,
-} from "./platforms/whatsapp.js";
-import type {
   YahooFinanceQuoteData,
   YahooFinanceQuoteInput,
 } from "./platforms/yahoo_finance.js";
@@ -1933,11 +1929,6 @@ export interface SkuMap {
     input: WeiboUserPostsInput;
     data: WeiboUserPostsData;
     result: RunResult<WeiboUserPostsData>;
-  };
-  "whatsapp.validate": {
-    input: WhatsappValidateInput;
-    data: WhatsappValidateData;
-    result: RunResult<WhatsappValidateData>;
   };
   "yahoo_finance.quote": {
     input: YahooFinanceQuoteInput;

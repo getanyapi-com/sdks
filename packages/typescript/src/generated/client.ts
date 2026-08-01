@@ -60,7 +60,6 @@ import { UpworkNamespace } from "./platforms/upwork.js";
 import { WalmartNamespace } from "./platforms/walmart.js";
 import { WebNamespace } from "./platforms/web.js";
 import { WeiboNamespace } from "./platforms/weibo.js";
-import { WhatsappNamespace } from "./platforms/whatsapp.js";
 import { YahooFinanceNamespace } from "./platforms/yahoo_finance.js";
 import { YelpNamespace } from "./platforms/yelp.js";
 import { YoutubeNamespace } from "./platforms/youtube.js";
@@ -582,15 +581,6 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["weibo"] ??= new WeiboNamespace(
       this._core,
     )) as WeiboNamespace;
-  }
-
-  /**
-   * Typed methods for the whatsapp platform.
-   */
-  get whatsapp(): WhatsappNamespace {
-    return (this._namespaces["whatsapp"] ??= new WhatsappNamespace(
-      this._core,
-    )) as WhatsappNamespace;
   }
 
   /**

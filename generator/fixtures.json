@@ -5173,24 +5173,6 @@
     "items": 1,
     "replayed": false
   },
-  "whatsapp.validate": {
-    "output": {
-      "found": true,
-      "data": {
-        "items": [
-          {
-            "phone": "sample",
-            "exists": true,
-            "_extra": "passthrough"
-          }
-        ]
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
   "yahoo_finance.quote": {
     "output": {
       "found": true,

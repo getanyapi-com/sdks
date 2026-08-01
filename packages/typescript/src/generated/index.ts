@@ -61,7 +61,6 @@ export * from "./platforms/upwork.js";
 export * from "./platforms/walmart.js";
 export * from "./platforms/web.js";
 export * from "./platforms/weibo.js";
-export * from "./platforms/whatsapp.js";
 export * from "./platforms/yahoo_finance.js";
 export * from "./platforms/yelp.js";
 export * from "./platforms/youtube.js";
