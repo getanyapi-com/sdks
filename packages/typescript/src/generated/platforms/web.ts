@@ -122,6 +122,11 @@ export interface WebScrapeInput {
    */
   onlyMainContent?: boolean;
   /**
+   * When true, fetch through a stealth proxy that gets past bot protection which refuses an ordinary request. This costs materially more per request (see the pricing ceiling), so leave it off unless a normal scrape of the site comes back blocked or empty.
+   * Default: false.
+   */
+  stealth?: boolean;
+  /**
    * The URL of the page to scrape.
    * Format: uri.
    */

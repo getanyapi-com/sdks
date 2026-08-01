@@ -54,6 +54,8 @@ class WebScrapeInput(TypedDict, total=False):
     """When true, render the page with a mobile viewport and user agent instead of desktop. Some sites serve materially different content to mobile."""
     onlyMainContent: NotRequired[bool]
     """When true (default) return only the main article content, stripping navigation, headers, footers, and other boilerplate. Set false to capture the full page. Default: true."""
+    stealth: NotRequired[bool]
+    """When true, fetch through a stealth proxy that gets past bot protection which refuses an ordinary request. This costs materially more per request (see the pricing ceiling), so leave it off unless a normal scrape of the site comes back blocked or empty. Default: false."""
     url: Required[str]
     """The URL of the page to scrape."""
     waitFor: NotRequired[int]
