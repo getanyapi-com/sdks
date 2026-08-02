@@ -553,7 +553,7 @@ export class MapsNamespace {
    *
    * Search Google Maps for businesses and enrich each result with contact details (emails, phones, and social profiles from their websites), up to 20 records per request.
    *
-   * Price: $0.00005 per request plus $0.003 per result (maximum $0.06005).
+   * Price: $0.00005 per request plus $0.0045 per result (maximum $0.09005).
    *
    * @example
    * const res = await client.maps.contacts({ location: "Austin, TX", query: "coffee shop", limit: 3, placeMinimumStars: "four", website: "withWebsite" });

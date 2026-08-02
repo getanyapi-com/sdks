@@ -24872,9 +24872,9 @@
       "category": "data",
       "description": "Search Google Maps for businesses and enrich each result with contact details (emails, phones, and social profiles from their websites), up to 20 records per request.",
       "pricing": {
-        "priceUsd": 0.06005,
+        "priceUsd": 0.09005,
         "baseUsd": 0.00005,
-        "perItemUsd": 0.003,
+        "perItemUsd": 0.0045,
         "perItemUnit": "result"
       },
       "tsNamespace": "maps",
