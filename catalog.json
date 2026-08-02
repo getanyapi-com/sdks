@@ -3007,9 +3007,9 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 753,
-            "uptimeSample": 2858,
-            "latencySample": 2858,
-            "requests": 2858
+            "uptimeSample": 2859,
+            "latencySample": 2859,
+            "requests": 2859
           }
         }
       ],
@@ -3296,16 +3296,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0015
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0015
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0015
           },
           "health": {
             "window": "30d",
@@ -3315,11 +3315,18 @@
             "latencySample": 1,
             "requests": 1
           }
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015
+          }
         }
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "hackernews.search",
@@ -3334,11 +3341,18 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0015
         },
         "failoverMaxUsd": 0.00325
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -3357,7 +3371,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "hackernews.story",
@@ -3372,30 +3386,37 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0015
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0015
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0015
           },
           "health": {
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 76,
-            "uptimeSample": 555,
-            "latencySample": 555,
-            "requests": 555
+            "uptimeSample": 556,
+            "latencySample": 556,
+            "requests": 556
+          }
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015
           }
         }
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "hackernews.story_comments",
@@ -3410,11 +3431,18 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0015
         },
         "failoverMaxUsd": 0.00325
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -3433,7 +3461,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "indeed.jobs",
@@ -4051,11 +4079,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 91.54625253207293,
-            "latencyP50Ms": 3609,
-            "uptimeSample": 7405,
-            "latencySample": 6779,
-            "requests": 7405
+            "uptimePct": 91.73804190275399,
+            "latencyP50Ms": 3752,
+            "uptimeSample": 7589,
+            "latencySample": 6962,
+            "requests": 7589
           }
         }
       ],
@@ -4683,10 +4711,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 6478,
-            "uptimeSample": 18,
-            "latencySample": 18,
-            "requests": 18
+            "latencyP50Ms": 5933,
+            "uptimeSample": 19,
+            "latencySample": 19,
+            "requests": 19
           }
         }
       ],
@@ -5010,10 +5038,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 3918,
-            "uptimeSample": 4,
-            "latencySample": 4,
-            "requests": 4
+            "latencyP50Ms": 4036,
+            "uptimeSample": 5,
+            "latencySample": 5,
+            "requests": 5
           }
         }
       ],
@@ -5082,10 +5110,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 7104,
-            "uptimeSample": 26,
-            "latencySample": 26,
-            "requests": 26
+            "latencyP50Ms": 7099,
+            "uptimeSample": 27,
+            "latencySample": 27,
+            "requests": 27
           }
         }
       ],
@@ -5199,11 +5227,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 91.70506912442396,
-            "latencyP50Ms": 13500,
-            "uptimeSample": 217,
-            "latencySample": 199,
-            "requests": 217
+            "uptimePct": 91.89189189189189,
+            "latencyP50Ms": 13400,
+            "uptimeSample": 222,
+            "latencySample": 204,
+            "requests": 222
           }
         },
         {
@@ -5336,9 +5364,9 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 1063,
-            "uptimeSample": 5,
-            "latencySample": 5,
-            "requests": 5
+            "uptimeSample": 7,
+            "latencySample": 7,
+            "requests": 7
           }
         }
       ],
@@ -5410,6 +5438,14 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.00297
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 4737,
+            "uptimeSample": 1,
+            "latencySample": 1,
+            "requests": 1
           }
         },
         {
@@ -5422,11 +5458,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.49748743718592,
-            "latencyP50Ms": 17984,
-            "uptimeSample": 199,
-            "latencySample": 198,
-            "requests": 200
+            "uptimePct": 99.5,
+            "latencyP50Ms": 17996,
+            "uptimeSample": 200,
+            "latencySample": 199,
+            "requests": 201
           }
         }
       ],
@@ -5503,10 +5539,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1446,
-            "uptimeSample": 10,
-            "latencySample": 10,
-            "requests": 10
+            "latencyP50Ms": 1551,
+            "uptimeSample": 11,
+            "latencySample": 11,
+            "requests": 11
           }
         },
         {
@@ -5520,10 +5556,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 13578,
-            "uptimeSample": 106,
-            "latencySample": 106,
-            "requests": 109
+            "latencyP50Ms": 13555,
+            "uptimeSample": 107,
+            "latencySample": 107,
+            "requests": 110
           }
         }
       ],
@@ -6003,11 +6039,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.54728370221328,
-            "latencyP50Ms": 2639,
-            "uptimeSample": 1988,
-            "latencySample": 1979,
-            "requests": 2129
+            "uptimePct": 99.5475113122172,
+            "latencyP50Ms": 2637,
+            "uptimeSample": 1989,
+            "latencySample": 1980,
+            "requests": 2130
           }
         },
         {
@@ -6018,11 +6054,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.6046511627907,
-            "latencyP50Ms": 8425,
-            "uptimeSample": 215,
-            "latencySample": 212,
-            "requests": 215
+            "uptimePct": 98.59154929577464,
+            "latencyP50Ms": 8420,
+            "uptimeSample": 213,
+            "latencySample": 210,
+            "requests": 213
           }
         },
         {
@@ -8168,10 +8204,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 4305,
-            "uptimeSample": 5,
-            "latencySample": 5,
-            "requests": 5
+            "latencyP50Ms": 4063,
+            "uptimeSample": 3,
+            "latencySample": 3,
+            "requests": 3
           }
         },
         {
@@ -9748,10 +9784,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 2000,
-            "uptimeSample": 435,
-            "latencySample": 435,
-            "requests": 445
+            "latencyP50Ms": 1999,
+            "uptimeSample": 436,
+            "latencySample": 436,
+            "requests": 446
           }
         },
         {

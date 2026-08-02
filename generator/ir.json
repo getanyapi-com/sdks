@@ -15941,7 +15941,7 @@
       "category": "social",
       "description": "Get a Hacker News user's public profile by username - karma, bio, and account details as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -16025,7 +16025,7 @@
       "category": "social",
       "description": "Search Hacker News by keyword - matching stories with title, link, author, points, and comment count as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -16170,7 +16170,7 @@
       "category": "social",
       "description": "Get a Hacker News story by id - title, link, author, points, and comment count as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -16282,7 +16282,7 @@
       "category": "social",
       "description": "List the comments on a Hacker News story by id - text, author, and timestamp as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

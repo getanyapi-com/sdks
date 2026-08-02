@@ -182,7 +182,7 @@ export class HackernewsNamespace {
    *
    * Get a Hacker News user's public profile by username - karma, bio, and account details as clean JSON.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.hackernews.profile({ handle: "pg" });
@@ -199,7 +199,7 @@ export class HackernewsNamespace {
    *
    * Search Hacker News by keyword - matching stories with title, link, author, points, and comment count as clean JSON.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.hackernews.search({ query: "ai" });
@@ -216,7 +216,7 @@ export class HackernewsNamespace {
    *
    * Get a Hacker News story by id - title, link, author, points, and comment count as clean JSON.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.hackernews.story({ id: "47340079" });
@@ -233,7 +233,7 @@ export class HackernewsNamespace {
    *
    * List the comments on a Hacker News story by id - text, author, and timestamp as clean JSON.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.hackernews.storyComments({ id: "47340079" });
