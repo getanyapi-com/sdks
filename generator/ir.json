@@ -25223,12 +25223,12 @@
       "operationId": "maps_place",
       "name": "Google Maps Place Lookup",
       "category": "data",
-      "description": "Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with full details - address, phone, website, rating, hours, and coordinates - as normalized JSON.",
+      "description": "Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with available address, contact, rating, and coordinate details as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.009,
-        "baseUsd": 0.003,
-        "perItemUsd": 0.005,
-        "perItemUnit": "result"
+        "priceUsd": 0.00297,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "maps",
       "tsMethod": "place",
@@ -25316,7 +25316,7 @@
           "properties": {
             "items": {
               "kind": "array",
-              "description": "The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched). Populated whenever the provider has data for the entity.",
+              "description": "The best-matching place for the query, with available address, contact, category, rating, opening-hours, and coordinate details. Up to one element (empty when nothing matched). Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
@@ -25751,10 +25751,10 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.06005,
-        "baseUsd": 0.00005,
-        "perItemUsd": 0.003,
-        "perItemUnit": "result"
+        "priceUsd": 0.00297,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "maps",
       "tsMethod": "search",
@@ -25794,7 +25794,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20). Pricing depends on the selected provider and may be flat per request.",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -43964,7 +43964,7 @@
           },
           "formats": {
             "kind": "array",
-            "description": "Which representations of the page to return. Any combination of: markdown (clean main content), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to markdown only.",
+            "description": "Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to Markdown and raw HTML.",
             "items": {
               "kind": "string",
               "enum": [
@@ -43995,8 +43995,8 @@
           },
           "onlyMainContent": {
             "kind": "boolean",
-            "description": "When true (default) return only the main article content, stripping navigation, headers, footers, and other boilerplate. Set false to capture the full page.",
-            "default": true
+            "description": "When true, return only the main article content, stripping navigation, headers, footers, and other boilerplate. Defaults to false to capture the full page.",
+            "default": false
           },
           "stealth": {
             "kind": "boolean",

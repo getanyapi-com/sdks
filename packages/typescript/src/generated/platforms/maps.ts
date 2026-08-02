@@ -290,7 +290,7 @@ export interface MapsPlaceHour {
  */
 export interface MapsPlaceData {
   /**
-   * The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched). Populated whenever the provider has data for the entity.
+   * The best-matching place for the query, with available address, contact, category, rating, opening-hours, and coordinate details. Up to one element (empty when nothing matched). Populated whenever the provider has data for the entity.
    */
   items: MapsPlaceItem[];
 }
@@ -422,7 +422,7 @@ export interface MapsSearchInput {
    */
   language?: string;
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20). Pricing depends on the selected provider and may be flat per request.
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
@@ -568,9 +568,9 @@ export class MapsNamespace {
   /**
    * Google Maps Place Lookup
    *
-   * Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with full details - address, phone, website, rating, hours, and coordinates - as normalized JSON.
+   * Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with available address, contact, rating, and coordinate details as normalized JSON.
    *
-   * Price: $0.003 per request plus $0.005 per result (maximum $0.009).
+   * Price: $0.00297 per request.
    *
    * @example
    * const res = await client.maps.place({ query: "Blue Bottle Coffee", location: "San Francisco, CA", website: "withWebsite" });
@@ -604,7 +604,7 @@ export class MapsNamespace {
    *
    * Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.
    *
-   * Price: $0.00005 per request plus $0.003 per result (maximum $0.06005).
+   * Price: $0.00297 per request.
    *
    * @example
    * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3, placeMinimumStars: "four", website: "withWebsite" });

@@ -47,13 +47,13 @@ class WebScrapeInput(TypedDict, total=False):
     excludeTags: NotRequired[list[str]]
     """CSS selectors to drop before capture (for example ["nav", "footer", ".ads"]). Applied after includeTags."""
     formats: NotRequired[list[Literal["markdown", "html", "rawHtml"]]]
-    """Which representations of the page to return. Any combination of: markdown (clean main content), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to markdown only."""
+    """Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to Markdown and raw HTML."""
     includeTags: NotRequired[list[str]]
     """CSS selectors to keep. When set, only content matching these selectors is captured (for example ["article", "main"] or ["#content"])."""
     mobile: NotRequired[bool]
     """When true, render the page with a mobile viewport and user agent instead of desktop. Some sites serve materially different content to mobile."""
     onlyMainContent: NotRequired[bool]
-    """When true (default) return only the main article content, stripping navigation, headers, footers, and other boilerplate. Set false to capture the full page. Default: true."""
+    """When true, return only the main article content, stripping navigation, headers, footers, and other boilerplate. Defaults to false to capture the full page. Default: false."""
     stealth: NotRequired[bool]
     """When true, fetch through a stealth proxy that gets past bot protection which refuses an ordinary request. This costs materially more per request (see the pricing ceiling), so leave it off unless a normal scrape of the site comes back blocked or empty. Default: false."""
     url: Required[str]

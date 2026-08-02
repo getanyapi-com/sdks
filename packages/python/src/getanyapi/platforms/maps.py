@@ -82,7 +82,7 @@ class MapsSearchInput(TypedDict, total=False):
     language: NotRequired[str]
     """Two-letter language code for the results (e.g. en). Default: en."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    """Maximum number of results to return (1-20, default 20). Pricing depends on the selected provider and may be flat per request. Range: 1 to 20."""
     location: Required[str]
     """Free-text location to search in, ideally city plus country (e.g. Austin, USA)."""
     placeMinimumStars: NotRequired[
@@ -182,7 +182,7 @@ class MapsContactsItem(BaseModel):
 
 class MapsPlaceData(BaseModel):
     items: list[MapsPlaceItem] = Field(
-        description="The best-matching place for the query, with full details: name, address, contact info, category, rating, opening hours, and coordinates. Up to one element (empty when nothing matched). Populated whenever the provider has data for the entity."
+        description="The best-matching place for the query, with available address, contact, category, rating, opening-hours, and coordinate details. Up to one element (empty when nothing matched). Populated whenever the provider has data for the entity."
     )
 
 
@@ -436,10 +436,10 @@ class MapsNamespace:
         """Google Maps Place Lookup
 
         Look up a place on Google Maps by name or search query (optionally scoped to
-        a location) and get the best-matching place with full details - address,
-        phone, website, rating, hours, and coordinates - as normalized JSON.
+        a location) and get the best-matching place with available address, contact,
+        rating, and coordinate details as normalized JSON.
 
-        Price: $0.003 per request plus $0.005 per result (maximum $0.009).
+        Price: $0.00297 per request.
 
         Example:
             res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee", website="withWebsite")
@@ -479,7 +479,7 @@ class MapsNamespace:
         normalized place records with ratings, addresses, and contact basics per
         request.
 
-        Price: $0.00005 per request plus $0.003 per result (maximum $0.06005).
+        Price: $0.00297 per request.
 
         Example:
             res = client.maps.search(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee", website="withWebsite")
@@ -524,10 +524,10 @@ class AsyncMapsNamespace:
         """Google Maps Place Lookup
 
         Look up a place on Google Maps by name or search query (optionally scoped to
-        a location) and get the best-matching place with full details - address,
-        phone, website, rating, hours, and coordinates - as normalized JSON.
+        a location) and get the best-matching place with available address, contact,
+        rating, and coordinate details as normalized JSON.
 
-        Price: $0.003 per request plus $0.005 per result (maximum $0.009).
+        Price: $0.00297 per request.
 
         Example:
             res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee", website="withWebsite")
@@ -567,7 +567,7 @@ class AsyncMapsNamespace:
         normalized place records with ratings, addresses, and contact basics per
         request.
 
-        Price: $0.00005 per request plus $0.003 per result (maximum $0.06005).
+        Price: $0.00297 per request.
 
         Example:
             res = client.maps.search(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee", website="withWebsite")

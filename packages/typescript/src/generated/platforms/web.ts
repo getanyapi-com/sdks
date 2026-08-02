@@ -105,7 +105,7 @@ export interface WebScrapeInput {
    */
   excludeTags?: string[];
   /**
-   * Which representations of the page to return. Any combination of: markdown (clean main content), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to markdown only.
+   * Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to Markdown and raw HTML.
    */
   formats?: ("markdown" | "html" | "rawHtml")[];
   /**
@@ -117,8 +117,8 @@ export interface WebScrapeInput {
    */
   mobile?: boolean;
   /**
-   * When true (default) return only the main article content, stripping navigation, headers, footers, and other boilerplate. Set false to capture the full page.
-   * Default: true.
+   * When true, return only the main article content, stripping navigation, headers, footers, and other boilerplate. Defaults to false to capture the full page.
+   * Default: false.
    */
   onlyMainContent?: boolean;
   /**
