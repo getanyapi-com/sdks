@@ -363,7 +363,7 @@ export interface TwitterFollowersData {
   /**
    * Opaque cursor for the next page of followers, or null when there are no more. Pass it back as cursor to continue.
    */
-  nextCursor?: string;
+  nextCursor?: string | null;
 }
 
 /**
@@ -437,7 +437,7 @@ export interface TwitterFollowingData {
   /**
    * Opaque cursor for the next page of followed accounts, or null when there are no more. Pass it back as cursor to continue.
    */
-  nextCursor?: string;
+  nextCursor?: string | null;
 }
 
 /**
@@ -635,7 +635,7 @@ export interface TwitterSearchData {
   /**
    * Opaque cursor for the next page of search results, or null when there are no more. Pass it back as cursor to continue.
    */
-  nextCursor?: string;
+  nextCursor?: string | null;
 }
 
 /**
@@ -836,7 +836,7 @@ export interface TwitterUserPostsData {
   /**
    * Opaque cursor for the next native Posts-tab page, or null when no more pages are available.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Posts in profile order. A pinned post may appear before otherwise reverse-chronological results. Populated whenever the provider has data for the entity.
    */
@@ -903,7 +903,7 @@ export interface TwitterUserTweetsData {
   /**
    * Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.
    */
-  nextCursor?: string;
+  nextCursor?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */

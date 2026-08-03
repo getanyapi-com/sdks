@@ -15,6 +15,7 @@ import {
 } from "../src/emit-shared.js";
 import { emitTypescript, namespaceClassName } from "../src/emit-ts.js";
 import type { IR, SkuEntry } from "../src/ir-types.js";
+import { ir, nullableFieldsSku } from "./factories.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -138,6 +139,23 @@ describe("literalUnion + enum emission", () => {
     const files = await emitRelative(loadSampleIr());
     expect(files["platforms/amazon.ts"]).toContain(
       'sort?: "helpful" | "recent";',
+    );
+  });
+});
+
+describe("nullable SchemaNode emission", () => {
+  it("keeps requiredness independent and binds an item union inside the array", async () => {
+    const files = await emitRelative(ir([nullableFieldsSku()]));
+    const platform = files["platforms/nullable.ts"]!;
+
+    expect(platform).toContain("nextCursor: string | null;");
+    expect(platform).toContain("optionalCursor?: string | null;");
+    expect(platform).toContain(
+      "organizations: (NullableFieldsOrganization | null)[];",
+    );
+    expect(platform).not.toContain("nextCursor?: string | null;");
+    expect(platform).not.toContain(
+      "organizations: NullableFieldsOrganization[] | null;",
     );
   });
 });

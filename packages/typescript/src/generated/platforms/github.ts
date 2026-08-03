@@ -39,7 +39,7 @@ export interface GithubRepositoryData {
   /**
    * Short repository description, or null if none.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Whether the repository is a fork.
    */
@@ -55,15 +55,15 @@ export interface GithubRepositoryData {
   /**
    * Project homepage URL, or null if none.
    */
-  homepage?: string;
+  homepage?: string | null;
   /**
    * Primary programming language, or null if undetected.
    */
-  language?: string;
+  language?: string | null;
   /**
    * License name, or null if unlicensed.
    */
-  license?: string;
+  license?: string | null;
   /**
    * Repository short name (without owner). Populated whenever the provider has data for the entity.
    */

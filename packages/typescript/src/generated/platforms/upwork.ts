@@ -94,7 +94,7 @@ export interface UpworkJobsItem {
   /**
    * Whether the client's payment method is verified; null when Upwork reports it as unknown.
    */
-  paymentVerified?: boolean;
+  paymentVerified?: boolean | null;
   /**
    * Number of proposals submitted.
    */
@@ -102,7 +102,7 @@ export interface UpworkJobsItem {
   /**
    * Skill tags.
    */
-  tags?: string[];
+  tags?: string[] | null;
   /**
    * Job posting title. Populated whenever the provider has data for the entity.
    */

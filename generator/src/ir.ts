@@ -462,23 +462,24 @@ function detectPagination(input: SchemaNode, data: SchemaNode): Pagination {
 
 // ---- SchemaNode normalization (SPEC 1.3, 1.4) ----
 
-// Collapse a nullable `type: [X, "null"]` array to its single non-null member. Nullability
-// is not a distinct IR kind (a nullable string is still `kind:"string"`; the runtime data
-// models allow null via extra="allow"/index signatures), so we normalize the nullability
-// idiom the same way SPEC 1.4.1 collapses the nullable `oneOf` envelope. A plain string type
-// passes through unchanged.
-function collapseType(type: unknown): unknown {
+// Collapse a nullable `type: [X, "null"]` array to its single non-null member while
+// preserving nullability on that exact SchemaNode. This is independent of whether an object
+// property is required. A plain string type passes through unchanged.
+function collapseType(type: unknown): { type: unknown; nullable: boolean } {
   if (Array.isArray(type)) {
     const nonNull = type.filter((t) => t !== "null");
-    if (nonNull.length === 1) return nonNull[0];
+    if (nonNull.length === 1) {
+      return { type: nonNull[0], nullable: type.includes("null") };
+    }
     // A multi-type union that is not just [X, "null"] has no IR kind -> unknown fallback.
-    return undefined;
+    return { type: undefined, nullable: false };
   }
-  return type;
+  return { type, nullable: false };
 }
 
 export function toSchemaNode(raw: RawSchema): SchemaNode {
-  const type = collapseType(raw.type);
+  const { type, nullable } = collapseType(raw.type);
+  const nullableFlag = nullable ? true : undefined;
   const desc =
     typeof raw.description === "string"
       ? normalizeDashes(raw.description)
@@ -490,33 +491,43 @@ export function toSchemaNode(raw: RawSchema): SchemaNode {
     raw.properties === undefined &&
     raw.items === undefined
   ) {
-    return orderedNode({ kind: "unknown", description: desc });
+    return orderedNode({
+      kind: "unknown",
+      description: desc,
+      nullable: nullableFlag,
+    });
   }
 
   switch (type) {
     case "object":
-      return objectNode(raw, desc);
+      return objectNode(raw, desc, nullableFlag);
     case "array":
-      return arrayNode(raw, desc);
+      return arrayNode(raw, desc, nullableFlag);
     case "string":
-      return stringNode(raw, desc);
+      return stringNode(raw, desc, nullableFlag);
     case "integer":
-      return integerNode(raw, desc, "integer");
+      return integerNode(raw, desc, "integer", nullableFlag);
     case "number":
-      return integerNode(raw, desc, "number");
+      return integerNode(raw, desc, "number", nullableFlag);
     case "boolean":
       return orderedNode({
         kind: "boolean",
         description: desc,
+        nullable: nullableFlag,
         default: raw.default !== undefined ? raw.default : null,
       });
     case "null":
       return orderedNode({ kind: "null", description: desc });
     default:
       // Has properties but no explicit type -> treat as object; else unknown.
-      if (raw.properties !== undefined) return objectNode(raw, desc);
-      if (raw.items !== undefined) return arrayNode(raw, desc);
-      return orderedNode({ kind: "unknown", description: desc });
+      if (raw.properties !== undefined)
+        return objectNode(raw, desc, nullableFlag);
+      if (raw.items !== undefined) return arrayNode(raw, desc, nullableFlag);
+      return orderedNode({
+        kind: "unknown",
+        description: desc,
+        nullable: nullableFlag,
+      });
   }
 }
 
@@ -532,7 +543,11 @@ function orderedNode(fields: Record<string, unknown>): SchemaNode {
   return out as unknown as SchemaNode;
 }
 
-function objectNode(raw: RawSchema, desc: string | undefined): ObjectNode {
+function objectNode(
+  raw: RawSchema,
+  desc: string | undefined,
+  nullable: true | undefined,
+): ObjectNode {
   const propsRaw = (raw.properties as RawSchema) ?? {};
   const properties: Record<string, SchemaNode> = {};
   const mustPopulate: string[] = [];
@@ -547,11 +562,12 @@ function objectNode(raw: RawSchema, desc: string | undefined): ObjectNode {
   // SPEC 1.4.5: additionalProperties:false -> closed; anything else -> open.
   const open = raw.additionalProperties !== false;
 
-  // Key order per ir.schema.json objectNode: kind, description, properties, required, open,
-  // mustPopulate.
+  // Key order per ir.schema.json objectNode: kind, description, nullable, properties,
+  // required, open, mustPopulate.
   return orderedNode({
     kind: "object",
     description: desc,
+    nullable,
     properties,
     required,
     open,
@@ -559,23 +575,34 @@ function objectNode(raw: RawSchema, desc: string | undefined): ObjectNode {
   }) as ObjectNode;
 }
 
-function arrayNode(raw: RawSchema, desc: string | undefined): SchemaNode {
+function arrayNode(
+  raw: RawSchema,
+  desc: string | undefined,
+  nullable: true | undefined,
+): SchemaNode {
   const itemsRaw = (raw.items as RawSchema) ?? {};
-  // Key order per ir.schema.json arrayNode: kind, description, items, mustPopulate.
+  // Key order per ir.schema.json arrayNode: kind, description, nullable, items,
+  // mustPopulate.
   return orderedNode({
     kind: "array",
     description: desc,
+    nullable,
     items: toSchemaNode(itemsRaw),
     mustPopulate: raw["x-anyapi-must-populate"] === true,
   });
 }
 
-function stringNode(raw: RawSchema, desc: string | undefined): SchemaNode {
+function stringNode(
+  raw: RawSchema,
+  desc: string | undefined,
+  nullable: true | undefined,
+): SchemaNode {
   const en = raw.enum as unknown[] | undefined;
-  // Key order: kind, description, enum, default, format.
+  // Key order: kind, description, nullable, enum, default, format.
   return orderedNode({
     kind: "string",
     description: desc,
+    nullable,
     enum: Array.isArray(en) ? en.map((v) => String(v)) : null,
     default: raw.default !== undefined ? raw.default : null,
     format: typeof raw.format === "string" ? raw.format : null,
@@ -586,11 +613,13 @@ function integerNode(
   raw: RawSchema,
   desc: string | undefined,
   kind: "integer" | "number",
+  nullable: true | undefined,
 ): SchemaNode {
-  // Key order: kind, description, minimum, maximum, default.
+  // Key order: kind, description, nullable, minimum, maximum, default.
   return orderedNode({
     kind,
     description: desc,
+    nullable,
     minimum: typeof raw.minimum === "number" ? raw.minimum : null,
     maximum: typeof raw.maximum === "number" ? raw.maximum : null,
     default: raw.default !== undefined ? raw.default : null,

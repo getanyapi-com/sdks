@@ -460,7 +460,7 @@ class RedditUserCommentsData(BaseModel):
     comments: list[RedditUserCommentsComment] = Field(
         description="The user's comments in feed order (newest first by default). Each item carries a truncated body preview plus the parent post it was made on; there is no per-comment permalink available from this endpoint. Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
         description="Opaque cursor for the next page of this user's comments; pass it back as the `cursor` input to fetch the following page. Null when there are no more pages.",
     )
@@ -507,7 +507,7 @@ class RedditUserCommentsComment(BaseModel):
 class RedditUserPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
         description="Opaque cursor for the next page of this user's posts; pass it back as the `cursor` input to fetch the following page. Null when there are no more pages.",
     )

@@ -1,6 +1,6 @@
-// Synthetic IR builders for py-emitter tests. These exercise naming / typing edge cases
-// that the 3-SKU sample does not cover (keyword collisions, functional TypedDict, google_ads
-// namespace, per-item + null pricing, paginated-without-itemsField).
+// Synthetic IR builders for emitter tests. These exercise naming / typing edge cases that
+// the 3-SKU sample does not cover (keyword collisions, functional TypedDict, google_ads
+// namespace, per-item + null pricing, paginated-without-itemsField, node nullability).
 
 import type { IR, SchemaNode, SkuEntry } from "../src/py-ir.js";
 
@@ -72,4 +72,27 @@ export function ir(skus: SkuEntry[]): IR {
     baseUrl: "https://api.getanyapi.com",
     skus,
   };
+}
+
+/** Shared nullable-node fixture for both emitters. Requiredness is deliberately mixed. */
+export function nullableFieldsSku(): SkuEntry {
+  const nullableOrganization = obj({ id: str() }, ["id"], true);
+  nullableOrganization.nullable = true;
+  return sku({
+    slug: "nullable.fields",
+    operationId: "nullable_fields",
+    inputTypeName: "NullableFieldsInput",
+    outputTypeName: "NullableFieldsData",
+    output: {
+      envelope: "found-data",
+      data: obj(
+        {
+          nextCursor: str({ nullable: true }),
+          optionalCursor: str({ nullable: true }),
+          organizations: arr(nullableOrganization),
+        },
+        ["nextCursor", "organizations"],
+      ),
+    },
+  });
 }

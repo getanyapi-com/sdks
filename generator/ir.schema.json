@@ -110,6 +110,7 @@
       "properties": {
         "kind": { "const": "object" },
         "description": { "type": "string" },
+        "nullable": { "const": true },
         "properties": {
           "type": "object",
           "additionalProperties": { "$ref": "#/$defs/schemaNode" }
@@ -126,6 +127,7 @@
       "properties": {
         "kind": { "const": "array" },
         "description": { "type": "string" },
+        "nullable": { "const": true },
         "items": { "$ref": "#/$defs/schemaNode" },
         "mustPopulate": { "type": "boolean" }
       }
@@ -137,6 +139,7 @@
       "properties": {
         "kind": { "const": "string" },
         "description": { "type": "string" },
+        "nullable": { "const": true },
         "enum": { "type": ["array", "null"], "items": { "type": "string" } },
         "default": {},
         "format": { "type": ["string", "null"] }
@@ -149,6 +152,7 @@
       "properties": {
         "kind": { "const": "integer" },
         "description": { "type": "string" },
+        "nullable": { "const": true },
         "minimum": { "type": ["number", "null"] },
         "maximum": { "type": ["number", "null"] },
         "default": {}
@@ -161,6 +165,7 @@
       "properties": {
         "kind": { "const": "number" },
         "description": { "type": "string" },
+        "nullable": { "const": true },
         "minimum": { "type": ["number", "null"] },
         "maximum": { "type": ["number", "null"] },
         "default": {}
@@ -173,6 +178,7 @@
       "properties": {
         "kind": { "const": "boolean" },
         "description": { "type": "string" },
+        "nullable": { "const": true },
         "default": {}
       }
     },
@@ -182,7 +188,8 @@
       "required": ["kind"],
       "properties": {
         "kind": { "const": "null" },
-        "description": { "type": "string" }
+        "description": { "type": "string" },
+        "nullable": { "const": true }
       }
     },
     "unknownNode": {
@@ -191,7 +198,8 @@
       "required": ["kind"],
       "properties": {
         "kind": { "const": "unknown" },
-        "description": { "type": "string" }
+        "description": { "type": "string" },
+        "nullable": { "const": true }
       }
     }
   }

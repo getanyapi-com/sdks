@@ -176,7 +176,7 @@ export interface InstagramFollowersData {
   /**
    * Opaque cursor for the next page of followers, or null/empty when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor?: string;
+  nextCursor?: string | null;
 }
 
 /**
@@ -245,7 +245,7 @@ export interface InstagramFollowingData {
   /**
    * Opaque cursor for the next page of results, or null/empty when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor?: string;
+  nextCursor?: string | null;
 }
 
 /**

@@ -125,10 +125,26 @@ describe("defaults imply optional / enums / bounds (SPEC 1.4.2-1.4.4)", () => {
   });
 });
 
-describe("nullable type-array collapse", () => {
-  it("collapses type:[string,null] nextCursor to a string node", () => {
+describe("nullable type-array normalization", () => {
+  it("preserves type:[string,null] nextCursor as a nullable string node", () => {
     const data = fixtureSku(ir, "fixture.linear").output.data as ObjectNode;
-    expect(prop(data, "nextCursor").kind).toBe("string");
+    expect(prop(data, "nextCursor")).toMatchObject({
+      kind: "string",
+      nullable: true,
+    });
+  });
+
+  it("preserves nullability on an array element node", () => {
+    const array = toSchemaNode({
+      type: "array",
+      items: {
+        type: ["object", "null"],
+        properties: { id: { type: "string" } },
+      },
+    });
+    if (array.kind !== "array") throw new Error("expected array");
+    expect(array.nullable).toBeUndefined();
+    expect(array.items).toMatchObject({ kind: "object", nullable: true });
   });
 });
 

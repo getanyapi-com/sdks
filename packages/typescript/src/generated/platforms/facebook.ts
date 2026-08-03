@@ -29,7 +29,7 @@ export interface FacebookAdDetailsData {
   /**
    * Whether the ad is currently running.
    */
-  active?: boolean;
+  active?: boolean | null;
   /**
    * Ad Library archive ID (stable identity). Populated whenever the provider has data for the entity.
    */
@@ -38,25 +38,25 @@ export interface FacebookAdDetailsData {
    * Call-to-action label. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  ctaText?: string;
+  ctaText?: string | null;
   /**
    * Spend currency, may be empty.
    */
-  currency?: string;
+  currency?: string | null;
   /**
    * Ad creative format. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  displayFormat?: string;
+  displayFormat?: string | null;
   /**
    * Run end, epoch seconds.
    */
-  endDate?: number;
+  endDate?: number | null;
   /**
    * Creative destination URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  linkUrl?: string;
+  linkUrl?: string | null;
   /**
    * Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.
    */
@@ -65,27 +65,27 @@ export interface FacebookAdDetailsData {
    * Advertiser page name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  pageName?: string;
+  pageName?: string | null;
   /**
    * Publisher platforms the ad runs on. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  platforms?: string[];
+  platforms?: string[] | null;
   /**
    * Run start, epoch seconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  startDate?: number;
+  startDate?: number | null;
   /**
    * Ad body text. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  text?: string;
+  text?: string | null;
   /**
    * Creative title. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  title?: string;
+  title?: string | null;
   [extra: string]: unknown;
 }
 
