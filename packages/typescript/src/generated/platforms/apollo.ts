@@ -460,6 +460,9 @@ export interface ApolloOrganizationsBulkEnrichInput {
   domains: string[];
 }
 
+/**
+ * The enriched organization for the domain at this index, or null when that domain had no match.
+ */
 export interface ApolloOrganizationsBulkEnrichOrganization {
   /**
    * Estimated annual revenue in USD.
@@ -578,9 +581,9 @@ export interface ApolloOrganizationsBulkEnrichData {
    */
   missing: number;
   /**
-   * Enriched organizations.
+   * Enriched organizations, positionally aligned with the requested domains: index i of this array is the result for index i of the domains input, and the array is always the same length as that input. An entry is null when the domain had no match, so a partial batch still returns every domain it did resolve.
    */
-  organizations: ApolloOrganizationsBulkEnrichOrganization[];
+  organizations: (ApolloOrganizationsBulkEnrichOrganization | null)[];
   /**
    * Number of requested domains.
    * Range: minimum 0.
@@ -1175,7 +1178,7 @@ export class ApolloNamespace {
   /**
    * Apollo Bulk Organization Enrichment
    *
-   * Enrich up to 10 organization domains in one request with normalized company profile, industry, employee, revenue, funding, and location data.
+   * Enrich up to 10 organization domains in one request with normalized company profile, industry, employee, revenue, and location data. Priced per request rather than per domain, so a full batch of 10 costs the same as a batch of 1. Results are positionally aligned with the domains you send, and a domain with no match returns null in its slot.
    *
    * Price: $0.06 per request.
    *

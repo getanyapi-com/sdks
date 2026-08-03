@@ -391,8 +391,8 @@ class ApolloOrganizationsBulkEnrichData(BaseModel):
     missing: int = Field(
         description="Number of requested domains without a match. Minimum: 0."
     )
-    organizations: list[ApolloOrganizationsBulkEnrichOrganization] = Field(
-        description="Enriched organizations."
+    organizations: list[ApolloOrganizationsBulkEnrichOrganization | None] = Field(
+        description="Enriched organizations, positionally aligned with the requested domains: index i of this array is the result for index i of the domains input, and the array is always the same length as that input. An entry is null when the domain had no match, so a partial batch still returns every domain it did resolve."
     )
     requested: int = Field(description="Number of requested domains. Minimum: 0.")
 
@@ -844,7 +844,10 @@ class ApolloNamespace:
         """Apollo Bulk Organization Enrichment
 
         Enrich up to 10 organization domains in one request with normalized company
-        profile, industry, employee, revenue, funding, and location data.
+        profile, industry, employee, revenue, and location data. Priced per request
+        rather than per domain, so a full batch of 10 costs the same as a batch of
+        1. Results are positionally aligned with the domains you send, and a domain
+        with no match returns null in its slot.
 
         Price: $0.06 per request.
 
@@ -1019,7 +1022,10 @@ class AsyncApolloNamespace:
         """Apollo Bulk Organization Enrichment
 
         Enrich up to 10 organization domains in one request with normalized company
-        profile, industry, employee, revenue, funding, and location data.
+        profile, industry, employee, revenue, and location data. Priced per request
+        rather than per domain, so a full batch of 10 costs the same as a batch of
+        1. Results are positionally aligned with the domains you send, and a domain
+        with no match returns null in its slot.
 
         Price: $0.06 per request.
 
