@@ -7134,9 +7134,9 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.013,
-        "baseUsd": 0.005,
-        "perItemUsd": 0.008,
+        "priceUsd": 0.021,
+        "baseUsd": 0.021,
+        "perItemUsd": 0,
         "perItemUnit": "result"
       },
       "tsNamespace": "email",
