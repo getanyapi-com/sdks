@@ -18193,7 +18193,7 @@
       "operationId": "instagram_reels_search",
       "name": "Instagram Reels Search",
       "category": "social",
-      "description": "Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration). Paging tops out around 110 reels per query (11 pages of 10).",
+      "description": "Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration). Results are relevance-ranked, not chronological. Paging tops out around 110 reels per query (11 pages of 10).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -18216,7 +18216,7 @@
         "properties": {
           "datePosted": {
             "kind": "string",
-            "description": "Restrict results to reels posted within this window.",
+            "description": "Recency hint, not a hard filter. Reel discovery runs on top of Google search, so this window narrows Google's index by when it discovered or last crawled the reel, which is not the same as when the reel was published to Instagram. Returned reels can have a createdUtc outside the requested window, and narrow windows such as last-hour often return older reels or no results. Check createdUtc yourself if you need exact publication-time precision.",
             "enum": [
               "last-hour",
               "last-day",

@@ -131,7 +131,7 @@ class InstagramReelsSearchInput(TypedDict, total=False):
     datePosted: NotRequired[
         Literal["last-hour", "last-day", "last-week", "last-month", "last-year"]
     ]
-    """Restrict results to reels posted within this window."""
+    """Recency hint, not a hard filter. Reel discovery runs on top of Google search, so this window narrows Google's index by when it discovered or last crawled the reel, which is not the same as when the reel was published to Instagram. Returned reels can have a createdUtc outside the requested window, and narrow windows such as last-hour often return older reels or no results. Check createdUtc yourself if you need exact publication-time precision."""
     page: NotRequired[int]
     """1-based results page. Minimum: 1. Default: 1."""
     query: Required[str]
@@ -1259,8 +1259,8 @@ class InstagramNamespace:
         """Instagram Reels Search
 
         Search Instagram Reels by keyword and get matching reels (caption, views,
-        likes, creator, and duration). Paging tops out around 110 reels per query
-        (11 pages of 10).
+        likes, creator, and duration). Results are relevance-ranked, not
+        chronological. Paging tops out around 110 reels per query (11 pages of 10).
 
         Price: $0.002 per request.
 
@@ -1863,8 +1863,8 @@ class AsyncInstagramNamespace:
         """Instagram Reels Search
 
         Search Instagram Reels by keyword and get matching reels (caption, views,
-        likes, creator, and duration). Paging tops out around 110 reels per query
-        (11 pages of 10).
+        likes, creator, and duration). Results are relevance-ranked, not
+        chronological. Paging tops out around 110 reels per query (11 pages of 10).
 
         Price: $0.002 per request.
 
