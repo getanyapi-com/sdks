@@ -307,31 +307,45 @@ function nodeHasDefault(node: SchemaNode): boolean {
 
 /** The Python type annotation for an INPUT schema node (Literal for enums, else scalar). */
 function pyInputType(node: SchemaNode): string {
+  let type: string;
   switch (node.kind) {
     case "string": {
       const en = node.enum;
       if (en && en.length > 0) {
-        return `Literal[${en.map((v) => pyStringLiteral(v)).join(", ")}]`;
+        type = `Literal[${en.map((v) => pyStringLiteral(v)).join(", ")}]`;
+        break;
       }
-      return "str";
+      type = "str";
+      break;
     }
     case "integer":
-      return "int";
+      type = "int";
+      break;
     case "number":
-      return "float";
+      type = "float";
+      break;
     case "boolean":
-      return "bool";
+      type = "bool";
+      break;
     case "array": {
       const item = isArrayNode(node) ? pyInputType(node.items) : "Any";
-      return `list[${item}]`;
+      type = `list[${item}]`;
+      break;
     }
     case "object":
-      return "dict[str, Any]";
+      type = "dict[str, Any]";
+      break;
     case "null":
-      return "None";
+      type = "None";
+      break;
     default:
-      return "Any";
+      type = "Any";
   }
+  return node.nullable ? withNone(type) : type;
+}
+
+function withNone(type: string): string {
+  return type === "None" || type.endsWith(" | None") ? type : `${type} | None`;
 }
 
 /** A single-line field doc comment: description + bounds + enum + must-populate hints. */
@@ -438,7 +452,7 @@ function emitObjectModel(
     let annotation = type;
     let assignment = "";
     if (optional) {
-      annotation = `${type} | None`;
+      annotation = withNone(type);
       if (fieldArgs.length > 0) {
         assignment = ` = Field(default=None, ${fieldArgs.join(", ")})`;
       } else {
@@ -484,49 +498,58 @@ function pyOutputType(
   ctx: EmitCtx,
   sku: SkuEntry,
 ): { type: string; register?: () => void } {
+  let resolved: { type: string; register?: () => void };
   switch (node.kind) {
     case "string": {
       const en = node.enum;
       if (en && en.length > 0) {
-        return {
+        resolved = {
           type: `Literal[${en.map((v) => pyStringLiteral(v)).join(", ")}]`,
         };
+        break;
       }
-      return { type: "str" };
+      resolved = { type: "str" };
+      break;
     }
     case "integer":
-      return { type: "int" };
+      resolved = { type: "int" };
+      break;
     case "number":
-      return { type: "float" };
+      resolved = { type: "float" };
+      break;
     case "boolean":
-      return { type: "bool" };
+      resolved = { type: "bool" };
+      break;
     case "null":
-      return { type: "None" };
+      resolved = { type: "None" };
+      break;
     case "array": {
-      if (!isArrayNode(node)) return { type: "list[Any]" };
-      const items = node.items;
-      if (isObjectNode(items)) {
-        // Nested item model. Name = prefix + TitleCase(singular(propKey)), fallback Item.
-        const itemName = itemModelName(prefix, propKey);
-        const register = () =>
-          emitObjectModel(itemName, items, prefix, ctx, sku);
-        return { type: `list[${itemName}]`, register };
+      if (!isArrayNode(node)) {
+        resolved = { type: "list[Any]" };
+        break;
       }
+      const items = node.items;
       const inner = pyOutputType(items, prefix, propKey, ctx, sku);
-      return { type: `list[${inner.type}]`, register: inner.register };
+      resolved = { type: `list[${inner.type}]`, register: inner.register };
+      break;
     }
     case "object": {
       if (isObjectNode(node)) {
         const nestedName = itemModelName(prefix, propKey);
         const register = () =>
           emitObjectModel(nestedName, node, prefix, ctx, sku);
-        return { type: nestedName, register };
+        resolved = { type: nestedName, register };
+        break;
       }
-      return { type: "dict[str, Any]" };
+      resolved = { type: "dict[str, Any]" };
+      break;
     }
     default:
-      return { type: "Any" };
+      resolved = { type: "Any" };
   }
+  return node.nullable
+    ? { ...resolved, type: withNone(resolved.type) }
+    : resolved;
 }
 
 /** Nested item model name: prefix + TitleCase(singular(propName)); "Item" fallback. */

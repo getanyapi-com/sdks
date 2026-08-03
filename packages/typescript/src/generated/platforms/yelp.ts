@@ -29,15 +29,15 @@ export interface YelpSearchItem {
   /**
    * Primary street address line.
    */
-  address1?: string;
+  address1?: string | null;
   /**
    * Secondary address line.
    */
-  address2?: string;
+  address2?: string | null;
   /**
    * Tertiary address line.
    */
-  address3?: string;
+  address3?: string | null;
   /**
    * URL slug for the business. Populated whenever the provider has data for the entity.
    */
@@ -45,23 +45,23 @@ export interface YelpSearchItem {
   /**
    * Rounded average star rating.
    */
-  avg_rating?: number;
+  avg_rating?: number | null;
   /**
    * Business category tags.
    */
-  categories?: YelpSearchCategorie[];
+  categories?: YelpSearchCategorie[] | null;
   /**
    * City name.
    */
-  city?: string;
+  city?: string | null;
   /**
    * ISO country code.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Dialable phone number.
    */
-  dialable_phone?: string;
+  dialable_phone?: string | null;
   /**
    * Stable Yelp business identifier. Populated whenever the provider has data for the entity.
    */
@@ -69,23 +69,23 @@ export interface YelpSearchItem {
   /**
    * Whether the business is permanently closed.
    */
-  is_closed?: boolean;
+  is_closed?: boolean | null;
   /**
    * Latitude of the business.
    */
-  latitude?: number;
+  latitude?: number | null;
   /**
    * Formatted local phone number.
    */
-  localized_phone?: string;
+  localized_phone?: string | null;
   /**
    * Localized price tier (e.g. $$).
    */
-  localized_price?: string;
+  localized_price?: string | null;
   /**
    * Longitude of the business.
    */
-  longitude?: number;
+  longitude?: number | null;
   /**
    * Business display name. Populated whenever the provider has data for the entity.
    */
@@ -93,40 +93,40 @@ export interface YelpSearchItem {
   /**
    * Neighborhood labels for the location.
    */
-  neighborhoods?: string[];
+  neighborhoods?: string[] | null;
   /**
    * Raw phone number.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Total photo count.
    */
-  photo_count?: number;
+  photo_count?: number | null;
   /**
    * Primary photo URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  photo_url?: string;
+  photo_url?: string | null;
   /**
    * Numeric price tier.
    */
-  price?: number;
+  price?: number | null;
   /**
    * Number of reviews.
    */
-  review_count?: number;
+  review_count?: number | null;
   /**
    * State or region code.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Unrounded average star rating.
    */
-  unrounded_avg_rating?: number;
+  unrounded_avg_rating?: number | null;
   /**
    * Postal code.
    */
-  zip?: string;
+  zip?: string | null;
   [extra: string]: unknown;
 }
 

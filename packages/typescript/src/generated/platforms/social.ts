@@ -38,7 +38,7 @@ export interface SocialFinderItem {
   /**
    * URL of the matching profile, or null when no account was found on that network.
    */
-  socialProfileUrl: string;
+  socialProfileUrl: string | null;
   [extra: string]: unknown;
 }
 

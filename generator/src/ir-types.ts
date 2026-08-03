@@ -68,6 +68,7 @@ export type SchemaNode =
 export interface ObjectNode {
   kind: "object";
   description?: string;
+  nullable?: true;
   properties: Record<string, SchemaNode>;
   required: string[];
   open: boolean;
@@ -77,6 +78,7 @@ export interface ObjectNode {
 export interface ArrayNode {
   kind: "array";
   description?: string;
+  nullable?: true;
   items: SchemaNode;
   mustPopulate?: boolean;
 }
@@ -84,6 +86,7 @@ export interface ArrayNode {
 export interface StringNode {
   kind: "string";
   description?: string;
+  nullable?: true;
   enum?: string[] | null;
   default?: unknown;
   format?: string | null;
@@ -92,6 +95,7 @@ export interface StringNode {
 export interface IntegerNode {
   kind: "integer";
   description?: string;
+  nullable?: true;
   minimum?: number | null;
   maximum?: number | null;
   default?: unknown;
@@ -100,6 +104,7 @@ export interface IntegerNode {
 export interface NumberNode {
   kind: "number";
   description?: string;
+  nullable?: true;
   minimum?: number | null;
   maximum?: number | null;
   default?: unknown;
@@ -108,17 +113,20 @@ export interface NumberNode {
 export interface BooleanNode {
   kind: "boolean";
   description?: string;
+  nullable?: true;
   default?: unknown;
 }
 
 export interface NullNode {
   kind: "null";
   description?: string;
+  nullable?: true;
 }
 
 export interface UnknownNode {
   kind: "unknown";
   description?: string;
+  nullable?: true;
 }
 
 /** A map of repo-relative file path to file content, the emitter's output. */

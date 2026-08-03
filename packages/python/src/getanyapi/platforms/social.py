@@ -43,7 +43,7 @@ class SocialFinderItem(BaseModel):
     social: str = Field(
         description="The social network checked (e.g. discord, facebook, github). Populated whenever the provider has data for the entity."
     )
-    social_profile_url: str = Field(
+    social_profile_url: str | None = Field(
         alias="socialProfileUrl",
         description="URL of the matching profile, or null when no account was found on that network.",
     )

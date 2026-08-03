@@ -614,7 +614,7 @@ class TwitterTweetTranscriptData(BaseModel):
 class TwitterUserPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
         description="Opaque cursor for the next native Posts-tab page, or null when no more pages are available.",
     )

@@ -622,7 +622,7 @@ export interface RedditUserCommentsData {
   /**
    * Opaque cursor for the next page of this user's comments; pass it back as the `cursor` input to fetch the following page. Null when there are no more pages.
    */
-  nextCursor: string;
+  nextCursor: string | null;
 }
 
 /**
@@ -693,7 +693,7 @@ export interface RedditUserPostsData {
   /**
    * Opaque cursor for the next page of this user's posts; pass it back as the `cursor` input to fetch the following page. Null when there are no more pages.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * The user's posts in feed order. Posts hosted on the user's own profile (r/u_<name>) are included and carry an empty subreddit. Populated whenever the provider has data for the entity.
    */

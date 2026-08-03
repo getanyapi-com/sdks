@@ -7459,6 +7459,7 @@
             "active": {
               "kind": "boolean",
               "description": "Whether the ad is currently running.",
+              "nullable": true,
               "default": null
             },
             "adArchiveId": {
@@ -7471,6 +7472,7 @@
             "ctaText": {
               "kind": "string",
               "description": "Call-to-action label. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -7478,6 +7480,7 @@
             "currency": {
               "kind": "string",
               "description": "Spend currency, may be empty.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -7485,6 +7488,7 @@
             "displayFormat": {
               "kind": "string",
               "description": "Ad creative format. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -7492,6 +7496,7 @@
             "endDate": {
               "kind": "integer",
               "description": "Run end, epoch seconds.",
+              "nullable": true,
               "minimum": null,
               "maximum": null,
               "default": null
@@ -7499,6 +7504,7 @@
             "linkUrl": {
               "kind": "string",
               "description": "Creative destination URL. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -7513,6 +7519,7 @@
             "pageName": {
               "kind": "string",
               "description": "Advertiser page name. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -7520,6 +7527,7 @@
             "platforms": {
               "kind": "array",
               "description": "Publisher platforms the ad runs on. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "items": {
                 "kind": "string",
                 "enum": null,
@@ -7531,6 +7539,7 @@
             "startDate": {
               "kind": "integer",
               "description": "Run start, epoch seconds. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "minimum": null,
               "maximum": null,
               "default": null
@@ -7538,6 +7547,7 @@
             "text": {
               "kind": "string",
               "description": "Ad body text. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -7545,6 +7555,7 @@
             "title": {
               "kind": "string",
               "description": "Creative title. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -11777,6 +11788,7 @@
             "description": {
               "kind": "string",
               "description": "Short repository description, or null if none.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -11803,6 +11815,7 @@
             "homepage": {
               "kind": "string",
               "description": "Project homepage URL, or null if none.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -11810,6 +11823,7 @@
             "language": {
               "kind": "string",
               "description": "Primary programming language, or null if undetected.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -11817,6 +11831,7 @@
             "license": {
               "kind": "string",
               "description": "License name, or null if unlicensed.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -17088,6 +17103,7 @@
             "nextCursor": {
               "kind": "string",
               "description": "Opaque cursor for the next page of followers, or null/empty when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -17242,6 +17258,7 @@
             "nextCursor": {
               "kind": "string",
               "description": "Opaque cursor for the next page of results, or null/empty when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -20881,6 +20898,7 @@
                   "postVideo": {
                     "kind": "object",
                     "description": "Video attached to the post, or null when absent.",
+                    "nullable": true,
                     "properties": {},
                     "required": [],
                     "open": true
@@ -29210,6 +29228,7 @@
             "nextCursor": {
               "kind": "string",
               "description": "Opaque cursor for the next page of this user's comments; pass it back as the `cursor` input to fetch the following page. Null when there are no more pages.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -29300,6 +29319,7 @@
             "nextCursor": {
               "kind": "string",
               "description": "Opaque cursor for the next page of this user's posts; pass it back as the `cursor` input to fetch the following page. Null when there are no more pages.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -33843,6 +33863,7 @@
                   "socialProfileUrl": {
                     "kind": "string",
                     "description": "URL of the matching profile, or null when no account was found on that network.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -41773,6 +41794,7 @@
             "nextCursor": {
               "kind": "string",
               "description": "Opaque cursor for the next page of followers, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -41943,6 +41965,7 @@
             "nextCursor": {
               "kind": "string",
               "description": "Opaque cursor for the next page of followed accounts, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -42460,6 +42483,7 @@
             "nextCursor": {
               "kind": "string",
               "description": "Opaque cursor for the next page of search results, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -42890,6 +42914,7 @@
             "nextCursor": {
               "kind": "string",
               "description": "Opaque cursor for the next native Posts-tab page, or null when no more pages are available.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -43097,6 +43122,7 @@
             "nextCursor": {
               "kind": "string",
               "description": "Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -43417,6 +43443,7 @@
                   "paymentVerified": {
                     "kind": "boolean",
                     "description": "Whether the client's payment method is verified; null when Upwork reports it as unknown.",
+                    "nullable": true,
                     "default": null
                   },
                   "proposals": {
@@ -43429,6 +43456,7 @@
                   "tags": {
                     "kind": "array",
                     "description": "Skill tags.",
+                    "nullable": true,
                     "items": {
                       "kind": "string",
                       "enum": null,
@@ -45423,6 +45451,7 @@
                   "address1": {
                     "kind": "string",
                     "description": "Primary street address line.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45430,6 +45459,7 @@
                   "address2": {
                     "kind": "string",
                     "description": "Secondary address line.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45437,6 +45467,7 @@
                   "address3": {
                     "kind": "string",
                     "description": "Tertiary address line.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45451,6 +45482,7 @@
                   "avg_rating": {
                     "kind": "number",
                     "description": "Rounded average star rating.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -45458,6 +45490,7 @@
                   "categories": {
                     "kind": "array",
                     "description": "Business category tags.",
+                    "nullable": true,
                     "items": {
                       "kind": "object",
                       "properties": {},
@@ -45469,6 +45502,7 @@
                   "city": {
                     "kind": "string",
                     "description": "City name.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45476,6 +45510,7 @@
                   "country": {
                     "kind": "string",
                     "description": "ISO country code.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45483,6 +45518,7 @@
                   "dialable_phone": {
                     "kind": "string",
                     "description": "Dialable phone number.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45497,11 +45533,13 @@
                   "is_closed": {
                     "kind": "boolean",
                     "description": "Whether the business is permanently closed.",
+                    "nullable": true,
                     "default": null
                   },
                   "latitude": {
                     "kind": "number",
                     "description": "Latitude of the business.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -45509,6 +45547,7 @@
                   "localized_phone": {
                     "kind": "string",
                     "description": "Formatted local phone number.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45516,6 +45555,7 @@
                   "localized_price": {
                     "kind": "string",
                     "description": "Localized price tier (e.g. $$).",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45523,6 +45563,7 @@
                   "longitude": {
                     "kind": "number",
                     "description": "Longitude of the business.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -45537,6 +45578,7 @@
                   "neighborhoods": {
                     "kind": "array",
                     "description": "Neighborhood labels for the location.",
+                    "nullable": true,
                     "items": {
                       "kind": "string",
                       "enum": null,
@@ -45548,6 +45590,7 @@
                   "phone": {
                     "kind": "string",
                     "description": "Raw phone number.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45555,6 +45598,7 @@
                   "photo_count": {
                     "kind": "integer",
                     "description": "Total photo count.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -45562,6 +45606,7 @@
                   "photo_url": {
                     "kind": "string",
                     "description": "Primary photo URL. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45569,6 +45614,7 @@
                   "price": {
                     "kind": "integer",
                     "description": "Numeric price tier.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -45576,6 +45622,7 @@
                   "review_count": {
                     "kind": "integer",
                     "description": "Number of reviews.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -45583,6 +45630,7 @@
                   "state": {
                     "kind": "string",
                     "description": "State or region code.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45590,6 +45638,7 @@
                   "unrounded_avg_rating": {
                     "kind": "number",
                     "description": "Unrounded average star rating.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -45597,6 +45646,7 @@
                   "zip": {
                     "kind": "string",
                     "description": "Postal code.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null

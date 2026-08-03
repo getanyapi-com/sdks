@@ -76,25 +76,33 @@ function renderType(
   arrayPropName: string | null,
   collect: NestedType[],
 ): string {
+  let rendered: string;
   switch (node.kind) {
     case "string":
-      return node.enum && node.enum.length > 0
-        ? literalUnion(node.enum)
-        : "string";
+      rendered =
+        node.enum && node.enum.length > 0 ? literalUnion(node.enum) : "string";
+      break;
     case "integer":
     case "number":
-      return "number";
+      rendered = "number";
+      break;
     case "boolean":
-      return "boolean";
+      rendered = "boolean";
+      break;
     case "null":
-      return "null";
+      rendered = "null";
+      break;
     case "unknown":
-      return "unknown";
+      rendered = "unknown";
+      break;
     case "array":
-      return renderArrayType(node, operationId, arrayPropName, collect);
+      rendered = renderArrayType(node, operationId, arrayPropName, collect);
+      break;
     case "object":
-      return renderInlineObject(node, operationId, collect);
+      rendered = renderInlineObject(node, operationId, collect);
+      break;
   }
+  return node.nullable && rendered !== "null" ? `${rendered} | null` : rendered;
 }
 
 /**
@@ -111,12 +119,14 @@ function renderArrayType(
   collect: NestedType[],
 ): string {
   const items = node.items;
+  let inner: string;
   if (items.kind === "object") {
     const name = itemTypeName(operationId, arrayPropName ?? "item");
     hoistItemInterface(name, items, operationId, collect);
-    return `${name}[]`;
+    inner = items.nullable ? `${name} | null` : name;
+  } else {
+    inner = renderType(items, operationId, null, collect);
   }
-  const inner = renderType(items, operationId, null, collect);
   // Parenthesize union element types so the `[]` binds correctly.
   return /[ |]/.test(inner) ? `(${inner})[]` : `${inner}[]`;
 }

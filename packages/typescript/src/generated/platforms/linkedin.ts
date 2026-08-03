@@ -493,7 +493,7 @@ export interface LinkedinCompanyPostsItem {
   /**
    * Video attached to the post, or null when absent.
    */
-  postVideo?: {};
+  postVideo?: {} | null;
   /**
    * Full text content of the post.
    */

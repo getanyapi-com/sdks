@@ -147,6 +147,7 @@ no `allOf`, no recursion; `oneOf` appears ONLY as the nullable envelope
 {
   "kind": "object",
   "description": "...",              // optional
+  "nullable": true,                   // optional; absent means non-null
   "properties": { "<key>": SchemaNode, ... },  // key order preserved from the schema
   "required": ["k1", "k2"],          // subset of property keys; [] if none
   "open": true,                      // true iff additionalProperties is NOT false (item records are open)
@@ -176,6 +177,15 @@ no `allOf`, no recursion; `oneOf` appears ONLY as the nullable envelope
 
 Every `SchemaNode` MAY carry an optional `"description"` (string). When absent, omit the
 key (do not emit `"description": null`). All descriptions are dash-normalized.
+
+Every `SchemaNode` MAY also carry `"nullable": true`. The extractor sets it when the raw
+schema uses `type: [X, "null"]`, while retaining `X` as the node's `kind`; it omits the key
+for non-nullable nodes. Nullability belongs to that exact node, so nullable array items stay
+distinct from a nullable array. Emitters render it as `T | null` in TypeScript and `T | None`
+in Python. Nullability and object-property requiredness are independent: a required nullable
+property still requires the key and has no optional marker or default. This rule does not
+change the nullable `oneOf` envelope collapse in 1.4.1, whose null branch represents the
+found-data transport envelope rather than a nullable data node.
 
 ### 1.4 IR extraction edge rules (FROZEN)
 

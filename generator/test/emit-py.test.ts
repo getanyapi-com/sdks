@@ -7,7 +7,7 @@ import { describe, expect, it, beforeAll } from "vitest";
 
 import { emitPython } from "../src/emit-py.js";
 import { ruffAvailable, formatPy } from "../src/py-format.js";
-import { arr, ir, obj, sku, str } from "./factories.js";
+import { arr, ir, nullableFieldsSku, obj, sku, str } from "./factories.js";
 import type { IR } from "../src/py-ir.js";
 
 const SAMPLE_IR: IR = JSON.parse(
@@ -185,6 +185,26 @@ describe("Literal emission", () => {
     );
     expect(files["platforms/amazon.py"]).toContain(
       'Literal["helpful", "recent"]',
+    );
+  });
+});
+
+describe("nullable SchemaNode emission", () => {
+  it("keeps requiredness independent and binds an item union inside the list", () => {
+    const files = emitDeterministic(ir([nullableFieldsSku()]));
+    const platform = files["platforms/nullable.py"]!;
+
+    expect(platform).toContain(
+      'next_cursor: str | None = Field(alias="nextCursor")',
+    );
+    expect(platform).toContain(
+      'optional_cursor: str | None = Field(default=None, alias="optionalCursor")',
+    );
+    expect(platform).toContain(
+      "organizations: list[NullableFieldsOrganization | None]",
+    );
+    expect(platform).not.toContain(
+      'next_cursor: str | None = Field(default=None, alias="nextCursor")',
     );
   });
 });
