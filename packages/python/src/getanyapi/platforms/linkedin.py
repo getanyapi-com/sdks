@@ -1371,8 +1371,9 @@ class LinkedinProfileData(BaseModel):
     publications: list[LinkedinProfilePublication] | None = Field(
         default=None, description="Publications."
     )
-    skills: list[LinkedinProfileSkill] | None = Field(
-        default=None, description="Endorsed skills."
+    skills: list[Any] | None = Field(
+        default=None,
+        description="The member's skills, as free-form strings when present.",
     )
     top_skills: list[Any] | None = Field(
         default=None,
@@ -1495,15 +1496,6 @@ class LinkedinProfilePublication(BaseModel):
         description="Publisher and/or date text as shown on LinkedIn.",
     )
     title: str | None = Field(default=None, description="Publication title.")
-
-
-class LinkedinProfileSkill(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    endorsements: str | None = Field(
-        default=None, description="Endorsement count text, e.g. '99+ endorsements'."
-    )
-    name: str | None = Field(default=None, description="Skill name.")
 
 
 class LinkedinProfileThinData(BaseModel):
@@ -1697,9 +1689,8 @@ class LinkedinSearchProfilesItem(BaseModel):
         default=None,
         description="Whether the member has a LinkedIn Premium subscription.",
     )
-    skills: list[LinkedinSearchProfilesSkill] | None = Field(
-        default=None,
-        description="Listed skills. Each entry is an open object with the skill name and endorsement summary.",
+    skills: list[Any] | None = Field(
+        default=None, description="Listed skills, as free-form strings when present."
     )
     url: str = Field(
         description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
@@ -1715,10 +1706,6 @@ class LinkedinSearchProfilesEducation(BaseModel):
 
 
 class LinkedinSearchProfilesExperience(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-
-class LinkedinSearchProfilesSkill(BaseModel):
     model_config = ConfigDict(extra="allow")
 
 
@@ -1778,9 +1765,8 @@ class LinkedinSearchProfilesEmailItem(BaseModel):
         default=None,
         description="Whether the member has a LinkedIn Premium subscription.",
     )
-    skills: list[LinkedinSearchProfilesEmailSkill] | None = Field(
-        default=None,
-        description="Listed skills. Each entry is an open object with the skill name and endorsement summary.",
+    skills: list[Any] | None = Field(
+        default=None, description="Listed skills, as free-form strings when present."
     )
     url: str = Field(
         description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
@@ -1800,10 +1786,6 @@ class LinkedinSearchProfilesEmailEmail(BaseModel):
 
 
 class LinkedinSearchProfilesEmailExperience(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-
-class LinkedinSearchProfilesEmailSkill(BaseModel):
     model_config = ConfigDict(extra="allow")
 
 

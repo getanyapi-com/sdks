@@ -1370,18 +1370,6 @@ export interface LinkedinProfilePublication {
   [extra: string]: unknown;
 }
 
-export interface LinkedinProfileSkill {
-  /**
-   * Endorsement count text, e.g. '99+ endorsements'.
-   */
-  endorsements?: string;
-  /**
-   * Skill name.
-   */
-  name?: string;
-  [extra: string]: unknown;
-}
-
 /**
  * The `data` payload of LinkedIn Profile (linkedin.profile).
  */
@@ -1464,9 +1452,9 @@ export interface LinkedinProfileData {
    */
   publications?: LinkedinProfilePublication[];
   /**
-   * Endorsed skills.
+   * The member's skills, as free-form strings when present.
    */
-  skills?: LinkedinProfileSkill[];
+  skills?: unknown[];
   /**
    * The member's top skills, as free-form strings when present.
    */
@@ -2011,9 +1999,9 @@ export interface LinkedinSearchProfilesItem {
    */
   premium?: boolean;
   /**
-   * Listed skills. Each entry is an open object with the skill name and endorsement summary.
+   * Listed skills, as free-form strings when present.
    */
-  skills?: LinkedinSearchProfilesSkill[];
+  skills?: unknown[];
   /**
    * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
    */
@@ -2030,10 +2018,6 @@ export interface LinkedinSearchProfilesEducation {
 }
 
 export interface LinkedinSearchProfilesExperience {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesSkill {
   [extra: string]: unknown;
 }
 
@@ -2330,9 +2314,9 @@ export interface LinkedinSearchProfilesEmailItem {
    */
   premium?: boolean;
   /**
-   * Listed skills. Each entry is an open object with the skill name and endorsement summary.
+   * Listed skills, as free-form strings when present.
    */
-  skills?: LinkedinSearchProfilesEmailSkill[];
+  skills?: unknown[];
   /**
    * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
    */
@@ -2353,10 +2337,6 @@ export interface LinkedinSearchProfilesEmailEmail {
 }
 
 export interface LinkedinSearchProfilesEmailExperience {
-  [extra: string]: unknown;
-}
-
-export interface LinkedinSearchProfilesEmailSkill {
   [extra: string]: unknown;
 }
 

@@ -22911,27 +22911,9 @@
             },
             "skills": {
               "kind": "array",
-              "description": "Endorsed skills.",
+              "description": "The member's skills, as free-form strings when present.",
               "items": {
-                "kind": "object",
-                "properties": {
-                  "endorsements": {
-                    "kind": "string",
-                    "description": "Endorsement count text, e.g. '99+ endorsements'.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "name": {
-                    "kind": "string",
-                    "description": "Skill name.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  }
-                },
-                "required": [],
-                "open": true
+                "kind": "unknown"
               },
               "mustPopulate": false
             },
@@ -24091,12 +24073,9 @@
                   },
                   "skills": {
                     "kind": "array",
-                    "description": "Listed skills. Each entry is an open object with the skill name and endorsement summary.",
+                    "description": "Listed skills, as free-form strings when present.",
                     "items": {
-                      "kind": "object",
-                      "properties": {},
-                      "required": [],
-                      "open": true
+                      "kind": "unknown"
                     },
                     "mustPopulate": false
                   },
@@ -24702,12 +24681,9 @@
                   },
                   "skills": {
                     "kind": "array",
-                    "description": "Listed skills. Each entry is an open object with the skill name and endorsement summary.",
+                    "description": "Listed skills, as free-form strings when present.",
                     "items": {
-                      "kind": "object",
-                      "properties": {},
-                      "required": [],
-                      "open": true
+                      "kind": "unknown"
                     },
                     "mustPopulate": false
                   },
