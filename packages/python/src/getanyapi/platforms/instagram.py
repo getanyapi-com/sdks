@@ -244,7 +244,10 @@ class InstagramAudioReelsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     has_more: bool = Field(alias="hasMore")
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     reels: list[InstagramAudioReelsReel] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -761,7 +764,10 @@ class InstagramSearchHashtagPost(BaseModel):
 class InstagramSearchProfilesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of profiles, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     profiles: list[InstagramSearchProfilesProfile] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -968,7 +974,10 @@ class InstagramUserHighlightsHighlight(BaseModel):
 class InstagramUserPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     posts: list[InstagramUserPostsPost] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -997,7 +1006,10 @@ class InstagramUserPostsPost(BaseModel):
 class InstagramUserReelsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     reels: list[InstagramUserReelsReel] = Field(
         description="Populated whenever the provider has data for the entity."
     )

@@ -184,9 +184,9 @@ export interface DouyinSearchVideosData {
    */
   hasMore: boolean;
   /**
-   * Cursor for the next page.
+   * Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Search ID required for the next page.
    */
@@ -294,9 +294,9 @@ export interface DouyinUserPostsData {
    */
   hasMore: boolean;
   /**
-   * Cursor for the next page; empty when unavailable.
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Normalized Douyin posts. Populated whenever the provider has data for the entity.
    */
@@ -471,9 +471,9 @@ export interface DouyinVideoCommentsData {
    */
   hasMore: boolean;
   /**
-   * Cursor for the next page.
+   * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Total comment count reported by Douyin.
    */

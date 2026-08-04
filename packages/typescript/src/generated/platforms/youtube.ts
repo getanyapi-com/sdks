@@ -89,7 +89,10 @@ export interface YoutubeChannelCommunityPostsPost {
  * The `data` payload of YouTube Channel Community Posts (youtube.channel_community_posts).
  */
 export interface YoutubeChannelCommunityPostsData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -144,7 +147,10 @@ export interface YoutubeChannelLivesData {
    * Populated whenever the provider has data for the entity.
    */
   lives: YoutubeChannelLivesLive[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of live streams, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
@@ -187,7 +193,10 @@ export interface YoutubeChannelPlaylistsPlaylist {
  * The `data` payload of YouTube Channel Playlists (youtube.channel_playlists).
  */
 export interface YoutubeChannelPlaylistsData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of playlists, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -240,7 +249,10 @@ export interface YoutubeChannelShortsShort {
  * The `data` payload of YouTube Channel Shorts (youtube.channel_shorts).
  */
 export interface YoutubeChannelShortsData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of shorts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -296,7 +308,10 @@ export interface YoutubeChannelVideosVideo {
  * The `data` payload of YouTube Channel Videos (youtube.channel_videos).
  */
 export interface YoutubeChannelVideosData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -547,7 +562,10 @@ export interface YoutubeSearchHashtagVideo {
  * The `data` payload of YouTube Hashtag Search (youtube.search_hashtag).
  */
 export interface YoutubeSearchHashtagData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -696,7 +714,10 @@ export interface YoutubeVideoCommentsData {
    * Populated whenever the provider has data for the entity.
    */
   comments: YoutubeVideoCommentsComment[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**

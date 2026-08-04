@@ -158,9 +158,9 @@ class WeiboPostCommentsData(BaseModel):
     comments: list[WeiboPostCommentsComment] = Field(
         description="Normalized first-level comments. Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page; empty when unavailable.",
+        description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     total: int = Field(description="Total comments reported by Weibo.")
 
@@ -300,9 +300,9 @@ class WeiboSearchPost(BaseModel):
 class WeiboUserPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page; empty when unavailable.",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     posts: list[WeiboUserPostsPost] = Field(
         description="Normalized Weibo posts. Populated whenever the provider has data for the entity."

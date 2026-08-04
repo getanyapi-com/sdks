@@ -210,7 +210,10 @@ class TiktokShopShopProductsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     has_more: bool = Field(alias="hasMore")
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of products, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     product_count: int = Field(alias="productCount")
     products: list[TiktokShopShopProductsProduct] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -247,7 +250,10 @@ class TiktokShopShopProductsProduct(BaseModel):
 class TiktokShopUserShowcaseData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of products, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     products: list[TiktokShopUserShowcaseProduct] = Field(
         description="Populated whenever the provider has data for the entity."
     )

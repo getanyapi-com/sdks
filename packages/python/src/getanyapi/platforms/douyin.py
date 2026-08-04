@@ -111,8 +111,9 @@ class DouyinSearchVideosData(BaseModel):
     has_more: bool = Field(
         alias="hasMore", description="Whether another page is available."
     )
-    next_cursor: str = Field(
-        alias="nextCursor", description="Cursor for the next page."
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     search_id: str = Field(
         alias="searchId", description="Search ID required for the next page."
@@ -165,9 +166,9 @@ class DouyinUserPostsData(BaseModel):
     has_more: bool = Field(
         alias="hasMore", description="Whether another page is available."
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page; empty when unavailable.",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     posts: list[DouyinUserPostsPost] = Field(
         description="Normalized Douyin posts. Populated whenever the provider has data for the entity."
@@ -270,8 +271,9 @@ class DouyinVideoCommentsData(BaseModel):
     has_more: bool = Field(
         alias="hasMore", description="Whether another page is available."
     )
-    next_cursor: str = Field(
-        alias="nextCursor", description="Cursor for the next page."
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     total: int = Field(description="Total comment count reported by Douyin.")
 

@@ -43,7 +43,10 @@ export interface InstagramAudioReelsReel {
  */
 export interface InstagramAudioReelsData {
   hasMore: boolean;
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -920,7 +923,10 @@ export interface InstagramSearchProfilesProfile {
  * The `data` payload of Instagram Profile Search (instagram.search_profiles).
  */
 export interface InstagramSearchProfilesData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of profiles, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1231,7 +1237,10 @@ export interface InstagramUserPostsPost {
  * The `data` payload of Instagram User Posts (instagram.user_posts).
  */
 export interface InstagramUserPostsData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1283,7 +1292,10 @@ export interface InstagramUserReelsReel {
  * The `data` payload of Instagram User Reels (instagram.user_reels).
  */
 export interface InstagramUserReelsData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */

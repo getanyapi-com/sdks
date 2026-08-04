@@ -184,9 +184,9 @@ export interface RednoteNoteCommentsData {
    */
   comments: RednoteNoteCommentsComment[];
   /**
-   * Cursor for the next page of comments; empty when there are no more.
+   * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   [extra: string]: unknown;
 }
 
@@ -347,9 +347,9 @@ export interface RednoteSearchNote {
  */
 export interface RednoteSearchData {
   /**
-   * Cursor for the next page of results; empty when there are no more.
+   * Opaque cursor for the next page of notes, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Notes matching the search. Populated whenever the provider has data for the entity.
    */
@@ -415,7 +415,10 @@ export interface RednoteSearchUsersUser {
  * The `data` payload of RedNote (Xiaohongshu) User Search (rednote.search_users).
  */
 export interface RednoteSearchUsersData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of users, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -505,9 +508,9 @@ export interface RednoteUserNotesNote {
  */
 export interface RednoteUserNotesData {
   /**
-   * Cursor for the next page of results; empty when there are no more.
+   * Opaque cursor for the next page of notes, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * The user's notes. Populated whenever the provider has data for the entity.
    */

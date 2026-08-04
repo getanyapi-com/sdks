@@ -31,11 +31,6 @@
     },
     {
       "kind": "dead-cursor",
-      "slug": "github.user_repositories",
-      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
-    },
-    {
-      "kind": "dead-cursor",
       "slug": "instagram.search_hashtag",
       "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
     },
@@ -5957,7 +5952,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page.",
+              "description": "Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -6172,7 +6168,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page; empty when unavailable.",
+              "description": "Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -6645,7 +6642,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page.",
+              "description": "Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -7952,6 +7950,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -8047,7 +8047,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of replies; empty when there are no more.",
+              "description": "Opaque cursor for the next page of replies, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -8404,6 +8405,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -8752,6 +8755,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of events, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -8934,6 +8939,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of events, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -9147,6 +9154,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -9493,6 +9502,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of listings, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -10024,6 +10035,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of photos, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -10370,7 +10383,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of comments; empty when there are no more.",
+              "description": "Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -10726,6 +10740,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of events, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -12500,6 +12516,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of activity, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -12799,6 +12817,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of followers, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -12939,6 +12959,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of followed accounts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -13035,7 +13057,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Opaque cursor for the next page, or empty string when none.",
+              "description": "Opaque cursor for the next page of pull requests, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -13135,10 +13158,10 @@
       },
       "tsNamespace": "github",
       "tsMethod": "userRepositories",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterUserRepositories",
       "pyNamespace": "github",
       "pyMethod": "user_repositories",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_user_repositories",
       "inputTypeName": "GithubUserRepositoriesInput",
       "outputTypeName": "GithubUserRepositoriesData",
       "example": {
@@ -13148,11 +13171,11 @@
         "kind": "object",
         "properties": {
           "cursor": {
-            "kind": "integer",
-            "description": "1-based results page. Use the output's nextCursor to paginate.",
-            "minimum": 1,
-            "maximum": null,
-            "default": 1
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page.",
+            "enum": null,
+            "default": null,
+            "format": null
           },
           "direction": {
             "kind": "string",
@@ -13210,10 +13233,12 @@
               "default": null
             },
             "nextCursor": {
-              "kind": "integer",
-              "minimum": null,
-              "maximum": null,
-              "default": null
+              "kind": "string",
+              "description": "Opaque cursor for the next page of repositories, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
             },
             "repos": {
               "kind": "array",
@@ -13322,10 +13347,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "repos",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
@@ -15276,6 +15301,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -16678,6 +16705,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -18952,6 +18981,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of profiles, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -19802,6 +19833,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -19948,6 +19981,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -28330,7 +28365,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of comments; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more comments.",
+              "description": "Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -28722,7 +28758,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more results.",
+              "description": "Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -29250,6 +29287,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -30479,7 +30518,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of comments; empty when there are no more.",
+              "description": "Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -30733,7 +30773,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of results; empty when there are no more.",
+              "description": "Opaque cursor for the next page of notes, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -30942,6 +30983,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of users, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -31101,7 +31144,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of results; empty when there are no more.",
+              "description": "Opaque cursor for the next page of notes, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -35107,6 +35151,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of episodes, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -36900,6 +36946,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -37158,6 +37206,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -37303,6 +37353,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of followers, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -38035,6 +38087,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -38594,6 +38648,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of results, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -38671,6 +38727,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of users, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -38946,6 +39004,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -39464,6 +39524,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -40144,6 +40206,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of products, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -40343,6 +40407,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of products, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -45102,7 +45168,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page; empty when unavailable.",
+              "description": "Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -45567,7 +45634,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page; empty when unavailable.",
+              "description": "Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -46332,6 +46400,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -46544,6 +46614,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of live streams, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -46626,6 +46698,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of playlists, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -46774,6 +46848,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of shorts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -46929,6 +47005,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -47643,6 +47721,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -48125,6 +48205,8 @@
             },
             "nextCursor": {
               "kind": "string",
+              "description": "Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null

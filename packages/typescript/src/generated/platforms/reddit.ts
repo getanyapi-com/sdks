@@ -125,9 +125,9 @@ export interface RedditPostCommentsData {
    */
   comments: RedditPostCommentsComment[];
   /**
-   * Cursor for the next page of comments; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more comments.
+   * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
 }
 
 /**
@@ -328,9 +328,9 @@ export interface RedditSearchPost {
  */
 export interface RedditSearchData {
   /**
-   * Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more results.
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -545,7 +545,10 @@ export interface RedditSubredditSearchPost {
  * The `data` payload of Reddit Subreddit Search (reddit.subreddit_search).
  */
 export interface RedditSubredditSearchData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */

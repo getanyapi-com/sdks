@@ -237,7 +237,10 @@ export interface FacebookAdsSearchAd {
  */
 export interface FacebookAdsSearchData {
   ads: FacebookAdsSearchAd[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   totalResults: number;
 }
 
@@ -312,9 +315,9 @@ export interface FacebookCommentRepliesData {
    */
   hasNextPage: boolean;
   /**
-   * Cursor for the next page of replies; empty when there are no more.
+   * Opaque cursor for the next page of replies, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Replies to the comment. Populated whenever the provider has data for the entity.
    */
@@ -417,7 +420,10 @@ export interface FacebookCompanyAdsAd {
  */
 export interface FacebookCompanyAdsData {
   ads: FacebookCompanyAdsAd[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
@@ -534,7 +540,10 @@ export interface FacebookEventsEvent {
  */
 export interface FacebookEventsData {
   events: FacebookEventsEvent[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of events, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
@@ -593,7 +602,10 @@ export interface FacebookEventsSearchEvent {
  */
 export interface FacebookEventsSearchData {
   events: FacebookEventsSearchEvent[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of events, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
@@ -704,7 +716,10 @@ export interface FacebookGroupPostsPost {
  * The `data` payload of Facebook Group Posts (facebook.group_posts).
  */
 export interface FacebookGroupPostsData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -812,7 +827,10 @@ export interface FacebookMarketplaceListing {
 export interface FacebookMarketplaceData {
   hasNextPage: boolean;
   listings: FacebookMarketplaceListing[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of listings, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
@@ -1041,7 +1059,10 @@ export interface FacebookPhotosPhoto {
  * The `data` payload of Facebook Page Photos (facebook.photos).
  */
 export interface FacebookPhotosData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of photos, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   nextPageId: string;
   /**
    * Populated whenever the provider has data for the entity.
@@ -1133,9 +1154,9 @@ export interface FacebookPostCommentsData {
    */
   comments: FacebookPostCommentsComment[];
   /**
-   * Cursor for the next page of comments; empty when there are no more.
+   * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
 }
 
 /**
@@ -1242,7 +1263,10 @@ export interface FacebookProfileEventsData {
    */
   events: FacebookProfileEventsEvent[];
   hasNextPage: boolean;
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of events, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   totalCount: number;
 }
 

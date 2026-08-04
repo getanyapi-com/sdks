@@ -198,7 +198,10 @@ class YoutubeChannelData(BaseModel):
 class YoutubeChannelCommunityPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     posts: list[YoutubeChannelCommunityPostsPost] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -230,7 +233,10 @@ class YoutubeChannelLivesData(BaseModel):
     lives: list[YoutubeChannelLivesLive] = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of live streams, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class YoutubeChannelLivesLive(BaseModel):
@@ -256,7 +262,10 @@ class YoutubeChannelLivesLive(BaseModel):
 class YoutubeChannelPlaylistsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of playlists, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     playlists: list[YoutubeChannelPlaylistsPlaylist] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -282,7 +291,10 @@ class YoutubeChannelPlaylistsPlaylist(BaseModel):
 class YoutubeChannelShortsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of shorts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     shorts: list[YoutubeChannelShortsShort] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -308,7 +320,10 @@ class YoutubeChannelShortsShort(BaseModel):
 class YoutubeChannelVideosData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     videos: list[YoutubeChannelVideosVideo] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -456,7 +471,10 @@ class YoutubeSearchVideo(BaseModel):
 class YoutubeSearchHashtagData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     videos: list[YoutubeSearchHashtagVideo] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -545,7 +563,10 @@ class YoutubeVideoCommentsData(BaseModel):
     comments: list[YoutubeVideoCommentsComment] = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class YoutubeVideoCommentsComment(BaseModel):

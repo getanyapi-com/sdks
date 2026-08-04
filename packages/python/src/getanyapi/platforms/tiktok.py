@@ -329,7 +329,10 @@ class TiktokAdLibrarySearchData(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     has_more: bool = Field(alias="hasMore")
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     total: int
 
 
@@ -392,7 +395,10 @@ class TiktokCommentRepliesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     comments: list[TiktokCommentRepliesComment]
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class TiktokCommentRepliesComment(BaseModel):
@@ -418,7 +424,10 @@ class TiktokFollowersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     followers: list[TiktokFollowersFollower]
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of followers, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     total: int
 
 
@@ -587,7 +596,10 @@ class TiktokProfileRegionData(BaseModel):
 class TiktokProfileVideosData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     videos: list[TiktokProfileVideosVideo]
 
 
@@ -672,7 +684,10 @@ class TiktokSearchTopData(BaseModel):
     items: list[TiktokSearchTopItem] = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of results, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class TiktokSearchTopItem(BaseModel):
@@ -700,7 +715,10 @@ class TiktokSearchTopItem(BaseModel):
 class TiktokSearchUsersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of users, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     users: list[TiktokSearchUsersUser] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -758,7 +776,10 @@ class TiktokSongVideosData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     has_more: int = Field(alias="hasMore")
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     videos: list[TiktokSongVideosVideo] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -844,7 +865,10 @@ class TiktokVideoCommentsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     comments: list[TiktokVideoCommentsComment]
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class TiktokVideoCommentsComment(BaseModel):

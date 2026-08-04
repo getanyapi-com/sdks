@@ -276,7 +276,10 @@ export interface SpotifyPodcastEpisodesData {
    * Populated whenever the provider has data for the entity.
    */
   episodes: SpotifyPodcastEpisodesEpisode[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of episodes, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   totalCount: number;
 }
 

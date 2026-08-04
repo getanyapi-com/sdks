@@ -273,7 +273,10 @@ export interface TiktokShopShopProductsProduct {
  */
 export interface TiktokShopShopProductsData {
   hasMore: boolean;
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of products, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   productCount: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -335,7 +338,10 @@ export interface TiktokShopUserShowcaseProduct {
  * The `data` payload of TikTok Shop User Showcase (tiktok_shop.user_showcase).
  */
 export interface TiktokShopUserShowcaseData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of products, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */

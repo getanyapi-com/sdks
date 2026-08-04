@@ -161,9 +161,9 @@ class RednoteNoteCommentsData(BaseModel):
     comments: list[RednoteNoteCommentsComment] = Field(
         description="Comments on the note. Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of comments; empty when there are no more.",
+        description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
     )
 
 
@@ -267,9 +267,9 @@ class RednoteProfileData(BaseModel):
 class RednoteSearchData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of results; empty when there are no more.",
+        description="Opaque cursor for the next page of notes, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     notes: list[RednoteSearchNote] = Field(
         description="Notes matching the search. Populated whenever the provider has data for the entity."
@@ -353,7 +353,10 @@ class RednoteSearchNote(BaseModel):
 class RednoteSearchUsersData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of users, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     users: list[RednoteSearchUsersUser] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -398,9 +401,9 @@ class RednoteSearchUsersUser(BaseModel):
 class RednoteUserNotesData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of results; empty when there are no more.",
+        description="Opaque cursor for the next page of notes, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     notes: list[RednoteUserNotesNote] = Field(
         description="The user's notes. Populated whenever the provider has data for the entity."

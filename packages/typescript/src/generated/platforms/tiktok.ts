@@ -209,7 +209,10 @@ export interface TiktokAdLibrarySearchData {
    */
   ads: TiktokAdLibrarySearchAd[];
   hasMore: boolean;
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   total: number;
 }
 
@@ -291,7 +294,10 @@ export interface TiktokCommentRepliesComment {
  */
 export interface TiktokCommentRepliesData {
   comments: TiktokCommentRepliesComment[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
@@ -336,7 +342,10 @@ export interface TiktokFollowersFollower {
  */
 export interface TiktokFollowersData {
   followers: TiktokFollowersFollower[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of followers, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   total: number;
 }
 
@@ -606,7 +615,10 @@ export interface TiktokProfileVideosVideo {
  * The `data` payload of TikTok Profile Videos (tiktok.profile_videos).
  */
 export interface TiktokProfileVideosData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   videos: TiktokProfileVideosVideo[];
 }
 
@@ -766,7 +778,10 @@ export interface TiktokSearchTopData {
    * Populated whenever the provider has data for the entity.
    */
   items: TiktokSearchTopItem[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of results, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
@@ -805,7 +820,10 @@ export interface TiktokSearchUsersUser {
  * The `data` payload of TikTok User Search (tiktok.search_users).
  */
 export interface TiktokSearchUsersData {
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of users, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -900,7 +918,10 @@ export interface TiktokSongVideosVideo {
  */
 export interface TiktokSongVideosData {
   hasMore: number;
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1036,7 +1057,10 @@ export interface TiktokVideoCommentsComment {
  */
 export interface TiktokVideoCommentsData {
   comments: TiktokVideoCommentsComment[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**

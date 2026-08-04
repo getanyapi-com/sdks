@@ -193,9 +193,9 @@ class RedditPostCommentsData(BaseModel):
     comments: list[RedditPostCommentsComment] = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of comments; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more comments.",
+        description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
     )
 
 
@@ -311,9 +311,9 @@ class RedditProfileData(BaseModel):
 class RedditSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Empty string when there are no more results.",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     posts: list[RedditSearchPost] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -427,7 +427,10 @@ class RedditSubredditPostsPost(BaseModel):
 class RedditSubredditSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     posts: list[RedditSubredditSearchPost] = Field(
         description="Populated whenever the provider has data for the entity."
     )

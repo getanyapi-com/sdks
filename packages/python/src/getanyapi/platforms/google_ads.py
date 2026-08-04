@@ -140,7 +140,10 @@ class GoogleAdsCompanyAdsData(BaseModel):
     ads_estimate: int = Field(
         alias="adsEstimate", description="Estimated total number of ads."
     )
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class GoogleAdsCompanyAdsAd(BaseModel):

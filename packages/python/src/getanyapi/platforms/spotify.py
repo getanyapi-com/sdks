@@ -233,7 +233,10 @@ class SpotifyPodcastEpisodesData(BaseModel):
     episodes: list[SpotifyPodcastEpisodesEpisode] = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of episodes, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     total_count: int = Field(alias="totalCount")
 
 

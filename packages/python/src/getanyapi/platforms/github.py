@@ -107,8 +107,8 @@ class GithubUserPullRequestsInput(TypedDict, total=False):
 class GithubUserRepositoriesInput(TypedDict, total=False):
     """Input for GitHub User Repositories."""
 
-    cursor: NotRequired[int]
-    """1-based results page. Use the output's nextCursor to paginate. Minimum: 1. Default: 1."""
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page."""
     direction: NotRequired[Literal["asc", "desc"]]
     """Sort direction, ascending or descending, paired with sort."""
     handle: Required[str]
@@ -292,7 +292,10 @@ class GithubUserActivityData(BaseModel):
     month: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of activity, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     no_activity: bool = Field(alias="noActivity")
     username: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -336,7 +339,10 @@ class GithubUserFollowersData(BaseModel):
     followers: list[GithubUserFollowersFollower] = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of followers, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class GithubUserFollowersFollower(BaseModel):
@@ -366,7 +372,10 @@ class GithubUserFollowingData(BaseModel):
     following: list[GithubUserFollowingFollowing] = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of followed accounts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class GithubUserFollowingFollowing(BaseModel):
@@ -397,9 +406,9 @@ class GithubUserPullRequestsData(BaseModel):
         alias="hasMore",
         description="Whether more pull requests are available beyond this page.",
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Opaque cursor for the next page, or empty string when none.",
+        description="Opaque cursor for the next page of pull requests, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     pull_requests: list[GithubUserPullRequestsPullRequest] = Field(
         alias="pullRequests",
@@ -432,7 +441,10 @@ class GithubUserRepositoriesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     has_more: bool = Field(alias="hasMore")
-    next_cursor: int = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of repositories, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     repos: list[GithubUserRepositoriesRepo] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -768,6 +780,29 @@ class GithubNamespace:
         )
         return RunResult[GithubUserRepositoriesData].model_validate(raw)
 
+    def iter_user_repositories(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GithubUserRepositoriesInput],
+    ) -> Paginator[GithubUserRepositoriesRepo, GithubUserRepositoriesData]:
+        """Iterate GitHub User Repositories results, following pagination cursors.
+
+        Yields validated `GithubUserRepositoriesRepo` items from the `repos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "github.user_repositories",
+            dict(input),
+            "repos",
+            item_model=GithubUserRepositoriesRepo,
+            data_model=GithubUserRepositoriesData,
+            bare=False,
+            options=options,
+        )
+
 
 class AsyncGithubNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -1075,3 +1110,26 @@ class AsyncGithubNamespace:
             "github.user_repositories", dict(input), options
         )
         return RunResult[GithubUserRepositoriesData].model_validate(raw)
+
+    def iter_user_repositories(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GithubUserRepositoriesInput],
+    ) -> AsyncPaginator[GithubUserRepositoriesRepo, GithubUserRepositoriesData]:
+        """Iterate GitHub User Repositories results, following pagination cursors.
+
+        Yields validated `GithubUserRepositoriesRepo` items from the `repos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "github.user_repositories",
+            dict(input),
+            "repos",
+            item_model=GithubUserRepositoriesRepo,
+            data_model=GithubUserRepositoriesData,
+            bare=False,
+            options=options,
+        )

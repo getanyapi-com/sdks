@@ -200,9 +200,9 @@ export interface WeiboPostCommentsData {
    */
   comments: WeiboPostCommentsComment[];
   /**
-   * Cursor for the next page; empty when unavailable.
+   * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Total comments reported by Weibo.
    */
@@ -473,9 +473,9 @@ export interface WeiboUserPostsPost {
  */
 export interface WeiboUserPostsData {
   /**
-   * Cursor for the next page; empty when unavailable.
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Normalized Weibo posts. Populated whenever the provider has data for the entity.
    */

@@ -403,7 +403,10 @@ class FacebookAdsSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     ads: list[FacebookAdsSearchAd]
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     total_results: int = Field(alias="totalResults")
 
 
@@ -464,9 +467,9 @@ class FacebookCommentRepliesData(BaseModel):
         alias="hasNextPage",
         description="True when more replies are available beyond this page.",
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of replies; empty when there are no more.",
+        description="Opaque cursor for the next page of replies, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     replies: list[FacebookCommentRepliesReplie] = Field(
         description="Replies to the comment. Populated whenever the provider has data for the entity."
@@ -518,7 +521,10 @@ class FacebookCompanyAdsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     ads: list[FacebookCompanyAdsAd]
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class FacebookCompanyAdsAd(BaseModel):
@@ -599,7 +605,10 @@ class FacebookEventsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     events: list[FacebookEventsEvent]
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of events, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class FacebookEventsEvent(BaseModel):
@@ -635,7 +644,10 @@ class FacebookEventsSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     events: list[FacebookEventsSearchEvent]
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of events, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class FacebookEventsSearchEvent(BaseModel):
@@ -700,7 +712,10 @@ class FacebookFollowersItem(BaseModel):
 class FacebookGroupPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     posts: list[FacebookGroupPostsPost] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -740,7 +755,10 @@ class FacebookMarketplaceData(BaseModel):
 
     has_next_page: bool = Field(alias="hasNextPage")
     listings: list[FacebookMarketplaceListing]
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of listings, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class FacebookMarketplaceListing(BaseModel):
@@ -895,7 +913,10 @@ class FacebookPageContactItem(BaseModel):
 class FacebookPhotosData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of photos, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     next_page_id: str = Field(alias="nextPageId")
     photos: list[FacebookPhotosPhoto] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -950,9 +971,9 @@ class FacebookPostCommentsData(BaseModel):
     comments: list[FacebookPostCommentsComment] = Field(
         description="Comments on the post. Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of comments; empty when there are no more.",
+        description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
     )
 
 
@@ -1007,7 +1028,10 @@ class FacebookProfileEventsData(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     has_next_page: bool = Field(alias="hasNextPage")
-    next_cursor: str = Field(alias="nextCursor")
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of events, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     total_count: int = Field(alias="totalCount")
 
 

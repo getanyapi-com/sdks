@@ -312,7 +312,10 @@ export interface GithubUserActivityData {
    * Populated whenever the provider has data for the entity.
    */
   month: string;
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of activity, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   noActivity: boolean;
   /**
    * Populated whenever the provider has data for the entity.
@@ -417,7 +420,10 @@ export interface GithubUserFollowersData {
    * Populated whenever the provider has data for the entity.
    */
   followers: GithubUserFollowersFollower[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of followers, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
@@ -464,7 +470,10 @@ export interface GithubUserFollowingData {
    * Populated whenever the provider has data for the entity.
    */
   following: GithubUserFollowingFollowing[];
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of followed accounts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
@@ -522,9 +531,9 @@ export interface GithubUserPullRequestsData {
    */
   hasMore: boolean;
   /**
-   * Opaque cursor for the next page, or empty string when none.
+   * Opaque cursor for the next page of pull requests, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * The user's public pull requests for this page. Populated whenever the provider has data for the entity.
    */
@@ -536,11 +545,9 @@ export interface GithubUserPullRequestsData {
  */
 export interface GithubUserRepositoriesInput {
   /**
-   * 1-based results page. Use the output's nextCursor to paginate.
-   * Range: minimum 1.
-   * Default: 1.
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page.
    */
-  cursor?: number;
+  cursor?: string;
   /**
    * Sort direction, ascending or descending, paired with sort.
    * One of: asc, desc.
@@ -592,7 +599,10 @@ export interface GithubUserRepositoriesRepo {
  */
 export interface GithubUserRepositoriesData {
   hasMore: boolean;
-  nextCursor: number;
+  /**
+   * Opaque cursor for the next page of repositories, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -875,5 +885,31 @@ export class GithubNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<GithubUserRepositoriesData>> {
     return this._core.run("github.user_repositories", input, options);
+  }
+
+  /**
+   * Iterate every result of GitHub User Repositories across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterUserRepositories(
+    input: GithubUserRepositoriesInput,
+    options?: RequestOptions,
+  ): Paginator<
+    GithubUserRepositoriesRepo,
+    RunResult<GithubUserRepositoriesData>
+  > {
+    return paginate<
+      GithubUserRepositoriesRepo,
+      RunResult<GithubUserRepositoriesData>
+    >(
+      this._core,
+      "github.user_repositories",
+      input as unknown as Record<string, unknown>,
+      "repos",
+      false,
+      options,
+    );
   }
 }

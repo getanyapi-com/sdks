@@ -198,7 +198,10 @@ export interface GoogleAdsCompanyAdsData {
    * Estimated total number of ads.
    */
   adsEstimate: number;
-  nextCursor: string;
+  /**
+   * Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
 }
 
 /**
