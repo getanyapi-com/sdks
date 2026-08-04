@@ -382,6 +382,8 @@ import type {
   RedditSubredditPostsInput,
   RedditSubredditSearchData,
   RedditSubredditSearchInput,
+  RedditTrendingPostsData,
+  RedditTrendingPostsInput,
   RedditUserCommentsData,
   RedditUserCommentsInput,
   RedditUserPostsData,
@@ -1463,6 +1465,11 @@ export interface SkuMap {
     input: RedditSubredditSearchInput;
     data: RedditSubredditSearchData;
     result: RunResult<RedditSubredditSearchData>;
+  };
+  "reddit.trending_posts": {
+    input: RedditTrendingPostsInput;
+    data: RedditTrendingPostsData;
+    result: RunResult<RedditTrendingPostsData>;
   };
   "reddit.user_comments": {
     input: RedditUserCommentsInput;

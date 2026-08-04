@@ -77,9 +77,11 @@ class RedditSubredditPostsInput(TypedDict, total=False):
     """Input for Reddit Subreddit Posts."""
 
     after: NotRequired[str]
-    """Pagination cursor from a previous response (its `nextCursor`). Fetches the page that follows; omit for the first page."""
+    """Legacy pagination alias. Prefer `cursor`; omit both fields for the first page."""
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's `nextCursor`; omit for the first page."""
     limit: NotRequired[int]
-    """Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, page with the `after` cursor returned as `nextCursor`. Range: 1 to 100. Default: 25."""
+    """Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, pass `nextCursor` back as `cursor`. Range: 1 to 100. Default: 25."""
     sort: NotRequired[Literal["hot", "new", "top"]]
     """Listing sort order. Default: hot."""
     subreddit: Required[str]
@@ -101,6 +103,15 @@ class RedditSubredditSearchInput(TypedDict, total=False):
     """Subreddit name without the r/ prefix (e.g. 'Fitness')."""
     timeframe: NotRequired[str]
     """Optional time filter: all, year, month, week, day, hour."""
+
+
+class RedditTrendingPostsInput(TypedDict, total=False):
+    """Input for Reddit Trending Posts."""
+
+    after: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor. Omit for the first page."""
+    limit: NotRequired[int]
+    """Maximum number of trending posts to return (1-100, default 25). Range: 1 to 100. Default: 25."""
 
 
 class RedditUserCommentsInput(TypedDict, total=False):
@@ -373,9 +384,9 @@ class RedditSubredditDetailsData(BaseModel):
 class RedditSubredditPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of results; pass it back as the `after` input to fetch the following page. Empty string when there are no more results.",
+        description="Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Null when there are no more results.",
     )
     posts: list[RedditSubredditPostsPost] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -451,6 +462,49 @@ class RedditSubredditSearchPost(BaseModel):
     )
     url: str = Field(
         description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity."
+    )
+
+
+class RedditTrendingPostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Cursor for the next page; pass it back as after. Null when no more results exist.",
+    )
+    posts: list[RedditTrendingPostsPost] = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
+
+class RedditTrendingPostsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
+    )
+    num_comments: int = Field(
+        alias="numComments", description="Total number of comments on the post."
+    )
+    permalink: str = Field(
+        description="Canonical reddit.com thread path for the post. Populated whenever the provider has data for the entity."
+    )
+    score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
+    subreddit: str = Field(
+        description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
+    )
+    title: str = Field(
+        description="Post title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="The post's destination link. Populated whenever the provider has data for the entity."
     )
 
 
@@ -746,6 +800,29 @@ class RedditNamespace:
         )
         return RunResult[RedditSubredditPostsData].model_validate(raw)
 
+    def iter_subreddit_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RedditSubredditPostsInput],
+    ) -> Paginator[RedditSubredditPostsPost, RedditSubredditPostsData]:
+        """Iterate Reddit Subreddit Posts results, following pagination cursors.
+
+        Yields validated `RedditSubredditPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "reddit.subreddit_posts",
+            dict(input),
+            "posts",
+            item_model=RedditSubredditPostsPost,
+            data_model=RedditSubredditPostsData,
+            bare=False,
+            options=options,
+        )
+
     def subreddit_search(
         self,
         *,
@@ -788,6 +865,27 @@ class RedditNamespace:
             bare=False,
             options=options,
         )
+
+    def trending_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RedditTrendingPostsInput],
+    ) -> RunResult[RedditTrendingPostsData]:
+        """Reddit Trending Posts
+
+        Get currently trending Reddit posts across all subreddits with stable cursor
+        pagination.
+
+        Price: $0.00036 per request.
+
+        Example:
+            res = client.reddit.trending_posts(limit=25)
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "reddit.trending_posts", dict(input), options
+        )
+        return RunResult[RedditTrendingPostsData].model_validate(raw)
 
     def user_comments(
         self,
@@ -1075,6 +1173,29 @@ class AsyncRedditNamespace:
         )
         return RunResult[RedditSubredditPostsData].model_validate(raw)
 
+    def iter_subreddit_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RedditSubredditPostsInput],
+    ) -> AsyncPaginator[RedditSubredditPostsPost, RedditSubredditPostsData]:
+        """Iterate Reddit Subreddit Posts results, following pagination cursors.
+
+        Yields validated `RedditSubredditPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "reddit.subreddit_posts",
+            dict(input),
+            "posts",
+            item_model=RedditSubredditPostsPost,
+            data_model=RedditSubredditPostsData,
+            bare=False,
+            options=options,
+        )
+
     async def subreddit_search(
         self,
         *,
@@ -1117,6 +1238,27 @@ class AsyncRedditNamespace:
             bare=False,
             options=options,
         )
+
+    async def trending_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RedditTrendingPostsInput],
+    ) -> RunResult[RedditTrendingPostsData]:
+        """Reddit Trending Posts
+
+        Get currently trending Reddit posts across all subreddits with stable cursor
+        pagination.
+
+        Price: $0.00036 per request.
+
+        Example:
+            res = client.reddit.trending_posts(limit=25)
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "reddit.trending_posts", dict(input), options
+        )
+        return RunResult[RedditTrendingPostsData].model_validate(raw)
 
     async def user_comments(
         self,

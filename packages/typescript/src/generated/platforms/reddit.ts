@@ -387,11 +387,15 @@ export interface RedditSubredditDetailsData {
  */
 export interface RedditSubredditPostsInput {
   /**
-   * Pagination cursor from a previous response (its `nextCursor`). Fetches the page that follows; omit for the first page.
+   * Legacy pagination alias. Prefer `cursor`; omit both fields for the first page.
    */
   after?: string;
   /**
-   * Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, page with the `after` cursor returned as `nextCursor`.
+   * Opaque pagination cursor from a previous response's `nextCursor`; omit for the first page.
+   */
+  cursor?: string;
+  /**
+   * Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, pass `nextCursor` back as `cursor`.
    * Range: minimum 1, maximum 100.
    * Default: 25.
    */
@@ -458,9 +462,9 @@ export interface RedditSubredditPostsPost {
  */
 export interface RedditSubredditPostsData {
   /**
-   * Cursor for the next page of results; pass it back as the `after` input to fetch the following page. Empty string when there are no more results.
+   * Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Null when there are no more results.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -546,6 +550,76 @@ export interface RedditSubredditSearchData {
    * Populated whenever the provider has data for the entity.
    */
   posts: RedditSubredditSearchPost[];
+}
+
+/**
+ * Input for Reddit Trending Posts (reddit.trending_posts).
+ */
+export interface RedditTrendingPostsInput {
+  /**
+   * Pagination cursor from a previous response's nextCursor. Omit for the first page.
+   */
+  after?: string;
+  /**
+   * Maximum number of trending posts to return (1-100, default 25).
+   * Range: minimum 1, maximum 100.
+   * Default: 25.
+   */
+  limit?: number;
+}
+
+export interface RedditTrendingPostsPost {
+  /**
+   * Author username, without the u/ prefix. Populated whenever the provider has data for the entity.
+   */
+  author: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Total number of comments on the post.
+   */
+  numComments: number;
+  /**
+   * Canonical reddit.com thread path for the post. Populated whenever the provider has data for the entity.
+   */
+  permalink: string;
+  /**
+   * Net score (upvotes minus downvotes) at fetch time.
+   */
+  score: number;
+  /**
+   * Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.
+   */
+  subreddit: string;
+  /**
+   * Post title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * The post's destination link. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Reddit Trending Posts (reddit.trending_posts).
+ */
+export interface RedditTrendingPostsData {
+  /**
+   * Cursor for the next page; pass it back as after. Null when no more results exist.
+   */
+  nextCursor: string | null;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  posts: RedditTrendingPostsPost[];
 }
 
 /**
@@ -870,6 +944,29 @@ export class RedditNamespace {
   }
 
   /**
+   * Iterate every result of Reddit Subreddit Posts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSubredditPosts(
+    input: RedditSubredditPostsInput,
+    options?: RequestOptions,
+  ): Paginator<RedditSubredditPostsPost, RunResult<RedditSubredditPostsData>> {
+    return paginate<
+      RedditSubredditPostsPost,
+      RunResult<RedditSubredditPostsData>
+    >(
+      this._core,
+      "reddit.subreddit_posts",
+      input as unknown as Record<string, unknown>,
+      "posts",
+      false,
+      options,
+    );
+  }
+
+  /**
    * Reddit Subreddit Search
    *
    * Search posts within a single subreddit by query, sort, and timeframe.
@@ -910,6 +1007,23 @@ export class RedditNamespace {
       false,
       options,
     );
+  }
+
+  /**
+   * Reddit Trending Posts
+   *
+   * Get currently trending Reddit posts across all subreddits with stable cursor pagination.
+   *
+   * Price: $0.00036 per request.
+   *
+   * @example
+   * const res = await client.reddit.trendingPosts({ limit: 25 });
+   */
+  trendingPosts(
+    input: RedditTrendingPostsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<RedditTrendingPostsData>> {
+    return this._core.run("reddit.trending_posts", input, options);
   }
 
   /**

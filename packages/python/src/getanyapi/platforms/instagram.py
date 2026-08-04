@@ -297,9 +297,9 @@ class InstagramCommentRepliesData(BaseModel):
     comments: list[InstagramCommentRepliesComment] = Field(
         description="Replies to the requested comment, oldest first. Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of replies. Empty when there are no more replies.",
+        description="Opaque cursor for the next page of replies, or null when this lane has no more. Pass it back as cursor to continue.",
     )
 
 
@@ -521,9 +521,9 @@ class InstagramPostCommentsData(BaseModel):
     comments: list[InstagramPostCommentsComment] = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of comments. Pass it back as the cursor input. Empty when there are no more comments.",
+        description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
     )
 
 
@@ -881,9 +881,9 @@ class InstagramStoriesThinItem(BaseModel):
 class InstagramTaggedPostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    next_cursor: str = Field(
+    next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Cursor for the next page of tagged posts. Pass it back as the cursor input. Empty when there are no more posts.",
+        description="Opaque cursor for the next page of tagged posts, or null when this lane has no more. Pass it back as cursor to continue.",
     )
     posts: list[InstagramTaggedPostsPost] = Field(
         description="Posts that tag the requested account, newest first. Populated whenever the provider has data for the entity."

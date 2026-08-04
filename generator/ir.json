@@ -17025,7 +17025,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of replies. Empty when there are no more replies.",
+              "description": "Opaque cursor for the next page of replies, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -18013,7 +18014,8 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of comments. Pass it back as the cursor input. Empty when there are no more comments.",
+              "description": "Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -19395,7 +19397,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of tagged posts. Pass it back as the cursor input. Empty when there are no more posts.",
+              "description": "Opaque cursor for the next page of tagged posts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -28973,10 +28976,10 @@
       },
       "tsNamespace": "reddit",
       "tsMethod": "subredditPosts",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterSubredditPosts",
       "pyNamespace": "reddit",
       "pyMethod": "subreddit_posts",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_subreddit_posts",
       "inputTypeName": "RedditSubredditPostsInput",
       "outputTypeName": "RedditSubredditPostsData",
       "example": {
@@ -28988,14 +28991,21 @@
         "properties": {
           "after": {
             "kind": "string",
-            "description": "Pagination cursor from a previous response (its `nextCursor`). Fetches the page that follows; omit for the first page.",
+            "description": "Legacy pagination alias. Prefer `cursor`; omit both fields for the first page.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's `nextCursor`; omit for the first page.",
             "enum": null,
             "default": null,
             "format": null
           },
           "limit": {
             "kind": "integer",
-            "description": "Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, page with the `after` cursor returned as `nextCursor`.",
+            "description": "Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, pass `nextCursor` back as `cursor`.",
             "minimum": 1,
             "maximum": 100,
             "default": 25
@@ -29045,7 +29055,8 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
-              "description": "Cursor for the next page of results; pass it back as the `after` input to fetch the following page. Empty string when there are no more results.",
+              "description": "Cursor for the next page of results; pass it back as the `cursor` input to fetch the following page. Null when there are no more results.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -29156,10 +29167,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "posts",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
@@ -29358,6 +29369,177 @@
         "itemsField": "posts",
         "cursorInputField": "cursor",
         "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "reddit.trending_posts",
+      "platform": "reddit",
+      "action": "trending_posts",
+      "operationId": "reddit_trending_posts",
+      "name": "Reddit Trending Posts",
+      "category": "reddit",
+      "description": "Get currently trending Reddit posts across all subreddits with stable cursor pagination.",
+      "pricing": {
+        "priceUsd": 0.00036,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "reddit",
+      "tsMethod": "trendingPosts",
+      "tsIterMethod": null,
+      "pyNamespace": "reddit",
+      "pyMethod": "trending_posts",
+      "pyIterMethod": null,
+      "inputTypeName": "RedditTrendingPostsInput",
+      "outputTypeName": "RedditTrendingPostsData",
+      "example": {
+        "limit": 25
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "after": {
+            "kind": "string",
+            "description": "Pagination cursor from a previous response's nextCursor. Omit for the first page.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of trending posts to return (1-100, default 25).",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 25
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Cursor for the next page; pass it back as after. Null when no more results exist.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "posts": {
+              "kind": "array",
+              "description": "Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "Author username, without the u/ prefix. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "numComments": {
+                    "kind": "integer",
+                    "description": "Total number of comments on the post.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "permalink": {
+                    "kind": "string",
+                    "description": "Canonical reddit.com thread path for the post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "score": {
+                    "kind": "integer",
+                    "description": "Net score (upvotes minus downvotes) at fetch time.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "subreddit": {
+                    "kind": "string",
+                    "description": "Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Post title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The post's destination link. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "title",
+                  "author",
+                  "score",
+                  "numComments",
+                  "url",
+                  "permalink",
+                  "createdUtc",
+                  "subreddit"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "author",
+                  "createdUtc",
+                  "id",
+                  "permalink",
+                  "subreddit",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "posts",
+            "nextCursor"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "posts"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
       }
     },
     {

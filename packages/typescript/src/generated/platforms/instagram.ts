@@ -144,9 +144,9 @@ export interface InstagramCommentRepliesData {
    */
   comments: InstagramCommentRepliesComment[];
   /**
-   * Cursor for the next page of replies. Empty when there are no more replies.
+   * Opaque cursor for the next page of replies, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
 }
 
 /**
@@ -515,9 +515,9 @@ export interface InstagramPostCommentsData {
    */
   comments: InstagramPostCommentsComment[];
   /**
-   * Cursor for the next page of comments. Pass it back as the cursor input. Empty when there are no more comments.
+   * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
 }
 
 /**
@@ -1099,9 +1099,9 @@ export interface InstagramTaggedPostsPost {
  */
 export interface InstagramTaggedPostsData {
   /**
-   * Cursor for the next page of tagged posts. Pass it back as the cursor input. Empty when there are no more posts.
+   * Opaque cursor for the next page of tagged posts, or null when this lane has no more. Pass it back as cursor to continue.
    */
-  nextCursor: string;
+  nextCursor: string | null;
   /**
    * Posts that tag the requested account, newest first. Populated whenever the provider has data for the entity.
    */
