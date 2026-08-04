@@ -88,7 +88,7 @@ class IndeedNamespace:
         Search Indeed job listings by keyword, location, and country, with up to 20
         normalized job records per request.
 
-        Price: $0.0008 per request plus $0.00008 per result (maximum $0.0024).
+        Price: $0.00084 per request plus $0.00009 per result (maximum $0.00252).
 
         Example:
             res = client.indeed.jobs(limit=3, location="Austin, TX", query="data analyst")
@@ -113,7 +113,7 @@ class AsyncIndeedNamespace:
         Search Indeed job listings by keyword, location, and country, with up to 20
         normalized job records per request.
 
-        Price: $0.0008 per request plus $0.00008 per result (maximum $0.0024).
+        Price: $0.00084 per request plus $0.00009 per result (maximum $0.00252).
 
         Example:
             res = client.indeed.jobs(limit=3, location="Austin, TX", query="data analyst")

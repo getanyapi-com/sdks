@@ -420,7 +420,7 @@ class MapsNamespace:
         details (emails, phones, and social profiles from their websites), up to 20
         records per request.
 
-        Price: $0.00005 per request plus $0.0045 per result (maximum $0.09005).
+        Price: $0.00006 per request plus $0.00473 per result (maximum $0.0946).
 
         Example:
             res = client.maps.contacts(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee shop", website="withWebsite")
@@ -460,7 +460,7 @@ class MapsNamespace:
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
         you need, in one normalized response.
 
-        Price: $0.00005 per request plus $0.0004 per result (maximum $0.04005).
+        Price: $0.00006 per request plus $0.00042 per result (maximum $0.0421).
 
         Example:
             res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4", postedLimit="year")
@@ -508,7 +508,7 @@ class AsyncMapsNamespace:
         details (emails, phones, and social profiles from their websites), up to 20
         records per request.
 
-        Price: $0.00005 per request plus $0.0045 per result (maximum $0.09005).
+        Price: $0.00006 per request plus $0.00473 per result (maximum $0.0946).
 
         Example:
             res = client.maps.contacts(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee shop", website="withWebsite")
@@ -548,7 +548,7 @@ class AsyncMapsNamespace:
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
         you need, in one normalized response.
 
-        Price: $0.00005 per request plus $0.0004 per result (maximum $0.04005).
+        Price: $0.00006 per request plus $0.00042 per result (maximum $0.0421).
 
         Example:
             res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4", postedLimit="year")

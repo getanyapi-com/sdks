@@ -1812,7 +1812,7 @@ export class FacebookNamespace {
    *
    * List the public followers (or accounts followed) of any Facebook page or profile URL as normalized JSON records.
    *
-   * Price: $0 per request plus $0.006 per result (maximum $0.12).
+   * Price: $0 per request plus $0.0063 per result (maximum $0.126).
    *
    * @example
    * const res = await client.facebook.followers({ url: "https://www.facebook.com/nike", limit: 3 });
@@ -2186,7 +2186,7 @@ export class FacebookNamespace {
    *
    * Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details).
    *
-   * Price: $0.001 per request plus $0.011 per result (maximum $0.111).
+   * Price: $0.00105 per request plus $0.0116 per result (maximum $0.117).
    *
    * @example
    * const res = await client.facebook.searchPages({ query: "nike", limit: 3 });
@@ -2203,7 +2203,7 @@ export class FacebookNamespace {
    *
    * Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).
    *
-   * Price: $0 per request plus $0.003 per result (maximum $0.06).
+   * Price: $0 per request plus $0.00315 per result (maximum $0.063).
    *
    * @example
    * const res = await client.facebook.searchPosts({ query: "nike", limit: 3 });

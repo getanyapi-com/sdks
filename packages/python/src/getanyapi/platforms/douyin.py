@@ -344,7 +344,7 @@ class DouyinNamespace:
         Look up a public Douyin profile by sec_user_id and return normalized profile
         statistics.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.douyin.profile(secUserId="MS4wLjABAAAAW9FWcqS7RdQAWPd2AA5fL_ilmqsIFUCQ_Iym6Yh9_cUa6ZRqVLjVQSUjlHrfXY1Y")
@@ -365,7 +365,7 @@ class DouyinNamespace:
         Search public Douyin videos by keyword with sorting, time, duration, and
         content filters.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.douyin.search_videos(duration="0", publishedWithin="0", query="机器人", sort="0")
@@ -386,7 +386,7 @@ class DouyinNamespace:
         List public posts from a Douyin user with normalized engagement data and
         pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.douyin.user_posts(limit=20, secUserId="MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE", sort=0)
@@ -407,7 +407,7 @@ class DouyinNamespace:
         Fetch a public Douyin video by share URL with normalized author and
         engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.douyin.video(url="https://www.douyin.com/video/6894784055775071503")
@@ -427,7 +427,7 @@ class DouyinNamespace:
 
         List public comments on a Douyin video with author and engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.douyin.video_comments(videoId="7448118827402972455")
@@ -455,7 +455,7 @@ class AsyncDouyinNamespace:
         Look up a public Douyin profile by sec_user_id and return normalized profile
         statistics.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.douyin.profile(secUserId="MS4wLjABAAAAW9FWcqS7RdQAWPd2AA5fL_ilmqsIFUCQ_Iym6Yh9_cUa6ZRqVLjVQSUjlHrfXY1Y")
@@ -476,7 +476,7 @@ class AsyncDouyinNamespace:
         Search public Douyin videos by keyword with sorting, time, duration, and
         content filters.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.douyin.search_videos(duration="0", publishedWithin="0", query="机器人", sort="0")
@@ -497,7 +497,7 @@ class AsyncDouyinNamespace:
         List public posts from a Douyin user with normalized engagement data and
         pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.douyin.user_posts(limit=20, secUserId="MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE", sort=0)
@@ -518,7 +518,7 @@ class AsyncDouyinNamespace:
         Fetch a public Douyin video by share URL with normalized author and
         engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.douyin.video(url="https://www.douyin.com/video/6894784055775071503")
@@ -538,7 +538,7 @@ class AsyncDouyinNamespace:
 
         List public comments on a Douyin video with author and engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.douyin.video_comments(videoId="7448118827402972455")

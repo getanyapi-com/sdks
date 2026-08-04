@@ -444,7 +444,7 @@ export class SpotifyNamespace {
    *
    * Fetch stream counts and stats for a Spotify track, album, or artist URL.
    *
-   * Price: $0 per request plus $0.003 per result (maximum $0.003).
+   * Price: $0 per request plus $0.00315 per result (maximum $0.00315).
    *
    * @example
    * const res = await client.spotify.playCount({ url: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT" });

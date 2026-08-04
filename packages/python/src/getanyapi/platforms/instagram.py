@@ -1027,7 +1027,7 @@ class InstagramNamespace:
         List the followers of any public Instagram account by username: follower
         usernames, names, and profile details.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.instagram.followers(limit=50, username="nasa")
@@ -1071,7 +1071,7 @@ class InstagramNamespace:
         List the accounts a public Instagram user follows: usernames, names, and
         profile details.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.instagram.following(limit=50, username="nasa")
@@ -1115,7 +1115,7 @@ class InstagramNamespace:
         Get analytics for any Instagram hashtag (total post count, related hashtags,
         and usage signals).
 
-        Price: $0.001 per request plus $0.0017 per result (maximum $0.035).
+        Price: $0.00105 per request plus $0.00179 per result (maximum $0.0368).
 
         Example:
             res = client.instagram.hashtag_analytics(hashtag="travel", limit=5)
@@ -1219,7 +1219,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.002 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -1240,7 +1240,7 @@ class InstagramNamespace:
         Turn any public Instagram reel or video post into a full speech transcript,
         with optional word-level timestamps.
 
-        Price: $0.005 per request plus $0.02 per result (maximum $0.025).
+        Price: $0.00525 per request plus $0.021 per result (maximum $0.0263).
 
         Example:
             res = client.instagram.reel_transcript(url="https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps=False)
@@ -1283,7 +1283,7 @@ class InstagramNamespace:
         Search Instagram for users, hashtags, or places by keyword and get matching
         results with names, counts, and links.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.instagram.search(query="nasa")
@@ -1369,7 +1369,7 @@ class InstagramNamespace:
         Fetch a public Instagram account's currently live stories with media, type,
         dimensions, posting time, and 24-hour expiry by username.
 
-        Price: $0.002 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.stories_full(username="natgeo")
@@ -1391,7 +1391,7 @@ class InstagramNamespace:
         owner, and posting time - by username. Lightweight projection; for media
         type, dimensions, and the 24h expiry time use instagram.stories_full.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.instagram.stories_thin(username="natgeo")
@@ -1631,7 +1631,7 @@ class AsyncInstagramNamespace:
         List the followers of any public Instagram account by username: follower
         usernames, names, and profile details.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.instagram.followers(limit=50, username="nasa")
@@ -1675,7 +1675,7 @@ class AsyncInstagramNamespace:
         List the accounts a public Instagram user follows: usernames, names, and
         profile details.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.instagram.following(limit=50, username="nasa")
@@ -1719,7 +1719,7 @@ class AsyncInstagramNamespace:
         Get analytics for any Instagram hashtag (total post count, related hashtags,
         and usage signals).
 
-        Price: $0.001 per request plus $0.0017 per result (maximum $0.035).
+        Price: $0.00105 per request plus $0.00179 per result (maximum $0.0368).
 
         Example:
             res = client.instagram.hashtag_analytics(hashtag="travel", limit=5)
@@ -1823,7 +1823,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.002 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -1844,7 +1844,7 @@ class AsyncInstagramNamespace:
         Turn any public Instagram reel or video post into a full speech transcript,
         with optional word-level timestamps.
 
-        Price: $0.005 per request plus $0.02 per result (maximum $0.025).
+        Price: $0.00525 per request plus $0.021 per result (maximum $0.0263).
 
         Example:
             res = client.instagram.reel_transcript(url="https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps=False)
@@ -1887,7 +1887,7 @@ class AsyncInstagramNamespace:
         Search Instagram for users, hashtags, or places by keyword and get matching
         results with names, counts, and links.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.instagram.search(query="nasa")
@@ -1973,7 +1973,7 @@ class AsyncInstagramNamespace:
         Fetch a public Instagram account's currently live stories with media, type,
         dimensions, posting time, and 24-hour expiry by username.
 
-        Price: $0.002 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.stories_full(username="natgeo")
@@ -1995,7 +1995,7 @@ class AsyncInstagramNamespace:
         owner, and posting time - by username. Lightweight projection; for media
         type, dimensions, and the 24h expiry time use instagram.stories_full.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.instagram.stories_thin(username="natgeo")

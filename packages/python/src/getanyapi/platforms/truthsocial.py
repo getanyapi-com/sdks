@@ -139,7 +139,7 @@ class TruthsocialNamespace:
         Get a single Truth Social post by its URL - text, author, engagement (likes,
         comments, shares), and timestamp as clean JSON.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.truthsocial.post(url="https://truthsocial.com/@realDonaldTrump/posts/116824551176646175")
@@ -160,7 +160,7 @@ class TruthsocialNamespace:
         Get a Truth Social account's public profile by handle - display name, bio,
         follower/following counts, and post count as clean JSON.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.truthsocial.profile(handle="realDonaldTrump")
@@ -181,7 +181,7 @@ class TruthsocialNamespace:
         List a Truth Social account's recent posts by handle - text, engagement
         (likes, comments, shares), and timestamps as clean JSON.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.truthsocial.user_posts(handle="realDonaldTrump")
@@ -209,7 +209,7 @@ class AsyncTruthsocialNamespace:
         Get a single Truth Social post by its URL - text, author, engagement (likes,
         comments, shares), and timestamp as clean JSON.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.truthsocial.post(url="https://truthsocial.com/@realDonaldTrump/posts/116824551176646175")
@@ -230,7 +230,7 @@ class AsyncTruthsocialNamespace:
         Get a Truth Social account's public profile by handle - display name, bio,
         follower/following counts, and post count as clean JSON.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.truthsocial.profile(handle="realDonaldTrump")
@@ -251,7 +251,7 @@ class AsyncTruthsocialNamespace:
         List a Truth Social account's recent posts by handle - text, engagement
         (likes, comments, shares), and timestamps as clean JSON.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.truthsocial.user_posts(handle="realDonaldTrump")

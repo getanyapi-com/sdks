@@ -150,7 +150,7 @@ export class PersonNamespace {
    *
    * Skip-trace a person in the US by name, address, phone, or email and get back identity, address, and contact records in normalized JSON.
    *
-   * Price: $0 per request plus $0.007 per result (maximum $0.007).
+   * Price: $0 per request plus $0.00735 per result (maximum $0.00735).
    *
    * @example
    * const res = await client.person.skipTrace({ address: "123 Main St, Austin, TX 78701", name: "John Smith" });

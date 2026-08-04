@@ -958,7 +958,7 @@ class TiktokNamespace:
         Get the audience country breakdown (follower count and share per country)
         for a TikTok creator by handle.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.tiktok.audience_demographics(handle="shakira")
@@ -1088,7 +1088,7 @@ class TiktokNamespace:
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
         shares).
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)
@@ -1127,7 +1127,7 @@ class TiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -1168,7 +1168,7 @@ class TiktokNamespace:
         List a TikTok creator's recent videos (views, likes, comments) by handle
         with cursor pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
@@ -1233,7 +1233,7 @@ class TiktokNamespace:
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.search_keyword(query="cooking")
@@ -1298,7 +1298,7 @@ class TiktokNamespace:
         Search TikTok accounts by keyword (handle, nickname, follower count) with
         cursor pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.search_users(query="chef")
@@ -1425,7 +1425,7 @@ class TiktokNamespace:
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves).
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")
@@ -1582,7 +1582,7 @@ class AsyncTiktokNamespace:
         Get the audience country breakdown (follower count and share per country)
         for a TikTok creator by handle.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.tiktok.audience_demographics(handle="shakira")
@@ -1712,7 +1712,7 @@ class AsyncTiktokNamespace:
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
         shares).
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)
@@ -1751,7 +1751,7 @@ class AsyncTiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -1792,7 +1792,7 @@ class AsyncTiktokNamespace:
         List a TikTok creator's recent videos (views, likes, comments) by handle
         with cursor pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
@@ -1857,7 +1857,7 @@ class AsyncTiktokNamespace:
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.search_keyword(query="cooking")
@@ -1922,7 +1922,7 @@ class AsyncTiktokNamespace:
         Search TikTok accounts by keyword (handle, nickname, follower count) with
         cursor pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.search_users(query="chef")
@@ -2049,7 +2049,7 @@ class AsyncTiktokNamespace:
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves).
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")

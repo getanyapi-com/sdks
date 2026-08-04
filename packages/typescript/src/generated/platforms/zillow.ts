@@ -325,7 +325,7 @@ export class ZillowNamespace {
    *
    * Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history).
    *
-   * Price: $0 per request plus $0.0024 per result (maximum $0.0024).
+   * Price: $0 per request plus $0.00252 per result (maximum $0.00252).
    *
    * @example
    * const res = await client.zillow.property({ url: "https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/" });
@@ -342,7 +342,7 @@ export class ZillowNamespace {
    *
    * Search Zillow for-sale, rental, or sold listings by region-level location (city, ZIP, county, or neighborhood) with optional price, bedroom, living-area, home-type, recency, and sort filters and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.
    *
-   * Price: $0.0005 per request plus $0.003 per result (maximum $0.0755).
+   * Price: $0.00053 per request plus $0.00315 per result (maximum $0.0793).
    *
    * @example
    * const res = await client.zillow.search({ location: "Austin, TX", limit: 3, maxPrice: 900000, minBedrooms: 3, operation: "buy" });

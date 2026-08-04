@@ -158,7 +158,7 @@ class AirbnbNamespace:
         beds/bedrooms/bathrooms, and guest-party filters and get results (name,
         total-stay price label, rating, host) as normalized JSON.
 
-        Price: $0.00008 per request plus $0.0015 per result (maximum $0.03008).
+        Price: $0.00009 per request plus $0.00158 per result (maximum $0.0316).
 
         Example:
             res = client.airbnb.search(adults=2, limit=3, location="San Diego", minBedrooms=3)
@@ -187,7 +187,7 @@ class AsyncAirbnbNamespace:
         beds/bedrooms/bathrooms, and guest-party filters and get results (name,
         total-stay price label, rating, host) as normalized JSON.
 
-        Price: $0.00008 per request plus $0.0015 per result (maximum $0.03008).
+        Price: $0.00009 per request plus $0.00158 per result (maximum $0.0316).
 
         Example:
             res = client.airbnb.search(adults=2, limit=3, location="San Diego", minBedrooms=3)

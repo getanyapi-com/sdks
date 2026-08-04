@@ -84,7 +84,7 @@ class TrustpilotNamespace:
         Pull Trustpilot reviews for any company by brand name: star ratings, review
         text, dates, and reviewer details as clean JSON.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.trustpilot.reviews(company="stripe.com", limit=3)
@@ -112,7 +112,7 @@ class AsyncTrustpilotNamespace:
         Pull Trustpilot reviews for any company by brand name: star ratings, review
         text, dates, and reviewer details as clean JSON.
 
-        Price: $0.01625 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.trustpilot.reviews(company="stripe.com", limit=3)

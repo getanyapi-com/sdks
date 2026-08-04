@@ -169,7 +169,7 @@ export class TruthsocialNamespace {
    *
    * Get a single Truth Social post by its URL - text, author, engagement (likes, comments, shares), and timestamp as clean JSON.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0036 per request.
    *
    * @example
    * const res = await client.truthsocial.post({ url: "https://truthsocial.com/@realDonaldTrump/posts/116824551176646175" });
@@ -186,7 +186,7 @@ export class TruthsocialNamespace {
    *
    * Get a Truth Social account's public profile by handle - display name, bio, follower/following counts, and post count as clean JSON.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0036 per request.
    *
    * @example
    * const res = await client.truthsocial.profile({ handle: "realDonaldTrump" });
@@ -203,7 +203,7 @@ export class TruthsocialNamespace {
    *
    * List a Truth Social account's recent posts by handle - text, engagement (likes, comments, shares), and timestamps as clean JSON.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0036 per request.
    *
    * @example
    * const res = await client.truthsocial.userPosts({ handle: "realDonaldTrump" });

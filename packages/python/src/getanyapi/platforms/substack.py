@@ -125,7 +125,7 @@ class SubstackNamespace:
         publish date, paywall status, word count, engagement (reactions, comments,
         restacks), author profile, and full article HTML.
 
-        Price: $0.005 per request plus $0.00156 per result (maximum $0.161).
+        Price: $0.00525 per request plus $0.00164 per result (maximum $0.17).
 
         Example:
             res = client.substack.posts(limit=3, url="https://www.astralcodexten.com")
@@ -155,7 +155,7 @@ class AsyncSubstackNamespace:
         publish date, paywall status, word count, engagement (reactions, comments,
         restacks), author profile, and full article HTML.
 
-        Price: $0.005 per request plus $0.00156 per result (maximum $0.161).
+        Price: $0.00525 per request plus $0.00164 per result (maximum $0.17).
 
         Example:
             res = client.substack.posts(limit=3, url="https://www.astralcodexten.com")

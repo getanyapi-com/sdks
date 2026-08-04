@@ -129,7 +129,7 @@ export class GoogleFinanceNamespace {
    *
    * Fetch a live quote for any stock, index, ETF, mutual fund, currency pair, or crypto symbol: name, current price, the absolute and percent change on the day, quote currency, exchange and market state, plus intraday and reference figures (open, day high/low, previous close, volume, market cap, and the 52-week range).
    *
-   * Price: $0.0005 per request plus $0.0015 per result (maximum $0.002).
+   * Price: $0.00053 per request plus $0.00158 per result (maximum $0.0021).
    *
    * @example
    * const res = await client.googleFinance.quote({ symbol: "AAPL:NASDAQ" });

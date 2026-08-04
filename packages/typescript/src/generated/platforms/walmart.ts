@@ -104,7 +104,7 @@ export class WalmartNamespace {
    *
    * Fetch a Walmart product page by URL and get full product details (title, price, availability, ratings, images, and specs) in one normalized response.
    *
-   * Price: $0 per request plus $0.00368 per result (maximum $0.00368).
+   * Price: $0 per request plus $0.00387 per result (maximum $0.00387).
    *
    * @example
    * const res = await client.walmart.product({ url: "https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121" });

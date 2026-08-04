@@ -488,7 +488,7 @@ class RednoteNamespace:
         Look up a RedNote (Xiaohongshu) note by note ID and return normalized note
         details.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.note(noteId="66f2a24f000000002c02cf57")
@@ -509,7 +509,7 @@ class RednoteNamespace:
         List comments on a RedNote (Xiaohongshu) note and return normalized comment
         records with pagination.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.note_comments(noteId="68dd422c0000000203019829")
@@ -553,7 +553,7 @@ class RednoteNamespace:
         Look up a RedNote (Xiaohongshu) profile by user ID and return normalized
         profile details.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.profile(userId="56b0a4491c07df6365277af7")
@@ -574,7 +574,7 @@ class RednoteNamespace:
         Search RedNote (Xiaohongshu) notes by keyword and return normalized note
         records with pagination.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.search(query="coffee", sort="general")
@@ -618,7 +618,7 @@ class RednoteNamespace:
         Search RedNote (Xiaohongshu) users by keyword and return normalized user
         records with pagination.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.search_users(query="coffee")
@@ -662,7 +662,7 @@ class RednoteNamespace:
         List notes posted by a RedNote (Xiaohongshu) user and return normalized note
         records with pagination.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.user_notes(userId="56b0a4491c07df6365277af7")
@@ -713,7 +713,7 @@ class AsyncRednoteNamespace:
         Look up a RedNote (Xiaohongshu) note by note ID and return normalized note
         details.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.note(noteId="66f2a24f000000002c02cf57")
@@ -734,7 +734,7 @@ class AsyncRednoteNamespace:
         List comments on a RedNote (Xiaohongshu) note and return normalized comment
         records with pagination.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.note_comments(noteId="68dd422c0000000203019829")
@@ -778,7 +778,7 @@ class AsyncRednoteNamespace:
         Look up a RedNote (Xiaohongshu) profile by user ID and return normalized
         profile details.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.profile(userId="56b0a4491c07df6365277af7")
@@ -799,7 +799,7 @@ class AsyncRednoteNamespace:
         Search RedNote (Xiaohongshu) notes by keyword and return normalized note
         records with pagination.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.search(query="coffee", sort="general")
@@ -843,7 +843,7 @@ class AsyncRednoteNamespace:
         Search RedNote (Xiaohongshu) users by keyword and return normalized user
         records with pagination.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.search_users(query="coffee")
@@ -887,7 +887,7 @@ class AsyncRednoteNamespace:
         List notes posted by a RedNote (Xiaohongshu) user and return normalized note
         records with pagination.
 
-        Price: $0.01 per request.
+        Price: $0.012 per request.
 
         Example:
             res = client.rednote.user_notes(userId="56b0a4491c07df6365277af7")

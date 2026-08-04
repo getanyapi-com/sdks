@@ -351,7 +351,7 @@ class ZhihuNamespace:
 
         Fetch a public Zhihu answer with normalized author and question data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.answer(answerId="2054145988235880002")
@@ -371,7 +371,7 @@ class ZhihuNamespace:
 
         Fetch a public Zhihu profile with normalized identity and audience data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.profile(userToken="ming-he-43-93")
@@ -392,7 +392,7 @@ class ZhihuNamespace:
         Fetch a public Zhihu question with normalized text and engagement
         statistics.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.question(questionId="37811449")
@@ -413,7 +413,7 @@ class ZhihuNamespace:
         List public answers to a Zhihu question with normalized authors and
         engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.question_answers(limit=5, offset=0, order="default", questionId="37811449")
@@ -434,7 +434,7 @@ class ZhihuNamespace:
         Search public Zhihu articles by keyword with normalized author and
         engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.search_articles(limit="20", query="deepseek", showAllTopics=0)
@@ -461,7 +461,7 @@ class AsyncZhihuNamespace:
 
         Fetch a public Zhihu answer with normalized author and question data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.answer(answerId="2054145988235880002")
@@ -481,7 +481,7 @@ class AsyncZhihuNamespace:
 
         Fetch a public Zhihu profile with normalized identity and audience data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.profile(userToken="ming-he-43-93")
@@ -502,7 +502,7 @@ class AsyncZhihuNamespace:
         Fetch a public Zhihu question with normalized text and engagement
         statistics.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.question(questionId="37811449")
@@ -523,7 +523,7 @@ class AsyncZhihuNamespace:
         List public answers to a Zhihu question with normalized authors and
         engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.question_answers(limit=5, offset=0, order="default", questionId="37811449")
@@ -544,7 +544,7 @@ class AsyncZhihuNamespace:
         Search public Zhihu articles by keyword with normalized author and
         engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.zhihu.search_articles(limit="20", query="deepseek", showAllTopics=0)

@@ -13,20 +13,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0195,
+          "baseUsd": 0.0205,
           "perUnitUsd": 0,
-          "maxUsd": 0.0195
+          "maxUsd": 0.0205
         },
-        "failoverMaxUsd": 0.0195
+        "failoverMaxUsd": 0.0205
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0195,
+            "baseUsd": 0.0205,
             "perUnitUsd": 0,
-            "maxUsd": 0.0195
+            "maxUsd": 0.0205
           },
           "health": {
             "window": "30d",
@@ -55,20 +55,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0015,
-          "perUnitUsd": 0.018,
-          "maxUsd": 0.0195
+          "baseUsd": 0.00158,
+          "perUnitUsd": 0.0189,
+          "maxUsd": 0.0205
         },
-        "failoverMaxUsd": 0.0195
+        "failoverMaxUsd": 0.0205
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0015,
-            "perUnitUsd": 0.018,
-            "maxUsd": 0.0195
+            "baseUsd": 0.00158,
+            "perUnitUsd": 0.0189,
+            "maxUsd": 0.0205
           }
         }
       ],
@@ -89,20 +89,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0015,
-          "perUnitUsd": 0.018,
-          "maxUsd": 0.0195
+          "baseUsd": 0.00158,
+          "perUnitUsd": 0.0189,
+          "maxUsd": 0.0205
         },
-        "failoverMaxUsd": 0.0195
+        "failoverMaxUsd": 0.0205
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0015,
-            "perUnitUsd": 0.018,
-            "maxUsd": 0.0195
+            "baseUsd": 0.00158,
+            "perUnitUsd": 0.0189,
+            "maxUsd": 0.0205
           },
           "health": {
             "window": "30d",
@@ -131,20 +131,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0015,
-          "perUnitUsd": 0.018,
-          "maxUsd": 0.0195
+          "baseUsd": 0.00158,
+          "perUnitUsd": 0.0189,
+          "maxUsd": 0.0205
         },
-        "failoverMaxUsd": 0.0195
+        "failoverMaxUsd": 0.0205
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0015,
-            "perUnitUsd": 0.018,
-            "maxUsd": 0.0195
+            "baseUsd": 0.00158,
+            "perUnitUsd": 0.0189,
+            "maxUsd": 0.0205
           },
           "health": {
             "window": "30d",
@@ -173,20 +173,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00008,
-          "perUnitUsd": 0.0015,
-          "maxUsd": 0.03008
+          "baseUsd": 0.00009,
+          "perUnitUsd": 0.00158,
+          "maxUsd": 0.0316
         },
-        "failoverMaxUsd": 0.03008
+        "failoverMaxUsd": 0.0316
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00008,
-            "perUnitUsd": 0.0015,
-            "maxUsd": 0.03008
+            "baseUsd": 0.00009,
+            "perUnitUsd": 0.00158,
+            "maxUsd": 0.0316
           },
           "health": {
             "window": "30d",
@@ -216,10 +216,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0012,
-          "maxUsd": 0.03
+          "perUnitUsd": 0.00126,
+          "maxUsd": 0.0315
         },
-        "failoverMaxUsd": 0.03
+        "failoverMaxUsd": 0.0315
       },
       "lanes": [
         {
@@ -227,8 +227,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0012,
-            "maxUsd": 0.03
+            "perUnitUsd": 0.00126,
+            "maxUsd": 0.0315
           },
           "health": {
             "window": "30d",
@@ -258,10 +258,10 @@
           "model": "linear",
           "unit": "asin",
           "baseUsd": 0,
-          "perUnitUsd": 0.0035,
-          "maxUsd": 0.035
+          "perUnitUsd": 0.00368,
+          "maxUsd": 0.0368
         },
-        "failoverMaxUsd": 0.035
+        "failoverMaxUsd": 0.0368
       },
       "lanes": [
         {
@@ -269,8 +269,8 @@
             "model": "linear",
             "unit": "asin",
             "baseUsd": 0,
-            "perUnitUsd": 0.0035,
-            "maxUsd": 0.035
+            "perUnitUsd": 0.00368,
+            "maxUsd": 0.0368
           },
           "health": {
             "window": "30d",
@@ -300,10 +300,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0041,
-          "maxUsd": 0.082
+          "perUnitUsd": 0.00431,
+          "maxUsd": 0.0861
         },
-        "failoverMaxUsd": 0.082
+        "failoverMaxUsd": 0.0861
       },
       "lanes": [
         {
@@ -311,8 +311,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0041,
-            "maxUsd": 0.082
+            "perUnitUsd": 0.00431,
+            "maxUsd": 0.0861
           }
         }
       ],
@@ -333,20 +333,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.001,
-          "perUnitUsd": 0.0081,
-          "maxUsd": 0.0091
+          "baseUsd": 0.00105,
+          "perUnitUsd": 0.00851,
+          "maxUsd": 0.00956
         },
-        "failoverMaxUsd": 0.0091
+        "failoverMaxUsd": 0.00956
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.001,
-            "perUnitUsd": 0.0081,
-            "maxUsd": 0.0091
+            "baseUsd": 0.00105,
+            "perUnitUsd": 0.00851,
+            "maxUsd": 0.00956
           },
           "health": {
             "window": "30d",
@@ -376,16 +376,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01625
+          "maxUsd": 0.018
         },
-        "failoverMaxUsd": 0.04002
+        "failoverMaxUsd": 0.0421
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01625
+            "maxUsd": 0.018
           },
           "health": {
             "window": "30d",
@@ -400,9 +400,9 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00002,
-            "perUnitUsd": 0.0008,
-            "maxUsd": 0.04002
+            "baseUsd": 0.00003,
+            "perUnitUsd": 0.00084,
+            "maxUsd": 0.0421
           },
           "health": {
             "window": "30d",
@@ -432,10 +432,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0035,
-          "maxUsd": 0.07
+          "perUnitUsd": 0.00368,
+          "maxUsd": 0.0735
         },
-        "failoverMaxUsd": 0.07
+        "failoverMaxUsd": 0.0735
       },
       "lanes": [
         {
@@ -443,8 +443,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0035,
-            "maxUsd": 0.07
+            "perUnitUsd": 0.00368,
+            "maxUsd": 0.0735
           },
           "health": {
             "window": "30d",
@@ -639,10 +639,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 5816,
-            "uptimeSample": 26,
-            "latencySample": 26,
-            "requests": 26
+            "latencyP50Ms": 5722,
+            "uptimeSample": 28,
+            "latencySample": 28,
+            "requests": 28
           }
         }
       ],
@@ -777,10 +777,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0001,
-          "maxUsd": 0.01
+          "perUnitUsd": 0.00011,
+          "maxUsd": 0.0105
         },
-        "failoverMaxUsd": 0.01625
+        "failoverMaxUsd": 0.018
       },
       "lanes": [
         {
@@ -788,15 +788,15 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0001,
-            "maxUsd": 0.01
+            "perUnitUsd": 0.00011,
+            "maxUsd": 0.0105
           }
         },
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01625
+            "maxUsd": 0.018
           }
         }
       ],
@@ -819,7 +819,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -833,7 +833,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -856,7 +856,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -870,7 +870,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -893,7 +893,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -907,7 +907,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -928,20 +928,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.002,
-          "perUnitUsd": 0.0045,
-          "maxUsd": 0.092
+          "baseUsd": 0.0021,
+          "perUnitUsd": 0.00473,
+          "maxUsd": 0.0966
         },
-        "failoverMaxUsd": 0.092
+        "failoverMaxUsd": 0.0966
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.002,
-            "perUnitUsd": 0.0045,
-            "maxUsd": 0.092
+            "baseUsd": 0.0021,
+            "perUnitUsd": 0.00473,
+            "maxUsd": 0.0966
           },
           "health": {
             "window": "30d",
@@ -971,10 +971,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0018,
-          "maxUsd": 0.045
+          "perUnitUsd": 0.00189,
+          "maxUsd": 0.0473
         },
-        "failoverMaxUsd": 0.045
+        "failoverMaxUsd": 0.0473
       },
       "lanes": [
         {
@@ -982,8 +982,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0018,
-            "maxUsd": 0.045
+            "perUnitUsd": 0.00189,
+            "maxUsd": 0.0473
           },
           "health": {
             "window": "30d",
@@ -1012,20 +1012,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.001,
-          "perUnitUsd": 0.0019,
-          "maxUsd": 0.0485
+          "baseUsd": 0.00105,
+          "perUnitUsd": 0.002,
+          "maxUsd": 0.051
         },
-        "failoverMaxUsd": 0.0485
+        "failoverMaxUsd": 0.051
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.001,
-            "perUnitUsd": 0.0019,
-            "maxUsd": 0.0485
+            "baseUsd": 0.00105,
+            "perUnitUsd": 0.002,
+            "maxUsd": 0.051
           }
         }
       ],
@@ -1046,20 +1046,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.02,
-          "perUnitUsd": 0.0015,
-          "maxUsd": 0.0575
+          "baseUsd": 0.021,
+          "perUnitUsd": 0.00158,
+          "maxUsd": 0.0604
         },
-        "failoverMaxUsd": 0.0575
+        "failoverMaxUsd": 0.0604
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.02,
-            "perUnitUsd": 0.0015,
-            "maxUsd": 0.0575
+            "baseUsd": 0.021,
+            "perUnitUsd": 0.00158,
+            "maxUsd": 0.0604
           }
         }
       ],
@@ -1079,16 +1079,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -1117,16 +1117,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01
+          "maxUsd": 0.012
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01
+            "maxUsd": 0.012
           },
           "health": {
             "window": "30d",
@@ -1155,16 +1155,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -1193,16 +1193,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -1231,16 +1231,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -1269,20 +1269,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.001,
-          "perUnitUsd": 0.00234,
-          "maxUsd": 0.0595
+          "baseUsd": 0.00105,
+          "perUnitUsd": 0.00246,
+          "maxUsd": 0.0625
         },
-        "failoverMaxUsd": 0.0595
+        "failoverMaxUsd": 0.0625
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.001,
-            "perUnitUsd": 0.00234,
-            "maxUsd": 0.0595
+            "baseUsd": 0.00105,
+            "perUnitUsd": 0.00246,
+            "maxUsd": 0.0625
           },
           "health": {
             "window": "30d",
@@ -1311,20 +1311,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00005,
-          "perUnitUsd": 0.004,
-          "maxUsd": 0.10005
+          "baseUsd": 0.00006,
+          "perUnitUsd": 0.0042,
+          "maxUsd": 0.106
         },
-        "failoverMaxUsd": 0.10005
+        "failoverMaxUsd": 0.106
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00005,
-            "perUnitUsd": 0.004,
-            "maxUsd": 0.10005
+            "baseUsd": 0.00006,
+            "perUnitUsd": 0.0042,
+            "maxUsd": 0.106
           },
           "health": {
             "window": "30d",
@@ -1353,20 +1353,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.021,
+          "baseUsd": 0.0221,
           "perUnitUsd": 0,
-          "maxUsd": 0.021
+          "maxUsd": 0.0221
         },
-        "failoverMaxUsd": 0.021
+        "failoverMaxUsd": 0.0221
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.021,
+            "baseUsd": 0.0221,
             "perUnitUsd": 0,
-            "maxUsd": 0.021
+            "maxUsd": 0.0221
           },
           "health": {
             "window": "30d",
@@ -1395,10 +1395,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0008,
-          "maxUsd": 0.0008
+          "perUnitUsd": 0.00084,
+          "maxUsd": 0.00084
         },
-        "failoverMaxUsd": 0.0008
+        "failoverMaxUsd": 0.00084
       },
       "lanes": [
         {
@@ -1406,8 +1406,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0008,
-            "maxUsd": 0.0008
+            "perUnitUsd": 0.00084,
+            "maxUsd": 0.00084
           },
           "health": {
             "window": "30d",
@@ -1709,10 +1709,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.006,
-          "maxUsd": 0.12
+          "perUnitUsd": 0.0063,
+          "maxUsd": 0.126
         },
-        "failoverMaxUsd": 0.12
+        "failoverMaxUsd": 0.126
       },
       "lanes": [
         {
@@ -1720,8 +1720,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.006,
-            "maxUsd": 0.12
+            "perUnitUsd": 0.0063,
+            "maxUsd": 0.126
           }
         }
       ],
@@ -1872,7 +1872,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.0105
       },
       "lanes": [
         {
@@ -1894,9 +1894,9 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0017,
-            "perUnitUsd": 0.0083,
-            "maxUsd": 0.01
+            "baseUsd": 0.00179,
+            "perUnitUsd": 0.00872,
+            "maxUsd": 0.0105
           }
         }
       ],
@@ -1919,7 +1919,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -1933,7 +1933,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -1956,7 +1956,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -1978,7 +1978,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -2001,7 +2001,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -2023,7 +2023,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -2114,7 +2114,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -2128,7 +2128,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -2151,7 +2151,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -2173,7 +2173,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -2196,7 +2196,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -2210,7 +2210,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -2269,20 +2269,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.001,
-          "perUnitUsd": 0.011,
-          "maxUsd": 0.111
+          "baseUsd": 0.00105,
+          "perUnitUsd": 0.0116,
+          "maxUsd": 0.117
         },
-        "failoverMaxUsd": 0.111
+        "failoverMaxUsd": 0.117
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.001,
-            "perUnitUsd": 0.011,
-            "maxUsd": 0.111
+            "baseUsd": 0.00105,
+            "perUnitUsd": 0.0116,
+            "maxUsd": 0.117
           },
           "health": {
             "window": "30d",
@@ -2311,10 +2311,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.003,
-          "maxUsd": 0.06
+          "perUnitUsd": 0.00315,
+          "maxUsd": 0.063
         },
-        "failoverMaxUsd": 0.06
+        "failoverMaxUsd": 0.063
       },
       "lanes": [
         {
@@ -2322,8 +2322,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.003,
-            "maxUsd": 0.06
+            "perUnitUsd": 0.00315,
+            "maxUsd": 0.063
           },
           "health": {
             "window": "30d",
@@ -2353,10 +2353,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0015,
-          "maxUsd": 0.03
+          "perUnitUsd": 0.00158,
+          "maxUsd": 0.0315
         },
-        "failoverMaxUsd": 0.03
+        "failoverMaxUsd": 0.0315
       },
       "lanes": [
         {
@@ -2364,8 +2364,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0015,
-            "maxUsd": 0.03
+            "perUnitUsd": 0.00158,
+            "maxUsd": 0.0315
           }
         }
       ],
@@ -2494,7 +2494,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -2508,7 +2508,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -2717,20 +2717,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.005,
-          "perUnitUsd": 0.00475,
-          "maxUsd": 0.1
+          "baseUsd": 0.00525,
+          "perUnitUsd": 0.00499,
+          "maxUsd": 0.105
         },
-        "failoverMaxUsd": 0.1
+        "failoverMaxUsd": 0.105
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.005,
-            "perUnitUsd": 0.00475,
-            "maxUsd": 0.1
+            "baseUsd": 0.00525,
+            "perUnitUsd": 0.00499,
+            "maxUsd": 0.105
           },
           "health": {
             "window": "30d",
@@ -2773,10 +2773,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 392,
-            "uptimeSample": 28,
-            "latencySample": 28,
-            "requests": 28
+            "latencyP50Ms": 398,
+            "uptimeSample": 32,
+            "latencySample": 32,
+            "requests": 32
           }
         }
       ],
@@ -3006,9 +3006,9 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 771,
-            "uptimeSample": 2822,
-            "latencySample": 2822,
-            "requests": 2822
+            "uptimeSample": 2806,
+            "latencySample": 2806,
+            "requests": 2806
           }
         }
       ],
@@ -3173,20 +3173,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00005,
-          "perUnitUsd": 0.0013,
-          "maxUsd": 0.02605
+          "baseUsd": 0.00006,
+          "perUnitUsd": 0.00137,
+          "maxUsd": 0.0274
         },
-        "failoverMaxUsd": 0.02605
+        "failoverMaxUsd": 0.0274
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00005,
-            "perUnitUsd": 0.0013,
-            "maxUsd": 0.02605
+            "baseUsd": 0.00006,
+            "perUnitUsd": 0.00137,
+            "maxUsd": 0.0274
           }
         }
       ],
@@ -3207,20 +3207,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0005,
-          "perUnitUsd": 0.0015,
-          "maxUsd": 0.002
+          "baseUsd": 0.00053,
+          "perUnitUsd": 0.00158,
+          "maxUsd": 0.0021
         },
-        "failoverMaxUsd": 0.002
+        "failoverMaxUsd": 0.0021
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0005,
-            "perUnitUsd": 0.0015,
-            "maxUsd": 0.002
+            "baseUsd": 0.00053,
+            "perUnitUsd": 0.00158,
+            "maxUsd": 0.0021
           }
         }
       ],
@@ -3241,16 +3241,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01625
+          "maxUsd": 0.018
         },
-        "failoverMaxUsd": 0.058
+        "failoverMaxUsd": 0.0609
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01625
+            "maxUsd": 0.018
           },
           "health": {
             "window": "30d",
@@ -3265,9 +3265,9 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.008,
-            "perUnitUsd": 0.005,
-            "maxUsd": 0.058
+            "baseUsd": 0.0084,
+            "perUnitUsd": 0.00525,
+            "maxUsd": 0.0609
           }
         }
       ],
@@ -3334,7 +3334,7 @@
           "unit": "request",
           "maxUsd": 0.0015
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -3356,15 +3356,15 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 624,
-            "uptimeSample": 203,
-            "latencySample": 203,
-            "requests": 203
+            "uptimeSample": 201,
+            "latencySample": 201,
+            "requests": 201
           }
         }
       ],
@@ -3432,7 +3432,7 @@
           "unit": "request",
           "maxUsd": 0.0015
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -3454,7 +3454,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -3483,20 +3483,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0008,
-          "perUnitUsd": 0.00008,
-          "maxUsd": 0.0024
+          "baseUsd": 0.00084,
+          "perUnitUsd": 0.00009,
+          "maxUsd": 0.00252
         },
-        "failoverMaxUsd": 0.0024
+        "failoverMaxUsd": 0.00252
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0008,
-            "perUnitUsd": 0.00008,
-            "maxUsd": 0.0024
+            "baseUsd": 0.00084,
+            "perUnitUsd": 0.00009,
+            "maxUsd": 0.00252
           },
           "health": {
             "window": "30d",
@@ -3527,7 +3527,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -3549,7 +3549,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -3572,7 +3572,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -3594,7 +3594,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -3653,16 +3653,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01625
+          "maxUsd": 0.018
         },
-        "failoverMaxUsd": 1.3
+        "failoverMaxUsd": 1.37
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01625
+            "maxUsd": 0.018
           },
           "health": {
             "window": "30d",
@@ -3678,8 +3678,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0013,
-            "maxUsd": 1.3
+            "perUnitUsd": 0.00137,
+            "maxUsd": 1.37
           },
           "health": {
             "window": "30d",
@@ -3708,16 +3708,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01625
+          "maxUsd": 0.018
         },
-        "failoverMaxUsd": 1.3
+        "failoverMaxUsd": 1.37
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01625
+            "maxUsd": 0.018
           },
           "health": {
             "window": "30d",
@@ -3733,8 +3733,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0013,
-            "maxUsd": 1.3
+            "perUnitUsd": 0.00137,
+            "maxUsd": 1.37
           }
         }
       ],
@@ -3755,20 +3755,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.001,
-          "perUnitUsd": 0.0017,
-          "maxUsd": 0.035
+          "baseUsd": 0.00105,
+          "perUnitUsd": 0.00179,
+          "maxUsd": 0.0368
         },
-        "failoverMaxUsd": 0.035
+        "failoverMaxUsd": 0.0368
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.001,
-            "perUnitUsd": 0.0017,
-            "maxUsd": 0.035
+            "baseUsd": 0.00105,
+            "perUnitUsd": 0.00179,
+            "maxUsd": 0.0368
           },
           "health": {
             "window": "30d",
@@ -3867,7 +3867,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -3889,7 +3889,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -3920,7 +3920,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -3942,7 +3942,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -3971,24 +3971,24 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.002
+          "maxUsd": 0.0024
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.002
+            "maxUsd": 0.0024
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.79090433873498,
+            "uptimePct": 99.79101358411704,
             "latencyP50Ms": 3430,
-            "uptimeSample": 1913,
-            "latencySample": 1909,
-            "requests": 1917
+            "uptimeSample": 1914,
+            "latencySample": 1910,
+            "requests": 1918
           }
         },
         {
@@ -4010,7 +4010,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -4031,20 +4031,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.005,
-          "perUnitUsd": 0.02,
-          "maxUsd": 0.025
+          "baseUsd": 0.00525,
+          "perUnitUsd": 0.021,
+          "maxUsd": 0.0263
         },
-        "failoverMaxUsd": 0.025
+        "failoverMaxUsd": 0.0263
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.005,
-            "perUnitUsd": 0.02,
-            "maxUsd": 0.025
+            "baseUsd": 0.00525,
+            "perUnitUsd": 0.021,
+            "maxUsd": 0.0263
           },
           "health": {
             "window": "30d",
@@ -4086,11 +4086,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 92.61210631073645,
-            "latencyP50Ms": 4542,
-            "uptimeSample": 8541,
-            "latencySample": 7910,
-            "requests": 8541
+            "uptimePct": 92.61383588903196,
+            "latencyP50Ms": 4544,
+            "uptimeSample": 8543,
+            "latencySample": 7912,
+            "requests": 8543
           }
         }
       ],
@@ -4111,16 +4111,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0036
         },
-        "failoverMaxUsd": 0.038
+        "failoverMaxUsd": 0.0399
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -4136,8 +4136,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0019,
-            "maxUsd": 0.038
+            "perUnitUsd": 0.002,
+            "maxUsd": 0.0399
           },
           "health": {
             "window": "30d",
@@ -4179,11 +4179,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 95.0354609929078,
-            "latencyP50Ms": 5047,
-            "uptimeSample": 141,
-            "latencySample": 134,
-            "requests": 142
+            "uptimePct": 95.07042253521126,
+            "latencyP50Ms": 5076,
+            "uptimeSample": 142,
+            "latencySample": 135,
+            "requests": 143
           }
         }
       ],
@@ -4206,7 +4206,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -4228,7 +4228,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -4257,16 +4257,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.002
+          "maxUsd": 0.0024
         },
-        "failoverMaxUsd": 0.002
+        "failoverMaxUsd": 0.0024
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.002
+            "maxUsd": 0.0024
           },
           "health": {
             "window": "30d",
@@ -4295,16 +4295,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01625
+          "maxUsd": 0.018
         },
-        "failoverMaxUsd": 0.01625
+        "failoverMaxUsd": 0.018
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01625
+            "maxUsd": 0.018
           },
           "health": {
             "window": "30d",
@@ -4403,7 +4403,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -4414,18 +4414,18 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.71878515185603,
-            "latencyP50Ms": 1942,
-            "uptimeSample": 1778,
-            "latencySample": 1773,
-            "requests": 1778
+            "uptimePct": 99.71830985915493,
+            "latencyP50Ms": 1940,
+            "uptimeSample": 1775,
+            "latencySample": 1770,
+            "requests": 1775
           }
         },
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.002
+            "maxUsd": 0.0024
           },
           "health": {
             "window": "30d",
@@ -4440,7 +4440,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -4537,20 +4537,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00005,
-          "perUnitUsd": 0.0015,
-          "maxUsd": 0.03005
+          "baseUsd": 0.00006,
+          "perUnitUsd": 0.00158,
+          "maxUsd": 0.0316
         },
-        "failoverMaxUsd": 0.03005
+        "failoverMaxUsd": 0.0316
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00005,
-            "perUnitUsd": 0.0015,
-            "maxUsd": 0.03005
+            "baseUsd": 0.00006,
+            "perUnitUsd": 0.00158,
+            "maxUsd": 0.0316
           },
           "health": {
             "window": "30d",
@@ -4617,20 +4617,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.004,
+          "baseUsd": 0.0042,
           "perUnitUsd": 0,
-          "maxUsd": 0.004
+          "maxUsd": 0.0042
         },
-        "failoverMaxUsd": 0.004
+        "failoverMaxUsd": 0.0042
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.004,
+            "baseUsd": 0.0042,
             "perUnitUsd": 0,
-            "maxUsd": 0.004
+            "maxUsd": 0.0042
           },
           "health": {
             "window": "30d",
@@ -4660,10 +4660,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.01,
-          "maxUsd": 0.1
+          "perUnitUsd": 0.0105,
+          "maxUsd": 0.105
         },
-        "failoverMaxUsd": 0.1
+        "failoverMaxUsd": 0.105
       },
       "lanes": [
         {
@@ -4671,8 +4671,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.01,
-            "maxUsd": 0.1
+            "perUnitUsd": 0.0105,
+            "maxUsd": 0.105
           },
           "health": {
             "window": "30d",
@@ -4700,20 +4700,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00005,
-          "perUnitUsd": 0.00175,
-          "maxUsd": 0.08755
+          "baseUsd": 0.00006,
+          "perUnitUsd": 0.00184,
+          "maxUsd": 0.092
         },
-        "failoverMaxUsd": 0.08755
+        "failoverMaxUsd": 0.092
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00005,
-            "perUnitUsd": 0.00175,
-            "maxUsd": 0.08755
+            "baseUsd": 0.00006,
+            "perUnitUsd": 0.00184,
+            "maxUsd": 0.092
           },
           "health": {
             "window": "30d",
@@ -4818,20 +4818,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.01,
+          "baseUsd": 0.0105,
           "perUnitUsd": 0,
-          "maxUsd": 0.01
+          "maxUsd": 0.0105
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.0105
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.01,
+            "baseUsd": 0.0105,
             "perUnitUsd": 0,
-            "maxUsd": 0.01
+            "maxUsd": 0.0105
           },
           "health": {
             "window": "30d",
@@ -4860,20 +4860,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.001,
-          "perUnitUsd": 0.001,
-          "maxUsd": 0.026
+          "baseUsd": 0.00105,
+          "perUnitUsd": 0.00105,
+          "maxUsd": 0.0273
         },
-        "failoverMaxUsd": 0.026
+        "failoverMaxUsd": 0.0273
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.001,
-            "perUnitUsd": 0.001,
-            "maxUsd": 0.026
+            "baseUsd": 0.00105,
+            "perUnitUsd": 0.00105,
+            "maxUsd": 0.0273
           },
           "health": {
             "window": "30d",
@@ -4902,16 +4902,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           }
         }
       ],
@@ -4932,7 +4932,7 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
         "failoverMaxUsd": 0.002
       },
@@ -4941,7 +4941,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -4986,10 +4986,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.002,
-          "maxUsd": 0.2
+          "perUnitUsd": 0.0021,
+          "maxUsd": 0.21
         },
-        "failoverMaxUsd": 0.2
+        "failoverMaxUsd": 0.21
       },
       "lanes": [
         {
@@ -4997,8 +4997,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.002,
-            "maxUsd": 0.2
+            "perUnitUsd": 0.0021,
+            "maxUsd": 0.21
           },
           "health": {
             "window": "30d",
@@ -5028,10 +5028,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.002,
-          "maxUsd": 0.2
+          "perUnitUsd": 0.0021,
+          "maxUsd": 0.21
         },
-        "failoverMaxUsd": 0.2
+        "failoverMaxUsd": 0.21
       },
       "lanes": [
         {
@@ -5039,8 +5039,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.002,
-            "maxUsd": 0.2
+            "perUnitUsd": 0.0021,
+            "maxUsd": 0.21
           },
           "health": {
             "window": "30d",
@@ -5099,28 +5099,28 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.004,
+          "baseUsd": 0.0042,
           "perUnitUsd": 0,
-          "maxUsd": 0.004
+          "maxUsd": 0.0042
         },
-        "failoverMaxUsd": 0.004
+        "failoverMaxUsd": 0.0042
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.004,
+            "baseUsd": 0.0042,
             "perUnitUsd": 0,
-            "maxUsd": 0.004
+            "maxUsd": 0.0042
           },
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 6488,
-            "uptimeSample": 42,
-            "latencySample": 42,
-            "requests": 42
+            "latencyP50Ms": 6440,
+            "uptimeSample": 46,
+            "latencySample": 46,
+            "requests": 46
           }
         }
       ],
@@ -5179,20 +5179,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.001,
-          "perUnitUsd": 0.004,
-          "maxUsd": 0.081
+          "baseUsd": 0.00105,
+          "perUnitUsd": 0.0042,
+          "maxUsd": 0.0851
         },
-        "failoverMaxUsd": 0.081
+        "failoverMaxUsd": 0.0851
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.001,
-            "perUnitUsd": 0.004,
-            "maxUsd": 0.081
+            "baseUsd": 0.00105,
+            "perUnitUsd": 0.0042,
+            "maxUsd": 0.0851
           },
           "health": {
             "window": "30d",
@@ -5223,7 +5223,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.004
+        "failoverMaxUsd": 0.0048
       },
       "lanes": [
         {
@@ -5245,7 +5245,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.004
+            "maxUsd": 0.0048
           },
           "health": {
             "window": "30d",
@@ -5274,20 +5274,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.08,
-          "perUnitUsd": 0.004,
-          "maxUsd": 0.18
+          "baseUsd": 0.084,
+          "perUnitUsd": 0.0042,
+          "maxUsd": 0.189
         },
-        "failoverMaxUsd": 0.18
+        "failoverMaxUsd": 0.189
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.08,
-            "perUnitUsd": 0.004,
-            "maxUsd": 0.18
+            "baseUsd": 0.084,
+            "perUnitUsd": 0.0042,
+            "maxUsd": 0.189
           },
           "health": {
             "window": "30d",
@@ -5315,20 +5315,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.08,
-          "perUnitUsd": 0.009,
-          "maxUsd": 0.305
+          "baseUsd": 0.084,
+          "perUnitUsd": 0.00945,
+          "maxUsd": 0.321
         },
-        "failoverMaxUsd": 0.305
+        "failoverMaxUsd": 0.321
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.08,
-            "perUnitUsd": 0.009,
-            "maxUsd": 0.305
+            "baseUsd": 0.084,
+            "perUnitUsd": 0.00945,
+            "maxUsd": 0.321
           },
           "health": {
             "window": "30d",
@@ -5356,16 +5356,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0325
+          "maxUsd": 0.036
         },
-        "failoverMaxUsd": 0.0325
+        "failoverMaxUsd": 0.036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0325
+            "maxUsd": 0.036
           },
           "health": {
             "window": "30d",
@@ -5393,20 +5393,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00005,
-          "perUnitUsd": 0.0045,
-          "maxUsd": 0.09005
+          "baseUsd": 0.00006,
+          "perUnitUsd": 0.00473,
+          "maxUsd": 0.0946
         },
-        "failoverMaxUsd": 0.09005
+        "failoverMaxUsd": 0.0946
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00005,
-            "perUnitUsd": 0.0045,
-            "maxUsd": 0.09005
+            "baseUsd": 0.00006,
+            "perUnitUsd": 0.00473,
+            "maxUsd": 0.0946
           },
           "health": {
             "window": "30d",
@@ -5437,7 +5437,7 @@
           "unit": "request",
           "maxUsd": 0.00297
         },
-        "failoverMaxUsd": 0.009
+        "failoverMaxUsd": 0.00945
       },
       "lanes": [
         {
@@ -5459,17 +5459,17 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.003,
-            "perUnitUsd": 0.005,
-            "maxUsd": 0.009
+            "baseUsd": 0.00315,
+            "perUnitUsd": 0.00525,
+            "maxUsd": 0.00945
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.54545454545455,
-            "latencyP50Ms": 18045,
-            "uptimeSample": 220,
-            "latencySample": 219,
-            "requests": 221
+            "uptimePct": 99.54337899543378,
+            "latencyP50Ms": 18052,
+            "uptimeSample": 219,
+            "latencySample": 218,
+            "requests": 220
           }
         }
       ],
@@ -5490,20 +5490,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00005,
-          "perUnitUsd": 0.0004,
-          "maxUsd": 0.04005
+          "baseUsd": 0.00006,
+          "perUnitUsd": 0.00042,
+          "maxUsd": 0.0421
         },
-        "failoverMaxUsd": 0.04005
+        "failoverMaxUsd": 0.0421
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00005,
-            "perUnitUsd": 0.0004,
-            "maxUsd": 0.04005
+            "baseUsd": 0.00006,
+            "perUnitUsd": 0.00042,
+            "maxUsd": 0.0421
           },
           "health": {
             "window": "30d",
@@ -5534,7 +5534,7 @@
           "unit": "request",
           "maxUsd": 0.00297
         },
-        "failoverMaxUsd": 0.10505
+        "failoverMaxUsd": 0.111
       },
       "lanes": [
         {
@@ -5556,9 +5556,9 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00005,
-            "perUnitUsd": 0.00525,
-            "maxUsd": 0.10505
+            "baseUsd": 0.00006,
+            "perUnitUsd": 0.00552,
+            "maxUsd": 0.111
           },
           "health": {
             "window": "30d",
@@ -5678,10 +5678,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.007,
-          "maxUsd": 0.007
+          "perUnitUsd": 0.00735,
+          "maxUsd": 0.00735
         },
-        "failoverMaxUsd": 0.007
+        "failoverMaxUsd": 0.00735
       },
       "lanes": [
         {
@@ -5689,8 +5689,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.007,
-            "maxUsd": 0.007
+            "perUnitUsd": 0.00735,
+            "maxUsd": 0.00735
           }
         }
       ],
@@ -5711,24 +5711,24 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0036
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 2666,
-            "uptimeSample": 14,
-            "latencySample": 14,
-            "requests": 14
+            "latencyP50Ms": 2680,
+            "uptimeSample": 18,
+            "latencySample": 18,
+            "requests": 18
           }
         }
       ],
@@ -5750,10 +5750,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.00011,
-          "maxUsd": 0.011
+          "perUnitUsd": 0.00012,
+          "maxUsd": 0.0116
         },
-        "failoverMaxUsd": 0.01625
+        "failoverMaxUsd": 0.018
       },
       "lanes": [
         {
@@ -5761,15 +5761,15 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00011,
-            "maxUsd": 0.011
+            "perUnitUsd": 0.00012,
+            "maxUsd": 0.0116
           }
         },
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01625
+            "maxUsd": 0.018
           }
         }
       ],
@@ -5790,20 +5790,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.105,
-          "perUnitUsd": 0.0006,
-          "maxUsd": 0.12
+          "baseUsd": 0.111,
+          "perUnitUsd": 0.00063,
+          "maxUsd": 0.126
         },
-        "failoverMaxUsd": 0.12
+        "failoverMaxUsd": 0.126
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.105,
-            "perUnitUsd": 0.0006,
-            "maxUsd": 0.12
+            "baseUsd": 0.111,
+            "perUnitUsd": 0.00063,
+            "maxUsd": 0.126
           }
         }
       ],
@@ -5823,20 +5823,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.005,
-          "perUnitUsd": 0.0015,
-          "maxUsd": 0.0425
+          "baseUsd": 0.00525,
+          "perUnitUsd": 0.00158,
+          "maxUsd": 0.0447
         },
-        "failoverMaxUsd": 0.0425
+        "failoverMaxUsd": 0.0447
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.005,
-            "perUnitUsd": 0.0015,
-            "maxUsd": 0.0425
+            "baseUsd": 0.00525,
+            "perUnitUsd": 0.00158,
+            "maxUsd": 0.0447
           }
         }
       ],
@@ -5857,16 +5857,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.00204
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -5879,18 +5879,18 @@
         },
         {
           "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.002
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00215,
+            "perUnitUsd": 0,
+            "maxUsd": 0.00215
           }
         },
         {
           "pricing": {
-            "model": "linear",
-            "unit": "result",
-            "baseUsd": 0.00204,
-            "perUnitUsd": 0,
-            "maxUsd": 0.00204
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -5913,7 +5913,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -5924,18 +5924,18 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.95249406175772,
-            "latencyP50Ms": 2280,
-            "uptimeSample": 2105,
-            "latencySample": 2104,
-            "requests": 2111
+            "uptimePct": 99.9521072796935,
+            "latencyP50Ms": 2279,
+            "uptimeSample": 2088,
+            "latencySample": 2087,
+            "requests": 2094
           }
         },
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -5994,16 +5994,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.00204
+        "failoverMaxUsd": 0.00215
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -6018,9 +6018,9 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00204,
+            "baseUsd": 0.00215,
             "perUnitUsd": 0,
-            "maxUsd": 0.00204
+            "maxUsd": 0.00215
           }
         }
       ],
@@ -6041,24 +6041,24 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.5673076923077,
-            "latencyP50Ms": 2623,
-            "uptimeSample": 2080,
-            "latencySample": 2071,
-            "requests": 2221
+            "uptimePct": 99.56834532374101,
+            "latencyP50Ms": 2622,
+            "uptimeSample": 2085,
+            "latencySample": 2076,
+            "requests": 2225
           }
         },
         {
@@ -6070,25 +6070,17 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 8303,
-            "uptimeSample": 159,
-            "latencySample": 159,
-            "requests": 159
+            "latencyP50Ms": 8282,
+            "uptimeSample": 149,
+            "latencySample": 149,
+            "requests": 149
           }
         },
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 0,
-            "latencyP50Ms": 0,
-            "uptimeSample": 1,
-            "latencySample": 0,
-            "requests": 1
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -6109,16 +6101,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -6140,7 +6132,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -6201,7 +6193,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -6223,7 +6215,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -6244,16 +6236,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -6282,16 +6274,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -6320,20 +6312,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0027,
-          "perUnitUsd": 0.00043,
-          "maxUsd": 0.01345
+          "baseUsd": 0.00284,
+          "perUnitUsd": 0.00046,
+          "maxUsd": 0.0142
         },
-        "failoverMaxUsd": 0.01345
+        "failoverMaxUsd": 0.0142
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0027,
-            "perUnitUsd": 0.00043,
-            "maxUsd": 0.01345
+            "baseUsd": 0.00284,
+            "perUnitUsd": 0.00046,
+            "maxUsd": 0.0142
           }
         }
       ],
@@ -6354,16 +6346,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01
+          "maxUsd": 0.012
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01
+            "maxUsd": 0.012
           }
         }
       ],
@@ -6384,16 +6376,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01
+          "maxUsd": 0.012
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01
+            "maxUsd": 0.012
           }
         }
       ],
@@ -6414,16 +6406,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01
+          "maxUsd": 0.012
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01
+            "maxUsd": 0.012
           }
         }
       ],
@@ -6444,16 +6436,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01
+          "maxUsd": 0.012
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01
+            "maxUsd": 0.012
           },
           "health": {
             "window": "30d",
@@ -6482,16 +6474,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01
+          "maxUsd": 0.012
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01
+            "maxUsd": 0.012
           },
           "health": {
             "window": "30d",
@@ -6520,16 +6512,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01
+          "maxUsd": 0.012
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01
+            "maxUsd": 0.012
           }
         }
       ],
@@ -6550,20 +6542,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.002,
-          "perUnitUsd": 0.0004,
-          "maxUsd": 0.012
+          "baseUsd": 0.0021,
+          "perUnitUsd": 0.00042,
+          "maxUsd": 0.0126
         },
-        "failoverMaxUsd": 0.012
+        "failoverMaxUsd": 0.0126
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.002,
-            "perUnitUsd": 0.0004,
-            "maxUsd": 0.012
+            "baseUsd": 0.0021,
+            "perUnitUsd": 0.00042,
+            "maxUsd": 0.0126
           }
         }
       ],
@@ -6586,10 +6578,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.015,
-          "maxUsd": 0.015
+          "perUnitUsd": 0.0158,
+          "maxUsd": 0.0158
         },
-        "failoverMaxUsd": 0.015
+        "failoverMaxUsd": 0.0158
       },
       "lanes": [
         {
@@ -6597,8 +6589,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.015,
-            "maxUsd": 0.015
+            "perUnitUsd": 0.0158,
+            "maxUsd": 0.0158
           },
           "health": {
             "window": "30d",
@@ -6628,10 +6620,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.015,
-          "maxUsd": 0.015
+          "perUnitUsd": 0.0158,
+          "maxUsd": 0.0158
         },
-        "failoverMaxUsd": 0.015
+        "failoverMaxUsd": 0.0158
       },
       "lanes": [
         {
@@ -6639,8 +6631,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.015,
-            "maxUsd": 0.015
+            "perUnitUsd": 0.0158,
+            "maxUsd": 0.0158
           },
           "health": {
             "window": "30d",
@@ -7140,20 +7132,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.001,
-          "perUnitUsd": 0.002,
-          "maxUsd": 0.003
+          "baseUsd": 0.00105,
+          "perUnitUsd": 0.0021,
+          "maxUsd": 0.00315
         },
-        "failoverMaxUsd": 0.003
+        "failoverMaxUsd": 0.00315
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.001,
-            "perUnitUsd": 0.002,
-            "maxUsd": 0.003
+            "baseUsd": 0.00105,
+            "perUnitUsd": 0.0021,
+            "maxUsd": 0.00315
           }
         }
       ],
@@ -7174,20 +7166,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.001,
-          "perUnitUsd": 0.002,
-          "maxUsd": 0.021
+          "baseUsd": 0.00105,
+          "perUnitUsd": 0.0021,
+          "maxUsd": 0.0221
         },
-        "failoverMaxUsd": 0.021
+        "failoverMaxUsd": 0.0221
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.001,
-            "perUnitUsd": 0.002,
-            "maxUsd": 0.021
+            "baseUsd": 0.00105,
+            "perUnitUsd": 0.0021,
+            "maxUsd": 0.0221
           },
           "health": {
             "window": "30d",
@@ -7277,10 +7269,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.003,
-          "maxUsd": 0.003
+          "perUnitUsd": 0.00315,
+          "maxUsd": 0.00315
         },
-        "failoverMaxUsd": 0.003
+        "failoverMaxUsd": 0.00315
       },
       "lanes": [
         {
@@ -7288,8 +7280,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.003,
-            "maxUsd": 0.003
+            "perUnitUsd": 0.00315,
+            "maxUsd": 0.00315
           },
           "health": {
             "window": "30d",
@@ -7438,20 +7430,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.005,
-          "perUnitUsd": 0.00156,
-          "maxUsd": 0.161
+          "baseUsd": 0.00525,
+          "perUnitUsd": 0.00164,
+          "maxUsd": 0.17
         },
-        "failoverMaxUsd": 0.161
+        "failoverMaxUsd": 0.17
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.005,
-            "perUnitUsd": 0.00156,
-            "maxUsd": 0.161
+            "baseUsd": 0.00525,
+            "perUnitUsd": 0.00164,
+            "maxUsd": 0.17
           }
         }
       ],
@@ -7474,7 +7466,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -7488,7 +7480,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -7511,7 +7503,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -7525,7 +7517,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -7548,7 +7540,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -7570,7 +7562,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -7593,7 +7585,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -7607,7 +7599,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -7630,7 +7622,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -7644,7 +7636,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -7733,7 +7725,7 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01625
+          "maxUsd": 0.018
         },
         "failoverMaxUsd": 0.052
       },
@@ -7742,7 +7734,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01625
+            "maxUsd": 0.018
           },
           "health": {
             "window": "30d",
@@ -7779,7 +7771,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -7793,7 +7785,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -7816,7 +7808,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -7830,7 +7822,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -7853,7 +7845,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -7875,7 +7867,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -7896,16 +7888,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0036
         },
-        "failoverMaxUsd": 0.06
+        "failoverMaxUsd": 0.063
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -7921,8 +7913,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.003,
-            "maxUsd": 0.06
+            "perUnitUsd": 0.00315,
+            "maxUsd": 0.063
           }
         }
       ],
@@ -7945,7 +7937,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -7959,7 +7951,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -7980,16 +7972,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -8019,7 +8011,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8042,7 +8034,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -8064,7 +8056,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8085,16 +8077,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -8124,7 +8116,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8147,7 +8139,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -8169,7 +8161,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8190,16 +8182,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -8221,7 +8213,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8244,7 +8236,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -8255,18 +8247,18 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.82222222222222,
-            "latencyP50Ms": 3839,
-            "uptimeSample": 1125,
-            "latencySample": 1123,
-            "requests": 1125
+            "uptimePct": 99.82238010657194,
+            "latencyP50Ms": 3840,
+            "uptimeSample": 1126,
+            "latencySample": 1124,
+            "requests": 1126
           }
         },
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -8295,16 +8287,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -8334,7 +8326,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8357,7 +8349,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -8371,7 +8363,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8394,7 +8386,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -8408,7 +8400,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8467,16 +8459,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -8498,7 +8490,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8521,7 +8513,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -8535,7 +8527,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8558,7 +8550,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.0325
+        "failoverMaxUsd": 0.036
       },
       "lanes": [
         {
@@ -8580,7 +8572,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0325
+            "maxUsd": 0.036
           }
         }
       ],
@@ -8603,7 +8595,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -8617,7 +8609,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8640,7 +8632,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -8654,7 +8646,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -8773,16 +8765,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0036
         },
-        "failoverMaxUsd": 0.01
+        "failoverMaxUsd": 0.0105
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -8798,8 +8790,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0005,
-            "maxUsd": 0.01
+            "perUnitUsd": 0.00053,
+            "maxUsd": 0.0105
           },
           "health": {
             "window": "30d",
@@ -8828,16 +8820,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0036
         },
-        "failoverMaxUsd": 0.05005
+        "failoverMaxUsd": 0.0526
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -8852,9 +8844,9 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00005,
-            "perUnitUsd": 0.0025,
-            "maxUsd": 0.05005
+            "baseUsd": 0.00006,
+            "perUnitUsd": 0.00263,
+            "maxUsd": 0.0526
           }
         }
       ],
@@ -8875,25 +8867,25 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.01625
+          "maxUsd": 0.018
         },
-        "failoverMaxUsd": 0.06
+        "failoverMaxUsd": 0.063
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.01625
+            "maxUsd": 0.018
           }
         },
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.03,
-            "perUnitUsd": 0.0006,
-            "maxUsd": 0.06
+            "baseUsd": 0.0315,
+            "perUnitUsd": 0.00063,
+            "maxUsd": 0.063
           },
           "health": {
             "window": "30d",
@@ -8921,16 +8913,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0036
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -8959,16 +8951,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0036
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -8997,16 +8989,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00325
+          "maxUsd": 0.0036
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -9075,7 +9067,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -9089,7 +9081,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -9112,7 +9104,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -9126,7 +9118,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -9149,7 +9141,7 @@
           "unit": "request",
           "maxUsd": 0.00075
         },
-        "failoverMaxUsd": 15
+        "failoverMaxUsd": 15.8
       },
       "lanes": [
         {
@@ -9172,16 +9164,16 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00015,
-            "maxUsd": 15
+            "perUnitUsd": 0.00016,
+            "maxUsd": 15.8
           },
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 42645,
-            "uptimeSample": 5,
-            "latencySample": 5,
-            "requests": 5
+            "latencyP50Ms": 42170,
+            "uptimeSample": 4,
+            "latencySample": 4,
+            "requests": 4
           }
         }
       ],
@@ -9204,7 +9196,7 @@
           "unit": "request",
           "maxUsd": 0.00075
         },
-        "failoverMaxUsd": 15
+        "failoverMaxUsd": 15.8
       },
       "lanes": [
         {
@@ -9227,16 +9219,16 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00015,
-            "maxUsd": 15
+            "perUnitUsd": 0.00016,
+            "maxUsd": 15.8
           },
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 57683,
-            "uptimeSample": 5,
-            "latencySample": 5,
-            "requests": 5
+            "latencyP50Ms": 48030,
+            "uptimeSample": 4,
+            "latencySample": 4,
+            "requests": 4
           }
         }
       ],
@@ -9259,7 +9251,7 @@
           "unit": "request",
           "maxUsd": 0.00075
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -9281,7 +9273,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -9311,7 +9303,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -9332,20 +9324,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0025,
-          "perUnitUsd": 0.00025,
-          "maxUsd": 0.0125
+          "baseUsd": 0.00263,
+          "perUnitUsd": 0.00027,
+          "maxUsd": 0.0132
         },
-        "failoverMaxUsd": 0.0125
+        "failoverMaxUsd": 0.0132
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0025,
-            "perUnitUsd": 0.00025,
-            "maxUsd": 0.0125
+            "baseUsd": 0.00263,
+            "perUnitUsd": 0.00027,
+            "maxUsd": 0.0132
           },
           "health": {
             "window": "30d",
@@ -9376,7 +9368,7 @@
           "unit": "request",
           "maxUsd": 0.00075
         },
-        "failoverMaxUsd": 0.014
+        "failoverMaxUsd": 0.0147
       },
       "lanes": [
         {
@@ -9388,27 +9380,27 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1988,
-            "uptimeSample": 589,
-            "latencySample": 589,
-            "requests": 589
+            "latencyP50Ms": 1995,
+            "uptimeSample": 678,
+            "latencySample": 678,
+            "requests": 678
           }
         },
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.004,
-            "perUnitUsd": 0.0002,
-            "maxUsd": 0.014
+            "baseUsd": 0.0042,
+            "perUnitUsd": 0.00021,
+            "maxUsd": 0.0147
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.86225895316804,
-            "latencyP50Ms": 19211,
-            "uptimeSample": 726,
-            "latencySample": 725,
-            "requests": 727
+            "uptimePct": 99.86206896551724,
+            "latencyP50Ms": 19204,
+            "uptimeSample": 725,
+            "latencySample": 724,
+            "requests": 726
           }
         }
       ],
@@ -9469,7 +9461,7 @@
           "unit": "request",
           "maxUsd": 0.00075
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -9481,10 +9473,10 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1394,
-            "uptimeSample": 59,
-            "latencySample": 59,
-            "requests": 59
+            "latencyP50Ms": 1402,
+            "uptimeSample": 61,
+            "latencySample": 61,
+            "requests": 61
           }
         },
         {
@@ -9498,7 +9490,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -9521,7 +9513,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.0325
+        "failoverMaxUsd": 0.036
       },
       "lanes": [
         {
@@ -9535,7 +9527,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0325
+            "maxUsd": 0.036
           }
         }
       ],
@@ -9595,10 +9587,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0002,
-          "maxUsd": 0.2
+          "perUnitUsd": 0.00021,
+          "maxUsd": 0.21
         },
-        "failoverMaxUsd": 0.2
+        "failoverMaxUsd": 0.21
       },
       "lanes": [
         {
@@ -9606,8 +9598,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0002,
-            "maxUsd": 0.2
+            "perUnitUsd": 0.00021,
+            "maxUsd": 0.21
           },
           "health": {
             "window": "30d",
@@ -9637,10 +9629,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0033,
-          "maxUsd": 0.0825
+          "perUnitUsd": 0.00347,
+          "maxUsd": 0.0867
         },
-        "failoverMaxUsd": 0.0825
+        "failoverMaxUsd": 0.0867
       },
       "lanes": [
         {
@@ -9648,8 +9640,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0033,
-            "maxUsd": 0.0825
+            "perUnitUsd": 0.00347,
+            "maxUsd": 0.0867
           },
           "health": {
             "window": "30d",
@@ -9679,10 +9671,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.00368,
-          "maxUsd": 0.00368
+          "perUnitUsd": 0.00387,
+          "maxUsd": 0.00387
         },
-        "failoverMaxUsd": 0.00368
+        "failoverMaxUsd": 0.00387
       },
       "lanes": [
         {
@@ -9690,8 +9682,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00368,
-            "maxUsd": 0.00368
+            "perUnitUsd": 0.00387,
+            "maxUsd": 0.00387
           }
         }
       ],
@@ -9713,20 +9705,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0015,
-          "perUnitUsd": 0.003,
-          "maxUsd": 0.0315
+          "baseUsd": 0.00158,
+          "perUnitUsd": 0.00315,
+          "maxUsd": 0.0331
         },
-        "failoverMaxUsd": 0.0315
+        "failoverMaxUsd": 0.0331
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0015,
-            "perUnitUsd": 0.003,
-            "maxUsd": 0.0315
+            "baseUsd": 0.00158,
+            "perUnitUsd": 0.00315,
+            "maxUsd": 0.0331
           },
           "health": {
             "window": "30d",
@@ -9806,11 +9798,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.38080495356037,
-            "latencyP50Ms": 2042,
-            "uptimeSample": 646,
-            "latencySample": 642,
-            "requests": 664
+            "uptimePct": 99.38556067588326,
+            "latencyP50Ms": 2035,
+            "uptimeSample": 651,
+            "latencySample": 647,
+            "requests": 669
           }
         },
         {
@@ -9821,11 +9813,11 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 87.55081300813008,
+            "uptimePct": 87.53180661577608,
             "latencyP50Ms": 624,
-            "uptimeSample": 1968,
-            "latencySample": 1723,
-            "requests": 2055
+            "uptimeSample": 1965,
+            "latencySample": 1720,
+            "requests": 2052
           }
         },
         {
@@ -9864,10 +9856,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.00158,
-          "maxUsd": 0.00158
+          "perUnitUsd": 0.00166,
+          "maxUsd": 0.00166
         },
-        "failoverMaxUsd": 0.00158
+        "failoverMaxUsd": 0.00166
       },
       "lanes": [
         {
@@ -9875,8 +9867,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00158,
-            "maxUsd": 0.00158
+            "perUnitUsd": 0.00166,
+            "maxUsd": 0.00166
           },
           "health": {
             "window": "30d",
@@ -9906,16 +9898,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0015
+          "maxUsd": 0.0018
         },
-        "failoverMaxUsd": 0.0015
+        "failoverMaxUsd": 0.0018
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0015
+            "maxUsd": 0.0018
           },
           "health": {
             "window": "30d",
@@ -9944,16 +9936,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -9982,16 +9974,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -10020,16 +10012,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -10058,16 +10050,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -10096,16 +10088,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -10134,20 +10126,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00005,
-          "perUnitUsd": 0.0009,
-          "maxUsd": 0.00095
+          "baseUsd": 0.00006,
+          "perUnitUsd": 0.00095,
+          "maxUsd": 0.001
         },
-        "failoverMaxUsd": 0.00095
+        "failoverMaxUsd": 0.001
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00005,
-            "perUnitUsd": 0.0009,
-            "maxUsd": 0.00095
+            "baseUsd": 0.00006,
+            "perUnitUsd": 0.00095,
+            "maxUsd": 0.001
           },
           "health": {
             "window": "30d",
@@ -10177,20 +10169,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.04,
-          "perUnitUsd": 0.00075,
-          "maxUsd": 0.055
+          "baseUsd": 0.042,
+          "perUnitUsd": 0.00079,
+          "maxUsd": 0.0578
         },
-        "failoverMaxUsd": 0.055
+        "failoverMaxUsd": 0.0578
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.04,
-            "perUnitUsd": 0.00075,
-            "maxUsd": 0.055
+            "baseUsd": 0.042,
+            "perUnitUsd": 0.00079,
+            "maxUsd": 0.0578
           },
           "health": {
             "window": "30d",
@@ -10220,7 +10212,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -10242,7 +10234,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -10265,7 +10257,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -10279,7 +10271,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -10302,7 +10294,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -10316,7 +10308,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -10369,7 +10361,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -10391,7 +10383,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -10414,7 +10406,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -10436,7 +10428,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -10489,7 +10481,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -10503,7 +10495,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -10556,7 +10548,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -10567,18 +10559,18 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.55654101995566,
-            "latencyP50Ms": 1628,
-            "uptimeSample": 902,
-            "latencySample": 898,
-            "requests": 902
+            "uptimePct": 99.55703211517165,
+            "latencyP50Ms": 1629,
+            "uptimeSample": 903,
+            "latencySample": 899,
+            "requests": 903
           }
         },
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -10601,7 +10593,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -10615,7 +10607,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           }
         }
       ],
@@ -10714,7 +10706,7 @@
           "unit": "request",
           "maxUsd": 0.002
         },
-        "failoverMaxUsd": 0.00325
+        "failoverMaxUsd": 0.0036
       },
       "lanes": [
         {
@@ -10736,7 +10728,7 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00325
+            "maxUsd": 0.0036
           },
           "health": {
             "window": "30d",
@@ -10834,16 +10826,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -10872,16 +10864,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -10910,16 +10902,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -10948,16 +10940,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -10986,16 +10978,16 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001
+          "maxUsd": 0.0012
         },
-        "failoverMaxUsd": 0.001
+        "failoverMaxUsd": 0.0012
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001
+            "maxUsd": 0.0012
           },
           "health": {
             "window": "30d",
@@ -11025,10 +11017,10 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0024,
-          "maxUsd": 0.0024
+          "perUnitUsd": 0.00252,
+          "maxUsd": 0.00252
         },
-        "failoverMaxUsd": 0.0024
+        "failoverMaxUsd": 0.00252
       },
       "lanes": [
         {
@@ -11036,8 +11028,8 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0024,
-            "maxUsd": 0.0024
+            "perUnitUsd": 0.00252,
+            "maxUsd": 0.00252
           }
         }
       ],
@@ -11059,20 +11051,20 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0005,
-          "perUnitUsd": 0.003,
-          "maxUsd": 0.0755
+          "baseUsd": 0.00053,
+          "perUnitUsd": 0.00315,
+          "maxUsd": 0.0793
         },
-        "failoverMaxUsd": 0.0755
+        "failoverMaxUsd": 0.0793
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0005,
-            "perUnitUsd": 0.003,
-            "maxUsd": 0.0755
+            "baseUsd": 0.00053,
+            "perUnitUsd": 0.00315,
+            "maxUsd": 0.0793
           },
           "health": {
             "window": "30d",

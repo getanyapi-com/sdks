@@ -494,7 +494,7 @@ export class WeiboNamespace {
    *
    * Get the complete current Weibo hot-search ranking with labels and heat values.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0018 per request.
    *
    * @example
    * const res = await client.weibo.hotSearch({});
@@ -511,7 +511,7 @@ export class WeiboNamespace {
    *
    * Fetch a public Weibo post by ID with normalized author and engagement data.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.weibo.post({ postId: "5092682368025584", includeLongText: "true" });
@@ -528,7 +528,7 @@ export class WeiboNamespace {
    *
    * List first-level comments on a public Weibo post with pagination.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.weibo.postComments({ postId: "5283919831764022", limit: 10 });
@@ -565,7 +565,7 @@ export class WeiboNamespace {
    *
    * Fetch a public Weibo profile by user ID with normalized audience and account data.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.weibo.profile({ userId: "1722594714" });
@@ -582,7 +582,7 @@ export class WeiboNamespace {
    *
    * Search public Weibo posts with optional result, media, and time filters.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.weibo.search({ query: "python", includeType: "pic", page: 1, searchType: "hot" });
@@ -599,7 +599,7 @@ export class WeiboNamespace {
    *
    * List public posts from a Weibo user with normalized author and engagement data.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.weibo.userPosts({ userId: "7277477906", feature: 3, page: 1 });

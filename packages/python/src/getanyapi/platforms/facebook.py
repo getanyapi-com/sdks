@@ -1524,7 +1524,7 @@ class FacebookNamespace:
         List the public followers (or accounts followed) of any Facebook page or
         profile URL as normalized JSON records.
 
-        Price: $0 per request plus $0.006 per result (maximum $0.12).
+        Price: $0 per request plus $0.0063 per result (maximum $0.126).
 
         Example:
             res = client.facebook.followers(limit=3, url="https://www.facebook.com/nike")
@@ -1956,7 +1956,7 @@ class FacebookNamespace:
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
         structured page profiles (name, category, followers, contact details).
 
-        Price: $0.001 per request plus $0.011 per result (maximum $0.111).
+        Price: $0.00105 per request plus $0.0116 per result (maximum $0.117).
 
         Example:
             res = client.facebook.search_pages(limit=3, query="nike")
@@ -1977,7 +1977,7 @@ class FacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0 per request plus $0.003 per result (maximum $0.06).
+        Price: $0 per request plus $0.00315 per result (maximum $0.063).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")
@@ -2288,7 +2288,7 @@ class AsyncFacebookNamespace:
         List the public followers (or accounts followed) of any Facebook page or
         profile URL as normalized JSON records.
 
-        Price: $0 per request plus $0.006 per result (maximum $0.12).
+        Price: $0 per request plus $0.0063 per result (maximum $0.126).
 
         Example:
             res = client.facebook.followers(limit=3, url="https://www.facebook.com/nike")
@@ -2720,7 +2720,7 @@ class AsyncFacebookNamespace:
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
         structured page profiles (name, category, followers, contact details).
 
-        Price: $0.001 per request plus $0.011 per result (maximum $0.111).
+        Price: $0.00105 per request plus $0.0116 per result (maximum $0.117).
 
         Example:
             res = client.facebook.search_pages(limit=3, query="nike")
@@ -2741,7 +2741,7 @@ class AsyncFacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0 per request plus $0.003 per result (maximum $0.06).
+        Price: $0 per request plus $0.00315 per result (maximum $0.063).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")

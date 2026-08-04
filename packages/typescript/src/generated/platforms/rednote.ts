@@ -527,7 +527,7 @@ export class RednoteNamespace {
    *
    * Look up a RedNote (Xiaohongshu) note by note ID and return normalized note details.
    *
-   * Price: $0.01 per request.
+   * Price: $0.012 per request.
    *
    * @example
    * const res = await client.rednote.note({ noteId: "66f2a24f000000002c02cf57" });
@@ -544,7 +544,7 @@ export class RednoteNamespace {
    *
    * List comments on a RedNote (Xiaohongshu) note and return normalized comment records with pagination.
    *
-   * Price: $0.01 per request.
+   * Price: $0.012 per request.
    *
    * @example
    * const res = await client.rednote.noteComments({ noteId: "68dd422c0000000203019829" });
@@ -584,7 +584,7 @@ export class RednoteNamespace {
    *
    * Look up a RedNote (Xiaohongshu) profile by user ID and return normalized profile details.
    *
-   * Price: $0.01 per request.
+   * Price: $0.012 per request.
    *
    * @example
    * const res = await client.rednote.profile({ userId: "56b0a4491c07df6365277af7" });
@@ -601,7 +601,7 @@ export class RednoteNamespace {
    *
    * Search RedNote (Xiaohongshu) notes by keyword and return normalized note records with pagination.
    *
-   * Price: $0.01 per request.
+   * Price: $0.012 per request.
    *
    * @example
    * const res = await client.rednote.search({ query: "coffee", sort: "general" });
@@ -638,7 +638,7 @@ export class RednoteNamespace {
    *
    * Search RedNote (Xiaohongshu) users by keyword and return normalized user records with pagination.
    *
-   * Price: $0.01 per request.
+   * Price: $0.012 per request.
    *
    * @example
    * const res = await client.rednote.searchUsers({ query: "coffee" });
@@ -675,7 +675,7 @@ export class RednoteNamespace {
    *
    * List notes posted by a RedNote (Xiaohongshu) user and return normalized note records with pagination.
    *
-   * Price: $0.01 per request.
+   * Price: $0.012 per request.
    *
    * @example
    * const res = await client.rednote.userNotes({ userId: "56b0a4491c07df6365277af7" });

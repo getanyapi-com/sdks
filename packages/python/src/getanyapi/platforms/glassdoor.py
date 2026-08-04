@@ -115,7 +115,7 @@ class GlassdoorNamespace:
         Glassdoor company or job search page URL - up to 20 normalized job records
         per request.
 
-        Price: $0.005 per request plus $0.00475 per result (maximum $0.1).
+        Price: $0.00525 per request plus $0.00499 per result (maximum $0.105).
 
         Example:
             res = client.glassdoor.jobs(limit=3, location="United States", postedLimit="month", query="software engineer")
@@ -144,7 +144,7 @@ class AsyncGlassdoorNamespace:
         Glassdoor company or job search page URL - up to 20 normalized job records
         per request.
 
-        Price: $0.005 per request plus $0.00475 per result (maximum $0.1).
+        Price: $0.00525 per request plus $0.00499 per result (maximum $0.105).
 
         Example:
             res = client.glassdoor.jobs(limit=3, location="United States", postedLimit="month", query="software engineer")

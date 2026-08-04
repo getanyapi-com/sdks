@@ -194,7 +194,7 @@ export class RealtorNamespace {
    *
    * Search Realtor.com listings by location with optional price, property-type, beds/baths, listing-status, and keyword filters and get property records (price, address, beds, baths) as normalized JSON.
    *
-   * Price: $0.005 per request plus $0.0015 per result (maximum $0.0425).
+   * Price: $0.00525 per request plus $0.00158 per result (maximum $0.0447).
    *
    * @example
    * const res = await client.realtor.search({ location: "Austin, TX", bedsMin: 4, limit: 3, propertyTypes: ["single_family"], searchStatuses: ["pending"] });

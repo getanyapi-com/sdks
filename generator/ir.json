@@ -85,8 +85,8 @@
       "category": "search",
       "description": "Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title.",
       "pricing": {
-        "priceUsd": 0.0195,
-        "baseUsd": 0.0195,
+        "priceUsd": 0.0205,
+        "baseUsd": 0.0205,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -225,9 +225,9 @@
       "category": "search",
       "description": "Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket.",
       "pricing": {
-        "priceUsd": 0.0195,
-        "baseUsd": 0.0015,
-        "perItemUsd": 0.018,
+        "priceUsd": 0.0205,
+        "baseUsd": 0.00158,
+        "perItemUsd": 0.0189,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -380,9 +380,9 @@
       "category": "search",
       "description": "Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0195,
-        "baseUsd": 0.0015,
-        "perItemUsd": 0.018,
+        "priceUsd": 0.0205,
+        "baseUsd": 0.00158,
+        "perItemUsd": 0.0189,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -496,9 +496,9 @@
       "category": "search",
       "description": "Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0195,
-        "baseUsd": 0.0015,
-        "perItemUsd": 0.018,
+        "priceUsd": 0.0205,
+        "baseUsd": 0.00158,
+        "perItemUsd": 0.0189,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -636,9 +636,9 @@
       "category": "travel",
       "description": "Search Airbnb listings by location and dates with optional price, beds/bedrooms/bathrooms, and guest-party filters and get results (name, total-stay price label, rating, host) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.03008,
-        "baseUsd": 0.00008,
-        "perItemUsd": 0.0015,
+        "priceUsd": 0.0316,
+        "baseUsd": 0.00009,
+        "perItemUsd": 0.00158,
         "perItemUnit": "result"
       },
       "tsNamespace": "airbnb",
@@ -963,9 +963,9 @@
       "category": "shop",
       "description": "Search Alibaba by keyword and get up to 25 wholesale listings (title, price range, minimum order, and supplier) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.03,
+        "priceUsd": 0.0315,
         "baseUsd": 0,
-        "perItemUsd": 0.0012,
+        "perItemUsd": 0.00126,
         "perItemUnit": "result"
       },
       "tsNamespace": "alibaba",
@@ -1130,9 +1130,9 @@
       "category": "shop",
       "description": "Look up to 10 Amazon products in one call by ASIN (title, brand, price, ratings, images, and attributes) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.035,
+        "priceUsd": 0.0368,
         "baseUsd": 0,
-        "perItemUsd": 0.0035,
+        "perItemUsd": 0.00368,
         "perItemUnit": "asin"
       },
       "tsNamespace": "amazon",
@@ -1314,9 +1314,9 @@
       "category": "shop",
       "description": "List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.",
       "pricing": {
-        "priceUsd": 0.082,
+        "priceUsd": 0.0861,
         "baseUsd": 0,
-        "perItemUsd": 0.0041,
+        "perItemUsd": 0.00431,
         "perItemUnit": "result"
       },
       "tsNamespace": "amazon",
@@ -1483,9 +1483,9 @@
       "category": "shop",
       "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.",
       "pricing": {
-        "priceUsd": 0.0091,
-        "baseUsd": 0.001,
-        "perItemUsd": 0.0081,
+        "priceUsd": 0.00956,
+        "baseUsd": 0.00105,
+        "perItemUsd": 0.00851,
         "perItemUnit": "result"
       },
       "tsNamespace": "amazon",
@@ -1687,7 +1687,7 @@
       "category": "shop",
       "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "pricing": {
-        "priceUsd": 0.01625,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -1910,9 +1910,9 @@
       "category": "shop",
       "description": "Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.07,
+        "priceUsd": 0.0735,
         "baseUsd": 0,
-        "perItemUsd": 0.0035,
+        "perItemUsd": 0.00368,
         "perItemUnit": "result"
       },
       "tsNamespace": "amazon",
@@ -4243,9 +4243,9 @@
       "category": "shop",
       "description": "Get App Store reviews for any iOS app by app ID, in any storefront country: ratings, titles, and review text.",
       "pricing": {
-        "priceUsd": 0.01,
+        "priceUsd": 0.0105,
         "baseUsd": 0,
-        "perItemUsd": 0.0001,
+        "perItemUsd": 0.00011,
         "perItemUnit": "result"
       },
       "tsNamespace": "appstore",
@@ -4750,9 +4750,9 @@
       "category": "travel",
       "description": "Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.092,
-        "baseUsd": 0.002,
-        "perItemUsd": 0.0045,
+        "priceUsd": 0.0966,
+        "baseUsd": 0.0021,
+        "perItemUsd": 0.00473,
         "perItemUnit": "result"
       },
       "tsNamespace": "booking",
@@ -4999,9 +4999,9 @@
       "category": "fin",
       "description": "Get the current top cryptocurrencies from CoinMarketCap (rank, price, market cap, volume, and 24h change) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.045,
+        "priceUsd": 0.0473,
         "baseUsd": 0,
-        "perItemUsd": 0.0018,
+        "perItemUsd": 0.00189,
         "perItemUnit": "result"
       },
       "tsNamespace": "coinmarketcap",
@@ -5181,9 +5181,9 @@
       "category": "fin",
       "description": "Get US Congress members' financial disclosures and stock trades (member, ticker, transaction type, amount range, and dates), filterable by member, ticker, or date range.",
       "pricing": {
-        "priceUsd": 0.0485,
-        "baseUsd": 0.001,
-        "perItemUsd": 0.0019,
+        "priceUsd": 0.051,
+        "baseUsd": 0.00105,
+        "perItemUsd": 0.002,
         "perItemUnit": "result"
       },
       "tsNamespace": "congress",
@@ -5383,9 +5383,9 @@
       "category": "fin",
       "description": "List trending tokens on any blockchain from DEX Screener (price, liquidity, volume, transactions, and market cap), sorted how you want, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0575,
-        "baseUsd": 0.02,
-        "perItemUsd": 0.0015,
+        "priceUsd": 0.0604,
+        "baseUsd": 0.021,
+        "perItemUsd": 0.00158,
         "perItemUnit": "result"
       },
       "tsNamespace": "dexscreener",
@@ -5707,7 +5707,7 @@
       "category": "social",
       "description": "Look up a public Douyin profile by sec_user_id and return normalized profile statistics.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -5852,7 +5852,7 @@
       "category": "search",
       "description": "Search public Douyin videos by keyword with sorting, time, duration, and content filters.",
       "pricing": {
-        "priceUsd": 0.01,
+        "priceUsd": 0.012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -6110,7 +6110,7 @@
       "category": "social",
       "description": "List public posts from a Douyin user with normalized engagement data and pagination.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -6324,7 +6324,7 @@
       "category": "social",
       "description": "Fetch a public Douyin video by share URL with normalized author and engagement data.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -6491,7 +6491,7 @@
       "category": "social",
       "description": "List public comments on a Douyin video with author and engagement data.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -6691,9 +6691,9 @@
       "category": "shop",
       "description": "Search eBay active listings by keyword with optional price-range, item-condition, listing-type, and sort filters and get title, price, condition, shipping, and seller in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0595,
-        "baseUsd": 0.001,
-        "perItemUsd": 0.00234,
+        "priceUsd": 0.0625,
+        "baseUsd": 0.00105,
+        "perItemUsd": 0.00246,
         "perItemUnit": "result"
       },
       "tsNamespace": "ebay",
@@ -6908,9 +6908,9 @@
       "category": "shop",
       "description": "Retrieve recently sold eBay listings for any keyword with optional price-range and sort filters (sold price, sale date, condition, item details); ideal for pricing research.",
       "pricing": {
-        "priceUsd": 0.10005,
-        "baseUsd": 0.00005,
-        "perItemUsd": 0.004,
+        "priceUsd": 0.106,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.0042,
         "perItemUnit": "result"
       },
       "tsNamespace": "ebay",
@@ -7136,8 +7136,8 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.021,
-        "baseUsd": 0.021,
+        "priceUsd": 0.0221,
+        "baseUsd": 0.0221,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -7282,9 +7282,9 @@
       "category": "data",
       "description": "Verify an email address for deliverability: a status verdict (valid, risky, or invalid) with domain, mailbox, catch-all, disposable, and role signals plus a confidence score. Malformed addresses are rejected by the input schema with no charge; every syntactically valid address returns a billed verdict, including undeliverable ones.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00084,
         "baseUsd": 0,
-        "perItemUsd": 0.0008,
+        "perItemUsd": 0.00084,
         "perItemUnit": "result"
       },
       "tsNamespace": "email",
@@ -8967,9 +8967,9 @@
       "category": "social",
       "description": "List the public followers (or accounts followed) of any Facebook page or profile URL as normalized JSON records.",
       "pricing": {
-        "priceUsd": 0.12,
+        "priceUsd": 0.126,
         "baseUsd": 0,
-        "perItemUsd": 0.006,
+        "perItemUsd": 0.0063,
         "perItemUnit": "result"
       },
       "tsNamespace": "facebook",
@@ -11203,9 +11203,9 @@
       "category": "social",
       "description": "Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details).",
       "pricing": {
-        "priceUsd": 0.111,
-        "baseUsd": 0.001,
-        "perItemUsd": 0.011,
+        "priceUsd": 0.117,
+        "baseUsd": 0.00105,
+        "perItemUsd": 0.0116,
         "perItemUnit": "result"
       },
       "tsNamespace": "facebook",
@@ -11365,9 +11365,9 @@
       "category": "social",
       "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).",
       "pricing": {
-        "priceUsd": 0.06,
+        "priceUsd": 0.063,
         "baseUsd": 0,
-        "perItemUsd": 0.003,
+        "perItemUsd": 0.00315,
         "perItemUnit": "result"
       },
       "tsNamespace": "facebook",
@@ -11548,9 +11548,9 @@
       "category": "shop",
       "description": "Extract Fiverr gig listings from any search or category URL: titles, sellers, ratings, and pricing as structured JSON.",
       "pricing": {
-        "priceUsd": 0.03,
+        "priceUsd": 0.0315,
         "baseUsd": 0,
-        "perItemUsd": 0.0015,
+        "perItemUsd": 0.00158,
         "perItemUnit": "result"
       },
       "tsNamespace": "fiverr",
@@ -13342,9 +13342,9 @@
       "category": "data",
       "description": "Search Glassdoor job listings by keyword and location, or scrape any Glassdoor company or job search page URL - up to 20 normalized job records per request.",
       "pricing": {
-        "priceUsd": 0.1,
-        "baseUsd": 0.005,
-        "perItemUsd": 0.00475,
+        "priceUsd": 0.105,
+        "baseUsd": 0.00525,
+        "perItemUsd": 0.00499,
         "perItemUnit": "result"
       },
       "tsNamespace": "glassdoor",
@@ -15313,9 +15313,9 @@
       "category": "search",
       "description": "Pull the ads an advertiser is currently running from the Google Ads Transparency Center (creative details, formats, and run dates) as clean JSON.",
       "pricing": {
-        "priceUsd": 0.02605,
-        "baseUsd": 0.00005,
-        "perItemUsd": 0.0013,
+        "priceUsd": 0.0274,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00137,
         "perItemUnit": "result"
       },
       "tsNamespace": "googleAds",
@@ -15500,9 +15500,9 @@
       "category": "fin",
       "description": "Fetch a live quote for any stock, index, ETF, mutual fund, currency pair, or crypto symbol: name, current price, the absolute and percent change on the day, quote currency, exchange and market state, plus intraday and reference figures (open, day high/low, previous close, volume, market cap, and the 52-week range).",
       "pricing": {
-        "priceUsd": 0.002,
-        "baseUsd": 0.0005,
-        "perItemUsd": 0.0015,
+        "priceUsd": 0.0021,
+        "baseUsd": 0.00053,
+        "perItemUsd": 0.00158,
         "perItemUnit": "result"
       },
       "tsNamespace": "googleFinance",
@@ -15731,7 +15731,7 @@
       "category": "shop",
       "description": "Search Google Shopping by keyword and get up to 10 product offers (title, price, store, rating, and link), localized by country and language.",
       "pricing": {
-        "priceUsd": 0.01625,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -16420,9 +16420,9 @@
       "category": "data",
       "description": "Search Indeed job listings by keyword, location, and country, with up to 20 normalized job records per request.",
       "pricing": {
-        "priceUsd": 0.0024,
-        "baseUsd": 0.0008,
-        "perItemUsd": 0.00008,
+        "priceUsd": 0.00252,
+        "baseUsd": 0.00084,
+        "perItemUsd": 0.00009,
         "perItemUnit": "result"
       },
       "tsNamespace": "indeed",
@@ -16981,7 +16981,7 @@
       "category": "social",
       "description": "List the followers of any public Instagram account by username: follower usernames, names, and profile details.",
       "pricing": {
-        "priceUsd": 0.01625,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -17136,7 +17136,7 @@
       "category": "social",
       "description": "List the accounts a public Instagram user follows: usernames, names, and profile details.",
       "pricing": {
-        "priceUsd": 0.01625,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -17291,9 +17291,9 @@
       "category": "social",
       "description": "Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals).",
       "pricing": {
-        "priceUsd": 0.035,
-        "baseUsd": 0.001,
-        "perItemUsd": 0.0017,
+        "priceUsd": 0.0368,
+        "baseUsd": 0.00105,
+        "perItemUsd": 0.00179,
         "perItemUnit": "result"
       },
       "tsNamespace": "instagram",
@@ -17891,7 +17891,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -18014,9 +18014,9 @@
       "category": "social",
       "description": "Turn any public Instagram reel or video post into a full speech transcript, with optional word-level timestamps.",
       "pricing": {
-        "priceUsd": 0.025,
-        "baseUsd": 0.005,
-        "perItemUsd": 0.02,
+        "priceUsd": 0.0263,
+        "baseUsd": 0.00525,
+        "perItemUsd": 0.021,
         "perItemUnit": "result"
       },
       "tsNamespace": "instagram",
@@ -18425,7 +18425,7 @@
       "category": "social",
       "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -18918,7 +18918,7 @@
       "category": "social",
       "description": "Fetch a public Instagram account's currently live stories with media, type, dimensions, posting time, and 24-hour expiry by username.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -19077,7 +19077,7 @@
       "category": "social",
       "description": "Fetch a public Instagram account's currently live stories - media URL, owner, and posting time - by username. Lightweight projection; for media type, dimensions, and the 24h expiry time use instagram.stories_full.",
       "pricing": {
-        "priceUsd": 0.01625,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -19899,9 +19899,9 @@
       "category": "social",
       "description": "Search the LinkedIn Ad Library by search URL and list the matching ads (advertiser, creative text, format).",
       "pricing": {
-        "priceUsd": 0.03005,
-        "baseUsd": 0.00005,
-        "perItemUsd": 0.0015,
+        "priceUsd": 0.0316,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00158,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -20255,8 +20255,8 @@
       "category": "social",
       "description": "Fetch a full LinkedIn company page by URL: name, description, industry, employee count and range, follower count, founded year, headquarters and office locations, funding data, tagline, logo, website, and specialities.",
       "pricing": {
-        "priceUsd": 0.004,
-        "baseUsd": 0.004,
+        "priceUsd": 0.0042,
+        "baseUsd": 0.0042,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -20529,9 +20529,9 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.1,
+        "priceUsd": 0.105,
         "baseUsd": 0,
-        "perItemUsd": 0.01,
+        "perItemUsd": 0.0105,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -20683,9 +20683,9 @@
       "category": "social",
       "description": "List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.",
       "pricing": {
-        "priceUsd": 0.08755,
-        "baseUsd": 0.00005,
-        "perItemUsd": 0.00175,
+        "priceUsd": 0.092,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00184,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -21204,8 +21204,8 @@
       "category": "social",
       "description": "Find the deliverability-validated work email behind a LinkedIn profile URL or public ID. Returns each discovered email with its deliverability, validation status, and quality score, plus the person's name and headline.",
       "pricing": {
-        "priceUsd": 0.01,
-        "baseUsd": 0.01,
+        "priceUsd": 0.0105,
+        "baseUsd": 0.0105,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -21344,9 +21344,9 @@
       "category": "data",
       "description": "Search LinkedIn job listings by title and location - full records with description, salary, applicant count, seniority, company details, and benefits. Up to 25 jobs per request.",
       "pricing": {
-        "priceUsd": 0.026,
-        "baseUsd": 0.001,
-        "perItemUsd": 0.001,
+        "priceUsd": 0.0273,
+        "baseUsd": 0.00105,
+        "perItemUsd": 0.00105,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -21709,7 +21709,7 @@
       "category": "data",
       "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -21923,7 +21923,7 @@
       "category": "social",
       "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -22044,9 +22044,9 @@
       "category": "social",
       "description": "List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.",
       "pricing": {
-        "priceUsd": 0.2,
+        "priceUsd": 0.21,
         "baseUsd": 0,
-        "perItemUsd": 0.002,
+        "perItemUsd": 0.0021,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -22252,9 +22252,9 @@
       "category": "social",
       "description": "List who reacted to a LinkedIn post - reactor name, profile URL, job title, and reaction type. Lead-gen grade.",
       "pricing": {
-        "priceUsd": 0.2,
+        "priceUsd": 0.21,
         "baseUsd": 0,
-        "perItemUsd": 0.002,
+        "perItemUsd": 0.0021,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -22479,8 +22479,8 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.004,
-        "baseUsd": 0.004,
+        "priceUsd": 0.0042,
+        "baseUsd": 0.0042,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -23259,9 +23259,9 @@
       "category": "social",
       "description": "Search LinkedIn companies by keyword with optional location filtering, returning normalized company records.",
       "pricing": {
-        "priceUsd": 0.081,
-        "baseUsd": 0.001,
-        "perItemUsd": 0.004,
+        "priceUsd": 0.0851,
+        "baseUsd": 0.00105,
+        "perItemUsd": 0.0042,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -23548,9 +23548,9 @@
       "category": "social",
       "description": "Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.",
       "pricing": {
-        "priceUsd": 0.18,
-        "baseUsd": 0.08,
-        "perItemUsd": 0.004,
+        "priceUsd": 0.189,
+        "baseUsd": 0.084,
+        "perItemUsd": 0.0042,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -24148,9 +24148,9 @@
       "category": "social",
       "description": "People search returning a full profile AND a verified work email for each hit. Search LinkedIn profiles by keyword with optional location and job-title filters; each match returns the full profile record (name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id) together with an emails array carrying the discovered work email and its deliverability. For a full profile without email use linkedin.search_profiles; for a cheaper name/headline/URL-only search use linkedin.search_profiles_thin.",
       "pricing": {
-        "priceUsd": 0.305,
-        "baseUsd": 0.08,
-        "perItemUsd": 0.009,
+        "priceUsd": 0.321,
+        "baseUsd": 0.084,
+        "perItemUsd": 0.00945,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -24760,7 +24760,7 @@
       "category": "social",
       "description": "Cheap people search: name/handle, headline, VANITY profile URL, location. No full profile or email - for full profiles per hit use linkedin.search_profiles, add emails with linkedin.search_profiles_email.",
       "pricing": {
-        "priceUsd": 0.0325,
+        "priceUsd": 0.036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -24892,9 +24892,9 @@
       "category": "data",
       "description": "Search Google Maps for businesses and enrich each result with contact details (emails, phones, and social profiles from their websites), up to 20 records per request.",
       "pricing": {
-        "priceUsd": 0.09005,
-        "baseUsd": 0.00005,
-        "perItemUsd": 0.0045,
+        "priceUsd": 0.0946,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00473,
         "perItemUnit": "result"
       },
       "tsNamespace": "maps",
@@ -25537,9 +25537,9 @@
       "category": "data",
       "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.04005,
-        "baseUsd": 0.00005,
-        "perItemUsd": 0.0004,
+        "priceUsd": 0.0421,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00042,
         "perItemUnit": "result"
       },
       "tsNamespace": "maps",
@@ -26559,9 +26559,9 @@
       "category": "data",
       "description": "Skip-trace a person in the US by name, address, phone, or email and get back identity, address, and contact records in normalized JSON.",
       "pricing": {
-        "priceUsd": 0.007,
+        "priceUsd": 0.00735,
         "baseUsd": 0,
-        "perItemUsd": 0.007,
+        "perItemUsd": 0.00735,
         "perItemUnit": "result"
       },
       "tsNamespace": "person",
@@ -26876,7 +26876,7 @@
       "category": "social",
       "description": "Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -26997,9 +26997,9 @@
       "category": "shop",
       "description": "Fetch Google Play reviews for any Android app by package name or store URL: ratings, review text, dates, and helpfulness votes.",
       "pricing": {
-        "priceUsd": 0.011,
+        "priceUsd": 0.0116,
         "baseUsd": 0,
-        "perItemUsd": 0.00011,
+        "perItemUsd": 0.00012,
         "perItemUnit": "result"
       },
       "tsNamespace": "playstore",
@@ -27218,9 +27218,9 @@
       "category": "fin",
       "description": "Discover Polymarket prediction markets (question, outcome prices, volume, liquidity, and end dates) by keyword or sorted by activity, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.12,
-        "baseUsd": 0.105,
-        "perItemUsd": 0.0006,
+        "priceUsd": 0.126,
+        "baseUsd": 0.111,
+        "perItemUsd": 0.00063,
         "perItemUnit": "result"
       },
       "tsNamespace": "polymarket",
@@ -27430,9 +27430,9 @@
       "category": "data",
       "description": "Search Realtor.com listings by location with optional price, property-type, beds/baths, listing-status, and keyword filters and get property records (price, address, beds, baths) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0425,
-        "baseUsd": 0.005,
-        "perItemUsd": 0.0015,
+        "priceUsd": 0.0447,
+        "baseUsd": 0.00525,
+        "perItemUsd": 0.00158,
         "perItemUnit": "result"
       },
       "tsNamespace": "realtor",
@@ -27773,7 +27773,7 @@
       "category": "social",
       "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -28174,7 +28174,7 @@
       "category": "social",
       "description": "Fetch a Reddit user's public profile (karma split, post and comment counts, bio, avatar, account age) by username.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -28363,7 +28363,7 @@
       "category": "social",
       "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -28561,7 +28561,7 @@
       "category": "social",
       "description": "Fetch a subreddit's metadata (weekly active users, description, and category).",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -29086,7 +29086,7 @@
       "category": "social",
       "description": "List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -29262,7 +29262,7 @@
       "category": "social",
       "description": "List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -29442,9 +29442,9 @@
       "category": "data",
       "description": "Run a Redfin map search by URL and get matching home listings (price, address, beds, baths, status) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.01345,
-        "baseUsd": 0.0027,
-        "perItemUsd": 0.00043,
+        "priceUsd": 0.0142,
+        "baseUsd": 0.00284,
+        "perItemUsd": 0.00046,
         "perItemUnit": "result"
       },
       "tsNamespace": "redfin",
@@ -29672,7 +29672,7 @@
       "category": "social",
       "description": "Look up a RedNote (Xiaohongshu) note by note ID and return normalized note details.",
       "pricing": {
-        "priceUsd": 0.01,
+        "priceUsd": 0.012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -29866,7 +29866,7 @@
       "category": "social",
       "description": "List comments on a RedNote (Xiaohongshu) note and return normalized comment records with pagination.",
       "pricing": {
-        "priceUsd": 0.01,
+        "priceUsd": 0.012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -30046,7 +30046,7 @@
       "category": "social",
       "description": "Look up a RedNote (Xiaohongshu) profile by user ID and return normalized profile details.",
       "pricing": {
-        "priceUsd": 0.01,
+        "priceUsd": 0.012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -30210,7 +30210,7 @@
       "category": "social",
       "description": "Search RedNote (Xiaohongshu) notes by keyword and return normalized note records with pagination.",
       "pricing": {
-        "priceUsd": 0.01,
+        "priceUsd": 0.012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -30431,7 +30431,7 @@
       "category": "social",
       "description": "Search RedNote (Xiaohongshu) users by keyword and return normalized user records with pagination.",
       "pricing": {
-        "priceUsd": 0.01,
+        "priceUsd": 0.012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -30590,7 +30590,7 @@
       "category": "social",
       "description": "List notes posted by a RedNote (Xiaohongshu) user and return normalized note records with pagination.",
       "pricing": {
-        "priceUsd": 0.01,
+        "priceUsd": 0.012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -30783,9 +30783,9 @@
       "category": "fin",
       "description": "List a public company's SEC EDGAR filings - form type, filing date, accession number, and document links - by ticker, company name, or CIK, with optional form-type and date filters.",
       "pricing": {
-        "priceUsd": 0.012,
-        "baseUsd": 0.002,
-        "perItemUsd": 0.0004,
+        "priceUsd": 0.0126,
+        "baseUsd": 0.0021,
+        "perItemUsd": 0.00042,
         "perItemUnit": "result"
       },
       "tsNamespace": "sec",
@@ -30973,9 +30973,9 @@
       "category": "search",
       "description": "Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords.",
       "pricing": {
-        "priceUsd": 0.015,
+        "priceUsd": 0.0158,
         "baseUsd": 0,
-        "perItemUsd": 0.015,
+        "perItemUsd": 0.0158,
         "perItemUnit": "result"
       },
       "tsNamespace": "semrush",
@@ -31201,9 +31201,9 @@
       "category": "search",
       "description": "a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.",
       "pricing": {
-        "priceUsd": 0.015,
+        "priceUsd": 0.0158,
         "baseUsd": 0,
-        "perItemUsd": 0.015,
+        "perItemUsd": 0.0158,
         "perItemUnit": "result"
       },
       "tsNamespace": "semrush",
@@ -33617,9 +33617,9 @@
       "category": "social",
       "description": "Fetch a Snapchat user's public profile by username: display name, bio, subscriber count, and recent public content.",
       "pricing": {
-        "priceUsd": 0.003,
-        "baseUsd": 0.001,
-        "perItemUsd": 0.002,
+        "priceUsd": 0.00315,
+        "baseUsd": 0.00105,
+        "perItemUsd": 0.0021,
         "perItemUnit": "result"
       },
       "tsNamespace": "snapchat",
@@ -33790,9 +33790,9 @@
       "category": "data",
       "description": "Find a person's or brand's profiles across major social networks from a single name, returned as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.021,
-        "baseUsd": 0.001,
-        "perItemUsd": 0.002,
+        "priceUsd": 0.0221,
+        "baseUsd": 0.00105,
+        "perItemUsd": 0.0021,
         "perItemUnit": "result"
       },
       "tsNamespace": "social",
@@ -34257,9 +34257,9 @@
       "category": "music",
       "description": "Fetch stream counts and stats for a Spotify track, album, or artist URL.",
       "pricing": {
-        "priceUsd": 0.003,
+        "priceUsd": 0.00315,
         "baseUsd": 0,
-        "perItemUsd": 0.003,
+        "perItemUsd": 0.00315,
         "perItemUnit": "result"
       },
       "tsNamespace": "spotify",
@@ -35039,9 +35039,9 @@
       "category": "social",
       "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.",
       "pricing": {
-        "priceUsd": 0.161,
-        "baseUsd": 0.005,
-        "perItemUsd": 0.00156,
+        "priceUsd": 0.17,
+        "baseUsd": 0.00525,
+        "perItemUsd": 0.00164,
         "perItemUnit": "result"
       },
       "tsNamespace": "substack",
@@ -36474,7 +36474,7 @@
       "category": "social",
       "description": "Get the audience country breakdown (follower count and share per country) for a TikTok creator by handle.",
       "pricing": {
-        "priceUsd": 0.01625,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -37011,7 +37011,7 @@
       "category": "video",
       "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -37306,7 +37306,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -37524,7 +37524,7 @@
       "category": "social",
       "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -37824,7 +37824,7 @@
       "category": "social",
       "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -38160,7 +38160,7 @@
       "category": "social",
       "description": "Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -38762,7 +38762,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40002,7 +40002,7 @@
       "category": "travel",
       "description": "Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL: rating, text, date, and trip details as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40164,7 +40164,7 @@
       "category": "travel",
       "description": "Search Tripadvisor for hotels, restaurants, and attractions in any destination and get rich place records (ratings, review counts, contact details, pricing) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40425,7 +40425,7 @@
       "category": "shop",
       "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.",
       "pricing": {
-        "priceUsd": 0.01625,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40605,7 +40605,7 @@
       "category": "social",
       "description": "Get a single Truth Social post by its URL - text, author, engagement (likes, comments, shares), and timestamp as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40735,7 +40735,7 @@
       "category": "social",
       "description": "Get a Truth Social account's public profile by handle - display name, bio, follower/following counts, and post count as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40890,7 +40890,7 @@
       "category": "social",
       "description": "List a Truth Social account's recent posts by handle - text, engagement (likes, comments, shares), and timestamps as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00325,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -42121,9 +42121,9 @@
       "category": "social",
       "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement.",
       "pricing": {
-        "priceUsd": 0.0125,
-        "baseUsd": 0.0025,
-        "perItemUsd": 0.00025,
+        "priceUsd": 0.0132,
+        "baseUsd": 0.00263,
+        "perItemUsd": 0.00027,
         "perItemUnit": "result"
       },
       "tsNamespace": "twitter",
@@ -43064,9 +43064,9 @@
       "category": "social",
       "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account in one bulk call, with engagement, views, and language. The current lane returns nextCursor as null; cursor is reserved for future cursor-capable lanes.",
       "pricing": {
-        "priceUsd": 0.2,
+        "priceUsd": 0.21,
         "baseUsd": 0,
-        "perItemUsd": 0.0002,
+        "perItemUsd": 0.00021,
         "perItemUnit": "result"
       },
       "tsNamespace": "twitter",
@@ -43262,9 +43262,9 @@
       "category": "data",
       "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.",
       "pricing": {
-        "priceUsd": 0.0825,
+        "priceUsd": 0.0867,
         "baseUsd": 0,
-        "perItemUsd": 0.0033,
+        "perItemUsd": 0.00347,
         "perItemUnit": "result"
       },
       "tsNamespace": "upwork",
@@ -43523,9 +43523,9 @@
       "category": "shop",
       "description": "Fetch a Walmart product page by URL and get full product details (title, price, availability, ratings, images, and specs) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00368,
+        "priceUsd": 0.00387,
         "baseUsd": 0,
-        "perItemUsd": 0.00368,
+        "perItemUsd": 0.00387,
         "perItemUnit": "result"
       },
       "tsNamespace": "walmart",
@@ -43716,9 +43716,9 @@
       "category": "search",
       "description": "Crawl a website and get clean text content from up to 10 pages in one normalized response, ideal for feeding sites into LLMs and search indexes.",
       "pricing": {
-        "priceUsd": 0.0315,
-        "baseUsd": 0.0015,
-        "perItemUsd": 0.003,
+        "priceUsd": 0.0331,
+        "baseUsd": 0.00158,
+        "perItemUsd": 0.00315,
         "perItemUnit": "result"
       },
       "tsNamespace": "web",
@@ -44130,9 +44130,9 @@
       "category": "search",
       "description": "Capture a real-browser screenshot of any web page URL.",
       "pricing": {
-        "priceUsd": 0.00158,
+        "priceUsd": 0.00166,
         "baseUsd": 0,
-        "perItemUsd": 0.00158,
+        "perItemUsd": 0.00166,
         "perItemUnit": "result"
       },
       "tsNamespace": "web",
@@ -44232,7 +44232,7 @@
       "category": "social",
       "description": "Get the complete current Weibo hot-search ranking with labels and heat values.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -44343,7 +44343,7 @@
       "category": "social",
       "description": "Fetch a public Weibo post by ID with normalized author and engagement data.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -44508,7 +44508,7 @@
       "category": "social",
       "description": "List first-level comments on a public Weibo post with pagination.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -44677,7 +44677,7 @@
       "category": "social",
       "description": "Fetch a public Weibo profile by user ID with normalized audience and account data.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -44831,7 +44831,7 @@
       "category": "social",
       "description": "Search public Weibo posts with optional result, media, and time filters.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -45040,7 +45040,7 @@
       "category": "social",
       "description": "List public posts from a Weibo user with normalized author and engagement data.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -45238,9 +45238,9 @@
       "category": "fin",
       "description": "Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote (price, market cap, volume, and key stats) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00095,
-        "baseUsd": 0.00005,
-        "perItemUsd": 0.0009,
+        "priceUsd": 0.001,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00095,
         "perItemUnit": "result"
       },
       "tsNamespace": "yahooFinance",
@@ -45390,9 +45390,9 @@
       "category": "data",
       "description": "Search Yelp for businesses by keyword and location: up to 20 listings with ratings, categories, and core business info per request.",
       "pricing": {
-        "priceUsd": 0.055,
-        "baseUsd": 0.04,
-        "perItemUsd": 0.00075,
+        "priceUsd": 0.0578,
+        "baseUsd": 0.042,
+        "perItemUsd": 0.00079,
         "perItemUnit": "result"
       },
       "tsNamespace": "yelp",
@@ -47909,7 +47909,7 @@
       "category": "social",
       "description": "Fetch a public Zhihu answer with normalized author and question data.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48063,7 +48063,7 @@
       "category": "social",
       "description": "Fetch a public Zhihu profile with normalized identity and audience data.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48215,7 +48215,7 @@
       "category": "social",
       "description": "Fetch a public Zhihu question with normalized text and engagement statistics.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48360,7 +48360,7 @@
       "category": "social",
       "description": "List public answers to a Zhihu question with normalized authors and engagement data.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48598,7 +48598,7 @@
       "category": "search",
       "description": "Search public Zhihu articles by keyword with normalized author and engagement data.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48860,9 +48860,9 @@
       "category": "data",
       "description": "Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history).",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.00252,
         "baseUsd": 0,
-        "perItemUsd": 0.0024,
+        "perItemUsd": 0.00252,
         "perItemUnit": "result"
       },
       "tsNamespace": "zillow",
@@ -49082,9 +49082,9 @@
       "category": "data",
       "description": "Search Zillow for-sale, rental, or sold listings by region-level location (city, ZIP, county, or neighborhood) with optional price, bedroom, living-area, home-type, recency, and sort filters and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0755,
-        "baseUsd": 0.0005,
-        "perItemUsd": 0.003,
+        "priceUsd": 0.0793,
+        "baseUsd": 0.00053,
+        "perItemUsd": 0.00315,
         "perItemUnit": "result"
       },
       "tsNamespace": "zillow",

@@ -712,7 +712,7 @@ export class RedditNamespace {
    *
    * Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.post({ url: "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/" });
@@ -786,7 +786,7 @@ export class RedditNamespace {
    *
    * Fetch a Reddit user's public profile (karma split, post and comment counts, bio, avatar, account age) by username.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.profile({ username: "spez" });
@@ -803,7 +803,7 @@ export class RedditNamespace {
    *
    * Search Reddit posts across all subreddits by query.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.search({ query: "mechanical keyboard" });
@@ -840,7 +840,7 @@ export class RedditNamespace {
    *
    * Fetch a subreddit's metadata (weekly active users, description, and category).
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.subredditDetails({ subreddit: "programming" });
@@ -917,7 +917,7 @@ export class RedditNamespace {
    *
    * List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.userComments({ username: "spez" });
@@ -957,7 +957,7 @@ export class RedditNamespace {
    *
    * List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.userPosts({ username: "spez" });

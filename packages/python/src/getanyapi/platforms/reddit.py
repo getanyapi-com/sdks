@@ -567,7 +567,7 @@ class RedditNamespace:
         Fetch a single Reddit post by URL, including its full body text, score,
         comment count, upvote ratio, and subreddit, as normalized JSON.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.post(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
@@ -652,7 +652,7 @@ class RedditNamespace:
         Fetch a Reddit user's public profile (karma split, post and comment counts,
         bio, avatar, account age) by username.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.profile(username="spez")
@@ -672,7 +672,7 @@ class RedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -716,7 +716,7 @@ class RedditNamespace:
         Fetch a subreddit's metadata (weekly active users, description, and
         category).
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.subreddit_details(subreddit="programming")
@@ -804,7 +804,7 @@ class RedditNamespace:
         permalink; use reddit.post_comments for full comment bodies and comment URLs
         on a given post.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")
@@ -848,7 +848,7 @@ class RedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")
@@ -896,7 +896,7 @@ class AsyncRedditNamespace:
         Fetch a single Reddit post by URL, including its full body text, score,
         comment count, upvote ratio, and subreddit, as normalized JSON.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.post(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
@@ -981,7 +981,7 @@ class AsyncRedditNamespace:
         Fetch a Reddit user's public profile (karma split, post and comment counts,
         bio, avatar, account age) by username.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.profile(username="spez")
@@ -1001,7 +1001,7 @@ class AsyncRedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -1045,7 +1045,7 @@ class AsyncRedditNamespace:
         Fetch a subreddit's metadata (weekly active users, description, and
         category).
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.subreddit_details(subreddit="programming")
@@ -1133,7 +1133,7 @@ class AsyncRedditNamespace:
         permalink; use reddit.post_comments for full comment bodies and comment URLs
         on a given post.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")
@@ -1177,7 +1177,7 @@ class AsyncRedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")

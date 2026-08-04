@@ -370,7 +370,7 @@ class WeiboNamespace:
         Get the complete current Weibo hot-search ranking with labels and heat
         values.
 
-        Price: $0.0015 per request.
+        Price: $0.0018 per request.
 
         Example:
             res = client.weibo.hot_search()
@@ -387,7 +387,7 @@ class WeiboNamespace:
 
         Fetch a public Weibo post by ID with normalized author and engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.post(includeLongText="true", postId="5092682368025584")
@@ -407,7 +407,7 @@ class WeiboNamespace:
 
         List first-level comments on a public Weibo post with pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.post_comments(limit=10, postId="5283919831764022")
@@ -451,7 +451,7 @@ class WeiboNamespace:
         Fetch a public Weibo profile by user ID with normalized audience and account
         data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.profile(userId="1722594714")
@@ -471,7 +471,7 @@ class WeiboNamespace:
 
         Search public Weibo posts with optional result, media, and time filters.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.search(includeType="pic", page=1, query="python", searchType="hot")
@@ -492,7 +492,7 @@ class WeiboNamespace:
         List public posts from a Weibo user with normalized author and engagement
         data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.user_posts(feature=3, page=1, userId="7277477906")
@@ -543,7 +543,7 @@ class AsyncWeiboNamespace:
         Get the complete current Weibo hot-search ranking with labels and heat
         values.
 
-        Price: $0.0015 per request.
+        Price: $0.0018 per request.
 
         Example:
             res = client.weibo.hot_search()
@@ -560,7 +560,7 @@ class AsyncWeiboNamespace:
 
         Fetch a public Weibo post by ID with normalized author and engagement data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.post(includeLongText="true", postId="5092682368025584")
@@ -580,7 +580,7 @@ class AsyncWeiboNamespace:
 
         List first-level comments on a public Weibo post with pagination.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.post_comments(limit=10, postId="5283919831764022")
@@ -624,7 +624,7 @@ class AsyncWeiboNamespace:
         Fetch a public Weibo profile by user ID with normalized audience and account
         data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.profile(userId="1722594714")
@@ -644,7 +644,7 @@ class AsyncWeiboNamespace:
 
         Search public Weibo posts with optional result, media, and time filters.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.search(includeType="pic", page=1, query="python", searchType="hot")
@@ -665,7 +665,7 @@ class AsyncWeiboNamespace:
         List public posts from a Weibo user with normalized author and engagement
         data.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.weibo.user_posts(feature=3, page=1, userId="7277477906")

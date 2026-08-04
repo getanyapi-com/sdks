@@ -215,7 +215,7 @@ export class TripadvisorNamespace {
    *
    * Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL: rating, text, date, and trip details as normalized JSON.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0036 per request.
    *
    * @example
    * const res = await client.tripadvisor.reviews({ url: "https://www.tripadvisor.com/Hotel_Review-g60763-d93450-Reviews-The_Plaza-New_York_City_New_York.html", limit: 3 });
@@ -232,7 +232,7 @@ export class TripadvisorNamespace {
    *
    * Search Tripadvisor for hotels, restaurants, and attractions in any destination and get rich place records (ratings, review counts, contact details, pricing) as normalized JSON.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0036 per request.
    *
    * @example
    * const res = await client.tripadvisor.search({ query: "Paris", limit: 3 });

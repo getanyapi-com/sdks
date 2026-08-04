@@ -1251,7 +1251,7 @@ export class InstagramNamespace {
    *
    * List the followers of any public Instagram account by username: follower usernames, names, and profile details.
    *
-   * Price: $0.01625 per request.
+   * Price: $0.018 per request.
    *
    * @example
    * const res = await client.instagram.followers({ username: "nasa", limit: 50 });
@@ -1288,7 +1288,7 @@ export class InstagramNamespace {
    *
    * List the accounts a public Instagram user follows: usernames, names, and profile details.
    *
-   * Price: $0.01625 per request.
+   * Price: $0.018 per request.
    *
    * @example
    * const res = await client.instagram.following({ username: "nasa", limit: 50 });
@@ -1325,7 +1325,7 @@ export class InstagramNamespace {
    *
    * Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals).
    *
-   * Price: $0.001 per request plus $0.0017 per result (maximum $0.035).
+   * Price: $0.00105 per request plus $0.00179 per result (maximum $0.0368).
    *
    * @example
    * const res = await client.instagram.hashtagAnalytics({ hashtag: "travel", limit: 5 });
@@ -1410,7 +1410,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0024 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });
@@ -1427,7 +1427,7 @@ export class InstagramNamespace {
    *
    * Turn any public Instagram reel or video post into a full speech transcript, with optional word-level timestamps.
    *
-   * Price: $0.005 per request plus $0.02 per result (maximum $0.025).
+   * Price: $0.00525 per request plus $0.021 per result (maximum $0.0263).
    *
    * @example
    * const res = await client.instagram.reelTranscript({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps: false });
@@ -1461,7 +1461,7 @@ export class InstagramNamespace {
    *
    * Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.
    *
-   * Price: $0.00325 per request.
+   * Price: $0.0036 per request.
    *
    * @example
    * const res = await client.instagram.search({ query: "nasa" });
@@ -1538,7 +1538,7 @@ export class InstagramNamespace {
    *
    * Fetch a public Instagram account's currently live stories with media, type, dimensions, posting time, and 24-hour expiry by username.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0024 per request.
    *
    * @example
    * const res = await client.instagram.storiesFull({ username: "natgeo" });
@@ -1555,7 +1555,7 @@ export class InstagramNamespace {
    *
    * Fetch a public Instagram account's currently live stories - media URL, owner, and posting time - by username. Lightweight projection; for media type, dimensions, and the 24h expiry time use instagram.stories_full.
    *
-   * Price: $0.01625 per request.
+   * Price: $0.018 per request.
    *
    * @example
    * const res = await client.instagram.storiesThin({ username: "natgeo" });

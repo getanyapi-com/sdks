@@ -1064,7 +1064,7 @@ export class TwitterNamespace {
    *
    * Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement.
    *
-   * Price: $0.0025 per request plus $0.00025 per result (maximum $0.0125).
+   * Price: $0.00263 per request plus $0.00027 per result (maximum $0.0132).
    *
    * @example
    * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20", limit: 3 });
@@ -1206,7 +1206,7 @@ export class TwitterNamespace {
    *
    * Get up to the requested limit of tweets and replies authored by an X (Twitter) account in one bulk call, with engagement, views, and language. The current lane returns nextCursor as null; cursor is reserved for future cursor-capable lanes.
    *
-   * Price: $0 per request plus $0.0002 per result (maximum $0.2).
+   * Price: $0 per request plus $0.00021 per result (maximum $0.21).
    *
    * @example
    * const res = await client.twitter.userTweets({ handle: "levelsio", limit: 20 });

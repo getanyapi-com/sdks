@@ -158,7 +158,7 @@ class WebNamespace:
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response, ideal for feeding sites into LLMs and search indexes.
 
-        Price: $0.0015 per request plus $0.003 per result (maximum $0.0315).
+        Price: $0.00158 per request plus $0.00315 per result (maximum $0.0331).
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")
@@ -214,7 +214,7 @@ class WebNamespace:
 
         Capture a real-browser screenshot of any web page URL.
 
-        Price: $0 per request plus $0.00158 per result (maximum $0.00158).
+        Price: $0 per request plus $0.00166 per result (maximum $0.00166).
 
         Example:
             res = client.web.screenshot(url="https://example.com")
@@ -239,7 +239,7 @@ class AsyncWebNamespace:
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response, ideal for feeding sites into LLMs and search indexes.
 
-        Price: $0.0015 per request plus $0.003 per result (maximum $0.0315).
+        Price: $0.00158 per request plus $0.00315 per result (maximum $0.0331).
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")
@@ -295,7 +295,7 @@ class AsyncWebNamespace:
 
         Capture a real-browser screenshot of any web page URL.
 
-        Price: $0 per request plus $0.00158 per result (maximum $0.00158).
+        Price: $0 per request plus $0.00166 per result (maximum $0.00166).
 
         Example:
             res = client.web.screenshot(url="https://example.com")

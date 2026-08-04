@@ -174,7 +174,7 @@ class EbayNamespace:
         item-condition, listing-type, and sort filters and get title, price,
         condition, shipping, and seller in one normalized response.
 
-        Price: $0.001 per request plus $0.00234 per result (maximum $0.0595).
+        Price: $0.00105 per request plus $0.00246 per result (maximum $0.0625).
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")
@@ -196,7 +196,7 @@ class EbayNamespace:
         price-range and sort filters (sold price, sale date, condition, item
         details); ideal for pricing research.
 
-        Price: $0.00005 per request plus $0.004 per result (maximum $0.10005).
+        Price: $0.00006 per request plus $0.0042 per result (maximum $0.106).
 
         Example:
             res = client.ebay.sold_listings(limit=3, query="nintendo switch", sort="price_high")
@@ -222,7 +222,7 @@ class AsyncEbayNamespace:
         item-condition, listing-type, and sort filters and get title, price,
         condition, shipping, and seller in one normalized response.
 
-        Price: $0.001 per request plus $0.00234 per result (maximum $0.0595).
+        Price: $0.00105 per request plus $0.00246 per result (maximum $0.0625).
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")
@@ -244,7 +244,7 @@ class AsyncEbayNamespace:
         price-range and sort filters (sold price, sale date, condition, item
         details); ideal for pricing research.
 
-        Price: $0.00005 per request plus $0.004 per result (maximum $0.10005).
+        Price: $0.00006 per request plus $0.0042 per result (maximum $0.106).
 
         Example:
             res = client.ebay.sold_listings(limit=3, query="nintendo switch", sort="price_high")

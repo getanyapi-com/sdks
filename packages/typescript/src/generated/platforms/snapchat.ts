@@ -94,7 +94,7 @@ export class SnapchatNamespace {
    *
    * Fetch a Snapchat user's public profile by username: display name, bio, subscriber count, and recent public content.
    *
-   * Price: $0.001 per request plus $0.002 per result (maximum $0.003).
+   * Price: $0.00105 per request plus $0.0021 per result (maximum $0.00315).
    *
    * @example
    * const res = await client.snapchat.profile({ username: "nasa" });

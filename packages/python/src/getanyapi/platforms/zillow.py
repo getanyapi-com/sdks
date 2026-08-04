@@ -265,7 +265,7 @@ class ZillowNamespace:
         Fetch full details for a single Zillow property listing by URL (price, facts
         and features, photos, and price/tax history).
 
-        Price: $0 per request plus $0.0024 per result (maximum $0.0024).
+        Price: $0 per request plus $0.00252 per result (maximum $0.00252).
 
         Example:
             res = client.zillow.property(url="https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/")
@@ -289,7 +289,7 @@ class ZillowNamespace:
         properties (price, address, beds, baths, living area, status, Zestimate) as
         normalized JSON.
 
-        Price: $0.0005 per request plus $0.003 per result (maximum $0.0755).
+        Price: $0.00053 per request plus $0.00315 per result (maximum $0.0793).
 
         Example:
             res = client.zillow.search(limit=3, location="Austin, TX", maxPrice=900000, minBedrooms=3, operation="buy")
@@ -317,7 +317,7 @@ class AsyncZillowNamespace:
         Fetch full details for a single Zillow property listing by URL (price, facts
         and features, photos, and price/tax history).
 
-        Price: $0 per request plus $0.0024 per result (maximum $0.0024).
+        Price: $0 per request plus $0.00252 per result (maximum $0.00252).
 
         Example:
             res = client.zillow.property(url="https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/")
@@ -341,7 +341,7 @@ class AsyncZillowNamespace:
         properties (price, address, beds, baths, living area, status, Zestimate) as
         normalized JSON.
 
-        Price: $0.0005 per request plus $0.003 per result (maximum $0.0755).
+        Price: $0.00053 per request plus $0.00315 per result (maximum $0.0793).
 
         Example:
             res = client.zillow.search(limit=3, location="Austin, TX", maxPrice=900000, minBedrooms=3, operation="buy")

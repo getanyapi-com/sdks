@@ -117,7 +117,7 @@ class RedfinNamespace:
         Run a Redfin map search by URL and get matching home listings (price,
         address, beds, baths, status) as normalized JSON.
 
-        Price: $0.0027 per request plus $0.00043 per result (maximum $0.01345).
+        Price: $0.00284 per request plus $0.00046 per result (maximum $0.0142).
 
         Example:
             res = client.redfin.search(limit=3, url="https://www.redfin.com/city/30818/TX/Austin")
@@ -145,7 +145,7 @@ class AsyncRedfinNamespace:
         Run a Redfin map search by URL and get matching home listings (price,
         address, beds, baths, status) as normalized JSON.
 
-        Price: $0.0027 per request plus $0.00043 per result (maximum $0.01345).
+        Price: $0.00284 per request plus $0.00046 per result (maximum $0.0142).
 
         Example:
             res = client.redfin.search(limit=3, url="https://www.redfin.com/city/30818/TX/Austin")

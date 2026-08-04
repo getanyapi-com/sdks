@@ -59,7 +59,7 @@ class PinterestNamespace:
         Search Pinterest by keyword and get pin, video, board, or profile results
         with titles, images, and links.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.pinterest.search(limit=3, query="home decor")
@@ -87,7 +87,7 @@ class AsyncPinterestNamespace:
         Search Pinterest by keyword and get pin, video, board, or profile results
         with titles, images, and links.
 
-        Price: $0.00325 per request.
+        Price: $0.0036 per request.
 
         Example:
             res = client.pinterest.search(limit=3, query="home decor")

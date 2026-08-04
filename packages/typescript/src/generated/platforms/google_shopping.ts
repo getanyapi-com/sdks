@@ -124,7 +124,7 @@ export class GoogleShoppingNamespace {
    *
    * Search Google Shopping by keyword and get up to 10 product offers (title, price, store, rating, and link), localized by country and language.
    *
-   * Price: $0.01625 per request.
+   * Price: $0.018 per request.
    *
    * @example
    * const res = await client.googleShopping.search({ query: "airpods", limit: 10 });

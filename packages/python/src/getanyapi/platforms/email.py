@@ -91,7 +91,7 @@ class EmailNamespace:
 
         Find a person's work email address from their name and company domain.
 
-        Price: $0.021 per request plus $0 per result (maximum $0.021).
+        Price: $0.0221 per request plus $0 per result (maximum $0.0221).
 
         Example:
             res = client.email.find(person={"domain": "stripe.com", "firstName": "Patrick", "surname": "Collison"})
@@ -115,7 +115,7 @@ class EmailNamespace:
         schema with no charge; every syntactically valid address returns a billed
         verdict, including undeliverable ones.
 
-        Price: $0 per request plus $0.0008 per result (maximum $0.0008).
+        Price: $0 per request plus $0.00084 per result (maximum $0.00084).
 
         Example:
             res = client.email.verify(email="patrick@stripe.com")
@@ -139,7 +139,7 @@ class AsyncEmailNamespace:
 
         Find a person's work email address from their name and company domain.
 
-        Price: $0.021 per request plus $0 per result (maximum $0.021).
+        Price: $0.0221 per request plus $0 per result (maximum $0.0221).
 
         Example:
             res = client.email.find(person={"domain": "stripe.com", "firstName": "Patrick", "surname": "Collison"})
@@ -163,7 +163,7 @@ class AsyncEmailNamespace:
         schema with no charge; every syntactically valid address returns a billed
         verdict, including undeliverable ones.
 
-        Price: $0 per request plus $0.0008 per result (maximum $0.0008).
+        Price: $0 per request plus $0.00084 per result (maximum $0.00084).
 
         Example:
             res = client.email.verify(email="patrick@stripe.com")

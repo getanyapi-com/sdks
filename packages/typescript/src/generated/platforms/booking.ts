@@ -124,7 +124,7 @@ export class BookingNamespace {
    *
    * Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.
    *
-   * Price: $0.002 per request plus $0.0045 per result (maximum $0.092).
+   * Price: $0.0021 per request plus $0.00473 per result (maximum $0.0966).
    *
    * @example
    * const res = await client.booking.search({ query: "New York", adults: 2, checkIn: "2026-09-01", checkOut: "2026-09-03", limit: 3 });

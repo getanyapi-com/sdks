@@ -2456,7 +2456,7 @@ export class LinkedinNamespace {
    *
    * Search the LinkedIn Ad Library by search URL and list the matching ads (advertiser, creative text, format).
    *
-   * Price: $0.00005 per request plus $0.0015 per result (maximum $0.03005).
+   * Price: $0.00006 per request plus $0.00158 per result (maximum $0.0316).
    *
    * @example
    * const res = await client.linkedin.ads({ url: "https://www.linkedin.com/company/stripe", limit: 3 });
@@ -2490,7 +2490,7 @@ export class LinkedinNamespace {
    *
    * Fetch a full LinkedIn company page by URL: name, description, industry, employee count and range, follower count, founded year, headquarters and office locations, funding data, tagline, logo, website, and specialities.
    *
-   * Price: $0.004 per request plus $0 per result (maximum $0.004).
+   * Price: $0.0042 per request plus $0 per result (maximum $0.0042).
    *
    * @example
    * const res = await client.linkedin.company({ url: "https://www.linkedin.com/company/stripe" });
@@ -2507,7 +2507,7 @@ export class LinkedinNamespace {
    *
    * List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.
    *
-   * Price: $0 per request plus $0.01 per result (maximum $0.1).
+   * Price: $0 per request plus $0.0105 per result (maximum $0.105).
    *
    * @example
    * const res = await client.linkedin.companyEmployees({ company: "stripe", limit: 3 });
@@ -2524,7 +2524,7 @@ export class LinkedinNamespace {
    *
    * List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.
    *
-   * Price: $0.00005 per request plus $0.00175 per result (maximum $0.08755).
+   * Price: $0.00006 per request plus $0.00184 per result (maximum $0.092).
    *
    * @example
    * const res = await client.linkedin.companyPosts({ url: "https://www.linkedin.com/company/stripe", limit: 10 });
@@ -2575,7 +2575,7 @@ export class LinkedinNamespace {
    *
    * Find the deliverability-validated work email behind a LinkedIn profile URL or public ID. Returns each discovered email with its deliverability, validation status, and quality score, plus the person's name and headline.
    *
-   * Price: $0.01 per request plus $0 per result (maximum $0.01).
+   * Price: $0.0105 per request plus $0 per result (maximum $0.0105).
    *
    * @example
    * const res = await client.linkedin.email({ profileUrl: "https://www.linkedin.com/in/satyanadella" });
@@ -2592,7 +2592,7 @@ export class LinkedinNamespace {
    *
    * Search LinkedIn job listings by title and location - full records with description, salary, applicant count, seniority, company details, and benefits. Up to 25 jobs per request.
    *
-   * Price: $0.001 per request plus $0.001 per result (maximum $0.026).
+   * Price: $0.00105 per request plus $0.00105 per result (maximum $0.0273).
    *
    * @example
    * const res = await client.linkedin.jobs({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });
@@ -2609,7 +2609,7 @@ export class LinkedinNamespace {
    *
    * Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.jobsThin({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });
@@ -2626,7 +2626,7 @@ export class LinkedinNamespace {
    *
    * Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.post({ url: "https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs" });
@@ -2643,7 +2643,7 @@ export class LinkedinNamespace {
    *
    * List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.
    *
-   * Price: $0 per request plus $0.002 per result (maximum $0.2).
+   * Price: $0 per request plus $0.0021 per result (maximum $0.21).
    *
    * @example
    * const res = await client.linkedin.postComments({ url: "https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ", limit: 10 });
@@ -2660,7 +2660,7 @@ export class LinkedinNamespace {
    *
    * List who reacted to a LinkedIn post - reactor name, profile URL, job title, and reaction type. Lead-gen grade.
    *
-   * Price: $0 per request plus $0.002 per result (maximum $0.2).
+   * Price: $0 per request plus $0.0021 per result (maximum $0.21).
    *
    * @example
    * const res = await client.linkedin.postReactions({ url: "https://www.linkedin.com/posts/satyanadella_today-were-bringing-skills-to-copilot-for-activity-7475945433668694017--kvG", limit: 5 });
@@ -2694,7 +2694,7 @@ export class LinkedinNamespace {
    *
    * Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.
    *
-   * Price: $0.004 per request plus $0 per result (maximum $0.004).
+   * Price: $0.0042 per request plus $0 per result (maximum $0.0042).
    *
    * @example
    * const res = await client.linkedin.profile({ url: "https://www.linkedin.com/in/williamhgates" });
@@ -2728,7 +2728,7 @@ export class LinkedinNamespace {
    *
    * Search LinkedIn companies by keyword with optional location filtering, returning normalized company records.
    *
-   * Price: $0.001 per request plus $0.004 per result (maximum $0.081).
+   * Price: $0.00105 per request plus $0.0042 per result (maximum $0.0851).
    *
    * @example
    * const res = await client.linkedin.searchCompanies({ query: "fintech", limit: 3 });
@@ -2762,7 +2762,7 @@ export class LinkedinNamespace {
    *
    * Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.
    *
-   * Price: $0.08 per request plus $0.004 per result (maximum $0.18).
+   * Price: $0.084 per request plus $0.0042 per result (maximum $0.189).
    *
    * @example
    * const res = await client.linkedin.searchProfiles({ query: "engineer", currentCompanies: ["Google"], limit: 3 });
@@ -2779,7 +2779,7 @@ export class LinkedinNamespace {
    *
    * People search returning a full profile AND a verified work email for each hit. Search LinkedIn profiles by keyword with optional location and job-title filters; each match returns the full profile record (name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id) together with an emails array carrying the discovered work email and its deliverability. For a full profile without email use linkedin.search_profiles; for a cheaper name/headline/URL-only search use linkedin.search_profiles_thin.
    *
-   * Price: $0.08 per request plus $0.009 per result (maximum $0.305).
+   * Price: $0.084 per request plus $0.00945 per result (maximum $0.321).
    *
    * @example
    * const res = await client.linkedin.searchProfilesEmail({ query: "founder", companyHeadcount: ["B"], limit: 5 });
@@ -2796,7 +2796,7 @@ export class LinkedinNamespace {
    *
    * Cheap people search: name/handle, headline, VANITY profile URL, location. No full profile or email - for full profiles per hit use linkedin.search_profiles, add emails with linkedin.search_profiles_email.
    *
-   * Price: $0.0325 per request.
+   * Price: $0.036 per request.
    *
    * @example
    * const res = await client.linkedin.searchProfilesThin({ query: "recruiter" });

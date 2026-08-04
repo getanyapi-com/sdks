@@ -196,7 +196,7 @@ export class DexscreenerNamespace {
    *
    * List trending tokens on any blockchain from DEX Screener (price, liquidity, volume, transactions, and market cap), sorted how you want, as normalized JSON.
    *
-   * Price: $0.02 per request plus $0.0015 per result (maximum $0.0575).
+   * Price: $0.021 per request plus $0.00158 per result (maximum $0.0604).
    *
    * @example
    * const res = await client.dexscreener.tokens({ chain: "solana", limit: 5, min24HVol: 100000 });

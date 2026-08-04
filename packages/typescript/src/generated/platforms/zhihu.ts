@@ -481,7 +481,7 @@ export class ZhihuNamespace {
    *
    * Fetch a public Zhihu answer with normalized author and question data.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.zhihu.answer({ answerId: "2054145988235880002" });
@@ -498,7 +498,7 @@ export class ZhihuNamespace {
    *
    * Fetch a public Zhihu profile with normalized identity and audience data.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.zhihu.profile({ userToken: "ming-he-43-93" });
@@ -515,7 +515,7 @@ export class ZhihuNamespace {
    *
    * Fetch a public Zhihu question with normalized text and engagement statistics.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.zhihu.question({ questionId: "37811449" });
@@ -532,7 +532,7 @@ export class ZhihuNamespace {
    *
    * List public answers to a Zhihu question with normalized authors and engagement data.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.zhihu.questionAnswers({ questionId: "37811449", limit: 5, offset: 0, order: "default" });
@@ -549,7 +549,7 @@ export class ZhihuNamespace {
    *
    * Search public Zhihu articles by keyword with normalized author and engagement data.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.zhihu.searchArticles({ query: "deepseek", limit: "20", showAllTopics: 0 });

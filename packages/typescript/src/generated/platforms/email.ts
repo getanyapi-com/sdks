@@ -118,7 +118,7 @@ export class EmailNamespace {
    *
    * Find a person's work email address from their name and company domain.
    *
-   * Price: $0.021 per request plus $0 per result (maximum $0.021).
+   * Price: $0.0221 per request plus $0 per result (maximum $0.0221).
    *
    * @example
    * const res = await client.email.find({ person: { domain: "stripe.com", firstName: "Patrick", surname: "Collison" } });
@@ -135,7 +135,7 @@ export class EmailNamespace {
    *
    * Verify an email address for deliverability: a status verdict (valid, risky, or invalid) with domain, mailbox, catch-all, disposable, and role signals plus a confidence score. Malformed addresses are rejected by the input schema with no charge; every syntactically valid address returns a billed verdict, including undeliverable ones.
    *
-   * Price: $0 per request plus $0.0008 per result (maximum $0.0008).
+   * Price: $0 per request plus $0.00084 per result (maximum $0.00084).
    *
    * @example
    * const res = await client.email.verify({ email: "patrick@stripe.com" });
