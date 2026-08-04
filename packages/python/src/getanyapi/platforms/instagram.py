@@ -37,6 +37,17 @@ class InstagramBasicProfileInput(TypedDict, total=False):
     """Instagram numeric user id."""
 
 
+class InstagramCommentRepliesInput(TypedDict, total=False):
+    """Input for Instagram Comment Replies."""
+
+    commentId: Required[str]
+    """Instagram comment ID (a comment's id from the Instagram Post Comments endpoint)."""
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    url: Required[str]
+    """Full Instagram post or reel URL the comment belongs to."""
+
+
 class InstagramEmbedInput(TypedDict, total=False):
     """Input for Instagram Profile Embed."""
 
@@ -187,6 +198,15 @@ class InstagramStoriesThinInput(TypedDict, total=False):
     """Instagram username/handle to fetch currently live stories for (without the @)."""
 
 
+class InstagramTaggedPostsInput(TypedDict, total=False):
+    """Input for Instagram Tagged Posts."""
+
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    handle: Required[str]
+    """Instagram username without the leading @."""
+
+
 class InstagramTrendingReelsInput(TypedDict, total=False):
     """Input for Instagram Trending Reels."""
 
@@ -269,6 +289,43 @@ class InstagramBasicProfileData(BaseModel):
         description="Populated whenever the provider has data for the entity.",
     )
     verified: bool
+
+
+class InstagramCommentRepliesData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    comments: list[InstagramCommentRepliesComment] = Field(
+        description="Replies to the requested comment, oldest first. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of replies. Empty when there are no more replies.",
+    )
+
+
+class InstagramCommentRepliesComment(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Username of the account that wrote the reply, without the @ prefix. Populated whenever the provider has data for the entity."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="The reply's Instagram comment ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    likes: int | None = Field(
+        default=None,
+        description="Number of likes on the reply. Omitted when no like count is reported for the reply.",
+    )
+    text: str = Field(
+        description="The reply's text content. Populated whenever the provider has data for the entity."
+    )
+    verified: bool = Field(
+        description="Whether the reply's author has a verified badge."
+    )
 
 
 class InstagramEmbedData(BaseModel):
@@ -459,8 +516,14 @@ class InstagramPostData(BaseModel):
 
 
 class InstagramPostCommentsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     comments: list[InstagramPostCommentsComment] = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of comments. Pass it back as the cursor input. Empty when there are no more comments.",
     )
 
 
@@ -815,6 +878,41 @@ class InstagramStoriesThinItem(BaseModel):
     )
 
 
+class InstagramTaggedPostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str = Field(
+        alias="nextCursor",
+        description="Cursor for the next page of tagged posts. Pass it back as the cursor input. Empty when there are no more posts.",
+    )
+    posts: list[InstagramTaggedPostsPost] = Field(
+        description="Posts that tag the requested account, newest first. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramTaggedPostsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Username of the account that posted and applied the tag, without the @ prefix. Populated whenever the provider has data for the entity."
+    )
+    caption: str = Field(
+        description="The post's caption text. Empty when the post has none. Populated whenever the provider has data for the entity."
+    )
+    comments: int = Field(description="Number of comments on the post.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str = Field(
+        description="The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    likes: int = Field(description="Number of likes on the post.")
+    url: str = Field(
+        description="Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity."
+    )
+
+
 class InstagramTrendingReelsData(BaseModel):
     reels: list[InstagramTrendingReelsReel] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -995,6 +1093,50 @@ class InstagramNamespace:
             "instagram.basic_profile", dict(input), options
         )
         return RunResult[InstagramBasicProfileData].model_validate(raw)
+
+    def comment_replies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramCommentRepliesInput],
+    ) -> RunResult[InstagramCommentRepliesData]:
+        """Instagram Comment Replies
+
+        List the replies to an Instagram comment with cursor pagination (text,
+        author, likes).
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.instagram.comment_replies(commentId="18126632131325044", url="https://www.instagram.com/p/C8rKmYvsrck/")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.comment_replies", dict(input), options
+        )
+        return RunResult[InstagramCommentRepliesData].model_validate(raw)
+
+    def iter_comment_replies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramCommentRepliesInput],
+    ) -> Paginator[InstagramCommentRepliesComment, InstagramCommentRepliesData]:
+        """Iterate Instagram Comment Replies results, following pagination cursors.
+
+        Yields validated `InstagramCommentRepliesComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.comment_replies",
+            dict(input),
+            "comments",
+            item_model=InstagramCommentRepliesComment,
+            data_model=InstagramCommentRepliesData,
+            bare=False,
+            options=options,
+        )
 
     def embed(
         self,
@@ -1208,6 +1350,29 @@ class InstagramNamespace:
         )
         return RunResult[InstagramPostCommentsData].model_validate(raw)
 
+    def iter_post_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramPostCommentsInput],
+    ) -> Paginator[InstagramPostCommentsComment, InstagramPostCommentsData]:
+        """Iterate Instagram Post Comments results, following pagination cursors.
+
+        Yields validated `InstagramPostCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.post_comments",
+            dict(input),
+            "comments",
+            item_model=InstagramPostCommentsComment,
+            data_model=InstagramPostCommentsData,
+            bare=False,
+            options=options,
+        )
+
     def profile(
         self,
         *,
@@ -1400,6 +1565,50 @@ class InstagramNamespace:
             "instagram.stories_thin", dict(input), options
         )
         return RunResult[InstagramStoriesThinData].model_validate(raw)
+
+    def tagged_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramTaggedPostsInput],
+    ) -> RunResult[InstagramTaggedPostsData]:
+        """Instagram Tagged Posts
+
+        List the posts an Instagram user is tagged in, with cursor pagination
+        (author, caption, likes, comments).
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.tagged_posts(handle="nasa")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.tagged_posts", dict(input), options
+        )
+        return RunResult[InstagramTaggedPostsData].model_validate(raw)
+
+    def iter_tagged_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramTaggedPostsInput],
+    ) -> Paginator[InstagramTaggedPostsPost, InstagramTaggedPostsData]:
+        """Iterate Instagram Tagged Posts results, following pagination cursors.
+
+        Yields validated `InstagramTaggedPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.tagged_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramTaggedPostsPost,
+            data_model=InstagramTaggedPostsData,
+            bare=False,
+            options=options,
+        )
 
     def trending_reels(
         self,
@@ -1599,6 +1808,50 @@ class AsyncInstagramNamespace:
             "instagram.basic_profile", dict(input), options
         )
         return RunResult[InstagramBasicProfileData].model_validate(raw)
+
+    async def comment_replies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramCommentRepliesInput],
+    ) -> RunResult[InstagramCommentRepliesData]:
+        """Instagram Comment Replies
+
+        List the replies to an Instagram comment with cursor pagination (text,
+        author, likes).
+
+        Price: $0.002 per request.
+
+        Example:
+            res = client.instagram.comment_replies(commentId="18126632131325044", url="https://www.instagram.com/p/C8rKmYvsrck/")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.comment_replies", dict(input), options
+        )
+        return RunResult[InstagramCommentRepliesData].model_validate(raw)
+
+    def iter_comment_replies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramCommentRepliesInput],
+    ) -> AsyncPaginator[InstagramCommentRepliesComment, InstagramCommentRepliesData]:
+        """Iterate Instagram Comment Replies results, following pagination cursors.
+
+        Yields validated `InstagramCommentRepliesComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.comment_replies",
+            dict(input),
+            "comments",
+            item_model=InstagramCommentRepliesComment,
+            data_model=InstagramCommentRepliesData,
+            bare=False,
+            options=options,
+        )
 
     async def embed(
         self,
@@ -1812,6 +2065,29 @@ class AsyncInstagramNamespace:
         )
         return RunResult[InstagramPostCommentsData].model_validate(raw)
 
+    def iter_post_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramPostCommentsInput],
+    ) -> AsyncPaginator[InstagramPostCommentsComment, InstagramPostCommentsData]:
+        """Iterate Instagram Post Comments results, following pagination cursors.
+
+        Yields validated `InstagramPostCommentsComment` items from the `comments` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.post_comments",
+            dict(input),
+            "comments",
+            item_model=InstagramPostCommentsComment,
+            data_model=InstagramPostCommentsData,
+            bare=False,
+            options=options,
+        )
+
     async def profile(
         self,
         *,
@@ -2004,6 +2280,50 @@ class AsyncInstagramNamespace:
             "instagram.stories_thin", dict(input), options
         )
         return RunResult[InstagramStoriesThinData].model_validate(raw)
+
+    async def tagged_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramTaggedPostsInput],
+    ) -> RunResult[InstagramTaggedPostsData]:
+        """Instagram Tagged Posts
+
+        List the posts an Instagram user is tagged in, with cursor pagination
+        (author, caption, likes, comments).
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.tagged_posts(handle="nasa")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.tagged_posts", dict(input), options
+        )
+        return RunResult[InstagramTaggedPostsData].model_validate(raw)
+
+    def iter_tagged_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramTaggedPostsInput],
+    ) -> AsyncPaginator[InstagramTaggedPostsPost, InstagramTaggedPostsData]:
+        """Iterate Instagram Tagged Posts results, following pagination cursors.
+
+        Yields validated `InstagramTaggedPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.tagged_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramTaggedPostsPost,
+            data_model=InstagramTaggedPostsData,
+            bare=False,
+            options=options,
+        )
 
     async def trending_reels(
         self,

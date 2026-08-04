@@ -90,6 +90,66 @@ export interface InstagramBasicProfileData {
 }
 
 /**
+ * Input for Instagram Comment Replies (instagram.comment_replies).
+ */
+export interface InstagramCommentRepliesInput {
+  /**
+   * Instagram comment ID (a comment's id from the Instagram Post Comments endpoint).
+   */
+  commentId: string;
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Full Instagram post or reel URL the comment belongs to.
+   */
+  url: string;
+}
+
+export interface InstagramCommentRepliesComment {
+  /**
+   * Username of the account that wrote the reply, without the @ prefix. Populated whenever the provider has data for the entity.
+   */
+  author: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * The reply's Instagram comment ID, as a string. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Number of likes on the reply. Omitted when no like count is reported for the reply.
+   */
+  likes?: number;
+  /**
+   * The reply's text content. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Whether the reply's author has a verified badge.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Comment Replies (instagram.comment_replies).
+ */
+export interface InstagramCommentRepliesData {
+  /**
+   * Replies to the requested comment, oldest first. Populated whenever the provider has data for the entity.
+   */
+  comments: InstagramCommentRepliesComment[];
+  /**
+   * Cursor for the next page of replies. Empty when there are no more replies.
+   */
+  nextCursor: string;
+}
+
+/**
  * Input for Instagram Profile Embed (instagram.embed).
  */
 export interface InstagramEmbedInput {
@@ -454,6 +514,10 @@ export interface InstagramPostCommentsData {
    * Populated whenever the provider has data for the entity.
    */
   comments: InstagramPostCommentsComment[];
+  /**
+   * Cursor for the next page of comments. Pass it back as the cursor input. Empty when there are no more comments.
+   */
+  nextCursor: string;
 }
 
 /**
@@ -984,6 +1048,67 @@ export interface InstagramStoriesThinData {
 }
 
 /**
+ * Input for Instagram Tagged Posts (instagram.tagged_posts).
+ */
+export interface InstagramTaggedPostsInput {
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  handle: string;
+}
+
+export interface InstagramTaggedPostsPost {
+  /**
+   * Username of the account that posted and applied the tag, without the @ prefix. Populated whenever the provider has data for the entity.
+   */
+  author: string;
+  /**
+   * The post's caption text. Empty when the post has none. Populated whenever the provider has data for the entity.
+   */
+  caption: string;
+  /**
+   * Number of comments on the post.
+   */
+  comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Number of likes on the post.
+   */
+  likes: number;
+  /**
+   * Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Tagged Posts (instagram.tagged_posts).
+ */
+export interface InstagramTaggedPostsData {
+  /**
+   * Cursor for the next page of tagged posts. Pass it back as the cursor input. Empty when there are no more posts.
+   */
+  nextCursor: string;
+  /**
+   * Posts that tag the requested account, newest first. Populated whenever the provider has data for the entity.
+   */
+  posts: InstagramTaggedPostsPost[];
+}
+
+/**
  * Input for Instagram Trending Reels (instagram.trending_reels).
  */
 export interface InstagramTrendingReelsInput {}
@@ -1230,6 +1355,49 @@ export class InstagramNamespace {
   }
 
   /**
+   * Instagram Comment Replies
+   *
+   * List the replies to an Instagram comment with cursor pagination (text, author, likes).
+   *
+   * Price: $0.002 per request.
+   *
+   * @example
+   * const res = await client.instagram.commentReplies({ commentId: "18126632131325044", url: "https://www.instagram.com/p/C8rKmYvsrck/" });
+   */
+  commentReplies(
+    input: InstagramCommentRepliesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramCommentRepliesData>> {
+    return this._core.run("instagram.comment_replies", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram Comment Replies across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterCommentReplies(
+    input: InstagramCommentRepliesInput,
+    options?: RequestOptions,
+  ): Paginator<
+    InstagramCommentRepliesComment,
+    RunResult<InstagramCommentRepliesData>
+  > {
+    return paginate<
+      InstagramCommentRepliesComment,
+      RunResult<InstagramCommentRepliesData>
+    >(
+      this._core,
+      "instagram.comment_replies",
+      input as unknown as Record<string, unknown>,
+      "comments",
+      false,
+      options,
+    );
+  }
+
+  /**
    * Instagram Profile Embed
    *
    * Fetch the public embed HTML for an Instagram profile by handle.
@@ -1406,6 +1574,32 @@ export class InstagramNamespace {
   }
 
   /**
+   * Iterate every result of Instagram Post Comments across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterPostComments(
+    input: InstagramPostCommentsInput,
+    options?: RequestOptions,
+  ): Paginator<
+    InstagramPostCommentsComment,
+    RunResult<InstagramPostCommentsData>
+  > {
+    return paginate<
+      InstagramPostCommentsComment,
+      RunResult<InstagramPostCommentsData>
+    >(
+      this._core,
+      "instagram.post_comments",
+      input as unknown as Record<string, unknown>,
+      "comments",
+      false,
+      options,
+    );
+  }
+
+  /**
    * Instagram Profile
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
@@ -1565,6 +1759,46 @@ export class InstagramNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<InstagramStoriesThinData>> {
     return this._core.run("instagram.stories_thin", input, options);
+  }
+
+  /**
+   * Instagram Tagged Posts
+   *
+   * List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).
+   *
+   * Price: $0.0024 per request.
+   *
+   * @example
+   * const res = await client.instagram.taggedPosts({ handle: "nasa" });
+   */
+  taggedPosts(
+    input: InstagramTaggedPostsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramTaggedPostsData>> {
+    return this._core.run("instagram.tagged_posts", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram Tagged Posts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterTaggedPosts(
+    input: InstagramTaggedPostsInput,
+    options?: RequestOptions,
+  ): Paginator<InstagramTaggedPostsPost, RunResult<InstagramTaggedPostsData>> {
+    return paginate<
+      InstagramTaggedPostsPost,
+      RunResult<InstagramTaggedPostsData>
+    >(
+      this._core,
+      "instagram.tagged_posts",
+      input as unknown as Record<string, unknown>,
+      "posts",
+      false,
+      options,
+    );
   }
 
   /**

@@ -236,6 +236,8 @@ import type {
   InstagramAudioReelsInput,
   InstagramBasicProfileData,
   InstagramBasicProfileInput,
+  InstagramCommentRepliesData,
+  InstagramCommentRepliesInput,
   InstagramEmbedData,
   InstagramEmbedInput,
   InstagramFollowersData,
@@ -268,6 +270,8 @@ import type {
   InstagramStoriesFullInput,
   InstagramStoriesThinData,
   InstagramStoriesThinInput,
+  InstagramTaggedPostsData,
+  InstagramTaggedPostsInput,
   InstagramTrendingReelsData,
   InstagramTrendingReelsInput,
   InstagramUserHighlightsData,
@@ -1140,6 +1144,11 @@ export interface SkuMap {
     data: InstagramBasicProfileData;
     result: RunResult<InstagramBasicProfileData>;
   };
+  "instagram.comment_replies": {
+    input: InstagramCommentRepliesInput;
+    data: InstagramCommentRepliesData;
+    result: RunResult<InstagramCommentRepliesData>;
+  };
   "instagram.embed": {
     input: InstagramEmbedInput;
     data: InstagramEmbedData;
@@ -1219,6 +1228,11 @@ export interface SkuMap {
     input: InstagramStoriesThinInput;
     data: InstagramStoriesThinData;
     result: RunResult<InstagramStoriesThinData>;
+  };
+  "instagram.tagged_posts": {
+    input: InstagramTaggedPostsInput;
+    data: InstagramTaggedPostsData;
+    result: RunResult<InstagramTaggedPostsData>;
   };
   "instagram.trending_reels": {
     input: InstagramTrendingReelsInput;

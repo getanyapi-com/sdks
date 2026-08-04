@@ -36,11 +36,6 @@
     },
     {
       "kind": "dead-cursor",
-      "slug": "instagram.post_comments",
-      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
-    },
-    {
-      "kind": "dead-cursor",
       "slug": "instagram.search_hashtag",
       "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
     },
@@ -16903,6 +16898,157 @@
       }
     },
     {
+      "slug": "instagram.comment_replies",
+      "platform": "instagram",
+      "action": "comment_replies",
+      "operationId": "instagram_comment_replies",
+      "name": "Instagram Comment Replies",
+      "category": "social",
+      "description": "List the replies to an Instagram comment with cursor pagination (text, author, likes).",
+      "pricing": {
+        "priceUsd": 0.002,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "instagram",
+      "tsMethod": "commentReplies",
+      "tsIterMethod": "iterCommentReplies",
+      "pyNamespace": "instagram",
+      "pyMethod": "comment_replies",
+      "pyIterMethod": "iter_comment_replies",
+      "inputTypeName": "InstagramCommentRepliesInput",
+      "outputTypeName": "InstagramCommentRepliesData",
+      "example": {
+        "commentId": "18126632131325044",
+        "url": "https://www.instagram.com/p/C8rKmYvsrck/"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "commentId": {
+            "kind": "string",
+            "description": "Instagram comment ID (a comment's id from the Instagram Post Comments endpoint).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination cursor from a previous response's nextCursor.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "url": {
+            "kind": "string",
+            "description": "Full Instagram post or reel URL the comment belongs to.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "commentId",
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "comments": {
+              "kind": "array",
+              "description": "Replies to the requested comment, oldest first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "Username of the account that wrote the reply, without the @ prefix. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "The reply's Instagram comment ID, as a string. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Number of likes on the reply. Omitted when no like count is reported for the reply.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "The reply's text content. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "verified": {
+                    "kind": "boolean",
+                    "description": "Whether the reply's author has a verified badge.",
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "text",
+                  "author",
+                  "verified",
+                  "createdUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "author",
+                  "createdUtc",
+                  "id",
+                  "text"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Cursor for the next page of replies. Empty when there are no more replies.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "comments",
+            "nextCursor"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "comments"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "comments",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
       "slug": "instagram.embed",
       "platform": "instagram",
       "action": "embed",
@@ -17765,10 +17911,10 @@
       },
       "tsNamespace": "instagram",
       "tsMethod": "postComments",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterPostComments",
       "pyNamespace": "instagram",
       "pyMethod": "post_comments",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_post_comments",
       "inputTypeName": "InstagramPostCommentsInput",
       "outputTypeName": "InstagramPostCommentsData",
       "example": {
@@ -17864,10 +18010,18 @@
                 ]
               },
               "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Cursor for the next page of comments. Pass it back as the cursor input. Empty when there are no more comments.",
+              "enum": null,
+              "default": null,
+              "format": null
             }
           },
           "required": [
-            "comments"
+            "comments",
+            "nextCursor"
           ],
           "open": false,
           "mustPopulate": [
@@ -17876,10 +18030,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "comments",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
@@ -19184,6 +19338,159 @@
         "itemsField": null,
         "cursorInputField": null,
         "nextCursorField": null
+      }
+    },
+    {
+      "slug": "instagram.tagged_posts",
+      "platform": "instagram",
+      "action": "tagged_posts",
+      "operationId": "instagram_tagged_posts",
+      "name": "Instagram Tagged Posts",
+      "category": "social",
+      "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
+      "pricing": {
+        "priceUsd": 0.0024,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "instagram",
+      "tsMethod": "taggedPosts",
+      "tsIterMethod": "iterTaggedPosts",
+      "pyNamespace": "instagram",
+      "pyMethod": "tagged_posts",
+      "pyIterMethod": "iter_tagged_posts",
+      "inputTypeName": "InstagramTaggedPostsInput",
+      "outputTypeName": "InstagramTaggedPostsData",
+      "example": {
+        "handle": "nasa"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination cursor from a previous response's nextCursor.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "handle": {
+            "kind": "string",
+            "description": "Instagram username without the leading @.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Cursor for the next page of tagged posts. Pass it back as the cursor input. Empty when there are no more posts.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "posts": {
+              "kind": "array",
+              "description": "Posts that tag the requested account, newest first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "Username of the account that posted and applied the tag, without the @ prefix. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "caption": {
+                    "kind": "string",
+                    "description": "The post's caption text. Empty when the post has none. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Number of comments on the post.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Number of likes on the post.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id",
+                  "url",
+                  "author",
+                  "caption",
+                  "likes",
+                  "comments",
+                  "createdUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "author",
+                  "caption",
+                  "id",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "posts",
+            "nextCursor"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "posts"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "posts",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {

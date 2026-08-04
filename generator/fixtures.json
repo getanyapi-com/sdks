@@ -1921,6 +1921,28 @@
     "items": 1,
     "replayed": false
   },
+  "instagram.comment_replies": {
+    "output": {
+      "found": true,
+      "data": {
+        "comments": [
+          {
+            "id": "sample",
+            "text": "sample",
+            "author": "sample",
+            "verified": true,
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "instagram.embed": {
     "output": {
       "found": true,
@@ -2058,7 +2080,8 @@
             "createdUtc": 1.5,
             "_extra": "passthrough"
           }
-        ]
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
@@ -2230,6 +2253,30 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "instagram.tagged_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "author": "sample",
+            "caption": "sample",
+            "likes": 1,
+            "comments": 1,
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
