@@ -82,6 +82,7 @@ export interface AmazonBestsellersInput {
   /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
+   * Default: 20.
    */
   limit?: number;
   /**
@@ -253,6 +254,7 @@ export interface AmazonReviewsInput {
   /**
    * Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 50.
+   * Default: 50.
    */
   limit?: number;
   /**
@@ -357,6 +359,7 @@ export interface AmazonSearchInput {
   /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
+   * Default: 20.
    */
   limit?: number;
   /**
@@ -452,7 +455,7 @@ export class AmazonNamespace {
    *
    * List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.
    *
-   * Price: $0 per request plus $0.00431 per result (maximum $0.0861).
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.amazon.bestsellers({ url: "https://www.amazon.com/gp/bestsellers/electronics", limit: 3 });
@@ -486,7 +489,7 @@ export class AmazonNamespace {
    *
    * Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.
    *
-   * Price: $0.018 per request.
+   * Price: $0.0018 per request.
    *
    * @example
    * const res = await client.amazon.reviews({ product: "B07PXGQC1Q", limit: 3 });
@@ -503,7 +506,7 @@ export class AmazonNamespace {
    *
    * Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.
    *
-   * Price: $0 per request plus $0.00368 per result (maximum $0.0735).
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.amazon.search({ url: "https://www.amazon.com/s?k=laptop", limit: 3 });

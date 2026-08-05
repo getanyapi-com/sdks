@@ -30,7 +30,7 @@ class AmazonBestsellersInput(TypedDict, total=False):
     """Input for Amazon Bestsellers."""
 
     limit: NotRequired[int]
-    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20. Default: 20."""
     url: Required[str]
     """Amazon Best Sellers category URL (e.g. https://www.amazon.com/Best-Sellers-Electronics/zgbs/electronics)."""
 
@@ -50,7 +50,7 @@ class AmazonReviewsInput(TypedDict, total=False):
     keywords: NotRequired[list[str]]
     """Only return reviews whose text contains one of these keywords (e.g. ["battery", "screen"])."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less. Range: 1 to 50."""
+    """Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less. Range: 1 to 50. Default: 50."""
     product: Required[str]
     """Amazon product ASIN or full product URL (e.g. B07CMS5Q6P)."""
     ratings: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
@@ -94,7 +94,7 @@ class AmazonSearchInput(TypedDict, total=False):
     """Input for Amazon Search."""
 
     limit: NotRequired[int]
-    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20. Default: 20."""
     url: Required[str]
     """Amazon search or category URL to pull results from (e.g. https://www.amazon.com/s?k=gaming+mouse)."""
 
@@ -386,7 +386,7 @@ class AmazonNamespace:
         List the top-ranked products of any Amazon Best Sellers category (rank,
         title, price, and rating) in one normalized request.
 
-        Price: $0 per request plus $0.00431 per result (maximum $0.0861).
+        Price: $0.0009 per request.
 
         Example:
             res = client.amazon.bestsellers(limit=3, url="https://www.amazon.com/gp/bestsellers/electronics")
@@ -428,7 +428,7 @@ class AmazonNamespace:
         Pull up to 50 customer reviews for any Amazon product by ASIN or URL:
         rating, title, text, date, and verified-purchase badge.
 
-        Price: $0.018 per request.
+        Price: $0.0018 per request.
 
         Example:
             res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")
@@ -449,7 +449,7 @@ class AmazonNamespace:
         Search Amazon from any search or category URL and get up to 20 matching
         products (title, price, rating, and thumbnail) in one normalized response.
 
-        Price: $0 per request plus $0.00368 per result (maximum $0.0735).
+        Price: $0.0009 per request.
 
         Example:
             res = client.amazon.search(limit=3, url="https://www.amazon.com/s?k=laptop")
@@ -498,7 +498,7 @@ class AsyncAmazonNamespace:
         List the top-ranked products of any Amazon Best Sellers category (rank,
         title, price, and rating) in one normalized request.
 
-        Price: $0 per request plus $0.00431 per result (maximum $0.0861).
+        Price: $0.0009 per request.
 
         Example:
             res = client.amazon.bestsellers(limit=3, url="https://www.amazon.com/gp/bestsellers/electronics")
@@ -540,7 +540,7 @@ class AsyncAmazonNamespace:
         Pull up to 50 customer reviews for any Amazon product by ASIN or URL:
         rating, title, text, date, and verified-purchase badge.
 
-        Price: $0.018 per request.
+        Price: $0.0018 per request.
 
         Example:
             res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")
@@ -561,7 +561,7 @@ class AsyncAmazonNamespace:
         Search Amazon from any search or category URL and get up to 20 matching
         products (title, price, rating, and thumbnail) in one normalized response.
 
-        Price: $0 per request plus $0.00368 per result (maximum $0.0735).
+        Price: $0.0009 per request.
 
         Example:
             res = client.amazon.search(limit=3, url="https://www.amazon.com/s?k=laptop")

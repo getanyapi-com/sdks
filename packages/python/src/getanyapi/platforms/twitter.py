@@ -79,7 +79,7 @@ class TwitterRepliesInput(TypedDict, total=False):
     """Input for X / Twitter Post Replies."""
 
     limit: NotRequired[int]
-    """Maximum number of results to return (1-40, default 40). You are billed per result returned, so a lower limit costs less. Range: 1 to 40."""
+    """Maximum number of results to return (1-40, default 40). Per-result lanes cost less at lower limits; a backup that bills its native page may cost up to the advertised request price. Range: 1 to 40."""
     url: Required[str]
     """Full URL of the X (Twitter) post to fetch replies for (e.g. https://x.com/nasa/status/1846987139428634858)."""
 
@@ -137,13 +137,13 @@ class TwitterUserTweetsInput(TypedDict, total=False):
     """Input for X / Twitter User Tweets and Replies."""
 
     cursor: NotRequired[str]
-    """Reserved for cursor-capable lanes. The current bulk lane returns nextCursor as null, so omit this field."""
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page."""
     handle: Required[str]
     """Twitter/X handle without the leading @."""
     limit: NotRequired[int]
     """Maximum number of authored tweets and replies to return in the current bulk call (1-1000). The provider may return fewer results. Range: 1 to 1000. Default: 20."""
     requireSinglePage: NotRequired[bool]
-    """Compatibility flag for requiring one response. The current lane already returns up to limit results in one bulk call, whether this is omitted or true."""
+    """Require a lane that can return the requested limit in one response."""
 
 
 class TwitterArticleData(BaseModel):
@@ -665,7 +665,7 @@ class TwitterUserTweetsData(BaseModel):
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.",
+        description="Opaque cursor for the next page when the selected lane supports pagination, otherwise null.",
     )
     tweets: list[TwitterUserTweetsTweet] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -737,7 +737,7 @@ class TwitterNamespace:
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL.
 
-        Price: $0.002 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.twitter.community(url="https://x.com/i/communities/1926186499399139650")
@@ -868,7 +868,7 @@ class TwitterNamespace:
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
         verification) by handle.
 
-        Price: $0.00075 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.twitter.profile(handle="nasa")
@@ -889,7 +889,7 @@ class TwitterNamespace:
         Fetch the replies to any X (Twitter) post URL as structured records: author,
         text, and engagement.
 
-        Price: $0.00263 per request plus $0.00027 per result (maximum $0.0132).
+        Price: $0.00018 per request plus $0.00018 per result (maximum $0.00666).
 
         Example:
             res = client.twitter.replies(limit=3, url="https://x.com/jack/status/20")
@@ -957,7 +957,7 @@ class TwitterNamespace:
         Get current X (Twitter) trends for worldwide, a country, or a city in X
         ranking order, including the resolved location.
 
-        Price: $0.00075 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.twitter.trends(limit=10, location="US")
@@ -978,7 +978,7 @@ class TwitterNamespace:
         Fetch a single Twitter/X tweet by URL with its full text and engagement
         counts (likes, retweets, replies, quotes, bookmarks, views).
 
-        Price: $0.00075 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.twitter.tweet(url="https://x.com/SpaceX/status/1732824684683784516")
@@ -1063,11 +1063,10 @@ class TwitterNamespace:
         """X / Twitter User Tweets and Replies
 
         Get up to the requested limit of tweets and replies authored by an X
-        (Twitter) account in one bulk call, with engagement, views, and language.
-        The current lane returns nextCursor as null; cursor is reserved for future
-        cursor-capable lanes.
+        (Twitter) account, with engagement, views, language, and cursor pagination
+        where available.
 
-        Price: $0 per request plus $0.00021 per result (maximum $0.21).
+        Price: $0.00018 per request plus $0.00018 per result (maximum $0.01818).
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
@@ -1139,7 +1138,7 @@ class AsyncTwitterNamespace:
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL.
 
-        Price: $0.002 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.twitter.community(url="https://x.com/i/communities/1926186499399139650")
@@ -1270,7 +1269,7 @@ class AsyncTwitterNamespace:
         Fetch a Twitter/X account's public profile (followers, tweets, bio,
         verification) by handle.
 
-        Price: $0.00075 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.twitter.profile(handle="nasa")
@@ -1291,7 +1290,7 @@ class AsyncTwitterNamespace:
         Fetch the replies to any X (Twitter) post URL as structured records: author,
         text, and engagement.
 
-        Price: $0.00263 per request plus $0.00027 per result (maximum $0.0132).
+        Price: $0.00018 per request plus $0.00018 per result (maximum $0.00666).
 
         Example:
             res = client.twitter.replies(limit=3, url="https://x.com/jack/status/20")
@@ -1359,7 +1358,7 @@ class AsyncTwitterNamespace:
         Get current X (Twitter) trends for worldwide, a country, or a city in X
         ranking order, including the resolved location.
 
-        Price: $0.00075 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.twitter.trends(limit=10, location="US")
@@ -1380,7 +1379,7 @@ class AsyncTwitterNamespace:
         Fetch a single Twitter/X tweet by URL with its full text and engagement
         counts (likes, retweets, replies, quotes, bookmarks, views).
 
-        Price: $0.00075 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.twitter.tweet(url="https://x.com/SpaceX/status/1732824684683784516")
@@ -1465,11 +1464,10 @@ class AsyncTwitterNamespace:
         """X / Twitter User Tweets and Replies
 
         Get up to the requested limit of tweets and replies authored by an X
-        (Twitter) account in one bulk call, with engagement, views, and language.
-        The current lane returns nextCursor as null; cursor is reserved for future
-        cursor-capable lanes.
+        (Twitter) account, with engagement, views, language, and cursor pagination
+        where available.
 
-        Price: $0 per request plus $0.00021 per result (maximum $0.21).
+        Price: $0.00018 per request plus $0.00018 per result (maximum $0.01818).
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)

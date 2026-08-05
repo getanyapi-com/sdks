@@ -60,7 +60,7 @@ class ZillowSearchInput(TypedDict, total=False):
     includeRoomForRent: NotRequired[bool]
     """Include room-for-rent listings in rent searches; when omitted or false only entire places are returned (e.g. true)."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
+    """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25. Default: 25."""
     listingTypes: NotRequired[
         list[
             Literal[
@@ -289,7 +289,7 @@ class ZillowNamespace:
         properties (price, address, beds, baths, living area, status, Zestimate) as
         normalized JSON.
 
-        Price: $0.00053 per request plus $0.00315 per result (maximum $0.0793).
+        Price: $0.0009 per request.
 
         Example:
             res = client.zillow.search(limit=3, location="Austin, TX", maxPrice=900000, minBedrooms=3, operation="buy")
@@ -341,7 +341,7 @@ class AsyncZillowNamespace:
         properties (price, address, beds, baths, living area, status, Zestimate) as
         normalized JSON.
 
-        Price: $0.00053 per request plus $0.00315 per result (maximum $0.0793).
+        Price: $0.0009 per request.
 
         Example:
             res = client.zillow.search(limit=3, location="Austin, TX", maxPrice=900000, minBedrooms=3, operation="buy")

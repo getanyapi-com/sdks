@@ -155,6 +155,7 @@ export interface ZillowSearchInput {
   /**
    * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
+   * Default: 25.
    */
   limit?: number;
   /**
@@ -342,7 +343,7 @@ export class ZillowNamespace {
    *
    * Search Zillow for-sale, rental, or sold listings by region-level location (city, ZIP, county, or neighborhood) with optional price, bedroom, living-area, home-type, recency, and sort filters and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.
    *
-   * Price: $0.00053 per request plus $0.00315 per result (maximum $0.0793).
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.zillow.search({ location: "Austin, TX", limit: 3, maxPrice: 900000, minBedrooms: 3, operation: "buy" });

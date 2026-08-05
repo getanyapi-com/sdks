@@ -1304,10 +1304,10 @@
       "category": "shop",
       "description": "List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.",
       "pricing": {
-        "priceUsd": 0.0861,
-        "baseUsd": 0,
-        "perItemUsd": 0.00431,
-        "perItemUnit": "result"
+        "priceUsd": 0.0009,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "amazon",
       "tsMethod": "bestsellers",
@@ -1329,7 +1329,7 @@
             "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
             "minimum": 1,
             "maximum": 20,
-            "default": null
+            "default": 20
           },
           "url": {
             "kind": "string",
@@ -1677,7 +1677,7 @@
       "category": "shop",
       "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "pricing": {
-        "priceUsd": 0.018,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -1720,7 +1720,7 @@
             "description": "Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.",
             "minimum": 1,
             "maximum": 50,
-            "default": null
+            "default": 50
           },
           "product": {
             "kind": "string",
@@ -1900,10 +1900,10 @@
       "category": "shop",
       "description": "Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0735,
-        "baseUsd": 0,
-        "perItemUsd": 0.00368,
-        "perItemUnit": "result"
+        "priceUsd": 0.0009,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "amazon",
       "tsMethod": "search",
@@ -1925,7 +1925,7 @@
             "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
             "minimum": 1,
             "maximum": 20,
-            "default": null
+            "default": 20
           },
           "url": {
             "kind": "string",
@@ -43040,7 +43040,7 @@
       "category": "social",
       "description": "Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.00018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -43646,7 +43646,7 @@
       "category": "social",
       "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.00018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -43769,9 +43769,9 @@
       "category": "social",
       "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement.",
       "pricing": {
-        "priceUsd": 0.0132,
-        "baseUsd": 0.00263,
-        "perItemUsd": 0.00027,
+        "priceUsd": 0.00666,
+        "baseUsd": 0.00018,
+        "perItemUsd": 0.00018,
         "perItemUnit": "result"
       },
       "tsNamespace": "twitter",
@@ -43791,7 +43791,7 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-40, default 40). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-40, default 40). Per-result lanes cost less at lower limits; a backup that bills its native page may cost up to the advertised request price.",
             "minimum": 1,
             "maximum": 40,
             "default": null
@@ -44164,7 +44164,7 @@
       "category": "social",
       "description": "Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.00018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -44312,7 +44312,7 @@
       "category": "social",
       "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.00018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -44710,11 +44710,11 @@
       "operationId": "twitter_user_tweets",
       "name": "X / Twitter User Tweets and Replies",
       "category": "social",
-      "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account in one bulk call, with engagement, views, and language. The current lane returns nextCursor as null; cursor is reserved for future cursor-capable lanes.",
+      "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.",
       "pricing": {
-        "priceUsd": 0.21,
-        "baseUsd": 0,
-        "perItemUsd": 0.00021,
+        "priceUsd": 0.01818,
+        "baseUsd": 0.00018,
+        "perItemUsd": 0.00018,
         "perItemUnit": "result"
       },
       "tsNamespace": "twitter",
@@ -44734,7 +44734,7 @@
         "properties": {
           "cursor": {
             "kind": "string",
-            "description": "Reserved for cursor-capable lanes. The current bulk lane returns nextCursor as null, so omit this field.",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page.",
             "enum": null,
             "default": null,
             "format": null
@@ -44755,7 +44755,7 @@
           },
           "requireSinglePage": {
             "kind": "boolean",
-            "description": "Compatibility flag for requiring one response. The current lane already returns up to limit results in one bulk call, whether this is omitted or true.",
+            "description": "Require a lane that can return the requested limit in one response.",
             "default": null
           }
         },
@@ -44771,7 +44771,7 @@
           "properties": {
             "nextCursor": {
               "kind": "string",
-              "description": "Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.",
+              "description": "Opaque cursor for the next page when the selected lane supports pagination, otherwise null.",
               "nullable": true,
               "enum": null,
               "default": null,
@@ -50746,10 +50746,10 @@
       "category": "data",
       "description": "Search Zillow for-sale, rental, or sold listings by region-level location (city, ZIP, county, or neighborhood) with optional price, bedroom, living-area, home-type, recency, and sort filters and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0793,
-        "baseUsd": 0.00053,
-        "perItemUsd": 0.00315,
-        "perItemUnit": "result"
+        "priceUsd": 0.0009,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "zillow",
       "tsMethod": "search",
@@ -50825,7 +50825,7 @@
             "description": "Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.",
             "minimum": 1,
             "maximum": 25,
-            "default": null
+            "default": 25
           },
           "listingTypes": {
             "kind": "array",

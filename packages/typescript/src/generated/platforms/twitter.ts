@@ -482,7 +482,7 @@ export interface TwitterProfileData {
  */
 export interface TwitterRepliesInput {
   /**
-   * Maximum number of results to return (1-40, default 40). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-40, default 40). Per-result lanes cost less at lower limits; a backup that bills its native page may cost up to the advertised request price.
    * Range: minimum 1, maximum 40.
    */
   limit?: number;
@@ -848,7 +848,7 @@ export interface TwitterUserPostsData {
  */
 export interface TwitterUserTweetsInput {
   /**
-   * Reserved for cursor-capable lanes. The current bulk lane returns nextCursor as null, so omit this field.
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page.
    */
   cursor?: string;
   /**
@@ -862,7 +862,7 @@ export interface TwitterUserTweetsInput {
    */
   limit?: number;
   /**
-   * Compatibility flag for requiring one response. The current lane already returns up to limit results in one bulk call, whether this is omitted or true.
+   * Require a lane that can return the requested limit in one response.
    */
   requireSinglePage?: boolean;
 }
@@ -901,7 +901,7 @@ export interface TwitterUserTweetsTweet {
  */
 export interface TwitterUserTweetsData {
   /**
-   * Reserved pagination cursor. The current bulk lane returns null; cursor-capable lanes may return an opaque continuation value in the future.
+   * Opaque cursor for the next page when the selected lane supports pagination, otherwise null.
    */
   nextCursor?: string | null;
   /**
@@ -939,7 +939,7 @@ export class TwitterNamespace {
    *
    * Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL.
    *
-   * Price: $0.002 per request.
+   * Price: $0.00018 per request.
    *
    * @example
    * const res = await client.twitter.community({ url: "https://x.com/i/communities/1926186499399139650" });
@@ -1047,7 +1047,7 @@ export class TwitterNamespace {
    *
    * Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.00018 per request.
    *
    * @example
    * const res = await client.twitter.profile({ handle: "nasa" });
@@ -1064,7 +1064,7 @@ export class TwitterNamespace {
    *
    * Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement.
    *
-   * Price: $0.00263 per request plus $0.00027 per result (maximum $0.0132).
+   * Price: $0.00018 per request plus $0.00018 per result (maximum $0.00666).
    *
    * @example
    * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20", limit: 3 });
@@ -1118,7 +1118,7 @@ export class TwitterNamespace {
    *
    * Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.00018 per request.
    *
    * @example
    * const res = await client.twitter.trends({ limit: 10, location: "US" });
@@ -1135,7 +1135,7 @@ export class TwitterNamespace {
    *
    * Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).
    *
-   * Price: $0.00075 per request.
+   * Price: $0.00018 per request.
    *
    * @example
    * const res = await client.twitter.tweet({ url: "https://x.com/SpaceX/status/1732824684683784516" });
@@ -1204,9 +1204,9 @@ export class TwitterNamespace {
   /**
    * X / Twitter User Tweets and Replies
    *
-   * Get up to the requested limit of tweets and replies authored by an X (Twitter) account in one bulk call, with engagement, views, and language. The current lane returns nextCursor as null; cursor is reserved for future cursor-capable lanes.
+   * Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.
    *
-   * Price: $0 per request plus $0.00021 per result (maximum $0.21).
+   * Price: $0.00018 per request plus $0.00018 per result (maximum $0.01818).
    *
    * @example
    * const res = await client.twitter.userTweets({ handle: "levelsio", limit: 20 });
