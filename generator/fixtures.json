@@ -463,6 +463,59 @@
     "items": 1,
     "replayed": false
   },
+  "company_enrichment.crustdata_v3": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "domain": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_search.ai_ark": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "name": "sample",
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "size": 1,
+        "total": 1,
+        "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_search.crustdata_v3": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "congress.trades": {
     "output": {
       "found": true,
@@ -654,6 +707,74 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_finding.dropleads": {
+    "output": {
+      "found": true,
+      "data": {
+        "email": "sample",
+        "status": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_finding.icypeas": {
+    "output": {
+      "found": true,
+      "data": {
+        "email": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_verification.allegrow": {
+    "output": {
+      "found": true,
+      "data": {
+        "email": "sample",
+        "status": "safe",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_verification.bounceban": {
+    "output": {
+      "found": true,
+      "data": {
+        "email": "sample",
+        "result": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_verification.icypeas": {
+    "output": {
+      "found": true,
+      "data": {
+        "status": "sample",
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",
@@ -2929,6 +3050,32 @@
     "items": 1,
     "replayed": false
   },
+  "mobile_phone.ai_ark": {
+    "output": {
+      "found": true,
+      "data": {
+        "phone": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "mobile_phone.leadmagic": {
+    "output": {
+      "found": true,
+      "data": {
+        "mobile": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "pandaexpress.locations": {
     "output": {
       "found": true,
@@ -3012,6 +3159,45 @@
     "items": 1,
     "replayed": false
   },
+  "people_search.ai_ark": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "fullName": "sample",
+            "linkedinUrl": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "size": 1,
+        "total": 1,
+        "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "people_search.crustdata_v3": {
+    "output": {
+      "found": true,
+      "data": {
+        "profiles": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "person.skip_trace": {
     "output": {
       "found": true,
@@ -3022,6 +3208,19 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.aviato": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",

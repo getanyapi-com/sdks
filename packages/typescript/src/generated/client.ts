@@ -15,11 +15,15 @@ import { AppstoreNamespace } from "./platforms/appstore.js";
 import { BlueskyNamespace } from "./platforms/bluesky.js";
 import { BookingNamespace } from "./platforms/booking.js";
 import { CoinmarketcapNamespace } from "./platforms/coinmarketcap.js";
+import { CompanyEnrichmentNamespace } from "./platforms/company_enrichment.js";
+import { CompanySearchNamespace } from "./platforms/company_search.js";
 import { CongressNamespace } from "./platforms/congress.js";
 import { DexscreenerNamespace } from "./platforms/dexscreener.js";
 import { DouyinNamespace } from "./platforms/douyin.js";
 import { EbayNamespace } from "./platforms/ebay.js";
 import { EmailNamespace } from "./platforms/email.js";
+import { EmailFindingNamespace } from "./platforms/email_finding.js";
+import { EmailVerificationNamespace } from "./platforms/email_verification.js";
 import { FacebookNamespace } from "./platforms/facebook.js";
 import { FiverrNamespace } from "./platforms/fiverr.js";
 import { GithubNamespace } from "./platforms/github.js";
@@ -33,8 +37,11 @@ import { IndeedNamespace } from "./platforms/indeed.js";
 import { InstagramNamespace } from "./platforms/instagram.js";
 import { LinkedinNamespace } from "./platforms/linkedin.js";
 import { MapsNamespace } from "./platforms/maps.js";
+import { MobilePhoneNamespace } from "./platforms/mobile_phone.js";
 import { PandaexpressNamespace } from "./platforms/pandaexpress.js";
+import { PeopleSearchNamespace } from "./platforms/people_search.js";
 import { PersonNamespace } from "./platforms/person.js";
+import { PersonEnrichmentNamespace } from "./platforms/person_enrichment.js";
 import { PinterestNamespace } from "./platforms/pinterest.js";
 import { PlaystoreNamespace } from "./platforms/playstore.js";
 import { PolymarketNamespace } from "./platforms/polymarket.js";
@@ -179,6 +186,23 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the company_enrichment platform.
+   */
+  get companyEnrichment(): CompanyEnrichmentNamespace {
+    return (this._namespaces["companyEnrichment"] ??=
+      new CompanyEnrichmentNamespace(this._core)) as CompanyEnrichmentNamespace;
+  }
+
+  /**
+   * Typed methods for the company_search platform.
+   */
+  get companySearch(): CompanySearchNamespace {
+    return (this._namespaces["companySearch"] ??= new CompanySearchNamespace(
+      this._core,
+    )) as CompanySearchNamespace;
+  }
+
+  /**
    * Typed methods for the congress platform.
    */
   get congress(): CongressNamespace {
@@ -221,6 +245,23 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["email"] ??= new EmailNamespace(
       this._core,
     )) as EmailNamespace;
+  }
+
+  /**
+   * Typed methods for the email_finding platform.
+   */
+  get emailFinding(): EmailFindingNamespace {
+    return (this._namespaces["emailFinding"] ??= new EmailFindingNamespace(
+      this._core,
+    )) as EmailFindingNamespace;
+  }
+
+  /**
+   * Typed methods for the email_verification platform.
+   */
+  get emailVerification(): EmailVerificationNamespace {
+    return (this._namespaces["emailVerification"] ??=
+      new EmailVerificationNamespace(this._core)) as EmailVerificationNamespace;
   }
 
   /**
@@ -341,6 +382,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the mobile_phone platform.
+   */
+  get mobilePhone(): MobilePhoneNamespace {
+    return (this._namespaces["mobilePhone"] ??= new MobilePhoneNamespace(
+      this._core,
+    )) as MobilePhoneNamespace;
+  }
+
+  /**
    * Typed methods for the pandaexpress platform.
    */
   get pandaexpress(): PandaexpressNamespace {
@@ -350,12 +400,29 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the people_search platform.
+   */
+  get peopleSearch(): PeopleSearchNamespace {
+    return (this._namespaces["peopleSearch"] ??= new PeopleSearchNamespace(
+      this._core,
+    )) as PeopleSearchNamespace;
+  }
+
+  /**
    * Typed methods for the person platform.
    */
   get person(): PersonNamespace {
     return (this._namespaces["person"] ??= new PersonNamespace(
       this._core,
     )) as PersonNamespace;
+  }
+
+  /**
+   * Typed methods for the person_enrichment platform.
+   */
+  get personEnrichment(): PersonEnrichmentNamespace {
+    return (this._namespaces["personEnrichment"] ??=
+      new PersonEnrichmentNamespace(this._core)) as PersonEnrichmentNamespace;
   }
 
   /**
