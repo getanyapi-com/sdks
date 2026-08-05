@@ -12,6 +12,9 @@ export type {
   BareRunResult,
   Output,
   RequestOptions,
+  RequestSnapshot,
+  RequestStatus,
+  StartOptions,
   ClientOptions,
   AccountProfile,
   CatalogOptions,
@@ -46,4 +49,5 @@ export {
   UpstreamError,
   ConnectionError,
   TimeoutError,
+  RequestPendingError,
 } from "./errors.js";

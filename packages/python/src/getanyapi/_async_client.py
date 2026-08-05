@@ -12,14 +12,15 @@ from __future__ import annotations
 import asyncio
 import importlib
 import os
-from typing import Any, Literal
+import time
+from collections.abc import Awaitable
+from typing import Any, Literal, Protocol, cast
 
 import httpx
 
-from . import _account
-from . import _transport
+from . import _account, _transport
 from ._client import lookup_namespace
-from ._errors import AnyAPIError, ConnectionError, TimeoutError
+from ._errors import AnyAPIError, ConnectionError, RequestPendingError, TimeoutError
 from ._transport import (
     DEFAULT_MAX_IN_PROGRESS_WAIT,
     RetryState,
@@ -34,6 +35,7 @@ from .types import (
     CatalogEntry,
     CatalogSearchResults,
     RequestOptions,
+    RequestSnapshot,
     RunResult,
 )
 
@@ -47,6 +49,42 @@ def _resolve_api_key(api_key: str | None) -> str:
     if not key:
         raise AnyAPIError("no API key: pass api_key= or set ANYAPI_API_KEY", status=0)
     return key
+
+
+class _AsyncGetRequest(Protocol):
+    def __call__(self, request_id: str) -> Awaitable[RequestSnapshot[Any]]: ...
+
+
+class _AsyncWaitRequest(Protocol):
+    def __call__(
+        self, request_id: str, *, timeout: float
+    ) -> Awaitable[dict[str, Any]]: ...
+
+
+class _AsyncRequests:
+    """Durable Request retrieval bound to one authenticated async client."""
+
+    def __init__(
+        self,
+        get: _AsyncGetRequest,
+        wait: _AsyncWaitRequest,
+        default_timeout: float,
+    ) -> None:
+        self._get = get
+        self._wait = wait
+        self._default_timeout = default_timeout
+
+    async def get(self, request_id: str) -> RequestSnapshot[Any]:
+        return await self._get(request_id)
+
+    async def wait(
+        self, request_id: str, *, timeout: float | None = None
+    ) -> RunResult[Any]:
+        raw = await self._wait(
+            request_id,
+            timeout=self._default_timeout if timeout is None else timeout,
+        )
+        return _transport.validate_run_result(raw)
 
 
 class AsyncAnyAPI:
@@ -74,6 +112,9 @@ class AsyncAnyAPI:
         self._owns_client = http_client is None
         self._http = http_client or httpx.AsyncClient(timeout=timeout)
         self._namespaces: dict[str, Any] = {}
+        self.requests = _AsyncRequests(
+            self._get_request, self._wait_request_raw, self._timeout
+        )
 
     # -- generated namespace attachment -----------------------------------
 
@@ -129,12 +170,20 @@ class AsyncAnyAPI:
             timeout=timeout,
             idempotency=self._idempotency,
         )
+        started_at = time.monotonic()
         retry = RetryState(max_retries, in_progress_wait)
+        accepted: dict[str, Any] | None = None
         while True:
             response: httpx.Response | None = None
             try:
                 response = await self._http.send(request)
-                return parse_raw(response)
+                raw = parse_raw(response)
+                if "requestId" not in raw:
+                    return raw
+                if options and options.get("respond_async"):
+                    return raw
+                accepted = raw
+                break
             except AnyAPIError as exc:
                 if is_retryable_error(exc) and retry.can_retry:
                     await asyncio.sleep(retry.next_delay(response))
@@ -161,6 +210,81 @@ class AsyncAnyAPI:
                 raise ConnectionError(
                     str(exc) or "connection failed", status=0
                 ) from exc
+        elapsed = time.monotonic() - started_at
+        return await self._wait_request_raw(
+            str(accepted["requestId"]),
+            timeout=max(0.0, timeout - elapsed),
+            initial=accepted,
+        )
+
+    async def start(
+        self,
+        slug: str,
+        input: dict[str, Any],
+        *,
+        options: RequestOptions | None = None,
+    ) -> RequestSnapshot[Any] | RunResult[Any]:
+        """Start durable work; return a completed same-key replay immediately."""
+        start_options = cast(
+            "RequestOptions", {**dict(options or {}), "respond_async": True}
+        )
+        raw = await self._arun_raw(slug, input, start_options)
+        if "requestId" in raw:
+            return RequestSnapshot[Any].model_validate(raw)
+        return _transport.validate_run_result(raw)
+
+    async def _get_request(
+        self, request_id: str, *, timeout: float | None = None
+    ) -> RequestSnapshot[Any]:
+        body = await self._get(f"/v1/requests/{request_id}", timeout=timeout)
+        return RequestSnapshot[Any].model_validate(body)
+
+    async def _wait_request_raw(
+        self,
+        request_id: str,
+        *,
+        timeout: float,
+        initial: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        deadline = time.monotonic() + timeout
+        snapshot = (
+            RequestSnapshot[Any].model_validate(initial)
+            if initial is not None
+            else await self._inspect_before_deadline(request_id, deadline)
+        )
+        while snapshot.status in ("queued", "running"):
+            delay = max(1, snapshot.retry_after_seconds or 2)
+            if time.monotonic() + delay > deadline:
+                raise RequestPendingError(request_id)
+            await asyncio.sleep(float(delay))
+            snapshot = await self._inspect_before_deadline(request_id, deadline)
+        if snapshot.status == "succeeded" and snapshot.result is not None:
+            return snapshot.result.model_dump(by_alias=True)
+        if snapshot.result_expired:
+            raise AnyAPIError(
+                "request result expired",
+                status=410,
+                request_id=request_id,
+                code="result_expired",
+            )
+        code = snapshot.error.get("code") if snapshot.error else None
+        raise AnyAPIError(
+            f"request ended with {code or snapshot.status}",
+            status=502,
+            request_id=request_id,
+            code=code,
+        )
+
+    async def _inspect_before_deadline(
+        self, request_id: str, deadline: float
+    ) -> RequestSnapshot[Any]:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise RequestPendingError(request_id)
+        try:
+            return await self._get_request(request_id, timeout=remaining)
+        except TimeoutError as exc:
+            raise RequestPendingError(request_id) from exc
 
     async def _arun(
         self,
@@ -184,7 +308,13 @@ class AsyncAnyAPI:
 
     # -- account + catalog ------------------------------------------------
 
-    async def _get(self, path: str, params: dict[str, str] | None = None) -> object:
+    async def _get(
+        self,
+        path: str,
+        params: dict[str, str] | None = None,
+        *,
+        timeout: float | None = None,
+    ) -> object:
         url = f"{self._base_url}{path}"
         headers = {
             "Authorization": f"Bearer {self._api_key}",
@@ -195,7 +325,10 @@ class AsyncAnyAPI:
             response: httpx.Response | None = None
             try:
                 response = await self._http.get(
-                    url, params=params or {}, headers=headers
+                    url,
+                    params=params or {},
+                    headers=headers,
+                    timeout=self._timeout if timeout is None else timeout,
                 )
                 return self._json_or_raise(response)
             except AnyAPIError as exc:
@@ -204,9 +337,7 @@ class AsyncAnyAPI:
                     continue
                 raise
             except httpx.TimeoutException as exc:
-                raise TimeoutError(
-                    str(exc) or "request timed out", status=0
-                ) from exc
+                raise TimeoutError(str(exc) or "request timed out", status=0) from exc
             except httpx.HTTPError as exc:
                 if is_retryable_error(exc) and retry.can_retry:
                     await asyncio.sleep(retry.next_delay(None))

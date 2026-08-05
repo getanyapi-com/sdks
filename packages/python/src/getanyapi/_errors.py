@@ -29,6 +29,7 @@ __all__ = [
     "UpstreamError",
     "ConnectionError",
     "TimeoutError",
+    "RequestPendingError",
     "error_for_status",
 ]
 
@@ -103,6 +104,19 @@ class TimeoutError(AnyAPIError):
     This name intentionally shadows the Python builtin ``TimeoutError``.
     Timeouts are never retried.
     """
+
+
+class RequestPendingError(TimeoutError):
+    """The SDK deadline elapsed while durable work remained resumable."""
+
+    def __init__(self, request_id: str) -> None:
+        super().__init__(
+            "request is still running; resume with requests.get or "
+            f"requests.wait: {request_id}",
+            status=0,
+            request_id=request_id,
+        )
+        self.durable_request_id = request_id
 
 
 _STATUS_MAP: dict[int, type[AnyAPIError]] = {

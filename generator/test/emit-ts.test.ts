@@ -346,6 +346,12 @@ export interface RequestOptions {
   signal?: AbortSignal;
   maxRetries?: number;
 }
+export type RequestStatus = "queued" | "running" | "succeeded" | "failed" | "expired";
+export interface RequestSnapshot<T = unknown> {
+  requestId: string; sku: string; status: RequestStatus; createdAt: string;
+  result?: RunResult<T>; retryAfterSeconds?: number; resultExpired?: boolean;
+}
+export interface StartOptions extends RequestOptions { idempotencyKey?: string; }
 export interface BareRunResult<T> {
   output: T; provider: "AnyAPI"; costUsd: number; items?: number;
   replayed: boolean; resultId?: string; jqError?: string; hint?: string;
@@ -433,6 +439,7 @@ export declare class RateLimitedError extends AnyAPIError {}
 export declare class UpstreamError extends AnyAPIError {}
 export declare class ConnectionError extends AnyAPIError {}
 export declare class TimeoutError extends AnyAPIError {}
+export declare class RequestPendingError extends TimeoutError {}
 `;
 
 const TSCONFIG = JSON.stringify(

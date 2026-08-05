@@ -742,6 +742,7 @@ function emitIndex(skus: SkuEntry[]): string {
     "UpstreamError",
     "ConnectionError",
     "TimeoutError",
+    "RequestPendingError",
   ];
   const coreTypes = [
     "ClientOptions",
@@ -749,6 +750,9 @@ function emitIndex(skus: SkuEntry[]): string {
     "BareRunResult",
     "Output",
     "RequestOptions",
+    "RequestSnapshot",
+    "RequestStatus",
+    "StartOptions",
     "Paginator",
     "AccountProfile",
     "CatalogOptions",

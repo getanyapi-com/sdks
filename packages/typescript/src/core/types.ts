@@ -40,6 +40,21 @@ export interface RunResult<T> {
   hint?: string;
 }
 
+export type RequestStatus =
+  "queued" | "running" | "succeeded" | "failed" | "expired";
+export interface RequestSnapshot<T = unknown> {
+  requestId: string;
+  sku: string;
+  status: RequestStatus;
+  createdAt: string;
+  completedAt?: string;
+  expiresAt?: string;
+  retryAfterSeconds?: number;
+  result?: RunResult<T>;
+  error?: { code: string };
+  resultExpired?: boolean;
+}
+
 /**
  * Discriminated union on `found`. When found is false, data is null.
  */
@@ -151,6 +166,8 @@ export interface RequestOptions {
   /** Override the generated Idempotency-Key for this billed POST. */
   idempotencyKey?: string;
 }
+
+export type StartOptions = RequestOptions;
 
 /**
  * Client construction options. See SPEC 2.1.

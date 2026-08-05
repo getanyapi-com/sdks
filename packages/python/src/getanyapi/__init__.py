@@ -21,6 +21,7 @@ from ._errors import (
     InsufficientBalanceError,
     NotFoundError,
     RateLimitedError,
+    RequestPendingError,
     ResultNotFoundError,
     TimeoutError,
     UpstreamError,
@@ -45,6 +46,7 @@ from .types import (
     OutputNotFound,
     PricingOffer,
     RequestOptions,
+    RequestSnapshot,
     RunResult,
     unwrap,
 )
@@ -76,6 +78,7 @@ __all__ = [
     "CatalogSearchResult",
     "CatalogSearchResults",
     "RequestOptions",
+    "RequestSnapshot",
     "AgentSignupResult",
     # pagination
     "Paginator",
@@ -91,4 +94,5 @@ __all__ = [
     "UpstreamError",
     "ConnectionError",
     "TimeoutError",
+    "RequestPendingError",
 ]
