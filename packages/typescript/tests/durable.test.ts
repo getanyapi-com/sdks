@@ -2,6 +2,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { AnyAPI, RequestPendingError } from "../src/index.js";
 import { foundEnvelope, mockFetch } from "./helpers.js";
 
+const durableInput = {
+  domainOrCompany: "apollo.io",
+  firstname: "Tim",
+  lastname: "Zheng",
+};
+
 function snapshot(
   status: "queued" | "running" | "succeeded",
   result?: unknown,
@@ -30,7 +36,7 @@ describe("durable requests", () => {
     ]);
     const client = new AnyAPI({ apiKey: "k", fetch });
 
-    const pending = client.run("email_finding.icypeas", {});
+    const pending = client.run("email_finding.icypeas", durableInput);
     await vi.runAllTimersAsync();
     const result = await pending;
 
@@ -45,7 +51,7 @@ describe("durable requests", () => {
     ]);
     const client = new AnyAPI({ apiKey: "k", fetch });
 
-    const request = await client.start("email_finding.icypeas", {});
+    const request = await client.start("email_finding.icypeas", durableInput);
 
     if (!("requestId" in request)) throw new Error("expected request handle");
     expect(request.requestId).toBe("req_123");
@@ -61,7 +67,7 @@ describe("durable requests", () => {
 
     const started = await client.start(
       "email_finding.icypeas",
-      {},
+      durableInput,
       { idempotencyKey: "same-key" },
     );
 
