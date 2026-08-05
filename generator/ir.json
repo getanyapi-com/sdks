@@ -5163,6 +5163,540 @@
       }
     },
     {
+      "slug": "company_enrichment.crustdata_v3",
+      "platform": "company_enrichment",
+      "action": "crustdata_v3",
+      "operationId": "company_enrichment_crustdata_v3",
+      "name": "Company Enrichment - Crustdata v3",
+      "category": "data",
+      "description": "Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.",
+      "pricing": {
+        "priceUsd": 0.0972,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "companyEnrichment",
+      "tsMethod": "crustdataV3",
+      "tsIterMethod": null,
+      "pyNamespace": "company_enrichment",
+      "pyMethod": "crustdata_v3",
+      "pyIterMethod": null,
+      "inputTypeName": "CompanyEnrichmentCrustdataV3Input",
+      "outputTypeName": "CompanyEnrichmentCrustdataV3Data",
+      "example": null,
+      "input": {
+        "kind": "object",
+        "properties": {
+          "companyDomain": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "companyId": {
+            "kind": "unknown"
+          },
+          "companyLinkedinUrl": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          },
+          "companyName": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "exactMatch": {
+            "kind": "boolean",
+            "default": null
+          },
+          "fields": {
+            "kind": "unknown"
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "description": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "domain": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "employeeCount": {
+              "kind": "integer",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "foundedYear": {
+              "kind": "integer",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "industry": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedinUrl": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "location": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "name": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "name",
+            "domain"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "company_search.ai_ark",
+      "platform": "company_search",
+      "action": "ai_ark",
+      "operationId": "company_search_ai_ark",
+      "name": "Company Search - AI Ark",
+      "category": "data",
+      "description": "Search companies by name, lookalike domains, account filters, and saved-list filters.",
+      "pricing": {
+        "priceUsd": 0.24,
+        "baseUsd": 0,
+        "perItemUsd": 0.0024,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "companySearch",
+      "tsMethod": "aiArk",
+      "tsIterMethod": null,
+      "pyNamespace": "company_search",
+      "pyMethod": "ai_ark",
+      "pyIterMethod": null,
+      "inputTypeName": "CompanySearchAiArkInput",
+      "outputTypeName": "CompanySearchAiArkData",
+      "example": {
+        "name": "OpenAI",
+        "page": 0,
+        "size": 1
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "account": {
+            "kind": "object",
+            "description": "AI Ark account filter expression. Nested generic any/all filter objects are accepted as documented by the source and are not further constrained.",
+            "properties": {},
+            "required": [],
+            "open": true
+          },
+          "lists": {
+            "kind": "object",
+            "description": "AI Ark saved-list filter expression.",
+            "properties": {},
+            "required": [],
+            "open": true
+          },
+          "lookalikeDomains": {
+            "kind": "array",
+            "description": "Domains whose company characteristics should guide the search.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "name": {
+            "kind": "string",
+            "description": "Company-name search text.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "Zero-based result page.",
+            "minimum": 0,
+            "maximum": null,
+            "default": 0
+          },
+          "size": {
+            "kind": "integer",
+            "description": "Maximum companies to return on this page.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "companies": {
+              "kind": "array",
+              "description": "Companies returned on this page.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "city": {
+                    "kind": "string",
+                    "description": "Headquarters city.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "country": {
+                    "kind": "string",
+                    "description": "Headquarters country.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Company description when available.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Company website domain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "email": {
+                    "kind": "string",
+                    "description": "Public company contact email.",
+                    "enum": null,
+                    "default": null,
+                    "format": "email"
+                  },
+                  "employeeCount": {
+                    "kind": "integer",
+                    "description": "Estimated total employees.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "foundedYear": {
+                    "kind": "integer",
+                    "description": "Year the company was founded.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "industries": {
+                    "kind": "array",
+                    "description": "Additional company industries.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "industry": {
+                    "kind": "string",
+                    "description": "Primary company industry.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "legalName": {
+                    "kind": "string",
+                    "description": "Registered company name when available.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkedinUrl": {
+                    "kind": "string",
+                    "description": "Canonical company LinkedIn URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Company name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "phone": {
+                    "kind": "string",
+                    "description": "Sanitized public company phone number.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "state": {
+                    "kind": "string",
+                    "description": "Headquarters state or region.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Company organization type.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "websiteUrl": {
+                    "kind": "string",
+                    "description": "Canonical company website URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "name",
+                  "domain"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "page": {
+              "kind": "integer",
+              "description": "Zero-based page number returned by the source.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "size": {
+              "kind": "integer",
+              "description": "Configured page size.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "total": {
+              "kind": "integer",
+              "description": "Total matching companies.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "Total result pages.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "companies",
+            "page",
+            "size",
+            "total",
+            "totalPages"
+          ],
+          "open": false
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "company_search.crustdata_v3",
+      "platform": "company_search",
+      "action": "crustdata_v3",
+      "operationId": "company_search_crustdata_v3",
+      "name": "Company Search - Crustdata v3",
+      "category": "data",
+      "description": "Search companies by structured filters with cursor pagination.",
+      "pricing": {
+        "priceUsd": 48,
+        "baseUsd": 0,
+        "perItemUsd": 0.048,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "companySearch",
+      "tsMethod": "crustdataV3",
+      "tsIterMethod": "iterCrustdataV3",
+      "pyNamespace": "company_search",
+      "pyMethod": "crustdata_v3",
+      "pyIterMethod": "iter_crustdata_v3",
+      "inputTypeName": "CompanySearchCrustdataV3Input",
+      "outputTypeName": "CompanySearchCrustdataV3Data",
+      "example": null,
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "fields": {
+            "kind": "unknown"
+          },
+          "filters": {
+            "kind": "unknown",
+            "description": "Crustdata company-database filter expression."
+          },
+          "limit": {
+            "kind": "integer",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "sorts": {
+            "kind": "array",
+            "items": {
+              "kind": "object",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "filters"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "companies": {
+              "kind": "array",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "domain": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "employeeCount": {
+                    "kind": "integer",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "headquarters": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "industry": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkedinUrl": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "hasMore": {
+              "kind": "boolean",
+              "default": null
+            },
+            "nextCursor": {
+              "kind": "string",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "totalCount": {
+              "kind": "integer",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "companies"
+          ],
+          "open": false
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "companies",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
       "slug": "congress.trades",
       "platform": "congress",
       "action": "trades",
@@ -7391,6 +7925,598 @@
           "mustPopulate": [
             "items"
           ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "email_finding.dropleads",
+      "platform": "email_finding",
+      "action": "dropleads",
+      "operationId": "email_finding_dropleads",
+      "name": "Email Finding - DropLeads",
+      "category": "data",
+      "description": "Find a professional email from a person's name and company domain or company name.",
+      "pricing": {
+        "priceUsd": 0.0312,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "emailFinding",
+      "tsMethod": "dropleads",
+      "tsIterMethod": null,
+      "pyNamespace": "email_finding",
+      "pyMethod": "dropleads",
+      "pyIterMethod": null,
+      "inputTypeName": "EmailFindingDropleadsInput",
+      "outputTypeName": "EmailFindingDropleadsData",
+      "example": {
+        "companyDomain": "apollo.io",
+        "firstName": "Tim",
+        "lastName": "Zheng"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "companyDomain": {
+            "kind": "string",
+            "description": "Company domain without a path.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "companyName": {
+            "kind": "string",
+            "description": "Company name when the domain is unavailable.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "firstName": {
+            "kind": "string",
+            "description": "Person's first name.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "lastName": {
+            "kind": "string",
+            "description": "Person's last name.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "companyDomain": {
+              "kind": "string",
+              "description": "Matched company domain.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "companyName": {
+              "kind": "string",
+              "description": "Matched company name.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "companySize": {
+              "kind": "unknown",
+              "description": "Company size when available."
+            },
+            "email": {
+              "kind": "string",
+              "description": "Matched email address.",
+              "enum": null,
+              "default": null,
+              "format": "email"
+            },
+            "firstName": {
+              "kind": "string",
+              "description": "Matched first name.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "industry": {
+              "kind": "string",
+              "description": "Company industry when available.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "lastName": {
+              "kind": "string",
+              "description": "Matched last name.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mxProvider": {
+              "kind": "string",
+              "description": "Detected mail provider.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mxRecord": {
+              "kind": "string",
+              "description": "Selected mail exchange record.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "status": {
+              "kind": "string",
+              "description": "Source validation status for the matched email.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "email",
+            "status"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "email_finding.icypeas",
+      "platform": "email_finding",
+      "action": "icypeas",
+      "operationId": "email_finding_icypeas",
+      "name": "Email Finding - Icypeas",
+      "category": "data",
+      "description": "Find a professional email from a person and company through the durable Request lifecycle.",
+      "pricing": {
+        "priceUsd": 0.0168,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "emailFinding",
+      "tsMethod": "icypeas",
+      "tsIterMethod": null,
+      "pyNamespace": "email_finding",
+      "pyMethod": "icypeas",
+      "pyIterMethod": null,
+      "inputTypeName": "EmailFindingIcypeasInput",
+      "outputTypeName": "EmailFindingIcypeasData",
+      "example": null,
+      "input": {
+        "kind": "object",
+        "properties": {
+          "domainOrCompany": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "firstname": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "lastname": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "domainOrCompany"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "certainty": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "email": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": "email"
+            },
+            "firstname": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "fullname": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "lastname": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mxProvider": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mxRecords": {
+              "kind": "array",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            }
+          },
+          "required": [
+            "email"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "email_verification.allegrow",
+      "platform": "email_verification",
+      "action": "allegrow",
+      "operationId": "email_verification_allegrow",
+      "name": "Email Verification - Allegrow",
+      "category": "data",
+      "description": "Validate an email address and return its deliverability verdict and mailbox signals.",
+      "pricing": {
+        "priceUsd": 0.0144,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "emailVerification",
+      "tsMethod": "allegrow",
+      "tsIterMethod": null,
+      "pyNamespace": "email_verification",
+      "pyMethod": "allegrow",
+      "pyIterMethod": null,
+      "inputTypeName": "EmailVerificationAllegrowInput",
+      "outputTypeName": "EmailVerificationAllegrowData",
+      "example": {
+        "email": "tim@apollo.io"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "email": {
+            "kind": "string",
+            "description": "Email address to validate.",
+            "enum": null,
+            "default": null,
+            "format": "email"
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "domain": {
+              "kind": "string",
+              "description": "Email domain.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "email": {
+              "kind": "string",
+              "description": "Validated email address.",
+              "enum": null,
+              "default": null,
+              "format": "email"
+            },
+            "isCatchAll": {
+              "kind": "boolean",
+              "description": "Whether the domain accepts mail for arbitrary recipients.",
+              "default": null
+            },
+            "isRoleAccount": {
+              "kind": "boolean",
+              "description": "Whether the mailbox appears to be a role account.",
+              "default": null
+            },
+            "mxProvider": {
+              "kind": "string",
+              "description": "Detected mail provider.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "status": {
+              "kind": "string",
+              "description": "Deliverability verdict; negative verdicts are successful billable results.",
+              "enum": [
+                "safe",
+                "do_not_mail_abuse",
+                "some_risk",
+                "block_bounce_risk",
+                "dead_email",
+                "spamtrap",
+                "more_time_required",
+                "missing_email"
+              ],
+              "default": null,
+              "format": null
+            },
+            "subStatus": {
+              "kind": "string",
+              "description": "More specific validation result when available.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "validatedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "email",
+            "status"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "email_verification.bounceban",
+      "platform": "email_verification",
+      "action": "bounceban",
+      "operationId": "email_verification_bounceban",
+      "name": "Email Verification - BounceBan",
+      "category": "data",
+      "description": "Verify an email address, including catch-all handling. Completion uses the durable Request lifecycle; a negative verdict is a successful result.",
+      "pricing": {
+        "priceUsd": 0.0072,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "emailVerification",
+      "tsMethod": "bounceban",
+      "tsIterMethod": null,
+      "pyNamespace": "email_verification",
+      "pyMethod": "bounceban",
+      "pyIterMethod": null,
+      "inputTypeName": "EmailVerificationBouncebanInput",
+      "outputTypeName": "EmailVerificationBouncebanData",
+      "example": null,
+      "input": {
+        "kind": "object",
+        "properties": {
+          "disableCatchallVerify": {
+            "kind": "boolean",
+            "default": null
+          },
+          "email": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "email"
+          },
+          "mode": {
+            "kind": "string",
+            "enum": [
+              "regular",
+              "deepverify"
+            ],
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "email": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "isCatchAll": {
+              "kind": "boolean",
+              "default": null
+            },
+            "isDisposable": {
+              "kind": "boolean",
+              "default": null
+            },
+            "isFree": {
+              "kind": "boolean",
+              "default": null
+            },
+            "isRole": {
+              "kind": "boolean",
+              "default": null
+            },
+            "mode": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mxRecords": {
+              "kind": "array",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "reason": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "result": {
+              "kind": "string",
+              "description": "Deliverability verdict; negative verdicts are successful results.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "score": {
+              "kind": "number",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "smtpProvider": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "verifiedAt": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "email",
+            "result"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "email_verification.icypeas",
+      "platform": "email_verification",
+      "action": "icypeas",
+      "operationId": "email_verification_icypeas",
+      "name": "Email Verification - Icypeas",
+      "category": "data",
+      "description": "Verify an email address. A valid negative verdict is a successful, billable result.",
+      "pricing": {
+        "priceUsd": 0.0024,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "emailVerification",
+      "tsMethod": "icypeas",
+      "tsIterMethod": null,
+      "pyNamespace": "email_verification",
+      "pyMethod": "icypeas",
+      "pyIterMethod": null,
+      "inputTypeName": "EmailVerificationIcypeasInput",
+      "outputTypeName": "EmailVerificationIcypeasData",
+      "example": null,
+      "input": {
+        "kind": "object",
+        "properties": {
+          "email": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "email"
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "status": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "open": true
         }
       },
       "pagination": {
@@ -27485,6 +28611,177 @@
       }
     },
     {
+      "slug": "mobile_phone.ai_ark",
+      "platform": "mobile_phone",
+      "action": "ai_ark",
+      "operationId": "mobile_phone_ai_ark",
+      "name": "Mobile Phone - AI Ark",
+      "category": "data",
+      "description": "Find a person's mobile phone from a LinkedIn URL or from a domain and full name.",
+      "pricing": {
+        "priceUsd": 0.084,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "mobilePhone",
+      "tsMethod": "aiArk",
+      "tsIterMethod": null,
+      "pyNamespace": "mobile_phone",
+      "pyMethod": "ai_ark",
+      "pyIterMethod": null,
+      "inputTypeName": "MobilePhoneAiArkInput",
+      "outputTypeName": "MobilePhoneAiArkData",
+      "example": {
+        "linkedinUrl": "https://www.linkedin.com/in/tim-zheng"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "domain": {
+            "kind": "string",
+            "description": "Person's company domain.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "fullName": {
+            "kind": "string",
+            "description": "Person's full name.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "linkedinUrl": {
+            "kind": "string",
+            "description": "Person's LinkedIn profile URL.",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "linkedinUrl": {
+              "kind": "string",
+              "description": "Canonical LinkedIn profile URL returned with the match.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "phone": {
+              "kind": "string",
+              "description": "Matched mobile phone number.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "phone"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "mobile_phone.leadmagic",
+      "platform": "mobile_phone",
+      "action": "leadmagic",
+      "operationId": "mobile_phone_leadmagic",
+      "name": "Mobile Phone - LeadMagic",
+      "category": "data",
+      "description": "Find a person's mobile phone from a profile URL or email. No-match responses are not billed.",
+      "pricing": {
+        "priceUsd": 0.2016,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "mobilePhone",
+      "tsMethod": "leadmagic",
+      "tsIterMethod": null,
+      "pyNamespace": "mobile_phone",
+      "pyMethod": "leadmagic",
+      "pyIterMethod": null,
+      "inputTypeName": "MobilePhoneLeadmagicInput",
+      "outputTypeName": "MobilePhoneLeadmagicData",
+      "example": null,
+      "input": {
+        "kind": "object",
+        "properties": {
+          "email": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "email"
+          },
+          "personalEmail": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "email"
+          },
+          "profileUrl": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          },
+          "workEmail": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "email"
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "message": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mobile": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "mobile"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "pandaexpress.locations",
       "platform": "pandaexpress",
       "action": "locations",
@@ -27989,6 +29286,393 @@
       }
     },
     {
+      "slug": "people_search.ai_ark",
+      "platform": "people_search",
+      "action": "ai_ark",
+      "operationId": "people_search_ai_ark",
+      "name": "People Search - AI Ark",
+      "category": "data",
+      "description": "Search professional profiles with account, contact, and saved-list filters.",
+      "pricing": {
+        "priceUsd": 0.84,
+        "baseUsd": 0,
+        "perItemUsd": 0.0084,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "peopleSearch",
+      "tsMethod": "aiArk",
+      "tsIterMethod": null,
+      "pyNamespace": "people_search",
+      "pyMethod": "ai_ark",
+      "pyIterMethod": null,
+      "inputTypeName": "PeopleSearchAiArkInput",
+      "outputTypeName": "PeopleSearchAiArkData",
+      "example": {
+        "page": 0,
+        "size": 1
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "account": {
+            "kind": "object",
+            "description": "AI Ark account filter expression. Nested generic any/all filter objects are accepted as documented by the source and are not further constrained.",
+            "properties": {},
+            "required": [],
+            "open": true
+          },
+          "contact": {
+            "kind": "object",
+            "description": "AI Ark contact filter expression. Nested generic any/all filter objects are accepted as documented by the source and are not further constrained.",
+            "properties": {},
+            "required": [],
+            "open": true
+          },
+          "lists": {
+            "kind": "object",
+            "description": "AI Ark saved-list filter expression.",
+            "properties": {},
+            "required": [],
+            "open": true
+          },
+          "page": {
+            "kind": "integer",
+            "description": "Zero-based result page.",
+            "minimum": 0,
+            "maximum": null,
+            "default": 0
+          },
+          "size": {
+            "kind": "integer",
+            "description": "Maximum people to return on this page.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "page": {
+              "kind": "integer",
+              "description": "Zero-based page number returned by the source.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "people": {
+              "kind": "array",
+              "description": "People returned on this page.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "city": {
+                    "kind": "string",
+                    "description": "Location city.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyDomain": {
+                    "kind": "string",
+                    "description": "Current company domain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyEmployeeCount": {
+                    "kind": "integer",
+                    "description": "Estimated employees at the current company.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "companyIndustry": {
+                    "kind": "string",
+                    "description": "Current company's primary industry.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyLinkedinUrl": {
+                    "kind": "string",
+                    "description": "Current company's canonical LinkedIn URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "companyName": {
+                    "kind": "string",
+                    "description": "Current company name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "country": {
+                    "kind": "string",
+                    "description": "Location country.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "firstName": {
+                    "kind": "string",
+                    "description": "Person's first name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "fullName": {
+                    "kind": "string",
+                    "description": "Person's full name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "headline": {
+                    "kind": "string",
+                    "description": "Professional profile headline.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "lastName": {
+                    "kind": "string",
+                    "description": "Person's last name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkedinUrl": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "location": {
+                    "kind": "string",
+                    "description": "Formatted location.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "state": {
+                    "kind": "string",
+                    "description": "Location state or region.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Current job title.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "fullName",
+                  "linkedinUrl"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "size": {
+              "kind": "integer",
+              "description": "Configured page size.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "total": {
+              "kind": "integer",
+              "description": "Total matching people.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "Total result pages.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "people",
+            "page",
+            "size",
+            "total",
+            "totalPages"
+          ],
+          "open": false
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "people_search.crustdata_v3",
+      "platform": "people_search",
+      "action": "crustdata_v3",
+      "operationId": "people_search_crustdata_v3",
+      "name": "People Search - Crustdata v3",
+      "category": "data",
+      "description": "Find up to 100 professional profiles by company domain and title keywords.",
+      "pricing": {
+        "priceUsd": 0.144,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "peopleSearch",
+      "tsMethod": "crustdataV3",
+      "tsIterMethod": null,
+      "pyNamespace": "people_search",
+      "pyMethod": "crustdata_v3",
+      "pyIterMethod": null,
+      "inputTypeName": "PeopleSearchCrustdataV3Input",
+      "outputTypeName": "PeopleSearchCrustdataV3Data",
+      "example": null,
+      "input": {
+        "kind": "object",
+        "properties": {
+          "companyDomain": {
+            "kind": "string",
+            "description": "Company domain without a path.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "country": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "fuzzyTitle": {
+            "kind": "boolean",
+            "default": true
+          },
+          "limit": {
+            "kind": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 3
+          },
+          "profileKeywords": {
+            "kind": "unknown"
+          },
+          "requireVerifiedEmail": {
+            "kind": "boolean",
+            "default": false
+          },
+          "seniority": {
+            "kind": "unknown"
+          },
+          "titleKeywords": {
+            "kind": "unknown"
+          }
+        },
+        "required": [
+          "companyDomain",
+          "titleKeywords"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "default": null
+            },
+            "profiles": {
+              "kind": "array",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "emails": {
+                    "kind": "array",
+                    "items": {
+                      "kind": "unknown"
+                    },
+                    "mustPopulate": false
+                  },
+                  "firstName": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "headline": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "lastName": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkedinUrl": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "totalCount": {
+              "kind": "integer",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "profiles"
+          ],
+          "open": false
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "person.skip_trace",
       "platform": "person",
       "action": "skip_trace",
@@ -28296,6 +29980,167 @@
           "mustPopulate": [
             "items"
           ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "person_enrichment.aviato",
+      "platform": "person_enrichment",
+      "action": "aviato",
+      "operationId": "person_enrichment_aviato",
+      "name": "Person Enrichment - Aviato",
+      "category": "data",
+      "description": "Enrich a person from an Aviato or LinkedIn identifier, LinkedIn URL, or email.",
+      "pricing": {
+        "priceUsd": 0.084,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "personEnrichment",
+      "tsMethod": "aviato",
+      "tsIterMethod": null,
+      "pyNamespace": "person_enrichment",
+      "pyMethod": "aviato",
+      "pyIterMethod": null,
+      "inputTypeName": "PersonEnrichmentAviatoInput",
+      "outputTypeName": "PersonEnrichmentAviatoData",
+      "example": null,
+      "input": {
+        "kind": "object",
+        "properties": {
+          "angelListID": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "crunchbaseID": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "email": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "email"
+          },
+          "id": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "linkedinEntityId": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "linkedinID": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "linkedinURL": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          },
+          "polyworkID": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "require": {
+            "kind": "array",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "signalNfxID": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "twitterID": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "about": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "firstName": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "headline": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "lastName": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedinUrl": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "location": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "name": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "open": true
         }
       },
       "pagination": {

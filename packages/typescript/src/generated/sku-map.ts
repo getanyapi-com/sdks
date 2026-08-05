@@ -71,6 +71,16 @@ import type {
   CoinmarketcapListingsInput,
 } from "./platforms/coinmarketcap.js";
 import type {
+  CompanyEnrichmentCrustdataV3Data,
+  CompanyEnrichmentCrustdataV3Input,
+} from "./platforms/company_enrichment.js";
+import type {
+  CompanySearchAiArkData,
+  CompanySearchAiArkInput,
+  CompanySearchCrustdataV3Data,
+  CompanySearchCrustdataV3Input,
+} from "./platforms/company_search.js";
+import type {
   CongressTradesData,
   CongressTradesInput,
 } from "./platforms/congress.js";
@@ -102,6 +112,20 @@ import type {
   EmailVerifyData,
   EmailVerifyInput,
 } from "./platforms/email.js";
+import type {
+  EmailFindingDropleadsData,
+  EmailFindingDropleadsInput,
+  EmailFindingIcypeasData,
+  EmailFindingIcypeasInput,
+} from "./platforms/email_finding.js";
+import type {
+  EmailVerificationAllegrowData,
+  EmailVerificationAllegrowInput,
+  EmailVerificationBouncebanData,
+  EmailVerificationBouncebanInput,
+  EmailVerificationIcypeasData,
+  EmailVerificationIcypeasInput,
+} from "./platforms/email_verification.js";
 import type {
   FacebookAdDetailsData,
   FacebookAdDetailsInput,
@@ -342,6 +366,12 @@ import type {
   MapsSearchInput,
 } from "./platforms/maps.js";
 import type {
+  MobilePhoneAiArkData,
+  MobilePhoneAiArkInput,
+  MobilePhoneLeadmagicData,
+  MobilePhoneLeadmagicInput,
+} from "./platforms/mobile_phone.js";
+import type {
   PandaexpressLocationsData,
   PandaexpressLocationsInput,
   PandaexpressMenuData,
@@ -350,9 +380,19 @@ import type {
   PandaexpressNutritionInput,
 } from "./platforms/pandaexpress.js";
 import type {
+  PeopleSearchAiArkData,
+  PeopleSearchAiArkInput,
+  PeopleSearchCrustdataV3Data,
+  PeopleSearchCrustdataV3Input,
+} from "./platforms/people_search.js";
+import type {
   PersonSkipTraceData,
   PersonSkipTraceInput,
 } from "./platforms/person.js";
+import type {
+  PersonEnrichmentAviatoData,
+  PersonEnrichmentAviatoInput,
+} from "./platforms/person_enrichment.js";
 import type {
   PinterestSearchData,
   PinterestSearchInput,
@@ -805,6 +845,21 @@ export interface SkuMap {
     data: CoinmarketcapListingsData;
     result: RunResult<CoinmarketcapListingsData>;
   };
+  "company_enrichment.crustdata_v3": {
+    input: CompanyEnrichmentCrustdataV3Input;
+    data: CompanyEnrichmentCrustdataV3Data;
+    result: RunResult<CompanyEnrichmentCrustdataV3Data>;
+  };
+  "company_search.ai_ark": {
+    input: CompanySearchAiArkInput;
+    data: CompanySearchAiArkData;
+    result: RunResult<CompanySearchAiArkData>;
+  };
+  "company_search.crustdata_v3": {
+    input: CompanySearchCrustdataV3Input;
+    data: CompanySearchCrustdataV3Data;
+    result: RunResult<CompanySearchCrustdataV3Data>;
+  };
   "congress.trades": {
     input: CongressTradesInput;
     data: CongressTradesData;
@@ -859,6 +914,31 @@ export interface SkuMap {
     input: EmailVerifyInput;
     data: EmailVerifyData;
     result: RunResult<EmailVerifyData>;
+  };
+  "email_finding.dropleads": {
+    input: EmailFindingDropleadsInput;
+    data: EmailFindingDropleadsData;
+    result: RunResult<EmailFindingDropleadsData>;
+  };
+  "email_finding.icypeas": {
+    input: EmailFindingIcypeasInput;
+    data: EmailFindingIcypeasData;
+    result: RunResult<EmailFindingIcypeasData>;
+  };
+  "email_verification.allegrow": {
+    input: EmailVerificationAllegrowInput;
+    data: EmailVerificationAllegrowData;
+    result: RunResult<EmailVerificationAllegrowData>;
+  };
+  "email_verification.bounceban": {
+    input: EmailVerificationBouncebanInput;
+    data: EmailVerificationBouncebanData;
+    result: RunResult<EmailVerificationBouncebanData>;
+  };
+  "email_verification.icypeas": {
+    input: EmailVerificationIcypeasInput;
+    data: EmailVerificationIcypeasData;
+    result: RunResult<EmailVerificationIcypeasData>;
   };
   "facebook.ad_details": {
     input: FacebookAdDetailsInput;
@@ -1400,6 +1480,16 @@ export interface SkuMap {
     data: MapsSearchData;
     result: RunResult<MapsSearchData>;
   };
+  "mobile_phone.ai_ark": {
+    input: MobilePhoneAiArkInput;
+    data: MobilePhoneAiArkData;
+    result: RunResult<MobilePhoneAiArkData>;
+  };
+  "mobile_phone.leadmagic": {
+    input: MobilePhoneLeadmagicInput;
+    data: MobilePhoneLeadmagicData;
+    result: RunResult<MobilePhoneLeadmagicData>;
+  };
   "pandaexpress.locations": {
     input: PandaexpressLocationsInput;
     data: PandaexpressLocationsData;
@@ -1415,10 +1505,25 @@ export interface SkuMap {
     data: PandaexpressNutritionData;
     result: RunResult<PandaexpressNutritionData>;
   };
+  "people_search.ai_ark": {
+    input: PeopleSearchAiArkInput;
+    data: PeopleSearchAiArkData;
+    result: RunResult<PeopleSearchAiArkData>;
+  };
+  "people_search.crustdata_v3": {
+    input: PeopleSearchCrustdataV3Input;
+    data: PeopleSearchCrustdataV3Data;
+    result: RunResult<PeopleSearchCrustdataV3Data>;
+  };
   "person.skip_trace": {
     input: PersonSkipTraceInput;
     data: PersonSkipTraceData;
     result: RunResult<PersonSkipTraceData>;
+  };
+  "person_enrichment.aviato": {
+    input: PersonEnrichmentAviatoInput;
+    data: PersonEnrichmentAviatoData;
+    result: RunResult<PersonEnrichmentAviatoData>;
   };
   "pinterest.search": {
     input: PinterestSearchInput;
