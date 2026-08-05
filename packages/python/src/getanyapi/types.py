@@ -133,6 +133,20 @@ class RunResult(BaseModel, Generic[T]):
         return _reject_unretained_output(data)
 
 
+class RequestSnapshot(BaseModel, Generic[T]):
+    """Stored state for a durable AnyAPI Request."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+    request_id: str = Field(alias="requestId")
+    sku: str
+    status: Literal["queued", "running", "succeeded", "failed", "expired"]
+    created_at: str = Field(alias="createdAt")
+    retry_after_seconds: int | None = Field(default=None, alias="retryAfterSeconds")
+    result: RunResult[T] | None = None
+    error: dict[str, str] | None = None
+    result_expired: bool = Field(default=False, alias="resultExpired")
+
+
 class BareRunResult(BaseModel, Generic[T]):
     """The conditional envelope for an operation without a found/data wrapper.
 

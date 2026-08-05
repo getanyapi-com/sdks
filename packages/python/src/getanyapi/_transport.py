@@ -142,6 +142,8 @@ def build_request(
         )
         validate_idempotency_key(key)
         headers["Idempotency-Key"] = key
+    if options is not None and options.get("respond_async"):
+        headers["Prefer"] = "respond-async"
     # This request is built once before the retry loop. httpx serializes ``json``
     # here, so every send reuses the exact raw body bytes used for fingerprinting.
     return httpx.Request(
@@ -190,7 +192,7 @@ def parse_raw(response: httpx.Response) -> dict[str, Any]:
     envelope choice is the caller's (the generated code knows its SKU's shape).
     """
     request_id = request_id_of(response)
-    if response.status_code == 200:
+    if response.status_code in (200, 202):
         try:
             body = response.json()
         except ValueError as exc:
@@ -228,9 +230,7 @@ def validate_run_result(raw: dict[str, Any]) -> RunResult[Any]:
     try:
         return RunResult[Any].model_validate(raw)
     except ValidationError as exc:
-        raise AnyAPIError(
-            f"could not parse run response: {exc}", status=200
-        ) from exc
+        raise AnyAPIError(f"could not parse run response: {exc}", status=200) from exc
 
 
 def retry_after_seconds(response: httpx.Response) -> float | None:
@@ -263,7 +263,7 @@ def retry_after_seconds(response: httpx.Response) -> float | None:
 def compute_delay(attempt: int, rng: random.Random | None = None) -> float:
     """Jittered exponential backoff for retry ``attempt`` (0-based) (SPEC 2.8)."""
     r: random.Random = rng or _RNG
-    base = min(_BASE_DELAY * float(2 ** attempt), _MAX_DELAY)
+    base = min(_BASE_DELAY * float(2**attempt), _MAX_DELAY)
     jitter = 0.5 + r.random()
     return base * jitter
 

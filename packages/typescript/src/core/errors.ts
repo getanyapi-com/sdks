@@ -54,6 +54,16 @@ export class ConnectionError extends AnyAPIError {}
 /** status 0, request timed out. */
 export class TimeoutError extends AnyAPIError {}
 
+/** The SDK deadline elapsed while durable work was still resumable. */
+export class RequestPendingError extends TimeoutError {
+  readonly durableRequestId: string;
+
+  constructor(requestId: string) {
+    super(`request is still running; resume with requests.get or requests.wait: ${requestId}`, 0, requestId);
+    this.durableRequestId = requestId;
+  }
+}
+
 /**
  * The gateway emits its support handle as `X-Anyapi-Request-Id` (the only request-id header
  * its CORS layer exposes to a browser). The generic `x-request-id` is read as a fallback for

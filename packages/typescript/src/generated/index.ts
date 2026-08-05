@@ -80,6 +80,7 @@ export {
   UpstreamError,
   ConnectionError,
   TimeoutError,
+  RequestPendingError,
 } from "../core/index.js";
 
 export type {
@@ -88,6 +89,9 @@ export type {
   BareRunResult,
   Output,
   RequestOptions,
+  RequestSnapshot,
+  RequestStatus,
+  StartOptions,
   Paginator,
   AccountProfile,
   CatalogOptions,

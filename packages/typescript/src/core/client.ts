@@ -4,6 +4,7 @@
 import {
   AnyAPIError,
   ConnectionError,
+  RequestPendingError,
   TimeoutError,
   errorFromStatus,
   requestIdOf,
@@ -28,8 +29,10 @@ import type {
   CatalogSearchResults,
   ClientOptions,
   RequestOptions,
+  RequestSnapshot,
   RunResult,
   SearchOptions,
+  StartOptions,
 } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://api.getanyapi.com";
@@ -230,7 +233,10 @@ function isDefinitelyPreSendConnectionError(error: unknown): boolean {
   const seen = new Set<object>();
 
   const visit = (value: unknown): boolean => {
-    if ((typeof value !== "object" && typeof value !== "function") || value === null) {
+    if (
+      (typeof value !== "object" && typeof value !== "function") ||
+      value === null
+    ) {
       return false;
     }
     if (seen.has(value)) {
@@ -266,8 +272,7 @@ function isDefinitelyPreSendConnectionError(error: unknown): boolean {
     }
     if (Array.isArray(candidate.errors) && candidate.errors.length > 0) {
       return (
-        candidate.errors.some((item) => visit(item)) ||
-        visit(candidate.cause)
+        candidate.errors.some((item) => visit(item)) || visit(candidate.cause)
       );
     }
     return visit(candidate.cause);
@@ -380,7 +385,7 @@ export class AnyAPI implements ClientCore {
    * generated `AnyAPI` subclass adds typed literal-slug overloads on top (SPEC 2.1); this
    * base signature is the fallback that returns RunResult<unknown> for an unknown slug.
    */
-  run<T = unknown>(
+  async run<T = unknown>(
     slug: string,
     input: unknown,
     options?: RequestOptions,
@@ -388,7 +393,8 @@ export class AnyAPI implements ClientCore {
     // Serialize once before entering request's retry loop. Reusing this exact string keeps
     // the raw body bytes stable for gateway idempotency fingerprinting.
     const body = JSON.stringify(input ?? {});
-    return this.request<RunResult<T>>(
+    const startedAt = Date.now();
+    const response = await this.request<RunResult<T> | RequestSnapshot<T>>(
       "POST",
       buildUrl(this.baseUrl, slug, options),
       {
@@ -401,7 +407,111 @@ export class AnyAPI implements ClientCore {
           ? { idempotencyKey: options.idempotencyKey }
           : {}),
         ...(options?.signal ? { signal: options.signal } : {}),
+        accept202: true,
       },
+    );
+    if (!isRequestSnapshot<T>(response)) return response;
+    return this.waitRequest<T>(response.requestId, {
+      initial: response,
+      timeoutMs: Math.max(
+        0,
+        (options?.timeoutMs ?? this.timeoutMs) - (Date.now() - startedAt),
+      ),
+      ...(options?.signal ? { signal: options.signal } : {}),
+    });
+  }
+
+  /** Start durable work. A same-key completed replay returns its terminal result immediately. */
+  async start<T = unknown>(
+    slug: string,
+    input: unknown,
+    options?: StartOptions,
+  ): Promise<RequestSnapshot<T> | RunResult<T>> {
+    const body = JSON.stringify(input ?? {});
+    const response = await this.request<RequestSnapshot<T> | RunResult<T>>(
+      "POST",
+      buildUrl(this.baseUrl, slug, options),
+      {
+        body,
+        timeoutMs: options?.timeoutMs ?? this.timeoutMs,
+        maxRetries: options?.maxRetries ?? this.maxRetries,
+        maxInProgressWaitMs:
+          options?.maxInProgressWaitMs ?? this.maxInProgressWaitMs,
+        ...(options?.idempotencyKey !== undefined
+          ? { idempotencyKey: options.idempotencyKey }
+          : {}),
+        ...(options?.signal ? { signal: options.signal } : {}),
+        headers: { Prefer: "respond-async" },
+        accept202: true,
+      },
+    );
+    return response;
+  }
+
+  readonly requests = {
+    get: <T = unknown>(requestId: string) => this.getRequest<T>(requestId),
+    wait: <T = unknown>(
+      requestId: string,
+      options?: { timeoutMs?: number; signal?: AbortSignal },
+    ) => this.waitRequest<T>(requestId, options),
+  };
+
+  private getRequest<T = unknown>(
+    requestId: string,
+    options?: { timeoutMs?: number; signal?: AbortSignal },
+  ): Promise<RequestSnapshot<T>> {
+    return this.httpGet<RequestSnapshot<T>>(
+      `/v1/requests/${encodeURIComponent(requestId)}`,
+      options,
+    );
+  }
+
+  private async waitRequest<T = unknown>(
+    requestId: string,
+    options?: {
+      timeoutMs?: number;
+      signal?: AbortSignal;
+      initial?: RequestSnapshot<T>;
+    },
+  ): Promise<RunResult<T>> {
+    const timeoutMs = options?.timeoutMs ?? this.timeoutMs;
+    const deadline = Date.now() + timeoutMs;
+    const inspect = async (): Promise<RequestSnapshot<T>> => {
+      const remaining = deadline - Date.now();
+      if (remaining <= 0) throw new RequestPendingError(requestId);
+      try {
+        return await this.getRequest<T>(requestId, {
+          timeoutMs: remaining,
+          ...(options?.signal ? { signal: options.signal } : {}),
+        });
+      } catch (error) {
+        if (error instanceof TimeoutError)
+          throw new RequestPendingError(requestId);
+        throw error;
+      }
+    };
+    let snapshot = options?.initial ?? (await inspect());
+    while (snapshot.status === "queued" || snapshot.status === "running") {
+      const waitMs = Math.max(1, snapshot.retryAfterSeconds ?? 2) * 1000;
+      if (Date.now() + waitMs > deadline)
+        throw new RequestPendingError(requestId);
+      await sleep(waitMs, options?.signal);
+      snapshot = await inspect();
+    }
+    if (snapshot.status === "succeeded" && snapshot.result)
+      return snapshot.result;
+    if (snapshot.resultExpired)
+      throw new AnyAPIError(
+        "request result expired",
+        410,
+        requestId,
+        "result_expired",
+      );
+    throw new AnyAPIError(
+      `request ended with ${snapshot.error?.code ?? snapshot.status}`,
+      502,
+      requestId,
+      snapshot.error?.code,
     );
   }
 
@@ -450,10 +560,14 @@ export class AnyAPI implements ClientCore {
   }
 
   /** Internal GET against the gateway with the same auth/retry/error machinery. */
-  private httpGet<T>(path: string): Promise<T> {
+  private httpGet<T>(
+    path: string,
+    options?: { timeoutMs?: number; signal?: AbortSignal },
+  ): Promise<T> {
     return this.request<T>("GET", `${this.gatewayBaseUrl}${path}`, {
-      timeoutMs: this.timeoutMs,
+      timeoutMs: options?.timeoutMs ?? this.timeoutMs,
       maxRetries: this.maxRetries,
+      ...(options?.signal ? { signal: options.signal } : {}),
     });
   }
 
@@ -471,6 +585,8 @@ export class AnyAPI implements ClientCore {
       maxInProgressWaitMs?: number;
       signal?: AbortSignal;
       idempotencyKey?: string;
+      headers?: Record<string, string>;
+      accept202?: boolean;
     },
   ): Promise<T> {
     const headers: Record<string, string> = {
@@ -482,6 +598,7 @@ export class AnyAPI implements ClientCore {
     if (this.apiKey) {
       headers["Authorization"] = `Bearer ${this.apiKey}`;
     }
+    Object.assign(headers, opts.headers);
     const billedPost = method === "POST" && opts.body !== undefined;
     if (billedPost && this.idempotency === "auto") {
       const key = opts.idempotencyKey ?? generateIdempotencyKey();
@@ -534,7 +651,10 @@ export class AnyAPI implements ClientCore {
 
       const requestId = requestIdOf(response.headers);
 
-      if (response.status === 200) {
+      if (
+        response.status === 200 ||
+        (opts.accept202 && response.status === 202)
+      ) {
         const text = await response.text();
         try {
           return JSON.parse(text) as T;
@@ -551,7 +671,9 @@ export class AnyAPI implements ClientCore {
       const body = await response.text().catch(() => "");
       const { message, code } = messageFromBody(body, response.status);
 
-      const retryAfterMs = parseRetryAfterMs(response.headers.get("retry-after"));
+      const retryAfterMs = parseRetryAfterMs(
+        response.headers.get("retry-after"),
+      );
 
       if (response.status === 429 && attempt < opts.maxRetries) {
         const delay =
@@ -602,4 +724,10 @@ export class AnyAPI implements ClientCore {
   protected get clientTimeoutMs(): number {
     return this.timeoutMs;
   }
+}
+
+function isRequestSnapshot<T>(
+  value: RunResult<T> | RequestSnapshot<T>,
+): value is RequestSnapshot<T> {
+  return "requestId" in value && "status" in value;
 }
