@@ -79,8 +79,13 @@ def _has_hard_keyword_key(example: dict[str, Any]) -> bool:
     return any(keyword.iskeyword(key) for key in example)
 
 
-def _dispatch_sync(client: Any, sku: dict[str, Any]) -> tuple[RunResult[Any], bool]:
+def _example(sku: dict[str, Any]) -> dict[str, Any]:
     example = sku["example"]
+    return example if isinstance(example, dict) else {}
+
+
+def _dispatch_sync(client: Any, sku: dict[str, Any]) -> tuple[RunResult[Any], bool]:
+    example = _example(sku)
     if _has_hard_keyword_key(example):
         return client.run(sku["slug"], example), True
     namespace = getattr(client, sku["pyNamespace"])
@@ -89,7 +94,7 @@ def _dispatch_sync(client: Any, sku: dict[str, Any]) -> tuple[RunResult[Any], bo
 
 
 async def _dispatch_async(client: Any, sku: dict[str, Any]) -> RunResult[Any]:
-    example = sku["example"]
+    example = _example(sku)
     if _has_hard_keyword_key(example):
         return await client.run(sku["slug"], example)
     namespace = getattr(client, sku["pyNamespace"])
