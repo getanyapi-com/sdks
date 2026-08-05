@@ -2684,6 +2684,46 @@
     "items": 1,
     "replayed": false
   },
+  "linkedin.profile_posts_full": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "text": "sample",
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "linkedin.profile_posts_thin": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "text": "sample",
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "linkedin.profile_thin": {
     "output": {
       "found": true,

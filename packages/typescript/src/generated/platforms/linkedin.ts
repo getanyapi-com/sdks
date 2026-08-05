@@ -1471,6 +1471,667 @@ export interface LinkedinProfileData {
 }
 
 /**
+ * Input for LinkedIn Profile Posts (full) (linkedin.profile_posts_full).
+ */
+export interface LinkedinProfilePostsFullInput {
+  /**
+   * Regional LinkedIn context used when retrieving posts.
+   * One of: any, US, GB, DE, FR.
+   */
+  contextCountry?: "any" | "US" | "GB" | "DE" | "FR";
+  /**
+   * Whether to include quote posts that add commentary to shared content.
+   * Default: true.
+   */
+  includeQuotePosts?: boolean;
+  /**
+   * Whether to include reposts that share content without added commentary.
+   * Default: true.
+   */
+  includeReposts?: boolean;
+  /**
+   * Maximum number of posts to return (1-100, default 10). You are billed per post returned, so a lower limit costs less.
+   * Range: minimum 1, maximum 100.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Only return posts published within this relative time window.
+   * One of: any, 1h, 24h, week, month, 3months, 6months, year.
+   */
+  postedLimit?:
+    "any" | "1h" | "24h" | "week" | "month" | "3months" | "6months" | "year";
+  /**
+   * Only return posts published on or after this date or timestamp, using a JavaScript-compatible date-time string.
+   */
+  postedLimitDate?: string;
+  /**
+   * Full URL of the public LinkedIn profile whose posts should be returned.
+   * Format: uri.
+   */
+  url: string;
+}
+
+export interface LinkedinProfilePostsFullItem {
+  /**
+   * Description excerpt of the attached article, when present.
+   */
+  articleDescription?: string;
+  /**
+   * Image URL of the attached article, when present.
+   * Format: uri.
+   */
+  articleImage?: string;
+  /**
+   * Height of the attached article image in pixels.
+   * Range: minimum 0.
+   */
+  articleImageHeight?: number;
+  /**
+   * Width of the attached article image in pixels.
+   * Range: minimum 0.
+   */
+  articleImageWidth?: number;
+  /**
+   * Accessible display label for the attached article link, when present.
+   */
+  articleLinkLabel?: string;
+  /**
+   * Subtitle or publisher label of the attached article, when present.
+   */
+  articleSubtitle?: string;
+  /**
+   * Title of the attached article, when present.
+   */
+  articleTitle?: string;
+  /**
+   * Canonical URL of the attached article, when present.
+   * Format: uri.
+   */
+  articleUrl?: string;
+  /**
+   * Detailed identity and publication information for the post author. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  author?: {
+    /**
+     * Public LinkedIn profile handle of the author. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    handle?: string;
+    /**
+     * Professional headline or follower summary displayed for the author. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    headline?: string;
+    /**
+     * Stable LinkedIn identifier of the author.
+     */
+    id?: string;
+    /**
+     * Profile or company image URL of the author. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    image?: string;
+    /**
+     * Height of the author image in pixels.
+     * Range: minimum 0.
+     */
+    imageHeight?: number;
+    /**
+     * Width of the author image in pixels.
+     * Range: minimum 0.
+     */
+    imageWidth?: number;
+    /**
+     * Display name of the author.
+     */
+    name?: string;
+    /**
+     * Canonical LinkedIn profile or company URL of the author. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    profileUrl?: string;
+    /**
+     * Author kind, such as profile or company.
+     */
+    type?: string;
+    /**
+     * Universal LinkedIn name used for company authors, when present.
+     */
+    universalName?: string;
+    /**
+     * Publication or website URL displayed by the author.
+     * Format: uri.
+     */
+    website?: string;
+    /**
+     * Display label for the author's publication or website link.
+     */
+    websiteLabel?: string;
+  };
+  /**
+   * Structured mentions and links embedded in the post text.
+   */
+  contentAnnotations?: LinkedinProfilePostsFullContentAnnotation[];
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Engagement totals and reaction breakdown for the post. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  engagement?: {
+    /**
+     * Counts grouped by LinkedIn reaction type.
+     */
+    breakdown?: LinkedinProfilePostsFullBreakdown[];
+    /**
+     * Total number of comments on the post. Populated whenever the provider has data for the entity.
+     * Range: minimum 0.
+     * Present whenever the upstream returns this record.
+     */
+    comments?: number;
+    /**
+     * Total number of reactions on the post. Populated whenever the provider has data for the entity.
+     * Range: minimum 0.
+     * Present whenever the upstream returns this record.
+     */
+    reactions?: number;
+    /**
+     * Total number of reposts or shares of the post. Populated whenever the provider has data for the entity.
+     * Range: minimum 0.
+     * Present whenever the upstream returns this record.
+     */
+    reposts?: number;
+  };
+  /**
+   * Unique identifier of the LinkedIn post. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Images attached to the post.
+   */
+  images?: LinkedinProfilePostsFullImage[];
+  /**
+   * Title of the LinkedIn newsletter associated with the post, when present.
+   */
+  newsletterTitle?: string;
+  /**
+   * Canonical URL of the LinkedIn newsletter associated with the post, when present.
+   * Format: uri.
+   */
+  newsletterUrl?: string;
+  /**
+   * Canonical LinkedIn feed publication URL for the post.
+   * Format: uri.
+   */
+  publicationUrl?: string;
+  /**
+   * Description excerpt of the reposted post's article, when present.
+   */
+  repostArticleDescription?: string;
+  /**
+   * Image URL of the reposted post's article, when present.
+   * Format: uri.
+   */
+  repostArticleImage?: string;
+  /**
+   * Height of the reposted post's article image in pixels.
+   * Range: minimum 0.
+   */
+  repostArticleImageHeight?: number;
+  /**
+   * Width of the reposted post's article image in pixels.
+   * Range: minimum 0.
+   */
+  repostArticleImageWidth?: number;
+  /**
+   * Accessible display label for the reposted post's article link, when present.
+   */
+  repostArticleLinkLabel?: string;
+  /**
+   * Subtitle or publisher label of the reposted post's article, when present.
+   */
+  repostArticleSubtitle?: string;
+  /**
+   * Title of the article attached to the reposted post, when present.
+   */
+  repostArticleTitle?: string;
+  /**
+   * Canonical URL of the reposted post's article, when present.
+   * Format: uri.
+   */
+  repostArticleUrl?: string;
+  /**
+   * Public LinkedIn profile handle of the reposted post's author, when present.
+   */
+  repostAuthorHandle?: string;
+  /**
+   * Headline or follower summary of the reposted post's author, when present.
+   */
+  repostAuthorHeadline?: string;
+  /**
+   * Stable LinkedIn identifier of the reposted post's author, when present.
+   */
+  repostAuthorId?: string;
+  /**
+   * Image URL of the reposted post's author, when present.
+   * Format: uri.
+   */
+  repostAuthorImage?: string;
+  /**
+   * Display name of the reposted post's author, when present.
+   */
+  repostAuthorName?: string;
+  /**
+   * Author kind for the reposted post, when present.
+   */
+  repostAuthorType?: string;
+  /**
+   * Universal LinkedIn name of the reposted post's company author, when present.
+   */
+  repostAuthorUniversalName?: string;
+  /**
+   * Canonical LinkedIn URL of the reposted post's author, when present.
+   * Format: uri.
+   */
+  repostAuthorUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  repostCreatedUtc?: number;
+  /**
+   * Unique identifier of the reposted post, when present.
+   */
+  repostId?: string;
+  /**
+   * Images attached to the reposted post.
+   */
+  repostImages?: LinkedinProfilePostsFullRepostImage[];
+  /**
+   * Text content of the reposted post, when present.
+   */
+  repostText?: string;
+  /**
+   * Canonical URL of the reposted post, when present.
+   * Format: uri.
+   */
+  repostUrl?: string;
+  /**
+   * LinkedIn visibility and action flags for the post.
+   */
+  socialContent?: {
+    /**
+     * Whether LinkedIn hides the comment action.
+     */
+    hideCommentAction?: boolean;
+    /**
+     * Whether LinkedIn hides the comment count.
+     */
+    hideCommentsCount?: boolean;
+    /**
+     * Whether LinkedIn hides the react action.
+     */
+    hideReactAction?: boolean;
+    /**
+     * Whether LinkedIn hides the reaction count.
+     */
+    hideReactionsCount?: boolean;
+    /**
+     * Whether LinkedIn hides the repost count.
+     */
+    hideRepostsCount?: boolean;
+    /**
+     * Whether LinkedIn hides the send action.
+     */
+    hideSendAction?: boolean;
+    /**
+     * Whether LinkedIn hides the share action.
+     */
+    hideShareAction?: boolean;
+    /**
+     * Whether LinkedIn hides social activity counts.
+     */
+    hideSocialActivityCounts?: boolean;
+    /**
+     * Whether LinkedIn hides the view count.
+     */
+    hideViewsCount?: boolean;
+    /**
+     * Canonical LinkedIn share URL for the post.
+     * Format: uri.
+     */
+    shareUrl?: string;
+    /**
+     * Whether LinkedIn enables the contribution experience.
+     */
+    showContributionExperience?: boolean;
+    /**
+     * Whether LinkedIn shows social detail.
+     */
+    showSocialDetail?: boolean;
+  };
+  /**
+   * Text content of the post. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * LinkedIn record type reported for the post.
+   */
+  type?: string;
+  /**
+   * Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Thumbnail URL of the attached video, when present.
+   * Format: uri.
+   */
+  videoThumbnail?: string;
+  /**
+   * URL of the attached video, when present.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinProfilePostsFullContentAnnotation {
+  /**
+   * LinkedIn identifier of a mentioned company, when present.
+   */
+  companyId?: string;
+  /**
+   * Display name of a mentioned company, when present.
+   */
+  companyName?: string;
+  /**
+   * Canonical LinkedIn URL of a mentioned company, when present.
+   * Format: uri.
+   */
+  companyUrl?: string;
+  /**
+   * Canonical hyperlink attached to the annotation, when present.
+   * Format: uri.
+   */
+  hyperlink?: string;
+  /**
+   * Length of the annotated text span.
+   * Range: minimum 0.
+   */
+  length?: number;
+  /**
+   * First name of a mentioned profile, when present.
+   */
+  profileFirstName?: string;
+  /**
+   * Public LinkedIn handle of a mentioned profile, when present.
+   */
+  profileHandle?: string;
+  /**
+   * LinkedIn identifier of a mentioned profile, when present.
+   */
+  profileId?: string;
+  /**
+   * Last name of a mentioned profile, when present.
+   */
+  profileLastName?: string;
+  /**
+   * Canonical LinkedIn URL of a mentioned profile, when present.
+   * Format: uri.
+   */
+  profileUrl?: string;
+  /**
+   * Zero-based start offset of the annotation in the post text.
+   * Range: minimum 0.
+   */
+  start?: number;
+  /**
+   * Canonical text link attached to the annotation, when present.
+   * Format: uri.
+   */
+  textLink?: string;
+  /**
+   * Kind of content annotation.
+   */
+  type?: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinProfilePostsFullBreakdown {
+  /**
+   * Number of reactions of this type.
+   * Range: minimum 0.
+   */
+  count: number;
+  /**
+   * LinkedIn reaction type.
+   */
+  type: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinProfilePostsFullImage {
+  /**
+   * Height of the image in pixels.
+   * Range: minimum 0.
+   */
+  height?: number;
+  /**
+   * URL of the attached image.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Width of the image in pixels.
+   * Range: minimum 0.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinProfilePostsFullRepostImage {
+  /**
+   * Height of the reposted image in pixels.
+   * Range: minimum 0.
+   */
+  height?: number;
+  /**
+   * URL of an image attached to the reposted post.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Width of the reposted image in pixels.
+   * Range: minimum 0.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Profile Posts (full) (linkedin.profile_posts_full).
+ */
+export interface LinkedinProfilePostsFullData {
+  /**
+   * Recent enriched posts published by the profile. Populated whenever the provider has data for the entity.
+   */
+  items: LinkedinProfilePostsFullItem[];
+}
+
+/**
+ * Input for LinkedIn Profile Posts (basic) (linkedin.profile_posts_thin).
+ */
+export interface LinkedinProfilePostsThinInput {
+  /**
+   * Maximum number of posts to return (10-100, default 10). You are billed per post returned, so a lower limit costs less.
+   * Range: minimum 10, maximum 100.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Full URL of the public LinkedIn profile whose posts should be returned.
+   * Format: uri.
+   */
+  url: string;
+}
+
+export interface LinkedinProfilePostsThinItem {
+  /**
+   * Image URL of the attached article, when present.
+   * Format: uri.
+   */
+  articleImage?: string;
+  /**
+   * Subtitle or publisher label of the attached article, when present.
+   */
+  articleSubtitle?: string;
+  /**
+   * Title of the attached article, when present.
+   */
+  articleTitle?: string;
+  /**
+   * Canonical URL of the attached article, when present.
+   * Format: uri.
+   */
+  articleUrl?: string;
+  /**
+   * Portable details about the post author. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  author?: {
+    /**
+     * Public LinkedIn handle of the author. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    handle?: string;
+    /**
+     * Professional headline displayed for the author. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    headline?: string;
+    /**
+     * Profile image URL of the author. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    image?: string;
+    /**
+     * Canonical LinkedIn profile URL of the author. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    profileUrl?: string;
+  };
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Portable engagement totals for the post. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  engagement?: {
+    /**
+     * Total number of comments on the post. Populated whenever the provider has data for the entity.
+     * Range: minimum 0.
+     * Present whenever the upstream returns this record.
+     */
+    comments?: number;
+    /**
+     * Total number of reactions on the post. Populated whenever the provider has data for the entity.
+     * Range: minimum 0.
+     * Present whenever the upstream returns this record.
+     */
+    reactions?: number;
+    /**
+     * Total number of reposts or shares of the post. Populated whenever the provider has data for the entity.
+     * Range: minimum 0.
+     * Present whenever the upstream returns this record.
+     */
+    reposts?: number;
+  };
+  /**
+   * Unique identifier of the LinkedIn post. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Images attached to the post.
+   */
+  images?: LinkedinProfilePostsThinImage[];
+  /**
+   * Title of the article attached to the reposted post, when present.
+   */
+  repostArticleTitle?: string;
+  /**
+   * Canonical URL of the article attached to the reposted post, when present.
+   * Format: uri.
+   */
+  repostArticleUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  repostCreatedUtc?: number;
+  /**
+   * Unique identifier of the reposted post, when present.
+   */
+  repostId?: string;
+  /**
+   * Text content of the reposted post, when present.
+   */
+  repostText?: string;
+  /**
+   * Canonical URL of the reposted post, when present.
+   * Format: uri.
+   */
+  repostUrl?: string;
+  /**
+   * Text content of the post. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Thumbnail URL of the attached video, when present.
+   * Format: uri.
+   */
+  videoThumbnail?: string;
+  /**
+   * URL of the attached video, when present.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinProfilePostsThinImage {
+  /**
+   * URL of an attached image.
+   * Format: uri.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Profile Posts (basic) (linkedin.profile_posts_thin).
+ */
+export interface LinkedinProfilePostsThinData {
+  /**
+   * Recent posts published by the profile. Populated whenever the provider has data for the entity.
+   */
+  items: LinkedinProfilePostsThinItem[];
+}
+
+/**
  * Input for LinkedIn Profile (basic) (linkedin.profile_thin).
  */
 export interface LinkedinProfileThinInput {
@@ -2684,6 +3345,40 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinProfileData>> {
     return this._core.run("linkedin.profile", input, options);
+  }
+
+  /**
+   * LinkedIn Profile Posts (full)
+   *
+   * Fetch recent public LinkedIn profile posts with enriched author, engagement, article, newsletter, media, annotation, repost, and social activity details.
+   *
+   * Price: $0.00006 per request plus $0.00184 per result (maximum $0.184).
+   *
+   * @example
+   * const res = await client.linkedin.profilePostsFull({ url: "https://www.linkedin.com/in/williamhgates/", limit: 10 });
+   */
+  profilePostsFull(
+    input: LinkedinProfilePostsFullInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinProfilePostsFullData>> {
+    return this._core.run("linkedin.profile_posts_full", input, options);
+  }
+
+  /**
+   * LinkedIn Profile Posts (basic)
+   *
+   * Fetch recent public LinkedIn profile posts with portable identity, author, engagement, article, image, video, and repost fields.
+   *
+   * Price: $0 per request plus $0.00137 per result (maximum $0.137).
+   *
+   * @example
+   * const res = await client.linkedin.profilePostsThin({ url: "https://www.linkedin.com/in/williamhgates/", limit: 10 });
+   */
+  profilePostsThin(
+    input: LinkedinProfilePostsThinInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinProfilePostsThinData>> {
+    return this._core.run("linkedin.profile_posts_thin", input, options);
   }
 
   /**

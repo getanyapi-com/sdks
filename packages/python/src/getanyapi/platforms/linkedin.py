@@ -219,6 +219,36 @@ class LinkedinProfileInput(TypedDict, total=False):
     """Full LinkedIn profile URL."""
 
 
+class LinkedinProfilePostsFullInput(TypedDict, total=False):
+    """Input for LinkedIn Profile Posts (full)."""
+
+    contextCountry: NotRequired[Literal["any", "US", "GB", "DE", "FR"]]
+    """Regional LinkedIn context used when retrieving posts."""
+    includeQuotePosts: NotRequired[bool]
+    """Whether to include quote posts that add commentary to shared content. Default: true."""
+    includeReposts: NotRequired[bool]
+    """Whether to include reposts that share content without added commentary. Default: true."""
+    limit: NotRequired[int]
+    """Maximum number of posts to return (1-100, default 10). You are billed per post returned, so a lower limit costs less. Range: 1 to 100. Default: 10."""
+    postedLimit: NotRequired[
+        Literal["any", "1h", "24h", "week", "month", "3months", "6months", "year"]
+    ]
+    """Only return posts published within this relative time window."""
+    postedLimitDate: NotRequired[str]
+    """Only return posts published on or after this date or timestamp, using a JavaScript-compatible date-time string."""
+    url: Required[str]
+    """Full URL of the public LinkedIn profile whose posts should be returned."""
+
+
+class LinkedinProfilePostsThinInput(TypedDict, total=False):
+    """Input for LinkedIn Profile Posts (basic)."""
+
+    limit: NotRequired[int]
+    """Maximum number of posts to return (10-100, default 10). You are billed per post returned, so a lower limit costs less. Range: 10 to 100. Default: 10."""
+    url: Required[str]
+    """Full URL of the public LinkedIn profile whose posts should be returned."""
+
+
 class LinkedinProfileThinInput(TypedDict, total=False):
     """Input for LinkedIn Profile (basic)."""
 
@@ -1498,6 +1528,600 @@ class LinkedinProfilePublication(BaseModel):
     title: str | None = Field(default=None, description="Publication title.")
 
 
+class LinkedinProfilePostsFullData(BaseModel):
+    items: list[LinkedinProfilePostsFullItem] = Field(
+        description="Recent enriched posts published by the profile. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinProfilePostsFullItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    article_description: str | None = Field(
+        default=None,
+        alias="articleDescription",
+        description="Description excerpt of the attached article, when present.",
+    )
+    article_image: str | None = Field(
+        default=None,
+        alias="articleImage",
+        description="Image URL of the attached article, when present.",
+    )
+    article_image_height: int | None = Field(
+        default=None,
+        alias="articleImageHeight",
+        description="Height of the attached article image in pixels. Minimum: 0.",
+    )
+    article_image_width: int | None = Field(
+        default=None,
+        alias="articleImageWidth",
+        description="Width of the attached article image in pixels. Minimum: 0.",
+    )
+    article_link_label: str | None = Field(
+        default=None,
+        alias="articleLinkLabel",
+        description="Accessible display label for the attached article link, when present.",
+    )
+    article_subtitle: str | None = Field(
+        default=None,
+        alias="articleSubtitle",
+        description="Subtitle or publisher label of the attached article, when present.",
+    )
+    article_title: str | None = Field(
+        default=None,
+        alias="articleTitle",
+        description="Title of the attached article, when present.",
+    )
+    article_url: str | None = Field(
+        default=None,
+        alias="articleUrl",
+        description="Canonical URL of the attached article, when present.",
+    )
+    author: LinkedinProfilePostsFullAuthor | None = Field(
+        default=None,
+        description="Detailed identity and publication information for the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    content_annotations: list[LinkedinProfilePostsFullContentAnnotation] | None = Field(
+        default=None,
+        alias="contentAnnotations",
+        description="Structured mentions and links embedded in the post text.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    engagement: LinkedinProfilePostsFullEngagement | None = Field(
+        default=None,
+        description="Engagement totals and reaction breakdown for the post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(
+        description="Unique identifier of the LinkedIn post. Populated whenever the provider has data for the entity."
+    )
+    images: list[LinkedinProfilePostsFullImage] | None = Field(
+        default=None, description="Images attached to the post."
+    )
+    newsletter_title: str | None = Field(
+        default=None,
+        alias="newsletterTitle",
+        description="Title of the LinkedIn newsletter associated with the post, when present.",
+    )
+    newsletter_url: str | None = Field(
+        default=None,
+        alias="newsletterUrl",
+        description="Canonical URL of the LinkedIn newsletter associated with the post, when present.",
+    )
+    publication_url: str | None = Field(
+        default=None,
+        alias="publicationUrl",
+        description="Canonical LinkedIn feed publication URL for the post.",
+    )
+    repost_article_description: str | None = Field(
+        default=None,
+        alias="repostArticleDescription",
+        description="Description excerpt of the reposted post's article, when present.",
+    )
+    repost_article_image: str | None = Field(
+        default=None,
+        alias="repostArticleImage",
+        description="Image URL of the reposted post's article, when present.",
+    )
+    repost_article_image_height: int | None = Field(
+        default=None,
+        alias="repostArticleImageHeight",
+        description="Height of the reposted post's article image in pixels. Minimum: 0.",
+    )
+    repost_article_image_width: int | None = Field(
+        default=None,
+        alias="repostArticleImageWidth",
+        description="Width of the reposted post's article image in pixels. Minimum: 0.",
+    )
+    repost_article_link_label: str | None = Field(
+        default=None,
+        alias="repostArticleLinkLabel",
+        description="Accessible display label for the reposted post's article link, when present.",
+    )
+    repost_article_subtitle: str | None = Field(
+        default=None,
+        alias="repostArticleSubtitle",
+        description="Subtitle or publisher label of the reposted post's article, when present.",
+    )
+    repost_article_title: str | None = Field(
+        default=None,
+        alias="repostArticleTitle",
+        description="Title of the article attached to the reposted post, when present.",
+    )
+    repost_article_url: str | None = Field(
+        default=None,
+        alias="repostArticleUrl",
+        description="Canonical URL of the reposted post's article, when present.",
+    )
+    repost_author_handle: str | None = Field(
+        default=None,
+        alias="repostAuthorHandle",
+        description="Public LinkedIn profile handle of the reposted post's author, when present.",
+    )
+    repost_author_headline: str | None = Field(
+        default=None,
+        alias="repostAuthorHeadline",
+        description="Headline or follower summary of the reposted post's author, when present.",
+    )
+    repost_author_id: str | None = Field(
+        default=None,
+        alias="repostAuthorId",
+        description="Stable LinkedIn identifier of the reposted post's author, when present.",
+    )
+    repost_author_image: str | None = Field(
+        default=None,
+        alias="repostAuthorImage",
+        description="Image URL of the reposted post's author, when present.",
+    )
+    repost_author_name: str | None = Field(
+        default=None,
+        alias="repostAuthorName",
+        description="Display name of the reposted post's author, when present.",
+    )
+    repost_author_type: str | None = Field(
+        default=None,
+        alias="repostAuthorType",
+        description="Author kind for the reposted post, when present.",
+    )
+    repost_author_universal_name: str | None = Field(
+        default=None,
+        alias="repostAuthorUniversalName",
+        description="Universal LinkedIn name of the reposted post's company author, when present.",
+    )
+    repost_author_url: str | None = Field(
+        default=None,
+        alias="repostAuthorUrl",
+        description="Canonical LinkedIn URL of the reposted post's author, when present.",
+    )
+    repost_created_utc: float | None = Field(
+        default=None,
+        alias="repostCreatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    repost_id: str | None = Field(
+        default=None,
+        alias="repostId",
+        description="Unique identifier of the reposted post, when present.",
+    )
+    repost_images: list[LinkedinProfilePostsFullRepostImage] | None = Field(
+        default=None,
+        alias="repostImages",
+        description="Images attached to the reposted post.",
+    )
+    repost_text: str | None = Field(
+        default=None,
+        alias="repostText",
+        description="Text content of the reposted post, when present.",
+    )
+    repost_url: str | None = Field(
+        default=None,
+        alias="repostUrl",
+        description="Canonical URL of the reposted post, when present.",
+    )
+    social_content: LinkedinProfilePostsFullSocialContent | None = Field(
+        default=None,
+        alias="socialContent",
+        description="LinkedIn visibility and action flags for the post.",
+    )
+    text: str = Field(
+        description="Text content of the post. Populated whenever the provider has data for the entity."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="LinkedIn record type reported for the post.",
+    )
+    url: str = Field(
+        description="Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity."
+    )
+    video_thumbnail: str | None = Field(
+        default=None,
+        alias="videoThumbnail",
+        description="Thumbnail URL of the attached video, when present.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="URL of the attached video, when present.",
+    )
+
+
+class LinkedinProfilePostsFullAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    handle: str | None = Field(
+        default=None,
+        description="Public LinkedIn profile handle of the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    headline: str | None = Field(
+        default=None,
+        description="Professional headline or follower summary displayed for the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str | None = Field(
+        default=None, description="Stable LinkedIn identifier of the author."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Profile or company image URL of the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image_height: int | None = Field(
+        default=None,
+        alias="imageHeight",
+        description="Height of the author image in pixels. Minimum: 0.",
+    )
+    image_width: int | None = Field(
+        default=None,
+        alias="imageWidth",
+        description="Width of the author image in pixels. Minimum: 0.",
+    )
+    name: str | None = Field(default=None, description="Display name of the author.")
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical LinkedIn profile or company URL of the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Author kind, such as profile or company.",
+    )
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="Universal LinkedIn name used for company authors, when present.",
+    )
+    website: str | None = Field(
+        default=None, description="Publication or website URL displayed by the author."
+    )
+    website_label: str | None = Field(
+        default=None,
+        alias="websiteLabel",
+        description="Display label for the author's publication or website link.",
+    )
+
+
+class LinkedinProfilePostsFullContentAnnotation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="LinkedIn identifier of a mentioned company, when present.",
+    )
+    company_name: str | None = Field(
+        default=None,
+        alias="companyName",
+        description="Display name of a mentioned company, when present.",
+    )
+    company_url: str | None = Field(
+        default=None,
+        alias="companyUrl",
+        description="Canonical LinkedIn URL of a mentioned company, when present.",
+    )
+    hyperlink: str | None = Field(
+        default=None,
+        description="Canonical hyperlink attached to the annotation, when present.",
+    )
+    length: int | None = Field(
+        default=None, description="Length of the annotated text span. Minimum: 0."
+    )
+    profile_first_name: str | None = Field(
+        default=None,
+        alias="profileFirstName",
+        description="First name of a mentioned profile, when present.",
+    )
+    profile_handle: str | None = Field(
+        default=None,
+        alias="profileHandle",
+        description="Public LinkedIn handle of a mentioned profile, when present.",
+    )
+    profile_id: str | None = Field(
+        default=None,
+        alias="profileId",
+        description="LinkedIn identifier of a mentioned profile, when present.",
+    )
+    profile_last_name: str | None = Field(
+        default=None,
+        alias="profileLastName",
+        description="Last name of a mentioned profile, when present.",
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical LinkedIn URL of a mentioned profile, when present.",
+    )
+    start: int | None = Field(
+        default=None,
+        description="Zero-based start offset of the annotation in the post text. Minimum: 0.",
+    )
+    text_link: str | None = Field(
+        default=None,
+        alias="textLink",
+        description="Canonical text link attached to the annotation, when present.",
+    )
+    type_: str | None = Field(
+        default=None, alias="type", description="Kind of content annotation."
+    )
+
+
+class LinkedinProfilePostsFullEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    breakdown: list[LinkedinProfilePostsFullBreakdown] | None = Field(
+        default=None, description="Counts grouped by LinkedIn reaction type."
+    )
+    comments: int | None = Field(
+        default=None,
+        description="Total number of comments on the post. Populated whenever the provider has data for the entity. Minimum: 0. Present whenever the upstream returns this record.",
+    )
+    reactions: int | None = Field(
+        default=None,
+        description="Total number of reactions on the post. Populated whenever the provider has data for the entity. Minimum: 0. Present whenever the upstream returns this record.",
+    )
+    reposts: int | None = Field(
+        default=None,
+        description="Total number of reposts or shares of the post. Populated whenever the provider has data for the entity. Minimum: 0. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinProfilePostsFullBreakdown(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    count: int = Field(description="Number of reactions of this type. Minimum: 0.")
+    type_: str = Field(alias="type", description="LinkedIn reaction type.")
+
+
+class LinkedinProfilePostsFullImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    height: int | None = Field(
+        default=None, description="Height of the image in pixels. Minimum: 0."
+    )
+    url: str = Field(description="URL of the attached image.")
+    width: int | None = Field(
+        default=None, description="Width of the image in pixels. Minimum: 0."
+    )
+
+
+class LinkedinProfilePostsFullRepostImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    height: int | None = Field(
+        default=None, description="Height of the reposted image in pixels. Minimum: 0."
+    )
+    url: str = Field(description="URL of an image attached to the reposted post.")
+    width: int | None = Field(
+        default=None, description="Width of the reposted image in pixels. Minimum: 0."
+    )
+
+
+class LinkedinProfilePostsFullSocialContent(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    hide_comment_action: bool | None = Field(
+        default=None,
+        alias="hideCommentAction",
+        description="Whether LinkedIn hides the comment action.",
+    )
+    hide_comments_count: bool | None = Field(
+        default=None,
+        alias="hideCommentsCount",
+        description="Whether LinkedIn hides the comment count.",
+    )
+    hide_react_action: bool | None = Field(
+        default=None,
+        alias="hideReactAction",
+        description="Whether LinkedIn hides the react action.",
+    )
+    hide_reactions_count: bool | None = Field(
+        default=None,
+        alias="hideReactionsCount",
+        description="Whether LinkedIn hides the reaction count.",
+    )
+    hide_reposts_count: bool | None = Field(
+        default=None,
+        alias="hideRepostsCount",
+        description="Whether LinkedIn hides the repost count.",
+    )
+    hide_send_action: bool | None = Field(
+        default=None,
+        alias="hideSendAction",
+        description="Whether LinkedIn hides the send action.",
+    )
+    hide_share_action: bool | None = Field(
+        default=None,
+        alias="hideShareAction",
+        description="Whether LinkedIn hides the share action.",
+    )
+    hide_social_activity_counts: bool | None = Field(
+        default=None,
+        alias="hideSocialActivityCounts",
+        description="Whether LinkedIn hides social activity counts.",
+    )
+    hide_views_count: bool | None = Field(
+        default=None,
+        alias="hideViewsCount",
+        description="Whether LinkedIn hides the view count.",
+    )
+    share_url: str | None = Field(
+        default=None,
+        alias="shareUrl",
+        description="Canonical LinkedIn share URL for the post.",
+    )
+    show_contribution_experience: bool | None = Field(
+        default=None,
+        alias="showContributionExperience",
+        description="Whether LinkedIn enables the contribution experience.",
+    )
+    show_social_detail: bool | None = Field(
+        default=None,
+        alias="showSocialDetail",
+        description="Whether LinkedIn shows social detail.",
+    )
+
+
+class LinkedinProfilePostsThinData(BaseModel):
+    items: list[LinkedinProfilePostsThinItem] = Field(
+        description="Recent posts published by the profile. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinProfilePostsThinItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    article_image: str | None = Field(
+        default=None,
+        alias="articleImage",
+        description="Image URL of the attached article, when present.",
+    )
+    article_subtitle: str | None = Field(
+        default=None,
+        alias="articleSubtitle",
+        description="Subtitle or publisher label of the attached article, when present.",
+    )
+    article_title: str | None = Field(
+        default=None,
+        alias="articleTitle",
+        description="Title of the attached article, when present.",
+    )
+    article_url: str | None = Field(
+        default=None,
+        alias="articleUrl",
+        description="Canonical URL of the attached article, when present.",
+    )
+    author: LinkedinProfilePostsThinAuthor | None = Field(
+        default=None,
+        description="Portable details about the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    engagement: LinkedinProfilePostsThinEngagement | None = Field(
+        default=None,
+        description="Portable engagement totals for the post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(
+        description="Unique identifier of the LinkedIn post. Populated whenever the provider has data for the entity."
+    )
+    images: list[LinkedinProfilePostsThinImage] | None = Field(
+        default=None, description="Images attached to the post."
+    )
+    repost_article_title: str | None = Field(
+        default=None,
+        alias="repostArticleTitle",
+        description="Title of the article attached to the reposted post, when present.",
+    )
+    repost_article_url: str | None = Field(
+        default=None,
+        alias="repostArticleUrl",
+        description="Canonical URL of the article attached to the reposted post, when present.",
+    )
+    repost_created_utc: float | None = Field(
+        default=None,
+        alias="repostCreatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    repost_id: str | None = Field(
+        default=None,
+        alias="repostId",
+        description="Unique identifier of the reposted post, when present.",
+    )
+    repost_text: str | None = Field(
+        default=None,
+        alias="repostText",
+        description="Text content of the reposted post, when present.",
+    )
+    repost_url: str | None = Field(
+        default=None,
+        alias="repostUrl",
+        description="Canonical URL of the reposted post, when present.",
+    )
+    text: str = Field(
+        description="Text content of the post. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity."
+    )
+    video_thumbnail: str | None = Field(
+        default=None,
+        alias="videoThumbnail",
+        description="Thumbnail URL of the attached video, when present.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="URL of the attached video, when present.",
+    )
+
+
+class LinkedinProfilePostsThinAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    handle: str | None = Field(
+        default=None,
+        description="Public LinkedIn handle of the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    headline: str | None = Field(
+        default=None,
+        description="Professional headline displayed for the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="Profile image URL of the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical LinkedIn profile URL of the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinProfilePostsThinEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    comments: int | None = Field(
+        default=None,
+        description="Total number of comments on the post. Populated whenever the provider has data for the entity. Minimum: 0. Present whenever the upstream returns this record.",
+    )
+    reactions: int | None = Field(
+        default=None,
+        description="Total number of reactions on the post. Populated whenever the provider has data for the entity. Minimum: 0. Present whenever the upstream returns this record.",
+    )
+    reposts: int | None = Field(
+        default=None,
+        description="Total number of reposts or shares of the post. Populated whenever the provider has data for the entity. Minimum: 0. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinProfilePostsThinImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    url: str = Field(description="URL of an attached image.")
+
+
 class LinkedinProfileThinData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -2169,6 +2793,48 @@ class LinkedinNamespace:
         )
         return RunResult[LinkedinProfileData].model_validate(raw)
 
+    def profile_posts_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfilePostsFullInput],
+    ) -> RunResult[LinkedinProfilePostsFullData]:
+        """LinkedIn Profile Posts (full)
+
+        Fetch recent public LinkedIn profile posts with enriched author, engagement,
+        article, newsletter, media, annotation, repost, and social activity details.
+
+        Price: $0.00006 per request plus $0.00184 per result (maximum $0.184).
+
+        Example:
+            res = client.linkedin.profile_posts_full(limit=10, url="https://www.linkedin.com/in/williamhgates/")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_posts_full", dict(input), options
+        )
+        return RunResult[LinkedinProfilePostsFullData].model_validate(raw)
+
+    def profile_posts_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfilePostsThinInput],
+    ) -> RunResult[LinkedinProfilePostsThinData]:
+        """LinkedIn Profile Posts (basic)
+
+        Fetch recent public LinkedIn profile posts with portable identity, author,
+        engagement, article, image, video, and repost fields.
+
+        Price: $0 per request plus $0.00137 per result (maximum $0.137).
+
+        Example:
+            res = client.linkedin.profile_posts_thin(limit=10, url="https://www.linkedin.com/in/williamhgates/")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_posts_thin", dict(input), options
+        )
+        return RunResult[LinkedinProfilePostsThinData].model_validate(raw)
+
     def profile_thin(
         self,
         *,
@@ -2657,6 +3323,48 @@ class AsyncLinkedinNamespace:
             "linkedin.profile", dict(input), options
         )
         return RunResult[LinkedinProfileData].model_validate(raw)
+
+    async def profile_posts_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfilePostsFullInput],
+    ) -> RunResult[LinkedinProfilePostsFullData]:
+        """LinkedIn Profile Posts (full)
+
+        Fetch recent public LinkedIn profile posts with enriched author, engagement,
+        article, newsletter, media, annotation, repost, and social activity details.
+
+        Price: $0.00006 per request plus $0.00184 per result (maximum $0.184).
+
+        Example:
+            res = client.linkedin.profile_posts_full(limit=10, url="https://www.linkedin.com/in/williamhgates/")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_posts_full", dict(input), options
+        )
+        return RunResult[LinkedinProfilePostsFullData].model_validate(raw)
+
+    async def profile_posts_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfilePostsThinInput],
+    ) -> RunResult[LinkedinProfilePostsThinData]:
+        """LinkedIn Profile Posts (basic)
+
+        Fetch recent public LinkedIn profile posts with portable identity, author,
+        engagement, article, image, video, and repost fields.
+
+        Price: $0 per request plus $0.00137 per result (maximum $0.137).
+
+        Example:
+            res = client.linkedin.profile_posts_thin(limit=10, url="https://www.linkedin.com/in/williamhgates/")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_posts_thin", dict(input), options
+        )
+        return RunResult[LinkedinProfilePostsThinData].model_validate(raw)
 
     async def profile_thin(
         self,

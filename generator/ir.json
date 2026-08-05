@@ -23304,6 +23304,1123 @@
       }
     },
     {
+      "slug": "linkedin.profile_posts_full",
+      "platform": "linkedin",
+      "action": "profile_posts_full",
+      "operationId": "linkedin_profile_posts_full",
+      "name": "LinkedIn Profile Posts (full)",
+      "category": "social",
+      "description": "Fetch recent public LinkedIn profile posts with enriched author, engagement, article, newsletter, media, annotation, repost, and social activity details.",
+      "pricing": {
+        "priceUsd": 0.184,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00184,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "profilePostsFull",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "profile_posts_full",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinProfilePostsFullInput",
+      "outputTypeName": "LinkedinProfilePostsFullData",
+      "example": {
+        "limit": 10,
+        "url": "https://www.linkedin.com/in/williamhgates/"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "contextCountry": {
+            "kind": "string",
+            "description": "Regional LinkedIn context used when retrieving posts.",
+            "enum": [
+              "any",
+              "US",
+              "GB",
+              "DE",
+              "FR"
+            ],
+            "default": null,
+            "format": null
+          },
+          "includeQuotePosts": {
+            "kind": "boolean",
+            "description": "Whether to include quote posts that add commentary to shared content.",
+            "default": true
+          },
+          "includeReposts": {
+            "kind": "boolean",
+            "description": "Whether to include reposts that share content without added commentary.",
+            "default": true
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of posts to return (1-100, default 10). You are billed per post returned, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10
+          },
+          "postedLimit": {
+            "kind": "string",
+            "description": "Only return posts published within this relative time window.",
+            "enum": [
+              "any",
+              "1h",
+              "24h",
+              "week",
+              "month",
+              "3months",
+              "6months",
+              "year"
+            ],
+            "default": null,
+            "format": null
+          },
+          "postedLimitDate": {
+            "kind": "string",
+            "description": "Only return posts published on or after this date or timestamp, using a JavaScript-compatible date-time string.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "url": {
+            "kind": "string",
+            "description": "Full URL of the public LinkedIn profile whose posts should be returned.",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Recent enriched posts published by the profile. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "articleDescription": {
+                    "kind": "string",
+                    "description": "Description excerpt of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleImage": {
+                    "kind": "string",
+                    "description": "Image URL of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "articleImageHeight": {
+                    "kind": "integer",
+                    "description": "Height of the attached article image in pixels.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "articleImageWidth": {
+                    "kind": "integer",
+                    "description": "Width of the attached article image in pixels.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "articleLinkLabel": {
+                    "kind": "string",
+                    "description": "Accessible display label for the attached article link, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleSubtitle": {
+                    "kind": "string",
+                    "description": "Subtitle or publisher label of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleTitle": {
+                    "kind": "string",
+                    "description": "Title of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "author": {
+                    "kind": "object",
+                    "description": "Detailed identity and publication information for the post author. Populated whenever the provider has data for the entity.",
+                    "properties": {
+                      "handle": {
+                        "kind": "string",
+                        "description": "Public LinkedIn profile handle of the author. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "headline": {
+                        "kind": "string",
+                        "description": "Professional headline or follower summary displayed for the author. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "id": {
+                        "kind": "string",
+                        "description": "Stable LinkedIn identifier of the author.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "image": {
+                        "kind": "string",
+                        "description": "Profile or company image URL of the author. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "imageHeight": {
+                        "kind": "integer",
+                        "description": "Height of the author image in pixels.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "imageWidth": {
+                        "kind": "integer",
+                        "description": "Width of the author image in pixels.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "name": {
+                        "kind": "string",
+                        "description": "Display name of the author.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "profileUrl": {
+                        "kind": "string",
+                        "description": "Canonical LinkedIn profile or company URL of the author. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "type": {
+                        "kind": "string",
+                        "description": "Author kind, such as profile or company.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "universalName": {
+                        "kind": "string",
+                        "description": "Universal LinkedIn name used for company authors, when present.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "website": {
+                        "kind": "string",
+                        "description": "Publication or website URL displayed by the author.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "websiteLabel": {
+                        "kind": "string",
+                        "description": "Display label for the author's publication or website link.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "handle",
+                      "headline",
+                      "image",
+                      "profileUrl"
+                    ]
+                  },
+                  "contentAnnotations": {
+                    "kind": "array",
+                    "description": "Structured mentions and links embedded in the post text.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "companyId": {
+                          "kind": "string",
+                          "description": "LinkedIn identifier of a mentioned company, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyName": {
+                          "kind": "string",
+                          "description": "Display name of a mentioned company, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyUrl": {
+                          "kind": "string",
+                          "description": "Canonical LinkedIn URL of a mentioned company, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "hyperlink": {
+                          "kind": "string",
+                          "description": "Canonical hyperlink attached to the annotation, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "length": {
+                          "kind": "integer",
+                          "description": "Length of the annotated text span.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "profileFirstName": {
+                          "kind": "string",
+                          "description": "First name of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "profileHandle": {
+                          "kind": "string",
+                          "description": "Public LinkedIn handle of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "profileId": {
+                          "kind": "string",
+                          "description": "LinkedIn identifier of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "profileLastName": {
+                          "kind": "string",
+                          "description": "Last name of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "profileUrl": {
+                          "kind": "string",
+                          "description": "Canonical LinkedIn URL of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "start": {
+                          "kind": "integer",
+                          "description": "Zero-based start offset of the annotation in the post text.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "textLink": {
+                          "kind": "string",
+                          "description": "Canonical text link attached to the annotation, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "type": {
+                          "kind": "string",
+                          "description": "Kind of content annotation.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "engagement": {
+                    "kind": "object",
+                    "description": "Engagement totals and reaction breakdown for the post. Populated whenever the provider has data for the entity.",
+                    "properties": {
+                      "breakdown": {
+                        "kind": "array",
+                        "description": "Counts grouped by LinkedIn reaction type.",
+                        "items": {
+                          "kind": "object",
+                          "properties": {
+                            "count": {
+                              "kind": "integer",
+                              "description": "Number of reactions of this type.",
+                              "minimum": 0,
+                              "maximum": null,
+                              "default": null
+                            },
+                            "type": {
+                              "kind": "string",
+                              "description": "LinkedIn reaction type.",
+                              "enum": null,
+                              "default": null,
+                              "format": null
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "count"
+                          ],
+                          "open": true
+                        },
+                        "mustPopulate": false
+                      },
+                      "comments": {
+                        "kind": "integer",
+                        "description": "Total number of comments on the post. Populated whenever the provider has data for the entity.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "reactions": {
+                        "kind": "integer",
+                        "description": "Total number of reactions on the post. Populated whenever the provider has data for the entity.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "reposts": {
+                        "kind": "integer",
+                        "description": "Total number of reposts or shares of the post. Populated whenever the provider has data for the entity.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "comments",
+                      "reactions",
+                      "reposts"
+                    ]
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Unique identifier of the LinkedIn post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Images attached to the post.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "height": {
+                          "kind": "integer",
+                          "description": "Height of the image in pixels.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "url": {
+                          "kind": "string",
+                          "description": "URL of the attached image.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "width": {
+                          "kind": "integer",
+                          "description": "Width of the image in pixels.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "newsletterTitle": {
+                    "kind": "string",
+                    "description": "Title of the LinkedIn newsletter associated with the post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "newsletterUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the LinkedIn newsletter associated with the post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "publicationUrl": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn feed publication URL for the post.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostArticleDescription": {
+                    "kind": "string",
+                    "description": "Description excerpt of the reposted post's article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostArticleImage": {
+                    "kind": "string",
+                    "description": "Image URL of the reposted post's article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostArticleImageHeight": {
+                    "kind": "integer",
+                    "description": "Height of the reposted post's article image in pixels.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "repostArticleImageWidth": {
+                    "kind": "integer",
+                    "description": "Width of the reposted post's article image in pixels.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "repostArticleLinkLabel": {
+                    "kind": "string",
+                    "description": "Accessible display label for the reposted post's article link, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostArticleSubtitle": {
+                    "kind": "string",
+                    "description": "Subtitle or publisher label of the reposted post's article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostArticleTitle": {
+                    "kind": "string",
+                    "description": "Title of the article attached to the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostArticleUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the reposted post's article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostAuthorHandle": {
+                    "kind": "string",
+                    "description": "Public LinkedIn profile handle of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorHeadline": {
+                    "kind": "string",
+                    "description": "Headline or follower summary of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorId": {
+                    "kind": "string",
+                    "description": "Stable LinkedIn identifier of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorImage": {
+                    "kind": "string",
+                    "description": "Image URL of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostAuthorName": {
+                    "kind": "string",
+                    "description": "Display name of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorType": {
+                    "kind": "string",
+                    "description": "Author kind for the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorUniversalName": {
+                    "kind": "string",
+                    "description": "Universal LinkedIn name of the reposted post's company author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorUrl": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn URL of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostCreatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "repostId": {
+                    "kind": "string",
+                    "description": "Unique identifier of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostImages": {
+                    "kind": "array",
+                    "description": "Images attached to the reposted post.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "height": {
+                          "kind": "integer",
+                          "description": "Height of the reposted image in pixels.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "url": {
+                          "kind": "string",
+                          "description": "URL of an image attached to the reposted post.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "width": {
+                          "kind": "integer",
+                          "description": "Width of the reposted image in pixels.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "repostText": {
+                    "kind": "string",
+                    "description": "Text content of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "socialContent": {
+                    "kind": "object",
+                    "description": "LinkedIn visibility and action flags for the post.",
+                    "properties": {
+                      "hideCommentAction": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn hides the comment action.",
+                        "default": null
+                      },
+                      "hideCommentsCount": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn hides the comment count.",
+                        "default": null
+                      },
+                      "hideReactAction": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn hides the react action.",
+                        "default": null
+                      },
+                      "hideReactionsCount": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn hides the reaction count.",
+                        "default": null
+                      },
+                      "hideRepostsCount": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn hides the repost count.",
+                        "default": null
+                      },
+                      "hideSendAction": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn hides the send action.",
+                        "default": null
+                      },
+                      "hideShareAction": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn hides the share action.",
+                        "default": null
+                      },
+                      "hideSocialActivityCounts": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn hides social activity counts.",
+                        "default": null
+                      },
+                      "hideViewsCount": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn hides the view count.",
+                        "default": null
+                      },
+                      "shareUrl": {
+                        "kind": "string",
+                        "description": "Canonical LinkedIn share URL for the post.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "showContributionExperience": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn enables the contribution experience.",
+                        "default": null
+                      },
+                      "showSocialDetail": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn shows social detail.",
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Text content of the post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "LinkedIn record type reported for the post.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "videoThumbnail": {
+                    "kind": "string",
+                    "description": "Thumbnail URL of the attached video, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "URL of the attached video, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id",
+                  "url",
+                  "text",
+                  "createdUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "author",
+                  "createdUtc",
+                  "engagement",
+                  "id",
+                  "text",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "linkedin.profile_posts_thin",
+      "platform": "linkedin",
+      "action": "profile_posts_thin",
+      "operationId": "linkedin_profile_posts_thin",
+      "name": "LinkedIn Profile Posts (basic)",
+      "category": "social",
+      "description": "Fetch recent public LinkedIn profile posts with portable identity, author, engagement, article, image, video, and repost fields.",
+      "pricing": {
+        "priceUsd": 0.137,
+        "baseUsd": 0,
+        "perItemUsd": 0.00137,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "profilePostsThin",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "profile_posts_thin",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinProfilePostsThinInput",
+      "outputTypeName": "LinkedinProfilePostsThinData",
+      "example": {
+        "limit": 10,
+        "url": "https://www.linkedin.com/in/williamhgates/"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of posts to return (10-100, default 10). You are billed per post returned, so a lower limit costs less.",
+            "minimum": 10,
+            "maximum": 100,
+            "default": 10
+          },
+          "url": {
+            "kind": "string",
+            "description": "Full URL of the public LinkedIn profile whose posts should be returned.",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Recent posts published by the profile. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "articleImage": {
+                    "kind": "string",
+                    "description": "Image URL of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "articleSubtitle": {
+                    "kind": "string",
+                    "description": "Subtitle or publisher label of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleTitle": {
+                    "kind": "string",
+                    "description": "Title of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "author": {
+                    "kind": "object",
+                    "description": "Portable details about the post author. Populated whenever the provider has data for the entity.",
+                    "properties": {
+                      "handle": {
+                        "kind": "string",
+                        "description": "Public LinkedIn handle of the author. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "headline": {
+                        "kind": "string",
+                        "description": "Professional headline displayed for the author. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "image": {
+                        "kind": "string",
+                        "description": "Profile image URL of the author. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "profileUrl": {
+                        "kind": "string",
+                        "description": "Canonical LinkedIn profile URL of the author. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "handle",
+                      "headline",
+                      "image",
+                      "profileUrl"
+                    ]
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "engagement": {
+                    "kind": "object",
+                    "description": "Portable engagement totals for the post. Populated whenever the provider has data for the entity.",
+                    "properties": {
+                      "comments": {
+                        "kind": "integer",
+                        "description": "Total number of comments on the post. Populated whenever the provider has data for the entity.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "reactions": {
+                        "kind": "integer",
+                        "description": "Total number of reactions on the post. Populated whenever the provider has data for the entity.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "reposts": {
+                        "kind": "integer",
+                        "description": "Total number of reposts or shares of the post. Populated whenever the provider has data for the entity.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "comments",
+                      "reactions",
+                      "reposts"
+                    ]
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Unique identifier of the LinkedIn post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Images attached to the post.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "url": {
+                          "kind": "string",
+                          "description": "URL of an attached image.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "repostArticleTitle": {
+                    "kind": "string",
+                    "description": "Title of the article attached to the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostArticleUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the article attached to the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostCreatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "repostId": {
+                    "kind": "string",
+                    "description": "Unique identifier of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostText": {
+                    "kind": "string",
+                    "description": "Text content of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Text content of the post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "videoThumbnail": {
+                    "kind": "string",
+                    "description": "Thumbnail URL of the attached video, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "URL of the attached video, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id",
+                  "url",
+                  "text",
+                  "createdUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "author",
+                  "createdUtc",
+                  "engagement",
+                  "id",
+                  "text",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "linkedin.profile_thin",
       "platform": "linkedin",
       "action": "profile_thin",

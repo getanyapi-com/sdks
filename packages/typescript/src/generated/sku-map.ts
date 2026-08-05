@@ -314,6 +314,10 @@ import type {
   LinkedinPostTranscriptInput,
   LinkedinProfileData,
   LinkedinProfileInput,
+  LinkedinProfilePostsFullData,
+  LinkedinProfilePostsFullInput,
+  LinkedinProfilePostsThinData,
+  LinkedinProfilePostsThinInput,
   LinkedinProfileThinData,
   LinkedinProfileThinInput,
   LinkedinSearchCompaniesData,
@@ -1335,6 +1339,16 @@ export interface SkuMap {
     input: LinkedinProfileInput;
     data: LinkedinProfileData;
     result: RunResult<LinkedinProfileData>;
+  };
+  "linkedin.profile_posts_full": {
+    input: LinkedinProfilePostsFullInput;
+    data: LinkedinProfilePostsFullData;
+    result: RunResult<LinkedinProfilePostsFullData>;
+  };
+  "linkedin.profile_posts_thin": {
+    input: LinkedinProfilePostsThinInput;
+    data: LinkedinProfilePostsThinData;
+    result: RunResult<LinkedinProfilePostsThinData>;
   };
   "linkedin.profile_thin": {
     input: LinkedinProfileThinInput;
