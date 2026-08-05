@@ -802,7 +802,7 @@ export class YoutubeNamespace {
    *
    * Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.youtube.channel({ handle: "@mkbhd" });
@@ -985,7 +985,7 @@ export class YoutubeNamespace {
    *
    * List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.youtube.channelVideos({ handle: "@mkbhd" });
@@ -1076,7 +1076,7 @@ export class YoutubeNamespace {
    *
    * Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.youtube.search({ query: "how to cook rice" });

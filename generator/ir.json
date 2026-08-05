@@ -1473,10 +1473,10 @@
       "category": "shop",
       "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.",
       "pricing": {
-        "priceUsd": 0.00956,
-        "baseUsd": 0.00105,
-        "perItemUsd": 0.00851,
-        "perItemUnit": "result"
+        "priceUsd": 0.0018,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "amazon",
       "tsMethod": "product",
@@ -22054,7 +22054,7 @@
       "category": "data",
       "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -22268,7 +22268,7 @@
       "category": "social",
       "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -23312,7 +23312,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, and a basic experience/education list (company + dates only, no job titles, descriptions, or skills; past companies may be redacted). For full experience detail, skills, certifications, connections, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.00144,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -28094,7 +28094,7 @@
       "category": "social",
       "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -28685,7 +28685,7 @@
       "category": "social",
       "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -29006,7 +29006,7 @@
       "category": "social",
       "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -29766,7 +29766,7 @@
       "category": "social",
       "description": "List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -37528,7 +37528,7 @@
       "category": "video",
       "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.00144,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -37823,7 +37823,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39287,7 +39287,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39415,7 +39415,7 @@
       "category": "social",
       "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.00144,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -46228,7 +46228,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -46944,7 +46944,7 @@
       "category": "video",
       "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -47499,7 +47499,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49407,10 +49407,10 @@
       "category": "data",
       "description": "Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history).",
       "pricing": {
-        "priceUsd": 0.00252,
-        "baseUsd": 0,
-        "perItemUsd": 0.00252,
-        "perItemUnit": "result"
+        "priceUsd": 0.0009,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "zillow",
       "tsMethod": "property",

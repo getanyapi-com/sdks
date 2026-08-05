@@ -469,7 +469,7 @@ export class AmazonNamespace {
    *
    * Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.
    *
-   * Price: $0.00105 per request plus $0.00851 per result (maximum $0.00956).
+   * Price: $0.0018 per request.
    *
    * @example
    * const res = await client.amazon.product({ url: "https://www.amazon.com/dp/B00NTCH52W" });
