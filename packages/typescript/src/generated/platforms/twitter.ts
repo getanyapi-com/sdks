@@ -639,6 +639,83 @@ export interface TwitterSearchData {
 }
 
 /**
+ * Input for X / Twitter Tweet Thread (twitter.thread).
+ */
+export interface TwitterThreadInput {
+  /**
+   * Canonical x.com or twitter.com status URL with a numeric tweet ID. Any tweet in the self-thread can be supplied; the provider resolves the thread root.
+   */
+  url: string;
+}
+
+export interface TwitterThreadTweet {
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  authorHandle: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  authorId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  authorName: string;
+  conversationId: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  inReplyToId: string | null;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Tweet Thread (twitter.thread).
+ */
+export interface TwitterThreadData {
+  author: {
+    /**
+     * Populated whenever the provider has data for the entity.
+     */
+    handle: string;
+    /**
+     * Populated whenever the provider has data for the entity.
+     */
+    id: string;
+    /**
+     * Populated whenever the provider has data for the entity.
+     */
+    name: string;
+  };
+  /**
+   * Whether the provider reached the end of the self-thread without hitting its internal cap.
+   */
+  complete: boolean;
+  /**
+   * Conversation ID shared by the self-thread tweets. Populated whenever the provider has data for the entity.
+   */
+  conversationId: string;
+  /**
+   * Number of tweets returned in the self-thread.
+   */
+  threadLength: number;
+  /**
+   * Ordered self-thread tweets. Replies from other users are excluded. Populated whenever the provider has data for the entity.
+   */
+  tweets: TwitterThreadTweet[];
+}
+
+/**
  * Input for X / Twitter Trends (twitter.trends).
  */
 export interface TwitterTrendsInput {
@@ -1062,12 +1139,12 @@ export class TwitterNamespace {
   /**
    * X / Twitter Post Replies
    *
-   * Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement.
+   * Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.
    *
-   * Price: $0.00018 per request plus $0.00018 per result (maximum $0.00666).
+   * Price: $0.00075 per request.
    *
    * @example
-   * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20", limit: 3 });
+   * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20" });
    */
   replies(
     input: TwitterRepliesInput,
@@ -1111,6 +1188,23 @@ export class TwitterNamespace {
       false,
       options,
     );
+  }
+
+  /**
+   * X / Twitter Tweet Thread
+   *
+   * Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.
+   *
+   * Price: $0.005 per request.
+   *
+   * @example
+   * const res = await client.twitter.thread({ url: "https://x.com/SpaceX/status/1732824684683784516" });
+   */
+  thread(
+    input: TwitterThreadInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TwitterThreadData>> {
+    return this._core.run("twitter.thread", input, options);
   }
 
   /**

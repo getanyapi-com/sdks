@@ -132,6 +132,9 @@ export class EmailFindingNamespace {
    * Find a professional email from a person and company through the durable Request lifecycle.
    *
    * Price: $0.0168 per request.
+   *
+   * @example
+   * const res = await client.emailFinding.icypeas({ domainOrCompany: "apollo.io", firstname: "Tim", lastname: "Zheng" });
    */
   icypeas(
     input: EmailFindingIcypeasInput,

@@ -151,6 +151,9 @@ export class EmailVerificationNamespace {
    * Verify an email address, including catch-all handling. Completion uses the durable Request lifecycle; a negative verdict is a successful result.
    *
    * Price: $0.0072 per request.
+   *
+   * @example
+   * const res = await client.emailVerification.bounceban({ email: "tim@apollo.io", mode: "regular" });
    */
   bounceban(
     input: EmailVerificationBouncebanInput,

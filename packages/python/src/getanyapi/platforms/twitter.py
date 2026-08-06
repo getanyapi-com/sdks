@@ -101,6 +101,13 @@ class TwitterSearchInput(TypedDict, total=False):
     """Set true to get up to limit results in one response instead of provider-native pages, served by a bulk provider when needed."""
 
 
+class TwitterThreadInput(TypedDict, total=False):
+    """Input for X / Twitter Tweet Thread."""
+
+    url: Required[str]
+    """Canonical x.com or twitter.com status URL with a numeric tweet ID. Any tweet in the self-thread can be supplied; the provider resolves the thread root."""
+
+
 class TwitterTrendsInput(TypedDict, total=False):
     """Input for X / Twitter Trends."""
 
@@ -539,6 +546,68 @@ class TwitterSearchItem(BaseModel):
     view_count: int | None = Field(default=None, alias="viewCount")
 
 
+class TwitterThreadData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    author: TwitterThreadAuthor
+    complete: bool = Field(
+        description="Whether the provider reached the end of the self-thread without hitting its internal cap."
+    )
+    conversation_id: str = Field(
+        alias="conversationId",
+        description="Conversation ID shared by the self-thread tweets. Populated whenever the provider has data for the entity.",
+    )
+    thread_length: int = Field(
+        alias="threadLength",
+        description="Number of tweets returned in the self-thread.",
+    )
+    tweets: list[TwitterThreadTweet] = Field(
+        description="Ordered self-thread tweets. Replies from other users are excluded. Populated whenever the provider has data for the entity."
+    )
+
+
+class TwitterThreadAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
+
+class TwitterThreadTweet(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author_handle: str = Field(
+        alias="authorHandle",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    author_id: str = Field(
+        alias="authorId",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    author_name: str = Field(
+        alias="authorName",
+        description="Populated whenever the provider has data for the entity.",
+    )
+    conversation_id: str = Field(alias="conversationId")
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    in_reply_to_id: str | None = Field(alias="inReplyToId")
+    text: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+
+
 class TwitterTrendsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -887,12 +956,13 @@ class TwitterNamespace:
         """X / Twitter Post Replies
 
         Fetch the replies to any X (Twitter) post URL as structured records: author,
-        text, and engagement.
+        text, and engagement. An empty result is valid and does not assert whether
+        the target post exists.
 
-        Price: $0.00018 per request plus $0.00018 per result (maximum $0.00666).
+        Price: $0.00075 per request.
 
         Example:
-            res = client.twitter.replies(limit=3, url="https://x.com/jack/status/20")
+            res = client.twitter.replies(url="https://x.com/jack/status/20")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.replies", dict(input), options
@@ -945,6 +1015,28 @@ class TwitterNamespace:
             bare=False,
             options=options,
         )
+
+    def thread(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterThreadInput],
+    ) -> RunResult[TwitterThreadData]:
+        """X / Twitter Tweet Thread
+
+        Resolve the linear self-thread containing an X (Twitter) post, from its root
+        through the author's linked continuations. This excludes replies from other
+        users.
+
+        Price: $0.005 per request.
+
+        Example:
+            res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.thread", dict(input), options
+        )
+        return RunResult[TwitterThreadData].model_validate(raw)
 
     def trends(
         self,
@@ -1288,12 +1380,13 @@ class AsyncTwitterNamespace:
         """X / Twitter Post Replies
 
         Fetch the replies to any X (Twitter) post URL as structured records: author,
-        text, and engagement.
+        text, and engagement. An empty result is valid and does not assert whether
+        the target post exists.
 
-        Price: $0.00018 per request plus $0.00018 per result (maximum $0.00666).
+        Price: $0.00075 per request.
 
         Example:
-            res = client.twitter.replies(limit=3, url="https://x.com/jack/status/20")
+            res = client.twitter.replies(url="https://x.com/jack/status/20")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "twitter.replies", dict(input), options
@@ -1346,6 +1439,28 @@ class AsyncTwitterNamespace:
             bare=False,
             options=options,
         )
+
+    async def thread(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterThreadInput],
+    ) -> RunResult[TwitterThreadData]:
+        """X / Twitter Tweet Thread
+
+        Resolve the linear self-thread containing an X (Twitter) post, from its root
+        through the author's linked continuations. This excludes replies from other
+        users.
+
+        Price: $0.005 per request.
+
+        Example:
+            res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.thread", dict(input), options
+        )
+        return RunResult[TwitterThreadData].model_validate(raw)
 
     async def trends(
         self,

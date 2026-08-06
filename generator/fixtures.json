@@ -5167,6 +5167,39 @@
     "items": 1,
     "replayed": false
   },
+  "twitter.thread": {
+    "output": {
+      "found": true,
+      "data": {
+        "conversationId": "sample",
+        "threadLength": 1,
+        "complete": true,
+        "author": {
+          "id": "sample",
+          "handle": "sample",
+          "name": "sample",
+          "_extra": "passthrough"
+        },
+        "tweets": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "text": "sample",
+            "conversationId": "sample",
+            "inReplyToId": "sample",
+            "authorId": "sample",
+            "authorHandle": "sample",
+            "authorName": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "twitter.trends": {
     "output": {
       "found": true,

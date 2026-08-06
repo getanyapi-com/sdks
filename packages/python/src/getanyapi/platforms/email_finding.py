@@ -118,6 +118,9 @@ class EmailFindingNamespace:
         Request lifecycle.
 
         Price: $0.0168 per request.
+
+        Example:
+            res = client.email_finding.icypeas(domainOrCompany="apollo.io", firstname="Tim", lastname="Zheng")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "email_finding.icypeas", dict(input), options
@@ -164,6 +167,9 @@ class AsyncEmailFindingNamespace:
         Request lifecycle.
 
         Price: $0.0168 per request.
+
+        Example:
+            res = client.email_finding.icypeas(domainOrCompany="apollo.io", firstname="Tim", lastname="Zheng")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "email_finding.icypeas", dict(input), options

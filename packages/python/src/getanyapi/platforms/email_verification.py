@@ -142,6 +142,9 @@ class EmailVerificationNamespace:
         durable Request lifecycle; a negative verdict is a successful result.
 
         Price: $0.0072 per request.
+
+        Example:
+            res = client.email_verification.bounceban(email="tim@apollo.io", mode="regular")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "email_verification.bounceban", dict(input), options
@@ -206,6 +209,9 @@ class AsyncEmailVerificationNamespace:
         durable Request lifecycle; a negative verdict is a successful result.
 
         Price: $0.0072 per request.
+
+        Example:
+            res = client.email_verification.bounceban(email="tim@apollo.io", mode="regular")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "email_verification.bounceban", dict(input), options

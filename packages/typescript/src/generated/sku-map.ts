@@ -615,6 +615,8 @@ import type {
   TwitterRepliesInput,
   TwitterSearchData,
   TwitterSearchInput,
+  TwitterThreadData,
+  TwitterThreadInput,
   TwitterTrendsData,
   TwitterTrendsInput,
   TwitterTweetData,
@@ -1984,6 +1986,11 @@ export interface SkuMap {
     input: TwitterSearchInput;
     data: TwitterSearchData;
     result: RunResult<TwitterSearchData>;
+  };
+  "twitter.thread": {
+    input: TwitterThreadInput;
+    data: TwitterThreadData;
+    result: RunResult<TwitterThreadData>;
   };
   "twitter.trends": {
     input: TwitterTrendsInput;

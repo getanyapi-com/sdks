@@ -8108,7 +8108,11 @@
       "pyIterMethod": null,
       "inputTypeName": "EmailFindingIcypeasInput",
       "outputTypeName": "EmailFindingIcypeasData",
-      "example": null,
+      "example": {
+        "domainOrCompany": "apollo.io",
+        "firstname": "Tim",
+        "lastname": "Zheng"
+      },
       "input": {
         "kind": "object",
         "properties": {
@@ -8345,7 +8349,10 @@
       "pyIterMethod": null,
       "inputTypeName": "EmailVerificationBouncebanInput",
       "outputTypeName": "EmailVerificationBouncebanData",
-      "example": null,
+      "example": {
+        "email": "tim@apollo.io",
+        "mode": "regular"
+      },
       "input": {
         "kind": "object",
         "properties": {
@@ -45612,12 +45619,12 @@
       "operationId": "twitter_replies",
       "name": "X / Twitter Post Replies",
       "category": "social",
-      "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement.",
+      "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.",
       "pricing": {
-        "priceUsd": 0.00666,
-        "baseUsd": 0.00018,
-        "perItemUsd": 0.00018,
-        "perItemUnit": "result"
+        "priceUsd": 0.00075,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "twitter",
       "tsMethod": "replies",
@@ -45628,7 +45635,6 @@
       "inputTypeName": "TwitterRepliesInput",
       "outputTypeName": "TwitterRepliesData",
       "example": {
-        "limit": 3,
         "url": "https://x.com/jack/status/20"
       },
       "input": {
@@ -45998,6 +46004,214 @@
         "itemsField": "items",
         "cursorInputField": "cursor",
         "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "twitter.thread",
+      "platform": "twitter",
+      "action": "thread",
+      "operationId": "twitter_thread",
+      "name": "X / Twitter Tweet Thread",
+      "category": "social",
+      "description": "Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.",
+      "pricing": {
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "twitter",
+      "tsMethod": "thread",
+      "tsIterMethod": null,
+      "pyNamespace": "twitter",
+      "pyMethod": "thread",
+      "pyIterMethod": null,
+      "inputTypeName": "TwitterThreadInput",
+      "outputTypeName": "TwitterThreadData",
+      "example": {
+        "url": "https://x.com/SpaceX/status/1732824684683784516"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "url": {
+            "kind": "string",
+            "description": "Canonical x.com or twitter.com status URL with a numeric tweet ID. Any tweet in the self-thread can be supplied; the provider resolves the thread root.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "author": {
+              "kind": "object",
+              "properties": {
+                "handle": {
+                  "kind": "string",
+                  "description": "Populated whenever the provider has data for the entity.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "id": {
+                  "kind": "string",
+                  "description": "Populated whenever the provider has data for the entity.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "name": {
+                  "kind": "string",
+                  "description": "Populated whenever the provider has data for the entity.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                }
+              },
+              "required": [
+                "id",
+                "handle",
+                "name"
+              ],
+              "open": true,
+              "mustPopulate": [
+                "handle",
+                "id",
+                "name"
+              ]
+            },
+            "complete": {
+              "kind": "boolean",
+              "description": "Whether the provider reached the end of the self-thread without hitting its internal cap.",
+              "default": null
+            },
+            "conversationId": {
+              "kind": "string",
+              "description": "Conversation ID shared by the self-thread tweets. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "threadLength": {
+              "kind": "integer",
+              "description": "Number of tweets returned in the self-thread.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "tweets": {
+              "kind": "array",
+              "description": "Ordered self-thread tweets. Replies from other users are excluded. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorHandle": {
+                    "kind": "string",
+                    "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorId": {
+                    "kind": "string",
+                    "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorName": {
+                    "kind": "string",
+                    "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "conversationId": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "inReplyToId": {
+                    "kind": "string",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id",
+                  "url",
+                  "text",
+                  "conversationId",
+                  "inReplyToId",
+                  "authorId",
+                  "authorHandle",
+                  "authorName"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "authorHandle",
+                  "authorId",
+                  "authorName",
+                  "id",
+                  "text",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "conversationId",
+            "threadLength",
+            "complete",
+            "author",
+            "tweets"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "conversationId",
+            "tweets"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
       }
     },
     {
