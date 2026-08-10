@@ -4981,6 +4981,537 @@
       }
     },
     {
+      "slug": "chatgpt.brand_visibility",
+      "platform": "chatgpt",
+      "action": "brand_visibility",
+      "operationId": "chatgpt_brand_visibility",
+      "name": "ChatGPT Brand Visibility",
+      "category": "search",
+      "description": "Analyze how ChatGPT mentions and cites a brand relative to its competitors.",
+      "pricing": {
+        "priceUsd": 0.0045,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "chatgpt",
+      "tsMethod": "brandVisibility",
+      "tsIterMethod": null,
+      "pyNamespace": "chatgpt",
+      "pyMethod": "brand_visibility",
+      "pyIterMethod": null,
+      "inputTypeName": "ChatgptBrandVisibilityInput",
+      "outputTypeName": "ChatgptBrandVisibilityData",
+      "example": {
+        "brand": "OpenAI",
+        "competitors": [
+          "Anthropic",
+          "Google DeepMind",
+          "Meta"
+        ],
+        "country": "US",
+        "domain": "openai.com",
+        "prompt": "What is OpenAI and who are its main competitors?"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "aliases": {
+            "kind": "array",
+            "description": "Alternative brand names to include in mention analysis.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "brand": {
+            "kind": "string",
+            "description": "Brand name to measure in the answer.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "competitors": {
+            "kind": "array",
+            "description": "Competitor brand names to compare against the target brand.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "country": {
+            "kind": "string",
+            "description": "Country context for the answer and web search (default US).",
+            "enum": null,
+            "default": "US",
+            "format": null
+          },
+          "domain": {
+            "kind": "string",
+            "description": "Brand domain used to attribute citations when supplied.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "prompt": {
+            "kind": "string",
+            "description": "Question or topic ChatGPT should answer while measuring brand visibility.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "prompt",
+          "brand"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answer": {
+              "kind": "string",
+              "description": "Full answer used for the visibility analysis. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "brand": {
+              "kind": "string",
+              "description": "Brand measured in the answer.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "citationRank": {
+              "kind": "integer",
+              "description": "One-based citation rank for the brand, or null when it was not cited. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "citations": {
+              "kind": "array",
+              "description": "Sources cited by the answer. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "attribution": {
+                    "kind": "string",
+                    "description": "Source attribution label when supplied. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Source domain. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "endIndex": {
+                    "kind": "integer",
+                    "description": "End character offset of the citation evidence. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "matchedText": {
+                    "kind": "string",
+                    "description": "Answer text matched to the citation evidence.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pubDateUtc": {
+                    "kind": "number",
+                    "description": "Source publication UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "publishedUtc": {
+                    "kind": "number",
+                    "description": "Source published UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Source evidence snippet when supplied. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "startIndex": {
+                    "kind": "integer",
+                    "description": "Start character offset of the citation evidence. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Source page title when supplied. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical source URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "attribution",
+                  "domain",
+                  "endIndex",
+                  "snippet",
+                  "startIndex",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "cited": {
+              "kind": "boolean",
+              "description": "Whether the answer cites the brand domain. Populated whenever the provider has data for the entity.",
+              "default": null
+            },
+            "citedUrls": {
+              "kind": "array",
+              "description": "URLs attributed to the brand domain. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": "uri"
+              },
+              "mustPopulate": true
+            },
+            "competitors": {
+              "kind": "array",
+              "description": "Visibility metrics for requested competitors. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "cited": {
+                    "kind": "boolean",
+                    "description": "Whether the answer cites the competitor. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "citedUrls": {
+                    "kind": "array",
+                    "description": "URLs attributed to the competitor.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": "uri"
+                    },
+                    "mustPopulate": false
+                  },
+                  "firstPosition": {
+                    "kind": "integer",
+                    "description": "Character position of the first competitor mention. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentionCount": {
+                    "kind": "integer",
+                    "description": "Number of competitor mentions in the answer. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentioned": {
+                    "kind": "boolean",
+                    "description": "Whether the answer mentions the competitor. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Competitor brand name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "cited",
+                  "firstPosition",
+                  "mentionCount",
+                  "mentioned"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "country": {
+              "kind": "string",
+              "description": "Country context used for the answer. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "domain": {
+              "kind": "string",
+              "description": "Brand domain used for citation attribution. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "excerpt": {
+              "kind": "string",
+              "description": "Leading excerpt from the answer. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "firstPosition": {
+              "kind": "integer",
+              "description": "Character position of the first brand mention. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "latencyMs": {
+              "kind": "integer",
+              "description": "Upstream processing latency in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "mentionCount": {
+              "kind": "integer",
+              "description": "Number of brand mentions in the answer. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "mentioned": {
+              "kind": "boolean",
+              "description": "Whether the answer mentions the brand. Populated whenever the provider has data for the entity.",
+              "default": null
+            },
+            "model": {
+              "kind": "string",
+              "description": "ChatGPT model that generated the answer. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "positionScore": {
+              "kind": "number",
+              "description": "Visibility score derived from the first mention position. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "prompt": {
+              "kind": "string",
+              "description": "Prompt answered for the visibility analysis.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "shareOfVoicePct": {
+              "kind": "number",
+              "description": "Brand share of voice among the measured brands, as a percentage. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "webSearchTriggered": {
+              "kind": "boolean",
+              "description": "Whether ChatGPT used web search for the answer. Populated whenever the provider has data for the entity.",
+              "default": null
+            }
+          },
+          "required": [
+            "prompt",
+            "brand"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answer",
+            "citationRank",
+            "citations",
+            "cited",
+            "citedUrls",
+            "competitors",
+            "country",
+            "createdUtc",
+            "domain",
+            "excerpt",
+            "firstPosition",
+            "latencyMs",
+            "mentionCount",
+            "mentioned",
+            "model",
+            "positionScore",
+            "shareOfVoicePct",
+            "webSearchTriggered"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "chatgpt.search",
+      "platform": "chatgpt",
+      "action": "search",
+      "operationId": "chatgpt_search",
+      "name": "ChatGPT Search",
+      "category": "search",
+      "description": "Ask ChatGPT a web-grounded question and receive an answer with source citations.",
+      "pricing": {
+        "priceUsd": 0.0036,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "chatgpt",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "chatgpt",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "ChatgptSearchInput",
+      "outputTypeName": "ChatgptSearchData",
+      "example": {
+        "prompt": "What is AnyAPI at getanyapi.com, and what does it offer?"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "prompt": {
+            "kind": "string",
+            "description": "Question or research prompt for ChatGPT to answer using web search.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answer": {
+              "kind": "string",
+              "description": "The web-grounded answer as text. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "answerMarkdown": {
+              "kind": "string",
+              "description": "The web-grounded answer with Markdown formatting. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "citations": {
+              "kind": "array",
+              "description": "Sources cited by the answer. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "title": {
+                    "kind": "string",
+                    "description": "Source page title when supplied by the search engine.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Source page URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "title",
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": true
+            },
+            "prompt": {
+              "kind": "string",
+              "description": "The prompt answered by ChatGPT.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "prompt",
+            "answer",
+            "answerMarkdown",
+            "citations"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answer",
+            "answerMarkdown",
+            "citations"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "coinmarketcap.listings",
       "platform": "coinmarketcap",
       "action": "listings",
@@ -12849,6 +13380,517 @@
       }
     },
     {
+      "slug": "gemini.brand_visibility",
+      "platform": "gemini",
+      "action": "brand_visibility",
+      "operationId": "gemini_brand_visibility",
+      "name": "Gemini Brand Visibility",
+      "category": "search",
+      "description": "Analyze how Gemini mentions and cites a brand relative to its competitors.",
+      "pricing": {
+        "priceUsd": 0.0045,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "gemini",
+      "tsMethod": "brandVisibility",
+      "tsIterMethod": null,
+      "pyNamespace": "gemini",
+      "pyMethod": "brand_visibility",
+      "pyIterMethod": null,
+      "inputTypeName": "GeminiBrandVisibilityInput",
+      "outputTypeName": "GeminiBrandVisibilityData",
+      "example": {
+        "brand": "OpenAI",
+        "competitors": [
+          "Anthropic",
+          "Google DeepMind",
+          "Meta"
+        ],
+        "country": "US",
+        "domain": "openai.com",
+        "prompt": "What is OpenAI and who are its main competitors?"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "aliases": {
+            "kind": "array",
+            "description": "Alternative brand names to include in mention analysis.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "brand": {
+            "kind": "string",
+            "description": "Brand name to measure in the answer.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "competitors": {
+            "kind": "array",
+            "description": "Competitor brand names to compare against the target brand.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "country": {
+            "kind": "string",
+            "description": "Country context for the answer and web search (default US).",
+            "enum": null,
+            "default": "US",
+            "format": null
+          },
+          "domain": {
+            "kind": "string",
+            "description": "Brand domain used to attribute citations when supplied.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "prompt": {
+            "kind": "string",
+            "description": "Question or topic Gemini should answer while measuring brand visibility.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "prompt",
+          "brand"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answer": {
+              "kind": "string",
+              "description": "Full answer used for the visibility analysis. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "brand": {
+              "kind": "string",
+              "description": "Brand measured in the answer.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "citationRank": {
+              "kind": "integer",
+              "description": "One-based citation rank for the brand, or null when it was not cited.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "citations": {
+              "kind": "array",
+              "description": "Sources cited by the answer. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "attribution": {
+                    "kind": "string",
+                    "description": "Source attribution label when supplied. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Source domain. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "endIndex": {
+                    "kind": "integer",
+                    "description": "End character offset of the citation evidence.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "matchedText": {
+                    "kind": "string",
+                    "description": "Answer text matched to the citation evidence.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Source evidence snippet when supplied.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "startIndex": {
+                    "kind": "integer",
+                    "description": "Start character offset of the citation evidence.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Source page title when supplied. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical source URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "attribution",
+                  "domain",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "cited": {
+              "kind": "boolean",
+              "description": "Whether the answer cites the brand domain. Populated whenever the provider has data for the entity.",
+              "default": null
+            },
+            "citedUrls": {
+              "kind": "array",
+              "description": "URLs attributed to the brand domain.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": "uri"
+              },
+              "mustPopulate": false
+            },
+            "competitors": {
+              "kind": "array",
+              "description": "Visibility metrics for requested competitors. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "cited": {
+                    "kind": "boolean",
+                    "description": "Whether the answer cites the competitor. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "citedUrls": {
+                    "kind": "array",
+                    "description": "URLs attributed to the competitor.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": "uri"
+                    },
+                    "mustPopulate": false
+                  },
+                  "firstPosition": {
+                    "kind": "integer",
+                    "description": "Character position of the first competitor mention. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentionCount": {
+                    "kind": "integer",
+                    "description": "Number of competitor mentions in the answer. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentioned": {
+                    "kind": "boolean",
+                    "description": "Whether the answer mentions the competitor. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Competitor brand name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "cited",
+                  "firstPosition",
+                  "mentionCount",
+                  "mentioned"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "country": {
+              "kind": "string",
+              "description": "Country context used for the answer. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "domain": {
+              "kind": "string",
+              "description": "Brand domain used for citation attribution. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "excerpt": {
+              "kind": "string",
+              "description": "Leading excerpt from the answer. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "firstPosition": {
+              "kind": "integer",
+              "description": "Character position of the first brand mention. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "latencyMs": {
+              "kind": "integer",
+              "description": "Upstream processing latency in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "mentionCount": {
+              "kind": "integer",
+              "description": "Number of brand mentions in the answer. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "mentioned": {
+              "kind": "boolean",
+              "description": "Whether the answer mentions the brand. Populated whenever the provider has data for the entity.",
+              "default": null
+            },
+            "model": {
+              "kind": "string",
+              "description": "Gemini model that generated the answer. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "positionScore": {
+              "kind": "number",
+              "description": "Visibility score derived from the first mention position. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "prompt": {
+              "kind": "string",
+              "description": "Prompt answered for the visibility analysis.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "shareOfVoicePct": {
+              "kind": "number",
+              "description": "Brand share of voice among the measured brands, as a percentage. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "webSearchTriggered": {
+              "kind": "boolean",
+              "description": "Whether Gemini used web search for the answer. Populated whenever the provider has data for the entity.",
+              "default": null
+            }
+          },
+          "required": [
+            "prompt",
+            "brand"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answer",
+            "citations",
+            "cited",
+            "competitors",
+            "country",
+            "domain",
+            "excerpt",
+            "firstPosition",
+            "latencyMs",
+            "mentionCount",
+            "mentioned",
+            "model",
+            "positionScore",
+            "shareOfVoicePct",
+            "webSearchTriggered"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "gemini.search",
+      "platform": "gemini",
+      "action": "search",
+      "operationId": "gemini_search",
+      "name": "Gemini Search",
+      "category": "search",
+      "description": "Ask Gemini a web-grounded question and receive an answer with source citations.",
+      "pricing": {
+        "priceUsd": 0.0036,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "gemini",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "gemini",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "GeminiSearchInput",
+      "outputTypeName": "GeminiSearchData",
+      "example": {
+        "prompt": "What is AnyAPI at getanyapi.com, and what does it offer?"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "prompt": {
+            "kind": "string",
+            "description": "Question or research prompt for Gemini to answer using web search.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answer": {
+              "kind": "string",
+              "description": "The web-grounded answer as text. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "answerMarkdown": {
+              "kind": "string",
+              "description": "The web-grounded answer with Markdown formatting. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "citations": {
+              "kind": "array",
+              "description": "Sources cited by the answer. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "title": {
+                    "kind": "string",
+                    "description": "Source page title when supplied by the search engine.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Source page URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "title",
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": true
+            },
+            "prompt": {
+              "kind": "string",
+              "description": "The prompt answered by Gemini.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "prompt",
+            "answer",
+            "answerMarkdown",
+            "citations"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answer",
+            "answerMarkdown",
+            "citations"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "github.repository",
       "platform": "github",
       "action": "repository",
@@ -14702,6 +15744,242 @@
           "open": false,
           "mustPopulate": [
             "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "google.ai_mode",
+      "platform": "google",
+      "action": "ai_mode",
+      "operationId": "google_ai_mode",
+      "name": "Google AI Mode",
+      "category": "search",
+      "description": "Ask Google AI Mode a prompt and receive a cited answer.",
+      "pricing": {
+        "priceUsd": 0.00126,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "google",
+      "tsMethod": "aiMode",
+      "tsIterMethod": null,
+      "pyNamespace": "google",
+      "pyMethod": "ai_mode",
+      "pyIterMethod": null,
+      "inputTypeName": "GoogleAiModeInput",
+      "outputTypeName": "GoogleAiModeData",
+      "example": {
+        "prompt": "What is AnyAPI at getanyapi.com, and what does it offer?"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "prompt": {
+            "kind": "string",
+            "description": "The question or prompt to answer with Google AI Mode.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answer": {
+              "kind": "string",
+              "description": "The answer as plain text. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "answerMarkdown": {
+              "kind": "string",
+              "description": "The answer in Markdown form. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "citations": {
+              "kind": "array",
+              "description": "Sources cited by the answer when the upstream returns them.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "title": {
+                    "kind": "string",
+                    "description": "The cited source title.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The cited source URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title",
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "prompt": {
+              "kind": "string",
+              "description": "The prompt answered by the upstream search experience. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "prompt",
+            "answer",
+            "answerMarkdown",
+            "citations"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answer",
+            "answerMarkdown",
+            "prompt"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "google.ai_overview",
+      "platform": "google",
+      "action": "ai_overview",
+      "operationId": "google_ai_overview",
+      "name": "Google AI Overview",
+      "category": "search",
+      "description": "Ask Google Search a prompt and receive its AI Overview with citations.",
+      "pricing": {
+        "priceUsd": 0.00144,
+        "baseUsd": 0.00126,
+        "perItemUsd": 0.00018,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "google",
+      "tsMethod": "aiOverview",
+      "tsIterMethod": null,
+      "pyNamespace": "google",
+      "pyMethod": "ai_overview",
+      "pyIterMethod": null,
+      "inputTypeName": "GoogleAiOverviewInput",
+      "outputTypeName": "GoogleAiOverviewData",
+      "example": {
+        "prompt": "How does photosynthesis work?"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "prompt": {
+            "kind": "string",
+            "description": "The question or prompt to answer with a Google AI Overview.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answer": {
+              "kind": "string",
+              "description": "The AI Overview answer as plain text. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "answerMarkdown": {
+              "kind": "string",
+              "description": "The AI Overview answer in Markdown form. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "citations": {
+              "kind": "array",
+              "description": "Sources cited by the AI Overview when Google returns them.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "title": {
+                    "kind": "string",
+                    "description": "The cited source title.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The cited source URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title",
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "prompt": {
+              "kind": "string",
+              "description": "The prompt answered by the upstream search experience. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "prompt",
+            "answer",
+            "answerMarkdown",
+            "citations"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answer",
+            "answerMarkdown",
+            "prompt"
           ]
         }
       },
@@ -29652,6 +30930,550 @@
             "profiles"
           ],
           "open": false
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "perplexity.brand_visibility",
+      "platform": "perplexity",
+      "action": "brand_visibility",
+      "operationId": "perplexity_brand_visibility",
+      "name": "Perplexity Brand Visibility",
+      "category": "search",
+      "description": "Analyze how Perplexity mentions and cites a brand relative to its competitors.",
+      "pricing": {
+        "priceUsd": 0.0045,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "perplexity",
+      "tsMethod": "brandVisibility",
+      "tsIterMethod": null,
+      "pyNamespace": "perplexity",
+      "pyMethod": "brand_visibility",
+      "pyIterMethod": null,
+      "inputTypeName": "PerplexityBrandVisibilityInput",
+      "outputTypeName": "PerplexityBrandVisibilityData",
+      "example": {
+        "brand": "OpenAI",
+        "competitors": [
+          "Anthropic",
+          "Google DeepMind",
+          "Meta"
+        ],
+        "country": "US",
+        "domain": "openai.com",
+        "prompt": "What is OpenAI and who are its main competitors?"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "aliases": {
+            "kind": "array",
+            "description": "Alternative brand names to include in mention analysis.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "brand": {
+            "kind": "string",
+            "description": "Brand name to measure in the answer.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "competitors": {
+            "kind": "array",
+            "description": "Competitor brand names to compare against the target brand.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "country": {
+            "kind": "string",
+            "description": "Country context for the answer and web search (default US).",
+            "enum": null,
+            "default": "US",
+            "format": null
+          },
+          "domain": {
+            "kind": "string",
+            "description": "Brand domain used to attribute citations when supplied.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "prompt": {
+            "kind": "string",
+            "description": "Question or topic Perplexity should answer while measuring brand visibility.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "prompt",
+          "brand"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answer": {
+              "kind": "string",
+              "description": "Full answer used for the visibility analysis. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "brand": {
+              "kind": "string",
+              "description": "Brand measured in the answer.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "citationRank": {
+              "kind": "integer",
+              "description": "One-based citation rank for the brand, or null when it was not cited.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "citations": {
+              "kind": "array",
+              "description": "Sources cited by the answer. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "domain": {
+                    "kind": "string",
+                    "description": "Source domain. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "endIndex": {
+                    "kind": "integer",
+                    "description": "End character offset of the citation evidence. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "lastUpdatedUtc": {
+                    "kind": "number",
+                    "description": "Source last-updated UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "matchedText": {
+                    "kind": "string",
+                    "description": "Answer text matched to the citation evidence. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pubDateUtc": {
+                    "kind": "number",
+                    "description": "Source publication UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "publishedUtc": {
+                    "kind": "number",
+                    "description": "Source published UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "refIndex": {
+                    "kind": "integer",
+                    "description": "One-based citation reference index used in the answer. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Source evidence snippet when supplied. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sourceType": {
+                    "kind": "string",
+                    "description": "Source evidence type. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "startIndex": {
+                    "kind": "integer",
+                    "description": "Start character offset of the citation evidence. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Source page title when supplied. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical source URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "domain",
+                  "endIndex",
+                  "matchedText",
+                  "publishedUtc",
+                  "refIndex",
+                  "snippet",
+                  "sourceType",
+                  "startIndex",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "cited": {
+              "kind": "boolean",
+              "description": "Whether the answer cites the brand domain. Populated whenever the provider has data for the entity.",
+              "default": null
+            },
+            "citedUrls": {
+              "kind": "array",
+              "description": "URLs attributed to the brand domain.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": "uri"
+              },
+              "mustPopulate": false
+            },
+            "competitors": {
+              "kind": "array",
+              "description": "Visibility metrics for requested competitors. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "cited": {
+                    "kind": "boolean",
+                    "description": "Whether the answer cites the competitor. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "citedUrls": {
+                    "kind": "array",
+                    "description": "URLs attributed to the competitor.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": "uri"
+                    },
+                    "mustPopulate": false
+                  },
+                  "firstPosition": {
+                    "kind": "integer",
+                    "description": "Character position of the first competitor mention when present.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentionCount": {
+                    "kind": "integer",
+                    "description": "Number of competitor mentions in the answer. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentioned": {
+                    "kind": "boolean",
+                    "description": "Whether the answer mentions the competitor. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Competitor brand name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "cited",
+                  "mentionCount",
+                  "mentioned"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "country": {
+              "kind": "string",
+              "description": "Country context used for the answer. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "domain": {
+              "kind": "string",
+              "description": "Brand domain used for citation attribution. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "excerpt": {
+              "kind": "string",
+              "description": "Leading excerpt from the answer. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "firstPosition": {
+              "kind": "integer",
+              "description": "Character position of the first brand mention. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "latencyMs": {
+              "kind": "integer",
+              "description": "Upstream processing latency in milliseconds. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "mentionCount": {
+              "kind": "integer",
+              "description": "Number of brand mentions in the answer. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "mentioned": {
+              "kind": "boolean",
+              "description": "Whether the answer mentions the brand. Populated whenever the provider has data for the entity.",
+              "default": null
+            },
+            "model": {
+              "kind": "string",
+              "description": "Perplexity model that generated the answer. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "positionScore": {
+              "kind": "number",
+              "description": "Visibility score derived from the first mention position. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "prompt": {
+              "kind": "string",
+              "description": "Prompt answered for the visibility analysis.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "shareOfVoicePct": {
+              "kind": "number",
+              "description": "Brand share of voice among the measured brands, as a percentage. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "webSearchTriggered": {
+              "kind": "boolean",
+              "description": "Whether Perplexity used web search for the answer. Populated whenever the provider has data for the entity.",
+              "default": null
+            }
+          },
+          "required": [
+            "prompt",
+            "brand"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answer",
+            "citations",
+            "cited",
+            "competitors",
+            "country",
+            "domain",
+            "excerpt",
+            "firstPosition",
+            "latencyMs",
+            "mentionCount",
+            "mentioned",
+            "model",
+            "positionScore",
+            "shareOfVoicePct",
+            "webSearchTriggered"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "perplexity.search",
+      "platform": "perplexity",
+      "action": "search",
+      "operationId": "perplexity_search",
+      "name": "Perplexity Search",
+      "category": "search",
+      "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
+      "pricing": {
+        "priceUsd": 0.0036,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "perplexity",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "perplexity",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "PerplexitySearchInput",
+      "outputTypeName": "PerplexitySearchData",
+      "example": {
+        "prompt": "What is AnyAPI at getanyapi.com, and what does it offer?"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "prompt": {
+            "kind": "string",
+            "description": "Question or research prompt for Perplexity to answer using web search.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "answer": {
+              "kind": "string",
+              "description": "The web-grounded answer as text. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "answerMarkdown": {
+              "kind": "string",
+              "description": "The web-grounded answer with Markdown formatting. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "citations": {
+              "kind": "array",
+              "description": "Sources cited by the answer. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "title": {
+                    "kind": "string",
+                    "description": "Source page title when supplied by the search engine.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Source page URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "title",
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": true
+            },
+            "prompt": {
+              "kind": "string",
+              "description": "The prompt answered by Perplexity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "prompt",
+            "answer",
+            "answerMarkdown",
+            "citations"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answer",
+            "answerMarkdown",
+            "citations"
+          ]
         }
       },
       "pagination": {

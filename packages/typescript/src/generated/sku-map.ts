@@ -67,6 +67,12 @@ import type {
   BookingSearchInput,
 } from "./platforms/booking.js";
 import type {
+  ChatgptBrandVisibilityData,
+  ChatgptBrandVisibilityInput,
+  ChatgptSearchData,
+  ChatgptSearchInput,
+} from "./platforms/chatgpt.js";
+import type {
   CoinmarketcapListingsData,
   CoinmarketcapListingsInput,
 } from "./platforms/coinmarketcap.js";
@@ -183,6 +189,12 @@ import type {
   FiverrSearchInput,
 } from "./platforms/fiverr.js";
 import type {
+  GeminiBrandVisibilityData,
+  GeminiBrandVisibilityInput,
+  GeminiSearchData,
+  GeminiSearchInput,
+} from "./platforms/gemini.js";
+import type {
   GithubRepositoryData,
   GithubRepositoryInput,
   GithubTrendingDevelopersData,
@@ -209,6 +221,10 @@ import type {
   GlassdoorJobsInput,
 } from "./platforms/glassdoor.js";
 import type {
+  GoogleAiModeData,
+  GoogleAiModeInput,
+  GoogleAiOverviewData,
+  GoogleAiOverviewInput,
   GoogleAutocompleteData,
   GoogleAutocompleteInput,
   GoogleImagesData,
@@ -385,6 +401,12 @@ import type {
   PeopleSearchCrustdataV3Data,
   PeopleSearchCrustdataV3Input,
 } from "./platforms/people_search.js";
+import type {
+  PerplexityBrandVisibilityData,
+  PerplexityBrandVisibilityInput,
+  PerplexitySearchData,
+  PerplexitySearchInput,
+} from "./platforms/perplexity.js";
 import type {
   PersonSkipTraceData,
   PersonSkipTraceInput,
@@ -846,6 +868,16 @@ export interface SkuMap {
     data: BookingSearchData;
     result: RunResult<BookingSearchData>;
   };
+  "chatgpt.brand_visibility": {
+    input: ChatgptBrandVisibilityInput;
+    data: ChatgptBrandVisibilityData;
+    result: RunResult<ChatgptBrandVisibilityData>;
+  };
+  "chatgpt.search": {
+    input: ChatgptSearchInput;
+    data: ChatgptSearchData;
+    result: RunResult<ChatgptSearchData>;
+  };
   "coinmarketcap.listings": {
     input: CoinmarketcapListingsInput;
     data: CoinmarketcapListingsData;
@@ -1076,6 +1108,16 @@ export interface SkuMap {
     data: FiverrSearchData;
     result: RunResult<FiverrSearchData>;
   };
+  "gemini.brand_visibility": {
+    input: GeminiBrandVisibilityInput;
+    data: GeminiBrandVisibilityData;
+    result: RunResult<GeminiBrandVisibilityData>;
+  };
+  "gemini.search": {
+    input: GeminiSearchInput;
+    data: GeminiSearchData;
+    result: RunResult<GeminiSearchData>;
+  };
   "github.repository": {
     input: GithubRepositoryInput;
     data: GithubRepositoryData;
@@ -1130,6 +1172,16 @@ export interface SkuMap {
     input: GlassdoorJobsInput;
     data: GlassdoorJobsData;
     result: RunResult<GlassdoorJobsData>;
+  };
+  "google.ai_mode": {
+    input: GoogleAiModeInput;
+    data: GoogleAiModeData;
+    result: RunResult<GoogleAiModeData>;
+  };
+  "google.ai_overview": {
+    input: GoogleAiOverviewInput;
+    data: GoogleAiOverviewData;
+    result: RunResult<GoogleAiOverviewData>;
   };
   "google.autocomplete": {
     input: GoogleAutocompleteInput;
@@ -1520,6 +1572,16 @@ export interface SkuMap {
     input: PeopleSearchCrustdataV3Input;
     data: PeopleSearchCrustdataV3Data;
     result: RunResult<PeopleSearchCrustdataV3Data>;
+  };
+  "perplexity.brand_visibility": {
+    input: PerplexityBrandVisibilityInput;
+    data: PerplexityBrandVisibilityData;
+    result: RunResult<PerplexityBrandVisibilityData>;
+  };
+  "perplexity.search": {
+    input: PerplexitySearchInput;
+    data: PerplexitySearchData;
+    result: RunResult<PerplexitySearchData>;
   };
   "person.skip_trace": {
     input: PersonSkipTraceInput;

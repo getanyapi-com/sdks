@@ -14,6 +14,7 @@ import { ApolloNamespace } from "./platforms/apollo.js";
 import { AppstoreNamespace } from "./platforms/appstore.js";
 import { BlueskyNamespace } from "./platforms/bluesky.js";
 import { BookingNamespace } from "./platforms/booking.js";
+import { ChatgptNamespace } from "./platforms/chatgpt.js";
 import { CoinmarketcapNamespace } from "./platforms/coinmarketcap.js";
 import { CompanyEnrichmentNamespace } from "./platforms/company_enrichment.js";
 import { CompanySearchNamespace } from "./platforms/company_search.js";
@@ -26,6 +27,7 @@ import { EmailFindingNamespace } from "./platforms/email_finding.js";
 import { EmailVerificationNamespace } from "./platforms/email_verification.js";
 import { FacebookNamespace } from "./platforms/facebook.js";
 import { FiverrNamespace } from "./platforms/fiverr.js";
+import { GeminiNamespace } from "./platforms/gemini.js";
 import { GithubNamespace } from "./platforms/github.js";
 import { GlassdoorNamespace } from "./platforms/glassdoor.js";
 import { GoogleNamespace } from "./platforms/google.js";
@@ -40,6 +42,7 @@ import { MapsNamespace } from "./platforms/maps.js";
 import { MobilePhoneNamespace } from "./platforms/mobile_phone.js";
 import { PandaexpressNamespace } from "./platforms/pandaexpress.js";
 import { PeopleSearchNamespace } from "./platforms/people_search.js";
+import { PerplexityNamespace } from "./platforms/perplexity.js";
 import { PersonNamespace } from "./platforms/person.js";
 import { PersonEnrichmentNamespace } from "./platforms/person_enrichment.js";
 import { PinterestNamespace } from "./platforms/pinterest.js";
@@ -177,6 +180,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the chatgpt platform.
+   */
+  get chatgpt(): ChatgptNamespace {
+    return (this._namespaces["chatgpt"] ??= new ChatgptNamespace(
+      this._core,
+    )) as ChatgptNamespace;
+  }
+
+  /**
    * Typed methods for the coinmarketcap platform.
    */
   get coinmarketcap(): CoinmarketcapNamespace {
@@ -280,6 +292,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["fiverr"] ??= new FiverrNamespace(
       this._core,
     )) as FiverrNamespace;
+  }
+
+  /**
+   * Typed methods for the gemini platform.
+   */
+  get gemini(): GeminiNamespace {
+    return (this._namespaces["gemini"] ??= new GeminiNamespace(
+      this._core,
+    )) as GeminiNamespace;
   }
 
   /**
@@ -406,6 +427,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["peopleSearch"] ??= new PeopleSearchNamespace(
       this._core,
     )) as PeopleSearchNamespace;
+  }
+
+  /**
+   * Typed methods for the perplexity platform.
+   */
+  get perplexity(): PerplexityNamespace {
+    return (this._namespaces["perplexity"] ??= new PerplexityNamespace(
+      this._core,
+    )) as PerplexityNamespace;
   }
 
   /**

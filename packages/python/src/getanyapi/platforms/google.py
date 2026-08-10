@@ -15,6 +15,20 @@ if TYPE_CHECKING:
     from .._client import AnyAPI
 
 
+class GoogleAiModeInput(TypedDict, total=False):
+    """Input for Google AI Mode."""
+
+    prompt: Required[str]
+    """The question or prompt to answer with Google AI Mode."""
+
+
+class GoogleAiOverviewInput(TypedDict, total=False):
+    """Input for Google AI Overview."""
+
+    prompt: Required[str]
+    """The question or prompt to answer with a Google AI Overview."""
+
+
 class GoogleAutocompleteInput(TypedDict, total=False):
     """Input for Google Autocomplete."""
 
@@ -117,6 +131,56 @@ class GoogleVideosInput(TypedDict, total=False):
     """The video search query."""
     timeframe: NotRequired[str]
     """Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction)."""
+
+
+class GoogleAiModeData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    answer: str = Field(
+        description="The answer as plain text. Populated whenever the provider has data for the entity."
+    )
+    answer_markdown: str = Field(
+        alias="answerMarkdown",
+        description="The answer in Markdown form. Populated whenever the provider has data for the entity.",
+    )
+    citations: list[GoogleAiModeCitation] = Field(
+        description="Sources cited by the answer when the upstream returns them."
+    )
+    prompt: str = Field(
+        description="The prompt answered by the upstream search experience. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleAiModeCitation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    title: str = Field(description="The cited source title.")
+    url: str = Field(description="The cited source URL.")
+
+
+class GoogleAiOverviewData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    answer: str = Field(
+        description="The AI Overview answer as plain text. Populated whenever the provider has data for the entity."
+    )
+    answer_markdown: str = Field(
+        alias="answerMarkdown",
+        description="The AI Overview answer in Markdown form. Populated whenever the provider has data for the entity.",
+    )
+    citations: list[GoogleAiOverviewCitation] = Field(
+        description="Sources cited by the AI Overview when Google returns them."
+    )
+    prompt: str = Field(
+        description="The prompt answered by the upstream search experience. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleAiOverviewCitation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    title: str = Field(description="The cited source title.")
+    url: str = Field(description="The cited source URL.")
 
 
 class GoogleAutocompleteData(BaseModel):
@@ -366,6 +430,46 @@ class GoogleNamespace:
     def __init__(self, client: "AnyAPI") -> None:
         self._client = client
 
+    def ai_mode(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GoogleAiModeInput],
+    ) -> RunResult[GoogleAiModeData]:
+        """Google AI Mode
+
+        Ask Google AI Mode a prompt and receive a cited answer.
+
+        Price: $0.00126 per request.
+
+        Example:
+            res = client.google.ai_mode(prompt="What is AnyAPI at getanyapi.com, and what does it offer?")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.ai_mode", dict(input), options
+        )
+        return RunResult[GoogleAiModeData].model_validate(raw)
+
+    def ai_overview(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GoogleAiOverviewInput],
+    ) -> RunResult[GoogleAiOverviewData]:
+        """Google AI Overview
+
+        Ask Google Search a prompt and receive its AI Overview with citations.
+
+        Price: $0.00126 per request plus $0.00018 per result (maximum $0.00144).
+
+        Example:
+            res = client.google.ai_overview(prompt="How does photosynthesis work?")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.ai_overview", dict(input), options
+        )
+        return RunResult[GoogleAiOverviewData].model_validate(raw)
+
     def autocomplete(
         self,
         *,
@@ -533,6 +637,46 @@ class AsyncGoogleNamespace:
 
     def __init__(self, client: "AsyncAnyAPI") -> None:
         self._client = client
+
+    async def ai_mode(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GoogleAiModeInput],
+    ) -> RunResult[GoogleAiModeData]:
+        """Google AI Mode
+
+        Ask Google AI Mode a prompt and receive a cited answer.
+
+        Price: $0.00126 per request.
+
+        Example:
+            res = client.google.ai_mode(prompt="What is AnyAPI at getanyapi.com, and what does it offer?")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.ai_mode", dict(input), options
+        )
+        return RunResult[GoogleAiModeData].model_validate(raw)
+
+    async def ai_overview(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GoogleAiOverviewInput],
+    ) -> RunResult[GoogleAiOverviewData]:
+        """Google AI Overview
+
+        Ask Google Search a prompt and receive its AI Overview with citations.
+
+        Price: $0.00126 per request plus $0.00018 per result (maximum $0.00144).
+
+        Example:
+            res = client.google.ai_overview(prompt="How does photosynthesis work?")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.ai_overview", dict(input), options
+        )
+        return RunResult[GoogleAiOverviewData].model_validate(raw)
 
     async def autocomplete(
         self,

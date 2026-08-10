@@ -7,6 +7,94 @@ import type {
 } from "../../core/index.js";
 
 /**
+ * Input for Google AI Mode (google.ai_mode).
+ */
+export interface GoogleAiModeInput {
+  /**
+   * The question or prompt to answer with Google AI Mode.
+   */
+  prompt: string;
+}
+
+export interface GoogleAiModeCitation {
+  /**
+   * The cited source title.
+   */
+  title: string;
+  /**
+   * The cited source URL.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google AI Mode (google.ai_mode).
+ */
+export interface GoogleAiModeData {
+  /**
+   * The answer as plain text. Populated whenever the provider has data for the entity.
+   */
+  answer: string;
+  /**
+   * The answer in Markdown form. Populated whenever the provider has data for the entity.
+   */
+  answerMarkdown: string;
+  /**
+   * Sources cited by the answer when the upstream returns them.
+   */
+  citations: GoogleAiModeCitation[];
+  /**
+   * The prompt answered by the upstream search experience. Populated whenever the provider has data for the entity.
+   */
+  prompt: string;
+}
+
+/**
+ * Input for Google AI Overview (google.ai_overview).
+ */
+export interface GoogleAiOverviewInput {
+  /**
+   * The question or prompt to answer with a Google AI Overview.
+   */
+  prompt: string;
+}
+
+export interface GoogleAiOverviewCitation {
+  /**
+   * The cited source title.
+   */
+  title: string;
+  /**
+   * The cited source URL.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google AI Overview (google.ai_overview).
+ */
+export interface GoogleAiOverviewData {
+  /**
+   * The AI Overview answer as plain text. Populated whenever the provider has data for the entity.
+   */
+  answer: string;
+  /**
+   * The AI Overview answer in Markdown form. Populated whenever the provider has data for the entity.
+   */
+  answerMarkdown: string;
+  /**
+   * Sources cited by the AI Overview when Google returns them.
+   */
+  citations: GoogleAiOverviewCitation[];
+  /**
+   * The prompt answered by the upstream search experience. Populated whenever the provider has data for the entity.
+   */
+  prompt: string;
+}
+
+/**
  * Input for Google Autocomplete (google.autocomplete).
  */
 export interface GoogleAutocompleteInput {
@@ -541,6 +629,40 @@ export interface GoogleVideosData {
  */
 export class GoogleNamespace {
   constructor(private readonly _core: ClientCore) {}
+
+  /**
+   * Google AI Mode
+   *
+   * Ask Google AI Mode a prompt and receive a cited answer.
+   *
+   * Price: $0.00126 per request.
+   *
+   * @example
+   * const res = await client.google.aiMode({ prompt: "What is AnyAPI at getanyapi.com, and what does it offer?" });
+   */
+  aiMode(
+    input: GoogleAiModeInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleAiModeData>> {
+    return this._core.run("google.ai_mode", input, options);
+  }
+
+  /**
+   * Google AI Overview
+   *
+   * Ask Google Search a prompt and receive its AI Overview with citations.
+   *
+   * Price: $0.00126 per request plus $0.00018 per result (maximum $0.00144).
+   *
+   * @example
+   * const res = await client.google.aiOverview({ prompt: "How does photosynthesis work?" });
+   */
+  aiOverview(
+    input: GoogleAiOverviewInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleAiOverviewData>> {
+    return this._core.run("google.ai_overview", input, options);
+  }
 
   /**
    * Google Autocomplete

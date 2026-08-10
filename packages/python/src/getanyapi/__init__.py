@@ -51,7 +51,7 @@ from .types import (
     unwrap,
 )
 
-__version__ = "0.19.0"
+__version__ = "0.20.0"
 
 __all__ = [
     # clients + top-level functions

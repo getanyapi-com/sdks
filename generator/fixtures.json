@@ -444,6 +444,40 @@
     "items": 1,
     "replayed": false
   },
+  "chatgpt.brand_visibility": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "brand": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "chatgpt.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "answer": "sample",
+        "answerMarkdown": "sample",
+        "citations": [
+          {
+            "title": "sample",
+            "url": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "coinmarketcap.listings": {
     "output": {
       "found": true,
@@ -1375,6 +1409,40 @@
     "items": 1,
     "replayed": false
   },
+  "gemini.brand_visibility": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "brand": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "gemini.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "answer": "sample",
+        "answerMarkdown": "sample",
+        "citations": [
+          {
+            "title": "sample",
+            "url": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "github.repository": {
     "output": {
       "found": true,
@@ -1608,6 +1676,48 @@
         "items": [
           {
             "id": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "google.ai_mode": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "answer": "sample",
+        "answerMarkdown": "sample",
+        "citations": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "google.ai_overview": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "answer": "sample",
+        "answerMarkdown": "sample",
+        "citations": [
+          {
             "title": "sample",
             "url": "sample",
             "_extra": "passthrough"
@@ -3188,6 +3298,40 @@
         "profiles": [
           {
             "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "perplexity.brand_visibility": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "brand": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "perplexity.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "answer": "sample",
+        "answerMarkdown": "sample",
+        "citations": [
+          {
+            "title": "sample",
+            "url": "https://example.com/x",
             "_extra": "passthrough"
           }
         ]
