@@ -953,9 +953,9 @@
       "category": "shop",
       "description": "Search Alibaba by keyword and get up to 25 wholesale listings (title, price range, minimum order, and supplier) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0315,
+        "priceUsd": 0.021,
         "baseUsd": 0,
-        "perItemUsd": 0.00126,
+        "perItemUsd": 0.00084,
         "perItemUnit": "result"
       },
       "tsNamespace": "alibaba",
