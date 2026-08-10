@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, TYPE_CHECKING
+from typing import Any, Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -31,14 +31,14 @@ class DouyinSearchVideosInput(TypedDict, total=False):
     """Pagination cursor from the previous response; omit for the first page. Minimum: 0."""
     duration: NotRequired[Literal["0", "0-1", "1-5", "5-10000"]]
     """Duration filter in minutes: any, under 1, 1 to 5, or over 5. Default: 0."""
-    publishedWithin: NotRequired[Literal["0", "1", "7", "180"]]
-    """Publication window in days: 0 any time, 1 day, 7 days, or 180 days. Default: 0."""
+    publishedWithin: NotRequired[Any]
+    """Publication window in days. Use the canonical JSON integer 0 for any time, 1 for one day, 7 for seven days, or 180 for 180 days; legacy numeric strings remain accepted."""
     query: Required[str]
     """Keyword to search for."""
     searchId: NotRequired[str]
     """Search ID returned by the previous page."""
-    sort: NotRequired[Literal["0", "1", "2"]]
-    """Sort order: 0 comprehensive, 1 most liked, or 2 newest. Default: 0."""
+    sort: NotRequired[Any]
+    """Sort order. Use the canonical JSON integer 0 for comprehensive, 1 for most liked, or 2 for newest; legacy numeric strings remain accepted."""
 
 
 class DouyinUserPostsInput(TypedDict, total=False):
@@ -50,8 +50,8 @@ class DouyinUserPostsInput(TypedDict, total=False):
     """Requested page size. Values up to 20 are recommended. Default: 20."""
     secUserId: Required[str]
     """Douyin sec_user_id for the public account."""
-    sort: NotRequired[int]
-    """Post order: 0 for newest or 1 for most popular. Default: 0."""
+    sort: NotRequired[Any]
+    """Post order. Use the canonical JSON integer 0 for newest or 1 for most popular; legacy numeric strings remain accepted."""
 
 
 class DouyinVideoInput(TypedDict, total=False):
@@ -370,7 +370,7 @@ class DouyinNamespace:
         Price: $0.012 per request.
 
         Example:
-            res = client.douyin.search_videos(duration="0", publishedWithin="0", query="机器人", sort="0")
+            res = client.douyin.search_videos(duration="0", publishedWithin=0, query="机器人", sort=0)
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "douyin.search_videos", dict(input), options
@@ -481,7 +481,7 @@ class AsyncDouyinNamespace:
         Price: $0.012 per request.
 
         Example:
-            res = client.douyin.search_videos(duration="0", publishedWithin="0", query="机器人", sort="0")
+            res = client.douyin.search_videos(duration="0", publishedWithin=0, query="机器人", sort=0)
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "douyin.search_videos", dict(input), options

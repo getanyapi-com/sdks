@@ -529,6 +529,8 @@ import type {
   TiktokAdLibraryAdInput,
   TiktokAdLibrarySearchData,
   TiktokAdLibrarySearchInput,
+  TiktokAdTransparencySearchData,
+  TiktokAdTransparencySearchInput,
   TiktokAudienceDemographicsData,
   TiktokAudienceDemographicsInput,
   TiktokCommentRepliesData,
@@ -559,6 +561,8 @@ import type {
   TiktokSongInput,
   TiktokSongVideosData,
   TiktokSongVideosInput,
+  TiktokTopAdsSearchData,
+  TiktokTopAdsSearchInput,
   TiktokTrendingFeedData,
   TiktokTrendingFeedInput,
   TiktokVideoCommentsData,
@@ -1797,6 +1801,11 @@ export interface SkuMap {
     data: TiktokAdLibrarySearchData;
     result: RunResult<TiktokAdLibrarySearchData>;
   };
+  "tiktok.ad_transparency_search": {
+    input: TiktokAdTransparencySearchInput;
+    data: TiktokAdTransparencySearchData;
+    result: RunResult<TiktokAdTransparencySearchData>;
+  };
   "tiktok.audience_demographics": {
     input: TiktokAudienceDemographicsInput;
     data: TiktokAudienceDemographicsData;
@@ -1871,6 +1880,11 @@ export interface SkuMap {
     input: TiktokSongVideosInput;
     data: TiktokSongVideosData;
     result: RunResult<TiktokSongVideosData>;
+  };
+  "tiktok.top_ads_search": {
+    input: TiktokTopAdsSearchInput;
+    data: TiktokTopAdsSearchData;
+    result: RunResult<TiktokTopAdsSearchData>;
   };
   "tiktok.trending_feed": {
     input: TiktokTrendingFeedInput;

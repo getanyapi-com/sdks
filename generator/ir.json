@@ -6391,9 +6391,9 @@
       "outputTypeName": "DouyinSearchVideosData",
       "example": {
         "duration": "0",
-        "publishedWithin": "0",
+        "publishedWithin": 0,
         "query": "机器人",
-        "sort": "0"
+        "sort": 0
       },
       "input": {
         "kind": "object",
@@ -6425,16 +6425,8 @@
             "format": null
           },
           "publishedWithin": {
-            "kind": "string",
-            "description": "Publication window in days: 0 any time, 1 day, 7 days, or 180 days.",
-            "enum": [
-              "0",
-              "1",
-              "7",
-              "180"
-            ],
-            "default": "0",
-            "format": null
+            "kind": "unknown",
+            "description": "Publication window in days. Use the canonical JSON integer 0 for any time, 1 for one day, 7 for seven days, or 180 for 180 days; legacy numeric strings remain accepted."
           },
           "query": {
             "kind": "string",
@@ -6451,15 +6443,8 @@
             "format": null
           },
           "sort": {
-            "kind": "string",
-            "description": "Sort order: 0 comprehensive, 1 most liked, or 2 newest.",
-            "enum": [
-              "0",
-              "1",
-              "2"
-            ],
-            "default": "0",
-            "format": null
+            "kind": "unknown",
+            "description": "Sort order. Use the canonical JSON integer 0 for comprehensive, 1 for most liked, or 2 for newest; legacy numeric strings remain accepted."
           }
         },
         "required": [
@@ -6678,11 +6663,8 @@
             "format": null
           },
           "sort": {
-            "kind": "integer",
-            "description": "Post order: 0 for newest or 1 for most popular.",
-            "minimum": null,
-            "maximum": null,
-            "default": 0
+            "kind": "unknown",
+            "description": "Post order. Use the canonical JSON integer 0 for newest or 1 for most popular; legacy numeric strings remain accepted."
           }
         },
         "required": [
@@ -39461,7 +39443,7 @@
       "category": "social",
       "description": "Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info).",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39641,7 +39623,9 @@
       "inputTypeName": "TiktokAdLibrarySearchInput",
       "outputTypeName": "TiktokAdLibrarySearchData",
       "example": {
+        "limit": 20,
         "objective": "conversions",
+        "period": 30,
         "query": "spotify"
       },
       "input": {
@@ -39752,11 +39736,8 @@
             "format": null
           },
           "limit": {
-            "kind": "string",
-            "description": "Results per page, max 50 (defaults to 20).",
-            "enum": null,
-            "default": null,
-            "format": null
+            "kind": "unknown",
+            "description": "Results per page, with an existing maximum of 50 (default 20). Use a canonical JSON integer; legacy numeric strings remain accepted."
           },
           "objective": {
             "kind": "string",
@@ -39781,11 +39762,8 @@
             "format": null
           },
           "period": {
-            "kind": "string",
-            "description": "Time window for top ads: 7, 30, or 180 days.",
-            "enum": null,
-            "default": null,
-            "format": null
+            "kind": "unknown",
+            "description": "Time window for top ads. Use the canonical JSON integer 7, 30, or 180; legacy numeric strings remain accepted."
           },
           "query": {
             "kind": "string",
@@ -39937,6 +39915,242 @@
           "open": false,
           "mustPopulate": [
             "ads"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "ads",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "tiktok.ad_transparency_search",
+      "platform": "tiktok",
+      "action": "ad_transparency_search",
+      "operationId": "tiktok_ad_transparency_search",
+      "name": "TikTok Ad Transparency Search",
+      "category": "social",
+      "description": "Search TikTok's EU Commercial Content Library by keyword or advertiser ID.",
+      "pricing": {
+        "priceUsd": 0.0009,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "tiktok",
+      "tsMethod": "adTransparencySearch",
+      "tsIterMethod": "iterAdTransparencySearch",
+      "pyNamespace": "tiktok",
+      "pyMethod": "ad_transparency_search",
+      "pyIterMethod": "iter_ad_transparency_search",
+      "inputTypeName": "TiktokAdTransparencySearchInput",
+      "outputTypeName": "TiktokAdTransparencySearchData",
+      "example": {
+        "days": 30,
+        "limit": 20,
+        "query": "nike",
+        "region": "DE"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "advertiserId": {
+            "kind": "string",
+            "description": "TikTok Commercial Content Library advertiser ID. Provide advertiserId or query.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Search cursor from a previous response's nextCursor.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "days": {
+            "kind": "integer",
+            "description": "Number of days of Commercial Content Library history to search, from 1 to 365. Defaults to 30.",
+            "minimum": 1,
+            "maximum": 365,
+            "default": 30
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of ads to return, from 1 to 50. Defaults to 20. Billing is flat per request.",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20
+          },
+          "offset": {
+            "kind": "integer",
+            "description": "Zero-based result offset. Defaults to 0.",
+            "minimum": 0,
+            "maximum": null,
+            "default": 0
+          },
+          "query": {
+            "kind": "string",
+            "description": "Keyword to search in TikTok's EU Commercial Content Library. Provide query or advertiserId.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "region": {
+            "kind": "string",
+            "description": "Region code for the transparency search. Defaults to DE.",
+            "enum": null,
+            "default": "DE",
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Upstream sort expression. Defaults to last_shown_date,desc.",
+            "enum": null,
+            "default": "last_shown_date,desc",
+            "format": null
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "ads": {
+              "kind": "array",
+              "description": "Commercial Content Library ad records returned for the search. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "advertiserName": {
+                    "kind": "string",
+                    "description": "Advertiser display name associated with the ad. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "firstShownUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was first shown. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "format": {
+                    "kind": "string",
+                    "description": "Commercial Content Library creative format code for the ad. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "TikTok Commercial Content Library ad identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Signed cover image URL exactly as returned by the Commercial Content Library. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "lastShownUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was last shown. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "status": {
+                    "kind": "string",
+                    "description": "Commercial Content Library audit status code for the ad. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "Signed video asset URL exactly as returned by the Commercial Content Library. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "advertiserName",
+                  "firstShownUtc",
+                  "format",
+                  "id",
+                  "image",
+                  "lastShownUtc",
+                  "status",
+                  "videoUrl"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "hasMore": {
+              "kind": "boolean",
+              "description": "Whether the Commercial Content Library reports more matching ads. Populated whenever the provider has data for the entity.",
+              "default": null
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Search cursor to pass as cursor on a subsequent request, or null when there is no next page. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "offset": {
+              "kind": "integer",
+              "description": "Zero-based result offset reported for this page.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "region": {
+              "kind": "string",
+              "description": "Region code applied to this transparency search. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "total": {
+              "kind": "integer",
+              "description": "Total number of matching ads reported by the Commercial Content Library. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "nextCursor",
+            "hasMore",
+            "total",
+            "offset",
+            "region",
+            "ads"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "ads",
+            "hasMore",
+            "nextCursor",
+            "region",
+            "total"
           ]
         }
       },
@@ -41326,7 +41540,9 @@
       "inputTypeName": "TiktokSearchKeywordInput",
       "outputTypeName": "TiktokSearchKeywordData",
       "example": {
-        "query": "cooking"
+        "datePosted": 0,
+        "query": "cooking",
+        "sortBy": 0
       },
       "input": {
         "kind": "object",
@@ -41339,11 +41555,8 @@
             "format": null
           },
           "datePosted": {
-            "kind": "string",
-            "description": "Time frame filter (e.g. 0=any, 1=past 24h, 7=past week).",
-            "enum": null,
-            "default": null,
-            "format": null
+            "kind": "unknown",
+            "description": "Time frame filter. Use a canonical JSON integer that is nonnegative; common values are 0 for any time, 1 for the past 24 hours, 7 for the past week, and 30 for the past month. Legacy numeric strings remain accepted."
           },
           "query": {
             "kind": "string",
@@ -41353,11 +41566,8 @@
             "format": null
           },
           "sortBy": {
-            "kind": "string",
-            "description": "Sort order (e.g. 0=relevance, 1=most liked).",
-            "enum": null,
-            "default": null,
-            "format": null
+            "kind": "unknown",
+            "description": "Sort order. Use the canonical JSON integer 0 for relevance or 1 for most liked; legacy numeric strings remain accepted."
           }
         },
         "required": [
@@ -42080,6 +42290,312 @@
         "itemsField": "videos",
         "cursorInputField": "cursor",
         "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "tiktok.top_ads_search",
+      "platform": "tiktok",
+      "action": "top_ads_search",
+      "operationId": "tiktok_top_ads_search",
+      "name": "TikTok Top Ads Search",
+      "category": "social",
+      "description": "Search TikTok Creative Center top video ads by keyword with explicit performance, objective, region, language, and time-window filters.",
+      "pricing": {
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "tiktok",
+      "tsMethod": "topAdsSearch",
+      "tsIterMethod": null,
+      "pyNamespace": "tiktok",
+      "pyMethod": "top_ads_search",
+      "pyIterMethod": null,
+      "inputTypeName": "TiktokTopAdsSearchInput",
+      "outputTypeName": "TiktokTopAdsSearchData",
+      "example": {
+        "query": "glasses"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "adLanguage": {
+            "kind": "string",
+            "description": "Language code for returned ads (default en).",
+            "enum": [
+              "en",
+              "es",
+              "ar",
+              "vi",
+              "th",
+              "de",
+              "id",
+              "pt",
+              "fr",
+              "ms",
+              "nl",
+              "ja",
+              "it",
+              "ro",
+              "zh-Hant",
+              "ko"
+            ],
+            "default": "en",
+            "format": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of ads requested for this page, from 1 through 20 (default 20).",
+            "minimum": 1,
+            "maximum": 20,
+            "default": 20
+          },
+          "objective": {
+            "kind": "string",
+            "description": "Campaign objective filter (default traffic).",
+            "enum": [
+              "traffic",
+              "app_installs",
+              "conversions",
+              "video_views",
+              "reach",
+              "lead_generation",
+              "product_sales"
+            ],
+            "default": "traffic",
+            "format": null
+          },
+          "orderBy": {
+            "kind": "string",
+            "description": "Result ordering: Creative Center recommendations or like count (default for_you).",
+            "enum": [
+              "for_you",
+              "likes"
+            ],
+            "default": "for_you",
+            "format": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "One-based provider page number (default 1).",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "performanceRank": {
+            "kind": "string",
+            "description": "Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent (default top_1_20).",
+            "enum": [
+              "top_1_20",
+              "top_21_40",
+              "top_41_60",
+              "top_61_80"
+            ],
+            "default": "top_1_20",
+            "format": null
+          },
+          "period": {
+            "kind": "integer",
+            "description": "Lookback period in days (default 180).",
+            "minimum": null,
+            "maximum": null,
+            "default": 180
+          },
+          "query": {
+            "kind": "string",
+            "description": "Keyword to search in TikTok Creative Center top video ads.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "region": {
+            "kind": "string",
+            "description": "Country code used to select the Creative Center market (default US).",
+            "enum": null,
+            "default": "US",
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "ads": {
+              "kind": "array",
+              "description": "TikTok Creative Center top-ad records returned for this page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "adId": {
+                    "kind": "string",
+                    "description": "TikTok Creative Center ad material identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "adTitle": {
+                    "kind": "string",
+                    "description": "Title or primary copy shown for the ad. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "brandName": {
+                    "kind": "string",
+                    "description": "Advertiser brand name when supplied by TikTok Creative Center. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "cost": {
+                    "kind": "number",
+                    "description": "TikTok Creative Center's relative cost ranking value for the ad. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "ctr": {
+                    "kind": "number",
+                    "description": "TikTok Creative Center's click-through rate value for the ad. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "durationSeconds": {
+                    "kind": "number",
+                    "description": "Video duration in seconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "height": {
+                    "kind": "integer",
+                    "description": "Video height in pixels. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Signed video cover image URL exactly as returned by TikTok Creative Center. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "industry": {
+                    "kind": "string",
+                    "description": "TikTok Creative Center industry classification key. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Number of likes reported for the ad. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "objective": {
+                    "kind": "string",
+                    "description": "TikTok Creative Center campaign objective key. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "Signed 720p video asset URL exactly as returned by TikTok Creative Center. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "width": {
+                    "kind": "integer",
+                    "description": "Video width in pixels. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "adId"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "adId",
+                  "adTitle",
+                  "brandName",
+                  "cost",
+                  "ctr",
+                  "durationSeconds",
+                  "height",
+                  "image",
+                  "industry",
+                  "likes",
+                  "objective",
+                  "videoUrl",
+                  "width"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "hasMore": {
+              "kind": "boolean",
+              "description": "Whether TikTok Creative Center reports another page of matching ads. Populated whenever the provider has data for the entity.",
+              "default": null
+            },
+            "page": {
+              "kind": "integer",
+              "description": "One-based page number reported by TikTok Creative Center. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "pageSize": {
+              "kind": "integer",
+              "description": "Page size reported by TikTok Creative Center. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "total": {
+              "kind": "integer",
+              "description": "Total number of matching top ads reported by TikTok Creative Center. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "page",
+            "pageSize",
+            "total",
+            "hasMore",
+            "ads"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "ads",
+            "hasMore",
+            "page",
+            "pageSize",
+            "total"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
       }
     },
     {

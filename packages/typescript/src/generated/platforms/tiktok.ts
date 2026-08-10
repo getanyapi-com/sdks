@@ -135,9 +135,9 @@ export interface TiktokAdLibrarySearchInput {
    */
   likes?: "top_1_20" | "top_21_40" | "top_41_60" | "top_61_80" | "top_81_100";
   /**
-   * Results per page, max 50 (defaults to 20).
+   * Results per page, with an existing maximum of 50 (default 20). Use a canonical JSON integer; legacy numeric strings remain accepted.
    */
-  limit?: string;
+  limit?: unknown;
   /**
    * Campaign objective filter.
    * One of: app_installs, conversions, lead_generation, product_sales, reach, traffic, video_views.
@@ -155,9 +155,9 @@ export interface TiktokAdLibrarySearchInput {
    */
   orderBy?: string;
   /**
-   * Time window for top ads: 7, 30, or 180 days.
+   * Time window for top ads. Use the canonical JSON integer 7, 30, or 180; legacy numeric strings remain accepted.
    */
-  period?: string;
+  period?: unknown;
   /**
    * Keyword to search ad titles and content (e.g. spotify).
    */
@@ -213,6 +213,127 @@ export interface TiktokAdLibrarySearchData {
    * Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor: string | null;
+  total: number;
+}
+
+/**
+ * Input for TikTok Ad Transparency Search (tiktok.ad_transparency_search).
+ */
+export interface TiktokAdTransparencySearchInput {
+  /**
+   * TikTok Commercial Content Library advertiser ID. Provide advertiserId or query.
+   */
+  advertiserId?: string;
+  /**
+   * Search cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Number of days of Commercial Content Library history to search, from 1 to 365. Defaults to 30.
+   * Range: minimum 1, maximum 365.
+   * Default: 30.
+   */
+  days?: number;
+  /**
+   * Maximum number of ads to return, from 1 to 50. Defaults to 20. Billing is flat per request.
+   * Range: minimum 1, maximum 50.
+   * Default: 20.
+   */
+  limit?: number;
+  /**
+   * Zero-based result offset. Defaults to 0.
+   * Range: minimum 0.
+   * Default: 0.
+   */
+  offset?: number;
+  /**
+   * Keyword to search in TikTok's EU Commercial Content Library. Provide query or advertiserId.
+   */
+  query?: string;
+  /**
+   * Region code for the transparency search. Defaults to DE.
+   * Default: DE.
+   */
+  region?: string;
+  /**
+   * Upstream sort expression. Defaults to last_shown_date,desc.
+   * Default: last_shown_date,desc.
+   */
+  sort?: string;
+}
+
+export interface TiktokAdTransparencySearchAd {
+  /**
+   * Advertiser display name associated with the ad. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  advertiserName?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was first shown. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  firstShownUtc?: number;
+  /**
+   * Commercial Content Library creative format code for the ad. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  format?: string;
+  /**
+   * TikTok Commercial Content Library ad identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Signed cover image URL exactly as returned by the Commercial Content Library. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was last shown. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  lastShownUtc?: number;
+  /**
+   * Commercial Content Library audit status code for the ad. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  status?: string;
+  /**
+   * Signed video asset URL exactly as returned by the Commercial Content Library. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  videoUrl?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Ad Transparency Search (tiktok.ad_transparency_search).
+ */
+export interface TiktokAdTransparencySearchData {
+  /**
+   * Commercial Content Library ad records returned for the search. Populated whenever the provider has data for the entity.
+   */
+  ads: TiktokAdTransparencySearchAd[];
+  /**
+   * Whether the Commercial Content Library reports more matching ads. Populated whenever the provider has data for the entity.
+   */
+  hasMore: boolean;
+  /**
+   * Search cursor to pass as cursor on a subsequent request, or null when there is no next page. Populated whenever the provider has data for the entity.
+   */
+  nextCursor: string | null;
+  /**
+   * Zero-based result offset reported for this page.
+   */
+  offset: number;
+  /**
+   * Region code applied to this transparency search. Populated whenever the provider has data for the entity.
+   */
+  region: string;
+  /**
+   * Total number of matching ads reported by the Commercial Content Library. Populated whenever the provider has data for the entity.
+   */
   total: number;
 }
 
@@ -679,17 +800,17 @@ export interface TiktokSearchKeywordInput {
    */
   cursor?: string;
   /**
-   * Time frame filter (e.g. 0=any, 1=past 24h, 7=past week).
+   * Time frame filter. Use a canonical JSON integer that is nonnegative; common values are 0 for any time, 1 for the past 24 hours, 7 for the past week, and 30 for the past month. Legacy numeric strings remain accepted.
    */
-  datePosted?: string;
+  datePosted?: unknown;
   /**
    * The keyword to search TikTok for.
    */
   query: string;
   /**
-   * Sort order (e.g. 0=relevance, 1=most liked).
+   * Sort order. Use the canonical JSON integer 0 for relevance or 1 for most liked; legacy numeric strings remain accepted.
    */
-  sortBy?: string;
+  sortBy?: unknown;
 }
 
 export interface TiktokSearchKeywordVideo {
@@ -929,6 +1050,181 @@ export interface TiktokSongVideosData {
 }
 
 /**
+ * Input for TikTok Top Ads Search (tiktok.top_ads_search).
+ */
+export interface TiktokTopAdsSearchInput {
+  /**
+   * Language code for returned ads (default en).
+   * One of: en, es, ar, vi, th, de, id, pt, fr, ms, nl, ja, it, ro, zh-Hant, ko.
+   * Default: en.
+   */
+  adLanguage?:
+    | "en"
+    | "es"
+    | "ar"
+    | "vi"
+    | "th"
+    | "de"
+    | "id"
+    | "pt"
+    | "fr"
+    | "ms"
+    | "nl"
+    | "ja"
+    | "it"
+    | "ro"
+    | "zh-Hant"
+    | "ko";
+  /**
+   * Maximum number of ads requested for this page, from 1 through 20 (default 20).
+   * Range: minimum 1, maximum 20.
+   * Default: 20.
+   */
+  limit?: number;
+  /**
+   * Campaign objective filter (default traffic).
+   * One of: traffic, app_installs, conversions, video_views, reach, lead_generation, product_sales.
+   * Default: traffic.
+   */
+  objective?:
+    | "traffic"
+    | "app_installs"
+    | "conversions"
+    | "video_views"
+    | "reach"
+    | "lead_generation"
+    | "product_sales";
+  /**
+   * Result ordering: Creative Center recommendations or like count (default for_you).
+   * One of: for_you, likes.
+   * Default: for_you.
+   */
+  orderBy?: "for_you" | "likes";
+  /**
+   * One-based provider page number (default 1).
+   * Range: minimum 1.
+   * Default: 1.
+   */
+  page?: number;
+  /**
+   * Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent (default top_1_20).
+   * One of: top_1_20, top_21_40, top_41_60, top_61_80.
+   * Default: top_1_20.
+   */
+  performanceRank?: "top_1_20" | "top_21_40" | "top_41_60" | "top_61_80";
+  /**
+   * Lookback period in days (default 180).
+   * Default: 180.
+   */
+  period?: number;
+  /**
+   * Keyword to search in TikTok Creative Center top video ads.
+   */
+  query: string;
+  /**
+   * Country code used to select the Creative Center market (default US).
+   * Default: US.
+   */
+  region?: string;
+}
+
+export interface TiktokTopAdsSearchAd {
+  /**
+   * TikTok Creative Center ad material identifier. Populated whenever the provider has data for the entity.
+   */
+  adId: string;
+  /**
+   * Title or primary copy shown for the ad. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  adTitle?: string;
+  /**
+   * Advertiser brand name when supplied by TikTok Creative Center. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  brandName?: string;
+  /**
+   * TikTok Creative Center's relative cost ranking value for the ad. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  cost?: number;
+  /**
+   * TikTok Creative Center's click-through rate value for the ad. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  ctr?: number;
+  /**
+   * Video duration in seconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  durationSeconds?: number;
+  /**
+   * Video height in pixels. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  height?: number;
+  /**
+   * Signed video cover image URL exactly as returned by TikTok Creative Center. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * TikTok Creative Center industry classification key. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  industry?: string;
+  /**
+   * Number of likes reported for the ad. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  likes?: number;
+  /**
+   * TikTok Creative Center campaign objective key. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  objective?: string;
+  /**
+   * Signed 720p video asset URL exactly as returned by TikTok Creative Center. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  videoUrl?: string;
+  /**
+   * Video width in pixels. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Top Ads Search (tiktok.top_ads_search).
+ */
+export interface TiktokTopAdsSearchData {
+  /**
+   * TikTok Creative Center top-ad records returned for this page. Populated whenever the provider has data for the entity.
+   */
+  ads: TiktokTopAdsSearchAd[];
+  /**
+   * Whether TikTok Creative Center reports another page of matching ads. Populated whenever the provider has data for the entity.
+   */
+  hasMore: boolean;
+  /**
+   * One-based page number reported by TikTok Creative Center. Populated whenever the provider has data for the entity.
+   */
+  page: number;
+  /**
+   * Page size reported by TikTok Creative Center. Populated whenever the provider has data for the entity.
+   */
+  pageSize: number;
+  /**
+   * Total number of matching top ads reported by TikTok Creative Center. Populated whenever the provider has data for the entity.
+   */
+  total: number;
+}
+
+/**
  * Input for TikTok Trending Feed (tiktok.trending_feed).
  */
 export interface TiktokTrendingFeedInput {
@@ -1097,7 +1393,7 @@ export class TiktokNamespace {
    *
    * Fetch full details for a single TikTok ad (brand, title, spend, CTR, objectives, landing page, and video info).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.adLibraryAd({ adId: "7648493525660270600" });
@@ -1117,7 +1413,7 @@ export class TiktokNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.tiktok.adLibrarySearch({ query: "spotify", objective: "conversions" });
+   * const res = await client.tiktok.adLibrarySearch({ query: "spotify", limit: 20, objective: "conversions", period: 30 });
    */
   adLibrarySearch(
     input: TiktokAdLibrarySearchInput,
@@ -1142,6 +1438,49 @@ export class TiktokNamespace {
     >(
       this._core,
       "tiktok.ad_library_search",
+      input as unknown as Record<string, unknown>,
+      "ads",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * TikTok Ad Transparency Search
+   *
+   * Search TikTok's EU Commercial Content Library by keyword or advertiser ID.
+   *
+   * Price: $0.0009 per request.
+   *
+   * @example
+   * const res = await client.tiktok.adTransparencySearch({ days: 30, limit: 20, query: "nike", region: "DE" });
+   */
+  adTransparencySearch(
+    input: TiktokAdTransparencySearchInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokAdTransparencySearchData>> {
+    return this._core.run("tiktok.ad_transparency_search", input, options);
+  }
+
+  /**
+   * Iterate every result of TikTok Ad Transparency Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterAdTransparencySearch(
+    input: TiktokAdTransparencySearchInput,
+    options?: RequestOptions,
+  ): Paginator<
+    TiktokAdTransparencySearchAd,
+    RunResult<TiktokAdTransparencySearchData>
+  > {
+    return paginate<
+      TiktokAdTransparencySearchAd,
+      RunResult<TiktokAdTransparencySearchData>
+    >(
+      this._core,
+      "tiktok.ad_transparency_search",
       input as unknown as Record<string, unknown>,
       "ads",
       false,
@@ -1396,7 +1735,7 @@ export class TiktokNamespace {
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.tiktok.searchKeyword({ query: "cooking" });
+   * const res = await client.tiktok.searchKeyword({ query: "cooking", datePosted: 0, sortBy: 0 });
    */
   searchKeyword(
     input: TiktokSearchKeywordInput,
@@ -1531,6 +1870,23 @@ export class TiktokNamespace {
       false,
       options,
     );
+  }
+
+  /**
+   * TikTok Top Ads Search
+   *
+   * Search TikTok Creative Center top video ads by keyword with explicit performance, objective, region, language, and time-window filters.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.tiktok.topAdsSearch({ query: "glasses" });
+   */
+  topAdsSearch(
+    input: TiktokTopAdsSearchInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokTopAdsSearchData>> {
+    return this._core.run("tiktok.top_ads_search", input, options);
   }
 
   /**

@@ -91,11 +91,9 @@ export interface DouyinSearchVideosInput {
    */
   duration?: "0" | "0-1" | "1-5" | "5-10000";
   /**
-   * Publication window in days: 0 any time, 1 day, 7 days, or 180 days.
-   * One of: 0, 1, 7, 180.
-   * Default: 0.
+   * Publication window in days. Use the canonical JSON integer 0 for any time, 1 for one day, 7 for seven days, or 180 for 180 days; legacy numeric strings remain accepted.
    */
-  publishedWithin?: "0" | "1" | "7" | "180";
+  publishedWithin?: unknown;
   /**
    * Keyword to search for.
    */
@@ -105,11 +103,9 @@ export interface DouyinSearchVideosInput {
    */
   searchId?: string;
   /**
-   * Sort order: 0 comprehensive, 1 most liked, or 2 newest.
-   * One of: 0, 1, 2.
-   * Default: 0.
+   * Sort order. Use the canonical JSON integer 0 for comprehensive, 1 for most liked, or 2 for newest; legacy numeric strings remain accepted.
    */
-  sort?: "0" | "1" | "2";
+  sort?: unknown;
 }
 
 export interface DouyinSearchVideosVideo {
@@ -215,10 +211,9 @@ export interface DouyinUserPostsInput {
    */
   secUserId: string;
   /**
-   * Post order: 0 for newest or 1 for most popular.
-   * Default: 0.
+   * Post order. Use the canonical JSON integer 0 for newest or 1 for most popular; legacy numeric strings remain accepted.
    */
-  sort?: number;
+  sort?: unknown;
 }
 
 export interface DouyinUserPostsPost {
@@ -512,7 +507,7 @@ export class DouyinNamespace {
    * Price: $0.012 per request.
    *
    * @example
-   * const res = await client.douyin.searchVideos({ query: "机器人", duration: "0", publishedWithin: "0", sort: "0" });
+   * const res = await client.douyin.searchVideos({ query: "机器人", duration: "0", publishedWithin: 0, sort: 0 });
    */
   searchVideos(
     input: DouyinSearchVideosInput,
