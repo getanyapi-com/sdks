@@ -178,9 +178,11 @@ Releases are automated from the live catalog. Two workflows drive it:
 - `.github/workflows/release.yml` (publish) runs on a `v*` tag push and on manual dispatch
   (`tag` input). `verify` re-runs the full gate suite and asserts the tag matches both
   manifests. It queries the exact version on npm and PyPI, skips a side already present,
-  publishes a missing side, re-queries both, and smokes both exact versions. Only then does it
-  create the GitHub Release. This makes rerunning the same tag a recovery operation instead of
-  attempting to republish an immutable version.
+  publishes a missing side, then re-queries both and smokes both exact versions. When PyPI was
+  missing at preflight, terminal verification first waits its documented 60-second default
+  cache TTL so the pre-publish 404 cannot mask the upload. Only then does it create the GitHub
+  Release. This makes rerunning the same tag a recovery operation instead of attempting to
+  republish an immutable version.
 
 ### Manual compatibility release
 
