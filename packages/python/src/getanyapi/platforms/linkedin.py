@@ -2405,6 +2405,16 @@ class LinkedinSearchPostsFullAuthor(BaseModel):
         alias="profileUrl",
         description="Canonical LinkedIn profile or company URL for the author.",
     )
+    public_identifier: str | None = Field(
+        default=None,
+        alias="publicIdentifier",
+        description='LinkedIn public identifier (vanity slug) for the author, for example "williamhgates". Stable across lanes, unlike the raw id.',
+    )
+    type_: Literal["person", "company", "showcase"] | None = Field(
+        default=None,
+        alias="type",
+        description="Kind of LinkedIn entity that authored the post, derived from the author URL.",
+    )
 
 
 class LinkedinSearchPostsFullEngagement(BaseModel):

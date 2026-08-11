@@ -2502,6 +2502,15 @@ export interface LinkedinSearchPostsFullPost {
      * Format: uri.
      */
     profileUrl?: string;
+    /**
+     * LinkedIn public identifier (vanity slug) for the author, for example "williamhgates". Stable across lanes, unlike the raw id.
+     */
+    publicIdentifier?: string;
+    /**
+     * Kind of LinkedIn entity that authored the post, derived from the author URL.
+     * One of: person, company, showcase.
+     */
+    type?: "person" | "company" | "showcase";
   };
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.

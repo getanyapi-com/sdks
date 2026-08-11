@@ -27609,6 +27609,24 @@
                         "enum": null,
                         "default": null,
                         "format": "uri"
+                      },
+                      "publicIdentifier": {
+                        "kind": "string",
+                        "description": "LinkedIn public identifier (vanity slug) for the author, for example \"williamhgates\". Stable across lanes, unlike the raw id.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "type": {
+                        "kind": "string",
+                        "description": "Kind of LinkedIn entity that authored the post, derived from the author URL.",
+                        "enum": [
+                          "person",
+                          "company",
+                          "showcase"
+                        ],
+                        "default": null,
+                        "format": null
                       }
                     },
                     "required": [],
