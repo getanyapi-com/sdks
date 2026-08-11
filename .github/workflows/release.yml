@@ -181,14 +181,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.verify.outputs.version }}
+          # Keep the workflow and checker CLI version matched during old-tag recovery.
+          ref: ${{ github.workflow_sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: require both exact versions
         env:
+          PYPI_WAS_MISSING: ${{ needs.registry-state.outputs.pypi_exists == 'false' }}
           VERSION: ${{ needs.verify.outputs.version }}
-        run: node scripts/check-registry-version.mjs "$VERSION" --require-both
+        run: |
+          args=(--require-both)
+          if [ "$PYPI_WAS_MISSING" = "true" ]; then
+            args+=(--wait-for-pypi-cache)
+          fi
+          node scripts/check-registry-version.mjs "$VERSION" "${args[@]}"
 
   npm-smoke:
     name: smoke exact npm version

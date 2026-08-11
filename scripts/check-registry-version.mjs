@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 
 import { appendFile } from "node:fs/promises";
+import { setTimeout as sleep } from "node:timers/promises";
 import { pathToFileURL } from "node:url";
+
+// PyPI applies this default TTL when a 404 has no cache header. The source is
+// pinned because this value is an external release contract, not a tuning knob:
+// https://github.com/pypi/infra/blob/c14f8827038ac43a0ddc3040c18f7bac74f201a6/terraform/warehouse/vcl/main.vcl#L445-L454
+export const PYPI_NEGATIVE_CACHE_TTL_MS = 60_000;
 
 export function registryUrls(version) {
   const encodedVersion = encodeURIComponent(version);
@@ -46,15 +52,24 @@ export async function queryRegistryVersion(version, fetchImpl = fetch) {
   return { npm, pypi };
 }
 
-export async function main(args = process.argv.slice(2)) {
+export async function main(
+  args = process.argv.slice(2),
+  {
+    appendFileImpl = appendFile,
+    fetchImpl = fetch,
+    sleepImpl = sleep,
+    writeOutput = (value) => process.stdout.write(value),
+  } = {},
+) {
   const version = args[0];
   if (!version || version.startsWith("--")) {
     throw new Error(
-      "usage: check-registry-version.mjs <version> [--github-output <path>] [--require-both]",
+      "usage: check-registry-version.mjs <version> [--github-output <path>] [--require-both] [--wait-for-pypi-cache]",
     );
   }
   let outputPath;
   let requireBoth = false;
+  let waitForPypiCache = false;
   for (let index = 1; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--github-output") {
@@ -65,20 +80,29 @@ export async function main(args = process.argv.slice(2)) {
       index += 1;
     } else if (arg === "--require-both") {
       requireBoth = true;
+    } else if (arg === "--wait-for-pypi-cache") {
+      waitForPypiCache = true;
     } else {
       throw new Error(`unknown option: ${arg}`);
     }
   }
 
-  const state = await queryRegistryVersion(version);
-  process.stdout.write(
+  if (waitForPypiCache && !requireBoth) {
+    throw new Error("--wait-for-pypi-cache requires --require-both");
+  }
+  if (waitForPypiCache) {
+    await sleepImpl(PYPI_NEGATIVE_CACHE_TTL_MS);
+  }
+
+  const state = await queryRegistryVersion(version, fetchImpl);
+  writeOutput(
     `npm @getanyapi/sdk@${version}: ${state.npm ? "present" : "missing"}\n`,
   );
-  process.stdout.write(
+  writeOutput(
     `PyPI getanyapi==${version}: ${state.pypi ? "present" : "missing"}\n`,
   );
   if (outputPath) {
-    await appendFile(
+    await appendFileImpl(
       outputPath,
       `npm_exists=${state.npm}\npypi_exists=${state.pypi}\n`,
     );
