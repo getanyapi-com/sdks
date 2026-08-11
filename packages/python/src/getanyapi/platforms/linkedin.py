@@ -2744,7 +2744,7 @@ class LinkedinNamespace:
         link, publish date, author, engagement counts with a per-reaction breakdown,
         and attached media.
 
-        Price: $0.00006 per request plus $0.00184 per result (maximum $0.092).
+        Price: $0.00111 per request plus $0.00184 per result (maximum $0.093).
 
         Example:
             res = client.linkedin.company_posts(limit=10, url="https://www.linkedin.com/company/stripe")
@@ -2981,7 +2981,7 @@ class LinkedinNamespace:
         Fetch recent public LinkedIn profile posts with enriched author, engagement,
         article, newsletter, media, annotation, repost, and social activity details.
 
-        Price: $0.00006 per request plus $0.00184 per result (maximum $0.184).
+        Price: $0.00111 per request plus $0.00184 per result (maximum $0.185).
 
         Example:
             res = client.linkedin.profile_posts_full(limit=10, url="https://www.linkedin.com/in/williamhgates/")
@@ -3296,7 +3296,7 @@ class AsyncLinkedinNamespace:
         link, publish date, author, engagement counts with a per-reaction breakdown,
         and attached media.
 
-        Price: $0.00006 per request plus $0.00184 per result (maximum $0.092).
+        Price: $0.00111 per request plus $0.00184 per result (maximum $0.093).
 
         Example:
             res = client.linkedin.company_posts(limit=10, url="https://www.linkedin.com/company/stripe")
@@ -3533,7 +3533,7 @@ class AsyncLinkedinNamespace:
         Fetch recent public LinkedIn profile posts with enriched author, engagement,
         article, newsletter, media, annotation, repost, and social activity details.
 
-        Price: $0.00006 per request plus $0.00184 per result (maximum $0.184).
+        Price: $0.00111 per request plus $0.00184 per result (maximum $0.185).
 
         Example:
             res = client.linkedin.profile_posts_full(limit=10, url="https://www.linkedin.com/in/williamhgates/")

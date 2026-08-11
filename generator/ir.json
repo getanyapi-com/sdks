@@ -23421,8 +23421,8 @@
       "category": "social",
       "description": "List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.",
       "pricing": {
-        "priceUsd": 0.092,
-        "baseUsd": 0.00006,
+        "priceUsd": 0.093,
+        "baseUsd": 0.00111,
         "perItemUsd": 0.00184,
         "perItemUnit": "result"
       },
@@ -25705,8 +25705,8 @@
       "category": "social",
       "description": "Fetch recent public LinkedIn profile posts with enriched author, engagement, article, newsletter, media, annotation, repost, and social activity details.",
       "pricing": {
-        "priceUsd": 0.184,
-        "baseUsd": 0.00006,
+        "priceUsd": 0.185,
+        "baseUsd": 0.00111,
         "perItemUsd": 0.00184,
         "perItemUnit": "result"
       },

@@ -9,6 +9,9 @@
       "method": "POST",
       "path": "/v1/run/ahrefs.backlinks",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -58,6 +61,9 @@
       "method": "POST",
       "path": "/v1/run/ahrefs.keyword_ideas",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -98,6 +104,9 @@
       "method": "POST",
       "path": "/v1/run/ahrefs.keywords",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -147,6 +156,9 @@
       "method": "POST",
       "path": "/v1/run/ahrefs.overview",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -196,6 +208,9 @@
       "method": "POST",
       "path": "/v1/run/airbnb.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -245,6 +260,9 @@
       "method": "POST",
       "path": "/v1/run/alibaba.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -294,6 +312,9 @@
       "method": "POST",
       "path": "/v1/run/amazon.asins",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -343,6 +364,9 @@
       "method": "POST",
       "path": "/v1/run/amazon.bestsellers",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -394,6 +418,9 @@
       "method": "POST",
       "path": "/v1/run/amazon.product",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -464,6 +491,9 @@
       "method": "POST",
       "path": "/v1/run/amazon.reviews",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -546,6 +576,9 @@
       "method": "POST",
       "path": "/v1/run/amazon.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -615,6 +648,9 @@
       "method": "POST",
       "path": "/v1/run/apollo.organization",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -660,6 +696,9 @@
       "method": "POST",
       "path": "/v1/run/apollo.organization_enrich",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -705,6 +744,9 @@
       "method": "POST",
       "path": "/v1/run/apollo.organization_jobs",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -750,6 +792,9 @@
       "method": "POST",
       "path": "/v1/run/apollo.organization_news",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -795,6 +840,9 @@
       "method": "POST",
       "path": "/v1/run/apollo.organizations_bulk_enrich",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -839,6 +887,9 @@
       "method": "POST",
       "path": "/v1/run/apollo.organizations_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -884,6 +935,9 @@
       "method": "POST",
       "path": "/v1/run/apollo.people_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -929,6 +983,9 @@
       "method": "POST",
       "path": "/v1/run/apollo.person_enrich",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -974,6 +1031,9 @@
       "method": "POST",
       "path": "/v1/run/appstore.reviews",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1036,6 +1096,9 @@
       "method": "POST",
       "path": "/v1/run/bluesky.post",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1085,6 +1148,9 @@
       "method": "POST",
       "path": "/v1/run/bluesky.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1134,6 +1200,9 @@
       "method": "POST",
       "path": "/v1/run/bluesky.user_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1183,6 +1252,9 @@
       "method": "POST",
       "path": "/v1/run/booking.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1232,6 +1304,9 @@
       "method": "POST",
       "path": "/v1/run/chatgpt.brand_visibility",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1277,6 +1352,9 @@
       "method": "POST",
       "path": "/v1/run/chatgpt.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1368,6 +1446,9 @@
       "method": "POST",
       "path": "/v1/run/coinmarketcap.listings",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1408,6 +1489,9 @@
       "method": "POST",
       "path": "/v1/run/company_enrichment.crustdata_v3",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1443,6 +1527,9 @@
       "method": "POST",
       "path": "/v1/run/company_search.ai_ark",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1492,6 +1579,9 @@
       "method": "POST",
       "path": "/v1/run/company_search.crustdata_v3",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1531,6 +1621,9 @@
       "method": "POST",
       "path": "/v1/run/congress.trades",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1571,6 +1664,9 @@
       "method": "POST",
       "path": "/v1/run/dexscreener.tokens",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1610,6 +1706,9 @@
       "method": "POST",
       "path": "/v1/run/douyin.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1655,6 +1754,9 @@
       "method": "POST",
       "path": "/v1/run/douyin.search_videos",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1700,6 +1802,9 @@
       "method": "POST",
       "path": "/v1/run/douyin.user_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1736,6 +1841,9 @@
       "method": "POST",
       "path": "/v1/run/douyin.video",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1781,6 +1889,9 @@
       "method": "POST",
       "path": "/v1/run/douyin.video_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -1826,6 +1937,9 @@
       "method": "POST",
       "path": "/v1/run/ebay.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1875,6 +1989,9 @@
       "method": "POST",
       "path": "/v1/run/ebay.sold_listings",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1924,6 +2041,9 @@
       "method": "POST",
       "path": "/v1/run/email.find",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1951,12 +2071,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 88.0952380952381,
-            "latencyP50Ms": 6884,
-            "uptimeSample": 252,
-            "latencySample": 222,
-            "requests": 252,
-            "servedRequests": 222
+            "uptimePct": 88.84758364312268,
+            "latencyP50Ms": 6772,
+            "uptimeSample": 269,
+            "latencySample": 239,
+            "requests": 269,
+            "servedRequests": 239
           }
         }
       ],
@@ -1972,6 +2092,9 @@
       "method": "POST",
       "path": "/v1/run/email.verify",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -1999,12 +2122,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.55801104972376,
-            "latencyP50Ms": 4486,
-            "uptimeSample": 905,
-            "latencySample": 901,
-            "requests": 905,
-            "servedRequests": 901
+            "uptimePct": 99.56427015250544,
+            "latencyP50Ms": 4493,
+            "uptimeSample": 918,
+            "latencySample": 914,
+            "requests": 918,
+            "servedRequests": 914
           }
         }
       ],
@@ -2021,6 +2144,9 @@
       "method": "POST",
       "path": "/v1/run/email_finding.dropleads",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2056,6 +2182,9 @@
       "method": "POST",
       "path": "/v1/run/email_finding.icypeas",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "durable"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2092,6 +2221,9 @@
       "method": "POST",
       "path": "/v1/run/email_verification.allegrow",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2128,6 +2260,9 @@
       "method": "POST",
       "path": "/v1/run/email_verification.bounceban",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "durable"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2164,6 +2299,9 @@
       "method": "POST",
       "path": "/v1/run/email_verification.icypeas",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2200,6 +2338,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.ad_details",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2245,6 +2386,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.ad_transcript",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2290,6 +2434,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.ads_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2335,6 +2482,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.comment_replies",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2380,6 +2530,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.company_ads",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2425,6 +2578,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.event_details",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2461,6 +2617,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.events",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2497,6 +2656,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.events_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2533,6 +2695,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.followers",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -2573,6 +2738,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.group_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2618,6 +2786,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.marketplace",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2654,6 +2825,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.marketplace_item",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2690,6 +2864,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.marketplace_location_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2726,6 +2903,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.page_contact",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2786,6 +2966,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.photos",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2835,6 +3018,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.post",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2893,6 +3079,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.post_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2951,6 +3140,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.post_transcript",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -2987,6 +3179,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3032,6 +3227,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.profile_events",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3090,6 +3288,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.profile_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3157,6 +3358,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.profile_reels",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3215,6 +3419,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.search_companies",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3260,6 +3467,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.search_pages",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -3308,6 +3518,9 @@
       "method": "POST",
       "path": "/v1/run/facebook.search_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -3357,6 +3570,9 @@
       "method": "POST",
       "path": "/v1/run/fiverr.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -3397,6 +3613,9 @@
       "method": "POST",
       "path": "/v1/run/gemini.brand_visibility",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3442,6 +3661,9 @@
       "method": "POST",
       "path": "/v1/run/gemini.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3509,6 +3731,9 @@
       "method": "POST",
       "path": "/v1/run/github.repository",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3554,6 +3779,9 @@
       "method": "POST",
       "path": "/v1/run/github.trending_developers",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3590,6 +3818,9 @@
       "method": "POST",
       "path": "/v1/run/github.trending_repositories",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3635,6 +3866,9 @@
       "method": "POST",
       "path": "/v1/run/github.user",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3693,6 +3927,9 @@
       "method": "POST",
       "path": "/v1/run/github.user_activity",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3738,6 +3975,9 @@
       "method": "POST",
       "path": "/v1/run/github.user_contributions",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3774,6 +4014,9 @@
       "method": "POST",
       "path": "/v1/run/github.user_followers",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3819,6 +4062,9 @@
       "method": "POST",
       "path": "/v1/run/github.user_following",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3864,6 +4110,9 @@
       "method": "POST",
       "path": "/v1/run/github.user_pull_requests",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3909,6 +4158,9 @@
       "method": "POST",
       "path": "/v1/run/github.user_repositories",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -3954,6 +4206,9 @@
       "method": "POST",
       "path": "/v1/run/glassdoor.jobs",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -4003,6 +4258,9 @@
       "method": "POST",
       "path": "/v1/run/google.ai_mode",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4072,6 +4330,9 @@
       "method": "POST",
       "path": "/v1/run/google.ai_overview",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -4145,6 +4406,9 @@
       "method": "POST",
       "path": "/v1/run/google.autocomplete",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4169,11 +4433,11 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 417,
-            "uptimeSample": 89,
-            "latencySample": 89,
-            "requests": 89,
-            "servedRequests": 89
+            "latencyP50Ms": 418,
+            "uptimeSample": 92,
+            "latencySample": 92,
+            "requests": 92,
+            "servedRequests": 92
           }
         }
       ],
@@ -4190,6 +4454,9 @@
       "method": "POST",
       "path": "/v1/run/google.images",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -4230,6 +4497,9 @@
       "method": "POST",
       "path": "/v1/run/google.lens",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4266,6 +4536,9 @@
       "method": "POST",
       "path": "/v1/run/google.news",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4311,6 +4584,9 @@
       "method": "POST",
       "path": "/v1/run/google.patents",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4347,6 +4623,9 @@
       "method": "POST",
       "path": "/v1/run/google.scholar",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4383,6 +4662,9 @@
       "method": "POST",
       "path": "/v1/run/google.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4408,10 +4690,10 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 838,
-            "uptimeSample": 2973,
-            "latencySample": 2973,
-            "requests": 2973,
-            "servedRequests": 2973
+            "uptimeSample": 2974,
+            "latencySample": 2974,
+            "requests": 2974,
+            "servedRequests": 2974
           }
         },
         {
@@ -4441,6 +4723,9 @@
       "method": "POST",
       "path": "/v1/run/google.videos",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4477,6 +4762,9 @@
       "method": "POST",
       "path": "/v1/run/google_ads.ad_details",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4522,6 +4810,9 @@
       "method": "POST",
       "path": "/v1/run/google_ads.advertiser_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4567,6 +4858,9 @@
       "method": "POST",
       "path": "/v1/run/google_ads.company_ads",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4612,6 +4906,9 @@
       "method": "POST",
       "path": "/v1/run/google_ads.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -4652,6 +4949,9 @@
       "method": "POST",
       "path": "/v1/run/google_finance.quote",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -4701,6 +5001,9 @@
       "method": "POST",
       "path": "/v1/run/google_shopping.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4769,6 +5072,9 @@
       "method": "POST",
       "path": "/v1/run/hackernews.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4818,6 +5124,9 @@
       "method": "POST",
       "path": "/v1/run/hackernews.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4885,6 +5194,9 @@
       "method": "POST",
       "path": "/v1/run/hackernews.story",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -4943,6 +5255,9 @@
       "method": "POST",
       "path": "/v1/run/hackernews.story_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5010,6 +5325,9 @@
       "method": "POST",
       "path": "/v1/run/indeed.jobs",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -5059,6 +5377,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.audio_reels",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5117,6 +5438,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.basic_profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5175,6 +5499,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.comment_replies",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5233,6 +5560,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.embed",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5269,6 +5599,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.followers",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5329,6 +5662,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.following",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5389,6 +5725,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.hashtag_analytics",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -5438,6 +5777,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.highlight_detail",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5474,6 +5816,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.media_transcript",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5519,6 +5864,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.post",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5586,6 +5934,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.post_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5653,6 +6004,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5676,12 +6030,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.71469329529243,
-            "latencyP50Ms": 3521,
-            "uptimeSample": 2103,
-            "latencySample": 2097,
-            "requests": 2107,
-            "servedRequests": 2097
+            "uptimePct": 99.7148288973384,
+            "latencyP50Ms": 3520,
+            "uptimeSample": 2104,
+            "latencySample": 2098,
+            "requests": 2108,
+            "servedRequests": 2098
           }
         },
         {
@@ -5733,6 +6087,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.reel_transcript",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -5782,6 +6139,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.reels_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5805,12 +6165,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 92.68321653403017,
-            "latencyP50Ms": 4460,
-            "uptimeSample": 8419,
-            "latencySample": 7803,
-            "requests": 8419,
-            "servedRequests": 7803
+            "uptimePct": 92.68408551068883,
+            "latencyP50Ms": 4462,
+            "uptimeSample": 8420,
+            "latencySample": 7804,
+            "requests": 8420,
+            "servedRequests": 7804
           }
         }
       ],
@@ -5827,6 +6187,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5896,6 +6259,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.search_hashtag",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -5919,12 +6285,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.1326164874552,
-            "latencyP50Ms": 4746,
-            "uptimeSample": 279,
-            "latencySample": 271,
-            "requests": 280,
-            "servedRequests": 271
+            "uptimePct": 97.14285714285714,
+            "latencyP50Ms": 4762,
+            "uptimeSample": 280,
+            "latencySample": 272,
+            "requests": 281,
+            "servedRequests": 272
           }
         }
       ],
@@ -5941,6 +6307,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.search_profiles",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6008,6 +6377,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.stories_full",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6053,6 +6425,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.stories_thin",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6098,6 +6473,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.tagged_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6165,6 +6543,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.trending_reels",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6201,6 +6582,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.user_highlights",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6237,6 +6621,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.user_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6317,6 +6704,9 @@
       "method": "POST",
       "path": "/v1/run/instagram.user_reels",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6362,6 +6752,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.ad",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6398,6 +6791,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.ads",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -6447,6 +6843,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.ads_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6492,6 +6891,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.company",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -6541,6 +6943,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.company_employees",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -6568,12 +6973,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.25650557620818,
-            "latencyP50Ms": 9951,
-            "uptimeSample": 269,
-            "latencySample": 267,
-            "requests": 270,
-            "servedRequests": 267
+            "uptimePct": 99.30313588850174,
+            "latencyP50Ms": 9968,
+            "uptimeSample": 287,
+            "latencySample": 285,
+            "requests": 288,
+            "servedRequests": 285
           }
         }
       ],
@@ -6589,24 +6994,27 @@
       "method": "POST",
       "path": "/v1/run/linkedin.company_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00006,
+          "baseUsd": 0.00111,
           "perUnitUsd": 0.00184,
-          "maxUsd": 0.092
+          "maxUsd": 0.093
         },
-        "failoverMaxUsd": 0.092
+        "failoverMaxUsd": 0.093
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00006,
+            "baseUsd": 0.00111,
             "perUnitUsd": 0.00184,
-            "maxUsd": 0.092
+            "maxUsd": 0.093
           },
           "source": {
             "id": "anonymous-octopus",
@@ -6638,6 +7046,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.company_posts_thin",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6683,6 +7094,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.company_thin",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6728,6 +7142,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.email",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -6756,11 +7173,11 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 7680,
-            "uptimeSample": 111,
-            "latencySample": 111,
-            "requests": 111,
-            "servedRequests": 111
+            "latencyP50Ms": 7769,
+            "uptimeSample": 133,
+            "latencySample": 133,
+            "requests": 133,
+            "servedRequests": 133
           }
         }
       ],
@@ -6777,6 +7194,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.jobs",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -6826,6 +7246,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.jobs_thin",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6893,6 +7316,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.post",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -6982,6 +7408,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.post_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7031,6 +7460,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.post_reactions",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7080,6 +7512,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.post_transcript",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -7116,6 +7551,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7144,11 +7582,11 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 6317,
-            "uptimeSample": 410,
-            "latencySample": 410,
-            "requests": 410,
-            "servedRequests": 410
+            "latencyP50Ms": 6294,
+            "uptimeSample": 413,
+            "latencySample": 413,
+            "requests": 413,
+            "servedRequests": 413
           }
         }
       ],
@@ -7165,24 +7603,27 @@
       "method": "POST",
       "path": "/v1/run/linkedin.profile_posts_full",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00006,
+          "baseUsd": 0.00111,
           "perUnitUsd": 0.00184,
-          "maxUsd": 0.184
+          "maxUsd": 0.185
         },
-        "failoverMaxUsd": 0.184
+        "failoverMaxUsd": 0.185
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00006,
+            "baseUsd": 0.00111,
             "perUnitUsd": 0.00184,
-            "maxUsd": 0.184
+            "maxUsd": 0.185
           },
           "source": {
             "id": "anonymous-octopus",
@@ -7214,6 +7655,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.profile_posts_thin",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7222,7 +7666,7 @@
           "perUnitUsd": 0.00137,
           "maxUsd": 0.137
         },
-        "failoverMaxUsd": 0.184
+        "failoverMaxUsd": 0.185
       },
       "lanes": [
         {
@@ -7253,9 +7697,9 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00006,
+            "baseUsd": 0.00111,
             "perUnitUsd": 0.00184,
-            "maxUsd": 0.184
+            "maxUsd": 0.185
           },
           "source": {
             "id": "anonymous-honeybee",
@@ -7278,6 +7722,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.profile_thin",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -7345,6 +7792,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.search_companies",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7394,6 +7844,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.search_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -7417,12 +7870,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.70689655172414,
-            "latencyP50Ms": 8208,
-            "uptimeSample": 928,
-            "latencySample": 916,
-            "requests": 928,
-            "servedRequests": 916
+            "uptimePct": 98.75,
+            "latencyP50Ms": 8016,
+            "uptimeSample": 960,
+            "latencySample": 948,
+            "requests": 960,
+            "servedRequests": 948
           }
         },
         {
@@ -7461,6 +7914,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.search_posts_full",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7469,7 +7925,7 @@
           "perUnitUsd": 0.00137,
           "maxUsd": 0.137
         },
-        "failoverMaxUsd": 0.184
+        "failoverMaxUsd": 0.185
       },
       "lanes": [
         {
@@ -7485,21 +7941,39 @@
             "name": "Octopus",
             "kind": "anonymous",
             "artworkKey": "octopus"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 4831,
+            "uptimeSample": 8,
+            "latencySample": 8,
+            "requests": 8,
+            "servedRequests": 8
           }
         },
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00006,
+            "baseUsd": 0.00111,
             "perUnitUsd": 0.00184,
-            "maxUsd": 0.184
+            "maxUsd": 0.185
           },
           "source": {
             "id": "anonymous-honeybee",
             "name": "Honeybee",
             "kind": "anonymous",
             "artworkKey": "honeybee"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 4852,
+            "uptimeSample": 11,
+            "latencySample": 11,
+            "requests": 11,
+            "servedRequests": 11
           }
         }
       ],
@@ -7516,6 +7990,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.search_profiles",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7555,6 +8032,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.search_profiles_email",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7603,6 +8083,9 @@
       "method": "POST",
       "path": "/v1/run/linkedin.search_profiles_thin",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -7647,6 +8130,9 @@
       "method": "POST",
       "path": "/v1/run/maps.contacts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7696,6 +8182,9 @@
       "method": "POST",
       "path": "/v1/run/maps.place",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -7743,12 +8232,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.22178988326849,
-            "latencyP50Ms": 18156,
-            "uptimeSample": 257,
-            "latencySample": 255,
-            "requests": 258,
-            "servedRequests": 255
+            "uptimePct": 99.2248062015504,
+            "latencyP50Ms": 18144,
+            "uptimeSample": 258,
+            "latencySample": 256,
+            "requests": 259,
+            "servedRequests": 256
           }
         }
       ],
@@ -7765,6 +8254,9 @@
       "method": "POST",
       "path": "/v1/run/maps.reviews",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -7814,6 +8306,9 @@
       "method": "POST",
       "path": "/v1/run/maps.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -7883,6 +8378,9 @@
       "method": "POST",
       "path": "/v1/run/mobile_phone.ai_ark",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -7927,6 +8425,9 @@
       "method": "POST",
       "path": "/v1/run/mobile_phone.leadmagic",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -7962,6 +8463,9 @@
       "method": "POST",
       "path": "/v1/run/pandaexpress.locations",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -7998,6 +8502,9 @@
       "method": "POST",
       "path": "/v1/run/pandaexpress.menu",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8034,6 +8541,9 @@
       "method": "POST",
       "path": "/v1/run/pandaexpress.nutrition",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8070,6 +8580,9 @@
       "method": "POST",
       "path": "/v1/run/people_search.ai_ark",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -8109,6 +8622,9 @@
       "method": "POST",
       "path": "/v1/run/people_search.crustdata_v3",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8144,6 +8660,9 @@
       "method": "POST",
       "path": "/v1/run/perplexity.brand_visibility",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8189,6 +8708,9 @@
       "method": "POST",
       "path": "/v1/run/perplexity.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8258,6 +8780,9 @@
       "method": "POST",
       "path": "/v1/run/person.skip_trace",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -8298,6 +8823,9 @@
       "method": "POST",
       "path": "/v1/run/person_enrichment.aviato",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8342,6 +8870,9 @@
       "method": "POST",
       "path": "/v1/run/pinterest.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8365,12 +8896,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 91.56626506024097,
-            "latencyP50Ms": 2594,
-            "uptimeSample": 83,
-            "latencySample": 76,
-            "requests": 83,
-            "servedRequests": 76
+            "uptimePct": 91.86046511627907,
+            "latencyP50Ms": 2617,
+            "uptimeSample": 86,
+            "latencySample": 79,
+            "requests": 86,
+            "servedRequests": 79
           }
         }
       ],
@@ -8387,6 +8918,9 @@
       "method": "POST",
       "path": "/v1/run/playstore.reviews",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -8449,6 +8983,9 @@
       "method": "POST",
       "path": "/v1/run/polymarket.markets",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -8488,6 +9025,9 @@
       "method": "POST",
       "path": "/v1/run/realtor.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -8528,6 +9068,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.post",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8632,6 +9175,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.post_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8699,6 +9245,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.post_transcript",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8735,6 +9284,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8795,6 +9347,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8818,12 +9373,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.58865248226951,
-            "latencyP50Ms": 1538,
-            "uptimeSample": 705,
-            "latencySample": 688,
-            "requests": 705,
-            "servedRequests": 688
+            "uptimePct": 97.61235955056179,
+            "latencyP50Ms": 1527,
+            "uptimeSample": 712,
+            "latencySample": 695,
+            "requests": 712,
+            "servedRequests": 695
           }
         },
         {
@@ -8897,6 +9452,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.subreddit_details",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -8920,12 +9478,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 93.4959349593496,
-            "latencyP50Ms": 399,
-            "uptimeSample": 123,
-            "latencySample": 115,
-            "requests": 166,
-            "servedRequests": 115
+            "uptimePct": 93.7007874015748,
+            "latencyP50Ms": 391,
+            "uptimeSample": 127,
+            "latencySample": 119,
+            "requests": 170,
+            "servedRequests": 119
           }
         },
         {
@@ -8977,6 +9535,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.subreddit_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9000,12 +9561,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 95.4337899543379,
-            "latencyP50Ms": 1703,
-            "uptimeSample": 219,
-            "latencySample": 209,
-            "requests": 222,
-            "servedRequests": 209
+            "uptimePct": 95.59471365638767,
+            "latencyP50Ms": 1647,
+            "uptimeSample": 227,
+            "latencySample": 217,
+            "requests": 230,
+            "servedRequests": 217
           }
         },
         {
@@ -9044,6 +9605,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.subreddit_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9102,6 +9666,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.trending_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9147,6 +9714,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.user_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9192,6 +9762,9 @@
       "method": "POST",
       "path": "/v1/run/reddit.user_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9259,6 +9832,9 @@
       "method": "POST",
       "path": "/v1/run/redfin.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9299,6 +9875,9 @@
       "method": "POST",
       "path": "/v1/run/rednote.note",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9335,6 +9914,9 @@
       "method": "POST",
       "path": "/v1/run/rednote.note_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9380,6 +9962,9 @@
       "method": "POST",
       "path": "/v1/run/rednote.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9416,6 +10001,9 @@
       "method": "POST",
       "path": "/v1/run/rednote.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9461,6 +10049,9 @@
       "method": "POST",
       "path": "/v1/run/rednote.search_users",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9506,6 +10097,9 @@
       "method": "POST",
       "path": "/v1/run/rednote.user_notes",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -9542,6 +10136,9 @@
       "method": "POST",
       "path": "/v1/run/sec.filings",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9583,6 +10180,9 @@
       "method": "POST",
       "path": "/v1/run/semrush.keywords",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9632,6 +10232,9 @@
       "method": "POST",
       "path": "/v1/run/semrush.overview",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9681,6 +10284,9 @@
       "method": "POST",
       "path": "/v1/run/seo.competitors_domain",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9730,6 +10336,9 @@
       "method": "POST",
       "path": "/v1/run/seo.domain_intersection",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9779,6 +10388,9 @@
       "method": "POST",
       "path": "/v1/run/seo.domain_rank_overview",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9828,6 +10440,9 @@
       "method": "POST",
       "path": "/v1/run/seo.keyword_difficulty",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9868,6 +10483,9 @@
       "method": "POST",
       "path": "/v1/run/seo.keyword_ideas",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9917,6 +10535,9 @@
       "method": "POST",
       "path": "/v1/run/seo.keyword_overview",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -9966,6 +10587,9 @@
       "method": "POST",
       "path": "/v1/run/seo.keyword_suggestions",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10006,6 +10630,9 @@
       "method": "POST",
       "path": "/v1/run/seo.local_pack",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10055,6 +10682,9 @@
       "method": "POST",
       "path": "/v1/run/seo.ranked_keywords",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10104,6 +10734,9 @@
       "method": "POST",
       "path": "/v1/run/seo.related_keywords",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10144,6 +10777,9 @@
       "method": "POST",
       "path": "/v1/run/seo.search_intent",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10184,6 +10820,9 @@
       "method": "POST",
       "path": "/v1/run/seo.search_volume",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10232,6 +10871,9 @@
       "method": "POST",
       "path": "/v1/run/snapchat.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10281,6 +10923,9 @@
       "method": "POST",
       "path": "/v1/run/social.finder",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10330,6 +10975,9 @@
       "method": "POST",
       "path": "/v1/run/spotify.album",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10366,6 +11014,9 @@
       "method": "POST",
       "path": "/v1/run/spotify.artist",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10402,6 +11053,9 @@
       "method": "POST",
       "path": "/v1/run/spotify.play_count",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10451,6 +11105,9 @@
       "method": "POST",
       "path": "/v1/run/spotify.podcast",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10487,6 +11144,9 @@
       "method": "POST",
       "path": "/v1/run/spotify.podcast_episodes",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10523,6 +11183,9 @@
       "method": "POST",
       "path": "/v1/run/spotify.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10559,6 +11222,9 @@
       "method": "POST",
       "path": "/v1/run/spotify.track",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10595,6 +11261,9 @@
       "method": "POST",
       "path": "/v1/run/substack.posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -10635,6 +11304,9 @@
       "method": "POST",
       "path": "/v1/run/threads.post",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10693,6 +11365,9 @@
       "method": "POST",
       "path": "/v1/run/threads.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10751,6 +11426,9 @@
       "method": "POST",
       "path": "/v1/run/threads.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10809,6 +11487,9 @@
       "method": "POST",
       "path": "/v1/run/threads.search_users",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10867,6 +11548,9 @@
       "method": "POST",
       "path": "/v1/run/threads.user_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10925,6 +11609,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.ad_library_ad",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -10983,6 +11670,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.ad_library_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11028,6 +11718,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.ad_transparency_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11073,6 +11766,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.audience_demographics",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11130,6 +11826,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.comment_replies",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11179,6 +11878,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.followers",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11228,6 +11930,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.following",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11286,6 +11991,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.hashtag_videos",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11309,12 +12017,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 62.96296296296296,
-            "latencyP50Ms": 21134,
-            "uptimeSample": 27,
-            "latencySample": 17,
-            "requests": 27,
-            "servedRequests": 17
+            "uptimePct": 62.06896551724138,
+            "latencyP50Ms": 21371,
+            "uptimeSample": 29,
+            "latencySample": 18,
+            "requests": 29,
+            "servedRequests": 18
           }
         },
         {
@@ -11331,12 +12039,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 90,
-            "latencyP50Ms": 5524,
-            "uptimeSample": 10,
-            "latencySample": 9,
-            "requests": 10,
-            "servedRequests": 9
+            "uptimePct": 90.9090909090909,
+            "latencyP50Ms": 5630,
+            "uptimeSample": 11,
+            "latencySample": 10,
+            "requests": 11,
+            "servedRequests": 10
           }
         },
         {
@@ -11368,6 +12076,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.live",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11417,6 +12128,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11519,6 +12233,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.profile_region",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11568,6 +12285,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.profile_videos",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11648,6 +12368,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.search_hashtag",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11715,6 +12438,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.search_keyword",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11786,6 +12512,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.search_top",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11809,12 +12538,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.73082099596232,
-            "latencyP50Ms": 3873,
-            "uptimeSample": 743,
-            "latencySample": 741,
-            "requests": 743,
-            "servedRequests": 741
+            "uptimePct": 99.73118279569893,
+            "latencyP50Ms": 3874,
+            "uptimeSample": 744,
+            "latencySample": 742,
+            "requests": 744,
+            "servedRequests": 742
           }
         },
         {
@@ -11853,6 +12582,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.search_users",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11933,6 +12665,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.song",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -11982,6 +12717,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.song_videos",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12031,6 +12769,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.top_ads_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12076,6 +12817,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.trending_feed",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12121,6 +12865,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.video",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12214,6 +12961,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.video_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12276,6 +13026,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok.video_transcript",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12334,6 +13087,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok_shop.product",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12383,6 +13139,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok_shop.product_reviews",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12441,6 +13200,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok_shop.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12486,6 +13248,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok_shop.shop_products",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12522,6 +13287,9 @@
       "method": "POST",
       "path": "/v1/run/tiktok_shop.user_showcase",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12558,6 +13326,9 @@
       "method": "POST",
       "path": "/v1/run/tripadvisor.reviews",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12618,6 +13389,9 @@
       "method": "POST",
       "path": "/v1/run/tripadvisor.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12678,6 +13452,9 @@
       "method": "POST",
       "path": "/v1/run/trustpilot.reviews",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12746,6 +13523,9 @@
       "method": "POST",
       "path": "/v1/run/truthsocial.post",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12791,6 +13571,9 @@
       "method": "POST",
       "path": "/v1/run/truthsocial.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12836,6 +13619,9 @@
       "method": "POST",
       "path": "/v1/run/truthsocial.user_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12881,6 +13667,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.article",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12926,6 +13715,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.community",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -12988,6 +13780,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.community_tweets",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13061,6 +13856,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.followers",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13130,6 +13928,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.following",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13199,6 +14000,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13223,11 +14027,11 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 322,
-            "uptimeSample": 1308,
-            "latencySample": 1308,
-            "requests": 1331,
-            "servedRequests": 1308
+            "latencyP50Ms": 323,
+            "uptimeSample": 1324,
+            "latencySample": 1324,
+            "requests": 1347,
+            "servedRequests": 1324
           }
         },
         {
@@ -13323,6 +14127,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.replies",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13416,6 +14223,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13440,11 +14250,11 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1917,
-            "uptimeSample": 3321,
-            "latencySample": 3321,
-            "requests": 3321,
-            "servedRequests": 3321
+            "latencyP50Ms": 1936,
+            "uptimeSample": 3354,
+            "latencySample": 3354,
+            "requests": 3354,
+            "servedRequests": 3354
           }
         },
         {
@@ -13509,6 +14319,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.thread",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13554,6 +14367,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.trends",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13621,6 +14437,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.tweet",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13714,6 +14533,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.tweet_transcript",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13772,6 +14594,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.user_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -13796,11 +14621,11 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 2209,
-            "uptimeSample": 376,
-            "latencySample": 376,
-            "requests": 376,
-            "servedRequests": 376
+            "latencyP50Ms": 2192,
+            "uptimeSample": 384,
+            "latencySample": 384,
+            "requests": 384,
+            "servedRequests": 384
           }
         },
         {
@@ -13832,6 +14657,9 @@
       "method": "POST",
       "path": "/v1/run/twitter.user_tweets",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -13905,6 +14733,9 @@
       "method": "POST",
       "path": "/v1/run/upwork.jobs",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -13954,6 +14785,9 @@
       "method": "POST",
       "path": "/v1/run/walmart.product",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -13995,6 +14829,9 @@
       "method": "POST",
       "path": "/v1/run/web.crawl",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -14044,6 +14881,9 @@
       "method": "POST",
       "path": "/v1/run/web.map",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14089,6 +14929,9 @@
       "method": "POST",
       "path": "/v1/run/web.scrape",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14112,12 +14955,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.39192924267552,
-            "latencyP50Ms": 2324,
-            "uptimeSample": 3618,
-            "latencySample": 3596,
-            "requests": 3726,
-            "servedRequests": 3596
+            "uptimePct": 99.39260077305356,
+            "latencyP50Ms": 2321,
+            "uptimeSample": 3622,
+            "latencySample": 3600,
+            "requests": 3730,
+            "servedRequests": 3600
           }
         },
         {
@@ -14180,6 +15023,9 @@
       "method": "POST",
       "path": "/v1/run/web.screenshot",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -14230,6 +15076,9 @@
       "method": "POST",
       "path": "/v1/run/weibo.hot_search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14266,6 +15115,9 @@
       "method": "POST",
       "path": "/v1/run/weibo.post",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14302,6 +15154,9 @@
       "method": "POST",
       "path": "/v1/run/weibo.post_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14338,6 +15193,9 @@
       "method": "POST",
       "path": "/v1/run/weibo.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14374,6 +15232,9 @@
       "method": "POST",
       "path": "/v1/run/weibo.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14419,6 +15280,9 @@
       "method": "POST",
       "path": "/v1/run/weibo.user_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14455,6 +15319,9 @@
       "method": "POST",
       "path": "/v1/run/yahoo_finance.quote",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -14505,6 +15372,9 @@
       "method": "POST",
       "path": "/v1/run/yelp.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "linear",
@@ -14553,6 +15423,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.channel",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14633,6 +15506,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.channel_community_posts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14682,6 +15558,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.channel_lives",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14731,6 +15610,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.channel_playlists",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14767,6 +15649,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.channel_shorts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14825,6 +15710,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.channel_videos",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14905,6 +15793,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.comment_replies",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14941,6 +15832,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.community_post",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -14990,6 +15884,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.playlist",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15026,6 +15923,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15049,12 +15949,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.5049504950495,
-            "latencyP50Ms": 2323,
-            "uptimeSample": 202,
-            "latencySample": 201,
-            "requests": 202,
-            "servedRequests": 201
+            "uptimePct": 99.51219512195122,
+            "latencyP50Ms": 2324,
+            "uptimeSample": 205,
+            "latencySample": 204,
+            "requests": 205,
+            "servedRequests": 204
           }
         },
         {
@@ -15106,6 +16006,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.search_hashtag",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15155,6 +16058,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.trending_shorts",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15200,6 +16106,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.video",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15245,6 +16154,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.video_comments",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15312,6 +16224,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.video_sponsors",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15348,6 +16263,9 @@
       "method": "POST",
       "path": "/v1/run/youtube.video_transcript",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15394,6 +16312,9 @@
       "method": "POST",
       "path": "/v1/run/zhihu.answer",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15439,6 +16360,9 @@
       "method": "POST",
       "path": "/v1/run/zhihu.profile",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15475,6 +16399,9 @@
       "method": "POST",
       "path": "/v1/run/zhihu.question",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15520,6 +16447,9 @@
       "method": "POST",
       "path": "/v1/run/zhihu.question_answers",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15565,6 +16495,9 @@
       "method": "POST",
       "path": "/v1/run/zhihu.search_articles",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15610,6 +16543,9 @@
       "method": "POST",
       "path": "/v1/run/zillow.property",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
@@ -15671,6 +16607,9 @@
       "method": "POST",
       "path": "/v1/run/zillow.search",
       "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
       "pricing": {
         "from": {
           "model": "flat",
