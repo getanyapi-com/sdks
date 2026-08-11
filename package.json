@@ -11,7 +11,8 @@
     "generate": "pnpm --filter @anyapi/generator generate",
     "generate:check": "pnpm --filter @anyapi/generator generate -- --check",
     "dash-guard": "bash scripts/check-dashes.sh",
-    "check": "pnpm run dash-guard && pnpm run generate:check && pnpm -r --workspace-concurrency=1 run check"
+    "release:test": "node --test scripts/check-registry-version.test.mjs",
+    "check": "pnpm run dash-guard && pnpm run release:test && pnpm run generate:check && pnpm -r --workspace-concurrency=1 run check"
   },
   "license": "MIT"
 }

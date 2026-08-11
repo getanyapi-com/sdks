@@ -7,11 +7,9 @@ name: release
 #   - workflow_dispatch (input: tag): how regen.yml kicks a release after auto-tagging, since
 #     a tag pushed by the default GITHUB_TOKEN does not fire the tag-`push` trigger.
 #
-# Flow: verify (full gate suite + tag/manifest version match) -> publish-npm + publish-pypi
-# (both need verify) -> github-release. npm publishes with provenance (id-token). PyPI uses
-# trusted publishing (OIDC, environment `pypi`); if the trusted publisher is not configured
-# yet the publish step fails with a clear message - that is acceptable and does NOT fall back
-# to a token.
+# Flow: verify -> query both registries -> publish only missing sides -> re-query both ->
+# smoke both exact versions -> GitHub Release. npm publishes with provenance (id-token).
+# PyPI uses trusted publishing (OIDC, environment `pypi`) and never falls back to a token.
 
 on:
   push:
@@ -99,9 +97,30 @@ jobs:
       - name: dash guard
         run: bash scripts/check-dashes.sh
 
+  registry-state:
+    name: query exact version in both registries
+    needs: verify
+    runs-on: ubuntu-latest
+    outputs:
+      npm_exists: ${{ steps.state.outputs.npm_exists }}
+      pypi_exists: ${{ steps.state.outputs.pypi_exists }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.verify.outputs.version }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: query npm and PyPI
+        id: state
+        env:
+          VERSION: ${{ needs.verify.outputs.version }}
+        run: node scripts/check-registry-version.mjs "$VERSION" --github-output "$GITHUB_OUTPUT"
+
   publish-npm:
     name: publish @getanyapi/sdk (npm)
-    needs: verify
+    needs: [verify, registry-state]
+    if: needs.registry-state.outputs.npm_exists == 'false'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -128,7 +147,8 @@ jobs:
 
   publish-pypi:
     name: publish getanyapi (PyPI, trusted publishing)
-    needs: verify
+    needs: [verify, registry-state]
+    if: needs.registry-state.outputs.pypi_exists == 'false'
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
@@ -153,9 +173,73 @@ jobs:
         with:
           packages-dir: packages/python/dist
 
+  verify-published:
+    name: re-query exact version in both registries
+    needs: [verify, registry-state, publish-npm, publish-pypi]
+    if: ${{ always() && needs.verify.result == 'success' && needs.registry-state.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.verify.outputs.version }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: require both exact versions
+        env:
+          VERSION: ${{ needs.verify.outputs.version }}
+        run: node scripts/check-registry-version.mjs "$VERSION" --require-both
+
+  npm-smoke:
+    name: smoke exact npm version
+    needs: [verify, verify-published]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.verify.outputs.version }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: install exact package into a clean directory and smoke it
+        env:
+          VERSION: ${{ needs.verify.outputs.version }}
+        run: |
+          set -euo pipefail
+          smoke_dir="$(mktemp -d)"
+          cd "$smoke_dir"
+          npm init -y >/dev/null
+          npm install "@getanyapi/sdk@$VERSION"
+          cp "$GITHUB_WORKSPACE/smoke/npm-smoke.mjs" ./npm-smoke.mjs
+          node npm-smoke.mjs
+
+  pypi-smoke:
+    name: smoke exact PyPI version
+    needs: [verify, verify-published]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.verify.outputs.version }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install exact package into a fresh venv and smoke it
+        env:
+          VERSION: ${{ needs.verify.outputs.version }}
+        run: |
+          set -euo pipefail
+          smoke_dir="$(mktemp -d)"
+          python -m venv "$smoke_dir/venv"
+          "$smoke_dir/venv/bin/python" -m pip install --upgrade pip
+          "$smoke_dir/venv/bin/python" -m pip install "getanyapi==$VERSION"
+          cp "$GITHUB_WORKSPACE/smoke/pypi-smoke.py" "$smoke_dir/pypi-smoke.py"
+          cd "$smoke_dir"
+          "$smoke_dir/venv/bin/python" pypi-smoke.py
+
   github-release:
     name: github release
-    needs: [verify, publish-npm, publish-pypi]
+    needs: [verify, npm-smoke, pypi-smoke]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -187,6 +271,10 @@ jobs:
           TAG: v${{ needs.verify.outputs.version }}
           NOTES: ${{ steps.notes.outputs.notes }}
         run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "GitHub Release $TAG already exists; exact-version recovery is complete."
+            exit 0
+          fi
           gh release create "$TAG" \
             --title "$TAG" \
             --notes "$NOTES"

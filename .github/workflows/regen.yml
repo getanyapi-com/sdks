@@ -11,9 +11,8 @@ name: regen
 #   - schedule: a nightly fallback in case a dispatch is missed.
 #   - workflow_dispatch: manual kick.
 #
-# Loop guard: the job only commits/tags when the classifier reports a non-"none" bump, and a
-# "none" bump means the only diff was snapshot provenance / metadata (no SKU surface change),
-# so a self-triggered rerun on an unchanged catalog is a no-op.
+# Loop guard: the job only commits/tags for patch or minor. `none` requires byte identity
+# across IR, fixtures, and both emitted trees. Unsafe or unexplained changes are blocked.
 
 on:
   repository_dispatch:
@@ -54,11 +53,55 @@ jobs:
       - name: install pinned ruff (generated-Python formatting is part of byte determinism)
         run: pip install ruff==0.15.20
 
+      - name: prove committed generated baseline before refresh
+        run: pnpm run generate:check
+
       - name: fetch live snapshots (openapi.json + catalog.json)
         run: pnpm --filter @anyapi/generator run fetch
 
       - name: regenerate ir.json + fixtures.json + both generated trees
         run: pnpm generate
+
+      - name: classify generated diff -> release state + change summary
+        id: classify
+        run: |
+          bash scripts/release-notes.sh release-bump.txt release-notes.md
+          echo "bump=$(cat release-bump.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: prepare blocked-change evidence
+        if: steps.classify.outputs.bump == 'blocked'
+        run: |
+          mkdir -p blocked-release
+          if ! git show HEAD:generator/ir.json > blocked-release/old-ir.json; then
+            printf '%s\n' '{"version":1,"openapiVersion":"1.0.0","baseUrl":"https://api.getanyapi.com","skus":[]}' > blocked-release/old-ir.json
+          fi
+          cp generator/ir.json blocked-release/new-ir.json
+          cp release-notes.md blocked-release/release-notes.md
+          git add -N -- generator/ir.json generator/fixtures.json \
+            packages/typescript/src/generated packages/python/src/getanyapi/platforms
+          git diff --binary --no-ext-diff HEAD -- \
+            generator/ir.json generator/fixtures.json \
+            packages/typescript/src/generated packages/python/src/getanyapi/platforms \
+            > blocked-release/generated.diff
+
+      - name: upload blocked-change evidence
+        if: ${{ always() && steps.classify.outputs.bump == 'blocked' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: blocked-regen-${{ github.run_id }}
+          path: blocked-release
+          if-no-files-found: error
+
+      - name: stop blocked release before versioning
+        if: ${{ always() && steps.classify.outputs.bump == 'blocked' }}
+        run: |
+          echo "Unsafe or unclassified generated changes were detected."
+          echo "Review the blocked-change artifact; no version, commit, or tag was created."
+          exit 1
+
+      - name: no-op when generated surfaces are byte-identical
+        if: steps.classify.outputs.bump == 'none'
+        run: echo "IR, fixtures, and both emitted trees are byte-identical; nothing to release."
 
       - name: build TypeScript discovery reader
         run: pnpm --filter @getanyapi/sdk run build
@@ -69,24 +112,12 @@ jobs:
       - name: credentialless Python live discovery canary
         run: python scripts/live-discovery-python.py
 
-      - name: classify IR diff -> bump level + change summary
-        id: classify
-        run: |
-          bash scripts/release-notes.sh release-bump.txt release-notes.md
-          echo "bump=$(cat release-bump.txt)" >> "$GITHUB_OUTPUT"
-
-      - name: no-op when nothing changed
-        if: steps.classify.outputs.bump == 'none'
-        run: |
-          echo "No SKU-surface change (bump=none); nothing to release."
-          git checkout -- . || true
-
       - name: verify regenerated tree is self-consistent (drift check)
-        if: steps.classify.outputs.bump != 'none'
+        if: steps.classify.outputs.bump == 'patch' || steps.classify.outputs.bump == 'minor'
         run: pnpm run generate:check
 
       - name: compute + apply lockstep version bump
-        if: steps.classify.outputs.bump != 'none'
+        if: steps.classify.outputs.bump == 'patch' || steps.classify.outputs.bump == 'minor'
         id: version
         run: |
           NEXT="$(pnpm --silent --filter @anyapi/generator run version:next ${{ steps.classify.outputs.bump }})"
@@ -95,7 +126,7 @@ jobs:
           echo "Bumping to v$NEXT (${{ steps.classify.outputs.bump }})."
 
       - name: commit, tag, push
-        if: steps.classify.outputs.bump != 'none'
+        if: steps.classify.outputs.bump == 'patch' || steps.classify.outputs.bump == 'minor'
         env:
           NEXT: ${{ steps.version.outputs.next }}
         run: |
@@ -120,7 +151,7 @@ jobs:
           git push origin "v$NEXT"
 
       - name: trigger release.yml for the new tag
-        if: steps.classify.outputs.bump != 'none'
+        if: steps.classify.outputs.bump == 'patch' || steps.classify.outputs.bump == 'minor'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEXT: ${{ steps.version.outputs.next }}
