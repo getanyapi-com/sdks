@@ -280,6 +280,51 @@ class LinkedinSearchPostsInput(TypedDict, total=False):
     """The post search query."""
 
 
+class LinkedinSearchPostsFullInput(TypedDict, total=False):
+    """Input for LinkedIn Post Search (full)."""
+
+    authorCompanyNames: NotRequired[list[str]]
+    """Only return posts by people associated with these company names."""
+    authorIndustryIds: NotRequired[list[str]]
+    """Only return posts by authors associated with these LinkedIn industry IDs."""
+    authorKeywords: NotRequired[str]
+    """Only return posts whose author profile headline or job title contains at least one of these keywords."""
+    authorUrls: NotRequired[list[str]]
+    """Only return posts authored by these LinkedIn profile or company URLs."""
+    contentType: NotRequired[
+        Literal[
+            "all",
+            "videos",
+            "images",
+            "jobs",
+            "live-videos",
+            "documents",
+            "collaborative-articles",
+        ]
+    ]
+    """Only return posts carrying this content type."""
+    datePosted: NotRequired[
+        Literal[
+            "last-hour",
+            "last-day",
+            "last-week",
+            "last-month",
+            "last-three-months",
+            "last-six-months",
+            "last-year",
+        ]
+    ]
+    """Only return posts published within this relative time window. Last-hour and windows beyond one month route to the provider that supports them. Default: last-day."""
+    limit: NotRequired[int]
+    """Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page. You are billed per post returned. Range: 1 to 100. Default: 10."""
+    mentioningMemberUrls: NotRequired[list[str]]
+    """Only return posts mentioning these LinkedIn member profile URLs."""
+    query: Required[str]
+    """LinkedIn post search query, including quoted terms or Boolean operators accepted by LinkedIn search."""
+    sort: NotRequired[Literal["relevance", "date"]]
+    """Order results by search relevance or publication date. Default: relevance."""
+
+
 class LinkedinSearchProfilesInput(TypedDict, total=False):
     """Input for LinkedIn Profile Search."""
 
@@ -2261,6 +2306,138 @@ class LinkedinSearchPostsPost(BaseModel):
     )
 
 
+class LinkedinSearchPostsFullData(BaseModel):
+    posts: list[LinkedinSearchPostsFullPost] = Field(
+        description="LinkedIn posts matching the search query. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchPostsFullPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    attachment_description: str | None = Field(
+        default=None,
+        alias="attachmentDescription",
+        description="Description of the attached structured content.",
+    )
+    attachment_image: str | None = Field(
+        default=None,
+        alias="attachmentImage",
+        description="Image URL associated with the attachment.",
+    )
+    attachment_subtitle: str | None = Field(
+        default=None,
+        alias="attachmentSubtitle",
+        description="Subtitle of the attached structured content.",
+    )
+    attachment_title: str | None = Field(
+        default=None,
+        alias="attachmentTitle",
+        description="Title of the attached article, job, or other structured content.",
+    )
+    attachment_type: str | None = Field(
+        default=None,
+        alias="attachmentType",
+        description="Provider-reported attachment type when the post carries structured content.",
+    )
+    attachment_url: str | None = Field(
+        default=None,
+        alias="attachmentUrl",
+        description="Canonical destination URL of the attachment.",
+    )
+    author: LinkedinSearchPostsFullAuthor = Field(
+        description="Public author identity attached to the post. Populated whenever the provider has data for the entity."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    engagement: LinkedinSearchPostsFullEngagement = Field(
+        description="Public engagement totals attached to the post. Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Stable LinkedIn activity identifier for the post. Populated whenever the provider has data for the entity."
+    )
+    poll_closed: bool | None = Field(
+        default=None,
+        alias="pollClosed",
+        description="Whether the attached poll is closed.",
+    )
+    poll_options: list[LinkedinSearchPostsFullPollOption] | None = Field(
+        default=None,
+        alias="pollOptions",
+        description="Options and public vote counts for an attached poll.",
+    )
+    poll_question: str | None = Field(
+        default=None,
+        alias="pollQuestion",
+        description="Question asked by an attached LinkedIn poll.",
+    )
+    poll_total_votes: int | None = Field(
+        default=None,
+        alias="pollTotalVotes",
+        description="Total votes recorded by the attached poll. Minimum: 0.",
+    )
+    text: str = Field(
+        description="Text content of the post. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the LinkedIn post. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinSearchPostsFullAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    headline: str | None = Field(
+        default=None,
+        description="Public headline or company follower summary for the author.",
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn identifier for the author."
+    )
+    image: str | None = Field(
+        default=None, description="Public profile or company image URL for the author."
+    )
+    name: str | None = Field(default=None, description="Display name of the author.")
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical LinkedIn profile or company URL for the author.",
+    )
+
+
+class LinkedinSearchPostsFullEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    breakdown: list[LinkedinSearchPostsFullBreakdown] | None = Field(
+        default=None, description="Reaction counts grouped by LinkedIn reaction type."
+    )
+    comments: int | None = Field(
+        default=None, description="Total comment count. Minimum: 0."
+    )
+    reactions: int | None = Field(
+        default=None, description="Total reaction count. Minimum: 0."
+    )
+    reposts: int | None = Field(
+        default=None, description="Total repost or share count. Minimum: 0."
+    )
+
+
+class LinkedinSearchPostsFullBreakdown(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    count: int = Field(description="Number of reactions of this type. Minimum: 0.")
+    type_: str = Field(alias="type", description="LinkedIn reaction type.")
+
+
+class LinkedinSearchPostsFullPollOption(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    text: str = Field(description="Poll option text.")
+    votes: int = Field(description="Votes recorded for this option. Minimum: 0.")
+
+
 class LinkedinSearchProfilesData(BaseModel):
     items: list[LinkedinSearchProfilesItem] = Field(
         description="Matched profile records. Populated whenever the provider has data for the entity."
@@ -2900,6 +3077,27 @@ class LinkedinNamespace:
         )
         return RunResult[LinkedinSearchPostsData].model_validate(raw)
 
+    def search_posts_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchPostsFullInput],
+    ) -> RunResult[LinkedinSearchPostsFullData]:
+        """LinkedIn Post Search (full)
+
+        Search public LinkedIn posts with rich author, engagement, attachment, and
+        poll details.
+
+        Price: $0 per request plus $0.00137 per result (maximum $0.137).
+
+        Example:
+            res = client.linkedin.search_posts_full(datePosted="last-week", limit=10, query="artificial intelligence", sort="relevance")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_posts_full", dict(input), options
+        )
+        return RunResult[LinkedinSearchPostsFullData].model_validate(raw)
+
     def search_profiles(
         self,
         *,
@@ -3430,6 +3628,27 @@ class AsyncLinkedinNamespace:
             "linkedin.search_posts", dict(input), options
         )
         return RunResult[LinkedinSearchPostsData].model_validate(raw)
+
+    async def search_posts_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchPostsFullInput],
+    ) -> RunResult[LinkedinSearchPostsFullData]:
+        """LinkedIn Post Search (full)
+
+        Search public LinkedIn posts with rich author, engagement, attachment, and
+        poll details.
+
+        Price: $0 per request plus $0.00137 per result (maximum $0.137).
+
+        Example:
+            res = client.linkedin.search_posts_full(datePosted="last-week", limit=10, query="artificial intelligence", sort="relevance")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_posts_full", dict(input), options
+        )
+        return RunResult[LinkedinSearchPostsFullData].model_validate(raw)
 
     async def search_profiles(
         self,

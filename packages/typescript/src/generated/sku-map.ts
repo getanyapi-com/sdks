@@ -363,6 +363,8 @@ import type {
   LinkedinSearchCompaniesData,
   LinkedinSearchCompaniesInput,
   LinkedinSearchPostsData,
+  LinkedinSearchPostsFullData,
+  LinkedinSearchPostsFullInput,
   LinkedinSearchPostsInput,
   LinkedinSearchProfilesData,
   LinkedinSearchProfilesEmailData,
@@ -1502,6 +1504,11 @@ export interface SkuMap {
     input: LinkedinSearchPostsInput;
     data: LinkedinSearchPostsData;
     result: RunResult<LinkedinSearchPostsData>;
+  };
+  "linkedin.search_posts_full": {
+    input: LinkedinSearchPostsFullInput;
+    data: LinkedinSearchPostsFullData;
+    result: RunResult<LinkedinSearchPostsFullData>;
   };
   "linkedin.search_profiles": {
     input: LinkedinSearchProfilesInput;

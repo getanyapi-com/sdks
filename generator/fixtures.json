@@ -3034,6 +3034,32 @@
     "items": 1,
     "replayed": false
   },
+  "linkedin.search_posts_full": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "text": "sample",
+            "createdUtc": 1.5,
+            "author": {
+              "_extra": "passthrough"
+            },
+            "engagement": {
+              "_extra": "passthrough"
+            },
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "linkedin.search_profiles": {
     "output": {
       "found": true,

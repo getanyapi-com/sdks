@@ -2383,6 +2383,224 @@ export interface LinkedinSearchPostsData {
 }
 
 /**
+ * Input for LinkedIn Post Search (full) (linkedin.search_posts_full).
+ */
+export interface LinkedinSearchPostsFullInput {
+  /**
+   * Only return posts by people associated with these company names.
+   */
+  authorCompanyNames?: string[];
+  /**
+   * Only return posts by authors associated with these LinkedIn industry IDs.
+   */
+  authorIndustryIds?: string[];
+  /**
+   * Only return posts whose author profile headline or job title contains at least one of these keywords.
+   */
+  authorKeywords?: string;
+  /**
+   * Only return posts authored by these LinkedIn profile or company URLs.
+   */
+  authorUrls?: string[];
+  /**
+   * Only return posts carrying this content type.
+   * One of: all, videos, images, jobs, live-videos, documents, collaborative-articles.
+   */
+  contentType?:
+    | "all"
+    | "videos"
+    | "images"
+    | "jobs"
+    | "live-videos"
+    | "documents"
+    | "collaborative-articles";
+  /**
+   * Only return posts published within this relative time window. Last-hour and windows beyond one month route to the provider that supports them.
+   * One of: last-hour, last-day, last-week, last-month, last-three-months, last-six-months, last-year.
+   * Default: last-day.
+   */
+  datePosted?:
+    | "last-hour"
+    | "last-day"
+    | "last-week"
+    | "last-month"
+    | "last-three-months"
+    | "last-six-months"
+    | "last-year";
+  /**
+   * Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page. You are billed per post returned.
+   * Range: minimum 1, maximum 100.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Only return posts mentioning these LinkedIn member profile URLs.
+   */
+  mentioningMemberUrls?: string[];
+  /**
+   * LinkedIn post search query, including quoted terms or Boolean operators accepted by LinkedIn search.
+   */
+  query: string;
+  /**
+   * Order results by search relevance or publication date.
+   * One of: relevance, date.
+   * Default: relevance.
+   */
+  sort?: "relevance" | "date";
+}
+
+export interface LinkedinSearchPostsFullPost {
+  /**
+   * Description of the attached structured content.
+   */
+  attachmentDescription?: string;
+  /**
+   * Image URL associated with the attachment.
+   * Format: uri.
+   */
+  attachmentImage?: string;
+  /**
+   * Subtitle of the attached structured content.
+   */
+  attachmentSubtitle?: string;
+  /**
+   * Title of the attached article, job, or other structured content.
+   */
+  attachmentTitle?: string;
+  /**
+   * Provider-reported attachment type when the post carries structured content.
+   */
+  attachmentType?: string;
+  /**
+   * Canonical destination URL of the attachment.
+   * Format: uri.
+   */
+  attachmentUrl?: string;
+  /**
+   * Public author identity attached to the post. Populated whenever the provider has data for the entity.
+   */
+  author: {
+    /**
+     * Public headline or company follower summary for the author.
+     */
+    headline?: string;
+    /**
+     * LinkedIn identifier for the author.
+     */
+    id?: string;
+    /**
+     * Public profile or company image URL for the author.
+     * Format: uri.
+     */
+    image?: string;
+    /**
+     * Display name of the author.
+     */
+    name?: string;
+    /**
+     * Canonical LinkedIn profile or company URL for the author.
+     * Format: uri.
+     */
+    profileUrl?: string;
+  };
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Public engagement totals attached to the post. Populated whenever the provider has data for the entity.
+   */
+  engagement: {
+    /**
+     * Reaction counts grouped by LinkedIn reaction type.
+     */
+    breakdown?: LinkedinSearchPostsFullBreakdown[];
+    /**
+     * Total comment count.
+     * Range: minimum 0.
+     */
+    comments?: number;
+    /**
+     * Total reaction count.
+     * Range: minimum 0.
+     */
+    reactions?: number;
+    /**
+     * Total repost or share count.
+     * Range: minimum 0.
+     */
+    reposts?: number;
+  };
+  /**
+   * Stable LinkedIn activity identifier for the post. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Whether the attached poll is closed.
+   */
+  pollClosed?: boolean;
+  /**
+   * Options and public vote counts for an attached poll.
+   */
+  pollOptions?: LinkedinSearchPostsFullPollOption[];
+  /**
+   * Question asked by an attached LinkedIn poll.
+   */
+  pollQuestion?: string;
+  /**
+   * Total votes recorded by the attached poll.
+   * Range: minimum 0.
+   */
+  pollTotalVotes?: number;
+  /**
+   * Text content of the post. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Canonical URL of the LinkedIn post. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinSearchPostsFullBreakdown {
+  /**
+   * Number of reactions of this type.
+   * Range: minimum 0.
+   */
+  count: number;
+  /**
+   * LinkedIn reaction type.
+   */
+  type: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinSearchPostsFullPollOption {
+  /**
+   * Poll option text.
+   */
+  text: string;
+  /**
+   * Votes recorded for this option.
+   * Range: minimum 0.
+   */
+  votes: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Post Search (full) (linkedin.search_posts_full).
+ */
+export interface LinkedinSearchPostsFullData {
+  /**
+   * LinkedIn posts matching the search query. Populated whenever the provider has data for the entity.
+   */
+  posts: LinkedinSearchPostsFullPost[];
+}
+
+/**
  * Input for LinkedIn Profile Search (linkedin.search_profiles).
  */
 export interface LinkedinSearchProfilesInput {
@@ -3430,6 +3648,23 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinSearchPostsData>> {
     return this._core.run("linkedin.search_posts", input, options);
+  }
+
+  /**
+   * LinkedIn Post Search (full)
+   *
+   * Search public LinkedIn posts with rich author, engagement, attachment, and poll details.
+   *
+   * Price: $0 per request plus $0.00137 per result (maximum $0.137).
+   *
+   * @example
+   * const res = await client.linkedin.searchPostsFull({ query: "artificial intelligence", datePosted: "last-week", limit: 10, sort: "relevance" });
+   */
+  searchPostsFull(
+    input: LinkedinSearchPostsFullInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinSearchPostsFullData>> {
+    return this._core.run("linkedin.search_posts_full", input, options);
   }
 
   /**
