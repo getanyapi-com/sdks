@@ -150,8 +150,9 @@ VERSION=0.7.0 bash scripts/smoke.sh
 
 It exits nonzero if either SDK fails and prints a per-SDK PASS/FAIL summary. In CI it is a
 standalone workflow (`.github/workflows/smoke.yml`) that runs nightly (08:00 UTC) and on manual
-dispatch (with an optional `version` input). It is intentionally NOT wired into `ci.yml`,
-`release.yml`, or branch protection, so registry or upstream flakiness never blocks a PR.
+dispatch (with an optional `version` input). Release recovery also smokes both exact versions
+before creating the GitHub Release. The smoke is not wired into `ci.yml` or branch protection,
+so registry or upstream flakiness never blocks a PR.
 
 ## Releasing
 
@@ -161,28 +162,32 @@ Releases are automated from the live catalog. Two workflows drive it:
   `sdk-refresh` (the AnyAPI monorepo fires this after each gateway deploy), a nightly cron
   fallback, and manual dispatch. It fetches the live `openapi.json` + `catalog.json`,
   regenerates the whole tree, and classifies the IR diff:
-  - a new SKU, a new input/output field, a new enum member, or a new platform -> **minor**;
-  - a removed SKU, field, or enum member -> **patch**, but the commit body WARNS loudly
-    (removals are deferred to a scheduled major, never auto-bumped to major here);
-  - pricing, descriptions, pagination flips, doc-only churn -> **patch**;
-  - no SKU-surface change (snapshot metadata only) -> **none** (no commit, loop-safe).
+  - a new SKU, optional field, enum member, or platform -> **minor**;
+  - proven documentation, pricing, or emitter-neutral metadata changes -> **patch**;
+  - byte-identical IR, fixtures, and both emitted trees -> **none** (no commit, loop-safe);
+  - removals, contract changes, or unexplained generated output -> **blocked**.
 
-  On a non-`none` bump it applies the version to BOTH `packages/typescript/package.json` and
-  `packages/python/pyproject.toml` in lockstep, commits the regenerated tree, tags `v<X.Y.Z>`,
-  pushes, and dispatches `release.yml`. The change summary (the classifier output) is the
-  commit body and becomes the GitHub Release notes.
+  The workflow first proves that the committed generated trees match the old IR. Public
+  generated changes must then appear in both language trees, and the post-refresh drift check
+  proves that both match the new IR. A blocked run uploads the old/new IR, release notes, and
+  generated diff, then fails before versioning, committing, or tagging. On patch or minor it applies the version to BOTH
+  `packages/typescript/package.json` and `packages/python/pyproject.toml` in lockstep, commits
+  the regenerated tree, tags `v<X.Y.Z>`, pushes, and dispatches `release.yml`. The change
+  summary is the commit body and becomes the GitHub Release notes.
 
 - `.github/workflows/release.yml` (publish) runs on a `v*` tag push and on manual dispatch
   (`tag` input). `verify` re-runs the full gate suite and asserts the tag matches both
-  manifests; then `publish-npm` publishes `@getanyapi/sdk` with `--provenance`, `publish-pypi`
-  publishes `getanyapi` via PyPI trusted publishing (OIDC, `pypi` environment), and
-  `github-release` cuts the Release.
+  manifests. It queries the exact version on npm and PyPI, skips a side already present,
+  publishes a missing side, re-queries both, and smokes both exact versions. Only then does it
+  create the GitHub Release. This makes rerunning the same tag a recovery operation instead of
+  attempting to republish an immutable version.
 
 ### Manual compatibility release
 
 For a coordinated discovery cut, bump both manifests in lockstep, merge the SDK change, then
-tag that exact main commit. `release.yml` verifies the full suite and version match before npm
-and PyPI publish in parallel. Follow the cross-repository release order in the main
+tag that exact main commit. `release.yml` verifies the full suite and version match before
+repairing either missing registry side and smoking both exact versions. Follow the
+cross-repository release order in the main
 repository's `ECOSYSTEM.md`; do not infer it from generator automation.
 
 The npm publish works immediately (the `NPM_TOKEN` secret is set on the repo). The PyPI
