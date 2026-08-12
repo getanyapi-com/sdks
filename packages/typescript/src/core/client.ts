@@ -13,15 +13,14 @@ import {
   generateIdempotencyKey,
   validateIdempotencyKey,
 } from "./idempotency.js";
+import { mapProfile, type ProfileResponse } from "./account.js";
 import {
   mapCatalogDetail,
   mapCatalogList,
   mapCatalogSearch,
-  mapProfile,
-  type CatalogListResponse,
   type CatalogEntryResponse,
-  type ProfileResponse,
-} from "./account.js";
+  type CatalogListResponse,
+} from "./discovery.js";
 import type {
   AccountProfile,
   CatalogEntry,

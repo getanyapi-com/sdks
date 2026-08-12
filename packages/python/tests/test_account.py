@@ -10,12 +10,25 @@ import pytest
 
 from conftest import json_response, make_async_client, make_sync_client
 from getanyapi import (
+    DiscoveryLatency,
     DiscoveryPricing,
     FlatPricingOffer,
     LinearPricingOffer,
     NotFoundError,
     agent_signup,
 )
+
+
+def discovery_latency() -> dict[str, object]:
+    return {
+        "window": "30d",
+        "p50Ms": 52399,
+        "p95Ms": 106562,
+        "p99Ms": 115492,
+        "sample": 157,
+        "basis": "service_time_excludes_caller_requested_delay",
+        "future": True,
+    }
 
 
 def discovery_api() -> dict[str, object]:
@@ -32,6 +45,9 @@ def discovery_api() -> dict[str, object]:
         "name": "Amazon Reviews",
         "category": "shop",
         "description": "Pull reviews",
+        "method": "POST",
+        "path": "/v1/run/amazon.reviews",
+        "execution": {"mode": "sync", "future": True},
         "provider": "AnyAPI",
         "pricing": {
             "from": offer,
@@ -40,11 +56,21 @@ def discovery_api() -> dict[str, object]:
         "lanes": [
             {
                 "pricing": offer,
+                "source": {
+                    "id": "silver-fox",
+                    "name": "Silver Fox",
+                    "kind": "anonymous",
+                    "artworkKey": "fox",
+                    "future": True,
+                },
                 "health": {
                     "window": "30d",
                     "uptimePct": 99.8,
                     "latencyP50Ms": 420,
+                    "uptimeSample": 900,
+                    "latencySample": 810,
                     "requests": 810,
+                    "servedRequests": 800,
                 },
             },
             {
@@ -52,11 +78,18 @@ def discovery_api() -> dict[str, object]:
                     "model": "flat",
                     "unit": "request",
                     "maxUsd": 0.05,
-                }
+                },
+                "source": {
+                    "id": "amber-owl",
+                    "name": "Amber Owl",
+                    "kind": "anonymous",
+                    "artworkKey": "owl",
+                },
             },
         ],
         "heavy": True,
         "tryEligible": True,
+        "tryMaxItems": 3,
         "failover": True,
         "excludesCallerDelay": True,
     }
@@ -70,7 +103,17 @@ def flat_discovery_api() -> dict[str, object]:
         "slug": "fixture.flat",
         "name": "Fixture Flat",
         "pricing": {"from": offer, "failoverMaxUsd": 0.00325},
-        "lanes": [{"pricing": offer}],
+        "lanes": [
+            {
+                "pricing": offer,
+                "source": {
+                    "id": "atlas-data",
+                    "name": "Atlas Data",
+                    "kind": "brand",
+                    "artworkKey": "atlas",
+                },
+            }
+        ],
         "heavy": False,
     }
 
@@ -171,6 +214,17 @@ def test_catalog_preserves_nested_usd_offers() -> None:
     assert e.lanes[0].pricing.model == "linear"
     assert e.lanes[0].health is not None
     assert e.lanes[0].health.requests == 810
+    assert e.lanes[0].health.uptime_sample == 900
+    assert e.lanes[0].health.latency_sample == 810
+    assert e.lanes[0].health.served_requests == 800
+    assert e.lanes[0].source.id == "silver-fox"
+    assert e.lanes[0].source.artwork_key == "fox"
+    assert e.method == "POST"
+    assert e.path == "/v1/run/amazon.reviews"
+    assert e.execution.mode == "sync"
+    assert e.execution.model_extra is None
+    assert e.try_max_items == 3
+    assert e.lanes[0].source.model_extra is None
     flat = entries[1]
     assert flat.pricing.from_offer.model == "flat"
     assert flat.pricing.from_offer.max_usd == pytest.approx(0.00325)
@@ -182,6 +236,24 @@ def test_catalog_rejects_legacy_partial_contract() -> None:
         return json_response(200, {"apis": [{"slug": "x.y"}]})
 
     client, _ = make_sync_client(respond)
+    with pytest.raises(ValueError):
+        client.catalog()
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("method", "GET"),
+        ("path", "v1/run/amazon.reviews"),
+        ("execution", {"mode": "async"}),
+    ],
+)
+def test_catalog_rejects_malformed_operation_authority(
+    field: str, value: object
+) -> None:
+    api = discovery_api()
+    api[field] = value
+    client, _ = make_sync_client(lambda _req: json_response(200, {"apis": [api]}))
     with pytest.raises(ValueError):
         client.catalog()
 
@@ -208,11 +280,20 @@ def test_catalog_accepts_safe_additions_and_gateway_owned_disagreements() -> Non
                 "unit": "request",
                 "maxUsd": 0.00325,
             },
+            "source": {
+                "id": "atlas-data",
+                "name": "Atlas Data",
+                "kind": "brand",
+                "artworkKey": "atlas",
+            },
             "health": {
                 "window": "7d",
                 "uptimePct": 98.0,
                 "latencyP50Ms": 10,
+                "uptimeSample": 3,
+                "latencySample": 2,
                 "requests": 2,
+                "servedRequests": 2,
                 "unexpected": True,
             },
             "unexpected": True,
@@ -296,8 +377,14 @@ def test_search_maps_ranked_results_and_filters() -> None:
                         "name": api["name"],
                         "description": api["description"],
                         "category": api["category"],
+                        "method": api["method"],
+                        "path": api["path"],
+                        "execution": {"mode": "durable"},
                         "provider": api["provider"],
                         "pricing": api["pricing"],
+                        "tryMaxItems": 3,
+                        "failover": True,
+                        "excludesCallerDelay": True,
                         "relevance": 0.91,
                         "highlightFields": [
                             {
@@ -319,6 +406,12 @@ def test_search_maps_ranked_results_and_filters() -> None:
     assert found.ranking == "semantic"
     assert found.results[0].relevance == pytest.approx(0.91)
     assert found.results[0].pricing.from_offer.model == "linear"
+    assert found.results[0].method == "POST"
+    assert found.results[0].path == "/v1/run/amazon.reviews"
+    assert found.results[0].execution.mode == "durable"
+    assert found.results[0].try_max_items == 3
+    assert found.results[0].failover is True
+    assert found.results[0].excludes_caller_delay is True
 
 
 def test_search_drops_safe_additive_result_and_envelope_fields() -> None:
@@ -329,6 +422,9 @@ def test_search_drops_safe_additive_result_and_envelope_fields() -> None:
         "name": api["name"],
         "description": api["description"],
         "category": api["category"],
+        "method": api["method"],
+        "path": api["path"],
+        "execution": api["execution"],
         "provider": api["provider"],
         "pricing": {
             **cast("dict[str, object]", api["pricing"]),
@@ -342,6 +438,7 @@ def test_search_drops_safe_additive_result_and_envelope_fields() -> None:
             },
         },
         "relevance": 1.0,
+        "failover": False,
         "lanes": api["lanes"],
         "future": True,
         "highlightFields": [
@@ -387,6 +484,7 @@ def test_describe_includes_schemas() -> None:
             "properties": {},
             "$defs": {"item": {"type": "string", "futureKeyword": True}},
         },
+        "latency": discovery_latency(),
     }
 
     def respond(req: httpx.Request) -> httpx.Response:
@@ -405,6 +503,8 @@ def test_describe_includes_schemas() -> None:
         "properties": {},
         "$defs": {"item": {"type": "string", "futureKeyword": True}},
     }
+    assert described.latency == DiscoveryLatency.model_validate(discovery_latency())
+    assert described.latency.model_extra is None
 
 
 def test_describe_accepts_gateway_owned_pricing_and_lane_disagreement() -> None:
@@ -415,17 +515,37 @@ def test_describe_accepts_gateway_owned_pricing_and_lane_disagreement() -> None:
         {
             "inputSchema": {"type": "object"},
             "outputSchema": {"type": "object"},
+            "latency": None,
         }
     )
     client, _ = make_sync_client(lambda _req: json_response(200, api))
     entry = client.describe("amazon.reviews")
     assert entry.pricing.failover_max_usd == pytest.approx(0.04002)
     assert entry.lanes[1].pricing.max_usd == pytest.approx(0.05)
+    assert entry.latency is None
 
 
 def test_describe_rejects_missing_schemas() -> None:
     client, _ = make_sync_client(lambda _req: json_response(200, discovery_api()))
     with pytest.raises(ValueError, match="detail schemas are required"):
+        client.describe("amazon.reviews")
+
+
+def test_describe_requires_nullable_latency_and_validates_complete_shape() -> None:
+    api = discovery_api()
+    api.update(
+        {
+            "inputSchema": {"type": "object"},
+            "outputSchema": {"type": "object"},
+        }
+    )
+    client, _ = make_sync_client(lambda _req: json_response(200, api))
+    with pytest.raises(ValueError, match="detail latency is required"):
+        client.describe("amazon.reviews")
+
+    api["latency"] = {**discovery_latency(), "p95Ms": "106562"}
+    client, _ = make_sync_client(lambda _req: json_response(200, api))
+    with pytest.raises(ValueError, match="p95Ms"):
         client.describe("amazon.reviews")
 
 
@@ -513,8 +633,12 @@ async def test_async_discovery_methods() -> None:
                             "name": api["name"],
                             "description": api["description"],
                             "category": api["category"],
+                            "method": api["method"],
+                            "path": api["path"],
+                            "execution": api["execution"],
                             "provider": "AnyAPI",
                             "pricing": api["pricing"],
+                            "failover": api["failover"],
                             "relevance": 1.0,
                         }
                     ],
@@ -528,6 +652,7 @@ async def test_async_discovery_methods() -> None:
                 **api,
                 "inputSchema": {"type": "object"},
                 "outputSchema": {"type": "object"},
+                "latency": None,
             },
         )
 

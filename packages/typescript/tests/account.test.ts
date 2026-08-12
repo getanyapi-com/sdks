@@ -12,6 +12,21 @@ const linearOffer = {
 
 const flatOffer = { model: "flat", unit: "request", maxUsd: 0.00325 };
 const failoverOffer = { model: "flat", unit: "request", maxUsd: 0.05 };
+const source = {
+  id: "silver-fox",
+  name: "Silver Fox",
+  kind: "anonymous",
+  artworkKey: "fox",
+};
+const latency = {
+  window: "30d",
+  p50Ms: 52399,
+  p95Ms: 106562,
+  p99Ms: 115492,
+  sample: 157,
+  basis: "service_time_excludes_caller_requested_delay",
+  future: true,
+};
 
 const linearApi = {
   id: "amazon.reviews",
@@ -19,6 +34,9 @@ const linearApi = {
   name: "Amazon Reviews",
   category: "shop",
   description: "Pull reviews",
+  method: "POST",
+  path: "/v1/run/amazon.reviews",
+  execution: { mode: "sync" },
   provider: "AnyAPI",
   pricing: {
     from: linearOffer,
@@ -27,17 +45,22 @@ const linearApi = {
   lanes: [
     {
       pricing: linearOffer,
+      source,
       health: {
         window: "30d",
         uptimePct: 99.8,
         latencyP50Ms: 420,
+        uptimeSample: 900,
+        latencySample: 810,
         requests: 810,
+        servedRequests: 800,
       },
     },
-    { pricing: failoverOffer },
+    { pricing: failoverOffer, source: { ...source, id: "amber-owl" } },
   ],
   heavy: true,
   tryEligible: true,
+  tryMaxItems: 3,
   failover: true,
   excludesCallerDelay: true,
 };
@@ -48,7 +71,7 @@ const flatApi = {
   slug: "fixture.flat",
   name: "Fixture Flat",
   pricing: { from: flatOffer, failoverMaxUsd: 0.00325 },
-  lanes: [{ pricing: flatOffer }],
+  lanes: [{ pricing: flatOffer, source }],
   heavy: false,
 };
 
@@ -124,6 +147,23 @@ describe("catalog", () => {
       maxUsd: 0.04002,
     });
     expect(entries[0]!.lanes[0]!.pricing).toEqual(linearOffer);
+    expect(entries[0]!.lanes[0]!.source).toEqual({
+      id: "silver-fox",
+      name: "Silver Fox",
+      kind: "anonymous",
+      artworkKey: "fox",
+    });
+    expect(entries[0]!.lanes[0]!.health).toMatchObject({
+      uptimeSample: 900,
+      latencySample: 810,
+      servedRequests: 800,
+    });
+    expect(entries[0]).toMatchObject({
+      method: "POST",
+      path: "/v1/run/amazon.reviews",
+      execution: { mode: "sync" },
+      tryMaxItems: 3,
+    });
     expect(entries[1]!.pricing.from).toEqual(flatOffer);
     const url = new URL(calls[0]!.url);
     expect(url.pathname).toBe("/v1/apis");
@@ -136,6 +176,17 @@ describe("catalog", () => {
     const client = new AnyAPI({ apiKey: "k", fetch });
     await expect(client.catalog()).rejects.toThrow(
       "malformed discovery response",
+    );
+  });
+
+  it.each([
+    [{ ...linearApi, method: "GET" }, "api.method"],
+    [{ ...linearApi, path: "v1/run/amazon.reviews" }, "api.path"],
+    [{ ...linearApi, execution: { mode: "async" } }, "api.execution.mode"],
+  ])("rejects malformed operation authority %#", async (api, message) => {
+    const { fetch } = mockFetch([{ body: { apis: [api] } }]);
+    await expect(new AnyAPI({ apiKey: "k", fetch }).catalog()).rejects.toThrow(
+      message,
     );
   });
 
@@ -159,6 +210,7 @@ describe("catalog", () => {
     const api = {
       ...linearApi,
       unexpected: true,
+      execution: { ...linearApi.execution, unexpected: true },
       pricing: {
         ...linearApi.pricing,
         failoverMaxUsd: 0.004,
@@ -168,20 +220,22 @@ describe("catalog", () => {
       lanes: [
         {
           pricing: flatOffer,
+          source: { ...source, unexpected: true },
           health: {
             window: "7d",
             uptimePct: 98,
             latencyP50Ms: 10,
+            uptimeSample: 3,
+            latencySample: 2,
             requests: 2,
+            servedRequests: 2,
             unexpected: true,
           },
           unexpected: true,
         },
       ],
     };
-    const { fetch } = mockFetch([
-      { body: { apis: [api], unexpected: true } },
-    ]);
+    const { fetch } = mockFetch([{ body: { apis: [api], unexpected: true } }]);
     const [entry] = await new AnyAPI({ apiKey: "k", fetch }).catalog();
     expect(entry).toMatchObject({
       pricing: {
@@ -192,6 +246,7 @@ describe("catalog", () => {
         {
           pricing: flatOffer,
           health: { window: "7d" },
+          source,
         },
       ],
       failover: true,
@@ -242,8 +297,14 @@ describe("search", () => {
       name: linearApi.name,
       description: linearApi.description,
       category: linearApi.category,
+      method: linearApi.method,
+      path: linearApi.path,
+      execution: { mode: "durable" },
       provider: "AnyAPI",
       pricing: linearApi.pricing,
+      tryMaxItems: 3,
+      failover: true,
+      excludesCallerDelay: true,
       relevance: 0.91,
       highlightFields: [
         { path: "items[].title", type: "string", why: "title" },
@@ -260,6 +321,14 @@ describe("search", () => {
       limit: 3,
     });
     expect(found).toEqual({ results: [result], total: 4, ranking: "semantic" });
+    expect(found.results[0]).toMatchObject({
+      method: "POST",
+      path: "/v1/run/amazon.reviews",
+      execution: { mode: "durable" },
+      tryMaxItems: 3,
+      failover: true,
+      excludesCallerDelay: true,
+    });
     const url = new URL(calls[0]!.url);
     expect(url.pathname).toBe("/catalog/search");
     expect(Object.fromEntries(url.searchParams)).toEqual({
@@ -304,6 +373,9 @@ describe("search", () => {
       name: linearApi.name,
       description: linearApi.description,
       category: linearApi.category,
+      method: linearApi.method,
+      path: linearApi.path,
+      execution: linearApi.execution,
       provider: "AnyAPI",
       pricing: {
         ...linearApi.pricing,
@@ -311,6 +383,7 @@ describe("search", () => {
         from: { ...linearApi.pricing.from, future: true },
       },
       relevance: 1,
+      failover: false,
       lanes: linearApi.lanes,
       future: true,
       highlightFields: [
@@ -351,6 +424,7 @@ describe("describe", () => {
       {
         body: {
           ...linearApi,
+          latency,
           inputSchema: {
             type: "object",
             properties: { product: { type: "string" } },
@@ -376,6 +450,14 @@ describe("describe", () => {
       type: "object",
       $defs: { item: { type: "string", futureKeyword: true } },
     });
+    expect(entry.latency).toEqual({
+      window: "30d",
+      p50Ms: 52399,
+      p95Ms: 106562,
+      p99Ms: 115492,
+      sample: 157,
+      basis: "service_time_excludes_caller_requested_delay",
+    });
     expect(calls[0]!.url).toBe(
       "https://api.getanyapi.com/v1/apis/amazon.reviews",
     );
@@ -396,6 +478,7 @@ describe("describe", () => {
       {
         body: {
           ...linearApi,
+          latency: null,
           pricing: {
             ...linearApi.pricing,
             failoverMaxUsd: linearOffer.maxUsd,
@@ -410,6 +493,7 @@ describe("describe", () => {
     );
     expect(entry.pricing.failoverMaxUsd).toBe(linearOffer.maxUsd);
     expect(entry.lanes[1]!.pricing.maxUsd).toBe(failoverOffer.maxUsd);
+    expect(entry.latency).toBeNull();
   });
 
   it("rejects a detail response without schemas", async () => {
@@ -418,6 +502,39 @@ describe("describe", () => {
     await expect(client.describe("amazon.reviews")).rejects.toThrow(
       "api.inputSchema",
     );
+  });
+
+  it("requires nullable latency on detail and validates its complete shape", async () => {
+    const missing = mockFetch([
+      {
+        body: {
+          ...linearApi,
+          inputSchema: { type: "object" },
+          outputSchema: { type: "object" },
+        },
+      },
+    ]);
+    await expect(
+      new AnyAPI({ apiKey: "k", fetch: missing.fetch }).describe(
+        "amazon.reviews",
+      ),
+    ).rejects.toThrow("api.latency");
+
+    const malformed = mockFetch([
+      {
+        body: {
+          ...linearApi,
+          inputSchema: { type: "object" },
+          outputSchema: { type: "object" },
+          latency: { ...latency, p95Ms: "106562" },
+        },
+      },
+    ]);
+    await expect(
+      new AnyAPI({ apiKey: "k", fetch: malformed.fetch }).describe(
+        "amazon.reviews",
+      ),
+    ).rejects.toThrow("api.latency.p95Ms");
   });
 });
 

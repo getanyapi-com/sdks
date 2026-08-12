@@ -35,8 +35,11 @@ from .types import (
     CatalogEntry,
     CatalogSearchResult,
     CatalogSearchResults,
+    DiscoveryExecution,
     DiscoveryLane,
+    DiscoveryLatency,
     DiscoveryPricing,
+    DiscoverySource,
     FlatPricingOffer,
     HighlightField,
     LaneHealth,
@@ -51,7 +54,7 @@ from .types import (
     unwrap,
 )
 
-__version__ = "0.22.0"
+__version__ = "0.23.0"
 
 __all__ = [
     # clients + top-level functions
@@ -72,8 +75,11 @@ __all__ = [
     "LinearPricingOffer",
     "PricingOffer",
     "DiscoveryPricing",
+    "DiscoveryExecution",
+    "DiscoverySource",
     "LaneHealth",
     "DiscoveryLane",
+    "DiscoveryLatency",
     "HighlightField",
     "CatalogSearchResult",
     "CatalogSearchResults",

@@ -237,16 +237,42 @@ export interface DiscoveryPricing {
   failoverMaxUsd: number;
 }
 
+export type DiscoveryExecutionMode = "sync" | "durable";
+
+export interface DiscoveryExecution {
+  mode: DiscoveryExecutionMode;
+}
+
+export interface DiscoverySource {
+  id: string;
+  name: string;
+  kind: "anonymous" | "brand";
+  artworkKey: string;
+}
+
 export interface LaneHealth {
   window: string;
   uptimePct: number;
   latencyP50Ms: number;
+  uptimeSample: number;
+  latencySample: number;
   requests: number;
+  servedRequests: number;
 }
 
 export interface DiscoveryLane {
   pricing: PricingOffer;
+  source: DiscoverySource;
   health?: LaneHealth;
+}
+
+export interface DiscoveryLatency {
+  window: string;
+  p50Ms: number;
+  p95Ms: number;
+  p99Ms: number;
+  sample: number;
+  basis: "service_time_excludes_caller_requested_delay";
 }
 
 /** One customer-safe API returned by catalog() or describe(). */
@@ -256,15 +282,21 @@ export interface CatalogEntry {
   name: string;
   category: string;
   description: string;
+  method: "POST";
+  path: string;
+  execution: DiscoveryExecution;
   provider: "AnyAPI";
   pricing: DiscoveryPricing;
   lanes: DiscoveryLane[];
   heavy: boolean;
   tryEligible: boolean;
+  tryMaxItems?: number;
   failover?: boolean;
   excludesCallerDelay?: boolean;
   inputSchema?: Record<string, unknown>;
   outputSchema?: Record<string, unknown>;
+  /** Detail-only successful end-to-end latency. Null when no sample is available. */
+  latency?: DiscoveryLatency | null;
 }
 
 export interface SearchOptions {
@@ -286,8 +318,14 @@ export interface CatalogSearchResult {
   name: string;
   description: string;
   category: string;
+  method: "POST";
+  path: string;
+  execution: DiscoveryExecution;
   provider: "AnyAPI";
   pricing: DiscoveryPricing;
+  tryMaxItems?: number;
+  failover: boolean;
+  excludesCallerDelay?: boolean;
   relevance: number;
   highlightFields?: HighlightField[];
 }
