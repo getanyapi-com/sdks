@@ -185,7 +185,12 @@ function renderObjectMembers(
       : !required.has(key);
     // N1: the must-populate note is emitted only on OPTIONAL fields (a required field is
     // always present, so the note adds nothing).
-    const doc = propDocComment(child, key, optional && mustPopulate.has(key), 2);
+    const doc = propDocComment(
+      child,
+      key,
+      optional && mustPopulate.has(key),
+      2,
+    );
     const type = renderType(child, operationId, key, collect);
     if (doc) lines.push(doc.trimEnd());
     lines.push(`  ${objectKey(key)}${optional ? "?" : ""}: ${type};`);
@@ -326,7 +331,9 @@ function emitSkuTypes(sku: SkuEntry): string {
       false,
     );
     const index = data.open ? "\n  [extra: string]: unknown;" : "";
-    const dataDoc = docComment([`The \`data\` payload of ${sku.name} (${sku.slug}).`]);
+    const dataDoc = docComment([
+      `The \`data\` payload of ${sku.name} (${sku.slug}).`,
+    ]);
     for (const t of dataCollect) parts.push(t.source);
     parts.push(
       `${dataDoc}export interface ${sku.outputTypeName} {\n${members}${index}\n}`,
@@ -376,7 +383,10 @@ function exampleCall(sku: SkuEntry): string {
 }
 
 /** Order example keys: required input fields (declared order) first, then the rest. */
-function exampleKeyOrder(example: Record<string, unknown>, input: SchemaNode): string[] {
+function exampleKeyOrder(
+  example: Record<string, unknown>,
+  input: SchemaNode,
+): string[] {
   const present = Object.keys(example);
   if (input.kind !== "object") return present;
   const required = new Set(input.required);
@@ -390,12 +400,15 @@ function exampleKeyOrder(example: Record<string, unknown>, input: SchemaNode): s
 function renderExampleValue(value: unknown): string {
   if (value === null) return "null";
   if (typeof value === "string") return doubleQuote(value);
-  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (typeof value === "number" || typeof value === "boolean")
+    return String(value);
   if (Array.isArray(value)) {
     return `[${value.map(renderExampleValue).join(", ")}]`;
   }
   if (typeof value === "object") {
-    return renderExampleObject(value as Record<string, unknown>, { kind: "unknown" });
+    return renderExampleObject(value as Record<string, unknown>, {
+      kind: "unknown",
+    });
   }
   return JSON.stringify(value);
 }
@@ -407,7 +420,9 @@ function renderExampleObject(
 ): string {
   const keys = exampleKeyOrder(obj, input);
   if (keys.length === 0) return "{}";
-  const parts = keys.map((k) => `${objectKey(k)}: ${renderExampleValue(obj[k])}`);
+  const parts = keys.map(
+    (k) => `${objectKey(k)}: ${renderExampleValue(obj[k])}`,
+  );
   return `{ ${parts.join(", ")} }`;
 }
 
@@ -511,7 +526,10 @@ function namespaceClassName(platform: string): string {
 /** Which core symbols a platform group needs, so the import line is minimal + stable. */
 function coreImportsFor(skus: SkuEntry[]): CoreImports {
   const hasIter = skus.some(
-    (s) => s.pagination.paginated && s.pagination.itemsField !== null && s.tsIterMethod,
+    (s) =>
+      s.pagination.paginated &&
+      s.pagination.itemsField !== null &&
+      s.tsIterMethod,
   );
   const hasBare = skus.some((s) => s.output.envelope === "bare");
   const hasFoundData = skus.some((s) => s.output.envelope !== "bare");
@@ -541,7 +559,9 @@ function coreImportBlock(imports: CoreImports): string {
   // Everything comes from the handwritten core barrel (../../core/index.js) so the emitted
   // import path never has to track which core file owns which symbol.
   const lines: string[] = [];
-  lines.push(`import type { ${typeNames.join(", ")} } from "../../core/index.js";`);
+  lines.push(
+    `import type { ${typeNames.join(", ")} } from "../../core/index.js";`,
+  );
   if (imports.paginate) {
     lines.push(`import { paginate } from "../../core/index.js";`);
   }
@@ -644,10 +664,7 @@ function emitClient(skus: SkuEntry[]): string {
   for (const [platform, list] of byPlatform) {
     const className = namespaceClassName(platform);
     const getter = list[0]!.tsNamespace;
-    const doc = docComment(
-      [`Typed methods for the ${platform} platform.`],
-      2,
-    );
+    const doc = docComment([`Typed methods for the ${platform} platform.`], 2);
     getters.push(
       `${doc}` +
         `  get ${getter}(): ${className} {\n` +
@@ -760,8 +777,12 @@ function emitIndex(skus: SkuEntry[]): string {
     "LinearPricingOffer",
     "PricingOffer",
     "DiscoveryPricing",
+    "DiscoveryExecutionMode",
+    "DiscoveryExecution",
+    "DiscoverySource",
     "LaneHealth",
     "DiscoveryLane",
+    "DiscoveryLatency",
     "CatalogEntry",
     "SearchOptions",
     "HighlightField",

@@ -574,7 +574,12 @@ export declare class AnyAPIError extends Error {
   readonly requestId?: string;
   /** Stable gateway error code when present, else undefined. */
   readonly code?: string;
-  constructor(message: string, status: number, requestId?: string, code?: string);
+  constructor(
+    message: string,
+    status: number,
+    requestId?: string,
+    code?: string,
+  );
 }
 
 export declare class BadRequestError extends AnyAPIError {} // 400
@@ -607,7 +612,7 @@ signup responses do not carry the header at all.
 Gateway `code` values reaching these SDKs today (informational; the field is typed as an
 open string so a new code never breaks a client): `all_providers_failed`,
 `forbidden`, `grant_cap_exceeded`, `idempotency_conflict`, `idempotency_in_progress`,
-`idempotency_needs_review`, `idempotency_unavailable`, `insufficient_credits`,
+`idempotency_needs_review`, `idempotency_unavailable`, `insufficient_balance`,
 `internal_error`, `invalid_idempotency_key`, `invalid_input`, `key_cap_exceeded`,
 `key_disabled`, `key_expired`, `no_providers`, `pinned_lane_unavailable`,
 `provider_rate_limited`, `provider_rejected_request`, `sku_not_found`, `unauthorized`, plus
@@ -667,15 +672,37 @@ export interface DiscoveryPricing {
   from: PricingOffer;
   failoverMaxUsd: number;
 }
+export type DiscoveryExecutionMode = "sync" | "durable";
+export interface DiscoveryExecution {
+  mode: DiscoveryExecutionMode;
+}
+export interface DiscoverySource {
+  id: string;
+  name: string;
+  kind: "anonymous" | "brand";
+  artworkKey: string;
+}
 export interface LaneHealth {
   window: string;
   uptimePct: number;
   latencyP50Ms: number;
+  uptimeSample: number;
+  latencySample: number;
   requests: number;
+  servedRequests: number;
 }
 export interface DiscoveryLane {
   pricing: PricingOffer;
+  source: DiscoverySource;
   health?: LaneHealth;
+}
+export interface DiscoveryLatency {
+  window: string;
+  p50Ms: number;
+  p95Ms: number;
+  p99Ms: number;
+  sample: number;
+  basis: "service_time_excludes_caller_requested_delay";
 }
 
 export interface CatalogEntry {
@@ -684,15 +711,20 @@ export interface CatalogEntry {
   name: string;
   category: string;
   description: string;
+  method: "POST";
+  path: string;
+  execution: DiscoveryExecution;
   provider: "AnyAPI";
   pricing: DiscoveryPricing;
   lanes: DiscoveryLane[];
   heavy: boolean;
   tryEligible: boolean;
+  tryMaxItems?: number;
   failover?: boolean;
   excludesCallerDelay?: boolean;
   inputSchema?: Record<string, unknown>;
   outputSchema?: Record<string, unknown>;
+  latency?: DiscoveryLatency | null;
 }
 
 export interface SearchOptions {
@@ -707,8 +739,14 @@ export interface CatalogSearchResult {
   name: string;
   description: string;
   category: string;
+  method: "POST";
+  path: string;
+  execution: DiscoveryExecution;
   provider: "AnyAPI";
   pricing: DiscoveryPricing;
+  tryMaxItems?: number;
+  failover: boolean;
+  excludesCallerDelay?: boolean;
   relevance: number;
   highlightFields?: Array<{ path: string; type: string; why?: string }>;
 }
@@ -740,6 +778,11 @@ export interface AgentSignupResult {
 - `search(options)` -> dedicated GET `/catalog/search?q=&category=&platform=&limit=` ->
   `{ results, total, ranking }` with nested pricing and relevance.
 - `describe(slug)` -> GET `/v1/apis/{slug}` -> one `CatalogEntry`. 404 -> `NotFoundError`.
+- Browse, search, and detail carry the gateway-authored `method`, `path`, and `execution.mode`
+  unchanged. Ranked search also carries the gateway's `failover`, optional
+  `excludesCallerDelay`, and conditional `tryMaxItems` routing facts. Detail always carries a
+  `latency` key whose value is either the complete successful end-to-end distribution or null;
+  browse and search omit latency.
 - Discovery is a tolerant-reader boundary. The gateway solely owns routing, lane order,
   failover, pricing relationships, health semantics, provider normalization, schemas, and
   billing. The handwritten clients recursively reject case-insensitive `*credit*` keys and
@@ -759,8 +802,10 @@ export interface AgentSignupResult {
   structs, the ONLY conditionally-present fields on this surface are `email` (omitted when
   empty), `heavy` (omitted when false), `inputSchema` / `outputSchema` (omitted on
   browse/search, sent on detail), `lanes[].health` (omitted when no sampled window),
-  `highlightFields` (omitted when empty), `highlightFields[].why`, `failover` (for compatibility
-  with older gateways), and `excludesCallerDelay`. Every other field on
+  `highlightFields` (omitted when empty), `highlightFields[].why`, `tryMaxItems` (present only for
+  eligible APIs), `failover` on browse/detail (for compatibility with older gateways), and
+  `excludesCallerDelay`. `latency` is detail-only and is always present there as an object or
+  null. Every other field on
   `AccountProfile`, `Balance`, `CatalogEntry`, `CatalogSearchResult`, `CatalogSearchResults`,
   `DiscoveryPricing`, `PricingOffer`, and `LaneHealth` carries no `omitempty` and is always
   sent, with one wrinkle inside `PricingOffer`: `baseUsd` and `perUnitUsd` are pointer fields
@@ -1040,21 +1085,73 @@ class AccountProfile(BaseModel):
     created_at: str          # alias "createdAt"
     onboarding_complete: bool # alias "onboardingComplete"
 
+class DiscoveryExecution(BaseModel):
+    mode: Literal["sync", "durable"]
+
+class DiscoverySource(BaseModel):
+    id: str
+    name: str
+    kind: Literal["anonymous", "brand"]
+    artwork_key: str          # alias "artworkKey"
+
+class LaneHealth(BaseModel):
+    window: str
+    uptime_pct: float         # alias "uptimePct"
+    latency_p50_ms: int       # alias "latencyP50Ms"
+    uptime_sample: int        # alias "uptimeSample"
+    latency_sample: int       # alias "latencySample"
+    requests: int
+    served_requests: int      # alias "servedRequests"
+
+class DiscoveryLane(BaseModel):
+    pricing: PricingOffer
+    source: DiscoverySource
+    health: LaneHealth | None
+
+class DiscoveryLatency(BaseModel):
+    window: str
+    p50_ms: int               # alias "p50Ms"
+    p95_ms: int               # alias "p95Ms"
+    p99_ms: int               # alias "p99Ms"
+    sample: int
+    basis: Literal["service_time_excludes_caller_requested_delay"]
+
 class CatalogEntry(BaseModel):
     id: str
     slug: str
     name: str
     category: str
     description: str
+    method: Literal["POST"]
+    path: str
+    execution: DiscoveryExecution
     provider: Literal["AnyAPI"]
     pricing: DiscoveryPricing
     lanes: list[DiscoveryLane]
     heavy: bool
     try_eligible: bool       # alias "tryEligible"
+    try_max_items: int | None # alias "tryMaxItems"
     failover: bool | None
     excludes_caller_delay: bool | None  # alias "excludesCallerDelay"
     input_schema: dict[str, Any] | None   # alias "inputSchema"
     output_schema: dict[str, Any] | None  # alias "outputSchema"
+    latency: DiscoveryLatency | None
+
+class CatalogSearchResult(BaseModel):
+    slug: str
+    platform_id: str         # alias "platformId"
+    name: str
+    description: str
+    category: str
+    method: Literal["POST"]
+    path: str
+    execution: DiscoveryExecution
+    provider: Literal["AnyAPI"]
+    pricing: DiscoveryPricing
+    try_max_items: int | None # alias "tryMaxItems"
+    failover: bool
+    excludes_caller_delay: bool | None # alias "excludesCallerDelay"
+    relevance: float
 
 class CatalogSearchResults(BaseModel):
     results: list[CatalogSearchResult]

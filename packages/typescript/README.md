@@ -79,6 +79,12 @@ billing. This handwritten discovery client safety-scans the response, projects k
 preserves schemas as opaque JSON, and ignores safe additions. It does not recompute gateway
 business rules. Generated per-SKU methods remain a separate OpenAPI-driven surface.
 
+Every catalog and search result carries the gateway-authored `method`, `path`, and execution
+mode. Lanes carry their public source identity and complete health sample counts when health is
+available. Eligible APIs may carry `tryMaxItems`; ranked search carries the gateway's failover
+facts. `describe` also returns `latency`, either the complete trailing-window p50/p95/p99
+distribution or `null` when no sample is available.
+
 ## Pagination
 
 Paginated SKUs expose an iterator that yields items across pages and follows the cursor for
@@ -162,13 +168,13 @@ No other `409` retries: `idempotency_conflict` (the same key with different inpu
 Automatic network retry of a billed `run()` requires structured runtime evidence that the
 request body was not sent:
 
-| Runtime | Automatic billed-run network retry | Evidence available to the SDK |
-| ------- | ---------------------------------- | ----------------------------- |
-| Node 18+ with built-in undici `fetch` | Yes | DNS and connect codes, connect-phase timeouts, or an undici socket reporting zero bytes written |
-| Bun 1.3.11 | Yes | `ConnectionRefused`, which Bun 1.3.11 emits only while establishing the origin or proxy connection |
-| Cloudflare Workers | No | `retryable: true` means transient, not undelivered; it can appear after the origin received the full body |
-| Deno | No | Fetch exposes only prose without a structured connection code |
-| Browsers | No | Fetch generally exposes an opaque `TypeError` |
+| Runtime                               | Automatic billed-run network retry | Evidence available to the SDK                                                                             |
+| ------------------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Node 18+ with built-in undici `fetch` | Yes                                | DNS and connect codes, connect-phase timeouts, or an undici socket reporting zero bytes written           |
+| Bun 1.3.11                            | Yes                                | `ConnectionRefused`, which Bun 1.3.11 emits only while establishing the origin or proxy connection        |
+| Cloudflare Workers                    | No                                 | `retryable: true` means transient, not undelivered; it can appear after the origin received the full body |
+| Deno                                  | No                                 | Fetch exposes only prose without a structured connection code                                             |
+| Browsers                              | No                                 | Fetch generally exposes an opaque `TypeError`                                                             |
 
 On a runtime without strict non-delivery evidence, the SDK makes no automatic network retry for a
 billed `run()`. HTTP 429 retry is unchanged. Handle other retries explicitly only when your

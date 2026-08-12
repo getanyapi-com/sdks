@@ -117,9 +117,12 @@ def parse_catalog(body: object) -> list[CatalogEntry]:
 def parse_describe(body: object) -> CatalogEntry:
     """Map a single /v1/apis/{slug} entry into one CatalogEntry."""
     _reject_unsafe_discovery_fields(body, "api")
+    raw = as_dict(body)
     entry = CatalogEntry.model_validate(body, strict=True)
     if entry.input_schema is None or entry.output_schema is None:
         raise ValueError("malformed discovery response: detail schemas are required")
+    if "latency" not in raw:
+        raise ValueError("malformed discovery response: detail latency is required")
     return entry
 
 

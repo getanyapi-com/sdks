@@ -75,6 +75,12 @@ discovery client safety-scans the response, projects known fields, preserves sch
 JSON, and ignores safe additions. It does not recompute gateway business rules. Generated
 per-SKU methods remain a separate OpenAPI-driven surface.
 
+Every catalog and search result carries the gateway-authored `method`, `path`, and execution
+mode. Lanes carry their public source identity and complete health sample counts when health is
+available. Eligible APIs may carry `try_max_items`; ranked search carries the gateway's failover
+facts. `describe` also returns `latency`, either the complete trailing-window p50/p95/p99
+distribution or `None` when no sample is available.
+
 ## Pagination
 
 Paginated SKUs expose an `iter_*` method that yields validated item models across pages and

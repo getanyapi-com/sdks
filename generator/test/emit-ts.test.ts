@@ -377,16 +377,22 @@ export interface FlatPricingOffer { model: "flat"; unit: "request"; maxUsd: numb
 export interface LinearPricingOffer { model: "linear"; unit: string; baseUsd: number; perUnitUsd: number; maxUsd: number; }
 export type PricingOffer = FlatPricingOffer | LinearPricingOffer;
 export interface DiscoveryPricing { from: PricingOffer; failoverMaxUsd: number; }
-export interface LaneHealth { window: string; uptimePct: number; latencyP50Ms: number; requests: number; }
-export interface DiscoveryLane { pricing: PricingOffer; health?: LaneHealth; }
+export type DiscoveryExecutionMode = "sync" | "durable";
+export interface DiscoveryExecution { mode: DiscoveryExecutionMode; }
+export interface DiscoverySource { id: string; name: string; kind: "anonymous" | "brand"; artworkKey: string; }
+export interface LaneHealth { window: string; uptimePct: number; latencyP50Ms: number; uptimeSample: number; latencySample: number; requests: number; servedRequests: number; }
+export interface DiscoveryLane { pricing: PricingOffer; source: DiscoverySource; health?: LaneHealth; }
+export interface DiscoveryLatency { window: string; p50Ms: number; p95Ms: number; p99Ms: number; sample: number; basis: "service_time_excludes_caller_requested_delay"; }
 export interface CatalogEntry {
   id: string; slug: string; name: string; category: string; description: string;
-  provider: "AnyAPI"; pricing: DiscoveryPricing; lanes: DiscoveryLane[];
-  heavy: boolean; tryEligible: boolean; failover?: boolean; excludesCallerDelay?: boolean;
+  method: "POST"; path: string; execution: DiscoveryExecution; provider: "AnyAPI";
+  pricing: DiscoveryPricing; lanes: DiscoveryLane[]; heavy: boolean; tryEligible: boolean;
+  tryMaxItems?: number; failover?: boolean; excludesCallerDelay?: boolean;
+  latency?: DiscoveryLatency | null;
 }
 export interface SearchOptions { query: string; category?: string; platform?: string; limit?: number; }
 export interface HighlightField { path: string; type: string; why?: string; }
-export interface CatalogSearchResult { slug: string; platformId: string; name: string; description: string; category: string; provider: "AnyAPI"; pricing: DiscoveryPricing; relevance: number; highlightFields?: HighlightField[]; }
+export interface CatalogSearchResult { slug: string; platformId: string; name: string; description: string; category: string; method: "POST"; path: string; execution: DiscoveryExecution; provider: "AnyAPI"; pricing: DiscoveryPricing; tryMaxItems?: number; failover: boolean; excludesCallerDelay?: boolean; relevance: number; highlightFields?: HighlightField[]; }
 export interface CatalogSearchResults { results: CatalogSearchResult[]; total: number; ranking: "semantic" | "keyword"; }
 export interface AgentSignupOptions {
   baseUrl?: string; fetch?: typeof fetch; sponsorEmail?: string; label?: string;
