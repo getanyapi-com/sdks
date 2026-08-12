@@ -612,7 +612,7 @@ signup responses do not carry the header at all.
 Gateway `code` values reaching these SDKs today (informational; the field is typed as an
 open string so a new code never breaks a client): `all_providers_failed`,
 `forbidden`, `grant_cap_exceeded`, `idempotency_conflict`, `idempotency_in_progress`,
-`idempotency_needs_review`, `idempotency_unavailable`, `insufficient_credits`,
+`idempotency_needs_review`, `idempotency_unavailable`, `insufficient_balance`,
 `internal_error`, `invalid_idempotency_key`, `invalid_input`, `key_cap_exceeded`,
 `key_disabled`, `key_expired`, `no_providers`, `pinned_lane_unavailable`,
 `provider_rate_limited`, `provider_rejected_request`, `sku_not_found`, `unauthorized`, plus
