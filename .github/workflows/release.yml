@@ -200,6 +200,7 @@ jobs:
   npm-smoke:
     name: smoke exact npm version
     needs: [verify, verify-published]
+    if: ${{ always() && needs.verify.result == 'success' && needs.verify-published.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -223,6 +224,7 @@ jobs:
   pypi-smoke:
     name: smoke exact PyPI version
     needs: [verify, verify-published]
+    if: ${{ always() && needs.verify.result == 'success' && needs.verify-published.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -247,6 +249,7 @@ jobs:
   github-release:
     name: github release
     needs: [verify, npm-smoke, pypi-smoke]
+    if: ${{ always() && needs.verify.result == 'success' && needs.npm-smoke.result == 'success' && needs.pypi-smoke.result == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write

@@ -133,6 +133,31 @@ test("release workflow wires the wait to a preflight PyPI miss", async () => {
   );
 });
 
+test("release workflow reaches terminal proof after skipped publishes", async () => {
+  const workflow = await readFile(
+    new URL("../.github/workflows/release.yml", import.meta.url),
+    "utf8",
+  );
+  const npmSmokeJob = workflow.slice(
+    workflow.indexOf("  npm-smoke:"),
+    workflow.indexOf("  pypi-smoke:"),
+  );
+  const pypiSmokeJob = workflow.slice(
+    workflow.indexOf("  pypi-smoke:"),
+    workflow.indexOf("  github-release:"),
+  );
+  const releaseJob = workflow.slice(workflow.indexOf("  github-release:"));
+  const smokeCondition =
+    /if: \$\{\{ always\(\) && needs\.verify\.result == 'success' && needs\.verify-published\.result == 'success' \}\}/;
+
+  match(npmSmokeJob, smokeCondition);
+  match(pypiSmokeJob, smokeCondition);
+  match(
+    releaseJob,
+    /if: \$\{\{ always\(\) && needs\.verify\.result == 'success' && needs\.npm-smoke\.result == 'success' && needs\.pypi-smoke\.result == 'success' \}\}/,
+  );
+});
+
 test("rejects unknown CLI options before querying a registry", async () => {
   await rejects(main(["1.2.3", "--requre-both"]), /unknown option/);
 });
