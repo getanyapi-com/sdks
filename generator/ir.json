@@ -49506,6 +49506,342 @@
       }
     },
     {
+      "slug": "twitter.search_communities",
+      "platform": "twitter",
+      "action": "search_communities",
+      "operationId": "twitter_search_communities",
+      "name": "X / Twitter Community Search",
+      "category": "social",
+      "description": "Search X (Twitter) communities by keyword and get their id, name, topic, and member count with cursor pagination. This is how you find a community URL to pass to twitter.community or twitter.community_tweets.",
+      "pricing": {
+        "priceUsd": 0.00198,
+        "baseUsd": 0.00018,
+        "perItemUsd": 0.00018,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "twitter",
+      "tsMethod": "searchCommunities",
+      "tsIterMethod": "iterSearchCommunities",
+      "pyNamespace": "twitter",
+      "pyMethod": "search_communities",
+      "pyIterMethod": "iter_search_communities",
+      "inputTypeName": "TwitterSearchCommunitiesInput",
+      "outputTypeName": "TwitterSearchCommunitiesData",
+      "example": {
+        "query": "artificial intelligence"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of communities.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Keyword to match against X (Twitter) community names and topics (e.g. artificial intelligence).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "communities": {
+              "kind": "array",
+              "description": "Matching X (Twitter) communities. Search returns a summary record; pass url to twitter.community for the full detail, or to twitter.community_tweets for its posts. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "id": {
+                    "kind": "string",
+                    "description": "Community identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "memberCount": {
+                    "kind": "integer",
+                    "description": "Number of members in the community.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Community name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "nsfw": {
+                    "kind": "boolean",
+                    "description": "Whether the community is flagged as not safe for work.",
+                    "default": null
+                  },
+                  "topic": {
+                    "kind": "string",
+                    "description": "The community's primary topic label (may be empty).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical URL of the community on X. Pass it to twitter.community or twitter.community_tweets. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "url",
+                  "memberCount",
+                  "topic",
+                  "nsfw"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "id",
+                  "name",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of communities, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "communities",
+            "nextCursor"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "communities"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "communities",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "twitter.search_users",
+      "platform": "twitter",
+      "action": "search_users",
+      "operationId": "twitter_search_users",
+      "name": "X / Twitter User Search",
+      "category": "social",
+      "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
+      "pricing": {
+        "priceUsd": 0.00075,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "twitter",
+      "tsMethod": "searchUsers",
+      "tsIterMethod": "iterSearchUsers",
+      "pyNamespace": "twitter",
+      "pyMethod": "search_users",
+      "pyIterMethod": "iter_search_users",
+      "inputTypeName": "TwitterSearchUsersInput",
+      "outputTypeName": "TwitterSearchUsersData",
+      "example": {
+        "query": "ai agents"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of accounts.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Keyword to match against X (Twitter) handles, display names, and profile bios. This is the People tab of X search: pass a topic ('ai agents'), a name ('Elon Musk'), or a handle ('openai') and get back accounts, not posts. Use twitter.search for posts.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of accounts, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "users": {
+              "kind": "array",
+              "description": "Matching X (Twitter) accounts, normalized to a compact profile record. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "avatarUrl": {
+                    "kind": "string",
+                    "description": "URL of the account's profile image. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "bio": {
+                    "kind": "string",
+                    "description": "The account's profile bio/description (may be empty).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "followers": {
+                    "kind": "integer",
+                    "description": "How many followers this account has.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "following": {
+                    "kind": "integer",
+                    "description": "How many accounts this account follows.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "The account's numeric X user id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "location": {
+                    "kind": "string",
+                    "description": "The account's self-reported location (may be empty).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "The account's display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "posts": {
+                    "kind": "integer",
+                    "description": "How many posts this account has published.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "profileUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the account's X profile. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "username": {
+                    "kind": "string",
+                    "description": "The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "verified": {
+                    "kind": "boolean",
+                    "description": "Whether the account carries the blue verification check.",
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "username",
+                  "name",
+                  "profileUrl",
+                  "bio",
+                  "followers",
+                  "following",
+                  "posts",
+                  "verified",
+                  "location",
+                  "avatarUrl",
+                  "createdUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "avatarUrl",
+                  "id",
+                  "name",
+                  "profileUrl",
+                  "username"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "users",
+            "nextCursor"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "users"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "users",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
       "slug": "twitter.thread",
       "platform": "twitter",
       "action": "thread",

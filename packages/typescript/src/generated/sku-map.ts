@@ -649,8 +649,12 @@ import type {
   TwitterProfileInput,
   TwitterRepliesData,
   TwitterRepliesInput,
+  TwitterSearchCommunitiesData,
+  TwitterSearchCommunitiesInput,
   TwitterSearchData,
   TwitterSearchInput,
+  TwitterSearchUsersData,
+  TwitterSearchUsersInput,
   TwitterThreadData,
   TwitterThreadInput,
   TwitterTrendsData,
@@ -2094,6 +2098,16 @@ export interface SkuMap {
     input: TwitterSearchInput;
     data: TwitterSearchData;
     result: RunResult<TwitterSearchData>;
+  };
+  "twitter.search_communities": {
+    input: TwitterSearchCommunitiesInput;
+    data: TwitterSearchCommunitiesData;
+    result: RunResult<TwitterSearchCommunitiesData>;
+  };
+  "twitter.search_users": {
+    input: TwitterSearchUsersInput;
+    data: TwitterSearchUsersData;
+    result: RunResult<TwitterSearchUsersData>;
   };
   "twitter.thread": {
     input: TwitterThreadInput;

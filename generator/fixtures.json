@@ -5407,6 +5407,58 @@
     "items": 1,
     "replayed": false
   },
+  "twitter.search_communities": {
+    "output": {
+      "found": true,
+      "data": {
+        "communities": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "url": "https://example.com/x",
+            "memberCount": 1,
+            "topic": "sample",
+            "nsfw": true,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "twitter.search_users": {
+    "output": {
+      "found": true,
+      "data": {
+        "users": [
+          {
+            "id": "sample",
+            "username": "sample",
+            "name": "sample",
+            "profileUrl": "https://example.com/x",
+            "bio": "sample",
+            "followers": 1,
+            "following": 1,
+            "posts": 1,
+            "verified": true,
+            "location": "sample",
+            "avatarUrl": "sample",
+            "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "twitter.thread": {
     "output": {
       "found": true,

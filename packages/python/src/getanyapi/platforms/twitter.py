@@ -101,6 +101,24 @@ class TwitterSearchInput(TypedDict, total=False):
     """Set true to get up to limit results in one response instead of provider-native pages, served by a bulk provider when needed."""
 
 
+class TwitterSearchCommunitiesInput(TypedDict, total=False):
+    """Input for X / Twitter Community Search."""
+
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of communities."""
+    query: Required[str]
+    """Keyword to match against X (Twitter) community names and topics (e.g. artificial intelligence)."""
+
+
+class TwitterSearchUsersInput(TypedDict, total=False):
+    """Input for X / Twitter User Search."""
+
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of accounts."""
+    query: Required[str]
+    """Keyword to match against X (Twitter) handles, display names, and profile bios. This is the People tab of X search: pass a topic ('ai agents'), a name ('Elon Musk'), or a handle ('openai') and get back accounts, not posts. Use twitter.search for posts."""
+
+
 class TwitterThreadInput(TypedDict, total=False):
     """Input for X / Twitter Tweet Thread."""
 
@@ -544,6 +562,91 @@ class TwitterSearchItem(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     view_count: int | None = Field(default=None, alias="viewCount")
+
+
+class TwitterSearchCommunitiesData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    communities: list[TwitterSearchCommunitiesCommunitie] = Field(
+        description="Matching X (Twitter) communities. Search returns a summary record; pass url to twitter.community for the full detail, or to twitter.community_tweets for its posts. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of communities, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
+
+
+class TwitterSearchCommunitiesCommunitie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str = Field(
+        description="Community identifier. Populated whenever the provider has data for the entity."
+    )
+    member_count: int = Field(
+        alias="memberCount", description="Number of members in the community."
+    )
+    name: str = Field(
+        description="Community name. Populated whenever the provider has data for the entity."
+    )
+    nsfw: bool = Field(
+        description="Whether the community is flagged as not safe for work."
+    )
+    topic: str = Field(
+        description="The community's primary topic label (may be empty)."
+    )
+    url: str = Field(
+        description="Canonical URL of the community on X. Pass it to twitter.community or twitter.community_tweets. Populated whenever the provider has data for the entity."
+    )
+
+
+class TwitterSearchUsersData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of accounts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
+    users: list[TwitterSearchUsersUser] = Field(
+        description="Matching X (Twitter) accounts, normalized to a compact profile record. Populated whenever the provider has data for the entity."
+    )
+
+
+class TwitterSearchUsersUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="URL of the account's profile image. Populated whenever the provider has data for the entity.",
+    )
+    bio: str = Field(
+        description="The account's profile bio/description (may be empty)."
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    followers: int = Field(description="How many followers this account has.")
+    following: int = Field(description="How many accounts this account follows.")
+    id: str = Field(
+        description="The account's numeric X user id. Populated whenever the provider has data for the entity."
+    )
+    location: str = Field(
+        description="The account's self-reported location (may be empty)."
+    )
+    name: str = Field(
+        description="The account's display name. Populated whenever the provider has data for the entity."
+    )
+    posts: int = Field(description="How many posts this account has published.")
+    profile_url: str = Field(
+        alias="profileUrl",
+        description="Canonical URL of the account's X profile. Populated whenever the provider has data for the entity.",
+    )
+    username: str = Field(
+        description="The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity."
+    )
+    verified: bool = Field(
+        description="Whether the account carries the blue verification check."
+    )
 
 
 class TwitterThreadData(BaseModel):
@@ -1016,6 +1119,97 @@ class TwitterNamespace:
             options=options,
         )
 
+    def search_communities(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchCommunitiesInput],
+    ) -> RunResult[TwitterSearchCommunitiesData]:
+        """X / Twitter Community Search
+
+        Search X (Twitter) communities by keyword and get their id, name, topic, and
+        member count with cursor pagination. This is how you find a community URL to
+        pass to twitter.community or twitter.community_tweets.
+
+        Price: $0.00018 per request plus $0.00018 per result (maximum $0.00198).
+
+        Example:
+            res = client.twitter.search_communities(query="artificial intelligence")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.search_communities", dict(input), options
+        )
+        return RunResult[TwitterSearchCommunitiesData].model_validate(raw)
+
+    def iter_search_communities(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchCommunitiesInput],
+    ) -> Paginator[TwitterSearchCommunitiesCommunitie, TwitterSearchCommunitiesData]:
+        """Iterate X / Twitter Community Search results, following pagination cursors.
+
+        Yields validated `TwitterSearchCommunitiesCommunitie` items from the `communities` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "twitter.search_communities",
+            dict(input),
+            "communities",
+            item_model=TwitterSearchCommunitiesCommunitie,
+            data_model=TwitterSearchCommunitiesData,
+            bare=False,
+            options=options,
+        )
+
+    def search_users(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchUsersInput],
+    ) -> RunResult[TwitterSearchUsersData]:
+        """X / Twitter User Search
+
+        Search X (Twitter) accounts by keyword - the People tab of X search. Matches
+        handles, display names, and profile bios, and returns normalized profile
+        records with follower, following, and post counts plus cursor pagination.
+        Use twitter.search for posts.
+
+        Price: $0.00075 per request.
+
+        Example:
+            res = client.twitter.search_users(query="ai agents")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.search_users", dict(input), options
+        )
+        return RunResult[TwitterSearchUsersData].model_validate(raw)
+
+    def iter_search_users(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchUsersInput],
+    ) -> Paginator[TwitterSearchUsersUser, TwitterSearchUsersData]:
+        """Iterate X / Twitter User Search results, following pagination cursors.
+
+        Yields validated `TwitterSearchUsersUser` items from the `users` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "twitter.search_users",
+            dict(input),
+            "users",
+            item_model=TwitterSearchUsersUser,
+            data_model=TwitterSearchUsersData,
+            bare=False,
+            options=options,
+        )
+
     def thread(
         self,
         *,
@@ -1436,6 +1630,99 @@ class AsyncTwitterNamespace:
             "items",
             item_model=TwitterSearchItem,
             data_model=TwitterSearchData,
+            bare=False,
+            options=options,
+        )
+
+    async def search_communities(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchCommunitiesInput],
+    ) -> RunResult[TwitterSearchCommunitiesData]:
+        """X / Twitter Community Search
+
+        Search X (Twitter) communities by keyword and get their id, name, topic, and
+        member count with cursor pagination. This is how you find a community URL to
+        pass to twitter.community or twitter.community_tweets.
+
+        Price: $0.00018 per request plus $0.00018 per result (maximum $0.00198).
+
+        Example:
+            res = client.twitter.search_communities(query="artificial intelligence")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.search_communities", dict(input), options
+        )
+        return RunResult[TwitterSearchCommunitiesData].model_validate(raw)
+
+    def iter_search_communities(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchCommunitiesInput],
+    ) -> AsyncPaginator[
+        TwitterSearchCommunitiesCommunitie, TwitterSearchCommunitiesData
+    ]:
+        """Iterate X / Twitter Community Search results, following pagination cursors.
+
+        Yields validated `TwitterSearchCommunitiesCommunitie` items from the `communities` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "twitter.search_communities",
+            dict(input),
+            "communities",
+            item_model=TwitterSearchCommunitiesCommunitie,
+            data_model=TwitterSearchCommunitiesData,
+            bare=False,
+            options=options,
+        )
+
+    async def search_users(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchUsersInput],
+    ) -> RunResult[TwitterSearchUsersData]:
+        """X / Twitter User Search
+
+        Search X (Twitter) accounts by keyword - the People tab of X search. Matches
+        handles, display names, and profile bios, and returns normalized profile
+        records with follower, following, and post counts plus cursor pagination.
+        Use twitter.search for posts.
+
+        Price: $0.00075 per request.
+
+        Example:
+            res = client.twitter.search_users(query="ai agents")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "twitter.search_users", dict(input), options
+        )
+        return RunResult[TwitterSearchUsersData].model_validate(raw)
+
+    def iter_search_users(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TwitterSearchUsersInput],
+    ) -> AsyncPaginator[TwitterSearchUsersUser, TwitterSearchUsersData]:
+        """Iterate X / Twitter User Search results, following pagination cursors.
+
+        Yields validated `TwitterSearchUsersUser` items from the `users` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "twitter.search_users",
+            dict(input),
+            "users",
+            item_model=TwitterSearchUsersUser,
+            data_model=TwitterSearchUsersData,
             bare=False,
             options=options,
         )

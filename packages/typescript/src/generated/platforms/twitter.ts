@@ -639,6 +639,144 @@ export interface TwitterSearchData {
 }
 
 /**
+ * Input for X / Twitter Community Search (twitter.search_communities).
+ */
+export interface TwitterSearchCommunitiesInput {
+  /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of communities.
+   */
+  cursor?: string;
+  /**
+   * Keyword to match against X (Twitter) community names and topics (e.g. artificial intelligence).
+   */
+  query: string;
+}
+
+export interface TwitterSearchCommunitiesCommunitie {
+  /**
+   * Community identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Number of members in the community.
+   */
+  memberCount: number;
+  /**
+   * Community name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Whether the community is flagged as not safe for work.
+   */
+  nsfw: boolean;
+  /**
+   * The community's primary topic label (may be empty).
+   */
+  topic: string;
+  /**
+   * Canonical URL of the community on X. Pass it to twitter.community or twitter.community_tweets. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter Community Search (twitter.search_communities).
+ */
+export interface TwitterSearchCommunitiesData {
+  /**
+   * Matching X (Twitter) communities. Search returns a summary record; pass url to twitter.community for the full detail, or to twitter.community_tweets for its posts. Populated whenever the provider has data for the entity.
+   */
+  communities: TwitterSearchCommunitiesCommunitie[];
+  /**
+   * Opaque cursor for the next page of communities, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+}
+
+/**
+ * Input for X / Twitter User Search (twitter.search_users).
+ */
+export interface TwitterSearchUsersInput {
+  /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of accounts.
+   */
+  cursor?: string;
+  /**
+   * Keyword to match against X (Twitter) handles, display names, and profile bios. This is the People tab of X search: pass a topic ('ai agents'), a name ('Elon Musk'), or a handle ('openai') and get back accounts, not posts. Use twitter.search for posts.
+   */
+  query: string;
+}
+
+export interface TwitterSearchUsersUser {
+  /**
+   * URL of the account's profile image. Populated whenever the provider has data for the entity.
+   */
+  avatarUrl: string;
+  /**
+   * The account's profile bio/description (may be empty).
+   */
+  bio: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * How many followers this account has.
+   */
+  followers: number;
+  /**
+   * How many accounts this account follows.
+   */
+  following: number;
+  /**
+   * The account's numeric X user id. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * The account's self-reported location (may be empty).
+   */
+  location: string;
+  /**
+   * The account's display name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * How many posts this account has published.
+   */
+  posts: number;
+  /**
+   * Canonical URL of the account's X profile. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  profileUrl: string;
+  /**
+   * The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * Whether the account carries the blue verification check.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of X / Twitter User Search (twitter.search_users).
+ */
+export interface TwitterSearchUsersData {
+  /**
+   * Opaque cursor for the next page of accounts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Matching X (Twitter) accounts, normalized to a compact profile record. Populated whenever the provider has data for the entity.
+   */
+  users: TwitterSearchUsersUser[];
+}
+
+/**
  * Input for X / Twitter Tweet Thread (twitter.thread).
  */
 export interface TwitterThreadInput {
@@ -1185,6 +1323,86 @@ export class TwitterNamespace {
       "twitter.search",
       input as unknown as Record<string, unknown>,
       "items",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * X / Twitter Community Search
+   *
+   * Search X (Twitter) communities by keyword and get their id, name, topic, and member count with cursor pagination. This is how you find a community URL to pass to twitter.community or twitter.community_tweets.
+   *
+   * Price: $0.00018 per request plus $0.00018 per result (maximum $0.00198).
+   *
+   * @example
+   * const res = await client.twitter.searchCommunities({ query: "artificial intelligence" });
+   */
+  searchCommunities(
+    input: TwitterSearchCommunitiesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TwitterSearchCommunitiesData>> {
+    return this._core.run("twitter.search_communities", input, options);
+  }
+
+  /**
+   * Iterate every result of X / Twitter Community Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchCommunities(
+    input: TwitterSearchCommunitiesInput,
+    options?: RequestOptions,
+  ): Paginator<
+    TwitterSearchCommunitiesCommunitie,
+    RunResult<TwitterSearchCommunitiesData>
+  > {
+    return paginate<
+      TwitterSearchCommunitiesCommunitie,
+      RunResult<TwitterSearchCommunitiesData>
+    >(
+      this._core,
+      "twitter.search_communities",
+      input as unknown as Record<string, unknown>,
+      "communities",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * X / Twitter User Search
+   *
+   * Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.
+   *
+   * Price: $0.00075 per request.
+   *
+   * @example
+   * const res = await client.twitter.searchUsers({ query: "ai agents" });
+   */
+  searchUsers(
+    input: TwitterSearchUsersInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TwitterSearchUsersData>> {
+    return this._core.run("twitter.search_users", input, options);
+  }
+
+  /**
+   * Iterate every result of X / Twitter User Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchUsers(
+    input: TwitterSearchUsersInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterSearchUsersUser, RunResult<TwitterSearchUsersData>> {
+    return paginate<TwitterSearchUsersUser, RunResult<TwitterSearchUsersData>>(
+      this._core,
+      "twitter.search_users",
+      input as unknown as Record<string, unknown>,
+      "users",
       false,
       options,
     );
