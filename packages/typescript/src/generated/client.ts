@@ -40,6 +40,7 @@ import { InstagramNamespace } from "./platforms/instagram.js";
 import { LinkedinNamespace } from "./platforms/linkedin.js";
 import { MapsNamespace } from "./platforms/maps.js";
 import { MobilePhoneNamespace } from "./platforms/mobile_phone.js";
+import { NaverNamespace } from "./platforms/naver.js";
 import { PandaexpressNamespace } from "./platforms/pandaexpress.js";
 import { PeopleSearchNamespace } from "./platforms/people_search.js";
 import { PerplexityNamespace } from "./platforms/perplexity.js";
@@ -409,6 +410,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["mobilePhone"] ??= new MobilePhoneNamespace(
       this._core,
     )) as MobilePhoneNamespace;
+  }
+
+  /**
+   * Typed methods for the naver platform.
+   */
+  get naver(): NaverNamespace {
+    return (this._namespaces["naver"] ??= new NaverNamespace(
+      this._core,
+    )) as NaverNamespace;
   }
 
   /**

@@ -2228,31 +2228,32 @@ export interface LinkedinProfileThinData {
   /**
    * About/summary text of the profile.
    */
-  about: string;
+  about?: string;
   /**
    * The profile's published articles.
    */
-  articles: LinkedinProfileThinArticle[];
+  articles?: LinkedinProfileThinArticle[];
   /**
    * URL of the profile avatar image.
    */
-  avatarUrl: string;
+  avatarUrl?: string;
   /**
    * Education entries.
    */
-  education: LinkedinProfileThinEducation[];
+  education?: LinkedinProfileThinEducation[];
   /**
    * Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
-  experience: LinkedinProfileThinExperience[];
+  experience?: LinkedinProfileThinExperience[];
   /**
    * Number of followers.
    */
-  followers: number;
+  followers?: number;
   /**
    * Location of the profile owner.
    */
-  location: string;
+  location?: string;
   /**
    * Full name of the profile owner.
    */
@@ -2260,7 +2261,7 @@ export interface LinkedinProfileThinData {
   /**
    * The profile's recent posts.
    */
-  recentPosts: LinkedinProfileThinRecentPost[];
+  recentPosts?: LinkedinProfileThinRecentPost[];
   [extra: string]: unknown;
 }
 

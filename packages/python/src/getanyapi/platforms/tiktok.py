@@ -360,6 +360,13 @@ class TiktokVideoTranscriptInput(TypedDict, total=False):
     """Full TikTok video URL."""
 
 
+class TiktokVideoTranscriptFullInput(TypedDict, total=False):
+    """Input for TikTok Video Transcript (Audio)."""
+
+    url: Required[str]
+    """TikTok video URL (e.g. "https://www.tiktok.com/@user/video/1234567890")."""
+
+
 class TiktokAdLibraryAdData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -1115,10 +1122,79 @@ class TiktokVideoCommentsComment(BaseModel):
 class TiktokVideoTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    language: str
+    language: str | None = None
     transcript: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+
+
+class TiktokVideoTranscriptFullData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video duration in seconds. Minimum: 0.",
+    )
+    language: str | None = Field(
+        default=None,
+        description='Detected spoken language of the audio (BCP-47 style code, e.g. "en").',
+    )
+    segments: list[TiktokVideoTranscriptFullSegment] | None = Field(
+        default=None,
+        description="Timed transcript segments in playback order, each with the recognizer's per-word confidence so low-confidence text can be treated as uncertain rather than quoted. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    source: str = Field(
+        description='How the text was produced. Always "audio_asr" on this endpoint: the words come from automatic speech recognition over the audio, not from a caption track the platform published. Populated whenever the provider has data for the entity.'
+    )
+    transcript: str = Field(
+        description="Full spoken-word transcript, machine-transcribed from the video's audio track. Populated whenever the provider has data for the entity."
+    )
+
+
+class TiktokVideoTranscriptFullSegment(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    end_seconds: float = Field(
+        alias="endSeconds", description="Segment end offset in seconds. Minimum: 0."
+    )
+    language: str | None = Field(
+        default=None, description="Detected language for this segment."
+    )
+    speaker: str | None = Field(
+        default=None,
+        description='Recognizer speaker label for this segment (e.g. "SPEAKER_00"). Diarization is a guess, not an identification.',
+    )
+    start_seconds: float = Field(
+        alias="startSeconds", description="Segment start offset in seconds. Minimum: 0."
+    )
+    text: str = Field(description="Text of this segment.")
+    words: list[TiktokVideoTranscriptFullWord] | None = Field(
+        default=None,
+        description="Per-word timing and recognizer confidence for this segment.",
+    )
+
+
+class TiktokVideoTranscriptFullWord(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    confidence: float = Field(
+        description="Recognizer confidence for this word, 0 to 1. Low values mark words the recognizer guessed; they are common on names, jargon, and music. Range: 0 to 1."
+    )
+    end_seconds: float | None = Field(
+        default=None,
+        alias="endSeconds",
+        description="Word end offset in seconds. Minimum: 0.",
+    )
+    speaker: str | None = Field(
+        default=None, description="Recognizer speaker label for this word."
+    )
+    start_seconds: float | None = Field(
+        default=None,
+        alias="startSeconds",
+        description="Word start offset in seconds. Minimum: 0.",
+    )
+    word: str = Field(description="The recognized word.")
 
 
 class TiktokNamespace:
@@ -1808,6 +1884,28 @@ class TiktokNamespace:
         )
         return RunResult[TiktokVideoTranscriptData].model_validate(raw)
 
+    def video_transcript_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokVideoTranscriptFullInput],
+    ) -> RunResult[TiktokVideoTranscriptFullData]:
+        """TikTok Video Transcript (Audio)
+
+        Transcribe the spoken audio of a TikTok video with timed segments, speaker
+        labels, and per-word confidence - for videos TikTok publishes no subtitle
+        track for.
+
+        Price: $0.0168 per request plus $0 per result (maximum $0.0168).
+
+        Example:
+            res = client.tiktok.video_transcript_full(url="https://www.tiktok.com/@thatdudecancook/video/7649086431641521421")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.video_transcript_full", dict(input), options
+        )
+        return RunResult[TiktokVideoTranscriptFullData].model_validate(raw)
+
 
 class AsyncTiktokNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -2495,3 +2593,25 @@ class AsyncTiktokNamespace:
             "tiktok.video_transcript", dict(input), options
         )
         return RunResult[TiktokVideoTranscriptData].model_validate(raw)
+
+    async def video_transcript_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokVideoTranscriptFullInput],
+    ) -> RunResult[TiktokVideoTranscriptFullData]:
+        """TikTok Video Transcript (Audio)
+
+        Transcribe the spoken audio of a TikTok video with timed segments, speaker
+        labels, and per-word confidence - for videos TikTok publishes no subtitle
+        track for.
+
+        Price: $0.0168 per request plus $0 per result (maximum $0.0168).
+
+        Example:
+            res = client.tiktok.video_transcript_full(url="https://www.tiktok.com/@thatdudecancook/video/7649086431641521421")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.video_transcript_full", dict(input), options
+        )
+        return RunResult[TiktokVideoTranscriptFullData].model_validate(raw)

@@ -134,6 +134,8 @@ import type {
 } from "./platforms/email_verification.js";
 import type {
   FacebookAdDetailsData,
+  FacebookAdDetailsFullData,
+  FacebookAdDetailsFullInput,
   FacebookAdDetailsInput,
   FacebookAdTranscriptData,
   FacebookAdTranscriptInput,
@@ -390,6 +392,10 @@ import type {
   MobilePhoneLeadmagicInput,
 } from "./platforms/mobile_phone.js";
 import type {
+  NaverBlogSearchData,
+  NaverBlogSearchInput,
+} from "./platforms/naver.js";
+import type {
   PandaexpressLocationsData,
   PandaexpressLocationsInput,
   PandaexpressMenuData,
@@ -594,6 +600,8 @@ import type {
   TiktokVideoData,
   TiktokVideoInput,
   TiktokVideoTranscriptData,
+  TiktokVideoTranscriptFullData,
+  TiktokVideoTranscriptFullInput,
   TiktokVideoTranscriptInput,
 } from "./platforms/tiktok.js";
 import type {
@@ -722,6 +730,8 @@ import type {
   YoutubeVideoSponsorsData,
   YoutubeVideoSponsorsInput,
   YoutubeVideoTranscriptData,
+  YoutubeVideoTranscriptFullData,
+  YoutubeVideoTranscriptFullInput,
   YoutubeVideoTranscriptInput,
 } from "./platforms/youtube.js";
 import type {
@@ -984,6 +994,11 @@ export interface SkuMap {
     input: FacebookAdDetailsInput;
     data: FacebookAdDetailsData;
     result: RunResult<FacebookAdDetailsData>;
+  };
+  "facebook.ad_details_full": {
+    input: FacebookAdDetailsFullInput;
+    data: FacebookAdDetailsFullData;
+    result: RunResult<FacebookAdDetailsFullData>;
   };
   "facebook.ad_transcript": {
     input: FacebookAdTranscriptInput;
@@ -1555,6 +1570,11 @@ export interface SkuMap {
     data: MobilePhoneLeadmagicData;
     result: RunResult<MobilePhoneLeadmagicData>;
   };
+  "naver.blog_search": {
+    input: NaverBlogSearchInput;
+    data: NaverBlogSearchData;
+    result: RunResult<NaverBlogSearchData>;
+  };
   "pandaexpress.locations": {
     input: PandaexpressLocationsInput;
     data: PandaexpressLocationsData;
@@ -1975,6 +1995,11 @@ export interface SkuMap {
     data: TiktokVideoTranscriptData;
     result: RunResult<TiktokVideoTranscriptData>;
   };
+  "tiktok.video_transcript_full": {
+    input: TiktokVideoTranscriptFullInput;
+    data: TiktokVideoTranscriptFullData;
+    result: RunResult<TiktokVideoTranscriptFullData>;
+  };
   "tiktok_shop.product": {
     input: TiktokShopProductInput;
     data: TiktokShopProductData;
@@ -2249,6 +2274,11 @@ export interface SkuMap {
     input: YoutubeVideoTranscriptInput;
     data: YoutubeVideoTranscriptData;
     result: RunResult<YoutubeVideoTranscriptData>;
+  };
+  "youtube.video_transcript_full": {
+    input: YoutubeVideoTranscriptFullInput;
+    data: YoutubeVideoTranscriptFullData;
+    result: RunResult<YoutubeVideoTranscriptFullData>;
   };
   "zhihu.answer": {
     input: ZhihuAnswerInput;

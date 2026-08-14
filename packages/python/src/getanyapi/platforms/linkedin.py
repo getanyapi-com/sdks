@@ -2170,24 +2170,29 @@ class LinkedinProfilePostsThinImage(BaseModel):
 class LinkedinProfileThinData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    about: str = Field(description="About/summary text of the profile.")
-    articles: list[LinkedinProfileThinArticle] = Field(
-        description="The profile's published articles."
+    about: str | None = Field(
+        default=None, description="About/summary text of the profile."
     )
-    avatar_url: str = Field(
-        alias="avatarUrl", description="URL of the profile avatar image."
+    articles: list[LinkedinProfileThinArticle] | None = Field(
+        default=None, description="The profile's published articles."
     )
-    education: list[LinkedinProfileThinEducation] = Field(
-        description="Education entries."
+    avatar_url: str | None = Field(
+        default=None, alias="avatarUrl", description="URL of the profile avatar image."
     )
-    experience: list[LinkedinProfileThinExperience] = Field(
-        description="Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity."
+    education: list[LinkedinProfileThinEducation] | None = Field(
+        default=None, description="Education entries."
     )
-    followers: int = Field(description="Number of followers.")
-    location: str = Field(description="Location of the profile owner.")
+    experience: list[LinkedinProfileThinExperience] | None = Field(
+        default=None,
+        description="Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    followers: int | None = Field(default=None, description="Number of followers.")
+    location: str | None = Field(
+        default=None, description="Location of the profile owner."
+    )
     name: str = Field(description="Full name of the profile owner.")
-    recent_posts: list[LinkedinProfileThinRecentPost] = Field(
-        alias="recentPosts", description="The profile's recent posts."
+    recent_posts: list[LinkedinProfileThinRecentPost] | None = Field(
+        default=None, alias="recentPosts", description="The profile's recent posts."
     )
 
 

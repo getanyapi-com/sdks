@@ -839,9 +839,10 @@ export interface InstagramSearchHashtagInput {
    */
   hashtag: string;
   /**
-   * Filter by media type (e.g. all, photo, video, reel).
+   * Filter by media type. One of all, reel.
+   * One of: all, reel.
    */
-  mediaType?: string;
+  mediaType?: "all" | "reel";
 }
 
 export interface InstagramSearchHashtagPost {
@@ -1616,7 +1617,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.0024 per request.
+   * Price: $0.002 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });
@@ -1687,7 +1688,7 @@ export class InstagramNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.instagram.searchHashtag({ hashtag: "travel" });
+   * const res = await client.instagram.searchHashtag({ hashtag: "skincare", datePosted: "last-month", mediaType: "reel" });
    */
   searchHashtag(
     input: InstagramSearchHashtagInput,

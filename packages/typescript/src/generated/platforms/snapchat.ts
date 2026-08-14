@@ -66,7 +66,7 @@ export interface SnapchatProfileStorie {
    */
   storyTitle?: string;
   /**
-   * Story thumbnail image URL, with tracking query params stripped.
+   * Story thumbnail image URL, preserving signed delivery parameters required to load the preview.
    */
   thumbnailUrl?: string;
   [extra: string]: unknown;

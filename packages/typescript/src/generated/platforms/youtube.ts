@@ -208,40 +208,65 @@ export interface YoutubeChannelPlaylistsData {
  */
 export interface YoutubeChannelShortsInput {
   /**
-   * YouTube channel ID.
+   * YouTube channel ID beginning with UC.
    */
   channelId?: string;
   /**
-   * Continuation token from a previous response for pagination.
+   * Continuation token from a previous response.
    */
   cursor?: string;
   /**
-   * YouTube channel handle.
+   * YouTube channel handle, including or omitting the leading @.
    */
   handle?: string;
   /**
-   * Sort order.
-   * One of: newest, popular.
+   * Sort order for the Shorts feed. latest and newest are equivalent.
+   * One of: latest, newest, popular.
    */
-  sort?: "newest" | "popular";
+  sort?: "latest" | "newest" | "popular";
 }
 
 export interface YoutubeChannelShortsShort {
+  /**
+   * Explicit normalized provenance that this item came from a dedicated Shorts feed.
+   * One of: short.
+   */
+  contentType: "short";
+  /**
+   * UTC epoch timestamp in seconds when supplied by the upstream response.
+   */
+  createdUtc?: number;
+  /**
+   * Published duration when supplied by the upstream response.
+   */
   duration: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Unique YouTube video identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Public like count when supplied by the upstream response.
+   * Range: minimum 0.
+   */
   likes: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Public title or caption for the Short. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Public YouTube URL for the Short. Populated whenever the provider has data for the entity.
+   * Format: uri.
    */
   url: string;
+  /**
+   * Public view count when supplied by the upstream response.
+   * Range: minimum 0.
+   */
   views: number;
+  /**
+   * Whether views is backed by a public count in the upstream response.
+   */
+  viewsAvailable: boolean;
   [extra: string]: unknown;
 }
 
@@ -250,11 +275,11 @@ export interface YoutubeChannelShortsShort {
  */
 export interface YoutubeChannelShortsData {
   /**
-   * Opaque cursor for the next page of shorts, or null when this lane has no more. Pass it back as cursor to continue.
+   * Opaque cursor for the next Shorts page, or null when no next page is available.
    */
   nextCursor: string | null;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Short-form videos returned by the provider's dedicated YouTube Shorts endpoint. Populated whenever the provider has data for the entity.
    */
   shorts: YoutubeChannelShortsShort[];
 }
@@ -775,6 +800,24 @@ export interface YoutubeVideoTranscriptInput {
   url?: string;
 }
 
+export interface YoutubeVideoTranscriptSegment {
+  /**
+   * Segment duration in seconds.
+   * Range: minimum 0.
+   */
+  durationSeconds: number;
+  /**
+   * Segment start offset in seconds.
+   * Range: minimum 0.
+   */
+  startSeconds: number;
+  /**
+   * Text of this transcript segment.
+   */
+  text: string;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of YouTube Video Transcript (youtube.video_transcript).
  */
@@ -784,7 +827,90 @@ export interface YoutubeVideoTranscriptData {
    */
   language: string;
   /**
+   * Timed transcript segments in source order when the serving lane supplies caption timing.
+   */
+  segments?: YoutubeVideoTranscriptSegment[];
+  /**
    * Populated whenever the provider has data for the entity.
+   */
+  transcript: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for YouTube Video Transcript (Provenance) (youtube.video_transcript_full).
+ */
+export interface YoutubeVideoTranscriptFullInput {
+  /**
+   * Which caption track to accept: "manual" only creator-written captions, "automatic" only YouTube's speech recognition, "any" whichever exists.
+   * One of: manual, automatic, any.
+   * Default: any.
+   */
+  captionKind?: "manual" | "automatic" | "any";
+  /**
+   * Preferred caption language code (e.g. "en", "es"). Defaults to English.
+   */
+  language?: string;
+  /**
+   * YouTube video URL (e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ").
+   */
+  url: string;
+}
+
+export interface YoutubeVideoTranscriptFullSegment {
+  /**
+   * Segment end offset in seconds.
+   * Range: minimum 0.
+   */
+  endSeconds: number;
+  /**
+   * Segment start offset in seconds.
+   * Range: minimum 0.
+   */
+  startSeconds: number;
+  /**
+   * Text of this transcript segment.
+   */
+  text: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of YouTube Video Transcript (Provenance) (youtube.video_transcript_full).
+ */
+export interface YoutubeVideoTranscriptFullData {
+  /**
+   * Channel name that published the video.
+   */
+  channel?: string;
+  /**
+   * Video duration in seconds.
+   * Range: minimum 0.
+   */
+  durationSeconds?: number;
+  /**
+   * True when the words were recognized from the audio by the serving lane rather than read from any YouTube caption track.
+   */
+  isAiGenerated?: boolean;
+  /**
+   * True when YouTube generated the caption track by speech recognition rather than the creator supplying it. Automatic captions carry recognition errors, especially on names and jargon. Populated whenever the provider has data for the entity.
+   */
+  isAutoGenerated: boolean;
+  /**
+   * Caption language code (e.g. "en"). Populated whenever the provider has data for the entity.
+   */
+  language: string;
+  /**
+   * Timed transcript segments in playback order. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  segments?: YoutubeVideoTranscriptFullSegment[];
+  /**
+   * Video title.
+   */
+  title?: string;
+  /**
+   * Full transcript text, segments joined in playback order. Populated whenever the provider has data for the entity.
    */
   transcript: string;
   [extra: string]: unknown;
@@ -943,12 +1069,12 @@ export class YoutubeNamespace {
   /**
    * YouTube Channel Shorts
    *
-   * List a YouTube channel's Shorts by handle or channel ID with cursor pagination (title, views, likes, duration).
+   * List a YouTube channel's Shorts by handle or channel ID with cursor pagination, views, and publish timestamps.
    *
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.youtube.channelShorts({ handle: "@starterstory" });
+   * const res = await client.youtube.channelShorts({ handle: "@zachking", sort: "latest" });
    */
   channelShorts(
     input: YoutubeChannelShortsInput,
@@ -1227,7 +1353,7 @@ export class YoutubeNamespace {
    *
    * Fetch the transcript/captions of a YouTube video by URL or ID.
    *
-   * Price: $0.002 per request.
+   * Price: $0.011 per request.
    *
    * @example
    * const res = await client.youtube.videoTranscript({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
@@ -1237,5 +1363,22 @@ export class YoutubeNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<YoutubeVideoTranscriptData>> {
     return this._core.run("youtube.video_transcript", input, options);
+  }
+
+  /**
+   * YouTube Video Transcript (Provenance)
+   *
+   * Fetch a YouTube transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.
+   *
+   * Price: $0.00294 per request plus $0 per result (maximum $0.00294).
+   *
+   * @example
+   * const res = await client.youtube.videoTranscriptFull({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
+   */
+  videoTranscriptFull(
+    input: YoutubeVideoTranscriptFullInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<YoutubeVideoTranscriptFullData>> {
+    return this._core.run("youtube.video_transcript_full", input, options);
   }
 }

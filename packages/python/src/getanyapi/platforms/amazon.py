@@ -47,8 +47,8 @@ class AmazonReviewsInput(TypedDict, total=False):
 
     endDate: NotRequired[str]
     """Only return reviews on or before this date, inclusive, in YYYY-MM-DD format (e.g. 2026-06-30)."""
-    keywords: NotRequired[list[str]]
-    """Only return reviews whose text contains one of these keywords (e.g. ["battery", "screen"])."""
+    keyword: NotRequired[str]
+    """Only return reviews whose title or text contains this keyword, case-insensitively (e.g. battery)."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less. Range: 1 to 50. Default: 50."""
     product: Required[str]
@@ -81,13 +81,13 @@ class AmazonReviewsInput(TypedDict, total=False):
             "amazon.in",
         ]
     ]
-    """Amazon marketplace domain the product ASIN belongs to (e.g. amazon.co.uk). Default: amazon.com."""
+    """Amazon marketplace domain the product ASIN belongs to (e.g. amazon.co.uk)."""
     sort: NotRequired[Literal["helpful", "recent"]]
-    """Review sort order: most helpful first or most recent first (e.g. recent). Default: helpful."""
+    """Review sort order: most helpful first or most recent first (e.g. recent)."""
     startDate: NotRequired[str]
     """Only return reviews on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01)."""
     verifiedOnly: NotRequired[bool]
-    """Set true to return only verified-purchase reviews (e.g. true). Default: false."""
+    """Set true to return only verified-purchase reviews (e.g. true)."""
 
 
 class AmazonSearchInput(TypedDict, total=False):
@@ -287,6 +287,10 @@ class AmazonReviewsItem(BaseModel):
     title: str | None = Field(
         default=None,
         description="Review headline / title; empty when the review has none.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Public Amazon page for this review, when supplied by the serving lane.",
     )
     verified_purchase: bool | None = Field(
         default=None,

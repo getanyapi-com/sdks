@@ -60,6 +60,10 @@ class AppstoreReviewsItem(BaseModel):
         description="Review body text. Populated whenever the provider has data for the entity."
     )
     title: str | None = Field(default=None, description="Review title.")
+    url: str | None = Field(
+        default=None,
+        description="Public App Store page for this review, when supplied by the serving lane.",
+    )
     version: str | None = Field(
         default=None, description="App version the review was left on."
     )
