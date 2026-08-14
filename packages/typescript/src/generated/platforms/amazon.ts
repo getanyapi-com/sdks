@@ -248,9 +248,9 @@ export interface AmazonReviewsInput {
    */
   endDate?: string;
   /**
-   * Only return reviews whose text contains one of these keywords (e.g. ["battery", "screen"]).
+   * Only return reviews whose title or text contains this keyword, case-insensitively (e.g. battery).
    */
-  keywords?: string[];
+  keyword?: string;
   /**
    * Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 50.
@@ -268,7 +268,6 @@ export interface AmazonReviewsInput {
   /**
    * Amazon marketplace domain the product ASIN belongs to (e.g. amazon.co.uk).
    * One of: amazon.com, amazon.ca, amazon.de, amazon.fr, amazon.co.uk, amazon.it, amazon.es, amazon.com.au, amazon.co.jp, amazon.com.br, amazon.com.mx, amazon.nl, amazon.ie, amazon.se, amazon.com.tr, amazon.ae, amazon.sg, amazon.sa, amazon.pl, amazon.com.be, amazon.eg, amazon.in.
-   * Default: amazon.com.
    */
   region?:
     | "amazon.com"
@@ -296,7 +295,6 @@ export interface AmazonReviewsInput {
   /**
    * Review sort order: most helpful first or most recent first (e.g. recent).
    * One of: helpful, recent.
-   * Default: helpful.
    */
   sort?: "helpful" | "recent";
   /**
@@ -305,7 +303,6 @@ export interface AmazonReviewsInput {
   startDate?: string;
   /**
    * Set true to return only verified-purchase reviews (e.g. true).
-   * Default: false.
    */
   verifiedOnly?: boolean;
 }
@@ -335,6 +332,11 @@ export interface AmazonReviewsItem {
    * Review headline / title; empty when the review has none.
    */
   title?: string;
+  /**
+   * Public Amazon page for this review, when supplied by the serving lane.
+   * Format: uri.
+   */
+  url?: string;
   /**
    * True when Amazon marks the review a verified purchase.
    */

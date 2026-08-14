@@ -67,13 +67,13 @@ class YoutubeChannelShortsInput(TypedDict, total=False):
     """Input for YouTube Channel Shorts."""
 
     channelId: NotRequired[str]
-    """YouTube channel ID."""
+    """YouTube channel ID beginning with UC."""
     cursor: NotRequired[str]
-    """Continuation token from a previous response for pagination."""
+    """Continuation token from a previous response."""
     handle: NotRequired[str]
-    """YouTube channel handle."""
-    sort: NotRequired[Literal["newest", "popular"]]
-    """Sort order."""
+    """YouTube channel handle, including or omitting the leading @."""
+    sort: NotRequired[Literal["latest", "newest", "popular"]]
+    """Sort order for the Shorts feed. latest and newest are equivalent."""
 
 
 class YoutubeChannelVideosInput(TypedDict, total=False):
@@ -174,6 +174,17 @@ class YoutubeVideoTranscriptInput(TypedDict, total=False):
     """YouTube video ID."""
     url: NotRequired[str]
     """Full YouTube video URL."""
+
+
+class YoutubeVideoTranscriptFullInput(TypedDict, total=False):
+    """Input for YouTube Video Transcript (Provenance)."""
+
+    captionKind: NotRequired[Literal["manual", "automatic", "any"]]
+    """Which caption track to accept: "manual" only creator-written captions, "automatic" only YouTube's speech recognition, "any" whichever exists. Default: any."""
+    language: NotRequired[str]
+    """Preferred caption language code (e.g. "en", "es"). Defaults to English."""
+    url: Required[str]
+    """YouTube video URL (e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ")."""
 
 
 class YoutubeChannelData(BaseModel):
@@ -293,28 +304,47 @@ class YoutubeChannelShortsData(BaseModel):
 
     next_cursor: str | None = Field(
         alias="nextCursor",
-        description="Opaque cursor for the next page of shorts, or null when this lane has no more. Pass it back as cursor to continue.",
+        description="Opaque cursor for the next Shorts page, or null when no next page is available.",
     )
     shorts: list[YoutubeChannelShortsShort] = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Short-form videos returned by the provider's dedicated YouTube Shorts endpoint. Populated whenever the provider has data for the entity."
     )
 
 
 class YoutubeChannelShortsShort(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    duration: str
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
+    content_type: Literal["short"] = Field(
+        alias="contentType",
+        description="Explicit normalized provenance that this item came from a dedicated Shorts feed.",
     )
-    likes: int
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds when supplied by the upstream response.",
+    )
+    duration: str = Field(
+        description="Published duration when supplied by the upstream response."
+    )
+    id: str = Field(
+        description="Unique YouTube video identifier. Populated whenever the provider has data for the entity."
+    )
+    likes: int = Field(
+        description="Public like count when supplied by the upstream response. Minimum: 0."
+    )
     title: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Public title or caption for the Short. Populated whenever the provider has data for the entity."
     )
     url: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Public YouTube URL for the Short. Populated whenever the provider has data for the entity."
     )
-    views: int
+    views: int = Field(
+        description="Public view count when supplied by the upstream response. Minimum: 0."
+    )
+    views_available: bool = Field(
+        alias="viewsAvailable",
+        description="Whether views is backed by a public count in the upstream response.",
+    )
 
 
 class YoutubeChannelVideosData(BaseModel):
@@ -623,9 +653,70 @@ class YoutubeVideoTranscriptData(BaseModel):
     language: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    segments: list[YoutubeVideoTranscriptSegment] | None = Field(
+        default=None,
+        description="Timed transcript segments in source order when the serving lane supplies caption timing.",
+    )
     transcript: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+
+
+class YoutubeVideoTranscriptSegment(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    duration_seconds: float = Field(
+        alias="durationSeconds", description="Segment duration in seconds. Minimum: 0."
+    )
+    start_seconds: float = Field(
+        alias="startSeconds", description="Segment start offset in seconds. Minimum: 0."
+    )
+    text: str = Field(description="Text of this transcript segment.")
+
+
+class YoutubeVideoTranscriptFullData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    channel: str | None = Field(
+        default=None, description="Channel name that published the video."
+    )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video duration in seconds. Minimum: 0.",
+    )
+    is_ai_generated: bool | None = Field(
+        default=None,
+        alias="isAiGenerated",
+        description="True when the words were recognized from the audio by the serving lane rather than read from any YouTube caption track.",
+    )
+    is_auto_generated: bool = Field(
+        alias="isAutoGenerated",
+        description="True when YouTube generated the caption track by speech recognition rather than the creator supplying it. Automatic captions carry recognition errors, especially on names and jargon. Populated whenever the provider has data for the entity.",
+    )
+    language: str = Field(
+        description='Caption language code (e.g. "en"). Populated whenever the provider has data for the entity.'
+    )
+    segments: list[YoutubeVideoTranscriptFullSegment] | None = Field(
+        default=None,
+        description="Timed transcript segments in playback order. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    title: str | None = Field(default=None, description="Video title.")
+    transcript: str = Field(
+        description="Full transcript text, segments joined in playback order. Populated whenever the provider has data for the entity."
+    )
+
+
+class YoutubeVideoTranscriptFullSegment(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    end_seconds: float = Field(
+        alias="endSeconds", description="Segment end offset in seconds. Minimum: 0."
+    )
+    start_seconds: float = Field(
+        alias="startSeconds", description="Segment start offset in seconds. Minimum: 0."
+    )
+    text: str = Field(description="Text of this transcript segment.")
 
 
 class YoutubeNamespace:
@@ -796,12 +887,12 @@ class YoutubeNamespace:
         """YouTube Channel Shorts
 
         List a YouTube channel's Shorts by handle or channel ID with cursor
-        pagination (title, views, likes, duration).
+        pagination, views, and publish timestamps.
 
         Price: $0.002 per request.
 
         Example:
-            res = client.youtube.channel_shorts(handle="@starterstory")
+            res = client.youtube.channel_shorts(handle="@zachking", sort="latest")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_shorts", dict(input), options
@@ -1120,7 +1211,7 @@ class YoutubeNamespace:
 
         Fetch the transcript/captions of a YouTube video by URL or ID.
 
-        Price: $0.002 per request.
+        Price: $0.011 per request.
 
         Example:
             res = client.youtube.video_transcript(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -1129,6 +1220,27 @@ class YoutubeNamespace:
             "youtube.video_transcript", dict(input), options
         )
         return RunResult[YoutubeVideoTranscriptData].model_validate(raw)
+
+    def video_transcript_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubeVideoTranscriptFullInput],
+    ) -> RunResult[YoutubeVideoTranscriptFullData]:
+        """YouTube Video Transcript (Provenance)
+
+        Fetch a YouTube transcript with timed segments and its provenance: whether
+        the words are creator-written captions or machine speech recognition.
+
+        Price: $0.00294 per request plus $0 per result (maximum $0.00294).
+
+        Example:
+            res = client.youtube.video_transcript_full(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "youtube.video_transcript_full", dict(input), options
+        )
+        return RunResult[YoutubeVideoTranscriptFullData].model_validate(raw)
 
 
 class AsyncYoutubeNamespace:
@@ -1301,12 +1413,12 @@ class AsyncYoutubeNamespace:
         """YouTube Channel Shorts
 
         List a YouTube channel's Shorts by handle or channel ID with cursor
-        pagination (title, views, likes, duration).
+        pagination, views, and publish timestamps.
 
         Price: $0.002 per request.
 
         Example:
-            res = client.youtube.channel_shorts(handle="@starterstory")
+            res = client.youtube.channel_shorts(handle="@zachking", sort="latest")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "youtube.channel_shorts", dict(input), options
@@ -1625,7 +1737,7 @@ class AsyncYoutubeNamespace:
 
         Fetch the transcript/captions of a YouTube video by URL or ID.
 
-        Price: $0.002 per request.
+        Price: $0.011 per request.
 
         Example:
             res = client.youtube.video_transcript(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -1634,3 +1746,24 @@ class AsyncYoutubeNamespace:
             "youtube.video_transcript", dict(input), options
         )
         return RunResult[YoutubeVideoTranscriptData].model_validate(raw)
+
+    async def video_transcript_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubeVideoTranscriptFullInput],
+    ) -> RunResult[YoutubeVideoTranscriptFullData]:
+        """YouTube Video Transcript (Provenance)
+
+        Fetch a YouTube transcript with timed segments and its provenance: whether
+        the words are creator-written captions or machine speech recognition.
+
+        Price: $0.00294 per request plus $0 per result (maximum $0.00294).
+
+        Example:
+            res = client.youtube.video_transcript_full(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "youtube.video_transcript_full", dict(input), options
+        )
+        return RunResult[YoutubeVideoTranscriptFullData].model_validate(raw)

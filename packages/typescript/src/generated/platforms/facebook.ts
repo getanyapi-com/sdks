@@ -72,6 +72,11 @@ export interface FacebookAdDetailsData {
    */
   platforms?: string[] | null;
   /**
+   * Inspectable Meta Ad Library URL for this ad. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  sourceUrl: string;
+  /**
    * Run start, epoch seconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -86,6 +91,183 @@ export interface FacebookAdDetailsData {
    * Present whenever the upstream returns this record.
    */
   title?: string | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Facebook Ad Creative Details (facebook.ad_details_full).
+ */
+export interface FacebookAdDetailsFullInput {
+  /**
+   * Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "1519158199783790" from https://www.facebook.com/ads/library/?id=1519158199783790).
+   */
+  id: string;
+}
+
+export interface FacebookAdDetailsFullCreative {
+  /**
+   * Variant body text.
+   */
+  body?: string;
+  /**
+   * Variant display caption.
+   */
+  caption?: string;
+  /**
+   * Variant call-to-action label.
+   */
+  ctaText?: string;
+  /**
+   * Variant call-to-action type.
+   */
+  ctaType?: string;
+  /**
+   * Original creative image URL.
+   */
+  image?: string;
+  /**
+   * Resized creative image URL.
+   */
+  imageResized?: string;
+  /**
+   * Variant secondary description.
+   */
+  linkDescription?: string;
+  /**
+   * Variant destination URL.
+   */
+  linkUrl?: string;
+  /**
+   * Variant headline.
+   */
+  title?: string;
+  /**
+   * Poster frame for the creative video.
+   */
+  videoPreviewImage?: string;
+  /**
+   * Creative video URL (HD when supplied, otherwise SD).
+   */
+  videoUrl?: string;
+  [extra: string]: unknown;
+}
+
+export interface FacebookAdDetailsFullImage {
+  /**
+   * Original creative image URL.
+   */
+  image?: string;
+  /**
+   * Resized creative image URL.
+   */
+  imageResized?: string;
+  [extra: string]: unknown;
+}
+
+export interface FacebookAdDetailsFullVideo {
+  /**
+   * Poster frame for the creative video.
+   */
+  videoPreviewImage?: string;
+  /**
+   * Creative video URL (HD when supplied, otherwise SD).
+   */
+  videoUrl?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Facebook Ad Creative Details (facebook.ad_details_full).
+ */
+export interface FacebookAdDetailsFullData {
+  /**
+   * Whether the ad is currently running.
+   */
+  active?: boolean;
+  /**
+   * Ad Library archive ID (stable identity). Populated whenever the provider has data for the entity.
+   */
+  adArchiveId: string;
+  /**
+   * Ad body text. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  body?: string;
+  /**
+   * Display caption, usually the destination domain.
+   */
+  caption?: string;
+  /**
+   * One entry per creative variant of a carousel or dynamic ad, in the order Meta returns them. Single-creative ads return an empty array and carry their media in images/videos. Meta CDN media URLs are signed and expire, so fetch what you need at read time.
+   */
+  creatives?: FacebookAdDetailsFullCreative[];
+  /**
+   * Call-to-action label (e.g. "Shop now").
+   */
+  ctaText?: string;
+  /**
+   * Call-to-action type (e.g. "SHOP_NOW").
+   */
+  ctaType?: string;
+  /**
+   * Ad creative format (e.g. "DPA", "VIDEO", "IMAGE"). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  displayFormat?: string;
+  /**
+   * Run end, or last-seen date while the ad is still running. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  endedUtc?: number;
+  /**
+   * Standalone creative images for a single-image ad. Meta CDN media URLs are signed and expire.
+   */
+  images?: FacebookAdDetailsFullImage[];
+  /**
+   * Secondary link description line.
+   */
+  linkDescription?: string;
+  /**
+   * Creative destination URL.
+   */
+  linkUrl?: string;
+  /**
+   * Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.
+   */
+  pageId: string;
+  /**
+   * Advertiser page profile picture URL. Meta CDN URLs are signed and expire.
+   */
+  pageImage?: string;
+  /**
+   * Advertiser page name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  pageName?: string;
+  /**
+   * Advertiser page URL.
+   */
+  pageUrl?: string;
+  /**
+   * Publisher platforms the ad runs on.
+   */
+  platforms?: string[];
+  /**
+   * Inspectable Meta Ad Library URL for this ad. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  sourceUrl: string;
+  /**
+   * Run start. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  startedUtc?: number;
+  /**
+   * Creative headline. Dynamic-product ads return a template such as "{{product.name}}".
+   */
+  title?: string;
+  /**
+   * Standalone creative videos for a single-video ad. Meta CDN media URLs are signed and expire.
+   */
+  videos?: FacebookAdDetailsFullVideo[];
   [extra: string]: unknown;
 }
 
@@ -217,6 +399,11 @@ export interface FacebookAdsSearchAd {
    * Populated whenever the provider has data for the entity.
    */
   platforms: string[];
+  /**
+   * Inspectable Meta Ad Library URL for this ad. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  sourceUrl: string;
   /**
    * Epoch seconds. Populated whenever the provider has data for the entity.
    */
@@ -1594,13 +1781,30 @@ export class FacebookNamespace {
    * Price: $0.002 per request.
    *
    * @example
-   * const res = await client.facebook.adDetails({ id: "1869276447125570" });
+   * const res = await client.facebook.adDetails({ id: "1249043200627555" });
    */
   adDetails(
     input: FacebookAdDetailsInput,
     options?: RequestOptions,
   ): Promise<RunResult<FacebookAdDetailsData>> {
     return this._core.run("facebook.ad_details", input, options);
+  }
+
+  /**
+   * Facebook Ad Creative Details
+   *
+   * Pull one Meta Ad Library ad with its creative: every carousel variant, image and video URL, headline, body, and call to action.
+   *
+   * Price: $0.00441 per request plus $0 per result (maximum $0.00441).
+   *
+   * @example
+   * const res = await client.facebook.adDetailsFull({ id: "1519158199783790" });
+   */
+  adDetailsFull(
+    input: FacebookAdDetailsFullInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<FacebookAdDetailsFullData>> {
+    return this._core.run("facebook.ad_details_full", input, options);
   }
 
   /**
@@ -2227,7 +2431,7 @@ export class FacebookNamespace {
    *
    * Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).
    *
-   * Price: $0 per request plus $0.00315 per result (maximum $0.063).
+   * Price: $0.00006 per request plus $0.00315 per result (maximum $0.0631).
    *
    * @example
    * const res = await client.facebook.searchPosts({ query: "nike", limit: 3 });

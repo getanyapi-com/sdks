@@ -59,6 +59,11 @@ export interface AppstoreReviewsItem {
    */
   title?: string;
   /**
+   * Public App Store page for this review, when supplied by the serving lane.
+   * Format: uri.
+   */
+  url?: string;
+  /**
    * App version the review was left on.
    */
   version?: string;

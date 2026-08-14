@@ -1373,9 +1373,105 @@ export interface TiktokVideoTranscriptInput {
  * The `data` payload of TikTok Video Transcript (tiktok.video_transcript).
  */
 export interface TiktokVideoTranscriptData {
-  language: string;
+  language?: string;
   /**
    * Populated whenever the provider has data for the entity.
+   */
+  transcript: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for TikTok Video Transcript (Audio) (tiktok.video_transcript_full).
+ */
+export interface TiktokVideoTranscriptFullInput {
+  /**
+   * TikTok video URL (e.g. "https://www.tiktok.com/@user/video/1234567890").
+   */
+  url: string;
+}
+
+export interface TiktokVideoTranscriptFullSegment {
+  /**
+   * Segment end offset in seconds.
+   * Range: minimum 0.
+   */
+  endSeconds: number;
+  /**
+   * Detected language for this segment.
+   */
+  language?: string;
+  /**
+   * Recognizer speaker label for this segment (e.g. "SPEAKER_00"). Diarization is a guess, not an identification.
+   */
+  speaker?: string;
+  /**
+   * Segment start offset in seconds.
+   * Range: minimum 0.
+   */
+  startSeconds: number;
+  /**
+   * Text of this segment.
+   */
+  text: string;
+  /**
+   * Per-word timing and recognizer confidence for this segment.
+   */
+  words?: TiktokVideoTranscriptFullWord[];
+  [extra: string]: unknown;
+}
+
+export interface TiktokVideoTranscriptFullWord {
+  /**
+   * Recognizer confidence for this word, 0 to 1. Low values mark words the recognizer guessed; they are common on names, jargon, and music.
+   * Range: minimum 0, maximum 1.
+   */
+  confidence: number;
+  /**
+   * Word end offset in seconds.
+   * Range: minimum 0.
+   */
+  endSeconds?: number;
+  /**
+   * Recognizer speaker label for this word.
+   */
+  speaker?: string;
+  /**
+   * Word start offset in seconds.
+   * Range: minimum 0.
+   */
+  startSeconds?: number;
+  /**
+   * The recognized word.
+   */
+  word: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Video Transcript (Audio) (tiktok.video_transcript_full).
+ */
+export interface TiktokVideoTranscriptFullData {
+  /**
+   * Video duration in seconds.
+   * Range: minimum 0.
+   */
+  durationSeconds?: number;
+  /**
+   * Detected spoken language of the audio (BCP-47 style code, e.g. "en").
+   */
+  language?: string;
+  /**
+   * Timed transcript segments in playback order, each with the recognizer's per-word confidence so low-confidence text can be treated as uncertain rather than quoted. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  segments?: TiktokVideoTranscriptFullSegment[];
+  /**
+   * How the text was produced. Always "audio_asr" on this endpoint: the words come from automatic speech recognition over the audio, not from a caption track the platform published. Populated whenever the provider has data for the entity.
+   */
+  source: string;
+  /**
+   * Full spoken-word transcript, machine-transcribed from the video's audio track. Populated whenever the provider has data for the entity.
    */
   transcript: string;
   [extra: string]: unknown;
@@ -1978,5 +2074,22 @@ export class TiktokNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TiktokVideoTranscriptData>> {
     return this._core.run("tiktok.video_transcript", input, options);
+  }
+
+  /**
+   * TikTok Video Transcript (Audio)
+   *
+   * Transcribe the spoken audio of a TikTok video with timed segments, speaker labels, and per-word confidence - for videos TikTok publishes no subtitle track for.
+   *
+   * Price: $0.0168 per request plus $0 per result (maximum $0.0168).
+   *
+   * @example
+   * const res = await client.tiktok.videoTranscriptFull({ url: "https://www.tiktok.com/@thatdudecancook/video/7649086431641521421" });
+   */
+  videoTranscriptFull(
+    input: TiktokVideoTranscriptFullInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokVideoTranscriptFullData>> {
+    return this._core.run("tiktok.video_transcript_full", input, options);
   }
 }

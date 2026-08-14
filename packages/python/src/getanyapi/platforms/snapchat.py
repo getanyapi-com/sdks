@@ -77,7 +77,7 @@ class SnapchatProfileStorie(BaseModel):
     thumbnail_url: str | None = Field(
         default=None,
         alias="thumbnailUrl",
-        description="Story thumbnail image URL, with tracking query params stripped.",
+        description="Story thumbnail image URL, preserving signed delivery parameters required to load the preview.",
     )
 
 

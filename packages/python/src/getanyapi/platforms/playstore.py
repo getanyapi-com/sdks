@@ -23,7 +23,7 @@ class PlaystoreReviewsInput(TypedDict, total=False):
     appVersion: NotRequired[list[str]]
     """Only return reviews left on these app versions (e.g. ["2.24.1", "2.24.2"])."""
     deviceType: NotRequired[Literal["mobile", "tablet", "chromebook"]]
-    """Only return reviews from this device type (e.g. "tablet"); defaults to mobile. Default: mobile."""
+    """Only return reviews from this device type (e.g. "tablet"); omit for the provider default."""
     endDate: NotRequired[str]
     """Only return reviews on or before this date, inclusive, in YYYY-MM-DD format (e.g. 2026-06-30)."""
     keywords: NotRequired[list[str]]
@@ -37,7 +37,7 @@ class PlaystoreReviewsInput(TypedDict, total=False):
     recentDays: NotRequired[int]
     """Only return reviews from the last N days (e.g. 30); omit for no time limit. Minimum: 1."""
     sortBy: NotRequired[str]
-    """Review ordering: mostRelevant, newest, or rating (e.g. newest). Default: mostRelevant."""
+    """Review ordering: mostRelevant, newest, or rating (e.g. newest)."""
 
 
 class PlaystoreReviewsData(BaseModel):

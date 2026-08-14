@@ -171,8 +171,8 @@ class InstagramSearchHashtagInput(TypedDict, total=False):
     """Restrict results to posts published within this window."""
     hashtag: Required[str]
     """Hashtag to search, without the leading #."""
-    mediaType: NotRequired[str]
-    """Filter by media type (e.g. all, photo, video, reel)."""
+    mediaType: NotRequired[Literal["all", "reel"]]
+    """Filter by media type. One of all, reel."""
 
 
 class InstagramSearchProfilesInput(TypedDict, total=False):
@@ -1396,7 +1396,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0024 per request.
+        Price: $0.002 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -1485,7 +1485,7 @@ class InstagramNamespace:
         Price: $0.002 per request.
 
         Example:
-            res = client.instagram.search_hashtag(hashtag="travel")
+            res = client.instagram.search_hashtag(datePosted="last-month", hashtag="skincare", mediaType="reel")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.search_hashtag", dict(input), options
@@ -2111,7 +2111,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0024 per request.
+        Price: $0.002 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -2200,7 +2200,7 @@ class AsyncInstagramNamespace:
         Price: $0.002 per request.
 
         Example:
-            res = client.instagram.search_hashtag(hashtag="travel")
+            res = client.instagram.search_hashtag(datePosted="last-month", hashtag="skincare", mediaType="reel")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.search_hashtag", dict(input), options

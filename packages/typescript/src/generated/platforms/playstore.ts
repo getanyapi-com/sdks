@@ -19,9 +19,8 @@ export interface PlaystoreReviewsInput {
    */
   appVersion?: string[];
   /**
-   * Only return reviews from this device type (e.g. "tablet"); defaults to mobile.
+   * Only return reviews from this device type (e.g. "tablet"); omit for the provider default.
    * One of: mobile, tablet, chromebook.
-   * Default: mobile.
    */
   deviceType?: "mobile" | "tablet" | "chromebook";
   /**
@@ -52,7 +51,6 @@ export interface PlaystoreReviewsInput {
   recentDays?: number;
   /**
    * Review ordering: mostRelevant, newest, or rating (e.g. newest).
-   * Default: mostRelevant.
    */
   sortBy?: string;
 }

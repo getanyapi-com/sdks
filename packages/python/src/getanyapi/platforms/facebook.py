@@ -30,6 +30,13 @@ class FacebookAdDetailsInput(TypedDict, total=False):
     """Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=1185617869915074"). Provide either id or url."""
 
 
+class FacebookAdDetailsFullInput(TypedDict, total=False):
+    """Input for Facebook Ad Creative Details."""
+
+    id: Required[str]
+    """Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "1519158199783790" from https://www.facebook.com/ads/library/?id=1519158199783790)."""
+
+
 class FacebookAdTranscriptInput(TypedDict, total=False):
     """Input for Facebook Ad Transcript."""
 
@@ -370,6 +377,10 @@ class FacebookAdDetailsData(BaseModel):
         default=None,
         description="Publisher platforms the ad runs on. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    source_url: str = Field(
+        alias="sourceUrl",
+        description="Inspectable Meta Ad Library URL for this ad. Populated whenever the provider has data for the entity.",
+    )
     start_date: int | None = Field(
         default=None,
         alias="startDate",
@@ -382,6 +393,158 @@ class FacebookAdDetailsData(BaseModel):
     title: str | None = Field(
         default=None,
         description="Creative title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class FacebookAdDetailsFullData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    active: bool | None = Field(
+        default=None, description="Whether the ad is currently running."
+    )
+    ad_archive_id: str = Field(
+        alias="adArchiveId",
+        description="Ad Library archive ID (stable identity). Populated whenever the provider has data for the entity.",
+    )
+    body: str | None = Field(
+        default=None,
+        description="Ad body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    caption: str | None = Field(
+        default=None, description="Display caption, usually the destination domain."
+    )
+    creatives: list[FacebookAdDetailsFullCreative] | None = Field(
+        default=None,
+        description="One entry per creative variant of a carousel or dynamic ad, in the order Meta returns them. Single-creative ads return an empty array and carry their media in images/videos. Meta CDN media URLs are signed and expire, so fetch what you need at read time.",
+    )
+    cta_text: str | None = Field(
+        default=None,
+        alias="ctaText",
+        description='Call-to-action label (e.g. "Shop now").',
+    )
+    cta_type: str | None = Field(
+        default=None,
+        alias="ctaType",
+        description='Call-to-action type (e.g. "SHOP_NOW").',
+    )
+    display_format: str | None = Field(
+        default=None,
+        alias="displayFormat",
+        description='Ad creative format (e.g. "DPA", "VIDEO", "IMAGE"). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
+    ended_utc: float | None = Field(
+        default=None,
+        alias="endedUtc",
+        description="Run end, or last-seen date while the ad is still running. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    images: list[FacebookAdDetailsFullImage] | None = Field(
+        default=None,
+        description="Standalone creative images for a single-image ad. Meta CDN media URLs are signed and expire.",
+    )
+    link_description: str | None = Field(
+        default=None,
+        alias="linkDescription",
+        description="Secondary link description line.",
+    )
+    link_url: str | None = Field(
+        default=None, alias="linkUrl", description="Creative destination URL."
+    )
+    page_id: str = Field(
+        alias="pageId",
+        description="Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.",
+    )
+    page_image: str | None = Field(
+        default=None,
+        alias="pageImage",
+        description="Advertiser page profile picture URL. Meta CDN URLs are signed and expire.",
+    )
+    page_name: str | None = Field(
+        default=None,
+        alias="pageName",
+        description="Advertiser page name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    page_url: str | None = Field(
+        default=None, alias="pageUrl", description="Advertiser page URL."
+    )
+    platforms: list[str] | None = Field(
+        default=None, description="Publisher platforms the ad runs on."
+    )
+    source_url: str = Field(
+        alias="sourceUrl",
+        description="Inspectable Meta Ad Library URL for this ad. Populated whenever the provider has data for the entity.",
+    )
+    started_utc: float | None = Field(
+        default=None,
+        alias="startedUtc",
+        description="Run start. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    title: str | None = Field(
+        default=None,
+        description='Creative headline. Dynamic-product ads return a template such as "{{product.name}}".',
+    )
+    videos: list[FacebookAdDetailsFullVideo] | None = Field(
+        default=None,
+        description="Standalone creative videos for a single-video ad. Meta CDN media URLs are signed and expire.",
+    )
+
+
+class FacebookAdDetailsFullCreative(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    body: str | None = Field(default=None, description="Variant body text.")
+    caption: str | None = Field(default=None, description="Variant display caption.")
+    cta_text: str | None = Field(
+        default=None, alias="ctaText", description="Variant call-to-action label."
+    )
+    cta_type: str | None = Field(
+        default=None, alias="ctaType", description="Variant call-to-action type."
+    )
+    image: str | None = Field(default=None, description="Original creative image URL.")
+    image_resized: str | None = Field(
+        default=None, alias="imageResized", description="Resized creative image URL."
+    )
+    link_description: str | None = Field(
+        default=None,
+        alias="linkDescription",
+        description="Variant secondary description.",
+    )
+    link_url: str | None = Field(
+        default=None, alias="linkUrl", description="Variant destination URL."
+    )
+    title: str | None = Field(default=None, description="Variant headline.")
+    video_preview_image: str | None = Field(
+        default=None,
+        alias="videoPreviewImage",
+        description="Poster frame for the creative video.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Creative video URL (HD when supplied, otherwise SD).",
+    )
+
+
+class FacebookAdDetailsFullImage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    image: str | None = Field(default=None, description="Original creative image URL.")
+    image_resized: str | None = Field(
+        default=None, alias="imageResized", description="Resized creative image URL."
+    )
+
+
+class FacebookAdDetailsFullVideo(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    video_preview_image: str | None = Field(
+        default=None,
+        alias="videoPreviewImage",
+        description="Poster frame for the creative video.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Creative video URL (HD when supplied, otherwise SD).",
     )
 
 
@@ -447,6 +610,10 @@ class FacebookAdsSearchAd(BaseModel):
     )
     platforms: list[str] = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    source_url: str = Field(
+        alias="sourceUrl",
+        description="Inspectable Meta Ad Library URL for this ad. Populated whenever the provider has data for the entity.",
     )
     start_date: int = Field(
         alias="startDate",
@@ -1268,12 +1435,33 @@ class FacebookNamespace:
         Price: $0.002 per request.
 
         Example:
-            res = client.facebook.ad_details(id="1869276447125570")
+            res = client.facebook.ad_details(id="1249043200627555")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details", dict(input), options
         )
         return RunResult[FacebookAdDetailsData].model_validate(raw)
+
+    def ad_details_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookAdDetailsFullInput],
+    ) -> RunResult[FacebookAdDetailsFullData]:
+        """Facebook Ad Creative Details
+
+        Pull one Meta Ad Library ad with its creative: every carousel variant, image
+        and video URL, headline, body, and call to action.
+
+        Price: $0.00441 per request plus $0 per result (maximum $0.00441).
+
+        Example:
+            res = client.facebook.ad_details_full(id="1519158199783790")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "facebook.ad_details_full", dict(input), options
+        )
+        return RunResult[FacebookAdDetailsFullData].model_validate(raw)
 
     def ad_transcript(
         self,
@@ -2001,7 +2189,7 @@ class FacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0 per request plus $0.00315 per result (maximum $0.063).
+        Price: $0.00006 per request plus $0.00315 per result (maximum $0.0631).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")
@@ -2032,12 +2220,33 @@ class AsyncFacebookNamespace:
         Price: $0.002 per request.
 
         Example:
-            res = client.facebook.ad_details(id="1869276447125570")
+            res = client.facebook.ad_details(id="1249043200627555")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details", dict(input), options
         )
         return RunResult[FacebookAdDetailsData].model_validate(raw)
+
+    async def ad_details_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookAdDetailsFullInput],
+    ) -> RunResult[FacebookAdDetailsFullData]:
+        """Facebook Ad Creative Details
+
+        Pull one Meta Ad Library ad with its creative: every carousel variant, image
+        and video URL, headline, body, and call to action.
+
+        Price: $0.00441 per request plus $0 per result (maximum $0.00441).
+
+        Example:
+            res = client.facebook.ad_details_full(id="1519158199783790")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "facebook.ad_details_full", dict(input), options
+        )
+        return RunResult[FacebookAdDetailsFullData].model_validate(raw)
 
     async def ad_transcript(
         self,
@@ -2765,7 +2974,7 @@ class AsyncFacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0 per request plus $0.00315 per result (maximum $0.063).
+        Price: $0.00006 per request plus $0.00315 per result (maximum $0.0631).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")
