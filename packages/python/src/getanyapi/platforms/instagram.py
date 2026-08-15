@@ -1417,7 +1417,7 @@ class InstagramNamespace:
         Turn any public Instagram reel or video post into a full speech transcript,
         with optional word-level timestamps.
 
-        Price: $0.00525 per request plus $0.021 per result (maximum $0.0263).
+        Price: $0.00525 per request plus $0.0242 per result (maximum $0.0294).
 
         Example:
             res = client.instagram.reel_transcript(url="https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps=False)
@@ -2132,7 +2132,7 @@ class AsyncInstagramNamespace:
         Turn any public Instagram reel or video post into a full speech transcript,
         with optional word-level timestamps.
 
-        Price: $0.00525 per request plus $0.021 per result (maximum $0.0263).
+        Price: $0.00525 per request plus $0.0242 per result (maximum $0.0294).
 
         Example:
             res = client.instagram.reel_transcript(url="https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps=False)
