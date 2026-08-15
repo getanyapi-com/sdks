@@ -4984,6 +4984,55 @@
     "items": 1,
     "replayed": false
   },
+  "tiktok_shop.categories": {
+    "output": {
+      "found": true,
+      "data": {
+        "categories": [
+          {
+            "categoryId": "sample",
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok_shop.category_products": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok_shop.creator": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "tiktok_shop.product": {
     "output": {
       "found": true,
@@ -4998,6 +5047,20 @@
         "reviewCount": 1,
         "sellerName": "sample",
         "sellerLocation": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok_shop.product_full": {
+    "output": {
+      "found": true,
+      "data": {
+        "productId": "sample",
+        "title": "sample",
         "_extra": "passthrough"
       }
     },
@@ -5044,6 +5107,21 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok_shop.search_suggestions": {
+    "output": {
+      "found": true,
+      "data": {
+        "suggestions": [
+          "sample"
+        ],
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",

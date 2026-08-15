@@ -46091,6 +46091,665 @@
       }
     },
     {
+      "slug": "tiktok_shop.categories",
+      "platform": "tiktok_shop",
+      "action": "categories",
+      "operationId": "tiktok_shop_categories",
+      "name": "TikTok Shop Categories",
+      "category": "shop",
+      "description": "List the TikTok Shop category tree for a market: top-level categories with ids, slugs, and images, each with its child categories.",
+      "pricing": {
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "tiktokShop",
+      "tsMethod": "categories",
+      "tsIterMethod": null,
+      "pyNamespace": "tiktok_shop",
+      "pyMethod": "categories",
+      "pyIterMethod": null,
+      "inputTypeName": "TiktokShopCategoriesInput",
+      "outputTypeName": "TiktokShopCategoriesData",
+      "example": {
+        "region": "US"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "region": {
+            "kind": "string",
+            "description": "Country code of the TikTok Shop market whose category tree to list. Only US and VN publish a category tree.",
+            "enum": [
+              "US",
+              "VN"
+            ],
+            "default": "US",
+            "format": null
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "categories": {
+              "kind": "array",
+              "description": "Top-level TikTok Shop categories for the market, each with its child categories. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "categoryId": {
+                    "kind": "string",
+                    "description": "TikTok Shop category id. Pass this to tiktok_shop.category_products. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "children": {
+                    "kind": "array",
+                    "description": "Child categories one level down.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "categoryId": {
+                          "kind": "string",
+                          "description": "TikTok Shop category id.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "isLeaf": {
+                          "kind": "boolean",
+                          "description": "True when the category has no children.",
+                          "default": null
+                        },
+                        "name": {
+                          "kind": "string",
+                          "description": "Display name of the category.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "slug": {
+                          "kind": "string",
+                          "description": "URL slug of the category.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "categoryId",
+                        "name"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Category tile image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isLeaf": {
+                    "kind": "boolean",
+                    "description": "True when the category has no children.",
+                    "default": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Display name of the category. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "slug": {
+                    "kind": "string",
+                    "description": "URL slug of the category.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "categoryId",
+                  "name"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "categoryId",
+                  "name"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "categories"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "categories"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "tiktok_shop.category_products",
+      "platform": "tiktok_shop",
+      "action": "category_products",
+      "operationId": "tiktok_shop_category_products",
+      "name": "TikTok Shop Category Products",
+      "category": "shop",
+      "description": "Browse TikTok Shop products inside a category by category id: price, discount, rating, sales count, seller, and product URL per product.",
+      "pricing": {
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "tiktokShop",
+      "tsMethod": "categoryProducts",
+      "tsIterMethod": null,
+      "pyNamespace": "tiktok_shop",
+      "pyMethod": "category_products",
+      "pyIterMethod": null,
+      "inputTypeName": "TiktokShopCategoryProductsInput",
+      "outputTypeName": "TiktokShopCategoryProductsData",
+      "example": {
+        "categoryId": "700645",
+        "region": "US"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "categoryId": {
+            "kind": "string",
+            "description": "TikTok Shop category id, from tiktok_shop.categories (e.g. 700645 for Health).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "region": {
+            "kind": "string",
+            "description": "Two-letter country code of the TikTok Shop market (e.g. US).",
+            "enum": null,
+            "default": "US",
+            "format": null
+          }
+        },
+        "required": [
+          "categoryId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when the category has further pages upstream.",
+              "default": null
+            },
+            "items": {
+              "kind": "array",
+              "description": "Product records in the category: id, title, price, rating, sales count, seller, and product URL. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "currency": {
+                    "kind": "string",
+                    "description": "ISO currency name, e.g. USD.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "originalPrice": {
+                    "kind": "number",
+                    "description": "Pre-discount list price (0 when not on sale).",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current sale price.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "productId": {
+                    "kind": "string",
+                    "description": "TikTok Shop product id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average review score.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewCount": {
+                    "kind": "integer",
+                    "description": "Number of reviews.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shopName": {
+                    "kind": "string",
+                    "description": "Seller shop name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soldCount": {
+                    "kind": "integer",
+                    "description": "Units sold.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical product detail page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "productId",
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "productId",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "tiktok_shop.creator",
+      "platform": "tiktok_shop",
+      "action": "creator",
+      "operationId": "tiktok_shop_creator",
+      "name": "TikTok Shop Creator",
+      "category": "shop",
+      "description": "TikTok Shop creator performance by handle: GMV range, promoted product count, brand collaborations, follower age/gender/location demographics, category GMV split, and video versus live engagement.",
+      "pricing": {
+        "priceUsd": 0.00525,
+        "baseUsd": 0.00525,
+        "perItemUsd": 0,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "tiktokShop",
+      "tsMethod": "creator",
+      "tsIterMethod": null,
+      "pyNamespace": "tiktok_shop",
+      "pyMethod": "creator",
+      "pyIterMethod": null,
+      "inputTypeName": "TiktokShopCreatorInput",
+      "outputTypeName": "TiktokShopCreatorData",
+      "example": {
+        "handle": "golinutrition"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "handle": {
+            "kind": "string",
+            "description": "TikTok handle of the creator or shop account, without the @ (e.g. golinutrition).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "region": {
+            "kind": "string",
+            "description": "Lowercase two-letter country code of the TikTok Shop market (e.g. us).",
+            "enum": null,
+            "default": "us",
+            "format": null
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "audienceAge": {
+              "kind": "array",
+              "description": "Follower age distribution.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "bucket": {
+                    "kind": "string",
+                    "description": "Age bucket, e.g. 25-34.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sharePct": {
+                    "kind": "number",
+                    "description": "Share of followers in this bucket, as a percentage.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "audienceGender": {
+              "kind": "array",
+              "description": "Follower gender distribution.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "gender": {
+                    "kind": "string",
+                    "description": "Gender label as published upstream.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sharePct": {
+                    "kind": "number",
+                    "description": "Share of followers, as a percentage.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "audienceLocations": {
+              "kind": "array",
+              "description": "Top follower locations.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "followers": {
+                    "kind": "integer",
+                    "description": "Followers in this location.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "state": {
+                    "kind": "string",
+                    "description": "State or region name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "avgCommissionRange": {
+              "kind": "string",
+              "description": "Banded average affiliate commission rate the creator earns. Empty when upstream does not publish it.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "avgLiveLikes": {
+              "kind": "number",
+              "description": "Average likes per live stream.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "avgLiveViews": {
+              "kind": "number",
+              "description": "Average viewers per live stream.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "avgVideoComments": {
+              "kind": "number",
+              "description": "Average comments per video.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "avgVideoLikes": {
+              "kind": "number",
+              "description": "Average likes per video.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "avgVideoViews": {
+              "kind": "number",
+              "description": "Average views per video.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "bio": {
+              "kind": "string",
+              "description": "Creator bio text.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "brandCollaborations": {
+              "kind": "integer",
+              "description": "Number of distinct brands the creator has collaborated with.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "categories": {
+              "kind": "array",
+              "description": "TikTok Shop categories the creator sells in.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "categoryId": {
+                    "kind": "string",
+                    "description": "TikTok Shop category id.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Category display name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "followers": {
+              "kind": "integer",
+              "description": "Follower count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "gmvRange": {
+              "kind": "string",
+              "description": "Banded gross merchandise value the creator has driven, e.g. \"$25K-$60K\". Upstream publishes a band rather than an exact figure.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "gpm": {
+              "kind": "number",
+              "description": "Gross merchandise value per thousand views. Zero when upstream does not publish it.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "handle": {
+              "kind": "string",
+              "description": "TikTok handle of the creator, without the @. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Creator avatar URL.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "liveCount": {
+              "kind": "integer",
+              "description": "Number of live streams in the measured window.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "liveEngagementRate": {
+              "kind": "number",
+              "description": "Engagement rate on live streams, as a percentage.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "nickname": {
+              "kind": "string",
+              "description": "Display name of the creator. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "postRate": {
+              "kind": "number",
+              "description": "Share of the creator's posts that carry a shop product, as a percentage.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "promotedProducts": {
+              "kind": "integer",
+              "description": "Number of TikTok Shop products the creator has promoted.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "rating": {
+              "kind": "number",
+              "description": "Creator rating. Zero when upstream does not publish it.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "region": {
+              "kind": "string",
+              "description": "Two-letter country code of the creator's TikTok Shop market.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "videoCount": {
+              "kind": "integer",
+              "description": "Number of videos posted in the measured window.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "videoEngagementRate": {
+              "kind": "number",
+              "description": "Engagement rate on videos, as a percentage.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "handle"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "handle",
+            "nickname"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "tiktok_shop.product",
       "platform": "tiktok_shop",
       "action": "product",
@@ -46230,6 +46889,290 @@
             "productId",
             "sellerName",
             "title"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "tiktok_shop.product_full",
+      "platform": "tiktok_shop",
+      "action": "product_full",
+      "operationId": "tiktok_shop_product_full",
+      "name": "TikTok Shop Product Full",
+      "category": "shop",
+      "description": "Deep TikTok Shop product record from a product URL: affiliate commission rate, units sold and GMV over the last 30 days and lifetime, stock, rating, review count, category tree, listing date, and the seller's own sales totals.",
+      "pricing": {
+        "priceUsd": 0.021,
+        "baseUsd": 0.021,
+        "perItemUsd": 0,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "tiktokShop",
+      "tsMethod": "productFull",
+      "tsIterMethod": null,
+      "pyNamespace": "tiktok_shop",
+      "pyMethod": "product_full",
+      "pyIterMethod": null,
+      "inputTypeName": "TiktokShopProductFullInput",
+      "outputTypeName": "TiktokShopProductFullData",
+      "example": {
+        "url": "https://www.tiktok.com/shop/pdp/1729527313880355335"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "url": {
+            "kind": "string",
+            "description": "TikTok Shop product URL. Any of the public forms works (https://www.tiktok.com/shop/pdp/<id>, https://shop.tiktok.com/<region>/pdp/<slug>/<id>, or https://shop.tiktok.com/view/product/<id>); the product id is read out of it.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "categoryId": {
+              "kind": "string",
+              "description": "Top-level TikTok Shop category id.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "categoryPath": {
+              "kind": "string",
+              "description": "Slash-separated category breadcrumb, e.g. Health/Nutrition & Wellness/Vitamins.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "categoryRank": {
+              "kind": "number",
+              "description": "Sales rank of this product within its category. Approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "commissionRatePct": {
+              "kind": "number",
+              "description": "Affiliate commission rate as a percentage, e.g. 25 for 25%. Zero when the product runs no open affiliate offer.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "currency": {
+              "kind": "string",
+              "description": "ISO currency code, e.g. USD. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "gmv": {
+              "kind": "number",
+              "description": "Lifetime gross merchandise value in the product's currency. Rounded upstream to three significant figures, so treat it as approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "gmv30d": {
+              "kind": "number",
+              "description": "Gross merchandise value over the last 30 days, in the product's currency. Rounded upstream to three significant figures, so treat it as approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Primary product image URL.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "listedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "liveCount": {
+              "kind": "number",
+              "description": "Lifetime count of live streams promoting this product. Approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "liveCount30d": {
+              "kind": "number",
+              "description": "Live streams promoting this product in the last 30 days. Approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "maxPrice": {
+              "kind": "number",
+              "description": "Highest variant price.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "minPrice": {
+              "kind": "number",
+              "description": "Lowest variant price.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "offShelf": {
+              "kind": "boolean",
+              "description": "True when the listing is no longer on sale.",
+              "default": null
+            },
+            "price": {
+              "kind": "number",
+              "description": "Current selling price in the product's currency. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "productId": {
+              "kind": "string",
+              "description": "TikTok Shop product id. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "rating": {
+              "kind": "number",
+              "description": "Average review score.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "region": {
+              "kind": "string",
+              "description": "Two-letter country code of the TikTok Shop market, e.g. US.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "reviewCount": {
+              "kind": "number",
+              "description": "Number of reviews. Rounded upstream to three significant figures, so treat it as approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "sellerGmv": {
+              "kind": "number",
+              "description": "Seller's lifetime gross merchandise value. Approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "sellerId": {
+              "kind": "string",
+              "description": "TikTok Shop seller id.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "sellerName": {
+              "kind": "string",
+              "description": "Seller shop name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "sellerUnitsSold": {
+              "kind": "number",
+              "description": "Seller's lifetime units sold across all products. Approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "sellerUrl": {
+              "kind": "string",
+              "description": "Seller storefront URL.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "stock": {
+              "kind": "number",
+              "description": "Units currently in stock. Rounded upstream to three significant figures, so treat it as approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "title": {
+              "kind": "string",
+              "description": "Product title. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "unitsSold": {
+              "kind": "number",
+              "description": "Lifetime units sold. Rounded upstream to three significant figures, so treat it as approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "unitsSold30d": {
+              "kind": "number",
+              "description": "Units sold in the last 30 days. Rounded upstream to three significant figures, so treat it as approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Canonical product detail page URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "videoCount": {
+              "kind": "number",
+              "description": "Lifetime count of videos promoting this product. Approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "videoCount30d": {
+              "kind": "number",
+              "description": "Videos promoting this product in the last 30 days. Approximate.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "productId",
+            "title"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "currency",
+            "price",
+            "productId",
+            "sellerName",
+            "title",
+            "url"
           ]
         }
       },
@@ -46430,7 +47373,7 @@
       "category": "shop",
       "description": "Search TikTok Shop products by keyword across 15 countries: price, sales, rating, and seller info per product, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -46599,6 +47542,95 @@
       }
     },
     {
+      "slug": "tiktok_shop.search_suggestions",
+      "platform": "tiktok_shop",
+      "action": "search_suggestions",
+      "operationId": "tiktok_shop_search_suggestions",
+      "name": "TikTok Shop Search Suggestions",
+      "category": "shop",
+      "description": "Get TikTok Shop search autocomplete terms for a keyword: the long-tail queries shoppers actually type, for keyword and demand research.",
+      "pricing": {
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "tiktokShop",
+      "tsMethod": "searchSuggestions",
+      "tsIterMethod": null,
+      "pyNamespace": "tiktok_shop",
+      "pyMethod": "search_suggestions",
+      "pyIterMethod": null,
+      "inputTypeName": "TiktokShopSearchSuggestionsInput",
+      "outputTypeName": "TiktokShopSearchSuggestionsData",
+      "example": {
+        "country": "US",
+        "query": "ashwagandha gummies"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "country": {
+            "kind": "string",
+            "description": "Two-letter country code of the TikTok Shop market (e.g. US).",
+            "enum": null,
+            "default": "US",
+            "format": null
+          },
+          "language": {
+            "kind": "string",
+            "description": "Language tag for the suggestions (e.g. en-US).",
+            "enum": null,
+            "default": "en-US",
+            "format": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Seed keyword to expand (e.g. ashwagandha gummies).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "suggestions": {
+              "kind": "array",
+              "description": "Autocomplete terms TikTok Shop suggests for the seed keyword, most relevant first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "suggestions"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "suggestions"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "tiktok_shop.shop_products",
       "platform": "tiktok_shop",
       "action": "shop_products",
@@ -46607,7 +47639,7 @@
       "category": "shop",
       "description": "List every product of a TikTok Shop store by URL (title, price, sales, and rating per product plus shop-level stats) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

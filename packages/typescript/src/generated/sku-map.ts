@@ -605,12 +605,22 @@ import type {
   TiktokVideoTranscriptInput,
 } from "./platforms/tiktok.js";
 import type {
+  TiktokShopCategoriesData,
+  TiktokShopCategoriesInput,
+  TiktokShopCategoryProductsData,
+  TiktokShopCategoryProductsInput,
+  TiktokShopCreatorData,
+  TiktokShopCreatorInput,
   TiktokShopProductData,
+  TiktokShopProductFullData,
+  TiktokShopProductFullInput,
   TiktokShopProductInput,
   TiktokShopProductReviewsData,
   TiktokShopProductReviewsInput,
   TiktokShopSearchData,
   TiktokShopSearchInput,
+  TiktokShopSearchSuggestionsData,
+  TiktokShopSearchSuggestionsInput,
   TiktokShopShopProductsData,
   TiktokShopShopProductsInput,
   TiktokShopUserShowcaseData,
@@ -2004,10 +2014,30 @@ export interface SkuMap {
     data: TiktokVideoTranscriptFullData;
     result: RunResult<TiktokVideoTranscriptFullData>;
   };
+  "tiktok_shop.categories": {
+    input: TiktokShopCategoriesInput;
+    data: TiktokShopCategoriesData;
+    result: RunResult<TiktokShopCategoriesData>;
+  };
+  "tiktok_shop.category_products": {
+    input: TiktokShopCategoryProductsInput;
+    data: TiktokShopCategoryProductsData;
+    result: RunResult<TiktokShopCategoryProductsData>;
+  };
+  "tiktok_shop.creator": {
+    input: TiktokShopCreatorInput;
+    data: TiktokShopCreatorData;
+    result: RunResult<TiktokShopCreatorData>;
+  };
   "tiktok_shop.product": {
     input: TiktokShopProductInput;
     data: TiktokShopProductData;
     result: RunResult<TiktokShopProductData>;
+  };
+  "tiktok_shop.product_full": {
+    input: TiktokShopProductFullInput;
+    data: TiktokShopProductFullData;
+    result: RunResult<TiktokShopProductFullData>;
   };
   "tiktok_shop.product_reviews": {
     input: TiktokShopProductReviewsInput;
@@ -2018,6 +2048,11 @@ export interface SkuMap {
     input: TiktokShopSearchInput;
     data: TiktokShopSearchData;
     result: RunResult<TiktokShopSearchData>;
+  };
+  "tiktok_shop.search_suggestions": {
+    input: TiktokShopSearchSuggestionsInput;
+    data: TiktokShopSearchSuggestionsData;
+    result: RunResult<TiktokShopSearchSuggestionsData>;
   };
   "tiktok_shop.shop_products": {
     input: TiktokShopShopProductsInput;
