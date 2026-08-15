@@ -337,6 +337,7 @@ export function extractCatalogPricing(value: unknown, slug: string): Pricing {
     ["from", "failoverMaxUsd"],
     "discovery pricing",
     slug,
+    ["failoverMaxPer1kUsd"],
   );
   strictUsd(
     pricing["failoverMaxUsd"],
@@ -355,6 +356,7 @@ export function extractCatalogPricing(value: unknown, slug: string): Pricing {
       ["model", "unit", "maxUsd"],
       "discovery pricing.from",
       slug,
+      ["maxPer1kUsd"],
     );
     if (unit !== "request") {
       throw new Error(`SKU ${slug}: malformed flat discovery offer`);
@@ -376,6 +378,7 @@ export function extractCatalogPricing(value: unknown, slug: string): Pricing {
       ["model", "unit", "baseUsd", "perUnitUsd", "maxUsd"],
       "discovery pricing.from",
       slug,
+      ["maxPer1kUsd"],
     );
     if (typeof unit !== "string" || unit.length === 0) {
       throw new Error(
@@ -408,13 +411,25 @@ function strictUsd(value: unknown, path: string): number {
   return value;
 }
 
+/**
+ * Reject unknown fields, require the named ones, and tolerate the optional ones.
+ *
+ * The strictness is deliberate: an unrecognized discovery field means the wire
+ * grew something the generator may need to carry, and failing loudly is how we
+ * find out. `optional` is for a field the gateway has started publishing that
+ * this generator does not consume. It must be listed to pass the unknown-field
+ * check, but cannot be required, because `catalog.json` is a committed snapshot
+ * that is refreshed by regen and is therefore routinely older than the live wire
+ * this same code parses.
+ */
 function requireExactFields(
   value: Record<string, unknown>,
   fields: readonly string[],
   path: string,
   slug: string,
+  optional: readonly string[] = [],
 ): void {
-  const expected = new Set(fields);
+  const expected = new Set([...fields, ...optional]);
   for (const key of Object.keys(value)) {
     if (!expected.has(key)) {
       throw new Error(`SKU ${slug}: unexpected ${path} field ${key}`);

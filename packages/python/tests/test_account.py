@@ -63,11 +63,20 @@ def discovery_latency() -> dict[str, object]:
     ("model", "field"),
     [
         (FlatPricingOffer, "maxUsd"),
+        (FlatPricingOffer, "maxPer1kUsd"),
         (LinearPricingOffer, "baseUsd"),
         (LinearPricingOffer, "perUnitUsd"),
         (DiscoveryPricing, "failoverMaxUsd"),
+        (DiscoveryPricing, "failoverMaxPer1kUsd"),
     ],
-    ids=["max-usd", "base-usd", "per-unit-usd", "failover-max-usd"],
+    ids=[
+        "max-usd",
+        "max-per-1k-usd",
+        "base-usd",
+        "per-unit-usd",
+        "failover-max-usd",
+        "failover-max-per-1k-usd",
+    ],
 )
 def test_discovery_pricing_rejects_non_finite_usd_values(
     model: type[FlatPricingOffer | LinearPricingOffer | DiscoveryPricing],
@@ -79,6 +88,7 @@ def test_discovery_pricing_rejects_non_finite_usd_values(
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.00325,
+            "maxPer1kUsd": 3.25,
         }
     elif model is LinearPricingOffer:
         raw = {
@@ -87,11 +97,18 @@ def test_discovery_pricing_rejects_non_finite_usd_values(
             "baseUsd": 0.00005,
             "perUnitUsd": 0.0008,
             "maxUsd": 0.04002,
+            "maxPer1kUsd": 40.02,
         }
     else:
         raw = {
-            "from": {"model": "flat", "unit": "request", "maxUsd": 0.00325},
+            "from": {
+                "model": "flat",
+                "unit": "request",
+                "maxUsd": 0.00325,
+                "maxPer1kUsd": 3.25,
+            },
             "failoverMaxUsd": 0.00325,
+            "failoverMaxPer1kUsd": 3.25,
         }
     raw[field] = value
     with pytest.raises(ValueError, match="finite_number"):
@@ -236,6 +253,47 @@ def test_catalog_accepts_empty_lanes_and_older_optional_field_shape() -> None:
     assert entry.lanes == []
     assert entry.failover is None
     assert entry.excludes_caller_delay is None
+
+
+def per1k_discovery_api() -> dict[str, object]:
+    """A browse row priced like production booking.search: 0.0966 -> 96.6 per 1,000."""
+    api = discovery_api()
+    pricing = cast("dict[str, object]", api["pricing"])
+    offer = cast("dict[str, object]", pricing["from"])
+    offer["maxUsd"] = 0.0966
+    offer["maxPer1kUsd"] = 96.6
+    pricing["failoverMaxUsd"] = 0.0966
+    pricing["failoverMaxPer1kUsd"] = 96.6
+    lanes = cast("list[dict[str, object]]", api["lanes"])
+    api["lanes"] = [{**lanes[0], "pricing": clone_record(offer)}]
+    return api
+
+
+def test_catalog_reads_published_per_1k_rate_without_multiplying() -> None:
+    # 0.0966 * 1000 is 96.60000000000001 in Python, so the reader must take the
+    # gateway's published maxPer1kUsd verbatim.
+    assert 0.0966 * 1000 != 96.6
+    api = per1k_discovery_api()
+    client, _ = make_sync_client(lambda _req: json_response(200, {"apis": [api]}))
+    entry = client.catalog()[0]
+    assert entry.pricing.from_offer.max_usd == 0.0966
+    assert entry.pricing.from_offer.max_per1k_usd == 96.6
+    assert entry.pricing.failover_max_per1k_usd == 96.6
+    assert entry.lanes[0].pricing.max_per1k_usd == 96.6
+
+
+@pytest.mark.parametrize(
+    ("scope", "key"),
+    [("from", "maxPer1kUsd"), ("wrapper", "failoverMaxPer1kUsd")],
+)
+def test_catalog_rejects_pricing_without_the_per_1k_rate(scope: str, key: str) -> None:
+    api = per1k_discovery_api()
+    pricing = cast("dict[str, object]", api["pricing"])
+    target = cast("dict[str, object]", pricing["from"]) if scope == "from" else pricing
+    del target[key]
+    client, _ = make_sync_client(lambda _req: json_response(200, {"apis": [api]}))
+    with pytest.raises(ValueError, match=key):
+        client.catalog()
 
 
 @pytest.mark.parametrize(

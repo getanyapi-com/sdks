@@ -5,7 +5,7 @@ import { AnyAPI, NotFoundError, agentSignup } from "../src/index.js";
 import { mockFetch } from "./helpers.js";
 
 type MutableRecord = Record<string, unknown>;
-type MutableOffer = MutableRecord & { maxUsd: number };
+type MutableOffer = MutableRecord & { maxUsd: number; maxPer1kUsd: number };
 type MutableLane = MutableRecord & {
   pricing: MutableOffer;
   source: MutableRecord;
@@ -16,6 +16,7 @@ type MutableApi = MutableRecord & {
   pricing: MutableRecord & {
     from: MutableOffer;
     failoverMaxUsd: number;
+    failoverMaxPer1kUsd: number;
   };
   lanes: MutableLane[];
   latency?: MutableRecord | null;
@@ -39,9 +40,9 @@ type DiscoveryGolden = {
 };
 
 const goldenSource =
-  "getanyapi-com/anyapi@4cb2215c1159f990d7a2878ca0674b565a2a7bb7:testdata/discovery-v1.json";
+  "getanyapi-com/anyapi@4a08ba36a2f80368b667ea62fbd0f693a24f5e88:testdata/discovery-v1.json";
 const goldenSha256 =
-  "2ae863ea488d3066cd9a385a306d1ecfa0899b2de0dfdd98f295a8dcdffe6310";
+  "6ad78f2cfb6aef1f3461602517b93767185319f61860d8e3eb788232b1b0a062";
 const goldenBytes = readFileSync(
   new URL("../../../testdata/discovery-v1.json", import.meta.url),
 );
@@ -225,6 +226,50 @@ describe("catalog", () => {
       "catalog.apis[0].future.provider",
     ],
   ])("rejects unsafe fields before projection %#", async (api, message) => {
+    const { fetch } = mockFetch([{ body: { apis: [api] } }]);
+    await expect(new AnyAPI({ apiKey: "k", fetch }).catalog()).rejects.toThrow(
+      message,
+    );
+  });
+});
+
+describe("per-1,000-request pricing", () => {
+  // booking.search in production: 0.0966 per request, 96.6 per 1,000. Multiplying in
+  // JavaScript yields 96.60000000000001, so the reader must take the published value.
+  const per1kApi = (): MutableApi => {
+    const offer: MutableOffer = {
+      ...clone(linearOffer),
+      maxUsd: 0.0966,
+      maxPer1kUsd: 96.6,
+    };
+    const api = clone(linearApi);
+    api.pricing = {
+      ...api.pricing,
+      from: offer,
+      failoverMaxUsd: 0.0966,
+      failoverMaxPer1kUsd: 96.6,
+    };
+    api.lanes = [{ ...clone(linearApi.lanes[0]!), pricing: clone(offer) }];
+    return api;
+  };
+
+  it("reads the published rate instead of multiplying maxUsd by 1000", async () => {
+    expect(0.0966 * 1000).not.toBe(96.6);
+    const { fetch } = mockFetch([{ body: { apis: [per1kApi()] } }]);
+    const [entry] = await new AnyAPI({ apiKey: "k", fetch }).catalog();
+    expect(entry!.pricing.from.maxUsd).toBe(0.0966);
+    expect(entry!.pricing.from.maxPer1kUsd).toBe(96.6);
+    expect(entry!.pricing.failoverMaxPer1kUsd).toBe(96.6);
+    expect(entry!.lanes[0]!.pricing.maxPer1kUsd).toBe(96.6);
+  });
+
+  it.each([
+    ["from", "maxPer1kUsd", "api.pricing.from.maxPer1kUsd"],
+    ["wrapper", "failoverMaxPer1kUsd", "api.pricing.failoverMaxPer1kUsd"],
+  ])("rejects a %s offer without %s", async (scope, key, message) => {
+    const api = per1kApi();
+    const target = scope === "from" ? api.pricing.from : api.pricing;
+    delete (target as MutableRecord)[key];
     const { fetch } = mockFetch([{ body: { apis: [api] } }]);
     await expect(new AnyAPI({ apiKey: "k", fetch }).catalog()).rejects.toThrow(
       message,
