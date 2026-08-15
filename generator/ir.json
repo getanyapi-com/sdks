@@ -56,6 +56,11 @@
     },
     {
       "kind": "dead-cursor",
+      "slug": "tiktok_shop.category_products",
+      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
+    },
+    {
+      "kind": "dead-cursor",
       "slug": "youtube.search",
       "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
     },
@@ -46283,6 +46288,13 @@
             "default": null,
             "format": null
           },
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination cursor: the number of products to skip. Pass \"0\" or omit for the first page, then advance by the number of items you received (e.g. 15) while hasMore is true.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "region": {
             "kind": "string",
             "description": "Two-letter country code of the TikTok Shop market (e.g. US).",
@@ -46318,6 +46330,13 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "discountPct": {
+                    "kind": "number",
+                    "description": "Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "image": {
                     "kind": "string",
@@ -46360,6 +46379,13 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "sellerId": {
+                    "kind": "string",
+                    "description": "TikTok Shop seller id, for joining to the seller's other products.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "shopName": {
                     "kind": "string",
@@ -47454,6 +47480,13 @@
                     "default": null,
                     "format": null
                   },
+                  "discountPct": {
+                    "kind": "number",
+                    "description": "Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "originalPrice": {
                     "kind": "number",
                     "description": "Pre-discount list price (0 when not on sale).",
@@ -47481,6 +47514,20 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "reviewCount": {
+                    "kind": "integer",
+                    "description": "Number of reviews. Omitted when the lane that served this request does not report it.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerId": {
+                    "kind": "string",
+                    "description": "TikTok Shop seller id, for joining to the seller's other products.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "shopName": {
                     "kind": "string",

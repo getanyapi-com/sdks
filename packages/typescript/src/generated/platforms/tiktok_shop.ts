@@ -87,6 +87,10 @@ export interface TiktokShopCategoryProductsInput {
    */
   categoryId: string;
   /**
+   * Pagination cursor: the number of products to skip. Pass "0" or omit for the first page, then advance by the number of items you received (e.g. 15) while hasMore is true.
+   */
+  cursor?: string;
+  /**
    * Two-letter country code of the TikTok Shop market (e.g. US).
    * Default: US.
    */
@@ -98,6 +102,10 @@ export interface TiktokShopCategoryProductsItem {
    * ISO currency name, e.g. USD.
    */
   currency?: string;
+  /**
+   * Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.
+   */
+  discountPct?: number;
   /**
    * Primary product image URL.
    */
@@ -122,6 +130,10 @@ export interface TiktokShopCategoryProductsItem {
    * Number of reviews.
    */
   reviewCount?: number;
+  /**
+   * TikTok Shop seller id, for joining to the seller's other products.
+   */
+  sellerId?: string;
   /**
    * Seller shop name.
    */
@@ -645,6 +657,10 @@ export interface TiktokShopSearchItem {
    */
   currency?: string;
   /**
+   * Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.
+   */
+  discountPct?: number;
+  /**
    * Pre-discount list price (0 when not on sale).
    */
   originalPrice?: number;
@@ -660,6 +676,14 @@ export interface TiktokShopSearchItem {
    * Average review score.
    */
   rating?: number;
+  /**
+   * Number of reviews. Omitted when the lane that served this request does not report it.
+   */
+  reviewCount?: number;
+  /**
+   * TikTok Shop seller id, for joining to the seller's other products.
+   */
+  sellerId?: string;
   /**
    * Seller shop name.
    */

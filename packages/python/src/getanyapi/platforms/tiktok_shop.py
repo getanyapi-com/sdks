@@ -33,6 +33,8 @@ class TiktokShopCategoryProductsInput(TypedDict, total=False):
 
     categoryId: Required[str]
     """TikTok Shop category id, from tiktok_shop.categories (e.g. 700645 for Health)."""
+    cursor: NotRequired[str]
+    """Pagination cursor: the number of products to skip. Pass "0" or omit for the first page, then advance by the number of items you received (e.g. 15) while hasMore is true."""
     region: NotRequired[str]
     """Two-letter country code of the TikTok Shop market (e.g. US). Default: US."""
 
@@ -197,6 +199,11 @@ class TiktokShopCategoryProductsItem(BaseModel):
     currency: str | None = Field(
         default=None, description="ISO currency name, e.g. USD."
     )
+    discount_pct: float | None = Field(
+        default=None,
+        alias="discountPct",
+        description="Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
+    )
     image: str | None = Field(default=None, description="Primary product image URL.")
     original_price: float | None = Field(
         default=None,
@@ -211,6 +218,11 @@ class TiktokShopCategoryProductsItem(BaseModel):
     rating: float | None = Field(default=None, description="Average review score.")
     review_count: int | None = Field(
         default=None, alias="reviewCount", description="Number of reviews."
+    )
+    seller_id: str | None = Field(
+        default=None,
+        alias="sellerId",
+        description="TikTok Shop seller id, for joining to the seller's other products.",
     )
     shop_name: str | None = Field(
         default=None, alias="shopName", description="Seller shop name."
@@ -594,6 +606,11 @@ class TiktokShopSearchItem(BaseModel):
     currency: str | None = Field(
         default=None, description="ISO currency name, e.g. USD."
     )
+    discount_pct: float | None = Field(
+        default=None,
+        alias="discountPct",
+        description="Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
+    )
     original_price: float | None = Field(
         default=None,
         alias="originalPrice",
@@ -605,6 +622,16 @@ class TiktokShopSearchItem(BaseModel):
         description="TikTok Shop product id. Populated whenever the provider has data for the entity.",
     )
     rating: float | None = Field(default=None, description="Average review score.")
+    review_count: int | None = Field(
+        default=None,
+        alias="reviewCount",
+        description="Number of reviews. Omitted when the lane that served this request does not report it.",
+    )
+    seller_id: str | None = Field(
+        default=None,
+        alias="sellerId",
+        description="TikTok Shop seller id, for joining to the seller's other products.",
+    )
     shop_name: str | None = Field(
         default=None, alias="shopName", description="Seller shop name."
     )
