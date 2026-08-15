@@ -659,6 +659,7 @@ export interface FlatPricingOffer {
   model: "flat";
   unit: "request";
   maxUsd: number;
+  maxPer1kUsd: number;
 }
 export interface LinearPricingOffer {
   model: "linear";
@@ -666,11 +667,13 @@ export interface LinearPricingOffer {
   baseUsd: number;
   perUnitUsd: number;
   maxUsd: number;
+  maxPer1kUsd: number;
 }
 export type PricingOffer = FlatPricingOffer | LinearPricingOffer;
 export interface DiscoveryPricing {
   from: PricingOffer;
   failoverMaxUsd: number;
+  failoverMaxPer1kUsd: number;
 }
 export type DiscoveryExecutionMode = "sync" | "durable";
 export interface DiscoveryExecution {
@@ -783,6 +786,14 @@ export interface AgentSignupResult {
   `excludesCallerDelay`, and conditional `tryMaxItems` routing facts. Detail always carries a
   `latency` key whose value is either the complete successful end-to-end distribution or null;
   browse and search omit latency.
+- Every static discovery offer is published in two denominations. `maxUsd` is what ONE request
+  is billed; `maxPer1kUsd` is that same maximum per 1,000 requests, which is AnyAPI's
+  customer-facing standard because most of the catalog costs a fraction of a cent per call.
+  `pricing.failoverMaxPer1kUsd` is the twin of `failoverMaxUsd`, and lane offers carry
+  `maxPer1kUsd` as well. Both readers take the gateway's published value and never multiply:
+  in TypeScript and Python alike `0.0966 * 1000` is `96.60000000000001`, not `96.6`. This is a
+  comparison rate only. Amounts that state what a specific call is charged (a run's `costUsd` /
+  `cost_usd`, wallet balance, and quotes) remain per request and have no per-1k twin.
 - Discovery is a tolerant-reader boundary. The gateway solely owns routing, lane order,
   failover, pricing relationships, health semantics, provider normalization, schemas, and
   billing. The handwritten clients recursively reject case-insensitive `*credit*` keys and

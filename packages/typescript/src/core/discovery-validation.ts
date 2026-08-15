@@ -112,8 +112,12 @@ function parseOffer(value: unknown, path: string): PricingOffer {
   const model = stringField(raw, "model", path);
   const unit = stringField(raw, "unit", path);
   const maxUsd = numberField(raw, "maxUsd", path);
+  // Read the gateway's published per-1,000-request rate; never multiply maxUsd by 1000.
+  const maxPer1kUsd = numberField(raw, "maxPer1kUsd", path);
   if (model === "flat") {
-    return unit === "request" ? { model, unit, maxUsd } : malformed(path);
+    return unit === "request"
+      ? { model, unit, maxUsd, maxPer1kUsd }
+      : malformed(path);
   }
   if (model !== "linear") return malformed(`${path}.model`);
   if (unit.length === 0) return malformed(`${path}.unit`);
@@ -123,6 +127,7 @@ function parseOffer(value: unknown, path: string): PricingOffer {
     baseUsd: numberField(raw, "baseUsd", path),
     perUnitUsd: numberField(raw, "perUnitUsd", path),
     maxUsd,
+    maxPer1kUsd,
   };
 }
 
@@ -131,6 +136,7 @@ export function parsePricing(value: unknown, path: string): DiscoveryPricing {
   return {
     from: parseOffer(raw["from"], `${path}.from`),
     failoverMaxUsd: numberField(raw, "failoverMaxUsd", path),
+    failoverMaxPer1kUsd: numberField(raw, "failoverMaxPer1kUsd", path),
   };
 }
 

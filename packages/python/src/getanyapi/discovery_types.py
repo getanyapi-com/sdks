@@ -16,7 +16,10 @@ class FlatPricingOffer(BaseModel):
 
     model: Literal["flat"]
     unit: Literal["request"]
+    #: USD billed for ONE request.
     max_usd: float = Field(alias="maxUsd", ge=0)
+    #: The same maximum quoted per 1,000 requests, read from the gateway as published.
+    max_per1k_usd: float = Field(alias="maxPer1kUsd", ge=0)
 
 
 class LinearPricingOffer(BaseModel):
@@ -30,7 +33,10 @@ class LinearPricingOffer(BaseModel):
     unit: str = Field(min_length=1)
     base_usd: float = Field(alias="baseUsd", ge=0)
     per_unit_usd: float = Field(alias="perUnitUsd", ge=0)
+    #: USD billed for ONE request at the cap.
     max_usd: float = Field(alias="maxUsd", ge=0)
+    #: The same maximum quoted per 1,000 requests, read from the gateway as published.
+    max_per1k_usd: float = Field(alias="maxPer1kUsd", ge=0)
 
 
 PricingOffer = Annotated[
@@ -45,6 +51,8 @@ class DiscoveryPricing(BaseModel):
 
     from_offer: PricingOffer = Field(alias="from")
     failover_max_usd: float = Field(alias="failoverMaxUsd", ge=0)
+    #: The failover ceiling per 1,000 requests, read from the gateway as published.
+    failover_max_per1k_usd: float = Field(alias="failoverMaxPer1kUsd", ge=0)
 
 
 class DiscoveryExecution(BaseModel):

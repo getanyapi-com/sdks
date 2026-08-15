@@ -218,7 +218,10 @@ export interface CatalogOptions {
 export interface FlatPricingOffer {
   model: "flat";
   unit: "request";
+  /** USD billed for ONE request. */
   maxUsd: number;
+  /** The same maximum quoted per 1,000 requests, as published by the gateway. */
+  maxPer1kUsd: number;
 }
 
 /** A capped base-plus-unit discovery offer. */
@@ -227,7 +230,10 @@ export interface LinearPricingOffer {
   unit: string;
   baseUsd: number;
   perUnitUsd: number;
+  /** USD billed for ONE request at the cap. */
   maxUsd: number;
+  /** The same maximum quoted per 1,000 requests, as published by the gateway. */
+  maxPer1kUsd: number;
 }
 
 export type PricingOffer = FlatPricingOffer | LinearPricingOffer;
@@ -235,6 +241,8 @@ export type PricingOffer = FlatPricingOffer | LinearPricingOffer;
 export interface DiscoveryPricing {
   from: PricingOffer;
   failoverMaxUsd: number;
+  /** The failover ceiling quoted per 1,000 requests, as published by the gateway. */
+  failoverMaxPer1kUsd: number;
 }
 
 export type DiscoveryExecutionMode = "sync" | "durable";
