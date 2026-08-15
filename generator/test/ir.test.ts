@@ -194,6 +194,58 @@ describe("strict nested discovery pricing", () => {
     },
   );
 
+  // The gateway publishes every maximum in a second denomination. This
+  // generator does not consume those figures, but it must parse a row carrying
+  // them: `regen.yml` fetches the LIVE catalog on every gateway deploy, while
+  // `pnpm check` only ever sees the committed snapshot. That gap let the strict
+  // allowlist ship green and then fail the refresh against production.
+  it("parses a live-shaped row carrying the per-1k rates", () => {
+    expect(
+      extractCatalogPricing(
+        {
+          slug: "fixture.per1k",
+          provider: "AnyAPI",
+          pricing: {
+            from: {
+              model: "linear",
+              unit: "result",
+              baseUsd: 0.0021,
+              perUnitUsd: 0.00473,
+              maxUsd: 0.0966,
+              maxPer1kUsd: 96.6,
+            },
+            failoverMaxUsd: 0.0966,
+            failoverMaxPer1kUsd: 96.6,
+          },
+        },
+        "fixture.per1k",
+      ),
+    ).toEqual({
+      priceUsd: 0.0966,
+      baseUsd: 0.0021,
+      perItemUsd: 0.00473,
+      perItemUnit: "result",
+    });
+  });
+
+  // Optional means tolerated, not required: the committed snapshot predates the
+  // field and must keep parsing until the next refresh rewrites it.
+  it("still parses a snapshot row published before the per-1k rates", () => {
+    expect(
+      extractCatalogPricing(
+        {
+          slug: "fixture.flat",
+          provider: "AnyAPI",
+          pricing: {
+            from: { model: "flat", unit: "request", maxUsd: 0.00325 },
+            failoverMaxUsd: 0.00325,
+          },
+        },
+        "fixture.flat",
+      ).priceUsd,
+    ).toBe(0.00325);
+  });
+
   it.each([
     [
       {
