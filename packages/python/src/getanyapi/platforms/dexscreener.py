@@ -147,7 +147,7 @@ class DexscreenerNamespace:
         volume, transactions, and market cap), sorted how you want, as normalized
         JSON.
 
-        Price: $0.021 per request plus $0.00158 per result (maximum $0.0604).
+        Price: $0.022 per request plus $0.00165 per result (maximum $0.0633).
 
         Example:
             res = client.dexscreener.tokens(chain="solana", limit=5, min24HVol=100000)
@@ -176,7 +176,7 @@ class AsyncDexscreenerNamespace:
         volume, transactions, and market cap), sorted how you want, as normalized
         JSON.
 
-        Price: $0.021 per request plus $0.00158 per result (maximum $0.0604).
+        Price: $0.022 per request plus $0.00165 per result (maximum $0.0633).
 
         Example:
             res = client.dexscreener.tokens(chain="solana", limit=5, min24HVol=100000)

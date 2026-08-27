@@ -444,12 +444,17 @@
     "items": 1,
     "replayed": false
   },
-  "chatgpt.brand_visibility": {
+  "capterra.reviews": {
     "output": {
       "found": true,
       "data": {
-        "prompt": "sample",
-        "brand": "sample"
+        "items": [
+          {
+            "id": "sample",
+            "rating": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -490,6 +495,18 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company.research": {
+    "output": {
+      "found": true,
+      "data": {
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",
@@ -674,6 +691,44 @@
     "items": 1,
     "replayed": false
   },
+  "ebay.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "ebay.product_full": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "ebay.search": {
     "output": {
       "found": true,
@@ -755,6 +810,39 @@
         "email": "sample",
         "status": "sample",
         "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_finding.hunter_count": {
+    "output": {
+      "found": true,
+      "data": {
+        "domain": "sample",
+        "total": 1,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_finding.hunter_domain": {
+    "output": {
+      "found": true,
+      "data": {
+        "domain": "sample",
+        "totalCount": 1,
+        "emails": [
+          {
+            "email": "sample",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -1309,9 +1397,11 @@
             "text": "sample",
             "url": "sample",
             "author": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
-        ]
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
@@ -1426,12 +1516,17 @@
     "items": 1,
     "replayed": false
   },
-  "gemini.brand_visibility": {
+  "g2.reviews": {
     "output": {
       "found": true,
       "data": {
-        "prompt": "sample",
-        "brand": "sample"
+        "items": [
+          {
+            "id": "sample",
+            "rating": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -1860,6 +1955,27 @@
     "replayed": false
   },
   "google.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "query": "sample",
+        "results": [
+          {
+            "title": "sample",
+            "link": "sample",
+            "snippet": "sample",
+            "position": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "google.search_100": {
     "output": {
       "found": true,
       "data": {
@@ -2348,6 +2464,7 @@
         "posts": 1,
         "bio": "sample",
         "verified": true,
+        "private": true,
         "avatarUrl": "sample",
         "_extra": "passthrough"
       }
@@ -2386,14 +2503,11 @@
             "url": "sample",
             "caption": "sample",
             "thumbnail": "sample",
-            "views": 1,
-            "plays": 1,
             "likes": 1,
             "comments": 1,
             "durationSeconds": 1.5,
             "createdUtc": 1.5,
             "username": "sample",
-            "followers": 1,
             "verified": true,
             "paidPartnership": true,
             "_extra": "passthrough"
@@ -2439,7 +2553,8 @@
             "displayUrl": "sample",
             "_extra": "passthrough"
           }
-        ]
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
@@ -2544,7 +2659,6 @@
             "caption": "sample",
             "likes": 1,
             "comments": 1,
-            "plays": 1,
             "handle": "sample",
             "_extra": "passthrough"
           }
@@ -2588,6 +2702,8 @@
             "likes": 1,
             "comments": 1,
             "createdUtc": 1.5,
+            "username": "sample",
+            "verified": true,
             "_extra": "passthrough"
           }
         ],
@@ -2612,6 +2728,9 @@
             "likes": 1,
             "comments": 1,
             "createdUtc": 1.5,
+            "username": "sample",
+            "verified": true,
+            "durationSeconds": 1.5,
             "_extra": "passthrough"
           }
         ],
@@ -2687,6 +2806,21 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "linkedin.article": {
+    "output": {
+      "found": true,
+      "data": {
+        "url": "https://example.com/x",
+        "title": "sample",
+        "body": "sample",
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",
@@ -3348,19 +3482,6 @@
     "items": 1,
     "replayed": false
   },
-  "perplexity.brand_visibility": {
-    "output": {
-      "found": true,
-      "data": {
-        "prompt": "sample",
-        "brand": "sample"
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
   "perplexity.search": {
     "output": {
       "found": true,
@@ -3939,6 +4060,36 @@
       "data": {
         "domain": "sample",
         "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "seo.domain_technologies": {
+    "output": {
+      "found": true,
+      "data": {
+        "domain": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "seo.domains_by_technology": {
+    "output": {
+      "found": true,
+      "data": {
+        "domains": [
+          {
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -4740,7 +4891,8 @@
             "createdUtc": 1.5,
             "_extra": "passthrough"
           }
-        ]
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
@@ -4904,6 +5056,25 @@
             "comments": 1,
             "shares": 1,
             "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok.trending_hashtags": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "rank": 1,
+            "hashtag": "sample",
+            "hashtagId": "sample",
             "_extra": "passthrough"
           }
         ]
@@ -5438,6 +5609,7 @@
         "bio": "sample",
         "verified": true,
         "avatarUrl": "sample",
+        "website": "sample",
         "_extra": "passthrough"
       }
     },

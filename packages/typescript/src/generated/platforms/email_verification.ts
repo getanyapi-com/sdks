@@ -168,6 +168,9 @@ export class EmailVerificationNamespace {
    * Verify an email address. A valid negative verdict is a successful, billable result.
    *
    * Price: $0.0024 per request.
+   *
+   * @example
+   * const res = await client.emailVerification.icypeas({ email: "support@stripe.com" });
    */
   icypeas(
     input: EmailVerificationIcypeasInput,

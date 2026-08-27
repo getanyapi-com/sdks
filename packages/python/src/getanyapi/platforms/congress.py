@@ -114,7 +114,7 @@ class CongressNamespace:
         ticker, transaction type, amount range, and dates), filterable by member,
         ticker, or date range.
 
-        Price: $0.00105 per request plus $0.002 per result (maximum $0.051).
+        Price: $0.0011 per request plus $0.00209 per result (maximum $0.0534).
 
         Example:
             res = client.congress.trades(limit=5)
@@ -143,7 +143,7 @@ class AsyncCongressNamespace:
         ticker, transaction type, amount range, and dates), filterable by member,
         ticker, or date range.
 
-        Price: $0.00105 per request plus $0.002 per result (maximum $0.051).
+        Price: $0.0011 per request plus $0.00209 per result (maximum $0.0534).
 
         Example:
             res = client.congress.trades(limit=5)

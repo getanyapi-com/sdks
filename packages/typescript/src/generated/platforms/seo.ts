@@ -2,9 +2,11 @@
 
 import type {
   ClientCore,
+  Paginator,
   RequestOptions,
   RunResult,
 } from "../../core/index.js";
+import { paginate } from "../../core/index.js";
 
 /**
  * Input for SEO Competitor Domains (seo.competitors_domain).
@@ -266,6 +268,182 @@ export interface SeoDomainRankOverviewData {
    */
   paidTrafficCostUsd?: number;
   [extra: string]: unknown;
+}
+
+/**
+ * Input for SEO Domain Technologies (seo.domain_technologies).
+ */
+export interface SeoDomainTechnologiesInput {
+  /**
+   * Domain to analyze, without a protocol or leading www. Billing is flat per request.
+   */
+  domain: string;
+}
+
+/**
+ * The `data` payload of SEO Domain Technologies (seo.domain_technologies).
+ */
+export interface SeoDomainTechnologiesData {
+  /**
+   * Language code detected from the domain's page content.
+   */
+  contentLanguageCode?: string;
+  /**
+   * Two-letter ISO country code the domain is associated with.
+   */
+  countryIsoCode?: string;
+  /**
+   * Meta description of the domain's homepage.
+   */
+  description?: string;
+  /**
+   * Domain name that was analyzed, as the detection index stores it. Populated whenever the provider has data for the entity.
+   */
+  domain: string;
+  /**
+   * Relative authority rank of the domain. Higher is stronger. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  domainRank?: number;
+  /**
+   * Contact email addresses published on the domain.
+   */
+  emails?: string[];
+  /**
+   * Language code declared by the domain.
+   */
+  languageCode?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastVisitedUtc?: number;
+  /**
+   * Contact phone numbers published on the domain.
+   */
+  phoneNumbers?: string[];
+  /**
+   * Social profile URLs linked from the domain.
+   */
+  socialGraphUrls?: string[];
+  /**
+   * Technologies detected on the domain, nested by group and then by category, with an array of technology names at each leaf. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  technologies?: {};
+  /**
+   * Title of the domain's homepage.
+   */
+  title?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for SEO Domains By Technology (seo.domains_by_technology).
+ */
+export interface SeoDomainsByTechnologyInput {
+  /**
+   * Technology category to match, for example marketing_automation. Broader than technology: it returns every domain running anything in that category.
+   */
+  category?: string;
+  /**
+   * Pagination cursor from a previous response's nextCursor. Omit for the first page.
+   */
+  cursor?: string;
+  /**
+   * Top-level technology group to match, for example marketing or servers. The broadest selector.
+   */
+  group?: string;
+  /**
+   * On-page term to match in the site's HTML, for example highlevel. Use this to find sites running a product that the technology index does not detect by name.
+   */
+  keyword?: string;
+  /**
+   * Maximum number of domains to return in this response. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 100.
+   * Default: 20.
+   */
+  limit?: number;
+  /**
+   * Sort order for the returned domains: by domain rank descending or ascending, by most recently crawled, or by country code. Omit for the default order.
+   * One of: rank_desc, rank_asc, last_visited_desc, country_asc.
+   */
+  orderBy?: "rank_desc" | "rank_asc" | "last_visited_desc" | "country_asc";
+  /**
+   * Exact technology name to match, for example Nginx or HubSpot. Only technologies present in the detection index are accepted; an unindexed name returns found false, so use keyword instead when a product is not matched by name.
+   */
+  technology?: string;
+}
+
+export interface SeoDomainsByTechnologyDomain {
+  /**
+   * Language code detected from the domain's page content.
+   */
+  contentLanguageCode?: string;
+  /**
+   * Two-letter ISO country code the domain is associated with.
+   */
+  countryIsoCode?: string;
+  /**
+   * Meta description of the domain's homepage.
+   */
+  description?: string;
+  /**
+   * Domain name of the detected website. Populated whenever the provider has data for the entity.
+   */
+  domain: string;
+  /**
+   * Relative authority rank of the domain. Higher is stronger. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  domainRank?: number;
+  /**
+   * Contact email addresses published on the domain.
+   */
+  emails?: string[];
+  /**
+   * Language code declared by the domain.
+   */
+  languageCode?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastVisitedUtc?: number;
+  /**
+   * Contact phone numbers published on the domain.
+   */
+  phoneNumbers?: string[];
+  /**
+   * Social profile URLs linked from the domain.
+   */
+  socialGraphUrls?: string[];
+  /**
+   * Technologies detected on the domain, nested by group and then by category, with an array of technology names at each leaf. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  technologies?: {};
+  /**
+   * Title of the domain's homepage.
+   */
+  title?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO Domains By Technology (seo.domains_by_technology).
+ */
+export interface SeoDomainsByTechnologyData {
+  /**
+   * Domains detected running the requested technology, category, group, or on-page term. Populated whenever the provider has data for the entity.
+   */
+  domains: SeoDomainsByTechnologyDomain[];
+  /**
+   * Cursor for the next page. Null or empty when there are no further results.
+   */
+  nextCursor?: string | null;
+  /**
+   * Total number of domains matching the request across all pages.
+   */
+  totalCount?: number;
 }
 
 /**
@@ -1043,6 +1221,66 @@ export class SeoNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<SeoDomainRankOverviewData>> {
     return this._core.run("seo.domain_rank_overview", input, options);
+  }
+
+  /**
+   * SEO Domain Technologies
+   *
+   * Detect the technology stack a website runs: CMS, analytics, marketing, hosting, and security, plus contacts and social profiles as normalized JSON.
+   *
+   * Price: $0.012 per request.
+   *
+   * @example
+   * const res = await client.seo.domainTechnologies({ domain: "hubspot.com" });
+   */
+  domainTechnologies(
+    input: SeoDomainTechnologiesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoDomainTechnologiesData>> {
+    return this._core.run("seo.domain_technologies", input, options);
+  }
+
+  /**
+   * SEO Domains By Technology
+   *
+   * Find websites running a given technology, category, or on-page term: domain, rank, detected stack, contacts, and social profiles as normalized JSON.
+   *
+   * Price: $0.012 per request plus $0.0012 per result (maximum $0.132).
+   *
+   * @example
+   * const res = await client.seo.domainsByTechnology({ keyword: "highlevel", limit: 10, orderBy: "rank_desc" });
+   */
+  domainsByTechnology(
+    input: SeoDomainsByTechnologyInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoDomainsByTechnologyData>> {
+    return this._core.run("seo.domains_by_technology", input, options);
+  }
+
+  /**
+   * Iterate every result of SEO Domains By Technology across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterDomainsByTechnology(
+    input: SeoDomainsByTechnologyInput,
+    options?: RequestOptions,
+  ): Paginator<
+    SeoDomainsByTechnologyDomain,
+    RunResult<SeoDomainsByTechnologyData>
+  > {
+    return paginate<
+      SeoDomainsByTechnologyDomain,
+      RunResult<SeoDomainsByTechnologyData>
+    >(
+      this._core,
+      "seo.domains_by_technology",
+      input as unknown as Record<string, unknown>,
+      "domains",
+      false,
+      options,
+    );
   }
 
   /**

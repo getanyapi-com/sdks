@@ -135,7 +135,7 @@ export class SubstackNamespace {
    *
    * Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.
    *
-   * Price: $0.00525 per request plus $0.00164 per result (maximum $0.17).
+   * Price: $0.0055 per request plus $0.00172 per result (maximum $0.178).
    *
    * @example
    * const res = await client.substack.posts({ url: "https://www.astralcodexten.com", limit: 3 });

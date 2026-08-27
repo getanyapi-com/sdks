@@ -454,6 +454,11 @@ class GithubUserRepositoriesRepo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     archived: bool
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="URL of the repository owner's avatar image.",
+    )
     description: str
     fork: bool
     forks: int

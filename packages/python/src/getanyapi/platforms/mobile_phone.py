@@ -88,10 +88,13 @@ class MobilePhoneNamespace:
     ) -> RunResult[MobilePhoneLeadmagicData]:
         """Mobile Phone - LeadMagic
 
-        Find a person's mobile phone from a profile URL or email. No-match responses
-        are not billed.
+        Find a person's mobile phone from a profile URL or email. A no-match answer
+        is a successful, billable result.
 
         Price: $0.2016 per request.
+
+        Example:
+            res = client.mobile_phone.leadmagic(profileUrl="https://www.linkedin.com/in/tim-zheng")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "mobile_phone.leadmagic", dict(input), options
@@ -134,10 +137,13 @@ class AsyncMobilePhoneNamespace:
     ) -> RunResult[MobilePhoneLeadmagicData]:
         """Mobile Phone - LeadMagic
 
-        Find a person's mobile phone from a profile URL or email. No-match responses
-        are not billed.
+        Find a person's mobile phone from a profile URL or email. A no-match answer
+        is a successful, billable result.
 
         Price: $0.2016 per request.
+
+        Example:
+            res = client.mobile_phone.leadmagic(profileUrl="https://www.linkedin.com/in/tim-zheng")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "mobile_phone.leadmagic", dict(input), options

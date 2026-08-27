@@ -344,7 +344,7 @@ class GoogleAdsNamespace:
         Transparency Center (creative details, formats, and run dates) as clean
         JSON.
 
-        Price: $0.00006 per request plus $0.00137 per result (maximum $0.0274).
+        Price: $0.00006 per request plus $0.00143 per result (maximum $0.0287).
 
         Example:
             res = client.google_ads.search(limit=3, url="https://adstransparency.google.com/?region=US&domain=nike.com")
@@ -461,7 +461,7 @@ class AsyncGoogleAdsNamespace:
         Transparency Center (creative details, formats, and run dates) as clean
         JSON.
 
-        Price: $0.00006 per request plus $0.00137 per result (maximum $0.0274).
+        Price: $0.00006 per request plus $0.00143 per result (maximum $0.0287).
 
         Example:
             res = client.google_ads.search(limit=3, url="https://adstransparency.google.com/?region=US&domain=nike.com")

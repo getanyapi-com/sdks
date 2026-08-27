@@ -87,10 +87,6 @@ export interface TiktokShopCategoryProductsInput {
    */
   categoryId: string;
   /**
-   * Pagination cursor: the number of products to skip. Pass "0" or omit for the first page, then advance by the number of items you received (e.g. 15) while hasMore is true.
-   */
-  cursor?: string;
-  /**
    * Two-letter country code of the TikTok Shop market (e.g. US).
    * Default: US.
    */
@@ -917,7 +913,7 @@ export class TiktokShopNamespace {
    *
    * TikTok Shop creator performance by handle: GMV range, promoted product count, brand collaborations, follower age/gender/location demographics, category GMV split, and video versus live engagement.
    *
-   * Price: $0.00525 per request plus $0 per result (maximum $0.00525).
+   * Price: $0.0055 per request plus $0 per result (maximum $0.0055).
    *
    * @example
    * const res = await client.tiktokShop.creator({ handle: "golinutrition" });
@@ -951,7 +947,7 @@ export class TiktokShopNamespace {
    *
    * Deep TikTok Shop product record from a product URL: affiliate commission rate, units sold and GMV over the last 30 days and lifetime, stock, rating, review count, category tree, listing date, and the seller's own sales totals.
    *
-   * Price: $0.021 per request plus $0 per result (maximum $0.021).
+   * Price: $0.022 per request plus $0 per result (maximum $0.022).
    *
    * @example
    * const res = await client.tiktokShop.productFull({ url: "https://www.tiktok.com/shop/pdp/1729527313880355335" });

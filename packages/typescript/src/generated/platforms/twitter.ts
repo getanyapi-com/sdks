@@ -474,6 +474,7 @@ export interface TwitterProfileData {
   handle: string;
   tweets: number;
   verified: boolean;
+  website: string;
   [extra: string]: unknown;
 }
 
@@ -514,6 +515,10 @@ export interface TwitterRepliesItem {
    */
   likeCount?: number;
   /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: TwitterRepliesMedia[];
+  /**
    * Number of quote tweets of this reply.
    */
   quoteCount?: number;
@@ -537,6 +542,32 @@ export interface TwitterRepliesItem {
    * Number of views of this reply.
    */
   viewCount?: number;
+  [extra: string]: unknown;
+}
+
+export interface TwitterRepliesMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -609,6 +640,10 @@ export interface TwitterSearchItem {
   isReply?: boolean;
   lang?: string;
   likeCount?: number;
+  /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: TwitterSearchMedia[];
   quoteCount?: number;
   replyCount?: number;
   retweetCount?: number;
@@ -621,6 +656,32 @@ export interface TwitterSearchItem {
    */
   url: string;
   viewCount?: number;
+  [extra: string]: unknown;
+}
+
+export interface TwitterSearchMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -806,6 +867,10 @@ export interface TwitterThreadTweet {
   id: string;
   inReplyToId: string | null;
   /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: TwitterThreadMedia[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   text: string;
@@ -814,6 +879,32 @@ export interface TwitterThreadTweet {
    * Format: uri.
    */
   url: string;
+  [extra: string]: unknown;
+}
+
+export interface TwitterThreadMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -926,6 +1017,32 @@ export interface TwitterTweetInput {
   url: string;
 }
 
+export interface TwitterTweetMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Twitter Tweet (twitter.tweet).
  */
@@ -944,6 +1061,10 @@ export interface TwitterTweetData {
    */
   id: string;
   likes: number;
+  /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: TwitterTweetMedia[];
   quotes: number;
   replies: number;
   retweets: number;
@@ -1017,6 +1138,10 @@ export interface TwitterUserPostsTweet {
    */
   likes: number;
   /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: TwitterUserPostsMedia[];
+  /**
    * Number of quote posts.
    */
   quotes?: number;
@@ -1041,6 +1166,26 @@ export interface TwitterUserPostsTweet {
    * Number of views.
    */
   views: number;
+  [extra: string]: unknown;
+}
+
+export interface TwitterUserPostsMedia {
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -1096,6 +1241,10 @@ export interface TwitterUserTweetsTweet {
   isReply?: boolean;
   lang?: string;
   likes: number;
+  /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: TwitterUserTweetsMedia[];
   quotes?: number;
   replies: number;
   retweets: number;
@@ -1108,6 +1257,26 @@ export interface TwitterUserTweetsTweet {
    */
   url: string;
   views: number;
+  [extra: string]: unknown;
+}
+
+export interface TwitterUserTweetsMedia {
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  width?: number;
   [extra: string]: unknown;
 }
 

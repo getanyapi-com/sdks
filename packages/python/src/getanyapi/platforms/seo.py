@@ -9,6 +9,12 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
 from ..types import RequestOptions, RunResult
+from .._pagination import (
+    AsyncPaginator,
+    Paginator,
+    apaginate,
+    paginate,
+)
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -69,6 +75,34 @@ class SeoDomainRankOverviewInput(TypedDict, total=False):
     """Location code for SEO domain metrics. The default is the United States. Default: 2840."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
+
+
+class SeoDomainTechnologiesInput(TypedDict, total=False):
+    """Input for SEO Domain Technologies."""
+
+    domain: Required[str]
+    """Domain to analyze, without a protocol or leading www. Billing is flat per request."""
+
+
+class SeoDomainsByTechnologyInput(TypedDict, total=False):
+    """Input for SEO Domains By Technology."""
+
+    category: NotRequired[str]
+    """Technology category to match, for example marketing_automation. Broader than technology: it returns every domain running anything in that category."""
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor. Omit for the first page."""
+    group: NotRequired[str]
+    """Top-level technology group to match, for example marketing or servers. The broadest selector."""
+    keyword: NotRequired[str]
+    """On-page term to match in the site's HTML, for example highlevel. Use this to find sites running a product that the technology index does not detect by name."""
+    limit: NotRequired[int]
+    """Maximum number of domains to return in this response. You are billed per returned result, so a lower limit costs less. Range: 1 to 100. Default: 20."""
+    orderBy: NotRequired[
+        Literal["rank_desc", "rank_asc", "last_visited_desc", "country_asc"]
+    ]
+    """Sort order for the returned domains: by domain rank descending or ascending, by most recently crawled, or by country code. Omit for the default order."""
+    technology: NotRequired[str]
+    """Exact technology name to match, for example Nginx or HubSpot. Only technologies present in the detection index are accepted; an unindexed name returns found false, so use keyword instead when a product is not matched by name."""
 
 
 class SeoKeywordDifficultyInput(TypedDict, total=False):
@@ -372,6 +406,144 @@ class SeoDomainRankOverviewData(BaseModel):
         alias="paidTrafficCostUsd",
         description="Estimated USD value of the paid search traffic.",
     )
+
+
+class SeoDomainTechnologiesData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    content_language_code: str | None = Field(
+        default=None,
+        alias="contentLanguageCode",
+        description="Language code detected from the domain's page content.",
+    )
+    country_iso_code: str | None = Field(
+        default=None,
+        alias="countryIsoCode",
+        description="Two-letter ISO country code the domain is associated with.",
+    )
+    description: str | None = Field(
+        default=None, description="Meta description of the domain's homepage."
+    )
+    domain: str = Field(
+        description="Domain name that was analyzed, as the detection index stores it. Populated whenever the provider has data for the entity."
+    )
+    domain_rank: int | None = Field(
+        default=None,
+        alias="domainRank",
+        description="Relative authority rank of the domain. Higher is stronger. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    emails: list[str] | None = Field(
+        default=None, description="Contact email addresses published on the domain."
+    )
+    language_code: str | None = Field(
+        default=None,
+        alias="languageCode",
+        description="Language code declared by the domain.",
+    )
+    last_visited_utc: float | None = Field(
+        default=None,
+        alias="lastVisitedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    phone_numbers: list[str] | None = Field(
+        default=None,
+        alias="phoneNumbers",
+        description="Contact phone numbers published on the domain.",
+    )
+    social_graph_urls: list[str] | None = Field(
+        default=None,
+        alias="socialGraphUrls",
+        description="Social profile URLs linked from the domain.",
+    )
+    technologies: SeoDomainTechnologiesTechnologie | None = Field(
+        default=None,
+        description="Technologies detected on the domain, nested by group and then by category, with an array of technology names at each leaf. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    title: str | None = Field(
+        default=None, description="Title of the domain's homepage."
+    )
+
+
+class SeoDomainTechnologiesTechnologie(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoDomainsByTechnologyData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    domains: list[SeoDomainsByTechnologyDomain] = Field(
+        description="Domains detected running the requested technology, category, group, or on-page term. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Cursor for the next page. Null or empty when there are no further results.",
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total number of domains matching the request across all pages.",
+    )
+
+
+class SeoDomainsByTechnologyDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    content_language_code: str | None = Field(
+        default=None,
+        alias="contentLanguageCode",
+        description="Language code detected from the domain's page content.",
+    )
+    country_iso_code: str | None = Field(
+        default=None,
+        alias="countryIsoCode",
+        description="Two-letter ISO country code the domain is associated with.",
+    )
+    description: str | None = Field(
+        default=None, description="Meta description of the domain's homepage."
+    )
+    domain: str = Field(
+        description="Domain name of the detected website. Populated whenever the provider has data for the entity."
+    )
+    domain_rank: int | None = Field(
+        default=None,
+        alias="domainRank",
+        description="Relative authority rank of the domain. Higher is stronger. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    emails: list[str] | None = Field(
+        default=None, description="Contact email addresses published on the domain."
+    )
+    language_code: str | None = Field(
+        default=None,
+        alias="languageCode",
+        description="Language code declared by the domain.",
+    )
+    last_visited_utc: float | None = Field(
+        default=None,
+        alias="lastVisitedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    phone_numbers: list[str] | None = Field(
+        default=None,
+        alias="phoneNumbers",
+        description="Contact phone numbers published on the domain.",
+    )
+    social_graph_urls: list[str] | None = Field(
+        default=None,
+        alias="socialGraphUrls",
+        description="Social profile URLs linked from the domain.",
+    )
+    technologies: SeoDomainsByTechnologyTechnologie | None = Field(
+        default=None,
+        description="Technologies detected on the domain, nested by group and then by category, with an array of technology names at each leaf. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    title: str | None = Field(
+        default=None, description="Title of the domain's homepage."
+    )
+
+
+class SeoDomainsByTechnologyTechnologie(BaseModel):
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoKeywordDifficultyData(BaseModel):
@@ -846,6 +1018,71 @@ class SeoNamespace:
         )
         return RunResult[SeoDomainRankOverviewData].model_validate(raw)
 
+    def domain_technologies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoDomainTechnologiesInput],
+    ) -> RunResult[SeoDomainTechnologiesData]:
+        """SEO Domain Technologies
+
+        Detect the technology stack a website runs: CMS, analytics, marketing,
+        hosting, and security, plus contacts and social profiles as normalized JSON.
+
+        Price: $0.012 per request.
+
+        Example:
+            res = client.seo.domain_technologies(domain="hubspot.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.domain_technologies", dict(input), options
+        )
+        return RunResult[SeoDomainTechnologiesData].model_validate(raw)
+
+    def domains_by_technology(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoDomainsByTechnologyInput],
+    ) -> RunResult[SeoDomainsByTechnologyData]:
+        """SEO Domains By Technology
+
+        Find websites running a given technology, category, or on-page term: domain,
+        rank, detected stack, contacts, and social profiles as normalized JSON.
+
+        Price: $0.012 per request plus $0.0012 per result (maximum $0.132).
+
+        Example:
+            res = client.seo.domains_by_technology(keyword="highlevel", limit=10, orderBy="rank_desc")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.domains_by_technology", dict(input), options
+        )
+        return RunResult[SeoDomainsByTechnologyData].model_validate(raw)
+
+    def iter_domains_by_technology(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoDomainsByTechnologyInput],
+    ) -> Paginator[SeoDomainsByTechnologyDomain, SeoDomainsByTechnologyData]:
+        """Iterate SEO Domains By Technology results, following pagination cursors.
+
+        Yields validated `SeoDomainsByTechnologyDomain` items from the `domains` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "seo.domains_by_technology",
+            dict(input),
+            "domains",
+            item_model=SeoDomainsByTechnologyDomain,
+            data_model=SeoDomainsByTechnologyData,
+            bare=False,
+            options=options,
+        )
+
     def keyword_difficulty(
         self,
         *,
@@ -1103,6 +1340,71 @@ class AsyncSeoNamespace:
             "seo.domain_rank_overview", dict(input), options
         )
         return RunResult[SeoDomainRankOverviewData].model_validate(raw)
+
+    async def domain_technologies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoDomainTechnologiesInput],
+    ) -> RunResult[SeoDomainTechnologiesData]:
+        """SEO Domain Technologies
+
+        Detect the technology stack a website runs: CMS, analytics, marketing,
+        hosting, and security, plus contacts and social profiles as normalized JSON.
+
+        Price: $0.012 per request.
+
+        Example:
+            res = client.seo.domain_technologies(domain="hubspot.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.domain_technologies", dict(input), options
+        )
+        return RunResult[SeoDomainTechnologiesData].model_validate(raw)
+
+    async def domains_by_technology(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoDomainsByTechnologyInput],
+    ) -> RunResult[SeoDomainsByTechnologyData]:
+        """SEO Domains By Technology
+
+        Find websites running a given technology, category, or on-page term: domain,
+        rank, detected stack, contacts, and social profiles as normalized JSON.
+
+        Price: $0.012 per request plus $0.0012 per result (maximum $0.132).
+
+        Example:
+            res = client.seo.domains_by_technology(keyword="highlevel", limit=10, orderBy="rank_desc")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.domains_by_technology", dict(input), options
+        )
+        return RunResult[SeoDomainsByTechnologyData].model_validate(raw)
+
+    def iter_domains_by_technology(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoDomainsByTechnologyInput],
+    ) -> AsyncPaginator[SeoDomainsByTechnologyDomain, SeoDomainsByTechnologyData]:
+        """Iterate SEO Domains By Technology results, following pagination cursors.
+
+        Yields validated `SeoDomainsByTechnologyDomain` items from the `domains` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "seo.domains_by_technology",
+            dict(input),
+            "domains",
+            item_model=SeoDomainsByTechnologyDomain,
+            data_model=SeoDomainsByTechnologyData,
+            bare=False,
+            options=options,
+        )
 
     async def keyword_difficulty(
         self,

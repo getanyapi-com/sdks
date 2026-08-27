@@ -99,9 +99,12 @@ export class MobilePhoneNamespace {
   /**
    * Mobile Phone - LeadMagic
    *
-   * Find a person's mobile phone from a profile URL or email. No-match responses are not billed.
+   * Find a person's mobile phone from a profile URL or email. A no-match answer is a successful, billable result.
    *
    * Price: $0.2016 per request.
+   *
+   * @example
+   * const res = await client.mobilePhone.leadmagic({ profileUrl: "https://www.linkedin.com/in/tim-zheng" });
    */
   leadmagic(
     input: MobilePhoneLeadmagicInput,

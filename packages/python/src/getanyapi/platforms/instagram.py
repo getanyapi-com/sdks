@@ -62,6 +62,8 @@ class InstagramFollowersInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers."""
     limit: NotRequired[int]
     """How many followers you want (50-1000). By default results come back in cheap pages of up to ~50: follow the response's nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call. Range: 50 to 1000."""
+    requireCursor: NotRequired[bool]
+    """Set true if you intend to page through followers, so the request is only served by a source that can return a nextCursor. The bulk source cannot page, and a paging source may cost more per request. Cannot be combined with requireSinglePage."""
     requireSinglePage: NotRequired[bool]
     """Set true to get up to limit followers in a single response instead of cheap pages, served by a bulk provider at a higher price."""
     username: Required[str]
@@ -75,6 +77,8 @@ class InstagramFollowingInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page."""
     limit: NotRequired[int]
     """How many accounts you want (50-1000). By default results come back in cheap pages of up to ~50: follow the response's nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call. Range: 50 to 1000."""
+    requireCursor: NotRequired[bool]
+    """Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. The bulk source cannot page, and a paging source may cost more per request. Cannot be combined with requireSinglePage."""
     requireSinglePage: NotRequired[bool]
     """Set true to get up to limit accounts in a single response instead of cheap pages, served by a bulk provider at a higher price."""
     username: Required[str]
@@ -107,6 +111,8 @@ class InstagramMediaTranscriptInput(TypedDict, total=False):
 class InstagramPostInput(TypedDict, total=False):
     """Input for Instagram Post."""
 
+    requirePlayCount: NotRequired[bool]
+    """Set true to be served only by a source that reports a reel's play count. The default cheapest source does not carry play counts, so `plays` is absent from its responses; opting in guarantees the field when Instagram exposes it, at a higher price per request."""
     url: Required[str]
     """Full Instagram post or reel URL."""
 
@@ -312,6 +318,11 @@ class InstagramCommentRepliesComment(BaseModel):
     author: str = Field(
         description="Username of the account that wrote the reply, without the @ prefix. Populated whenever the provider has data for the entity."
     )
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="URL of the replying account's profile avatar image.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -513,6 +524,10 @@ class InstagramPostData(BaseModel):
     owner: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    plays: int | None = Field(
+        default=None,
+        description="Number of plays of the reel or video. Absent when Instagram does not expose a play count for this media, and on lanes that cannot serve it.",
+    )
     shortcode: str
     type_: str = Field(alias="type")
     video_url: str = Field(alias="videoUrl")
@@ -536,6 +551,11 @@ class InstagramPostCommentsComment(BaseModel):
     author: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="URL of the commenting account's profile avatar image.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -555,22 +575,66 @@ class InstagramProfileData(BaseModel):
 
     avatar_url: str = Field(
         alias="avatarUrl",
-        description="Populated whenever the provider has data for the entity.",
+        description="Profile picture URL at the highest resolution the account exposes. Populated whenever the provider has data for the entity.",
     )
     bio: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Profile biography text. Populated whenever the provider has data for the entity."
+    )
+    bio_links: list[InstagramProfileBioLink] | None = Field(
+        default=None,
+        alias="bioLinks",
+        description="Every link the account publishes in its bio, in the order Instagram returns them. Business accounts often list several here while externalUrl carries only the first. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    category: str | None = Field(
+        default=None,
+        description='Instagram\'s category label for the account (for example "Government Agencies" or "Coffee shop"). Absent when the account publishes no category. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
+    contact_method: str | None = Field(
+        default=None,
+        alias="contactMethod",
+        description="The contact button Instagram shows on the profile, for example CALL, TEXT, EMAIL, or UNKNOWN. Absent when the account exposes no contact button. Instagram no longer publishes the underlying email or phone number to unauthenticated callers.",
     )
     display_name: str = Field(
         alias="displayName",
-        description="Populated whenever the provider has data for the entity.",
+        description="Account display name. Populated whenever the provider has data for the entity.",
     )
-    followers: int
-    following: int
+    external_url: str | None = Field(
+        default=None,
+        alias="externalUrl",
+        description="The single website link on the profile. Absent when the account publishes no link. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    followers: int = Field(description="Follower count.")
+    following: int = Field(description="Number of accounts this account follows.")
     handle: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Instagram username without the leading @. Populated whenever the provider has data for the entity."
     )
-    posts: int
-    verified: bool
+    is_business: bool | None = Field(
+        default=None,
+        alias="isBusiness",
+        description="Whether Instagram flags the account as a business account.",
+    )
+    posts: int = Field(description="Number of posts on the account.")
+    private: bool = Field(description="Whether the account is private.")
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    verified: bool = Field(
+        description="Whether the account carries Instagram's verified badge."
+    )
+
+
+class InstagramProfileBioLink(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    title: str | None = Field(
+        default=None,
+        description="Display label for the link, empty when the account set none.",
+    )
+    url: str = Field(
+        description="Destination URL, exactly as the account published it."
+    )
 
 
 class InstagramReelTranscriptData(BaseModel):
@@ -665,12 +729,10 @@ class InstagramReelsSearchReel(BaseModel):
     duration_seconds: float = Field(
         alias="durationSeconds", description="Reel duration in seconds."
     )
-    followers: int = Field(description="Follower count of the posting account.")
     likes: int = Field(description="Number of likes on the reel.")
     paid_partnership: bool = Field(
         alias="paidPartnership", description="True when the reel is a paid partnership."
     )
-    plays: int = Field(description="Number of plays of the reel.")
     shortcode: str = Field(
         description="Instagram media shortcode. Populated whenever the provider has data for the entity."
     )
@@ -684,7 +746,6 @@ class InstagramReelsSearchReel(BaseModel):
         description="Username of the account that posted the reel. Populated whenever the provider has data for the entity."
     )
     verified: bool = Field(description="True when the posting account is verified.")
-    views: int = Field(description="Number of views on the reel.")
 
 
 class InstagramSearchData(BaseModel):
@@ -736,6 +797,12 @@ class InstagramSearchItem(BaseModel):
 
 
 class InstagramSearchHashtagData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     posts: list[InstagramSearchHashtagPost] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -902,6 +969,11 @@ class InstagramTaggedPostsPost(BaseModel):
     author: str = Field(
         description="Username of the account that posted and applied the tag, without the @ prefix. Populated whenever the provider has data for the entity."
     )
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="URL of the posting account's profile avatar image.",
+    )
     caption: str = Field(
         description="The post's caption text. Empty when the post has none. Populated whenever the provider has data for the entity."
     )
@@ -937,7 +1009,6 @@ class InstagramTrendingReelsReel(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     likes: int
-    plays: int
     shortcode: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -994,12 +1065,47 @@ class InstagramUserPostsPost(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video duration in seconds. Absent on photo posts.",
+    )
     id: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Instagram media id. Populated whenever the provider has data for the entity."
     )
     likes: int
+    media: list[InstagramUserPostsMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the account that posted. A profile feed includes collaborator posts, so this is not always the requested handle. Populated whenever the provider has data for the entity."
+    )
+    verified: bool = Field(description="True when the posting account is verified.")
+
+
+class InstagramUserPostsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
     )
 
 
@@ -1026,14 +1132,47 @@ class InstagramUserReelsReel(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
+    duration_seconds: float = Field(
+        alias="durationSeconds", description="Reel duration in seconds."
+    )
     id: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Instagram media id. Populated whenever the provider has data for the entity."
     )
     likes: int
+    media: list[InstagramUserReelsMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     shortcode: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    username: str = Field(
+        description="Username of the account that posted the reel. A reels tab includes collaborator reels, so this is not always the requested handle. Populated whenever the provider has data for the entity."
+    )
+    verified: bool = Field(description="True when the posting account is verified.")
     views: int
+
+
+class InstagramUserReelsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
+    )
 
 
 class InstagramNamespace:
@@ -1269,7 +1408,7 @@ class InstagramNamespace:
         Get analytics for any Instagram hashtag (total post count, related hashtags,
         and usage signals).
 
-        Price: $0.00105 per request plus $0.00179 per result (maximum $0.0368).
+        Price: $0.0011 per request plus $0.00187 per result (maximum $0.0385).
 
         Example:
             res = client.instagram.hashtag_analytics(hashtag="travel", limit=5)
@@ -1331,7 +1470,7 @@ class InstagramNamespace:
         Fetch a single Instagram post or reel by URL (media URLs, like count, owner,
         type) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -1352,7 +1491,7 @@ class InstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.002 per request.
+        Price: $0.00144 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -1396,7 +1535,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.002 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -1417,7 +1556,7 @@ class InstagramNamespace:
         Turn any public Instagram reel or video post into a full speech transcript,
         with optional word-level timestamps.
 
-        Price: $0.00525 per request plus $0.0242 per result (maximum $0.0294).
+        Price: $0.0055 per request plus $0.0253 per result (maximum $0.0308).
 
         Example:
             res = client.instagram.reel_transcript(url="https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps=False)
@@ -1435,8 +1574,9 @@ class InstagramNamespace:
     ) -> RunResult[InstagramReelsSearchData]:
         """Instagram Reels Search
 
-        Search Instagram Reels by keyword and get matching reels (caption, views,
-        likes, creator, and duration). Results are relevance-ranked, not
+        Search Instagram Reels by keyword and get matching reels (caption, likes,
+        comments, creator, and duration). Instagram does not return view or play
+        counts in reels search results. Results are relevance-ranked, not
         chronological. Paging tops out around 110 reels per query (11 pages of 10).
 
         Price: $0.002 per request.
@@ -1491,6 +1631,29 @@ class InstagramNamespace:
             "instagram.search_hashtag", dict(input), options
         )
         return RunResult[InstagramSearchHashtagData].model_validate(raw)
+
+    def iter_search_hashtag(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchHashtagInput],
+    ) -> Paginator[InstagramSearchHashtagPost, InstagramSearchHashtagData]:
+        """Iterate Instagram Hashtag Search results, following pagination cursors.
+
+        Yields validated `InstagramSearchHashtagPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.search_hashtag",
+            dict(input),
+            "posts",
+            item_model=InstagramSearchHashtagPost,
+            data_model=InstagramSearchHashtagData,
+            bare=False,
+            options=options,
+        )
 
     def search_profiles(
         self,
@@ -1630,7 +1793,8 @@ class InstagramNamespace:
     ) -> RunResult[InstagramTrendingReelsData]:
         """Instagram Trending Reels
 
-        List currently trending Instagram reels.
+        List currently trending Instagram reels. Instagram does not return play
+        counts on this feed.
 
         Price: $0.002 per request.
 
@@ -1673,7 +1837,7 @@ class InstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -1717,7 +1881,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.002 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -1984,7 +2148,7 @@ class AsyncInstagramNamespace:
         Get analytics for any Instagram hashtag (total post count, related hashtags,
         and usage signals).
 
-        Price: $0.00105 per request plus $0.00179 per result (maximum $0.0368).
+        Price: $0.0011 per request plus $0.00187 per result (maximum $0.0385).
 
         Example:
             res = client.instagram.hashtag_analytics(hashtag="travel", limit=5)
@@ -2046,7 +2210,7 @@ class AsyncInstagramNamespace:
         Fetch a single Instagram post or reel by URL (media URLs, like count, owner,
         type) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -2067,7 +2231,7 @@ class AsyncInstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.002 per request.
+        Price: $0.00144 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -2111,7 +2275,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.002 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -2132,7 +2296,7 @@ class AsyncInstagramNamespace:
         Turn any public Instagram reel or video post into a full speech transcript,
         with optional word-level timestamps.
 
-        Price: $0.00525 per request plus $0.0242 per result (maximum $0.0294).
+        Price: $0.0055 per request plus $0.0253 per result (maximum $0.0308).
 
         Example:
             res = client.instagram.reel_transcript(url="https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps=False)
@@ -2150,8 +2314,9 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramReelsSearchData]:
         """Instagram Reels Search
 
-        Search Instagram Reels by keyword and get matching reels (caption, views,
-        likes, creator, and duration). Results are relevance-ranked, not
+        Search Instagram Reels by keyword and get matching reels (caption, likes,
+        comments, creator, and duration). Instagram does not return view or play
+        counts in reels search results. Results are relevance-ranked, not
         chronological. Paging tops out around 110 reels per query (11 pages of 10).
 
         Price: $0.002 per request.
@@ -2206,6 +2371,29 @@ class AsyncInstagramNamespace:
             "instagram.search_hashtag", dict(input), options
         )
         return RunResult[InstagramSearchHashtagData].model_validate(raw)
+
+    def iter_search_hashtag(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchHashtagInput],
+    ) -> AsyncPaginator[InstagramSearchHashtagPost, InstagramSearchHashtagData]:
+        """Iterate Instagram Hashtag Search results, following pagination cursors.
+
+        Yields validated `InstagramSearchHashtagPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.search_hashtag",
+            dict(input),
+            "posts",
+            item_model=InstagramSearchHashtagPost,
+            data_model=InstagramSearchHashtagData,
+            bare=False,
+            options=options,
+        )
 
     async def search_profiles(
         self,
@@ -2345,7 +2533,8 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramTrendingReelsData]:
         """Instagram Trending Reels
 
-        List currently trending Instagram reels.
+        List currently trending Instagram reels. Instagram does not return play
+        counts on this feed.
 
         Price: $0.002 per request.
 
@@ -2388,7 +2577,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -2432,7 +2621,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.002 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")

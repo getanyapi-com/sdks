@@ -111,7 +111,7 @@ class YelpNamespace:
         Search Yelp for businesses by keyword and location: up to 20 listings with
         ratings, categories, and core business info per request.
 
-        Price: $0.042 per request plus $0.00079 per result (maximum $0.0578).
+        Price: $0.044 per request plus $0.00083 per result (maximum $0.0605).
 
         Example:
             res = client.yelp.search(limit=5, location="Chicago, IL", query="pizza")
@@ -136,7 +136,7 @@ class AsyncYelpNamespace:
         Search Yelp for businesses by keyword and location: up to 20 listings with
         ratings, categories, and core business info per request.
 
-        Price: $0.042 per request plus $0.00079 per result (maximum $0.0578).
+        Price: $0.044 per request plus $0.00083 per result (maximum $0.0605).
 
         Example:
             res = client.yelp.search(limit=5, location="Chicago, IL", query="pizza")

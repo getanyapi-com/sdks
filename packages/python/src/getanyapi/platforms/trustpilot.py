@@ -25,7 +25,7 @@ class TrustpilotReviewsInput(TypedDict, total=False):
     languages: NotRequired[list[str]]
     """Only return reviews in these ISO 639-1 languages (e.g. ["en", "de"]); omit for all languages."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less. Range: 1 to 50."""
+    """Maximum number of results to return (1-200, default 200). Trustpilot serves at most 200 reviews per company. You are billed per result returned, so a lower limit costs less. Range: 1 to 200."""
     sortBy: NotRequired[str]
     """Review ordering: auto, relevancy, or recent (e.g. recent). Default: auto."""
     stars: NotRequired[str]
@@ -45,6 +45,11 @@ class TrustpilotReviewsData(BaseModel):
 class TrustpilotReviewsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="URL of the reviewer's avatar image.",
+    )
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
@@ -84,7 +89,7 @@ class TrustpilotNamespace:
         Pull Trustpilot reviews for any company by brand name: star ratings, review
         text, dates, and reviewer details as clean JSON.
 
-        Price: $0.018 per request.
+        Price: $0.00006 per request plus $0.00005 per result (maximum $0.00886).
 
         Example:
             res = client.trustpilot.reviews(company="stripe.com", limit=3)
@@ -112,7 +117,7 @@ class AsyncTrustpilotNamespace:
         Pull Trustpilot reviews for any company by brand name: star ratings, review
         text, dates, and reviewer details as clean JSON.
 
-        Price: $0.018 per request.
+        Price: $0.00006 per request plus $0.00005 per result (maximum $0.00886).
 
         Example:
             res = client.trustpilot.reviews(company="stripe.com", limit=3)

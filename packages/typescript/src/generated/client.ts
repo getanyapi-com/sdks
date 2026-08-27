@@ -14,8 +14,10 @@ import { ApolloNamespace } from "./platforms/apollo.js";
 import { AppstoreNamespace } from "./platforms/appstore.js";
 import { BlueskyNamespace } from "./platforms/bluesky.js";
 import { BookingNamespace } from "./platforms/booking.js";
+import { CapterraNamespace } from "./platforms/capterra.js";
 import { ChatgptNamespace } from "./platforms/chatgpt.js";
 import { CoinmarketcapNamespace } from "./platforms/coinmarketcap.js";
+import { CompanyNamespace } from "./platforms/company.js";
 import { CompanyEnrichmentNamespace } from "./platforms/company_enrichment.js";
 import { CompanySearchNamespace } from "./platforms/company_search.js";
 import { CongressNamespace } from "./platforms/congress.js";
@@ -27,6 +29,7 @@ import { EmailFindingNamespace } from "./platforms/email_finding.js";
 import { EmailVerificationNamespace } from "./platforms/email_verification.js";
 import { FacebookNamespace } from "./platforms/facebook.js";
 import { FiverrNamespace } from "./platforms/fiverr.js";
+import { G2Namespace } from "./platforms/g2.js";
 import { GeminiNamespace } from "./platforms/gemini.js";
 import { GithubNamespace } from "./platforms/github.js";
 import { GlassdoorNamespace } from "./platforms/glassdoor.js";
@@ -181,6 +184,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the capterra platform.
+   */
+  get capterra(): CapterraNamespace {
+    return (this._namespaces["capterra"] ??= new CapterraNamespace(
+      this._core,
+    )) as CapterraNamespace;
+  }
+
+  /**
    * Typed methods for the chatgpt platform.
    */
   get chatgpt(): ChatgptNamespace {
@@ -196,6 +208,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["coinmarketcap"] ??= new CoinmarketcapNamespace(
       this._core,
     )) as CoinmarketcapNamespace;
+  }
+
+  /**
+   * Typed methods for the company platform.
+   */
+  get company(): CompanyNamespace {
+    return (this._namespaces["company"] ??= new CompanyNamespace(
+      this._core,
+    )) as CompanyNamespace;
   }
 
   /**
@@ -293,6 +314,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["fiverr"] ??= new FiverrNamespace(
       this._core,
     )) as FiverrNamespace;
+  }
+
+  /**
+   * Typed methods for the g2 platform.
+   */
+  get g2(): G2Namespace {
+    return (this._namespaces["g2"] ??= new G2Namespace(
+      this._core,
+    )) as G2Namespace;
   }
 
   /**

@@ -440,7 +440,7 @@ export class AmazonNamespace {
    *
    * Look up to 10 Amazon products in one call by ASIN (title, brand, price, ratings, images, and attributes) as normalized JSON.
    *
-   * Price: $0 per request plus $0.00368 per asin (maximum $0.0368).
+   * Price: $0 per request plus $0.00385 per asin (maximum $0.0385).
    *
    * @example
    * const res = await client.amazon.asins({ asins: ["B09G9FPHY6"], limit: 3 });

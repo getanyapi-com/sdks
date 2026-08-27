@@ -116,6 +116,10 @@ export interface InstagramCommentRepliesComment {
    */
   author: string;
   /**
+   * URL of the replying account's profile avatar image.
+   */
+  avatarUrl?: string;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
@@ -187,6 +191,10 @@ export interface InstagramFollowersInput {
    */
   limit?: number;
   /**
+   * Set true if you intend to page through followers, so the request is only served by a source that can return a nextCursor. The bulk source cannot page, and a paging source may cost more per request. Cannot be combined with requireSinglePage.
+   */
+  requireCursor?: boolean;
+  /**
    * Set true to get up to limit followers in a single response instead of cheap pages, served by a bulk provider at a higher price.
    */
   requireSinglePage?: boolean;
@@ -255,6 +263,10 @@ export interface InstagramFollowingInput {
    * Range: minimum 50, maximum 1000.
    */
   limit?: number;
+  /**
+   * Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. The bulk source cannot page, and a paging source may cost more per request. Cannot be combined with requireSinglePage.
+   */
+  requireCursor?: boolean;
   /**
    * Set true to get up to limit accounts in a single response instead of cheap pages, served by a bulk provider at a higher price.
    */
@@ -445,6 +457,10 @@ export interface InstagramMediaTranscriptData {
  */
 export interface InstagramPostInput {
   /**
+   * Set true to be served only by a source that reports a reel's play count. The default cheapest source does not carry play counts, so `plays` is absent from its responses; opting in guarantees the field when Instagram exposes it, at a higher price per request.
+   */
+  requirePlayCount?: boolean;
+  /**
    * Full Instagram post or reel URL.
    */
   url: string;
@@ -467,6 +483,10 @@ export interface InstagramPostData {
    * Populated whenever the provider has data for the entity.
    */
   owner: string;
+  /**
+   * Number of plays of the reel or video. Absent when Instagram does not expose a play count for this media, and on lanes that cannot serve it.
+   */
+  plays?: number;
   shortcode: string;
   type: string;
   videoUrl: string;
@@ -492,6 +512,10 @@ export interface InstagramPostCommentsComment {
    * Populated whenever the provider has data for the entity.
    */
   author: string;
+  /**
+   * URL of the commenting account's profile avatar image.
+   */
+  avatarUrl?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
@@ -533,29 +557,85 @@ export interface InstagramProfileInput {
   handle: string;
 }
 
+export interface InstagramProfileBioLink {
+  /**
+   * Display label for the link, empty when the account set none.
+   */
+  title?: string;
+  /**
+   * Destination URL, exactly as the account published it.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Instagram Profile (instagram.profile).
  */
 export interface InstagramProfileData {
   /**
-   * Populated whenever the provider has data for the entity.
+   * Profile picture URL at the highest resolution the account exposes. Populated whenever the provider has data for the entity.
    */
   avatarUrl: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Profile biography text. Populated whenever the provider has data for the entity.
    */
   bio: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Every link the account publishes in its bio, in the order Instagram returns them. Business accounts often list several here while externalUrl carries only the first. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  bioLinks?: InstagramProfileBioLink[];
+  /**
+   * Instagram's category label for the account (for example "Government Agencies" or "Coffee shop"). Absent when the account publishes no category. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  category?: string;
+  /**
+   * The contact button Instagram shows on the profile, for example CALL, TEXT, EMAIL, or UNKNOWN. Absent when the account exposes no contact button. Instagram no longer publishes the underlying email or phone number to unauthenticated callers.
+   */
+  contactMethod?: string;
+  /**
+   * Account display name. Populated whenever the provider has data for the entity.
    */
   displayName: string;
+  /**
+   * The single website link on the profile. Absent when the account publishes no link. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  externalUrl?: string;
+  /**
+   * Follower count.
+   */
   followers: number;
+  /**
+   * Number of accounts this account follows.
+   */
   following: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Instagram username without the leading @. Populated whenever the provider has data for the entity.
    */
   handle: string;
+  /**
+   * Whether Instagram flags the account as a business account.
+   */
+  isBusiness?: boolean;
+  /**
+   * Number of posts on the account.
+   */
   posts: number;
+  /**
+   * Whether the account is private.
+   */
+  private: boolean;
+  /**
+   * Instagram's numeric account id, as a string. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  userId?: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
   verified: boolean;
   [extra: string]: unknown;
 }
@@ -693,10 +773,6 @@ export interface InstagramReelsSearchReel {
    */
   durationSeconds: number;
   /**
-   * Follower count of the posting account.
-   */
-  followers: number;
-  /**
    * Number of likes on the reel.
    */
   likes: number;
@@ -704,10 +780,6 @@ export interface InstagramReelsSearchReel {
    * True when the reel is a paid partnership.
    */
   paidPartnership: boolean;
-  /**
-   * Number of plays of the reel.
-   */
-  plays: number;
   /**
    * Instagram media shortcode. Populated whenever the provider has data for the entity.
    */
@@ -728,10 +800,6 @@ export interface InstagramReelsSearchReel {
    * True when the posting account is verified.
    */
   verified: boolean;
-  /**
-   * Number of views on the reel.
-   */
-  views: number;
   [extra: string]: unknown;
 }
 
@@ -871,6 +939,10 @@ export interface InstagramSearchHashtagPost {
  * The `data` payload of Instagram Hashtag Search (instagram.search_hashtag).
  */
 export interface InstagramSearchHashtagData {
+  /**
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1074,6 +1146,10 @@ export interface InstagramTaggedPostsPost {
    */
   author: string;
   /**
+   * URL of the posting account's profile avatar image.
+   */
+  avatarUrl?: string;
+  /**
    * The post's caption text. Empty when the post has none. Populated whenever the provider has data for the entity.
    */
   caption: string;
@@ -1132,7 +1208,6 @@ export interface InstagramTrendingReelsReel {
    */
   id: string;
   likes: number;
-  plays: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1223,14 +1298,56 @@ export interface InstagramUserPostsPost {
    */
   createdUtc: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Video duration in seconds. Absent on photo posts.
+   */
+  durationSeconds?: number;
+  /**
+   * Instagram media id. Populated whenever the provider has data for the entity.
    */
   id: string;
   likes: number;
   /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: InstagramUserPostsMedia[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Username of the account that posted. A profile feed includes collaborator posts, so this is not always the requested handle. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * True when the posting account is verified.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserPostsMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -1277,15 +1394,57 @@ export interface InstagramUserReelsReel {
    */
   createdUtc: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Reel duration in seconds.
+   */
+  durationSeconds: number;
+  /**
+   * Instagram media id. Populated whenever the provider has data for the entity.
    */
   id: string;
   likes: number;
   /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: InstagramUserReelsMedia[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   shortcode: string;
+  /**
+   * Username of the account that posted the reel. A reels tab includes collaborator reels, so this is not always the requested handle. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * True when the posting account is verified.
+   */
+  verified: boolean;
   views: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserReelsMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -1506,7 +1665,7 @@ export class InstagramNamespace {
    *
    * Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals).
    *
-   * Price: $0.00105 per request plus $0.00179 per result (maximum $0.0368).
+   * Price: $0.0011 per request plus $0.00187 per result (maximum $0.0385).
    *
    * @example
    * const res = await client.instagram.hashtagAnalytics({ hashtag: "travel", limit: 5 });
@@ -1557,7 +1716,7 @@ export class InstagramNamespace {
    *
    * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.instagram.post({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -1574,7 +1733,7 @@ export class InstagramNamespace {
    *
    * List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).
    *
-   * Price: $0.002 per request.
+   * Price: $0.00144 per request.
    *
    * @example
    * const res = await client.instagram.postComments({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -1617,7 +1776,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });
@@ -1634,7 +1793,7 @@ export class InstagramNamespace {
    *
    * Turn any public Instagram reel or video post into a full speech transcript, with optional word-level timestamps.
    *
-   * Price: $0.00525 per request plus $0.0242 per result (maximum $0.0294).
+   * Price: $0.0055 per request plus $0.0253 per result (maximum $0.0308).
    *
    * @example
    * const res = await client.instagram.reelTranscript({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps: false });
@@ -1649,7 +1808,7 @@ export class InstagramNamespace {
   /**
    * Instagram Reels Search
    *
-   * Search Instagram Reels by keyword and get matching reels (caption, views, likes, creator, and duration). Results are relevance-ranked, not chronological. Paging tops out around 110 reels per query (11 pages of 10).
+   * Search Instagram Reels by keyword and get matching reels (caption, likes, comments, creator, and duration). Instagram does not return view or play counts in reels search results. Results are relevance-ranked, not chronological. Paging tops out around 110 reels per query (11 pages of 10).
    *
    * Price: $0.002 per request.
    *
@@ -1695,6 +1854,32 @@ export class InstagramNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<InstagramSearchHashtagData>> {
     return this._core.run("instagram.search_hashtag", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram Hashtag Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchHashtag(
+    input: InstagramSearchHashtagInput,
+    options?: RequestOptions,
+  ): Paginator<
+    InstagramSearchHashtagPost,
+    RunResult<InstagramSearchHashtagData>
+  > {
+    return paginate<
+      InstagramSearchHashtagPost,
+      RunResult<InstagramSearchHashtagData>
+    >(
+      this._core,
+      "instagram.search_hashtag",
+      input as unknown as Record<string, unknown>,
+      "posts",
+      false,
+      options,
+    );
   }
 
   /**
@@ -1817,7 +2002,7 @@ export class InstagramNamespace {
   /**
    * Instagram Trending Reels
    *
-   * List currently trending Instagram reels.
+   * List currently trending Instagram reels. Instagram does not return play counts on this feed.
    *
    * Price: $0.002 per request.
    *
@@ -1853,7 +2038,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0024 per request.
    *
    * @example
    * const res = await client.instagram.userPosts({ handle: "nasa" });
@@ -1890,7 +2075,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0024 per request.
    *
    * @example
    * const res = await client.instagram.userReels({ handle: "nasa" });

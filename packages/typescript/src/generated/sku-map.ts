@@ -67,8 +67,10 @@ import type {
   BookingSearchInput,
 } from "./platforms/booking.js";
 import type {
-  ChatgptBrandVisibilityData,
-  ChatgptBrandVisibilityInput,
+  CapterraReviewsData,
+  CapterraReviewsInput,
+} from "./platforms/capterra.js";
+import type {
   ChatgptSearchData,
   ChatgptSearchInput,
 } from "./platforms/chatgpt.js";
@@ -76,6 +78,10 @@ import type {
   CoinmarketcapListingsData,
   CoinmarketcapListingsInput,
 } from "./platforms/coinmarketcap.js";
+import type {
+  CompanyResearchData,
+  CompanyResearchInput,
+} from "./platforms/company.js";
 import type {
   CompanyEnrichmentCrustdataV3Data,
   CompanyEnrichmentCrustdataV3Input,
@@ -107,6 +113,10 @@ import type {
   DouyinVideoInput,
 } from "./platforms/douyin.js";
 import type {
+  EbayProductData,
+  EbayProductFullData,
+  EbayProductFullInput,
+  EbayProductInput,
   EbaySearchData,
   EbaySearchInput,
   EbaySoldListingsData,
@@ -121,6 +131,10 @@ import type {
 import type {
   EmailFindingDropleadsData,
   EmailFindingDropleadsInput,
+  EmailFindingHunterCountData,
+  EmailFindingHunterCountInput,
+  EmailFindingHunterDomainData,
+  EmailFindingHunterDomainInput,
   EmailFindingIcypeasData,
   EmailFindingIcypeasInput,
 } from "./platforms/email_finding.js";
@@ -190,9 +204,8 @@ import type {
   FiverrSearchData,
   FiverrSearchInput,
 } from "./platforms/fiverr.js";
+import type { G2ReviewsData, G2ReviewsInput } from "./platforms/g2.js";
 import type {
-  GeminiBrandVisibilityData,
-  GeminiBrandVisibilityInput,
   GeminiSearchData,
   GeminiSearchInput,
 } from "./platforms/gemini.js";
@@ -239,6 +252,8 @@ import type {
   GooglePatentsInput,
   GoogleScholarData,
   GoogleScholarInput,
+  GoogleSearch100Data,
+  GoogleSearch100Input,
   GoogleSearchData,
   GoogleSearchInput,
   GoogleVideosData,
@@ -330,6 +345,8 @@ import type {
   LinkedinAdsInput,
   LinkedinAdsSearchData,
   LinkedinAdsSearchInput,
+  LinkedinArticleData,
+  LinkedinArticleInput,
   LinkedinCompanyData,
   LinkedinCompanyEmployeesData,
   LinkedinCompanyEmployeesInput,
@@ -410,8 +427,6 @@ import type {
   PeopleSearchCrustdataV3Input,
 } from "./platforms/people_search.js";
 import type {
-  PerplexityBrandVisibilityData,
-  PerplexityBrandVisibilityInput,
   PerplexitySearchData,
   PerplexitySearchInput,
 } from "./platforms/perplexity.js";
@@ -495,6 +510,10 @@ import type {
   SeoDomainIntersectionInput,
   SeoDomainRankOverviewData,
   SeoDomainRankOverviewInput,
+  SeoDomainTechnologiesData,
+  SeoDomainTechnologiesInput,
+  SeoDomainsByTechnologyData,
+  SeoDomainsByTechnologyInput,
   SeoKeywordDifficultyData,
   SeoKeywordDifficultyInput,
   SeoKeywordIdeasData,
@@ -595,6 +614,8 @@ import type {
   TiktokTopAdsSearchInput,
   TiktokTrendingFeedData,
   TiktokTrendingFeedInput,
+  TiktokTrendingHashtagsData,
+  TiktokTrendingHashtagsInput,
   TiktokVideoCommentsData,
   TiktokVideoCommentsInput,
   TiktokVideoData,
@@ -894,10 +915,10 @@ export interface SkuMap {
     data: BookingSearchData;
     result: RunResult<BookingSearchData>;
   };
-  "chatgpt.brand_visibility": {
-    input: ChatgptBrandVisibilityInput;
-    data: ChatgptBrandVisibilityData;
-    result: RunResult<ChatgptBrandVisibilityData>;
+  "capterra.reviews": {
+    input: CapterraReviewsInput;
+    data: CapterraReviewsData;
+    result: RunResult<CapterraReviewsData>;
   };
   "chatgpt.search": {
     input: ChatgptSearchInput;
@@ -908,6 +929,11 @@ export interface SkuMap {
     input: CoinmarketcapListingsInput;
     data: CoinmarketcapListingsData;
     result: RunResult<CoinmarketcapListingsData>;
+  };
+  "company.research": {
+    input: CompanyResearchInput;
+    data: CompanyResearchData;
+    result: RunResult<CompanyResearchData>;
   };
   "company_enrichment.crustdata_v3": {
     input: CompanyEnrichmentCrustdataV3Input;
@@ -959,6 +985,16 @@ export interface SkuMap {
     data: DouyinVideoCommentsData;
     result: RunResult<DouyinVideoCommentsData>;
   };
+  "ebay.product": {
+    input: EbayProductInput;
+    data: EbayProductData;
+    result: RunResult<EbayProductData>;
+  };
+  "ebay.product_full": {
+    input: EbayProductFullInput;
+    data: EbayProductFullData;
+    result: RunResult<EbayProductFullData>;
+  };
   "ebay.search": {
     input: EbaySearchInput;
     data: EbaySearchData;
@@ -983,6 +1019,16 @@ export interface SkuMap {
     input: EmailFindingDropleadsInput;
     data: EmailFindingDropleadsData;
     result: RunResult<EmailFindingDropleadsData>;
+  };
+  "email_finding.hunter_count": {
+    input: EmailFindingHunterCountInput;
+    data: EmailFindingHunterCountData;
+    result: RunResult<EmailFindingHunterCountData>;
+  };
+  "email_finding.hunter_domain": {
+    input: EmailFindingHunterDomainInput;
+    data: EmailFindingHunterDomainData;
+    result: RunResult<EmailFindingHunterDomainData>;
   };
   "email_finding.icypeas": {
     input: EmailFindingIcypeasInput;
@@ -1139,10 +1185,10 @@ export interface SkuMap {
     data: FiverrSearchData;
     result: RunResult<FiverrSearchData>;
   };
-  "gemini.brand_visibility": {
-    input: GeminiBrandVisibilityInput;
-    data: GeminiBrandVisibilityData;
-    result: RunResult<GeminiBrandVisibilityData>;
+  "g2.reviews": {
+    input: G2ReviewsInput;
+    data: G2ReviewsData;
+    result: RunResult<G2ReviewsData>;
   };
   "gemini.search": {
     input: GeminiSearchInput;
@@ -1248,6 +1294,11 @@ export interface SkuMap {
     input: GoogleSearchInput;
     data: GoogleSearchData;
     result: RunResult<GoogleSearchData>;
+  };
+  "google.search_100": {
+    input: GoogleSearch100Input;
+    data: GoogleSearch100Data;
+    result: RunResult<GoogleSearch100Data>;
   };
   "google.videos": {
     input: GoogleVideosInput;
@@ -1444,6 +1495,11 @@ export interface SkuMap {
     data: LinkedinAdsSearchData;
     result: RunResult<LinkedinAdsSearchData>;
   };
+  "linkedin.article": {
+    input: LinkedinArticleInput;
+    data: LinkedinArticleData;
+    result: RunResult<LinkedinArticleData>;
+  };
   "linkedin.company": {
     input: LinkedinCompanyInput;
     data: LinkedinCompanyData;
@@ -1614,11 +1670,6 @@ export interface SkuMap {
     data: PeopleSearchCrustdataV3Data;
     result: RunResult<PeopleSearchCrustdataV3Data>;
   };
-  "perplexity.brand_visibility": {
-    input: PerplexityBrandVisibilityInput;
-    data: PerplexityBrandVisibilityData;
-    result: RunResult<PerplexityBrandVisibilityData>;
-  };
   "perplexity.search": {
     input: PerplexitySearchInput;
     data: PerplexitySearchData;
@@ -1773,6 +1824,16 @@ export interface SkuMap {
     input: SeoDomainRankOverviewInput;
     data: SeoDomainRankOverviewData;
     result: RunResult<SeoDomainRankOverviewData>;
+  };
+  "seo.domain_technologies": {
+    input: SeoDomainTechnologiesInput;
+    data: SeoDomainTechnologiesData;
+    result: RunResult<SeoDomainTechnologiesData>;
+  };
+  "seo.domains_by_technology": {
+    input: SeoDomainsByTechnologyInput;
+    data: SeoDomainsByTechnologyData;
+    result: RunResult<SeoDomainsByTechnologyData>;
   };
   "seo.keyword_difficulty": {
     input: SeoKeywordDifficultyInput;
@@ -1993,6 +2054,11 @@ export interface SkuMap {
     input: TiktokTrendingFeedInput;
     data: TiktokTrendingFeedData;
     result: RunResult<TiktokTrendingFeedData>;
+  };
+  "tiktok.trending_hashtags": {
+    input: TiktokTrendingHashtagsInput;
+    data: TiktokTrendingHashtagsData;
+    result: RunResult<TiktokTrendingHashtagsData>;
   };
   "tiktok.video": {
     input: TiktokVideoInput;

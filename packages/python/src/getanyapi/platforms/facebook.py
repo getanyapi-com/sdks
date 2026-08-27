@@ -364,6 +364,10 @@ class FacebookAdDetailsData(BaseModel):
         alias="linkUrl",
         description="Creative destination URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    media: list[FacebookAdDetailsMedia] | None = Field(
+        default=None,
+        description="Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.",
+    )
     page_id: str = Field(
         alias="pageId",
         description="Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.",
@@ -372,6 +376,11 @@ class FacebookAdDetailsData(BaseModel):
         default=None,
         alias="pageName",
         description="Advertiser page name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    page_profile_picture: str | None = Field(
+        default=None,
+        alias="pageProfilePicture",
+        description="Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.",
     )
     platforms: list[str] | None = Field(
         default=None,
@@ -393,6 +402,28 @@ class FacebookAdDetailsData(BaseModel):
     title: str | None = Field(
         default=None,
         description="Creative title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class FacebookAdDetailsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
     )
 
 
@@ -600,6 +631,10 @@ class FacebookAdsSearchAd(BaseModel):
         alias="linkUrl",
         description="Populated whenever the provider has data for the entity.",
     )
+    media: list[FacebookAdsSearchMedia] | None = Field(
+        default=None,
+        description="Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.",
+    )
     page_id: str = Field(
         alias="pageId",
         description="Populated whenever the provider has data for the entity.",
@@ -607,6 +642,11 @@ class FacebookAdsSearchAd(BaseModel):
     page_name: str = Field(
         alias="pageName",
         description="Populated whenever the provider has data for the entity.",
+    )
+    page_profile_picture: str | None = Field(
+        default=None,
+        alias="pageProfilePicture",
+        description="Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.",
     )
     platforms: list[str] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -624,6 +664,28 @@ class FacebookAdsSearchAd(BaseModel):
     )
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookAdsSearchMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
     )
 
 
@@ -710,6 +772,10 @@ class FacebookCompanyAdsAd(BaseModel):
     id: str = Field(
         description="Ad Library archive ID. Populated whenever the provider has data for the entity."
     )
+    media: list[FacebookCompanyAdsMedia] | None = Field(
+        default=None,
+        description="Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.",
+    )
     page_id: str = Field(
         alias="pageId",
         description="Populated whenever the provider has data for the entity.",
@@ -717,6 +783,11 @@ class FacebookCompanyAdsAd(BaseModel):
     page_name: str = Field(
         alias="pageName",
         description="Populated whenever the provider has data for the entity.",
+    )
+    page_profile_picture: str | None = Field(
+        default=None,
+        alias="pageProfilePicture",
+        description="Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.",
     )
     platforms: list[str] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -727,6 +798,28 @@ class FacebookCompanyAdsAd(BaseModel):
     )
     text: str = Field(
         description="Ad body text. Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookCompanyAdsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
     )
 
 
@@ -1228,25 +1321,61 @@ class FacebookProfileEventsEvent(BaseModel):
 
 
 class FacebookProfilePostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     posts: list[FacebookProfilePostsPost] = Field(
         description="Populated whenever the provider has data for the entity."
     )
 
 
 class FacebookProfilePostsPost(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     author: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    media: list[FacebookProfilePostsMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
     )
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookProfilePostsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
     )
 
 
@@ -1453,7 +1582,7 @@ class FacebookNamespace:
         Pull one Meta Ad Library ad with its creative: every carousel variant, image
         and video URL, headline, body, and call to action.
 
-        Price: $0.00441 per request plus $0 per result (maximum $0.00441).
+        Price: $0.00462 per request plus $0 per result (maximum $0.00462).
 
         Example:
             res = client.facebook.ad_details_full(id="1519158199783790")
@@ -1736,7 +1865,7 @@ class FacebookNamespace:
         List the public followers (or accounts followed) of any Facebook page or
         profile URL as normalized JSON records.
 
-        Price: $0 per request plus $0.0063 per result (maximum $0.126).
+        Price: $0 per request plus $0.0066 per result (maximum $0.132).
 
         Example:
             res = client.facebook.followers(limit=3, url="https://www.facebook.com/nike")
@@ -2102,7 +2231,7 @@ class FacebookNamespace:
         """Facebook Profile Posts
 
         List a Facebook page's recent posts by URL or page id with cursor pagination
-        (text, author, permalink).
+        (text, author, publication time, permalink).
 
         Price: $0.002 per request.
 
@@ -2113,6 +2242,29 @@ class FacebookNamespace:
             "facebook.profile_posts", dict(input), options
         )
         return RunResult[FacebookProfilePostsData].model_validate(raw)
+
+    def iter_profile_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookProfilePostsInput],
+    ) -> Paginator[FacebookProfilePostsPost, FacebookProfilePostsData]:
+        """Iterate Facebook Profile Posts results, following pagination cursors.
+
+        Yields validated `FacebookProfilePostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.profile_posts",
+            dict(input),
+            "posts",
+            item_model=FacebookProfilePostsPost,
+            data_model=FacebookProfilePostsData,
+            bare=False,
+            options=options,
+        )
 
     def profile_reels(
         self,
@@ -2168,7 +2320,7 @@ class FacebookNamespace:
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
         structured page profiles (name, category, followers, contact details).
 
-        Price: $0.00105 per request plus $0.0116 per result (maximum $0.117).
+        Price: $0.0011 per request plus $0.0121 per result (maximum $0.123).
 
         Example:
             res = client.facebook.search_pages(limit=3, query="nike")
@@ -2189,7 +2341,7 @@ class FacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0.00006 per request plus $0.00315 per result (maximum $0.0631).
+        Price: $0.00006 per request plus $0.0033 per result (maximum $0.0661).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")
@@ -2238,7 +2390,7 @@ class AsyncFacebookNamespace:
         Pull one Meta Ad Library ad with its creative: every carousel variant, image
         and video URL, headline, body, and call to action.
 
-        Price: $0.00441 per request plus $0 per result (maximum $0.00441).
+        Price: $0.00462 per request plus $0 per result (maximum $0.00462).
 
         Example:
             res = client.facebook.ad_details_full(id="1519158199783790")
@@ -2521,7 +2673,7 @@ class AsyncFacebookNamespace:
         List the public followers (or accounts followed) of any Facebook page or
         profile URL as normalized JSON records.
 
-        Price: $0 per request plus $0.0063 per result (maximum $0.126).
+        Price: $0 per request plus $0.0066 per result (maximum $0.132).
 
         Example:
             res = client.facebook.followers(limit=3, url="https://www.facebook.com/nike")
@@ -2887,7 +3039,7 @@ class AsyncFacebookNamespace:
         """Facebook Profile Posts
 
         List a Facebook page's recent posts by URL or page id with cursor pagination
-        (text, author, permalink).
+        (text, author, publication time, permalink).
 
         Price: $0.002 per request.
 
@@ -2898,6 +3050,29 @@ class AsyncFacebookNamespace:
             "facebook.profile_posts", dict(input), options
         )
         return RunResult[FacebookProfilePostsData].model_validate(raw)
+
+    def iter_profile_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookProfilePostsInput],
+    ) -> AsyncPaginator[FacebookProfilePostsPost, FacebookProfilePostsData]:
+        """Iterate Facebook Profile Posts results, following pagination cursors.
+
+        Yields validated `FacebookProfilePostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.profile_posts",
+            dict(input),
+            "posts",
+            item_model=FacebookProfilePostsPost,
+            data_model=FacebookProfilePostsData,
+            bare=False,
+            options=options,
+        )
 
     async def profile_reels(
         self,
@@ -2953,7 +3128,7 @@ class AsyncFacebookNamespace:
         Search Facebook Pages by keyword, optionally narrowed to a location, and get
         structured page profiles (name, category, followers, contact details).
 
-        Price: $0.00105 per request plus $0.0116 per result (maximum $0.117).
+        Price: $0.0011 per request plus $0.0121 per result (maximum $0.123).
 
         Example:
             res = client.facebook.search_pages(limit=3, query="nike")
@@ -2974,7 +3149,7 @@ class AsyncFacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0.00006 per request plus $0.00315 per result (maximum $0.0631).
+        Price: $0.00006 per request plus $0.0033 per result (maximum $0.0661).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")

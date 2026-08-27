@@ -553,7 +553,7 @@ export class MapsNamespace {
    *
    * Search Google Maps for businesses and enrich each result with contact details (emails, phones, and social profiles from their websites), up to 20 records per request.
    *
-   * Price: $0.00006 per request plus $0.00473 per result (maximum $0.0946).
+   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.0991).
    *
    * @example
    * const res = await client.maps.contacts({ location: "Austin, TX", query: "coffee shop", limit: 3, placeMinimumStars: "four", website: "withWebsite" });
@@ -587,7 +587,7 @@ export class MapsNamespace {
    *
    * Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.
    *
-   * Price: $0.00006 per request plus $0.00042 per result (maximum $0.0421).
+   * Price: $0.00006 per request plus $0.00044 per result (maximum $0.0441).
    *
    * @example
    * const res = await client.maps.reviews({ placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4", limit: 3, postedLimit: "year" });

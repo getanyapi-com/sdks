@@ -373,7 +373,7 @@ export class GoogleAdsNamespace {
    *
    * Pull the ads an advertiser is currently running from the Google Ads Transparency Center (creative details, formats, and run dates) as clean JSON.
    *
-   * Price: $0.00006 per request plus $0.00137 per result (maximum $0.0274).
+   * Price: $0.00006 per request plus $0.00143 per result (maximum $0.0287).
    *
    * @example
    * const res = await client.googleAds.search({ url: "https://adstransparency.google.com/?region=US&domain=nike.com", limit: 3 });

@@ -11,11 +11,11 @@ import type {
  */
 export interface PeopleSearchAiArkInput {
   /**
-   * AI Ark account filter expression. Nested generic any/all filter objects are accepted as documented by the source and are not further constrained.
+   * Company-level filters, keyed by filter name. Accepted names: domain, employeeSize, foundedYear, funding, geoLocation, industries, keyword, language, linkedin, metric, naics, name, phoneNumber, productAndServices, retailSize, revenue, socialMedia, socialMediaLink, technologies, technology, type, url, location. Any other name is rejected. Most names take {"any"|"all": {"include": [...], "exclude": [...]}}, for example {"type": {"any": {"include": ["PUBLIC_COMPANY"]}}}. The any/all object goes INSIDE the filter name, never at the top of account. Size and money filters (employeeSize, foundedYear, revenue, retailSize) instead take {"type": "RANGE", "range": {"start": 50, "end": 200}} or {"type": "ALL"|"NONE"}; geoLocation takes {"position": {"lat": 0, "lng": 0}, "radius": 50, "unit": "km"|"mi"}; keyword takes {"any"|"all": {"include"|"exclude": {"content": ["..."], "sources": [{"mode": "WORD"|"SMART"|"STRICT", "source": "NAME"|"KEYWORD"|"SEO"|"DESCRIPTION"|"INDUSTRY"}]}}}.
    */
   account?: {};
   /**
-   * AI Ark contact filter expression. Nested generic any/all filter objects are accepted as documented by the source and are not further constrained.
+   * Person-level filters, keyed by filter name. Accepted names: certification, certifications, company, contactLanguage, contactLocation, currentCompany, department, departmentAndFunction, education, experience, fullName, function, keyword, language, linkedin, location, name, pastCompany, profileBadge, seniority, skill, skills, socialMedia, socialMediaFollower, socialMediaLink, socialProfile, title. Any other name is rejected. Names take {"any"|"all": {"include": [...], "exclude": [...]}}, with the any/all object INSIDE the filter name rather than at the top of contact. Free-text search goes through keyword, which takes {"any"|"all": {"include"|"exclude": {"content": ["..."], "sources": [{"mode": "WORD"|"SMART"|"STRICT", "source": "HEADLINE"|"SUMMARY"|"ORGANIZATION"|"SKILL"|"WORK_HISTORY_DESCRIPTION"|"EDUCATION_DESCRIPTION"|"CERTIFICATION"|"PUBLICATION"|"PATENT"|"AWARD"|"COURSE"|"PROJECTS"|"VOLUNTEERING"|"LANGUAGE_SKILL"|"TEST_SCORE"}]}}}, for example {"keyword": {"any": {"include": {"content": ["engineer"], "sources": [{"mode": "SMART", "source": "HEADLINE"}]}}}}.
    */
   contact?: {};
   /**
@@ -162,7 +162,6 @@ export interface PeopleSearchCrustdataV3Input {
 
 export interface PeopleSearchCrustdataV3Profile {
   emails?: unknown[];
-  firstName?: string;
   headline?: string;
   lastName?: string;
   /**
@@ -215,6 +214,9 @@ export class PeopleSearchNamespace {
    * Find up to 100 professional profiles by company domain and title keywords.
    *
    * Price: $0.144 per request.
+   *
+   * @example
+   * const res = await client.peopleSearch.crustdataV3({ companyDomain: "posthog.com", titleKeywords: "engineer", limit: 1 });
    */
   crustdataV3(
     input: PeopleSearchCrustdataV3Input,

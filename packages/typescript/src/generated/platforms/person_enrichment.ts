@@ -56,6 +56,9 @@ export class PersonEnrichmentNamespace {
    * Enrich a person from an Aviato or LinkedIn identifier, LinkedIn URL, or email.
    *
    * Price: $0.084 per request.
+   *
+   * @example
+   * const res = await client.personEnrichment.aviato({ linkedinURL: "https://www.linkedin.com/in/dharmesh" });
    */
   aviato(
     input: PersonEnrichmentAviatoInput,
