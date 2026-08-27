@@ -116,6 +116,26 @@ export interface RedditPostCommentsComment {
   [extra: string]: unknown;
 }
 
+export interface RedditPostCommentsMedia {
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  width?: number;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Reddit Post Comments (reddit.post_comments).
  */
@@ -124,6 +144,10 @@ export interface RedditPostCommentsData {
    * Populated whenever the provider has data for the entity.
    */
   comments: RedditPostCommentsComment[];
+  /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: RedditPostCommentsMedia[];
   /**
    * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
    */
@@ -297,6 +321,10 @@ export interface RedditSearchPost {
    */
   id: string;
   /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: RedditSearchMedia[];
+  /**
    * Total number of comments on the post.
    */
   numComments: number;
@@ -320,6 +348,26 @@ export interface RedditSearchPost {
    * The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity.
    */
   url: string;
+  [extra: string]: unknown;
+}
+
+export interface RedditSearchMedia {
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -735,6 +783,10 @@ export interface RedditUserPostsPost {
    */
   id: string;
   /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: RedditUserPostsMedia[];
+  /**
    * Total number of comments on the post.
    */
   numComments?: number;
@@ -760,6 +812,26 @@ export interface RedditUserPostsPost {
    * Present whenever the upstream returns this record.
    */
   url?: string;
+  [extra: string]: unknown;
+}
+
+export interface RedditUserPostsMedia {
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  width?: number;
   [extra: string]: unknown;
 }
 

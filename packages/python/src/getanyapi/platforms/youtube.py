@@ -117,6 +117,8 @@ class YoutubeSearchInput(TypedDict, total=False):
     """Continuation token from a previous response for pagination."""
     query: Required[str]
     """The YouTube search query."""
+    requireCursor: NotRequired[bool]
+    """Set true if you intend to page through results. The cheapest source for this search cannot return a nextCursor, so by default a single call may come back with no way to continue; setting this routes to a source that can page, at a higher price per request."""
     sortBy: NotRequired[Literal["relevance", "popular"]]
     """Sort order: "relevance" (default) or "popular" (most-viewed). Default: relevance."""
     uploadDate: NotRequired[Literal["today", "this_week", "this_month", "this_year"]]
@@ -470,6 +472,13 @@ class YoutubePlaylistVideo(BaseModel):
 
 
 class YoutubeSearchData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of results, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     videos: list[YoutubeSearchVideo] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1050,6 +1059,29 @@ class YoutubeNamespace:
         )
         return RunResult[YoutubeSearchData].model_validate(raw)
 
+    def iter_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubeSearchInput],
+    ) -> Paginator[YoutubeSearchVideo, YoutubeSearchData]:
+        """Iterate YouTube Search results, following pagination cursors.
+
+        Yields validated `YoutubeSearchVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "youtube.search",
+            dict(input),
+            "videos",
+            item_model=YoutubeSearchVideo,
+            data_model=YoutubeSearchData,
+            bare=False,
+            options=options,
+        )
+
     def search_hashtag(
         self,
         *,
@@ -1232,7 +1264,7 @@ class YoutubeNamespace:
         Fetch a YouTube transcript with timed segments and its provenance: whether
         the words are creator-written captions or machine speech recognition.
 
-        Price: $0.00294 per request plus $0 per result (maximum $0.00294).
+        Price: $0.00308 per request plus $0 per result (maximum $0.00308).
 
         Example:
             res = client.youtube.video_transcript_full(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -1576,6 +1608,29 @@ class AsyncYoutubeNamespace:
         )
         return RunResult[YoutubeSearchData].model_validate(raw)
 
+    def iter_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubeSearchInput],
+    ) -> AsyncPaginator[YoutubeSearchVideo, YoutubeSearchData]:
+        """Iterate YouTube Search results, following pagination cursors.
+
+        Yields validated `YoutubeSearchVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "youtube.search",
+            dict(input),
+            "videos",
+            item_model=YoutubeSearchVideo,
+            data_model=YoutubeSearchData,
+            bare=False,
+            options=options,
+        )
+
     async def search_hashtag(
         self,
         *,
@@ -1758,7 +1813,7 @@ class AsyncYoutubeNamespace:
         Fetch a YouTube transcript with timed segments and its provenance: whether
         the words are creator-written captions or machine speech recognition.
 
-        Price: $0.00294 per request plus $0 per result (maximum $0.00294).
+        Price: $0.00308 per request plus $0 per result (maximum $0.00308).
 
         Example:
             res = client.youtube.video_transcript_full(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")

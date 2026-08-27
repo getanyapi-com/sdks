@@ -113,7 +113,7 @@ class PolymarketNamespace:
         liquidity, and end dates) by keyword or sorted by activity, as normalized
         JSON.
 
-        Price: $0.111 per request plus $0.00063 per result (maximum $0.126).
+        Price: $0.116 per request plus $0.00066 per result (maximum $0.132).
 
         Example:
             res = client.polymarket.markets(limit=10, query="election")
@@ -142,7 +142,7 @@ class AsyncPolymarketNamespace:
         liquidity, and end dates) by keyword or sorted by activity, as normalized
         JSON.
 
-        Price: $0.111 per request plus $0.00063 per result (maximum $0.126).
+        Price: $0.116 per request plus $0.00066 per result (maximum $0.132).
 
         Example:
             res = client.polymarket.markets(limit=10, query="election")

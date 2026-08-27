@@ -55,7 +55,10 @@ class CompanyEnrichmentNamespace:
 
         Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.
 
-        Price: $0.0972 per request.
+        Price: $0.048 per request.
+
+        Example:
+            res = client.company_enrichment.crustdata_v3(companyDomain="posthog.com")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "company_enrichment.crustdata_v3", dict(input), options
@@ -79,7 +82,10 @@ class AsyncCompanyEnrichmentNamespace:
 
         Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.
 
-        Price: $0.0972 per request.
+        Price: $0.048 per request.
+
+        Example:
+            res = client.company_enrichment.crustdata_v3(companyDomain="posthog.com")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "company_enrichment.crustdata_v3", dict(input), options

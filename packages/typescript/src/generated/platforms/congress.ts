@@ -114,7 +114,7 @@ export class CongressNamespace {
    *
    * Get US Congress members' financial disclosures and stock trades (member, ticker, transaction type, amount range, and dates), filterable by member, ticker, or date range.
    *
-   * Price: $0.00105 per request plus $0.002 per result (maximum $0.051).
+   * Price: $0.0011 per request plus $0.00209 per result (maximum $0.0534).
    *
    * @example
    * const res = await client.congress.trades({ limit: 5 });

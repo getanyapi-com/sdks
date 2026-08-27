@@ -2,9 +2,11 @@
 
 import type {
   ClientCore,
+  Paginator,
   RequestOptions,
   RunResult,
 } from "../../core/index.js";
+import { paginate } from "../../core/index.js";
 
 /**
  * Input for Google AI Mode (google.ai_mode).
@@ -33,15 +35,15 @@ export interface GoogleAiModeCitation {
  */
 export interface GoogleAiModeData {
   /**
-   * The answer as plain text. Populated whenever the provider has data for the entity.
+   * The answer as plain text, as Google generated it for this search. Length and coverage vary between searches on the same prompt. Populated whenever the provider has data for the entity.
    */
   answer: string;
   /**
-   * The answer in Markdown form. Populated whenever the provider has data for the entity.
+   * The answer in Markdown when Google returns a Markdown rendering, otherwise the same text as answer. Populated whenever the provider has data for the entity.
    */
   answerMarkdown: string;
   /**
-   * Sources cited by the answer when the upstream returns them.
+   * The sources Google cited for this search, in the order it returned them. Google recomputes the set per search, so counts and membership vary between calls on the same prompt.
    */
   citations: GoogleAiModeCitation[];
   /**
@@ -62,7 +64,11 @@ export interface GoogleAiOverviewInput {
 
 export interface GoogleAiOverviewCitation {
   /**
-   * The cited source title.
+   * Google's position for this source within the overview, starting at 1.
+   */
+  index?: number;
+  /**
+   * The cited source title as Google presented it, which may carry a trailing date and snippet.
    */
   title: string;
   /**
@@ -77,21 +83,25 @@ export interface GoogleAiOverviewCitation {
  */
 export interface GoogleAiOverviewData {
   /**
-   * The AI Overview answer as plain text. Populated whenever the provider has data for the entity.
+   * The AI Overview answer as plain text, as generated for this scrape. Populated whenever the provider has data for the entity.
    */
   answer: string;
   /**
-   * The AI Overview answer in Markdown form. Populated whenever the provider has data for the entity.
+   * The same answer in Markdown, preserving the headings and lists Google rendered. Populated whenever the provider has data for the entity.
    */
   answerMarkdown: string;
   /**
-   * Sources cited by the AI Overview when Google returns them.
+   * Every source Google listed for this overview, in Google's own order. This is the full list behind the overview, not only the few sources Google renders inline before the list is expanded, so it is routinely longer than what a reader sees at a glance.
    */
   citations: GoogleAiOverviewCitation[];
   /**
-   * The prompt answered by the upstream search experience. Populated whenever the provider has data for the entity.
+   * The prompt Google answered. Populated whenever the provider has data for the entity.
    */
   prompt: string;
+  /**
+   * When this overview was captured, ISO 8601 UTC. Because Google regenerates the overview per search, this identifies which generation the other fields describe.
+   */
+  scrapedAt?: string;
 }
 
 /**
@@ -490,6 +500,10 @@ export interface GoogleSearchInput {
    */
   autocorrect?: boolean;
   /**
+   * Continuation token from a previous response's nextCursor. Pass it back to fetch the next page of results.
+   */
+  cursor?: string;
+  /**
    * Two-letter country code for result localization (e.g. us, gb, de).
    * Default: us.
    */
@@ -500,7 +514,7 @@ export interface GoogleSearchInput {
    */
   hl?: string;
   /**
-   * Maximum number of organic results to return (1-100, default 10). Google may return fewer if the query is narrow. Price is flat per request.
+   * Maximum number of organic results to return in this response. Google stopped honoring bulk result counts in September 2025, so one page is about 10 results and a limit above 10 is accepted but will not return more than that. To go deeper, either page through with cursor (about 10 results per call, each billed as a request) or use google.search_100, which returns up to 100 ranked results in a single call for one flat charge and is cheaper past roughly 20 results. Price is flat per request.
    * Range: minimum 1, maximum 100.
    * Default: 10.
    */
@@ -513,6 +527,10 @@ export interface GoogleSearchInput {
    * The Google search query.
    */
   query: string;
+  /**
+   * Set true if you intend to page through results. The cheapest source for this search cannot return a nextCursor, so by default a single call may come back with no way to continue; setting this routes to a source that can page, at a higher price per request.
+   */
+  requireCursor?: boolean;
   /**
    * Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).
    */
@@ -540,11 +558,81 @@ export interface GoogleSearchResult {
  * The `data` payload of Google Search (google.search).
  */
 export interface GoogleSearchData {
+  /**
+   * Opaque cursor for the next page of results, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
   query: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   results: GoogleSearchResult[];
+}
+
+/**
+ * Input for Google Search Top 100 (google.search_100).
+ */
+export interface GoogleSearch100Input {
+  /**
+   * Toggle Google spelling autocorrect (default true). Set false to search the exact query without correction.
+   */
+  autocorrect?: boolean;
+  /**
+   * Two-letter country code for result localization (e.g. us, gb, de).
+   * Default: us.
+   */
+  gl?: string;
+  /**
+   * Two-letter interface and results language code (e.g. en, es, de).
+   * Default: en.
+   */
+  hl?: string;
+  /**
+   * The Google search query.
+   */
+  query: string;
+  /**
+   * Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).
+   */
+  timeframe?: string;
+}
+
+export interface GoogleSearch100Result {
+  /**
+   * The destination URL. Populated whenever the provider has data for the entity.
+   */
+  link: string;
+  /**
+   * Absolute rank across the whole result set, counting from 1 - not restarted per page. Populated whenever the provider has data for the entity.
+   */
+  position: number;
+  /**
+   * Google's summary text for the result. Populated whenever the provider has data for the entity.
+   */
+  snippet: string;
+  /**
+   * The result's headline as Google renders it. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Search Top 100 (google.search_100).
+ */
+export interface GoogleSearch100Data {
+  /**
+   * Google's AI Overview text for this query, when Google showed one. Absent when it did not.
+   */
+  aiOverview?: string;
+  /**
+   * The search query these results answer.
+   */
+  query: string;
+  /**
+   * Organic results in Google's own order, position 1 first. Populated whenever the provider has data for the entity.
+   */
+  results: GoogleSearch100Result[];
 }
 
 /**
@@ -633,7 +721,7 @@ export class GoogleNamespace {
   /**
    * Google AI Mode
    *
-   * Ask Google AI Mode a prompt and receive a cited answer.
+   * Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.
    *
    * Price: $0.00126 per request.
    *
@@ -650,9 +738,9 @@ export class GoogleNamespace {
   /**
    * Google AI Overview
    *
-   * Ask Google Search a prompt and receive its AI Overview with citations.
+   * Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.
    *
-   * Price: $0.00126 per request plus $0.00018 per result (maximum $0.00144).
+   * Price: $0.0018 per request.
    *
    * @example
    * const res = await client.google.aiOverview({ prompt: "How does photosynthesis work?" });
@@ -769,7 +857,7 @@ export class GoogleNamespace {
   /**
    * Google Search
    *
-   * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON.
+   * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.
    *
    * Price: $0.00099 per request.
    *
@@ -781,6 +869,43 @@ export class GoogleNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<GoogleSearchData>> {
     return this._core.run("google.search", input, options);
+  }
+
+  /**
+   * Iterate every result of Google Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearch(
+    input: GoogleSearchInput,
+    options?: RequestOptions,
+  ): Paginator<GoogleSearchResult, RunResult<GoogleSearchData>> {
+    return paginate<GoogleSearchResult, RunResult<GoogleSearchData>>(
+      this._core,
+      "google.search",
+      input as unknown as Record<string, unknown>,
+      "results",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * Google Search Top 100
+   *
+   * Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One flat charge whatever the depth, which makes it cheaper than paging google.search past roughly 20 results. It reads ten pages of Google to build the list, so a call takes around three to four minutes - use google.search when you want the first page back in a second.
+   *
+   * Price: $0.0018 per request.
+   *
+   * @example
+   * const res = await client.google.search100({ query: "best crm software", gl: "us", hl: "en" });
+   */
+  search100(
+    input: GoogleSearch100Input,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleSearch100Data>> {
+    return this._core.run("google.search_100", input, options);
   }
 
   /**

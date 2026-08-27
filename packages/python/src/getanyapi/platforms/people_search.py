@@ -19,9 +19,9 @@ class PeopleSearchAiArkInput(TypedDict, total=False):
     """Input for People Search - AI Ark."""
 
     account: NotRequired[dict[str, Any]]
-    """AI Ark account filter expression. Nested generic any/all filter objects are accepted as documented by the source and are not further constrained."""
+    """Company-level filters, keyed by filter name. Accepted names: domain, employeeSize, foundedYear, funding, geoLocation, industries, keyword, language, linkedin, metric, naics, name, phoneNumber, productAndServices, retailSize, revenue, socialMedia, socialMediaLink, technologies, technology, type, url, location. Any other name is rejected. Most names take {"any"|"all": {"include": [...], "exclude": [...]}}, for example {"type": {"any": {"include": ["PUBLIC_COMPANY"]}}}. The any/all object goes INSIDE the filter name, never at the top of account. Size and money filters (employeeSize, foundedYear, revenue, retailSize) instead take {"type": "RANGE", "range": {"start": 50, "end": 200}} or {"type": "ALL"|"NONE"}; geoLocation takes {"position": {"lat": 0, "lng": 0}, "radius": 50, "unit": "km"|"mi"}; keyword takes {"any"|"all": {"include"|"exclude": {"content": ["..."], "sources": [{"mode": "WORD"|"SMART"|"STRICT", "source": "NAME"|"KEYWORD"|"SEO"|"DESCRIPTION"|"INDUSTRY"}]}}}."""
     contact: NotRequired[dict[str, Any]]
-    """AI Ark contact filter expression. Nested generic any/all filter objects are accepted as documented by the source and are not further constrained."""
+    """Person-level filters, keyed by filter name. Accepted names: certification, certifications, company, contactLanguage, contactLocation, currentCompany, department, departmentAndFunction, education, experience, fullName, function, keyword, language, linkedin, location, name, pastCompany, profileBadge, seniority, skill, skills, socialMedia, socialMediaFollower, socialMediaLink, socialProfile, title. Any other name is rejected. Names take {"any"|"all": {"include": [...], "exclude": [...]}}, with the any/all object INSIDE the filter name rather than at the top of contact. Free-text search goes through keyword, which takes {"any"|"all": {"include"|"exclude": {"content": ["..."], "sources": [{"mode": "WORD"|"SMART"|"STRICT", "source": "HEADLINE"|"SUMMARY"|"ORGANIZATION"|"SKILL"|"WORK_HISTORY_DESCRIPTION"|"EDUCATION_DESCRIPTION"|"CERTIFICATION"|"PUBLICATION"|"PATENT"|"AWARD"|"COURSE"|"PROJECTS"|"VOLUNTEERING"|"LANGUAGE_SKILL"|"TEST_SCORE"}]}}}, for example {"keyword": {"any": {"include": {"content": ["engineer"], "sources": [{"mode": "SMART", "source": "HEADLINE"}]}}}}."""
     lists: NotRequired[dict[str, Any]]
     """AI Ark saved-list filter expression."""
     page: NotRequired[int]
@@ -121,7 +121,6 @@ class PeopleSearchCrustdataV3Profile(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     emails: list[Any] | None = None
-    first_name: str | None = Field(default=None, alias="firstName")
     headline: str | None = None
     last_name: str | None = Field(default=None, alias="lastName")
     linkedin_url: str | None = Field(default=None, alias="linkedinUrl")
@@ -165,6 +164,9 @@ class PeopleSearchNamespace:
         Find up to 100 professional profiles by company domain and title keywords.
 
         Price: $0.144 per request.
+
+        Example:
+            res = client.people_search.crustdata_v3(companyDomain="posthog.com", limit=1, titleKeywords="engineer")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "people_search.crustdata_v3", dict(input), options
@@ -209,6 +211,9 @@ class AsyncPeopleSearchNamespace:
         Find up to 100 professional profiles by company domain and title keywords.
 
         Price: $0.144 per request.
+
+        Example:
+            res = client.people_search.crustdata_v3(companyDomain="posthog.com", limit=1, titleKeywords="engineer")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "people_search.crustdata_v3", dict(input), options

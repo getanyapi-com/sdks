@@ -99,7 +99,7 @@ export class FiverrNamespace {
    *
    * Extract Fiverr gig listings from any search or category URL: titles, sellers, ratings, and pricing as structured JSON.
    *
-   * Price: $0 per request plus $0.00158 per result (maximum $0.0315).
+   * Price: $0 per request plus $0.00165 per result (maximum $0.033).
    *
    * @example
    * const res = await client.fiverr.search({ url: "https://www.fiverr.com/search/gigs?query=logo%20design", limit: 3 });

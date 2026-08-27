@@ -17,12 +17,14 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "appstore": ("appstore", "AppstoreNamespace", "AsyncAppstoreNamespace"),
     "bluesky": ("bluesky", "BlueskyNamespace", "AsyncBlueskyNamespace"),
     "booking": ("booking", "BookingNamespace", "AsyncBookingNamespace"),
+    "capterra": ("capterra", "CapterraNamespace", "AsyncCapterraNamespace"),
     "chatgpt": ("chatgpt", "ChatgptNamespace", "AsyncChatgptNamespace"),
     "coinmarketcap": (
         "coinmarketcap",
         "CoinmarketcapNamespace",
         "AsyncCoinmarketcapNamespace",
     ),
+    "company": ("company", "CompanyNamespace", "AsyncCompanyNamespace"),
     "company_enrichment": (
         "company_enrichment",
         "CompanyEnrichmentNamespace",
@@ -50,6 +52,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     ),
     "facebook": ("facebook", "FacebookNamespace", "AsyncFacebookNamespace"),
     "fiverr": ("fiverr", "FiverrNamespace", "AsyncFiverrNamespace"),
+    "g2": ("g2", "G2Namespace", "AsyncG2Namespace"),
     "gemini": ("gemini", "GeminiNamespace", "AsyncGeminiNamespace"),
     "github": ("github", "GithubNamespace", "AsyncGithubNamespace"),
     "glassdoor": ("glassdoor", "GlassdoorNamespace", "AsyncGlassdoorNamespace"),

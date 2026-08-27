@@ -174,7 +174,7 @@ class RealtorNamespace:
         beds/baths, listing-status, and keyword filters and get property records
         (price, address, beds, baths) as normalized JSON.
 
-        Price: $0.00525 per request plus $0.00158 per result (maximum $0.0447).
+        Price: $0.0055 per request plus $0.00165 per result (maximum $0.0468).
 
         Example:
             res = client.realtor.search(bedsMin=4, limit=3, location="Austin, TX", propertyTypes=["single_family"], searchStatuses=["pending"])
@@ -203,7 +203,7 @@ class AsyncRealtorNamespace:
         beds/baths, listing-status, and keyword filters and get property records
         (price, address, beds, baths) as normalized JSON.
 
-        Price: $0.00525 per request plus $0.00158 per result (maximum $0.0447).
+        Price: $0.0055 per request plus $0.00165 per result (maximum $0.0468).
 
         Example:
             res = client.realtor.search(bedsMin=4, limit=3, location="Austin, TX", propertyTypes=["single_family"], searchStatuses=["pending"])

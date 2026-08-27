@@ -22,6 +22,32 @@ export interface FacebookAdDetailsInput {
   url?: string;
 }
 
+export interface FacebookAdDetailsMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Facebook Ad Details (facebook.ad_details).
  */
@@ -58,6 +84,10 @@ export interface FacebookAdDetailsData {
    */
   linkUrl?: string | null;
   /**
+   * Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.
+   */
+  media?: FacebookAdDetailsMedia[];
+  /**
    * Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.
    */
   pageId: string;
@@ -66,6 +96,11 @@ export interface FacebookAdDetailsData {
    * Present whenever the upstream returns this record.
    */
   pageName?: string | null;
+  /**
+   * Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.
+   * Format: uri.
+   */
+  pageProfilePicture?: string;
   /**
    * Publisher platforms the ad runs on. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -388,6 +423,10 @@ export interface FacebookAdsSearchAd {
    */
   linkUrl: string;
   /**
+   * Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.
+   */
+  media?: FacebookAdsSearchMedia[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   pageId: string;
@@ -395,6 +434,11 @@ export interface FacebookAdsSearchAd {
    * Populated whenever the provider has data for the entity.
    */
   pageName: string;
+  /**
+   * Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.
+   * Format: uri.
+   */
+  pageProfilePicture?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -416,6 +460,32 @@ export interface FacebookAdsSearchAd {
    * Populated whenever the provider has data for the entity.
    */
   title: string;
+  [extra: string]: unknown;
+}
+
+export interface FacebookAdsSearchMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -580,6 +650,10 @@ export interface FacebookCompanyAdsAd {
    */
   id: string;
   /**
+   * Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.
+   */
+  media?: FacebookCompanyAdsMedia[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   pageId: string;
@@ -587,6 +661,11 @@ export interface FacebookCompanyAdsAd {
    * Populated whenever the provider has data for the entity.
    */
   pageName: string;
+  /**
+   * Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.
+   * Format: uri.
+   */
+  pageProfilePicture?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -599,6 +678,32 @@ export interface FacebookCompanyAdsAd {
    * Ad body text. Populated whenever the provider has data for the entity.
    */
   text: string;
+  [extra: string]: unknown;
+}
+
+export interface FacebookCompanyAdsMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -1481,9 +1586,17 @@ export interface FacebookProfilePostsPost {
    */
   author: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: FacebookProfilePostsMedia[];
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1495,10 +1608,40 @@ export interface FacebookProfilePostsPost {
   [extra: string]: unknown;
 }
 
+export interface FacebookProfilePostsMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Facebook Profile Posts (facebook.profile_posts).
  */
 export interface FacebookProfilePostsData {
+  /**
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1795,7 +1938,7 @@ export class FacebookNamespace {
    *
    * Pull one Meta Ad Library ad with its creative: every carousel variant, image and video URL, headline, body, and call to action.
    *
-   * Price: $0.00441 per request plus $0 per result (maximum $0.00441).
+   * Price: $0.00462 per request plus $0 per result (maximum $0.00462).
    *
    * @example
    * const res = await client.facebook.adDetailsFull({ id: "1519158199783790" });
@@ -2040,7 +2183,7 @@ export class FacebookNamespace {
    *
    * List the public followers (or accounts followed) of any Facebook page or profile URL as normalized JSON records.
    *
-   * Price: $0 per request plus $0.0063 per result (maximum $0.126).
+   * Price: $0 per request plus $0.0066 per result (maximum $0.132).
    *
    * @example
    * const res = await client.facebook.followers({ url: "https://www.facebook.com/nike", limit: 3 });
@@ -2361,7 +2504,7 @@ export class FacebookNamespace {
   /**
    * Facebook Profile Posts
    *
-   * List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, permalink).
+   * List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).
    *
    * Price: $0.002 per request.
    *
@@ -2373,6 +2516,29 @@ export class FacebookNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<FacebookProfilePostsData>> {
     return this._core.run("facebook.profile_posts", input, options);
+  }
+
+  /**
+   * Iterate every result of Facebook Profile Posts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterProfilePosts(
+    input: FacebookProfilePostsInput,
+    options?: RequestOptions,
+  ): Paginator<FacebookProfilePostsPost, RunResult<FacebookProfilePostsData>> {
+    return paginate<
+      FacebookProfilePostsPost,
+      RunResult<FacebookProfilePostsData>
+    >(
+      this._core,
+      "facebook.profile_posts",
+      input as unknown as Record<string, unknown>,
+      "posts",
+      false,
+      options,
+    );
   }
 
   /**
@@ -2414,7 +2580,7 @@ export class FacebookNamespace {
    *
    * Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details).
    *
-   * Price: $0.00105 per request plus $0.0116 per result (maximum $0.117).
+   * Price: $0.0011 per request plus $0.0121 per result (maximum $0.123).
    *
    * @example
    * const res = await client.facebook.searchPages({ query: "nike", limit: 3 });
@@ -2431,7 +2597,7 @@ export class FacebookNamespace {
    *
    * Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).
    *
-   * Price: $0.00006 per request plus $0.00315 per result (maximum $0.0631).
+   * Price: $0.00006 per request plus $0.0033 per result (maximum $0.0661).
    *
    * @example
    * const res = await client.facebook.searchPosts({ query: "nike", limit: 3 });

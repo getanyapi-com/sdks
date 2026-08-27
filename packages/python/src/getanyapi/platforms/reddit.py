@@ -193,6 +193,10 @@ class RedditPostCommentsData(BaseModel):
     comments: list[RedditPostCommentsComment] = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    media: list[RedditPostCommentsMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     next_cursor: str | None = Field(
         alias="nextCursor",
         description="Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.",
@@ -218,6 +222,22 @@ class RedditPostCommentsComment(BaseModel):
     url: str = Field(
         description="Permalink to the comment on reddit.com. Populated whenever the provider has data for the entity."
     )
+
+
+class RedditPostCommentsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = None
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = None
 
 
 class RedditPostTranscriptData(BaseModel):
@@ -333,6 +353,10 @@ class RedditSearchPost(BaseModel):
     id: str = Field(
         description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
     )
+    media: list[RedditSearchMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     num_comments: int = Field(
         alias="numComments", description="Total number of comments on the post."
     )
@@ -349,6 +373,22 @@ class RedditSearchPost(BaseModel):
     url: str = Field(
         description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity."
     )
+
+
+class RedditSearchMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = None
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = None
 
 
 class RedditSubredditDetailsData(BaseModel):
@@ -586,6 +626,10 @@ class RedditUserPostsPost(BaseModel):
     id: str = Field(
         description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
     )
+    media: list[RedditUserPostsMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     num_comments: int | None = Field(
         default=None,
         alias="numComments",
@@ -608,6 +652,22 @@ class RedditUserPostsPost(BaseModel):
         default=None,
         description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+
+
+class RedditUserPostsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = None
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = None
 
 
 class RedditNamespace:

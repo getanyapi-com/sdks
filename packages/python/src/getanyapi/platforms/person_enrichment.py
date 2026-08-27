@@ -61,6 +61,9 @@ class PersonEnrichmentNamespace:
         email.
 
         Price: $0.084 per request.
+
+        Example:
+            res = client.person_enrichment.aviato(linkedinURL="https://www.linkedin.com/in/dharmesh")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "person_enrichment.aviato", dict(input), options
@@ -86,6 +89,9 @@ class AsyncPersonEnrichmentNamespace:
         email.
 
         Price: $0.084 per request.
+
+        Example:
+            res = client.person_enrichment.aviato(linkedinURL="https://www.linkedin.com/in/dharmesh")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "person_enrichment.aviato", dict(input), options

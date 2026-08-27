@@ -158,7 +158,7 @@ class WebNamespace:
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response, ideal for feeding sites into LLMs and search indexes.
 
-        Price: $0.00158 per request plus $0.00315 per result (maximum $0.0331).
+        Price: $0.00165 per request plus $0.0033 per result (maximum $0.0347).
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")
@@ -176,7 +176,7 @@ class WebNamespace:
         Map an entire website into a clean list of its URLs (with titles and
         descriptions) in a single call.
 
-        Price: $0.0009 per request.
+        Price: $0.001 per request.
 
         Example:
             res = client.web.map(search="domain", url="https://www.iana.org")
@@ -194,7 +194,7 @@ class WebNamespace:
         Scrape any web page and get its content back as clean Markdown (or HTML, or
         raw HTML) plus title and metadata.
 
-        Price: $0.0005 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.web.scrape(formats=["markdown", "rawHtml"], onlyMainContent=False, url="https://example.com")
@@ -214,7 +214,7 @@ class WebNamespace:
 
         Capture a real-browser screenshot of any web page URL.
 
-        Price: $0 per request plus $0.00166 per result (maximum $0.00166).
+        Price: $0 per request plus $0.00174 per result (maximum $0.00174).
 
         Example:
             res = client.web.screenshot(url="https://example.com")
@@ -239,7 +239,7 @@ class AsyncWebNamespace:
         Crawl a website and get clean text content from up to 10 pages in one
         normalized response, ideal for feeding sites into LLMs and search indexes.
 
-        Price: $0.00158 per request plus $0.00315 per result (maximum $0.0331).
+        Price: $0.00165 per request plus $0.0033 per result (maximum $0.0347).
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")
@@ -257,7 +257,7 @@ class AsyncWebNamespace:
         Map an entire website into a clean list of its URLs (with titles and
         descriptions) in a single call.
 
-        Price: $0.0009 per request.
+        Price: $0.001 per request.
 
         Example:
             res = client.web.map(search="domain", url="https://www.iana.org")
@@ -275,7 +275,7 @@ class AsyncWebNamespace:
         Scrape any web page and get its content back as clean Markdown (or HTML, or
         raw HTML) plus title and metadata.
 
-        Price: $0.0005 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.web.scrape(formats=["markdown", "rawHtml"], onlyMainContent=False, url="https://example.com")
@@ -295,7 +295,7 @@ class AsyncWebNamespace:
 
         Capture a real-browser screenshot of any web page URL.
 
-        Price: $0 per request plus $0.00166 per result (maximum $0.00166).
+        Price: $0 per request plus $0.00174 per result (maximum $0.00174).
 
         Example:
             res = client.web.screenshot(url="https://example.com")

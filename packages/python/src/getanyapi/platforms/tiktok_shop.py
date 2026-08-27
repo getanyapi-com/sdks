@@ -33,8 +33,6 @@ class TiktokShopCategoryProductsInput(TypedDict, total=False):
 
     categoryId: Required[str]
     """TikTok Shop category id, from tiktok_shop.categories (e.g. 700645 for Health)."""
-    cursor: NotRequired[str]
-    """Pagination cursor: the number of products to skip. Pass "0" or omit for the first page, then advance by the number of items you received (e.g. 15) while hasMore is true."""
     region: NotRequired[str]
     """Two-letter country code of the TikTok Shop market (e.g. US). Default: US."""
 
@@ -793,7 +791,7 @@ class TiktokShopNamespace:
         count, brand collaborations, follower age/gender/location demographics,
         category GMV split, and video versus live engagement.
 
-        Price: $0.00525 per request plus $0 per result (maximum $0.00525).
+        Price: $0.0055 per request plus $0 per result (maximum $0.0055).
 
         Example:
             res = client.tiktok_shop.creator(handle="golinutrition")
@@ -837,7 +835,7 @@ class TiktokShopNamespace:
         review count, category tree, listing date, and the seller's own sales
         totals.
 
-        Price: $0.021 per request plus $0 per result (maximum $0.021).
+        Price: $0.022 per request plus $0 per result (maximum $0.022).
 
         Example:
             res = client.tiktok_shop.product_full(url="https://www.tiktok.com/shop/pdp/1729527313880355335")
@@ -1059,7 +1057,7 @@ class AsyncTiktokShopNamespace:
         count, brand collaborations, follower age/gender/location demographics,
         category GMV split, and video versus live engagement.
 
-        Price: $0.00525 per request plus $0 per result (maximum $0.00525).
+        Price: $0.0055 per request plus $0 per result (maximum $0.0055).
 
         Example:
             res = client.tiktok_shop.creator(handle="golinutrition")
@@ -1103,7 +1101,7 @@ class AsyncTiktokShopNamespace:
         review count, category tree, listing date, and the seller's own sales
         totals.
 
-        Price: $0.021 per request plus $0 per result (maximum $0.021).
+        Price: $0.022 per request plus $0 per result (maximum $0.022).
 
         Example:
             res = client.tiktok_shop.product_full(url="https://www.tiktok.com/shop/pdp/1729527313880355335")

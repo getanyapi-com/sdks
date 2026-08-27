@@ -51,7 +51,10 @@ export class CompanyEnrichmentNamespace {
    *
    * Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.
    *
-   * Price: $0.0972 per request.
+   * Price: $0.048 per request.
+   *
+   * @example
+   * const res = await client.companyEnrichment.crustdataV3({ companyDomain: "posthog.com" });
    */
   crustdataV3(
     input: CompanyEnrichmentCrustdataV3Input,

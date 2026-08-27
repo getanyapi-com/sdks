@@ -155,7 +155,7 @@ export interface CompanySearchCrustdataV3Input {
   cursor?: string;
   fields?: unknown;
   /**
-   * Crustdata company-database filter expression.
+   * Crustdata company-database filter expression. A leaf condition is {"filter_type": <column>, "type": <operator>, "value": <match>}; a group is {"op": "and"|"or", "conditions": [<leaf>, ...]}. Pass a single leaf, an array of leaves, or a group. See the example for a domain lookup.
    */
   filters: unknown;
   /**
@@ -222,6 +222,9 @@ export class CompanySearchNamespace {
    * Search companies by structured filters with cursor pagination.
    *
    * Price: $0 per request plus $0.048 per result (maximum $48).
+   *
+   * @example
+   * const res = await client.companySearch.crustdataV3({ filters: [{ filter_type: "company_website_domain", type: "(.)", value: "posthog.com" }], limit: 1 });
    */
   crustdataV3(
     input: CompanySearchCrustdataV3Input,

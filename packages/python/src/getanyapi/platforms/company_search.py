@@ -44,7 +44,7 @@ class CompanySearchCrustdataV3Input(TypedDict, total=False):
     cursor: NotRequired[str]
     fields: NotRequired[Any]
     filters: Required[Any]
-    """Crustdata company-database filter expression."""
+    """Crustdata company-database filter expression. A leaf condition is {"filter_type": <column>, "type": <operator>, "value": <match>}; a group is {"op": "and"|"or", "conditions": [<leaf>, ...]}. Pass a single leaf, an array of leaves, or a group. See the example for a domain lookup."""
     limit: NotRequired[int]
     """Range: 1 to 1000. Default: 10."""
     sorts: NotRequired[list[dict[str, Any]]]
@@ -169,6 +169,9 @@ class CompanySearchNamespace:
         Search companies by structured filters with cursor pagination.
 
         Price: $0 per request plus $0.048 per result (maximum $48).
+
+        Example:
+            res = client.company_search.crustdata_v3(filters=[{"filter_type": "company_website_domain", "type": "(.)", "value": "posthog.com"}], limit=1)
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "company_search.crustdata_v3", dict(input), options
@@ -237,6 +240,9 @@ class AsyncCompanySearchNamespace:
         Search companies by structured filters with cursor pagination.
 
         Price: $0 per request plus $0.048 per result (maximum $48).
+
+        Example:
+            res = client.company_search.crustdata_v3(filters=[{"filter_type": "company_website_domain", "type": "(.)", "value": "posthog.com"}], limit=1)
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "company_search.crustdata_v3", dict(input), options

@@ -490,6 +490,10 @@ export interface YoutubeSearchInput {
    */
   query: string;
   /**
+   * Set true if you intend to page through results. The cheapest source for this search cannot return a nextCursor, so by default a single call may come back with no way to continue; setting this routes to a source that can page, at a higher price per request.
+   */
+  requireCursor?: boolean;
+  /**
    * Sort order: "relevance" (default) or "popular" (most-viewed).
    * One of: relevance, popular.
    * Default: relevance.
@@ -532,6 +536,10 @@ export interface YoutubeSearchVideo {
  * The `data` payload of YouTube Search (youtube.search).
  */
 export interface YoutubeSearchData {
+  /**
+   * Opaque cursor for the next page of results, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1215,6 +1223,26 @@ export class YoutubeNamespace {
   }
 
   /**
+   * Iterate every result of YouTube Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearch(
+    input: YoutubeSearchInput,
+    options?: RequestOptions,
+  ): Paginator<YoutubeSearchVideo, RunResult<YoutubeSearchData>> {
+    return paginate<YoutubeSearchVideo, RunResult<YoutubeSearchData>>(
+      this._core,
+      "youtube.search",
+      input as unknown as Record<string, unknown>,
+      "videos",
+      false,
+      options,
+    );
+  }
+
+  /**
    * YouTube Hashtag Search
    *
    * Search YouTube videos by hashtag with cursor pagination (title, channel, views, length, publish time).
@@ -1370,7 +1398,7 @@ export class YoutubeNamespace {
    *
    * Fetch a YouTube transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.
    *
-   * Price: $0.00294 per request plus $0 per result (maximum $0.00294).
+   * Price: $0.00308 per request plus $0 per result (maximum $0.00308).
    *
    * @example
    * const res = await client.youtube.videoTranscriptFull({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });

@@ -457,6 +457,7 @@ class TwitterProfileData(BaseModel):
     )
     tweets: int
     verified: bool
+    website: str
 
 
 class TwitterRepliesData(BaseModel):
@@ -488,6 +489,10 @@ class TwitterRepliesItem(BaseModel):
     like_count: int | None = Field(
         default=None, alias="likeCount", description="Number of likes on this reply."
     )
+    media: list[TwitterRepliesMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     quote_count: int | None = Field(
         default=None,
         alias="quoteCount",
@@ -509,6 +514,28 @@ class TwitterRepliesItem(BaseModel):
     )
     view_count: int | None = Field(
         default=None, alias="viewCount", description="Number of views of this reply."
+    )
+
+
+class TwitterRepliesMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
     )
 
 
@@ -552,6 +579,10 @@ class TwitterSearchItem(BaseModel):
     is_reply: bool | None = Field(default=None, alias="isReply")
     lang: str | None = None
     like_count: int | None = Field(default=None, alias="likeCount")
+    media: list[TwitterSearchMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     quote_count: int | None = Field(default=None, alias="quoteCount")
     reply_count: int | None = Field(default=None, alias="replyCount")
     retweet_count: int | None = Field(default=None, alias="retweetCount")
@@ -562,6 +593,28 @@ class TwitterSearchItem(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     view_count: int | None = Field(default=None, alias="viewCount")
+
+
+class TwitterSearchMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
+    )
 
 
 class TwitterSearchCommunitiesData(BaseModel):
@@ -703,11 +756,37 @@ class TwitterThreadTweet(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     in_reply_to_id: str | None = Field(alias="inReplyToId")
+    media: list[TwitterThreadMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+
+
+class TwitterThreadMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
     )
 
 
@@ -768,6 +847,10 @@ class TwitterTweetData(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     likes: int
+    media: list[TwitterTweetMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     quotes: int
     replies: int
     retweets: int
@@ -775,6 +858,28 @@ class TwitterTweetData(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     views: int
+
+
+class TwitterTweetMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(
+        default=None,
+        description="Pixel height of the media item, when the lane reports it.",
+    )
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = Field(
+        default=None,
+        description="Pixel width of the media item, when the lane reports it.",
+    )
 
 
 class TwitterTweetTranscriptData(BaseModel):
@@ -819,6 +924,10 @@ class TwitterUserPostsTweet(BaseModel):
         default=None, description="Language code reported for the post, when available."
     )
     likes: int = Field(description="Number of likes.")
+    media: list[TwitterUserPostsMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     quotes: int | None = Field(default=None, description="Number of quote posts.")
     replies: int = Field(description="Number of replies.")
     retweets: int = Field(description="Number of reposts or retweets.")
@@ -829,6 +938,22 @@ class TwitterUserPostsTweet(BaseModel):
         description="Canonical x.com URL of the post. Populated whenever the provider has data for the entity."
     )
     views: int = Field(description="Number of views.")
+
+
+class TwitterUserPostsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = None
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = None
 
 
 class TwitterUserTweetsData(BaseModel):
@@ -859,6 +984,10 @@ class TwitterUserTweetsTweet(BaseModel):
     is_reply: bool | None = Field(default=None, alias="isReply")
     lang: str | None = None
     likes: int
+    media: list[TwitterUserTweetsMedia] | None = Field(
+        default=None,
+        description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
     quotes: int | None = None
     replies: int
     retweets: int
@@ -869,6 +998,22 @@ class TwitterUserTweetsTweet(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     views: int
+
+
+class TwitterUserTweetsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = None
+    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    url: str = Field(
+        description="Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video and gif items.",
+    )
+    width: int | None = None
 
 
 class TwitterNamespace:

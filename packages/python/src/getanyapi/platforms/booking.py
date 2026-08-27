@@ -98,7 +98,7 @@ class BookingNamespace:
         room occupancy and get hotel results (name, price, review score, location)
         as normalized JSON.
 
-        Price: $0.0021 per request plus $0.00473 per result (maximum $0.0966).
+        Price: $0.0022 per request plus $0.00495 per result (maximum $0.102).
 
         Example:
             res = client.booking.search(adults=2, checkIn="2026-09-01", checkOut="2026-09-03", limit=3, query="New York")
@@ -127,7 +127,7 @@ class AsyncBookingNamespace:
         room occupancy and get hotel results (name, price, review score, location)
         as normalized JSON.
 
-        Price: $0.0021 per request plus $0.00473 per result (maximum $0.0966).
+        Price: $0.0022 per request plus $0.00495 per result (maximum $0.102).
 
         Example:
             res = client.booking.search(adults=2, checkIn="2026-09-01", checkOut="2026-09-03", limit=3, query="New York")

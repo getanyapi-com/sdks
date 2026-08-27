@@ -163,6 +163,9 @@ class EmailVerificationNamespace:
         result.
 
         Price: $0.0024 per request.
+
+        Example:
+            res = client.email_verification.icypeas(email="support@stripe.com")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "email_verification.icypeas", dict(input), options
@@ -230,6 +233,9 @@ class AsyncEmailVerificationNamespace:
         result.
 
         Price: $0.0024 per request.
+
+        Example:
+            res = client.email_verification.icypeas(email="support@stripe.com")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "email_verification.icypeas", dict(input), options

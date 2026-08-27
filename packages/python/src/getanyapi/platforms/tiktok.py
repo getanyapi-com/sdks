@@ -171,6 +171,8 @@ class TiktokFollowingInput(TypedDict, total=False):
     """Pagination cursor from a previous response."""
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "stoolpresidente")."""
+    requireCursor: NotRequired[bool]
+    """Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. Not all sources for this list can page, and one that can may cost more per request."""
 
 
 class TiktokHashtagVideosInput(TypedDict, total=False):
@@ -230,6 +232,8 @@ class TiktokSearchKeywordInput(TypedDict, total=False):
     """Time frame filter. Use a canonical JSON integer that is nonnegative; common values are 0 for any time, 1 for the past 24 hours, 7 for the past week, and 30 for the past month. Legacy numeric strings remain accepted."""
     query: Required[str]
     """The keyword to search TikTok for."""
+    requireCursor: NotRequired[bool]
+    """Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Not all sources for this search can page, and one that can may cost more per request."""
     sortBy: NotRequired[Any]
     """Sort order. Use the canonical JSON integer 0 for relevance or 1 for most liked; legacy numeric strings remain accepted."""
 
@@ -335,6 +339,67 @@ class TiktokTrendingFeedInput(TypedDict, total=False):
     """2-letter country code for the proxy location (e.g. "US")."""
     trim: NotRequired[str]
     """Set to true to return a simplified response."""
+
+
+class TiktokTrendingHashtagsInput(TypedDict, total=False):
+    """Input for TikTok Trending Hashtags."""
+
+    industry: NotRequired[
+        Literal[
+            "apparel_accessories",
+            "baby_kids_maternity",
+            "beauty_personal_care",
+            "education",
+            "food_beverage",
+            "games",
+            "health",
+            "home_improvement",
+            "household_products",
+            "news_entertainment",
+            "pets",
+            "sports_outdoor",
+            "tech_electronics",
+            "travel",
+            "vehicle_transportation",
+        ]
+    ]
+    """Restrict the ranking to one industry. Omit for the all-industries board."""
+    limit: NotRequired[int]
+    """Maximum number of ranked hashtags to return, from 1 through 100 (default 3). TikTok publishes only the top 3 hashtags per board to anonymous callers, so 1 through 3 is served by the cheapest source; a higher limit routes to a dearer source that reads the full ranking. Range: 1 to 100. Default: 3."""
+    period: NotRequired[int]
+    """Lookback window in days that the ranking and the popularity curve cover (default 7). Default: 7."""
+    region: NotRequired[
+        Literal[
+            "US",
+            "FR",
+            "DE",
+            "IT",
+            "ES",
+            "GB",
+            "AR",
+            "AU",
+            "BR",
+            "CA",
+            "CO",
+            "EG",
+            "ID",
+            "IL",
+            "JP",
+            "KR",
+            "MY",
+            "MX",
+            "PH",
+            "SA",
+            "SG",
+            "ZA",
+            "TW",
+            "TH",
+            "TR",
+            "AE",
+            "VN",
+        ]
+    ]
+    """Two-letter country code of the market whose hashtag ranking to read (default US). Each market is ranked independently, so US and DE return different boards. Default: US."""
 
 
 class TiktokVideoInput(TypedDict, total=False):
@@ -598,7 +663,14 @@ class TiktokFollowersFollower(BaseModel):
 
 
 class TiktokFollowingData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     following: list[TiktokFollowingFollowing]
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of followed accounts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
 
 
 class TiktokFollowingFollowing(BaseModel):
@@ -774,6 +846,12 @@ class TiktokProfileVideosVideo(BaseModel):
 
 
 class TiktokSearchHashtagData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     videos: list[TiktokSearchHashtagVideo] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -802,6 +880,13 @@ class TiktokSearchHashtagVideo(BaseModel):
 
 
 class TiktokSearchKeywordData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     videos: list[TiktokSearchKeywordVideo] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1066,6 +1151,84 @@ class TiktokTrendingFeedVideo(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     views: int
+
+
+class TiktokTrendingHashtagsData(BaseModel):
+    items: list[TiktokTrendingHashtagsItem] = Field(
+        description="Hashtags in the market's own ranking order, best first. Populated whenever the provider has data for the entity."
+    )
+
+
+class TiktokTrendingHashtagsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    hashtag: str = Field(
+        description="Hashtag name without the leading #. Populated whenever the provider has data for the entity."
+    )
+    hashtag_id: str = Field(
+        alias="hashtagId",
+        description="Stable TikTok hashtag identifier. Populated whenever the provider has data for the entity.",
+    )
+    industry_ids: list[int] | None = Field(
+        default=None,
+        alias="industryIds",
+        description="TikTok industry identifiers the hashtag is classified under, matching the ids behind the `industry` input. Empty when TikTok classifies the hashtag under none.",
+    )
+    popularity: list[TiktokTrendingHashtagsPopularity] | None = Field(
+        default=None,
+        description="Daily popularity curve across the requested period, oldest first. Values are normalized 0-100 within this hashtag's own window, where 100 is its peak day, so they compare days of one hashtag rather than two hashtags. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    posts: int | None = Field(
+        default=None,
+        description="Number of videos published with the hashtag during the period. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    rank: int = Field(
+        description="One-based position in this market's ranking for the requested period. Populated whenever the provider has data for the entity. Minimum: 1."
+    )
+    top_creators: list[TiktokTrendingHashtagsTopCreator] | None = Field(
+        default=None,
+        alias="topCreators",
+        description="Creators TikTok surfaces as leading the hashtag, in its own order.",
+    )
+    views: int | None = Field(
+        default=None,
+        description="Total video views the hashtag drew during the period. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class TiktokTrendingHashtagsPopularity(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    at_utc: float = Field(
+        alias="atUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    value: float = Field(
+        description="Normalized popularity for that day, 0 through 100. Range: 0 to 100."
+    )
+
+
+class TiktokTrendingHashtagsTopCreator(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="Two-letter country code TikTok reports for the creator.",
+    )
+    followers: int | None = Field(default=None, description="Creator's follower count.")
+    handle: str | None = Field(
+        default=None, description="Creator's TikTok username without the leading @."
+    )
+    image: str | None = Field(default=None, description="Creator's avatar image URL.")
+    nickname: str | None = Field(default=None, description="Creator's display name.")
+    rank: int | None = Field(
+        default=None,
+        description="One-based position among the hashtag's top creators. Minimum: 1.",
+    )
+    user_id: str | None = Field(
+        default=None, alias="userId", description="Creator's stable TikTok user id."
+    )
 
 
 class TiktokVideoData(BaseModel):
@@ -1441,6 +1604,29 @@ class TiktokNamespace:
         )
         return RunResult[TiktokFollowingData].model_validate(raw)
 
+    def iter_following(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokFollowingInput],
+    ) -> Paginator[TiktokFollowingFollowing, TiktokFollowingData]:
+        """Iterate TikTok Following results, following pagination cursors.
+
+        Yields validated `TiktokFollowingFollowing` items from the `following` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "tiktok.following",
+            dict(input),
+            "following",
+            item_model=TiktokFollowingFollowing,
+            data_model=TiktokFollowingData,
+            bare=False,
+            options=options,
+        )
+
     def hashtag_videos(
         self,
         *,
@@ -1586,6 +1772,29 @@ class TiktokNamespace:
         )
         return RunResult[TiktokSearchHashtagData].model_validate(raw)
 
+    def iter_search_hashtag(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchHashtagInput],
+    ) -> Paginator[TiktokSearchHashtagVideo, TiktokSearchHashtagData]:
+        """Iterate TikTok Hashtag Search results, following pagination cursors.
+
+        Yields validated `TiktokSearchHashtagVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "tiktok.search_hashtag",
+            dict(input),
+            "videos",
+            item_model=TiktokSearchHashtagVideo,
+            data_model=TiktokSearchHashtagData,
+            bare=False,
+            options=options,
+        )
+
     def search_keyword(
         self,
         *,
@@ -1606,6 +1815,29 @@ class TiktokNamespace:
             "tiktok.search_keyword", dict(input), options
         )
         return RunResult[TiktokSearchKeywordData].model_validate(raw)
+
+    def iter_search_keyword(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchKeywordInput],
+    ) -> Paginator[TiktokSearchKeywordVideo, TiktokSearchKeywordData]:
+        """Iterate TikTok Keyword Search results, following pagination cursors.
+
+        Yields validated `TiktokSearchKeywordVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "tiktok.search_keyword",
+            dict(input),
+            "videos",
+            item_model=TiktokSearchKeywordVideo,
+            data_model=TiktokSearchKeywordData,
+            bare=False,
+            options=options,
+        )
 
     def search_top(
         self,
@@ -1786,8 +2018,9 @@ class TiktokNamespace:
     ) -> RunResult[TiktokTrendingFeedData]:
         """TikTok Trending Feed
 
-        Get TikTok's trending feed for a region (caption, views, likes, comments,
-        author) as normalized JSON.
+        Sample TikTok's For You feed as served to a viewer in one country (caption,
+        views, likes, comments, author). Returns a rotating sample, not a ranked
+        chart.
 
         Price: $0.002 per request.
 
@@ -1798,6 +2031,33 @@ class TiktokNamespace:
             "tiktok.trending_feed", dict(input), options
         )
         return RunResult[TiktokTrendingFeedData].model_validate(raw)
+
+    def trending_hashtags(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokTrendingHashtagsInput],
+    ) -> RunResult[TiktokTrendingHashtagsData]:
+        """TikTok Trending Hashtags
+
+        Rank TikTok's trending hashtags for one country and industry, with each
+        hashtag's daily popularity curve, post count, video views, and leading
+        creators. Ranks 15 industry categories, or omit industry for the
+        all-industries board. TikTok publishes only the top 3 hashtags per board to
+        anonymous callers, so limit 1-3 is served cheaply; a limit above 3 routes to
+        a dearer authenticated source that returns the full ranking. Covers 27
+        markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX,
+        MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.trending_hashtags(limit=3, period=7, region="US")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.trending_hashtags", dict(input), options
+        )
+        return RunResult[TiktokTrendingHashtagsData].model_validate(raw)
 
     def video(
         self,
@@ -1896,7 +2156,7 @@ class TiktokNamespace:
         labels, and per-word confidence - for videos TikTok publishes no subtitle
         track for.
 
-        Price: $0.0168 per request plus $0 per result (maximum $0.0168).
+        Price: $0.0176 per request plus $0 per result (maximum $0.0176).
 
         Example:
             res = client.tiktok.video_transcript_full(url="https://www.tiktok.com/@thatdudecancook/video/7649086431641521421")
@@ -2151,6 +2411,29 @@ class AsyncTiktokNamespace:
         )
         return RunResult[TiktokFollowingData].model_validate(raw)
 
+    def iter_following(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokFollowingInput],
+    ) -> AsyncPaginator[TiktokFollowingFollowing, TiktokFollowingData]:
+        """Iterate TikTok Following results, following pagination cursors.
+
+        Yields validated `TiktokFollowingFollowing` items from the `following` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "tiktok.following",
+            dict(input),
+            "following",
+            item_model=TiktokFollowingFollowing,
+            data_model=TiktokFollowingData,
+            bare=False,
+            options=options,
+        )
+
     async def hashtag_videos(
         self,
         *,
@@ -2296,6 +2579,29 @@ class AsyncTiktokNamespace:
         )
         return RunResult[TiktokSearchHashtagData].model_validate(raw)
 
+    def iter_search_hashtag(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchHashtagInput],
+    ) -> AsyncPaginator[TiktokSearchHashtagVideo, TiktokSearchHashtagData]:
+        """Iterate TikTok Hashtag Search results, following pagination cursors.
+
+        Yields validated `TiktokSearchHashtagVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "tiktok.search_hashtag",
+            dict(input),
+            "videos",
+            item_model=TiktokSearchHashtagVideo,
+            data_model=TiktokSearchHashtagData,
+            bare=False,
+            options=options,
+        )
+
     async def search_keyword(
         self,
         *,
@@ -2316,6 +2622,29 @@ class AsyncTiktokNamespace:
             "tiktok.search_keyword", dict(input), options
         )
         return RunResult[TiktokSearchKeywordData].model_validate(raw)
+
+    def iter_search_keyword(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchKeywordInput],
+    ) -> AsyncPaginator[TiktokSearchKeywordVideo, TiktokSearchKeywordData]:
+        """Iterate TikTok Keyword Search results, following pagination cursors.
+
+        Yields validated `TiktokSearchKeywordVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "tiktok.search_keyword",
+            dict(input),
+            "videos",
+            item_model=TiktokSearchKeywordVideo,
+            data_model=TiktokSearchKeywordData,
+            bare=False,
+            options=options,
+        )
 
     async def search_top(
         self,
@@ -2496,8 +2825,9 @@ class AsyncTiktokNamespace:
     ) -> RunResult[TiktokTrendingFeedData]:
         """TikTok Trending Feed
 
-        Get TikTok's trending feed for a region (caption, views, likes, comments,
-        author) as normalized JSON.
+        Sample TikTok's For You feed as served to a viewer in one country (caption,
+        views, likes, comments, author). Returns a rotating sample, not a ranked
+        chart.
 
         Price: $0.002 per request.
 
@@ -2508,6 +2838,33 @@ class AsyncTiktokNamespace:
             "tiktok.trending_feed", dict(input), options
         )
         return RunResult[TiktokTrendingFeedData].model_validate(raw)
+
+    async def trending_hashtags(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokTrendingHashtagsInput],
+    ) -> RunResult[TiktokTrendingHashtagsData]:
+        """TikTok Trending Hashtags
+
+        Rank TikTok's trending hashtags for one country and industry, with each
+        hashtag's daily popularity curve, post count, video views, and leading
+        creators. Ranks 15 industry categories, or omit industry for the
+        all-industries board. TikTok publishes only the top 3 hashtags per board to
+        anonymous callers, so limit 1-3 is served cheaply; a limit above 3 routes to
+        a dearer authenticated source that returns the full ranking. Covers 27
+        markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX,
+        MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.trending_hashtags(limit=3, period=7, region="US")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.trending_hashtags", dict(input), options
+        )
+        return RunResult[TiktokTrendingHashtagsData].model_validate(raw)
 
     async def video(
         self,
@@ -2606,7 +2963,7 @@ class AsyncTiktokNamespace:
         labels, and per-word confidence - for videos TikTok publishes no subtitle
         track for.
 
-        Price: $0.0168 per request plus $0 per result (maximum $0.0168).
+        Price: $0.0176 per request plus $0 per result (maximum $0.0176).
 
         Example:
             res = client.tiktok.video_transcript_full(url="https://www.tiktok.com/@thatdudecancook/video/7649086431641521421")

@@ -84,7 +84,7 @@ export class YahooFinanceNamespace {
    *
    * Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote (price, market cap, volume, and key stats) as normalized JSON.
    *
-   * Price: $0.00006 per request plus $0.00095 per result (maximum $0.001).
+   * Price: $0.00006 per request plus $0.00099 per result (maximum $0.00105).
    *
    * @example
    * const res = await client.yahooFinance.quote({ ticker: "AAPL" });

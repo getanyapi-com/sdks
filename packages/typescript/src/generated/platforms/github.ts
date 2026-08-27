@@ -572,6 +572,10 @@ export interface GithubUserRepositoriesInput {
 
 export interface GithubUserRepositoriesRepo {
   archived: boolean;
+  /**
+   * URL of the repository owner's avatar image.
+   */
+  avatarUrl?: string;
   description: string;
   fork: boolean;
   forks: number;

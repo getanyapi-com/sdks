@@ -482,6 +482,10 @@ export interface TiktokFollowingInput {
    * TikTok username without the leading @ (e.g. "stoolpresidente").
    */
   handle: string;
+  /**
+   * Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. Not all sources for this list can page, and one that can may cost more per request.
+   */
+  requireCursor?: boolean;
 }
 
 export interface TiktokFollowingFollowing {
@@ -512,6 +516,10 @@ export interface TiktokFollowingFollowing {
  */
 export interface TiktokFollowingData {
   following: TiktokFollowingFollowing[];
+  /**
+   * Opaque cursor for the next page of followed accounts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -786,6 +794,10 @@ export interface TiktokSearchHashtagVideo {
  */
 export interface TiktokSearchHashtagData {
   /**
+   * Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   videos: TiktokSearchHashtagVideo[];
@@ -807,6 +819,10 @@ export interface TiktokSearchKeywordInput {
    * The keyword to search TikTok for.
    */
   query: string;
+  /**
+   * Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Not all sources for this search can page, and one that can may cost more per request.
+   */
+  requireCursor?: boolean;
   /**
    * Sort order. Use the canonical JSON integer 0 for relevance or 1 for most liked; legacy numeric strings remain accepted.
    */
@@ -834,6 +850,10 @@ export interface TiktokSearchKeywordVideo {
  * The `data` payload of TikTok Keyword Search (tiktok.search_keyword).
  */
 export interface TiktokSearchKeywordData {
+  /**
+   * Opaque cursor for the next page of videos, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1278,6 +1298,173 @@ export interface TiktokTrendingFeedData {
 }
 
 /**
+ * Input for TikTok Trending Hashtags (tiktok.trending_hashtags).
+ */
+export interface TiktokTrendingHashtagsInput {
+  /**
+   * Restrict the ranking to one industry. Omit for the all-industries board.
+   * One of: apparel_accessories, baby_kids_maternity, beauty_personal_care, education, food_beverage, games, health, home_improvement, household_products, news_entertainment, pets, sports_outdoor, tech_electronics, travel, vehicle_transportation.
+   */
+  industry?:
+    | "apparel_accessories"
+    | "baby_kids_maternity"
+    | "beauty_personal_care"
+    | "education"
+    | "food_beverage"
+    | "games"
+    | "health"
+    | "home_improvement"
+    | "household_products"
+    | "news_entertainment"
+    | "pets"
+    | "sports_outdoor"
+    | "tech_electronics"
+    | "travel"
+    | "vehicle_transportation";
+  /**
+   * Maximum number of ranked hashtags to return, from 1 through 100 (default 3). TikTok publishes only the top 3 hashtags per board to anonymous callers, so 1 through 3 is served by the cheapest source; a higher limit routes to a dearer source that reads the full ranking.
+   * Range: minimum 1, maximum 100.
+   * Default: 3.
+   */
+  limit?: number;
+  /**
+   * Lookback window in days that the ranking and the popularity curve cover (default 7).
+   * Default: 7.
+   */
+  period?: number;
+  /**
+   * Two-letter country code of the market whose hashtag ranking to read (default US). Each market is ranked independently, so US and DE return different boards.
+   * One of: US, FR, DE, IT, ES, GB, AR, AU, BR, CA, CO, EG, ID, IL, JP, KR, MY, MX, PH, SA, SG, ZA, TW, TH, TR, AE, VN.
+   * Default: US.
+   */
+  region?:
+    | "US"
+    | "FR"
+    | "DE"
+    | "IT"
+    | "ES"
+    | "GB"
+    | "AR"
+    | "AU"
+    | "BR"
+    | "CA"
+    | "CO"
+    | "EG"
+    | "ID"
+    | "IL"
+    | "JP"
+    | "KR"
+    | "MY"
+    | "MX"
+    | "PH"
+    | "SA"
+    | "SG"
+    | "ZA"
+    | "TW"
+    | "TH"
+    | "TR"
+    | "AE"
+    | "VN";
+}
+
+export interface TiktokTrendingHashtagsItem {
+  /**
+   * Hashtag name without the leading #. Populated whenever the provider has data for the entity.
+   */
+  hashtag: string;
+  /**
+   * Stable TikTok hashtag identifier. Populated whenever the provider has data for the entity.
+   */
+  hashtagId: string;
+  /**
+   * TikTok industry identifiers the hashtag is classified under, matching the ids behind the `industry` input. Empty when TikTok classifies the hashtag under none.
+   */
+  industryIds?: number[];
+  /**
+   * Daily popularity curve across the requested period, oldest first. Values are normalized 0-100 within this hashtag's own window, where 100 is its peak day, so they compare days of one hashtag rather than two hashtags. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  popularity?: TiktokTrendingHashtagsPopularity[];
+  /**
+   * Number of videos published with the hashtag during the period. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  posts?: number;
+  /**
+   * One-based position in this market's ranking for the requested period. Populated whenever the provider has data for the entity.
+   * Range: minimum 1.
+   */
+  rank: number;
+  /**
+   * Creators TikTok surfaces as leading the hashtag, in its own order.
+   */
+  topCreators?: TiktokTrendingHashtagsTopCreator[];
+  /**
+   * Total video views the hashtag drew during the period. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  views?: number;
+  [extra: string]: unknown;
+}
+
+export interface TiktokTrendingHashtagsPopularity {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  atUtc: number;
+  /**
+   * Normalized popularity for that day, 0 through 100.
+   * Range: minimum 0, maximum 100.
+   */
+  value: number;
+  [extra: string]: unknown;
+}
+
+export interface TiktokTrendingHashtagsTopCreator {
+  /**
+   * Two-letter country code TikTok reports for the creator.
+   */
+  countryCode?: string;
+  /**
+   * Creator's follower count.
+   */
+  followers?: number;
+  /**
+   * Creator's TikTok username without the leading @.
+   */
+  handle?: string;
+  /**
+   * Creator's avatar image URL.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * Creator's display name.
+   */
+  nickname?: string;
+  /**
+   * One-based position among the hashtag's top creators.
+   * Range: minimum 1.
+   */
+  rank?: number;
+  /**
+   * Creator's stable TikTok user id.
+   */
+  userId?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Trending Hashtags (tiktok.trending_hashtags).
+ */
+export interface TiktokTrendingHashtagsData {
+  /**
+   * Hashtags in the market's own ranking order, best first. Populated whenever the provider has data for the entity.
+   */
+  items: TiktokTrendingHashtagsItem[];
+}
+
+/**
  * Input for TikTok Video (tiktok.video).
  */
 export interface TiktokVideoInput {
@@ -1699,6 +1886,26 @@ export class TiktokNamespace {
   }
 
   /**
+   * Iterate every result of TikTok Following across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterFollowing(
+    input: TiktokFollowingInput,
+    options?: RequestOptions,
+  ): Paginator<TiktokFollowingFollowing, RunResult<TiktokFollowingData>> {
+    return paginate<TiktokFollowingFollowing, RunResult<TiktokFollowingData>>(
+      this._core,
+      "tiktok.following",
+      input as unknown as Record<string, unknown>,
+      "following",
+      false,
+      options,
+    );
+  }
+
+  /**
    * TikTok Hashtag Videos
    *
    * List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).
@@ -1824,6 +2031,29 @@ export class TiktokNamespace {
   }
 
   /**
+   * Iterate every result of TikTok Hashtag Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchHashtag(
+    input: TiktokSearchHashtagInput,
+    options?: RequestOptions,
+  ): Paginator<TiktokSearchHashtagVideo, RunResult<TiktokSearchHashtagData>> {
+    return paginate<
+      TiktokSearchHashtagVideo,
+      RunResult<TiktokSearchHashtagData>
+    >(
+      this._core,
+      "tiktok.search_hashtag",
+      input as unknown as Record<string, unknown>,
+      "videos",
+      false,
+      options,
+    );
+  }
+
+  /**
    * TikTok Keyword Search
    *
    * Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.
@@ -1838,6 +2068,29 @@ export class TiktokNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TiktokSearchKeywordData>> {
     return this._core.run("tiktok.search_keyword", input, options);
+  }
+
+  /**
+   * Iterate every result of TikTok Keyword Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchKeyword(
+    input: TiktokSearchKeywordInput,
+    options?: RequestOptions,
+  ): Paginator<TiktokSearchKeywordVideo, RunResult<TiktokSearchKeywordData>> {
+    return paginate<
+      TiktokSearchKeywordVideo,
+      RunResult<TiktokSearchKeywordData>
+    >(
+      this._core,
+      "tiktok.search_keyword",
+      input as unknown as Record<string, unknown>,
+      "videos",
+      false,
+      options,
+    );
   }
 
   /**
@@ -1988,7 +2241,7 @@ export class TiktokNamespace {
   /**
    * TikTok Trending Feed
    *
-   * Get TikTok's trending feed for a region (caption, views, likes, comments, author) as normalized JSON.
+   * Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.
    *
    * Price: $0.002 per request.
    *
@@ -2000,6 +2253,23 @@ export class TiktokNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TiktokTrendingFeedData>> {
     return this._core.run("tiktok.trending_feed", input, options);
+  }
+
+  /**
+   * TikTok Trending Hashtags
+   *
+   * Rank TikTok's trending hashtags for one country and industry, with each hashtag's daily popularity curve, post count, video views, and leading creators. Ranks 15 industry categories, or omit industry for the all-industries board. TikTok publishes only the top 3 hashtags per board to anonymous callers, so limit 1-3 is served cheaply; a limit above 3 routes to a dearer authenticated source that returns the full ranking. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.tiktok.trendingHashtags({ limit: 3, period: 7, region: "US" });
+   */
+  trendingHashtags(
+    input: TiktokTrendingHashtagsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokTrendingHashtagsData>> {
+    return this._core.run("tiktok.trending_hashtags", input, options);
   }
 
   /**
@@ -2081,7 +2351,7 @@ export class TiktokNamespace {
    *
    * Transcribe the spoken audio of a TikTok video with timed segments, speaker labels, and per-word confidence - for videos TikTok publishes no subtitle track for.
    *
-   * Price: $0.0168 per request plus $0 per result (maximum $0.0168).
+   * Price: $0.0176 per request plus $0 per result (maximum $0.0176).
    *
    * @example
    * const res = await client.tiktok.videoTranscriptFull({ url: "https://www.tiktok.com/@thatdudecancook/video/7649086431641521421" });
