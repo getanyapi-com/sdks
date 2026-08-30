@@ -857,7 +857,9 @@ class TwitterTweetData(BaseModel):
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    views: int
+    views: int | None = Field(
+        description="View count, or null when X does not report one for this tweet. Distinct from 0, which means the tweet has no views."
+    )
 
 
 class TwitterTweetMedia(BaseModel):

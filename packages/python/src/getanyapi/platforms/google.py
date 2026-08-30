@@ -86,7 +86,7 @@ class GoogleNewsInput(TypedDict, total=False):
     query: Required[str]
     """News search query; supports operators like '-', 'OR', and 'site:' (e.g. bitcoin site:cnn.com)."""
     timeframe: NotRequired[str]
-    """Time window for results: 1h, 1d, 7d, 1y, or all (e.g. 1d). Default: 7d."""
+    """How far back to search, written as a count plus a unit: h hours, d days, w weeks, m months, y years. So 2h is the last two hours, 30d the last thirty days, 6m the last six months. Omit this field, or send 'all', to search without a time limit."""
 
 
 class GooglePatentsInput(TypedDict, total=False):

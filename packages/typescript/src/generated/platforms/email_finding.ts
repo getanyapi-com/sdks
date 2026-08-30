@@ -209,6 +209,10 @@ export interface EmailFindingHunterCountData {
    * Range: minimum 0.
    */
   total: number;
+  /**
+   * Mailbox type the counts are limited to when the request filtered by type: personal or generic. Absent when the counts cover both.
+   */
+  type?: string;
   [extra: string]: unknown;
 }
 
@@ -311,13 +315,25 @@ export interface EmailFindingHunterDomainEmail {
    */
   position?: string;
   /**
+   * Contact's job title exactly as written on the source page, before it was cleaned up.
+   */
+  positionRaw?: string;
+  /**
    * Seniority level: junior, senior or executive.
    */
   seniority?: string;
   /**
+   * How the address was obtained: found when it was seen on a public page, generated when it was inferred from the company's address pattern.
+   */
+  sourceType?: string;
+  /**
    * Public pages the address was found on.
    */
   sources?: EmailFindingHunterDomainSource[];
+  /**
+   * Contact's Twitter/X handle or profile URL, exactly as the source recorded it.
+   */
+  twitter?: string;
   /**
    * personal for a named person's mailbox, generic for a shared inbox.
    */
@@ -383,6 +399,10 @@ export interface EmailFindingHunterDomainData {
    */
   emails: EmailFindingHunterDomainEmail[];
   /**
+   * Other domains Hunter has linked to this company. Deliberately untyped: the field is empty in every response we have captured, so the value passes through without a shape guarantee.
+   */
+  linkedDomains?: unknown;
+  /**
    * Company name registered against the domain.
    */
   organization?: string;
@@ -406,20 +426,332 @@ export interface EmailFindingIcypeasInput {
   lastname?: string;
 }
 
+export interface EmailFindingIcypeasEmail {
+  /**
+   * Confidence label for this address, e.g. ultra_sure.
+   */
+  certainty?: string;
+  /**
+   * Candidate email address.
+   * Format: email.
+   */
+  email?: string;
+  /**
+   * Mail provider behind this address's domain.
+   */
+  mxProvider?: string;
+  /**
+   * Mail exchange records for this address's domain.
+   */
+  mxRecords?: string[];
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Email Finding - Icypeas (email_finding.icypeas).
  */
 export interface EmailFindingIcypeasData {
+  /**
+   * Confidence label for the best matching address, e.g. ultra_sure.
+   */
   certainty?: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Best matching email address.
    * Format: email.
    */
   email: string;
+  /**
+   * Every candidate address found for the person, best first. The top-level email is the first entry.
+   */
+  emails?: EmailFindingIcypeasEmail[];
+  /**
+   * Matched first name.
+   */
   firstname?: string;
+  /**
+   * Matched full name.
+   */
   fullname?: string;
+  /**
+   * Gender recorded for the matched person. Absent when the source does not know it.
+   */
+  gender?: string;
+  /**
+   * Matched last name.
+   */
   lastname?: string;
+  /**
+   * LinkedIn profile URL for the matched person, when the source has one.
+   */
+  linkedinUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  modifiedUtc?: number;
+  /**
+   * Mail provider behind the domain, e.g. google.
+   */
   mxProvider?: string;
+  /**
+   * Mail exchange records for the domain.
+   */
   mxRecords?: string[];
+  /**
+   * Phone numbers Icypeas returned alongside the address. Deliberately untyped: the field is empty in every response we have captured, so the value passes through without a shape guarantee.
+   */
+  phones?: unknown;
+  /**
+   * SaaS services Icypeas associates with the person. Deliberately untyped: the field is empty in every response we have captured, so the value passes through without a shape guarantee.
+   */
+  saasServices?: unknown;
+  /**
+   * Icypeas' identifier for the search that produced this result.
+   */
+  scanId?: string;
+  /**
+   * Icypeas' internal label for the kind of search that ran, e.g. __icypeas__individual.
+   */
+  scanName?: string;
+  /**
+   * Position of this result inside the Icypeas search batch. It is 0 for the single-person search this SKU runs.
+   */
+  scanOrder?: number;
+  /**
+   * Icypeas' terminal status for the search, FOUND or NOT_FOUND. It duplicates the envelope's found flag.
+   */
+  scanStatus?: string;
+  /**
+   * Icypeas account that ran the search.
+   */
+  scanUser?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Email Finding - QuickEnrich (email_finding.quickenrich).
+ */
+export interface EmailFindingQuickenrichInput {
+  /**
+   * Company website domain, normalized upstream (example.com or https://example.com both work).
+   */
+  companyDomain?: string;
+  /**
+   * Person's first name.
+   */
+  firstName?: string;
+  /**
+   * Person's last name.
+   */
+  lastName?: string;
+  /**
+   * LinkedIn profile URL. Provide this, or companyDomain with firstName and lastName.
+   * Format: uri.
+   */
+  linkedinUrl?: string;
+}
+
+/**
+ * The `data` payload of Email Finding - QuickEnrich (email_finding.quickenrich).
+ */
+export interface EmailFindingQuickenrichData {
+  /**
+   * Street address on the employer record.
+   */
+  address?: string;
+  /**
+   * City on the employer record.
+   */
+  city?: string;
+  /**
+   * Employer website domain.
+   */
+  companyDomain?: string;
+  /**
+   * Employer headcount band, e.g. "20 - 99". Upstream band vocabulary; "Not Available" means the band is unknown.
+   */
+  companyEmployeeCount?: string;
+  /**
+   * Employer industry label.
+   */
+  companyIndustry?: string;
+  /**
+   * Employer LinkedIn company URL.
+   */
+  companyLinkedinUrl?: string;
+  /**
+   * Employer name.
+   */
+  companyName?: string;
+  /**
+   * Employer main phone line.
+   */
+  companyPhone?: string;
+  /**
+   * Employer revenue band, e.g. "1 - 2.5 Million". Upstream band vocabulary; "Not Available" means the band is unknown.
+   */
+  companyRevenue?: string;
+  /**
+   * ISO 3166-1 alpha-2 country code on the employer record.
+   */
+  country?: string;
+  /**
+   * Work email address.
+   */
+  email: string;
+  /**
+   * Domain the work email resolves to.
+   */
+  emailDomain?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  emailVerifiedUtc?: number;
+  /**
+   * Person's first name.
+   */
+  firstName?: string;
+  /**
+   * Person's last name.
+   */
+  lastName?: string;
+  /**
+   * Person's LinkedIn profile URL.
+   */
+  linkedinUrl?: string;
+  /**
+   * Direct business phone line held for the person. Mostly desk lines; read phoneType before treating it as a mobile.
+   */
+  phone?: string;
+  /**
+   * Line type reported upstream, e.g. "mobile" or "landline".
+   */
+  phoneType?: string;
+  /**
+   * Postal code on the employer record.
+   */
+  postalCode?: string;
+  /**
+   * State or region code on the employer record.
+   */
+  region?: string;
+  /**
+   * Person's job title.
+   */
+  title?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Email Finding - ZeroBounce (email_finding.zerobounce).
+ */
+export interface EmailFindingZerobounceInput {
+  /**
+   * Company domain to search, e.g. hubspot.com.
+   */
+  domain: string;
+  /**
+   * First name of the person to find.
+   */
+  firstName?: string;
+  /**
+   * Last name of the person to find.
+   */
+  lastName?: string;
+  /**
+   * Middle name, when the company's address format uses one.
+   */
+  middleName?: string;
+}
+
+/**
+ * The `data` payload of Email Finding - ZeroBounce (email_finding.zerobounce).
+ */
+export interface EmailFindingZerobounceData {
+  /**
+   * Company ZeroBounce associates with the domain.
+   */
+  companyName?: string;
+  /**
+   * ZeroBounce's confidence in the address: high, medium, low or undetermined.
+   */
+  confidence?: string;
+  /**
+   * Corrected domain when ZeroBounce spots a likely typo.
+   */
+  didYouMean?: string;
+  /**
+   * Domain the address belongs to.
+   */
+  domain?: string;
+  /**
+   * The email address ZeroBounce found.
+   */
+  email: string;
+  /**
+   * Why ZeroBounce could not answer with more confidence.
+   */
+  failureReason?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Email Pattern - ZeroBounce (email_finding.zerobounce_domain).
+ */
+export interface EmailFindingZerobounceDomainInput {
+  /**
+   * Company domain to inspect, e.g. hubspot.com.
+   */
+  domain: string;
+}
+
+export interface EmailFindingZerobounceDomainOtherFormat {
+  /**
+   * Confidence in that format: high, medium or low.
+   */
+  confidence?: string;
+  /**
+   * Address format, e.g. last.first.
+   */
+  format: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Email Pattern - ZeroBounce (email_finding.zerobounce_domain).
+ */
+export interface EmailFindingZerobounceDomainData {
+  /**
+   * Company ZeroBounce associates with the domain.
+   */
+  companyName?: string;
+  /**
+   * Confidence in that format: high, medium or low.
+   */
+  confidence?: string;
+  /**
+   * Corrected domain when ZeroBounce spots a likely typo.
+   */
+  didYouMean?: string;
+  /**
+   * The domain that was inspected.
+   */
+  domain: string;
+  /**
+   * Why ZeroBounce could not answer with more confidence.
+   */
+  failureReason?: string;
+  /**
+   * The address format ZeroBounce is most confident the domain uses, e.g. first.last or flast.
+   */
+  format: string;
+  /**
+   * Every other address format ZeroBounce has seen on this domain, most confident first.
+   */
+  otherFormats?: EmailFindingZerobounceDomainOtherFormat[];
   [extra: string]: unknown;
 }
 
@@ -496,5 +828,56 @@ export class EmailFindingNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<EmailFindingIcypeasData>> {
     return this._core.run("email_finding.icypeas", input, options);
+  }
+
+  /**
+   * Email Finding - QuickEnrich
+   *
+   * Find a work email from a LinkedIn profile, or from a company domain plus a name. Coverage is strongest for small and local businesses and thin for large technology employers.
+   *
+   * Price: $0.0072 per request.
+   *
+   * @example
+   * const res = await client.emailFinding.quickenrich({ companyDomain: "southmemphisfence.com", firstName: "Warren", lastName: "Price" });
+   */
+  quickenrich(
+    input: EmailFindingQuickenrichInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<EmailFindingQuickenrichData>> {
+    return this._core.run("email_finding.quickenrich", input, options);
+  }
+
+  /**
+   * Email Finding - ZeroBounce
+   *
+   * Find a person's work email at a company domain from their name, with ZeroBounce's confidence in the guess.
+   *
+   * Price: $0.6552 per request.
+   *
+   * @example
+   * const res = await client.emailFinding.zerobounce({ domain: "hubspot.com", firstName: "Dharmesh", lastName: "Shah" });
+   */
+  zerobounce(
+    input: EmailFindingZerobounceInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<EmailFindingZerobounceData>> {
+    return this._core.run("email_finding.zerobounce", input, options);
+  }
+
+  /**
+   * Email Pattern - ZeroBounce
+   *
+   * Read the email address format a company domain uses, with every alternative format ZeroBounce has seen and how confident it is in each. Use it to build addresses for a whole account at once.
+   *
+   * Price: $0.6552 per request.
+   *
+   * @example
+   * const res = await client.emailFinding.zerobounceDomain({ domain: "hubspot.com" });
+   */
+  zerobounceDomain(
+    input: EmailFindingZerobounceDomainInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<EmailFindingZerobounceDomainData>> {
+    return this._core.run("email_finding.zerobounce_domain", input, options);
   }
 }

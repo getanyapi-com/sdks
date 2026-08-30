@@ -38,6 +38,18 @@ export interface MobilePhoneAiArkData {
    * Matched mobile phone number.
    */
   phone: string;
+  /**
+   * Every phone group the source returned, in source order: an array of groups where each group is an array of numbers. Untyped passthrough, because the source may return more than one group and this field carries all of them unchanged rather than reshaping them. The phone and phones fields are the first number and the first group of this same structure.
+   */
+  phoneGroups?: unknown;
+  /**
+   * Every mobile phone number returned for the match, in source order. The first entry is the same value as phone.
+   */
+  phones?: string[];
+  /**
+   * The source's own record identifier for this match, exposed so you can trace a result back to the record it came from.
+   */
+  recordId?: string;
   [extra: string]: unknown;
 }
 
@@ -67,8 +79,19 @@ export interface MobilePhoneLeadmagicInput {
  * The `data` payload of Mobile Phone - LeadMagic (mobile_phone.leadmagic).
  */
 export interface MobilePhoneLeadmagicData {
+  /**
+   * Source's own description of the match outcome.
+   */
   message?: string;
+  /**
+   * Matched mobile phone number.
+   */
   mobile: string;
+  /**
+   * Canonical profile URL the match was resolved against.
+   * Format: uri.
+   */
+  profileUrl?: string;
   [extra: string]: unknown;
 }
 

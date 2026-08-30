@@ -528,6 +528,45 @@
     "items": 1,
     "replayed": false
   },
+  "company_enrichment.lusha": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_enrichment.peopledatalabs": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_enrichment.prospeo": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "company_search.ai_ark": {
     "output": {
       "found": true,
@@ -551,6 +590,96 @@
     "replayed": false
   },
   "company_search.crustdata_v3": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_search.fullenrich": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_search.peopledatalabs": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_search.prospeo": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_search.quickenrich": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "pageSize": 1,
+        "total": 1,
+        "totalPages": 1,
+        "hasMore": true
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_search.theirstack": {
     "output": {
       "found": true,
       "data": {
@@ -863,6 +992,46 @@
     "items": 1,
     "replayed": false
   },
+  "email_finding.quickenrich": {
+    "output": {
+      "found": true,
+      "data": {
+        "email": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_finding.zerobounce": {
+    "output": {
+      "found": true,
+      "data": {
+        "email": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_finding.zerobounce_domain": {
+    "output": {
+      "found": true,
+      "data": {
+        "domain": "sample",
+        "format": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "email_verification.allegrow": {
     "output": {
       "found": true,
@@ -896,6 +1065,34 @@
       "found": true,
       "data": {
         "status": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_verification.zerobounce": {
+    "output": {
+      "found": true,
+      "data": {
+        "email": "sample",
+        "status": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "email_verification.zerobounce_activity": {
+    "output": {
+      "found": true,
+      "data": {
+        "email": "sample",
+        "hasActivity": true,
         "_extra": "passthrough"
       }
     },
@@ -2374,6 +2571,50 @@
     "items": 1,
     "replayed": false
   },
+  "instagram.hashtag_recent_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "shortcode": "sample",
+            "url": "sample",
+            "caption": "sample",
+            "username": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "instagram.hashtag_top_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "shortcode": "sample",
+            "url": "sample",
+            "caption": "sample",
+            "username": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "instagram.highlight_detail": {
     "output": {
       "found": true,
@@ -2735,6 +2976,24 @@
           }
         ],
         "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "job_search.theirstack": {
+    "output": {
+      "found": true,
+      "data": {
+        "jobs": [
+          {
+            "jobId": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -3144,6 +3403,7 @@
       "data": {
         "posts": [
           {
+            "id": "sample",
             "url": "sample",
             "text": "sample",
             "createdUtc": 1.5,
@@ -3482,6 +3742,120 @@
     "items": 1,
     "replayed": false
   },
+  "people_search.fullenrich": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "fullName": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "people_search.lusha": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "fullName": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "people_search.peopledatalabs": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "fullName": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "people_search.prospeo": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "fullName": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "people_search.quickenrich": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "firstName": "sample",
+            "hasEmail": true,
+            "hasPhone": true,
+            "hasLinkedin": true,
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "pageSize": 1,
+        "total": 1,
+        "totalPages": 1,
+        "hasMore": true
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "people_search.quickenrich_company": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "firstName": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "pageSize": 1,
+        "total": 1,
+        "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "perplexity.search": {
     "output": {
       "found": true,
@@ -3525,6 +3899,103 @@
       "found": true,
       "data": {
         "name": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.bettercontact": {
+    "output": {
+      "found": true,
+      "data": {
+        "enriched": true,
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.fullenrich_bulk": {
+    "output": {
+      "found": true,
+      "data": {
+        "contacts": [
+          {
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.fullenrich_reverse_email": {
+    "output": {
+      "found": true,
+      "data": {
+        "contacts": [
+          {
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.lusha": {
+    "output": {
+      "found": true,
+      "data": {
+        "fullName": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.peopledatalabs": {
+    "output": {
+      "found": true,
+      "data": {
+        "fullName": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.prospeo": {
+    "output": {
+      "found": true,
+      "data": {
+        "fullName": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.quickenrich": {
+    "output": {
+      "found": true,
+      "data": {
+        "firstName": "sample",
         "_extra": "passthrough"
       }
     },
@@ -4494,6 +4965,23 @@
     "items": 1,
     "replayed": false
   },
+  "technographics.theirstack": {
+    "output": {
+      "found": true,
+      "data": {
+        "technologies": [
+          {
+            "confidence": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "threads.post": {
     "output": {
       "found": true,
@@ -4815,6 +5303,24 @@
     "items": 1,
     "replayed": false
   },
+  "tiktok.photos": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "images": [
+          {
+            "image": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "tiktok.profile": {
     "output": {
       "found": true,
@@ -5121,6 +5627,20 @@
           }
         ],
         "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok.video_download": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "videoUrl": "https://example.com/x",
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",

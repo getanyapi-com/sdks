@@ -64,7 +64,7 @@ class PerplexityNamespace:
         Ask Perplexity a web-grounded question and receive an answer with source
         citations.
 
-        Price: $0.0018 per request.
+        Price: $0.00006 per request plus $0.011 per result (maximum $0.0111).
 
         Example:
             res = client.perplexity.search(prompt="What is AnyAPI at getanyapi.com, and what does it offer?")
@@ -92,7 +92,7 @@ class AsyncPerplexityNamespace:
         Ask Perplexity a web-grounded question and receive an answer with source
         citations.
 
-        Price: $0.0018 per request.
+        Price: $0.00006 per request plus $0.011 per result (maximum $0.0111).
 
         Example:
             res = client.perplexity.search(prompt="What is AnyAPI at getanyapi.com, and what does it offer?")

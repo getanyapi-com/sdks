@@ -40,6 +40,7 @@ import { GoogleShoppingNamespace } from "./platforms/google_shopping.js";
 import { HackernewsNamespace } from "./platforms/hackernews.js";
 import { IndeedNamespace } from "./platforms/indeed.js";
 import { InstagramNamespace } from "./platforms/instagram.js";
+import { JobSearchNamespace } from "./platforms/job_search.js";
 import { LinkedinNamespace } from "./platforms/linkedin.js";
 import { MapsNamespace } from "./platforms/maps.js";
 import { MobilePhoneNamespace } from "./platforms/mobile_phone.js";
@@ -63,6 +64,7 @@ import { SnapchatNamespace } from "./platforms/snapchat.js";
 import { SocialNamespace } from "./platforms/social.js";
 import { SpotifyNamespace } from "./platforms/spotify.js";
 import { SubstackNamespace } from "./platforms/substack.js";
+import { TechnographicsNamespace } from "./platforms/technographics.js";
 import { ThreadsNamespace } from "./platforms/threads.js";
 import { TiktokNamespace } from "./platforms/tiktok.js";
 import { TiktokShopNamespace } from "./platforms/tiktok_shop.js";
@@ -416,6 +418,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the job_search platform.
+   */
+  get jobSearch(): JobSearchNamespace {
+    return (this._namespaces["jobSearch"] ??= new JobSearchNamespace(
+      this._core,
+    )) as JobSearchNamespace;
+  }
+
+  /**
    * Typed methods for the linkedin platform.
    */
   get linkedin(): LinkedinNamespace {
@@ -619,6 +630,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["substack"] ??= new SubstackNamespace(
       this._core,
     )) as SubstackNamespace;
+  }
+
+  /**
+   * Typed methods for the technographics platform.
+   */
+  get technographics(): TechnographicsNamespace {
+    return (this._namespaces["technographics"] ??= new TechnographicsNamespace(
+      this._core,
+    )) as TechnographicsNamespace;
   }
 
   /**

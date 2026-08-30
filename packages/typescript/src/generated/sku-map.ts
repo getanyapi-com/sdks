@@ -85,12 +85,28 @@ import type {
 import type {
   CompanyEnrichmentCrustdataV3Data,
   CompanyEnrichmentCrustdataV3Input,
+  CompanyEnrichmentLushaData,
+  CompanyEnrichmentLushaInput,
+  CompanyEnrichmentPeopledatalabsData,
+  CompanyEnrichmentPeopledatalabsInput,
+  CompanyEnrichmentProspeoData,
+  CompanyEnrichmentProspeoInput,
 } from "./platforms/company_enrichment.js";
 import type {
   CompanySearchAiArkData,
   CompanySearchAiArkInput,
   CompanySearchCrustdataV3Data,
   CompanySearchCrustdataV3Input,
+  CompanySearchFullenrichData,
+  CompanySearchFullenrichInput,
+  CompanySearchPeopledatalabsData,
+  CompanySearchPeopledatalabsInput,
+  CompanySearchProspeoData,
+  CompanySearchProspeoInput,
+  CompanySearchQuickenrichData,
+  CompanySearchQuickenrichInput,
+  CompanySearchTheirstackData,
+  CompanySearchTheirstackInput,
 } from "./platforms/company_search.js";
 import type {
   CongressTradesData,
@@ -137,6 +153,12 @@ import type {
   EmailFindingHunterDomainInput,
   EmailFindingIcypeasData,
   EmailFindingIcypeasInput,
+  EmailFindingQuickenrichData,
+  EmailFindingQuickenrichInput,
+  EmailFindingZerobounceData,
+  EmailFindingZerobounceDomainData,
+  EmailFindingZerobounceDomainInput,
+  EmailFindingZerobounceInput,
 } from "./platforms/email_finding.js";
 import type {
   EmailVerificationAllegrowData,
@@ -145,6 +167,10 @@ import type {
   EmailVerificationBouncebanInput,
   EmailVerificationIcypeasData,
   EmailVerificationIcypeasInput,
+  EmailVerificationZerobounceActivityData,
+  EmailVerificationZerobounceActivityInput,
+  EmailVerificationZerobounceData,
+  EmailVerificationZerobounceInput,
 } from "./platforms/email_verification.js";
 import type {
   FacebookAdDetailsData,
@@ -303,6 +329,10 @@ import type {
   InstagramFollowingInput,
   InstagramHashtagAnalyticsData,
   InstagramHashtagAnalyticsInput,
+  InstagramHashtagRecentPostsData,
+  InstagramHashtagRecentPostsInput,
+  InstagramHashtagTopPostsData,
+  InstagramHashtagTopPostsInput,
   InstagramHighlightDetailData,
   InstagramHighlightDetailInput,
   InstagramMediaTranscriptData,
@@ -338,6 +368,10 @@ import type {
   InstagramUserReelsData,
   InstagramUserReelsInput,
 } from "./platforms/instagram.js";
+import type {
+  JobSearchTheirstackData,
+  JobSearchTheirstackInput,
+} from "./platforms/job_search.js";
 import type {
   LinkedinAdData,
   LinkedinAdInput,
@@ -425,6 +459,18 @@ import type {
   PeopleSearchAiArkInput,
   PeopleSearchCrustdataV3Data,
   PeopleSearchCrustdataV3Input,
+  PeopleSearchFullenrichData,
+  PeopleSearchFullenrichInput,
+  PeopleSearchLushaData,
+  PeopleSearchLushaInput,
+  PeopleSearchPeopledatalabsData,
+  PeopleSearchPeopledatalabsInput,
+  PeopleSearchProspeoData,
+  PeopleSearchProspeoInput,
+  PeopleSearchQuickenrichCompanyData,
+  PeopleSearchQuickenrichCompanyInput,
+  PeopleSearchQuickenrichData,
+  PeopleSearchQuickenrichInput,
 } from "./platforms/people_search.js";
 import type {
   PerplexitySearchData,
@@ -437,6 +483,20 @@ import type {
 import type {
   PersonEnrichmentAviatoData,
   PersonEnrichmentAviatoInput,
+  PersonEnrichmentBettercontactData,
+  PersonEnrichmentBettercontactInput,
+  PersonEnrichmentFullenrichBulkData,
+  PersonEnrichmentFullenrichBulkInput,
+  PersonEnrichmentFullenrichReverseEmailData,
+  PersonEnrichmentFullenrichReverseEmailInput,
+  PersonEnrichmentLushaData,
+  PersonEnrichmentLushaInput,
+  PersonEnrichmentPeopledatalabsData,
+  PersonEnrichmentPeopledatalabsInput,
+  PersonEnrichmentProspeoData,
+  PersonEnrichmentProspeoInput,
+  PersonEnrichmentQuickenrichData,
+  PersonEnrichmentQuickenrichInput,
 } from "./platforms/person_enrichment.js";
 import type {
   PinterestSearchData,
@@ -562,6 +622,10 @@ import type {
   SubstackPostsInput,
 } from "./platforms/substack.js";
 import type {
+  TechnographicsTheirstackData,
+  TechnographicsTheirstackInput,
+} from "./platforms/technographics.js";
+import type {
   ThreadsPostData,
   ThreadsPostInput,
   ThreadsProfileData,
@@ -592,6 +656,8 @@ import type {
   TiktokHashtagVideosInput,
   TiktokLiveData,
   TiktokLiveInput,
+  TiktokPhotosData,
+  TiktokPhotosInput,
   TiktokProfileData,
   TiktokProfileInput,
   TiktokProfileRegionData,
@@ -619,6 +685,8 @@ import type {
   TiktokVideoCommentsData,
   TiktokVideoCommentsInput,
   TiktokVideoData,
+  TiktokVideoDownloadData,
+  TiktokVideoDownloadInput,
   TiktokVideoInput,
   TiktokVideoTranscriptData,
   TiktokVideoTranscriptFullData,
@@ -940,6 +1008,21 @@ export interface SkuMap {
     data: CompanyEnrichmentCrustdataV3Data;
     result: RunResult<CompanyEnrichmentCrustdataV3Data>;
   };
+  "company_enrichment.lusha": {
+    input: CompanyEnrichmentLushaInput;
+    data: CompanyEnrichmentLushaData;
+    result: RunResult<CompanyEnrichmentLushaData>;
+  };
+  "company_enrichment.peopledatalabs": {
+    input: CompanyEnrichmentPeopledatalabsInput;
+    data: CompanyEnrichmentPeopledatalabsData;
+    result: RunResult<CompanyEnrichmentPeopledatalabsData>;
+  };
+  "company_enrichment.prospeo": {
+    input: CompanyEnrichmentProspeoInput;
+    data: CompanyEnrichmentProspeoData;
+    result: RunResult<CompanyEnrichmentProspeoData>;
+  };
   "company_search.ai_ark": {
     input: CompanySearchAiArkInput;
     data: CompanySearchAiArkData;
@@ -949,6 +1032,31 @@ export interface SkuMap {
     input: CompanySearchCrustdataV3Input;
     data: CompanySearchCrustdataV3Data;
     result: RunResult<CompanySearchCrustdataV3Data>;
+  };
+  "company_search.fullenrich": {
+    input: CompanySearchFullenrichInput;
+    data: CompanySearchFullenrichData;
+    result: RunResult<CompanySearchFullenrichData>;
+  };
+  "company_search.peopledatalabs": {
+    input: CompanySearchPeopledatalabsInput;
+    data: CompanySearchPeopledatalabsData;
+    result: RunResult<CompanySearchPeopledatalabsData>;
+  };
+  "company_search.prospeo": {
+    input: CompanySearchProspeoInput;
+    data: CompanySearchProspeoData;
+    result: RunResult<CompanySearchProspeoData>;
+  };
+  "company_search.quickenrich": {
+    input: CompanySearchQuickenrichInput;
+    data: CompanySearchQuickenrichData;
+    result: RunResult<CompanySearchQuickenrichData>;
+  };
+  "company_search.theirstack": {
+    input: CompanySearchTheirstackInput;
+    data: CompanySearchTheirstackData;
+    result: RunResult<CompanySearchTheirstackData>;
   };
   "congress.trades": {
     input: CongressTradesInput;
@@ -1035,6 +1143,21 @@ export interface SkuMap {
     data: EmailFindingIcypeasData;
     result: RunResult<EmailFindingIcypeasData>;
   };
+  "email_finding.quickenrich": {
+    input: EmailFindingQuickenrichInput;
+    data: EmailFindingQuickenrichData;
+    result: RunResult<EmailFindingQuickenrichData>;
+  };
+  "email_finding.zerobounce": {
+    input: EmailFindingZerobounceInput;
+    data: EmailFindingZerobounceData;
+    result: RunResult<EmailFindingZerobounceData>;
+  };
+  "email_finding.zerobounce_domain": {
+    input: EmailFindingZerobounceDomainInput;
+    data: EmailFindingZerobounceDomainData;
+    result: RunResult<EmailFindingZerobounceDomainData>;
+  };
   "email_verification.allegrow": {
     input: EmailVerificationAllegrowInput;
     data: EmailVerificationAllegrowData;
@@ -1049,6 +1172,16 @@ export interface SkuMap {
     input: EmailVerificationIcypeasInput;
     data: EmailVerificationIcypeasData;
     result: RunResult<EmailVerificationIcypeasData>;
+  };
+  "email_verification.zerobounce": {
+    input: EmailVerificationZerobounceInput;
+    data: EmailVerificationZerobounceData;
+    result: RunResult<EmailVerificationZerobounceData>;
+  };
+  "email_verification.zerobounce_activity": {
+    input: EmailVerificationZerobounceActivityInput;
+    data: EmailVerificationZerobounceActivityData;
+    result: RunResult<EmailVerificationZerobounceActivityData>;
   };
   "facebook.ad_details": {
     input: FacebookAdDetailsInput;
@@ -1395,6 +1528,16 @@ export interface SkuMap {
     data: InstagramHashtagAnalyticsData;
     result: RunResult<InstagramHashtagAnalyticsData>;
   };
+  "instagram.hashtag_recent_posts": {
+    input: InstagramHashtagRecentPostsInput;
+    data: InstagramHashtagRecentPostsData;
+    result: RunResult<InstagramHashtagRecentPostsData>;
+  };
+  "instagram.hashtag_top_posts": {
+    input: InstagramHashtagTopPostsInput;
+    data: InstagramHashtagTopPostsData;
+    result: RunResult<InstagramHashtagTopPostsData>;
+  };
   "instagram.highlight_detail": {
     input: InstagramHighlightDetailInput;
     data: InstagramHighlightDetailData;
@@ -1479,6 +1622,11 @@ export interface SkuMap {
     input: InstagramUserReelsInput;
     data: InstagramUserReelsData;
     result: RunResult<InstagramUserReelsData>;
+  };
+  "job_search.theirstack": {
+    input: JobSearchTheirstackInput;
+    data: JobSearchTheirstackData;
+    result: RunResult<JobSearchTheirstackData>;
   };
   "linkedin.ad": {
     input: LinkedinAdInput;
@@ -1670,6 +1818,36 @@ export interface SkuMap {
     data: PeopleSearchCrustdataV3Data;
     result: RunResult<PeopleSearchCrustdataV3Data>;
   };
+  "people_search.fullenrich": {
+    input: PeopleSearchFullenrichInput;
+    data: PeopleSearchFullenrichData;
+    result: RunResult<PeopleSearchFullenrichData>;
+  };
+  "people_search.lusha": {
+    input: PeopleSearchLushaInput;
+    data: PeopleSearchLushaData;
+    result: RunResult<PeopleSearchLushaData>;
+  };
+  "people_search.peopledatalabs": {
+    input: PeopleSearchPeopledatalabsInput;
+    data: PeopleSearchPeopledatalabsData;
+    result: RunResult<PeopleSearchPeopledatalabsData>;
+  };
+  "people_search.prospeo": {
+    input: PeopleSearchProspeoInput;
+    data: PeopleSearchProspeoData;
+    result: RunResult<PeopleSearchProspeoData>;
+  };
+  "people_search.quickenrich": {
+    input: PeopleSearchQuickenrichInput;
+    data: PeopleSearchQuickenrichData;
+    result: RunResult<PeopleSearchQuickenrichData>;
+  };
+  "people_search.quickenrich_company": {
+    input: PeopleSearchQuickenrichCompanyInput;
+    data: PeopleSearchQuickenrichCompanyData;
+    result: RunResult<PeopleSearchQuickenrichCompanyData>;
+  };
   "perplexity.search": {
     input: PerplexitySearchInput;
     data: PerplexitySearchData;
@@ -1684,6 +1862,41 @@ export interface SkuMap {
     input: PersonEnrichmentAviatoInput;
     data: PersonEnrichmentAviatoData;
     result: RunResult<PersonEnrichmentAviatoData>;
+  };
+  "person_enrichment.bettercontact": {
+    input: PersonEnrichmentBettercontactInput;
+    data: PersonEnrichmentBettercontactData;
+    result: RunResult<PersonEnrichmentBettercontactData>;
+  };
+  "person_enrichment.fullenrich_bulk": {
+    input: PersonEnrichmentFullenrichBulkInput;
+    data: PersonEnrichmentFullenrichBulkData;
+    result: RunResult<PersonEnrichmentFullenrichBulkData>;
+  };
+  "person_enrichment.fullenrich_reverse_email": {
+    input: PersonEnrichmentFullenrichReverseEmailInput;
+    data: PersonEnrichmentFullenrichReverseEmailData;
+    result: RunResult<PersonEnrichmentFullenrichReverseEmailData>;
+  };
+  "person_enrichment.lusha": {
+    input: PersonEnrichmentLushaInput;
+    data: PersonEnrichmentLushaData;
+    result: RunResult<PersonEnrichmentLushaData>;
+  };
+  "person_enrichment.peopledatalabs": {
+    input: PersonEnrichmentPeopledatalabsInput;
+    data: PersonEnrichmentPeopledatalabsData;
+    result: RunResult<PersonEnrichmentPeopledatalabsData>;
+  };
+  "person_enrichment.prospeo": {
+    input: PersonEnrichmentProspeoInput;
+    data: PersonEnrichmentProspeoData;
+    result: RunResult<PersonEnrichmentProspeoData>;
+  };
+  "person_enrichment.quickenrich": {
+    input: PersonEnrichmentQuickenrichInput;
+    data: PersonEnrichmentQuickenrichData;
+    result: RunResult<PersonEnrichmentQuickenrichData>;
   };
   "pinterest.search": {
     input: PinterestSearchInput;
@@ -1930,6 +2143,11 @@ export interface SkuMap {
     data: SubstackPostsData;
     result: RunResult<SubstackPostsData>;
   };
+  "technographics.theirstack": {
+    input: TechnographicsTheirstackInput;
+    data: TechnographicsTheirstackData;
+    result: RunResult<TechnographicsTheirstackData>;
+  };
   "threads.post": {
     input: ThreadsPostInput;
     data: ThreadsPostData;
@@ -2000,6 +2218,11 @@ export interface SkuMap {
     data: TiktokLiveData;
     result: RunResult<TiktokLiveData>;
   };
+  "tiktok.photos": {
+    input: TiktokPhotosInput;
+    data: TiktokPhotosData;
+    result: RunResult<TiktokPhotosData>;
+  };
   "tiktok.profile": {
     input: TiktokProfileInput;
     data: TiktokProfileData;
@@ -2069,6 +2292,11 @@ export interface SkuMap {
     input: TiktokVideoCommentsInput;
     data: TiktokVideoCommentsData;
     result: RunResult<TiktokVideoCommentsData>;
+  };
+  "tiktok.video_download": {
+    input: TiktokVideoDownloadInput;
+    data: TiktokVideoDownloadData;
+    result: RunResult<TiktokVideoDownloadData>;
   };
   "tiktok.video_transcript": {
     input: TiktokVideoTranscriptInput;

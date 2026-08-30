@@ -376,6 +376,213 @@ export interface InstagramHashtagAnalyticsData {
 }
 
 /**
+ * Input for Instagram Hashtag Recent Posts (instagram.hashtag_recent_posts).
+ */
+export interface InstagramHashtagRecentPostsInput {
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Hashtag to monitor, without the leading #.
+   */
+  hashtag: string;
+}
+
+export interface InstagramHashtagRecentPostsPost {
+  /**
+   * Post caption text, including its hashtags. Populated whenever the provider has data for the entity.
+   */
+  caption: string;
+  /**
+   * Number of items in the carousel. Absent on a single-image post.
+   */
+  carouselCount?: number;
+  /**
+   * Comment count. Usually zero on a post this new.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
+   * Instagram media id. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Like count. Usually zero on a post this new.
+   */
+  likes?: number;
+  /**
+   * Latitude of the tagged place.
+   */
+  locationLat?: number;
+  /**
+   * Longitude of the tagged place.
+   */
+  locationLng?: number;
+  /**
+   * Place name tagged on the post. Absent when the poster tagged none, which is most posts.
+   */
+  locationName?: string;
+  /**
+   * Cover media for the post. A carousel reports its full size in carouselCount.
+   */
+  media?: InstagramHashtagRecentPostsMedia[];
+  /**
+   * Short code in the post permalink. Populated whenever the provider has data for the entity.
+   */
+  shortcode: string;
+  /**
+   * Canonical permalink to the post. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * Username of the account that posted. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
+
+export interface InstagramHashtagRecentPostsMedia {
+  /**
+   * One of photo or video. Videos are rare in this feed; Instagram keeps reels on a separate tab.
+   */
+  type: string;
+  /**
+   * Image URL. For a video this is the cover frame.
+   * Format: uri.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Hashtag Recent Posts (instagram.hashtag_recent_posts).
+ */
+export interface InstagramHashtagRecentPostsData {
+  /**
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Posts under the hashtag, newest first. Engagement counts are usually zero because the posts are minutes old. Populated whenever the provider has data for the entity.
+   */
+  posts: InstagramHashtagRecentPostsPost[];
+}
+
+/**
+ * Input for Instagram Hashtag Top Posts (instagram.hashtag_top_posts).
+ */
+export interface InstagramHashtagTopPostsInput {
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Hashtag to fetch, without the leading #.
+   */
+  hashtag: string;
+}
+
+export interface InstagramHashtagTopPostsPost {
+  /**
+   * Profile picture URL of the posting account. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  avatarUrl?: string;
+  /**
+   * Post caption text, including its hashtags. Populated whenever the provider has data for the entity.
+   */
+  caption: string;
+  /**
+   * Comment count.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Video duration in seconds. Absent on photo posts.
+   */
+  durationSeconds?: number;
+  /**
+   * Instagram media id. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Like count. Absent when the account hides it.
+   */
+  likes?: number;
+  /**
+   * Photo and video attachments on the post.
+   */
+  media?: InstagramHashtagTopPostsMedia[];
+  /**
+   * Short code in the post permalink. Populated whenever the provider has data for the entity.
+   */
+  shortcode: string;
+  /**
+   * Canonical permalink to the post. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * Username of the account that posted. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * True when the posting account is verified.
+   */
+  verified?: boolean;
+  /**
+   * Play count. Present on video posts.
+   */
+  views?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramHashtagTopPostsMedia {
+  /**
+   * One of photo or video.
+   */
+  type: string;
+  /**
+   * Image URL. For a video this is the cover frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Hashtag Top Posts (instagram.hashtag_top_posts).
+ */
+export interface InstagramHashtagTopPostsData {
+  /**
+   * Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Top-ranked posts for the hashtag, ordered by Instagram's engagement model rather than by time. Populated whenever the provider has data for the entity.
+   */
+  posts: InstagramHashtagTopPostsPost[];
+}
+
+/**
  * Input for Instagram Highlight Detail (instagram.highlight_detail).
  */
 export interface InstagramHighlightDetailInput {
@@ -914,24 +1121,69 @@ export interface InstagramSearchHashtagInput {
 }
 
 export interface InstagramSearchHashtagPost {
+  /**
+   * Profile picture URL of the posting account.
+   * Format: uri.
+   */
+  avatarUrl?: string;
+  /**
+   * Post caption text, including its hashtags.
+   */
   caption: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Comment count.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Poster image URL. For a video this is the cover frame. Populated whenever the provider has data for the entity.
    */
   displayUrl: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Video duration in seconds. Absent on photo posts.
+   */
+  durationSeconds?: number;
+  /**
+   * Instagram media id. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * True when the post is a paid advertisement.
+   */
+  isAd?: boolean;
+  /**
+   * Like count. Absent when the account hides it.
+   */
+  likes?: number;
+  /**
+   * Short code in the post permalink. Populated whenever the provider has data for the entity.
    */
   shortcode: string;
+  /**
+   * Instagram media typename, for example XDTGraphVideo or XDTGraphImage.
+   */
   type: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Canonical permalink to the post. Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Username of the account that posted. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  username?: string;
+  /**
+   * True when the posting account is verified.
+   */
+  verified?: boolean;
+  /**
+   * Playable video file URL. Present only on video posts.
+   * Format: uri.
+   */
+  videoUrl?: string;
   [extra: string]: unknown;
 }
 
@@ -1678,6 +1930,92 @@ export class InstagramNamespace {
   }
 
   /**
+   * Instagram Hashtag Recent Posts
+   *
+   * Instagram posts published under a hashtag, newest first, read from its live chronological feed rather than a web search index. Built for monitoring: results arrive within a couple of minutes of posting, so engagement counts are usually still zero and reels do not appear (Instagram keeps those on a separate tab). For engagement-ranked results use instagram.hashtag_top_posts; for older relevance-ranked results use instagram.search_hashtag.
+   *
+   * Price: $0.0024 per request.
+   *
+   * @example
+   * const res = await client.instagram.hashtagRecentPosts({ hashtag: "skincare" });
+   */
+  hashtagRecentPosts(
+    input: InstagramHashtagRecentPostsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramHashtagRecentPostsData>> {
+    return this._core.run("instagram.hashtag_recent_posts", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram Hashtag Recent Posts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterHashtagRecentPosts(
+    input: InstagramHashtagRecentPostsInput,
+    options?: RequestOptions,
+  ): Paginator<
+    InstagramHashtagRecentPostsPost,
+    RunResult<InstagramHashtagRecentPostsData>
+  > {
+    return paginate<
+      InstagramHashtagRecentPostsPost,
+      RunResult<InstagramHashtagRecentPostsData>
+    >(
+      this._core,
+      "instagram.hashtag_recent_posts",
+      input as unknown as Record<string, unknown>,
+      "posts",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * Instagram Hashtag Top Posts
+   *
+   * Instagram's own top-ranked posts for a hashtag, read from its live hashtag feed rather than a web search index, with view, like, and comment counts. Reels-heavy and engagement-ranked, so it answers what is performing on a tag right now. For older relevance-ranked results with date and media-type filters use instagram.search_hashtag; for the chronological feed use instagram.hashtag_recent_posts.
+   *
+   * Price: $0.018 per request.
+   *
+   * @example
+   * const res = await client.instagram.hashtagTopPosts({ hashtag: "skincare" });
+   */
+  hashtagTopPosts(
+    input: InstagramHashtagTopPostsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramHashtagTopPostsData>> {
+    return this._core.run("instagram.hashtag_top_posts", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram Hashtag Top Posts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterHashtagTopPosts(
+    input: InstagramHashtagTopPostsInput,
+    options?: RequestOptions,
+  ): Paginator<
+    InstagramHashtagTopPostsPost,
+    RunResult<InstagramHashtagTopPostsData>
+  > {
+    return paginate<
+      InstagramHashtagTopPostsPost,
+      RunResult<InstagramHashtagTopPostsData>
+    >(
+      this._core,
+      "instagram.hashtag_top_posts",
+      input as unknown as Record<string, unknown>,
+      "posts",
+      false,
+      options,
+    );
+  }
+
+  /**
    * Instagram Highlight Detail
    *
    * Fetch the details and media items of a single Instagram story highlight by id.
@@ -1842,7 +2180,7 @@ export class InstagramNamespace {
   /**
    * Instagram Hashtag Search
    *
-   * Search Instagram posts under a hashtag (caption, type, media URL). Results are relevance-ranked by Instagram, not date-ordered, so a page can mix recent and older posts.
+   * Search posts under an Instagram hashtag through a web search index rather than Instagram's own hashtag feed. That is what lets it filter by date and media type and return reels whose like counts have settled, and it is also why results skew older (median around three months) and stop at roughly 110 per hashtag. For Instagram's own live ranking of a tag use instagram.hashtag_top_posts, and for the chronological feed use instagram.hashtag_recent_posts.
    *
    * Price: $0.002 per request.
    *

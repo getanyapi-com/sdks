@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Any, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, TypedDict, Unpack
@@ -44,13 +44,34 @@ class MobilePhoneAiArkData(BaseModel):
         description="Canonical LinkedIn profile URL returned with the match.",
     )
     phone: str = Field(description="Matched mobile phone number.")
+    phone_groups: Any | None = Field(
+        default=None,
+        alias="phoneGroups",
+        description="Every phone group the source returned, in source order: an array of groups where each group is an array of numbers. Untyped passthrough, because the source may return more than one group and this field carries all of them unchanged rather than reshaping them. The phone and phones fields are the first number and the first group of this same structure.",
+    )
+    phones: list[str] | None = Field(
+        default=None,
+        description="Every mobile phone number returned for the match, in source order. The first entry is the same value as phone.",
+    )
+    record_id: str | None = Field(
+        default=None,
+        alias="recordId",
+        description="The source's own record identifier for this match, exposed so you can trace a result back to the record it came from.",
+    )
 
 
 class MobilePhoneLeadmagicData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    message: str | None = None
-    mobile: str
+    message: str | None = Field(
+        default=None, description="Source's own description of the match outcome."
+    )
+    mobile: str = Field(description="Matched mobile phone number.")
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical profile URL the match was resolved against.",
+    )
 
 
 class MobilePhoneNamespace:
