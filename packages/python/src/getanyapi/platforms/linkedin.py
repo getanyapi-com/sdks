@@ -2404,14 +2404,37 @@ class LinkedinSearchPostsData(BaseModel):
 class LinkedinSearchPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the post's author. Empty when the upstream omits it.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical profile URL of the post's author, with tracking query params stripped. Empty when the upstream omits it.",
+    )
     avatar_url: str | None = Field(
         default=None,
         alias="avatarUrl",
         description="URL of the post author's profile avatar image.",
     )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Total number of comments on the post.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    id: str = Field(
+        description="The post's LinkedIn activity ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    reaction_count: int | None = Field(
+        default=None,
+        alias="reactionCount",
+        description="Total number of reactions on the post.",
     )
     text: str = Field(
         description="Text content of the post. Populated whenever the provider has data for the entity."

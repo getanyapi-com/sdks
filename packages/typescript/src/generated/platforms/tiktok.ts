@@ -633,6 +633,52 @@ export interface TiktokLiveData {
 }
 
 /**
+ * Input for TikTok Photos (tiktok.photos).
+ */
+export interface TiktokPhotosInput {
+  /**
+   * Full TikTok photo-mode post URL. TikTok serves slideshow posts under the same /video/<id> path as videos, so the normal share link works.
+   */
+  url: string;
+}
+
+export interface TiktokPhotosImage {
+  /**
+   * Pixel height of the image.
+   */
+  height?: number;
+  /**
+   * The image without TikTok's watermark or the creator's handle. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Despite the .jpeg in the path this is often served as HEIC, so transcode if you need broad browser support. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  image: string;
+  /**
+   * The same image carrying TikTok's watermark and the creator's handle. Signed and short-lived on the same terms as image.
+   * Format: uri.
+   */
+  watermarkedImage?: string;
+  /**
+   * Pixel width of the image.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Photos (tiktok.photos).
+ */
+export interface TiktokPhotosData {
+  /**
+   * TikTok post id. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Every image in the post, in the order the creator arranged them. Populated whenever the provider has data for the entity.
+   */
+  images: TiktokPhotosImage[];
+}
+
+/**
  * Input for TikTok Profile (tiktok.profile).
  */
 export interface TiktokProfileInput {
@@ -665,6 +711,15 @@ export interface TiktokProfileData {
    */
   handle: string;
   likes: number;
+  /**
+   * TikTok's sec_uid: the opaque account identifier TikTok's own web and app endpoints key on, and the id most third-party TikTok tools ask for.
+   */
+  secUid?: string;
+  /**
+   * TikTok's numeric internal user id for the account. Unlike the handle it never changes, so store it as the account's key. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  userId?: string;
   verified: boolean;
   videos: number;
   [extra: string]: unknown;
@@ -1547,6 +1602,54 @@ export interface TiktokVideoCommentsData {
 }
 
 /**
+ * Input for TikTok Video Download (tiktok.video_download).
+ */
+export interface TiktokVideoDownloadInput {
+  /**
+   * Full TikTok video URL. Share links and tracking query params are fine.
+   */
+  url: string;
+}
+
+/**
+ * The `data` payload of TikTok Video Download (tiktok.video_download).
+ */
+export interface TiktokVideoDownloadData {
+  /**
+   * Length of the video in seconds.
+   */
+  durationSeconds?: number;
+  /**
+   * Pixel height of the video file.
+   */
+  height?: number;
+  /**
+   * TikTok video id. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Cover image for the video. A signed, short-lived TikTok CDN URL, often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  videoUrl: string;
+  /**
+   * Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl.
+   * Format: uri.
+   */
+  watermarkedUrl?: string;
+  /**
+   * Pixel width of the video file.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+/**
  * Input for TikTok Video Transcript (tiktok.video_transcript).
  */
 export interface TiktokVideoTranscriptInput {
@@ -1940,6 +2043,23 @@ export class TiktokNamespace {
   }
 
   /**
+   * TikTok Photos
+   *
+   * Get every image in a TikTok photo-mode (slideshow) post by URL, in order, with pixel dimensions and both the clean and watermarked variant of each. Videos carry no images - use tiktok.video_download for those.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.tiktok.photos({ url: "https://www.tiktok.com/@foodbyfranchi/video/7479916555602513174" });
+   */
+  photos(
+    input: TiktokPhotosInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokPhotosData>> {
+    return this._core.run("tiktok.photos", input, options);
+  }
+
+  /**
    * TikTok Profile
    *
    * Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.
@@ -2327,6 +2447,23 @@ export class TiktokNamespace {
       false,
       options,
     );
+  }
+
+  /**
+   * TikTok Video Download
+   *
+   * Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.tiktok.videoDownload({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287" });
+   */
+  videoDownload(
+    input: TiktokVideoDownloadInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokVideoDownloadData>> {
+    return this._core.run("tiktok.video_download", input, options);
   }
 
   /**

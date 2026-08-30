@@ -94,6 +94,24 @@ class InstagramHashtagAnalyticsInput(TypedDict, total=False):
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
 
 
+class InstagramHashtagRecentPostsInput(TypedDict, total=False):
+    """Input for Instagram Hashtag Recent Posts."""
+
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    hashtag: Required[str]
+    """Hashtag to monitor, without the leading #."""
+
+
+class InstagramHashtagTopPostsInput(TypedDict, total=False):
+    """Input for Instagram Hashtag Top Posts."""
+
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    hashtag: Required[str]
+    """Hashtag to fetch, without the leading #."""
+
+
 class InstagramHighlightDetailInput(TypedDict, total=False):
     """Input for Instagram Highlight Detail."""
 
@@ -464,6 +482,155 @@ class InstagramHashtagAnalyticsItem(BaseModel):
     )
 
 
+class InstagramHashtagRecentPostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
+    posts: list[InstagramHashtagRecentPostsPost] = Field(
+        description="Posts under the hashtag, newest first. Engagement counts are usually zero because the posts are minutes old. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramHashtagRecentPostsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    caption: str = Field(
+        description="Post caption text, including its hashtags. Populated whenever the provider has data for the entity."
+    )
+    carousel_count: int | None = Field(
+        default=None,
+        alias="carouselCount",
+        description="Number of items in the carousel. Absent on a single-image post.",
+    )
+    comments: int | None = Field(
+        default=None, description="Comment count. Usually zero on a post this new."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(
+        description="Instagram media id. Populated whenever the provider has data for the entity."
+    )
+    likes: int | None = Field(
+        default=None, description="Like count. Usually zero on a post this new."
+    )
+    location_lat: float | None = Field(
+        default=None, alias="locationLat", description="Latitude of the tagged place."
+    )
+    location_lng: float | None = Field(
+        default=None, alias="locationLng", description="Longitude of the tagged place."
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Place name tagged on the post. Absent when the poster tagged none, which is most posts.",
+    )
+    media: list[InstagramHashtagRecentPostsMedia] | None = Field(
+        default=None,
+        description="Cover media for the post. A carousel reports its full size in carouselCount.",
+    )
+    shortcode: str = Field(
+        description="Short code in the post permalink. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical permalink to the post. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the account that posted. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramHashtagRecentPostsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    type_: str = Field(
+        alias="type",
+        description="One of photo or video. Videos are rare in this feed; Instagram keeps reels on a separate tab.",
+    )
+    url: str = Field(description="Image URL. For a video this is the cover frame.")
+
+
+class InstagramHashtagTopPostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
+    posts: list[InstagramHashtagTopPostsPost] = Field(
+        description="Top-ranked posts for the hashtag, ordered by Instagram's engagement model rather than by time. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramHashtagTopPostsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the posting account. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    caption: str = Field(
+        description="Post caption text, including its hashtags. Populated whenever the provider has data for the entity."
+    )
+    comments: int | None = Field(default=None, description="Comment count.")
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video duration in seconds. Absent on photo posts.",
+    )
+    id: str = Field(
+        description="Instagram media id. Populated whenever the provider has data for the entity."
+    )
+    likes: int | None = Field(
+        default=None, description="Like count. Absent when the account hides it."
+    )
+    media: list[InstagramHashtagTopPostsMedia] | None = Field(
+        default=None, description="Photo and video attachments on the post."
+    )
+    shortcode: str = Field(
+        description="Short code in the post permalink. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical permalink to the post. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the account that posted. Populated whenever the provider has data for the entity."
+    )
+    verified: bool | None = Field(
+        default=None, description="True when the posting account is verified."
+    )
+    views: int | None = Field(
+        default=None, description="Play count. Present on video posts."
+    )
+
+
+class InstagramHashtagTopPostsMedia(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    type_: str = Field(alias="type", description="One of photo or video.")
+    url: str = Field(description="Image URL. For a video this is the cover frame.")
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only for video items.",
+    )
+
+
 class InstagramHighlightDetailData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -811,20 +978,59 @@ class InstagramSearchHashtagData(BaseModel):
 class InstagramSearchHashtagPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    caption: str
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the posting account.",
+    )
+    caption: str = Field(description="Post caption text, including its hashtags.")
+    comments: int | None = Field(default=None, description="Comment count.")
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     display_url: str = Field(
         alias="displayUrl",
-        description="Populated whenever the provider has data for the entity.",
+        description="Poster image URL. For a video this is the cover frame. Populated whenever the provider has data for the entity.",
+    )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video duration in seconds. Absent on photo posts.",
     )
     id: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Instagram media id. Populated whenever the provider has data for the entity."
+    )
+    is_ad: bool | None = Field(
+        default=None,
+        alias="isAd",
+        description="True when the post is a paid advertisement.",
+    )
+    likes: int | None = Field(
+        default=None, description="Like count. Absent when the account hides it."
     )
     shortcode: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Short code in the post permalink. Populated whenever the provider has data for the entity."
     )
-    type_: str = Field(alias="type")
+    type_: str = Field(
+        alias="type",
+        description="Instagram media typename, for example XDTGraphVideo or XDTGraphImage.",
+    )
     url: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Canonical permalink to the post. Populated whenever the provider has data for the entity."
+    )
+    username: str | None = Field(
+        default=None,
+        description="Username of the account that posted. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    verified: bool | None = Field(
+        default=None, description="True when the posting account is verified."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL. Present only on video posts.",
     )
 
 
@@ -1418,6 +1624,103 @@ class InstagramNamespace:
         )
         return RunResult[InstagramHashtagAnalyticsData].model_validate(raw)
 
+    def hashtag_recent_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramHashtagRecentPostsInput],
+    ) -> RunResult[InstagramHashtagRecentPostsData]:
+        """Instagram Hashtag Recent Posts
+
+        Instagram posts published under a hashtag, newest first, read from its live
+        chronological feed rather than a web search index. Built for monitoring:
+        results arrive within a couple of minutes of posting, so engagement counts
+        are usually still zero and reels do not appear (Instagram keeps those on a
+        separate tab). For engagement-ranked results use
+        instagram.hashtag_top_posts; for older relevance-ranked results use
+        instagram.search_hashtag.
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.hashtag_recent_posts(hashtag="skincare")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.hashtag_recent_posts", dict(input), options
+        )
+        return RunResult[InstagramHashtagRecentPostsData].model_validate(raw)
+
+    def iter_hashtag_recent_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramHashtagRecentPostsInput],
+    ) -> Paginator[InstagramHashtagRecentPostsPost, InstagramHashtagRecentPostsData]:
+        """Iterate Instagram Hashtag Recent Posts results, following pagination cursors.
+
+        Yields validated `InstagramHashtagRecentPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.hashtag_recent_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramHashtagRecentPostsPost,
+            data_model=InstagramHashtagRecentPostsData,
+            bare=False,
+            options=options,
+        )
+
+    def hashtag_top_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramHashtagTopPostsInput],
+    ) -> RunResult[InstagramHashtagTopPostsData]:
+        """Instagram Hashtag Top Posts
+
+        Instagram's own top-ranked posts for a hashtag, read from its live hashtag
+        feed rather than a web search index, with view, like, and comment counts.
+        Reels-heavy and engagement-ranked, so it answers what is performing on a tag
+        right now. For older relevance-ranked results with date and media-type
+        filters use instagram.search_hashtag; for the chronological feed use
+        instagram.hashtag_recent_posts.
+
+        Price: $0.018 per request.
+
+        Example:
+            res = client.instagram.hashtag_top_posts(hashtag="skincare")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.hashtag_top_posts", dict(input), options
+        )
+        return RunResult[InstagramHashtagTopPostsData].model_validate(raw)
+
+    def iter_hashtag_top_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramHashtagTopPostsInput],
+    ) -> Paginator[InstagramHashtagTopPostsPost, InstagramHashtagTopPostsData]:
+        """Iterate Instagram Hashtag Top Posts results, following pagination cursors.
+
+        Yields validated `InstagramHashtagTopPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.hashtag_top_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramHashtagTopPostsPost,
+            data_model=InstagramHashtagTopPostsData,
+            bare=False,
+            options=options,
+        )
+
     def highlight_detail(
         self,
         *,
@@ -1618,9 +1921,13 @@ class InstagramNamespace:
     ) -> RunResult[InstagramSearchHashtagData]:
         """Instagram Hashtag Search
 
-        Search Instagram posts under a hashtag (caption, type, media URL). Results
-        are relevance-ranked by Instagram, not date-ordered, so a page can mix
-        recent and older posts.
+        Search posts under an Instagram hashtag through a web search index rather
+        than Instagram's own hashtag feed. That is what lets it filter by date and
+        media type and return reels whose like counts have settled, and it is also
+        why results skew older (median around three months) and stop at roughly 110
+        per hashtag. For Instagram's own live ranking of a tag use
+        instagram.hashtag_top_posts, and for the chronological feed use
+        instagram.hashtag_recent_posts.
 
         Price: $0.002 per request.
 
@@ -2158,6 +2465,105 @@ class AsyncInstagramNamespace:
         )
         return RunResult[InstagramHashtagAnalyticsData].model_validate(raw)
 
+    async def hashtag_recent_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramHashtagRecentPostsInput],
+    ) -> RunResult[InstagramHashtagRecentPostsData]:
+        """Instagram Hashtag Recent Posts
+
+        Instagram posts published under a hashtag, newest first, read from its live
+        chronological feed rather than a web search index. Built for monitoring:
+        results arrive within a couple of minutes of posting, so engagement counts
+        are usually still zero and reels do not appear (Instagram keeps those on a
+        separate tab). For engagement-ranked results use
+        instagram.hashtag_top_posts; for older relevance-ranked results use
+        instagram.search_hashtag.
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.hashtag_recent_posts(hashtag="skincare")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.hashtag_recent_posts", dict(input), options
+        )
+        return RunResult[InstagramHashtagRecentPostsData].model_validate(raw)
+
+    def iter_hashtag_recent_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramHashtagRecentPostsInput],
+    ) -> AsyncPaginator[
+        InstagramHashtagRecentPostsPost, InstagramHashtagRecentPostsData
+    ]:
+        """Iterate Instagram Hashtag Recent Posts results, following pagination cursors.
+
+        Yields validated `InstagramHashtagRecentPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.hashtag_recent_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramHashtagRecentPostsPost,
+            data_model=InstagramHashtagRecentPostsData,
+            bare=False,
+            options=options,
+        )
+
+    async def hashtag_top_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramHashtagTopPostsInput],
+    ) -> RunResult[InstagramHashtagTopPostsData]:
+        """Instagram Hashtag Top Posts
+
+        Instagram's own top-ranked posts for a hashtag, read from its live hashtag
+        feed rather than a web search index, with view, like, and comment counts.
+        Reels-heavy and engagement-ranked, so it answers what is performing on a tag
+        right now. For older relevance-ranked results with date and media-type
+        filters use instagram.search_hashtag; for the chronological feed use
+        instagram.hashtag_recent_posts.
+
+        Price: $0.018 per request.
+
+        Example:
+            res = client.instagram.hashtag_top_posts(hashtag="skincare")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.hashtag_top_posts", dict(input), options
+        )
+        return RunResult[InstagramHashtagTopPostsData].model_validate(raw)
+
+    def iter_hashtag_top_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramHashtagTopPostsInput],
+    ) -> AsyncPaginator[InstagramHashtagTopPostsPost, InstagramHashtagTopPostsData]:
+        """Iterate Instagram Hashtag Top Posts results, following pagination cursors.
+
+        Yields validated `InstagramHashtagTopPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.hashtag_top_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramHashtagTopPostsPost,
+            data_model=InstagramHashtagTopPostsData,
+            bare=False,
+            options=options,
+        )
+
     async def highlight_detail(
         self,
         *,
@@ -2358,9 +2764,13 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramSearchHashtagData]:
         """Instagram Hashtag Search
 
-        Search Instagram posts under a hashtag (caption, type, media URL). Results
-        are relevance-ranked by Instagram, not date-ordered, so a page can mix
-        recent and older posts.
+        Search posts under an Instagram hashtag through a web search index rather
+        than Instagram's own hashtag feed. That is what lets it filter by date and
+        media type and return reels whose like counts have settled, and it is also
+        why results skew older (median around three months) and stop at roughly 110
+        per hashtag. For Instagram's own live ranking of a tag use
+        instagram.hashtag_top_posts, and for the chronological feed use
+        instagram.hashtag_recent_posts.
 
         Price: $0.002 per request.
 

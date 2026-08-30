@@ -191,6 +191,13 @@ class TiktokLiveInput(TypedDict, total=False):
     """TikTok username without the leading @ (e.g. "thejustalex")."""
 
 
+class TiktokPhotosInput(TypedDict, total=False):
+    """Input for TikTok Photos."""
+
+    url: Required[str]
+    """Full TikTok photo-mode post URL. TikTok serves slideshow posts under the same /video/<id> path as videos, so the normal share link works."""
+
+
 class TiktokProfileInput(TypedDict, total=False):
     """Input for TikTok Profile."""
 
@@ -416,6 +423,13 @@ class TiktokVideoCommentsInput(TypedDict, total=False):
     """Pagination cursor from a previous response's nextCursor."""
     url: Required[str]
     """Full TikTok video URL."""
+
+
+class TiktokVideoDownloadInput(TypedDict, total=False):
+    """Input for TikTok Video Download."""
+
+    url: Required[str]
+    """Full TikTok video URL. Share links and tracking query params are fine."""
 
 
 class TiktokVideoTranscriptInput(TypedDict, total=False):
@@ -771,6 +785,30 @@ class TiktokLiveData(BaseModel):
     viewers: int
 
 
+class TiktokPhotosData(BaseModel):
+    id: str = Field(
+        description="TikTok post id. Populated whenever the provider has data for the entity."
+    )
+    images: list[TiktokPhotosImage] = Field(
+        description="Every image in the post, in the order the creator arranged them. Populated whenever the provider has data for the entity."
+    )
+
+
+class TiktokPhotosImage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    height: int | None = Field(default=None, description="Pixel height of the image.")
+    image: str = Field(
+        description="The image without TikTok's watermark or the creator's handle. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Despite the .jpeg in the path this is often served as HEIC, so transcode if you need broad browser support. Populated whenever the provider has data for the entity."
+    )
+    watermarked_image: str | None = Field(
+        default=None,
+        alias="watermarkedImage",
+        description="The same image carrying TikTok's watermark and the creator's handle. Signed and short-lived on the same terms as image.",
+    )
+    width: int | None = Field(default=None, description="Pixel width of the image.")
+
+
 class TiktokProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -791,6 +829,16 @@ class TiktokProfileData(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     likes: int
+    sec_uid: str | None = Field(
+        default=None,
+        alias="secUid",
+        description="TikTok's sec_uid: the opaque account identifier TikTok's own web and app endpoints key on, and the id most third-party TikTok tools ask for.",
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="TikTok's numeric internal user id for the account. Unlike the handle it never changes, so store it as the account's key. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     verified: bool
     videos: int
 
@@ -1282,6 +1330,38 @@ class TiktokVideoCommentsComment(BaseModel):
     )
 
 
+class TiktokVideoDownloadData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Length of the video in seconds.",
+    )
+    height: int | None = Field(
+        default=None, description="Pixel height of the video file."
+    )
+    id: str = Field(
+        description="TikTok video id. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Cover image for the video. A signed, short-lived TikTok CDN URL, often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support.",
+    )
+    video_url: str = Field(
+        alias="videoUrl",
+        description="Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Populated whenever the provider has data for the entity.",
+    )
+    watermarked_url: str | None = Field(
+        default=None,
+        alias="watermarkedUrl",
+        description="Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl.",
+    )
+    width: int | None = Field(
+        default=None, description="Pixel width of the video file."
+    )
+
+
 class TiktokVideoTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
@@ -1665,6 +1745,28 @@ class TiktokNamespace:
             "tiktok.live", dict(input), options
         )
         return RunResult[TiktokLiveData].model_validate(raw)
+
+    def photos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokPhotosInput],
+    ) -> RunResult[TiktokPhotosData]:
+        """TikTok Photos
+
+        Get every image in a TikTok photo-mode (slideshow) post by URL, in order,
+        with pixel dimensions and both the clean and watermarked variant of each.
+        Videos carry no images - use tiktok.video_download for those.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.photos(url="https://www.tiktok.com/@foodbyfranchi/video/7479916555602513174")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.photos", dict(input), options
+        )
+        return RunResult[TiktokPhotosData].model_validate(raw)
 
     def profile(
         self,
@@ -2124,6 +2226,29 @@ class TiktokNamespace:
             options=options,
         )
 
+    def video_download(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokVideoDownloadInput],
+    ) -> RunResult[TiktokVideoDownloadData]:
+        """TikTok Video Download
+
+        Get the playable media files behind a TikTok video URL: the clean
+        no-watermark MP4, the watermarked one TikTok's own save button produces, and
+        the cover image, with duration and pixel dimensions. Photo-mode posts carry
+        no video file - use tiktok.photos for those.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.video_download(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.video_download", dict(input), options
+        )
+        return RunResult[TiktokVideoDownloadData].model_validate(raw)
+
     def video_transcript(
         self,
         *,
@@ -2472,6 +2597,28 @@ class AsyncTiktokNamespace:
             "tiktok.live", dict(input), options
         )
         return RunResult[TiktokLiveData].model_validate(raw)
+
+    async def photos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokPhotosInput],
+    ) -> RunResult[TiktokPhotosData]:
+        """TikTok Photos
+
+        Get every image in a TikTok photo-mode (slideshow) post by URL, in order,
+        with pixel dimensions and both the clean and watermarked variant of each.
+        Videos carry no images - use tiktok.video_download for those.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.photos(url="https://www.tiktok.com/@foodbyfranchi/video/7479916555602513174")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.photos", dict(input), options
+        )
+        return RunResult[TiktokPhotosData].model_validate(raw)
 
     async def profile(
         self,
@@ -2930,6 +3077,29 @@ class AsyncTiktokNamespace:
             bare=False,
             options=options,
         )
+
+    async def video_download(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokVideoDownloadInput],
+    ) -> RunResult[TiktokVideoDownloadData]:
+        """TikTok Video Download
+
+        Get the playable media files behind a TikTok video URL: the clean
+        no-watermark MP4, the watermarked one TikTok's own save button produces, and
+        the cover image, with duration and pixel dimensions. Photo-mode posts carry
+        no video file - use tiktok.photos for those.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.video_download(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.video_download", dict(input), options
+        )
+        return RunResult[TiktokVideoDownloadData].model_validate(raw)
 
     async def video_transcript(
         self,

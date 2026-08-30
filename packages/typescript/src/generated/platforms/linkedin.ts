@@ -2469,13 +2469,33 @@ export interface LinkedinSearchPostsInput {
 
 export interface LinkedinSearchPostsPost {
   /**
+   * Display name of the post's author. Empty when the upstream omits it.
+   */
+  authorName?: string;
+  /**
+   * Canonical profile URL of the post's author, with tracking query params stripped. Empty when the upstream omits it.
+   */
+  authorUrl?: string;
+  /**
    * URL of the post author's profile avatar image.
    */
   avatarUrl?: string;
   /**
+   * Total number of comments on the post.
+   */
+  commentCount?: number;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * The post's LinkedIn activity ID, as a string. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Total number of reactions on the post.
+   */
+  reactionCount?: number;
   /**
    * Text content of the post. Populated whenever the provider has data for the entity.
    */

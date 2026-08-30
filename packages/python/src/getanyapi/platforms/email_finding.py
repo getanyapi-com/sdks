@@ -83,6 +83,39 @@ class EmailFindingIcypeasInput(TypedDict, total=False):
     lastname: NotRequired[str]
 
 
+class EmailFindingQuickenrichInput(TypedDict, total=False):
+    """Input for Email Finding - QuickEnrich."""
+
+    companyDomain: NotRequired[str]
+    """Company website domain, normalized upstream (example.com or https://example.com both work)."""
+    firstName: NotRequired[str]
+    """Person's first name."""
+    lastName: NotRequired[str]
+    """Person's last name."""
+    linkedinUrl: NotRequired[str]
+    """LinkedIn profile URL. Provide this, or companyDomain with firstName and lastName."""
+
+
+class EmailFindingZerobounceInput(TypedDict, total=False):
+    """Input for Email Finding - ZeroBounce."""
+
+    domain: Required[str]
+    """Company domain to search, e.g. hubspot.com."""
+    firstName: NotRequired[str]
+    """First name of the person to find."""
+    lastName: NotRequired[str]
+    """Last name of the person to find."""
+    middleName: NotRequired[str]
+    """Middle name, when the company's address format uses one."""
+
+
+class EmailFindingZerobounceDomainInput(TypedDict, total=False):
+    """Input for Email Pattern - ZeroBounce."""
+
+    domain: Required[str]
+    """Company domain to inspect, e.g. hubspot.com."""
+
+
 class EmailFindingDropleadsData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -137,6 +170,11 @@ class EmailFindingHunterCountData(BaseModel):
         description="Contacts per seniority level.",
     )
     total: int = Field(description="Contacts known for the domain. Minimum: 0.")
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Mailbox type the counts are limited to when the request filtered by type: personal or generic. Absent when the counts cover both.",
+    )
 
 
 class EmailFindingHunterCountDepartmentCount(BaseModel):
@@ -222,6 +260,11 @@ class EmailFindingHunterDomainData(BaseModel):
     emails: list[EmailFindingHunterDomainEmail] = Field(
         description="Contacts returned by this page, one per billed result."
     )
+    linked_domains: Any | None = Field(
+        default=None,
+        alias="linkedDomains",
+        description="Other domains Hunter has linked to this company. Deliberately untyped: the field is empty in every response we have captured, so the value passes through without a shape guarantee.",
+    )
     organization: str | None = Field(
         default=None, description="Company name registered against the domain."
     )
@@ -262,11 +305,25 @@ class EmailFindingHunterDomainEmail(BaseModel):
     )
     phone: str | None = Field(default=None, description="Contact's phone number.")
     position: str | None = Field(default=None, description="Contact's job title.")
+    position_raw: str | None = Field(
+        default=None,
+        alias="positionRaw",
+        description="Contact's job title exactly as written on the source page, before it was cleaned up.",
+    )
     seniority: str | None = Field(
         default=None, description="Seniority level: junior, senior or executive."
     )
+    source_type: str | None = Field(
+        default=None,
+        alias="sourceType",
+        description="How the address was obtained: found when it was seen on a public page, generated when it was inferred from the company's address pattern.",
+    )
     sources: list[EmailFindingHunterDomainSource] | None = Field(
         default=None, description="Public pages the address was found on."
+    )
+    twitter: str | None = Field(
+        default=None,
+        description="Contact's Twitter/X handle or profile URL, exactly as the source recorded it.",
     )
     type_: str | None = Field(
         default=None,
@@ -312,13 +369,247 @@ class EmailFindingHunterDomainSource(BaseModel):
 class EmailFindingIcypeasData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    certainty: str | None = None
-    email: str
-    firstname: str | None = None
-    fullname: str | None = None
-    lastname: str | None = None
-    mx_provider: str | None = Field(default=None, alias="mxProvider")
-    mx_records: list[str] | None = Field(default=None, alias="mxRecords")
+    certainty: str | None = Field(
+        default=None,
+        description="Confidence label for the best matching address, e.g. ultra_sure.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    email: str = Field(description="Best matching email address.")
+    emails: list[EmailFindingIcypeasEmail] | None = Field(
+        default=None,
+        description="Every candidate address found for the person, best first. The top-level email is the first entry.",
+    )
+    firstname: str | None = Field(default=None, description="Matched first name.")
+    fullname: str | None = Field(default=None, description="Matched full name.")
+    gender: str | None = Field(
+        default=None,
+        description="Gender recorded for the matched person. Absent when the source does not know it.",
+    )
+    lastname: str | None = Field(default=None, description="Matched last name.")
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="LinkedIn profile URL for the matched person, when the source has one.",
+    )
+    modified_utc: float | None = Field(
+        default=None,
+        alias="modifiedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    mx_provider: str | None = Field(
+        default=None,
+        alias="mxProvider",
+        description="Mail provider behind the domain, e.g. google.",
+    )
+    mx_records: list[str] | None = Field(
+        default=None,
+        alias="mxRecords",
+        description="Mail exchange records for the domain.",
+    )
+    phones: Any | None = Field(
+        default=None,
+        description="Phone numbers Icypeas returned alongside the address. Deliberately untyped: the field is empty in every response we have captured, so the value passes through without a shape guarantee.",
+    )
+    saas_services: Any | None = Field(
+        default=None,
+        alias="saasServices",
+        description="SaaS services Icypeas associates with the person. Deliberately untyped: the field is empty in every response we have captured, so the value passes through without a shape guarantee.",
+    )
+    scan_id: str | None = Field(
+        default=None,
+        alias="scanId",
+        description="Icypeas' identifier for the search that produced this result.",
+    )
+    scan_name: str | None = Field(
+        default=None,
+        alias="scanName",
+        description="Icypeas' internal label for the kind of search that ran, e.g. __icypeas__individual.",
+    )
+    scan_order: int | None = Field(
+        default=None,
+        alias="scanOrder",
+        description="Position of this result inside the Icypeas search batch. It is 0 for the single-person search this SKU runs.",
+    )
+    scan_status: str | None = Field(
+        default=None,
+        alias="scanStatus",
+        description="Icypeas' terminal status for the search, FOUND or NOT_FOUND. It duplicates the envelope's found flag.",
+    )
+    scan_user: str | None = Field(
+        default=None,
+        alias="scanUser",
+        description="Icypeas account that ran the search.",
+    )
+
+
+class EmailFindingIcypeasEmail(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    certainty: str | None = Field(
+        default=None, description="Confidence label for this address, e.g. ultra_sure."
+    )
+    email: str | None = Field(default=None, description="Candidate email address.")
+    mx_provider: str | None = Field(
+        default=None,
+        alias="mxProvider",
+        description="Mail provider behind this address's domain.",
+    )
+    mx_records: list[str] | None = Field(
+        default=None,
+        alias="mxRecords",
+        description="Mail exchange records for this address's domain.",
+    )
+
+
+class EmailFindingQuickenrichData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    address: str | None = Field(
+        default=None, description="Street address on the employer record."
+    )
+    city: str | None = Field(default=None, description="City on the employer record.")
+    company_domain: str | None = Field(
+        default=None, alias="companyDomain", description="Employer website domain."
+    )
+    company_employee_count: str | None = Field(
+        default=None,
+        alias="companyEmployeeCount",
+        description='Employer headcount band, e.g. "20 - 99". Upstream band vocabulary; "Not Available" means the band is unknown.',
+    )
+    company_industry: str | None = Field(
+        default=None, alias="companyIndustry", description="Employer industry label."
+    )
+    company_linkedin_url: str | None = Field(
+        default=None,
+        alias="companyLinkedinUrl",
+        description="Employer LinkedIn company URL.",
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Employer name."
+    )
+    company_phone: str | None = Field(
+        default=None, alias="companyPhone", description="Employer main phone line."
+    )
+    company_revenue: str | None = Field(
+        default=None,
+        alias="companyRevenue",
+        description='Employer revenue band, e.g. "1 - 2.5 Million". Upstream band vocabulary; "Not Available" means the band is unknown.',
+    )
+    country: str | None = Field(
+        default=None,
+        description="ISO 3166-1 alpha-2 country code on the employer record.",
+    )
+    email: str = Field(description="Work email address.")
+    email_domain: str | None = Field(
+        default=None,
+        alias="emailDomain",
+        description="Domain the work email resolves to.",
+    )
+    email_verified_utc: float | None = Field(
+        default=None,
+        alias="emailVerifiedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="Person's first name."
+    )
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Person's last name."
+    )
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="Person's LinkedIn profile URL."
+    )
+    phone: str | None = Field(
+        default=None,
+        description="Direct business phone line held for the person. Mostly desk lines; read phoneType before treating it as a mobile.",
+    )
+    phone_type: str | None = Field(
+        default=None,
+        alias="phoneType",
+        description='Line type reported upstream, e.g. "mobile" or "landline".',
+    )
+    postal_code: str | None = Field(
+        default=None,
+        alias="postalCode",
+        description="Postal code on the employer record.",
+    )
+    region: str | None = Field(
+        default=None, description="State or region code on the employer record."
+    )
+    title: str | None = Field(default=None, description="Person's job title.")
+
+
+class EmailFindingZerobounceData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_name: str | None = Field(
+        default=None,
+        alias="companyName",
+        description="Company ZeroBounce associates with the domain.",
+    )
+    confidence: str | None = Field(
+        default=None,
+        description="ZeroBounce's confidence in the address: high, medium, low or undetermined.",
+    )
+    did_you_mean: str | None = Field(
+        default=None,
+        alias="didYouMean",
+        description="Corrected domain when ZeroBounce spots a likely typo.",
+    )
+    domain: str | None = Field(
+        default=None, description="Domain the address belongs to."
+    )
+    email: str = Field(description="The email address ZeroBounce found.")
+    failure_reason: str | None = Field(
+        default=None,
+        alias="failureReason",
+        description="Why ZeroBounce could not answer with more confidence.",
+    )
+
+
+class EmailFindingZerobounceDomainData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_name: str | None = Field(
+        default=None,
+        alias="companyName",
+        description="Company ZeroBounce associates with the domain.",
+    )
+    confidence: str | None = Field(
+        default=None, description="Confidence in that format: high, medium or low."
+    )
+    did_you_mean: str | None = Field(
+        default=None,
+        alias="didYouMean",
+        description="Corrected domain when ZeroBounce spots a likely typo.",
+    )
+    domain: str = Field(description="The domain that was inspected.")
+    failure_reason: str | None = Field(
+        default=None,
+        alias="failureReason",
+        description="Why ZeroBounce could not answer with more confidence.",
+    )
+    format: str = Field(
+        description="The address format ZeroBounce is most confident the domain uses, e.g. first.last or flast."
+    )
+    other_formats: list[EmailFindingZerobounceDomainOtherFormat] | None = Field(
+        default=None,
+        alias="otherFormats",
+        description="Every other address format ZeroBounce has seen on this domain, most confident first.",
+    )
+
+
+class EmailFindingZerobounceDomainOtherFormat(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    confidence: str | None = Field(
+        default=None, description="Confidence in that format: high, medium or low."
+    )
+    format: str = Field(description="Address format, e.g. last.first.")
 
 
 class EmailFindingNamespace:
@@ -413,6 +704,71 @@ class EmailFindingNamespace:
         )
         return RunResult[EmailFindingIcypeasData].model_validate(raw)
 
+    def quickenrich(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[EmailFindingQuickenrichInput],
+    ) -> RunResult[EmailFindingQuickenrichData]:
+        """Email Finding - QuickEnrich
+
+        Find a work email from a LinkedIn profile, or from a company domain plus a
+        name. Coverage is strongest for small and local businesses and thin for
+        large technology employers.
+
+        Price: $0.0072 per request.
+
+        Example:
+            res = client.email_finding.quickenrich(companyDomain="southmemphisfence.com", firstName="Warren", lastName="Price")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "email_finding.quickenrich", dict(input), options
+        )
+        return RunResult[EmailFindingQuickenrichData].model_validate(raw)
+
+    def zerobounce(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[EmailFindingZerobounceInput],
+    ) -> RunResult[EmailFindingZerobounceData]:
+        """Email Finding - ZeroBounce
+
+        Find a person's work email at a company domain from their name, with
+        ZeroBounce's confidence in the guess.
+
+        Price: $0.6552 per request.
+
+        Example:
+            res = client.email_finding.zerobounce(domain="hubspot.com", firstName="Dharmesh", lastName="Shah")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "email_finding.zerobounce", dict(input), options
+        )
+        return RunResult[EmailFindingZerobounceData].model_validate(raw)
+
+    def zerobounce_domain(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[EmailFindingZerobounceDomainInput],
+    ) -> RunResult[EmailFindingZerobounceDomainData]:
+        """Email Pattern - ZeroBounce
+
+        Read the email address format a company domain uses, with every alternative
+        format ZeroBounce has seen and how confident it is in each. Use it to build
+        addresses for a whole account at once.
+
+        Price: $0.6552 per request.
+
+        Example:
+            res = client.email_finding.zerobounce_domain(domain="hubspot.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "email_finding.zerobounce_domain", dict(input), options
+        )
+        return RunResult[EmailFindingZerobounceDomainData].model_validate(raw)
+
 
 class AsyncEmailFindingNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -505,3 +861,68 @@ class AsyncEmailFindingNamespace:
             "email_finding.icypeas", dict(input), options
         )
         return RunResult[EmailFindingIcypeasData].model_validate(raw)
+
+    async def quickenrich(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[EmailFindingQuickenrichInput],
+    ) -> RunResult[EmailFindingQuickenrichData]:
+        """Email Finding - QuickEnrich
+
+        Find a work email from a LinkedIn profile, or from a company domain plus a
+        name. Coverage is strongest for small and local businesses and thin for
+        large technology employers.
+
+        Price: $0.0072 per request.
+
+        Example:
+            res = client.email_finding.quickenrich(companyDomain="southmemphisfence.com", firstName="Warren", lastName="Price")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "email_finding.quickenrich", dict(input), options
+        )
+        return RunResult[EmailFindingQuickenrichData].model_validate(raw)
+
+    async def zerobounce(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[EmailFindingZerobounceInput],
+    ) -> RunResult[EmailFindingZerobounceData]:
+        """Email Finding - ZeroBounce
+
+        Find a person's work email at a company domain from their name, with
+        ZeroBounce's confidence in the guess.
+
+        Price: $0.6552 per request.
+
+        Example:
+            res = client.email_finding.zerobounce(domain="hubspot.com", firstName="Dharmesh", lastName="Shah")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "email_finding.zerobounce", dict(input), options
+        )
+        return RunResult[EmailFindingZerobounceData].model_validate(raw)
+
+    async def zerobounce_domain(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[EmailFindingZerobounceDomainInput],
+    ) -> RunResult[EmailFindingZerobounceDomainData]:
+        """Email Pattern - ZeroBounce
+
+        Read the email address format a company domain uses, with every alternative
+        format ZeroBounce has seen and how confident it is in each. Use it to build
+        addresses for a whole account at once.
+
+        Price: $0.6552 per request.
+
+        Example:
+            res = client.email_finding.zerobounce_domain(domain="hubspot.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "email_finding.zerobounce_domain", dict(input), options
+        )
+        return RunResult[EmailFindingZerobounceDomainData].model_validate(raw)

@@ -1072,7 +1072,10 @@ export interface TwitterTweetData {
    * Populated whenever the provider has data for the entity.
    */
   text: string;
-  views: number;
+  /**
+   * View count, or null when X does not report one for this tweet. Distinct from 0, which means the tweet has no views.
+   */
+  views: number | null;
   [extra: string]: unknown;
 }
 

@@ -71,6 +71,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "hackernews": ("hackernews", "HackernewsNamespace", "AsyncHackernewsNamespace"),
     "indeed": ("indeed", "IndeedNamespace", "AsyncIndeedNamespace"),
     "instagram": ("instagram", "InstagramNamespace", "AsyncInstagramNamespace"),
+    "job_search": ("job_search", "JobSearchNamespace", "AsyncJobSearchNamespace"),
     "linkedin": ("linkedin", "LinkedinNamespace", "AsyncLinkedinNamespace"),
     "maps": ("maps", "MapsNamespace", "AsyncMapsNamespace"),
     "mobile_phone": (
@@ -110,6 +111,11 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "social": ("social", "SocialNamespace", "AsyncSocialNamespace"),
     "spotify": ("spotify", "SpotifyNamespace", "AsyncSpotifyNamespace"),
     "substack": ("substack", "SubstackNamespace", "AsyncSubstackNamespace"),
+    "technographics": (
+        "technographics",
+        "TechnographicsNamespace",
+        "AsyncTechnographicsNamespace",
+    ),
     "threads": ("threads", "ThreadsNamespace", "AsyncThreadsNamespace"),
     "tiktok": ("tiktok", "TiktokNamespace", "AsyncTiktokNamespace"),
     "tiktok_shop": ("tiktok_shop", "TiktokShopNamespace", "AsyncTiktokShopNamespace"),
