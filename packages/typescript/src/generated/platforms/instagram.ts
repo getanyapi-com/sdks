@@ -918,6 +918,69 @@ export interface InstagramProfileData {
 }
 
 /**
+ * Input for Instagram Profile Contact Info (instagram.profile_contact).
+ */
+export interface InstagramProfileContactInput {
+  /**
+   * Instagram username without the leading @.
+   */
+  handle: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+}
+
+/**
+ * The `data` payload of Instagram Profile Contact Info (instagram.profile_contact).
+ */
+export interface InstagramProfileContactData {
+  /**
+   * Profile biography text.
+   */
+  bio?: string;
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Every email address found for the account: the contact-button address plus any address written into the bio, deduplicated. Empty when the account publishes none. Populated whenever the provider has data for the entity.
+   */
+  emails: string[];
+  /**
+   * The website link on the profile. Absent when the account publishes no link.
+   */
+  externalUrl?: string;
+  /**
+   * Instagram username without the leading @. Populated whenever the provider has data for the entity.
+   */
+  handle: string;
+  /**
+   * Every phone number found for the account, in E.164 form where the number could be normalized. Empty when the account publishes none.
+   */
+  phones?: string[];
+  /**
+   * Whether the account is private.
+   */
+  private?: boolean;
+  /**
+   * The address behind the profile's Email contact button, as the account owner entered it. Absent when the account publishes no contact email. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  publicEmail?: string;
+  /**
+   * The number behind the profile's Call or Text contact button, as the account owner entered it. Absent when the account publishes no contact phone.
+   */
+  publicPhone?: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified?: boolean;
+  [extra: string]: unknown;
+}
+
+/**
  * Input for Instagram Reel Transcript (instagram.reel_transcript).
  */
 export interface InstagramReelTranscriptInput {
@@ -2255,6 +2318,23 @@ export class InstagramNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<InstagramProfileData>> {
     return this._core.run("instagram.profile", input, options);
+  }
+
+  /**
+   * Instagram Profile Contact Info
+   *
+   * Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.
+   *
+   * Price: $0.00721 per request plus $0 per result (maximum $0.00721).
+   *
+   * @example
+   * const res = await client.instagram.profileContact({ handle: "eminenceorganics" });
+   */
+  profileContact(
+    input: InstagramProfileContactInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramProfileContactData>> {
+    return this._core.run("instagram.profile_contact", input, options);
   }
 
   /**

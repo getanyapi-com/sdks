@@ -2715,6 +2715,22 @@
     "items": 1,
     "replayed": false
   },
+  "instagram.profile_contact": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "emails": [
+          "sample"
+        ],
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "instagram.reel_transcript": {
     "output": {
       "found": true,
@@ -5334,6 +5350,25 @@
         "bio": "sample",
         "verified": true,
         "avatarUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok.profile_contact": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "emails": [
+          {
+            "email": "sample",
+            "_extra": "passthrough"
+          }
+        ],
         "_extra": "passthrough"
       }
     },
