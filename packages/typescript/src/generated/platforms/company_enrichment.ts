@@ -19,6 +19,11 @@ export interface CompanyEnrichmentCrustdataV3Input {
   companyName?: string;
   exactMatch?: boolean;
   fields?: unknown;
+  /**
+   * Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
 }
 
 export interface CompanyEnrichmentCrustdataV3HeadcountTimeserie {
@@ -416,6 +421,11 @@ export interface CompanyEnrichmentLushaInput {
    * Company domain, e.g. posthog.com. Send the bare domain, without a scheme or www.
    */
   domain?: string;
+  /**
+   * Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
 }
 
 export interface CompanyEnrichmentLushaNaicsCode {
@@ -656,6 +666,11 @@ export interface CompanyEnrichmentPeopledatalabsInput {
    * Company name, for when you have no domain.
    */
   name?: string;
+  /**
+   * Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
   /**
    * People Data Labs boolean expression over top-level fields that a match must satisfy, e.g. website and industry.
    */
@@ -1026,6 +1041,11 @@ export interface CompanyEnrichmentProspeoInput {
    * Company domain, e.g. stripe.com. The most reliable identifier.
    */
   companyWebsite?: string;
+  /**
+   * Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
 }
 
 export interface CompanyEnrichmentProspeoEvent {

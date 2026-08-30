@@ -20,11 +20,15 @@ class ZhihuAnswerInput(TypedDict, total=False):
 
     answerId: Required[str]
     """Zhihu answer identifier."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class ZhihuProfileInput(TypedDict, total=False):
     """Input for Zhihu Profile."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     userToken: Required[str]
     """Zhihu user URL token."""
 
@@ -32,6 +36,8 @@ class ZhihuProfileInput(TypedDict, total=False):
 class ZhihuQuestionInput(TypedDict, total=False):
     """Input for Zhihu Question."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     questionId: Required[str]
     """Zhihu question identifier."""
 
@@ -47,6 +53,8 @@ class ZhihuQuestionAnswersInput(TypedDict, total=False):
     """Pagination offset. Default: 0."""
     order: NotRequired[Literal["default", "updated"]]
     """Answer ordering: default ranking or recently updated. Default: default."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     questionId: Required[str]
     """Zhihu question identifier."""
     sessionId: NotRequired[str]
@@ -60,6 +68,8 @@ class ZhihuSearchArticlesInput(TypedDict, total=False):
     """Number of articles requested per page. Default: 20."""
     offset: NotRequired[str]
     """Result offset returned as nextOffset in the previous response. Default: 0."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search keyword."""
     searchHashId: NotRequired[str]

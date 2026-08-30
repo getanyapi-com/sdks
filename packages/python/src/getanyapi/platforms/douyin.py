@@ -18,6 +18,8 @@ if TYPE_CHECKING:
 class DouyinProfileInput(TypedDict, total=False):
     """Input for Douyin Profile."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     secUserId: Required[str]
     """Douyin sec_user_id for the public account."""
 
@@ -31,6 +33,8 @@ class DouyinSearchVideosInput(TypedDict, total=False):
     """Pagination cursor from the previous response; omit for the first page. Minimum: 0."""
     duration: NotRequired[Literal["0", "0-1", "1-5", "5-10000"]]
     """Duration filter in minutes: any, under 1, 1 to 5, or over 5. Default: 0."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     publishedWithin: NotRequired[Any]
     """Publication window in days. Use the canonical JSON integer 0 for any time, 1 for one day, 7 for seven days, or 180 for 180 days; legacy numeric strings remain accepted."""
     query: Required[str]
@@ -48,6 +52,8 @@ class DouyinUserPostsInput(TypedDict, total=False):
     """Pagination cursor from the previous response; omit for the first page."""
     limit: NotRequired[int]
     """Requested page size. Values up to 20 are recommended. Default: 20."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     secUserId: Required[str]
     """Douyin sec_user_id for the public account."""
     sort: NotRequired[Any]
@@ -57,6 +63,8 @@ class DouyinUserPostsInput(TypedDict, total=False):
 class DouyinVideoInput(TypedDict, total=False):
     """Input for Douyin Video."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Public Douyin video share URL."""
 
@@ -66,6 +74,8 @@ class DouyinVideoCommentsInput(TypedDict, total=False):
 
     cursor: NotRequired[int]
     """Pagination cursor from the previous response; omit for the first page. Minimum: 0."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     videoId: Required[str]
     """Douyin aweme_id for the video."""
 

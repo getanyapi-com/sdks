@@ -28,6 +28,8 @@ class YoutubeChannelInput(TypedDict, total=False):
     """YouTube channel ID (UC...)."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class YoutubeChannelCommunityPostsInput(TypedDict, total=False):
@@ -39,6 +41,8 @@ class YoutubeChannelCommunityPostsInput(TypedDict, total=False):
     """Continuation token from a previous response for pagination."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class YoutubeChannelLivesInput(TypedDict, total=False):
@@ -50,6 +54,8 @@ class YoutubeChannelLivesInput(TypedDict, total=False):
     """Continuation token from a previous response for pagination."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class YoutubeChannelPlaylistsInput(TypedDict, total=False):
@@ -61,6 +67,8 @@ class YoutubeChannelPlaylistsInput(TypedDict, total=False):
     """Continuation token from a previous response for pagination."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class YoutubeChannelShortsInput(TypedDict, total=False):
@@ -72,6 +80,8 @@ class YoutubeChannelShortsInput(TypedDict, total=False):
     """Continuation token from a previous response."""
     handle: NotRequired[str]
     """YouTube channel handle, including or omitting the leading @."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["latest", "newest", "popular"]]
     """Sort order for the Shorts feed. latest and newest are equivalent."""
 
@@ -85,6 +95,8 @@ class YoutubeChannelVideosInput(TypedDict, total=False):
     """Continuation token from a previous response for pagination."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["latest", "popular"]]
     """Sort order."""
 
@@ -94,11 +106,15 @@ class YoutubeCommentRepliesInput(TypedDict, total=False):
 
     continuationToken: Required[str]
     """Replies continuation token from the comments endpoint, or the continuationToken from a previous replies response for further pagination."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class YoutubeCommunityPostInput(TypedDict, total=False):
     """Input for YouTube Community Post."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """URL of the YouTube community post."""
 
@@ -108,6 +124,8 @@ class YoutubePlaylistInput(TypedDict, total=False):
 
     playlistId: Required[str]
     """The playlist ID: the "list" parameter in a playlist URL (e.g. "PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi")."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class YoutubeSearchInput(TypedDict, total=False):
@@ -115,6 +133,8 @@ class YoutubeSearchInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Continuation token from a previous response for pagination."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The YouTube search query."""
     requireCursor: NotRequired[bool]
@@ -132,6 +152,8 @@ class YoutubeSearchHashtagInput(TypedDict, total=False):
     """Continuation token from a previous response for pagination."""
     hashtag: Required[str]
     """Hashtag to search for (without the leading #)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     type: NotRequired[Literal["all", "shorts"]]
     """Content filter."""
 
@@ -139,12 +161,17 @@ class YoutubeSearchHashtagInput(TypedDict, total=False):
 class YoutubeTrendingShortsInput(TypedDict, total=False):
     """Input for YouTube Trending Shorts."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+
 
 class YoutubeVideoInput(TypedDict, total=False):
     """Input for YouTube Video."""
 
     id: NotRequired[str]
     """YouTube video ID."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: NotRequired[str]
     """Full YouTube video URL."""
 
@@ -156,6 +183,8 @@ class YoutubeVideoCommentsInput(TypedDict, total=False):
     """Continuation token from a previous response for pagination."""
     order: NotRequired[str]
     """Comment order (e.g. top, newest)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full YouTube video URL."""
 
@@ -165,6 +194,8 @@ class YoutubeVideoSponsorsInput(TypedDict, total=False):
 
     language: NotRequired[str]
     """2-letter language code for transcript lookup (e.g. en, es, fr)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """YouTube video or Short URL."""
 
@@ -174,6 +205,8 @@ class YoutubeVideoTranscriptInput(TypedDict, total=False):
 
     id: NotRequired[str]
     """YouTube video ID."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: NotRequired[str]
     """Full YouTube video URL."""
 
@@ -185,6 +218,8 @@ class YoutubeVideoTranscriptFullInput(TypedDict, total=False):
     """Which caption track to accept: "manual" only creator-written captions, "automatic" only YouTube's speech recognition, "any" whichever exists. Default: any."""
     language: NotRequired[str]
     """Preferred caption language code (e.g. "en", "es"). Defaults to English."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """YouTube video URL (e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ")."""
 

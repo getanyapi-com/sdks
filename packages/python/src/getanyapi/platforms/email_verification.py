@@ -20,6 +20,8 @@ class EmailVerificationAllegrowInput(TypedDict, total=False):
 
     email: Required[str]
     """Email address to validate."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailVerificationBouncebanInput(TypedDict, total=False):
@@ -28,12 +30,16 @@ class EmailVerificationBouncebanInput(TypedDict, total=False):
     disableCatchallVerify: NotRequired[bool]
     email: Required[str]
     mode: NotRequired[Literal["regular", "deepverify"]]
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailVerificationIcypeasInput(TypedDict, total=False):
     """Input for Email Verification - Icypeas."""
 
     email: Required[str]
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailVerificationZerobounceInput(TypedDict, total=False):
@@ -43,6 +49,8 @@ class EmailVerificationZerobounceInput(TypedDict, total=False):
     """Email address to validate."""
     ipAddress: NotRequired[str]
     """IP address the address signed up from. ZeroBounce uses it to add the geographic fields to the answer."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailVerificationZerobounceActivityInput(TypedDict, total=False):
@@ -50,6 +58,8 @@ class EmailVerificationZerobounceActivityInput(TypedDict, total=False):
 
     email: Required[str]
     """Email address to check for activity."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailVerificationAllegrowData(BaseModel):

@@ -20,11 +20,15 @@ class HackernewsProfileInput(TypedDict, total=False):
 
     handle: Required[str]
     """Hacker News username, e.g. "pg"."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class HackernewsSearchInput(TypedDict, total=False):
     """Input for Hacker News Search."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search keyword, e.g. "ai"."""
     tags: NotRequired[str]
@@ -36,6 +40,8 @@ class HackernewsStoryInput(TypedDict, total=False):
 
     id: Required[str]
     """Hacker News story id, e.g. "47340079"."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class HackernewsStoryCommentsInput(TypedDict, total=False):
@@ -43,6 +49,8 @@ class HackernewsStoryCommentsInput(TypedDict, total=False):
 
     id: Required[str]
     """Hacker News story id, e.g. "47340079"."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class HackernewsProfileData(BaseModel):

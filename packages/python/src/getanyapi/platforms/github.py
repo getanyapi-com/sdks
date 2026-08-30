@@ -24,6 +24,8 @@ if TYPE_CHECKING:
 class GithubRepositoryInput(TypedDict, total=False):
     """Input for GitHub Repository."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """GitHub repository URL (e.g. https://github.com/facebook/react)."""
 
@@ -33,6 +35,8 @@ class GithubTrendingDevelopersInput(TypedDict, total=False):
 
     language: NotRequired[str]
     """Programming language to filter trending developers (e.g. javascript, python, go)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     since: NotRequired[str]
     """Trending range: daily, weekly, or monthly (defaults to daily)."""
 
@@ -42,6 +46,8 @@ class GithubTrendingRepositoriesInput(TypedDict, total=False):
 
     language: NotRequired[str]
     """Filter by programming language (e.g. "go", "typescript"). Omit for all languages."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     since: NotRequired[Literal["daily", "weekly", "monthly"]]
     """Trending window. Default: daily."""
 
@@ -51,6 +57,8 @@ class GithubUserInput(TypedDict, total=False):
 
     handle: Required[str]
     """GitHub username."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class GithubUserActivityInput(TypedDict, total=False):
@@ -60,6 +68,8 @@ class GithubUserActivityInput(TypedDict, total=False):
     """Pagination cursor from a previous response (pages backward by month)."""
     handle: Required[str]
     """GitHub username."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     year: NotRequired[str]
     """Year of contribution activity to return (defaults to the current year)."""
 
@@ -69,6 +79,8 @@ class GithubUserContributionsInput(TypedDict, total=False):
 
     handle: Required[str]
     """GitHub username."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     year: NotRequired[int]
     """Calendar year of the contribution graph. Defaults to the current year."""
 
@@ -80,6 +92,8 @@ class GithubUserFollowersInput(TypedDict, total=False):
     """Pagination cursor from a previous response (page number, defaults to 1)."""
     handle: Required[str]
     """GitHub username."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class GithubUserFollowingInput(TypedDict, total=False):
@@ -89,6 +103,8 @@ class GithubUserFollowingInput(TypedDict, total=False):
     """Pagination cursor from a previous response (page number, defaults to 1)."""
     handle: Required[str]
     """GitHub username."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class GithubUserPullRequestsInput(TypedDict, total=False):
@@ -98,6 +114,8 @@ class GithubUserPullRequestsInput(TypedDict, total=False):
     """Pagination cursor from a previous response (page number, defaults to 1)."""
     handle: Required[str]
     """GitHub username."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     since: NotRequired[str]
     """Only include pull requests created on or after this date (YYYY-MM-DD)."""
     until: NotRequired[str]
@@ -113,6 +131,8 @@ class GithubUserRepositoriesInput(TypedDict, total=False):
     """Sort direction, ascending or descending, paired with sort."""
     handle: Required[str]
     """GitHub username."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["created", "updated", "pushed", "full_name"]]
     """Repository ordering. Default: updated."""
     type: NotRequired[Literal["owner", "all", "member"]]

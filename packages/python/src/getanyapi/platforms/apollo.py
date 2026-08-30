@@ -20,6 +20,8 @@ class ApolloOrganizationInput(TypedDict, total=False):
 
     organizationId: Required[str]
     """Organization identifier returned by an Apollo organization endpoint."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class ApolloOrganizationEnrichInput(TypedDict, total=False):
@@ -27,6 +29,8 @@ class ApolloOrganizationEnrichInput(TypedDict, total=False):
 
     domain: Required[str]
     """Organization domain without a path, such as apollo.io."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class ApolloOrganizationJobsInput(TypedDict, total=False):
@@ -34,6 +38,8 @@ class ApolloOrganizationJobsInput(TypedDict, total=False):
 
     organizationId: Required[str]
     """Organization identifier returned by an Apollo organization endpoint."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class ApolloOrganizationNewsInput(TypedDict, total=False):
@@ -47,6 +53,8 @@ class ApolloOrganizationNewsInput(TypedDict, total=False):
     """Organization identifiers whose related news should be returned."""
     page: NotRequired[int]
     """One-based result page. Minimum: 1. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class ApolloOrganizationsBulkEnrichInput(TypedDict, total=False):
@@ -54,6 +62,8 @@ class ApolloOrganizationsBulkEnrichInput(TypedDict, total=False):
 
     domains: Required[list[str]]
     """Organization domains to enrich, with at most 10 domains per request."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class ApolloOrganizationsSearchInput(TypedDict, total=False):
@@ -71,6 +81,8 @@ class ApolloOrganizationsSearchInput(TypedDict, total=False):
     """Headquarters locations to match."""
     page: NotRequired[int]
     """One-based result page. Range: 1 to 500. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class ApolloPeopleSearchInput(TypedDict, total=False):
@@ -88,6 +100,8 @@ class ApolloPeopleSearchInput(TypedDict, total=False):
     """One-based result page. Range: 1 to 500. Default: 1."""
     personLocations: NotRequired[list[str]]
     """Person locations to match."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     seniorities: NotRequired[
         list[
             Literal[
@@ -124,6 +138,8 @@ class ApolloPersonEnrichInput(TypedDict, total=False):
     """LinkedIn profile URL used to identify the person."""
     organizationName: NotRequired[str]
     """Organization name used with the person's name."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class ApolloOrganizationData(BaseModel):

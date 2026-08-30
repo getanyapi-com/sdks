@@ -26,6 +26,8 @@ class PersonEnrichmentAviatoInput(TypedDict, total=False):
     linkedinID: NotRequired[str]
     linkedinURL: NotRequired[str]
     polyworkID: NotRequired[str]
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     require: NotRequired[list[str]]
     signalNfxID: NotRequired[str]
     twitterID: NotRequired[str]
@@ -46,6 +48,8 @@ class PersonEnrichmentBettercontactInput(TypedDict, total=False):
     """Contact's last name."""
     linkedinUrl: NotRequired[str]
     """Contact's LinkedIn profile URL, which raises the match rate."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class PersonEnrichmentFullenrichBulkInput(TypedDict, total=False):
@@ -53,6 +57,8 @@ class PersonEnrichmentFullenrichBulkInput(TypedDict, total=False):
 
     contacts: Required[list[dict[str, Any]]]
     """People to enrich, up to 99 per call. You are charged only for the contacts the waterfall resolves, though the funds held cover every contact you submit until the call settles. Each entry is passed to FullEnrich exactly as you write it, which is why these keys are snake_case while the rest of the API is camelCase. Give a name plus an employer (company_name or domain), or a linkedin_url, or both - more identity means a better hit rate."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class PersonEnrichmentFullenrichReverseEmailInput(TypedDict, total=False):
@@ -60,6 +66,8 @@ class PersonEnrichmentFullenrichReverseEmailInput(TypedDict, total=False):
 
     contacts: Required[list[dict[str, Any]]]
     """Addresses to look up, up to 99 per call. You are charged only for the addresses that resolve to a person, though the funds held cover every address you submit until the call settles. Each entry is an object so you can tag it; the address itself goes in email."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class PersonEnrichmentLushaInput(TypedDict, total=False):
@@ -77,6 +85,8 @@ class PersonEnrichmentLushaInput(TypedDict, total=False):
     """Last name. Send with firstName plus companyName or companyDomain."""
     linkedinUrl: NotRequired[str]
     """LinkedIn profile URL (linkedin.com/in/...). Highest match rate."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     refreshJobInfo: NotRequired[bool]
     """Force a fresh job title and employer lookup instead of the cached one."""
     revealEmails: NotRequired[bool]
@@ -126,6 +136,8 @@ class PersonEnrichmentPeopledatalabsInput(TypedDict, total=False):
     """Phone number in international form, e.g. +16176695906."""
     postalCode: NotRequired[str]
     """Postal or ZIP code to match on."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     profile: NotRequired[str]
     """Social profile URL the person has used, e.g. a LinkedIn, Twitter, Facebook or GitHub profile. The strongest single identifier."""
     region: NotRequired[str]
@@ -167,6 +179,8 @@ class PersonEnrichmentProspeoInput(TypedDict, total=False):
     """Return a match only when Prospeo has a verified mobile for it."""
     personId: NotRequired[str]
     """Prospeo person id from an earlier People Search - Prospeo call."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class PersonEnrichmentQuickenrichInput(TypedDict, total=False):
@@ -174,6 +188,8 @@ class PersonEnrichmentQuickenrichInput(TypedDict, total=False):
 
     email: Required[str]
     """Exact work email address to look up."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class PersonEnrichmentAviatoData(BaseModel):

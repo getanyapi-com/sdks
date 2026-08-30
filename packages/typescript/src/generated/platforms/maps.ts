@@ -35,6 +35,11 @@ export interface MapsContactsInput {
   placeMinimumStars?:
     "two" | "twoAndHalf" | "three" | "threeAndHalf" | "four" | "fourAndHalf";
   /**
+   * Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
    * What you would type in the Google Maps search bar (e.g. dentist).
    */
   query: string;
@@ -183,6 +188,11 @@ export interface MapsPlaceInput {
   placeMinimumStars?:
     "two" | "twoAndHalf" | "three" | "threeAndHalf" | "four" | "fourAndHalf";
   /**
+   * Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
    * The business name or search text to look up, as you would type it into the Google Maps search bar (e.g. Blue Bottle Coffee).
    */
   query: string;
@@ -319,6 +329,11 @@ export interface MapsReviewsInput {
    */
   postedLimit?: "24h" | "week" | "month" | "year";
   /**
+   * Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
    * Only return reviews whose text contains this keyword or phrase (case-insensitive). Omit to return all reviews (e.g. parking).
    */
   reviewsFilterString?: string;
@@ -436,6 +451,11 @@ export interface MapsSearchInput {
    */
   placeMinimumStars?:
     "two" | "twoAndHalf" | "three" | "threeAndHalf" | "four" | "fourAndHalf";
+  /**
+   * Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
   /**
    * What you would type in the Google Maps search bar (e.g. coffee shop).
    */

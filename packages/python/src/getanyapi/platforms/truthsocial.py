@@ -6,7 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing_extensions import Required, TypedDict, Unpack
+from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
 from ..types import RequestOptions, RunResult
 
@@ -18,6 +18,8 @@ if TYPE_CHECKING:
 class TruthsocialPostInput(TypedDict, total=False):
     """Input for Truth Social Post."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full Truth Social post URL, e.g. "https://truthsocial.com/@realDonaldTrump/posts/116824551176646175"."""
 
@@ -27,6 +29,8 @@ class TruthsocialProfileInput(TypedDict, total=False):
 
     handle: Required[str]
     """Truth Social handle without the @, e.g. "realDonaldTrump"."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TruthsocialUserPostsInput(TypedDict, total=False):
@@ -34,6 +38,8 @@ class TruthsocialUserPostsInput(TypedDict, total=False):
 
     handle: Required[str]
     """Truth Social handle without the @, e.g. "realDonaldTrump"."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TruthsocialPostData(BaseModel):

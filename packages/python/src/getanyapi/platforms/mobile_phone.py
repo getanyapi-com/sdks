@@ -24,6 +24,8 @@ class MobilePhoneAiArkInput(TypedDict, total=False):
     """Person's full name."""
     linkedinUrl: NotRequired[str]
     """Person's LinkedIn profile URL."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class MobilePhoneLeadmagicInput(TypedDict, total=False):
@@ -31,6 +33,8 @@ class MobilePhoneLeadmagicInput(TypedDict, total=False):
 
     email: NotRequired[str]
     personalEmail: NotRequired[str]
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     profileUrl: NotRequired[str]
     workEmail: NotRequired[str]
 

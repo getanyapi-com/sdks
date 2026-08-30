@@ -26,6 +26,8 @@ class EmailFindingDropleadsInput(TypedDict, total=False):
     """Person's first name."""
     lastName: Required[str]
     """Person's last name."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailFindingHunterCountInput(TypedDict, total=False):
@@ -33,6 +35,8 @@ class EmailFindingHunterCountInput(TypedDict, total=False):
 
     domain: Required[str]
     """Company domain without a scheme or path, e.g. stripe.com."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     type: NotRequired[Literal["personal", "generic"]]
     """Count only personal mailboxes belonging to a named person, or only generic ones such as info@ and support@."""
 
@@ -67,6 +71,8 @@ class EmailFindingHunterDomainInput(TypedDict, total=False):
     """Maximum contacts to return in this response. Every returned contact is billed, so this is the cost control. Range: 1 to 100. Default: 3."""
     offset: NotRequired[int]
     """Number of contacts to skip before this page begins. Minimum: 0."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requiredField: NotRequired[Literal["full_name", "position", "phone_number"]]
     """Only return contacts that carry this field."""
     seniority: NotRequired[Literal["junior", "senior", "executive"]]
@@ -81,6 +87,8 @@ class EmailFindingIcypeasInput(TypedDict, total=False):
     domainOrCompany: Required[str]
     firstname: NotRequired[str]
     lastname: NotRequired[str]
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailFindingQuickenrichInput(TypedDict, total=False):
@@ -94,6 +102,8 @@ class EmailFindingQuickenrichInput(TypedDict, total=False):
     """Person's last name."""
     linkedinUrl: NotRequired[str]
     """LinkedIn profile URL. Provide this, or companyDomain with firstName and lastName."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailFindingZerobounceInput(TypedDict, total=False):
@@ -107,6 +117,8 @@ class EmailFindingZerobounceInput(TypedDict, total=False):
     """Last name of the person to find."""
     middleName: NotRequired[str]
     """Middle name, when the company's address format uses one."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailFindingZerobounceDomainInput(TypedDict, total=False):
@@ -114,6 +126,8 @@ class EmailFindingZerobounceDomainInput(TypedDict, total=False):
 
     domain: Required[str]
     """Company domain to inspect, e.g. hubspot.com."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class EmailFindingDropleadsData(BaseModel):

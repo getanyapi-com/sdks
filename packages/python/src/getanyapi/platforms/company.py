@@ -26,6 +26,8 @@ class CompanyResearchInput(TypedDict, total=False):
     """How old a cached part may be and still be served. 0 always forces a fresh run. Defaults to 7 days when omitted. Minimum: 0. Default: 7."""
     name: NotRequired[str]
     """Company name, resolved to a domain before the run starts. Mutually exclusive with domain and email."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class CompanyResearchData(BaseModel):

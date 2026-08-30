@@ -24,6 +24,8 @@ class PandaexpressLocationsInput(TypedDict, total=False):
     """Maximum number of restaurants to return (1-50, default 10). Range: 1 to 50."""
     longitude: Required[float]
     """Longitude of the search center. Range: -180 to 180."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     radius: NotRequired[int]
     """Search radius in miles (default 10). Range: 1 to 100."""
 
@@ -31,6 +33,8 @@ class PandaexpressLocationsInput(TypedDict, total=False):
 class PandaexpressMenuInput(TypedDict, total=False):
     """Input for Panda Express Menu."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     restaurantId: Required[str]
     """Panda Express restaurant id (the `id` from Panda Express Locations)."""
 
@@ -38,6 +42,8 @@ class PandaexpressMenuInput(TypedDict, total=False):
 class PandaexpressNutritionInput(TypedDict, total=False):
     """Input for Panda Express Nutrition."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Menu item name (or substring) to look up, e.g. "orange chicken" or "chow mein"."""
 

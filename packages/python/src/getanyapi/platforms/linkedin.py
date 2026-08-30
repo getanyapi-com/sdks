@@ -24,6 +24,8 @@ if TYPE_CHECKING:
 class LinkedinAdInput(TypedDict, total=False):
     """Input for LinkedIn Ad Details."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """LinkedIn Ad Library ad URL (e.g. "https://www.linkedin.com/ad-library/detail/666281156")."""
 
@@ -33,6 +35,8 @@ class LinkedinAdsInput(TypedDict, total=False):
 
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """LinkedIn Ad Library search URL or a LinkedIn company URL (e.g. https://www.linkedin.com/ad-library/search?companyIds=1035)."""
 
@@ -52,6 +56,8 @@ class LinkedinAdsSearchInput(TypedDict, total=False):
     """Keyword term for the ad search."""
     paginationToken: NotRequired[str]
     """Opaque pagination token from a previous response's nextCursor."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     startDate: NotRequired[str]
     """Search start date in YYYY-MM-DD format."""
 
@@ -59,6 +65,8 @@ class LinkedinAdsSearchInput(TypedDict, total=False):
 class LinkedinArticleInput(TypedDict, total=False):
     """Input for LinkedIn Article."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Public LinkedIn article or newsletter issue URL, e.g. https://www.linkedin.com/pulse/your-article-slug. Pair it with the attachmentUrl returned by linkedin.search_posts_full to read the article behind a post."""
 
@@ -66,6 +74,8 @@ class LinkedinArticleInput(TypedDict, total=False):
 class LinkedinCompanyInput(TypedDict, total=False):
     """Input for LinkedIn Company."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -79,6 +89,8 @@ class LinkedinCompanyEmployeesInput(TypedDict, total=False):
     """Optional job-title filter supporting boolean operators (e.g. CEO OR CTO)."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less. Range: 1 to 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class LinkedinCompanyPostsInput(TypedDict, total=False):
@@ -94,6 +106,8 @@ class LinkedinCompanyPostsInput(TypedDict, total=False):
         Literal["any", "1h", "24h", "week", "month", "3months", "6months", "year"]
     ]
     """Only return posts published within this window (default any)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -103,6 +117,8 @@ class LinkedinCompanyPostsThinInput(TypedDict, total=False):
 
     page: NotRequired[int]
     """Page number for pagination. Minimum: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -110,6 +126,8 @@ class LinkedinCompanyPostsThinInput(TypedDict, total=False):
 class LinkedinCompanyThinInput(TypedDict, total=False):
     """Input for LinkedIn Company (basic)."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -117,6 +135,8 @@ class LinkedinCompanyThinInput(TypedDict, total=False):
 class LinkedinEmailInput(TypedDict, total=False):
     """Input for LinkedIn Email Finder."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     profileUrl: Required[str]
     """LinkedIn profile URL or public identifier (the last part of the URL) to find the deliverability-validated work email for."""
 
@@ -144,6 +164,8 @@ class LinkedinJobsInput(TypedDict, total=False):
     """City, region, or country to search within (e.g. United States, San Francisco)."""
     postedLimit: NotRequired[Literal["1h", "24h", "week", "month"]]
     """Only jobs posted within this window (past hour, 24 hours, week, or month)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Job title or keywords to search. Supports LinkedIn boolean operators."""
     salary: NotRequired[
@@ -183,6 +205,8 @@ class LinkedinJobsThinInput(TypedDict, total=False):
     """City, region, or country to search within."""
     postedLimit: NotRequired[Literal["24h", "week", "month"]]
     """Only jobs posted within this window (past 24 hours, week, or month)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Job title or keywords to search."""
     workplaceType: NotRequired[Literal["remote", "hybrid", "onsite"]]
@@ -192,6 +216,8 @@ class LinkedinJobsThinInput(TypedDict, total=False):
 class LinkedinPostInput(TypedDict, total=False):
     """Input for LinkedIn Post."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full LinkedIn post or article URL."""
 
@@ -205,6 +231,8 @@ class LinkedinPostCommentsInput(TypedDict, total=False):
         Literal["any", "24h", "week", "month", "3months", "6months", "year"]
     ]
     """Only return comments posted within this window (default any)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full URL of the LinkedIn post to list comments for."""
 
@@ -214,6 +242,8 @@ class LinkedinPostReactionsInput(TypedDict, total=False):
 
     limit: NotRequired[int]
     """Maximum number of reactions to return (1-100, default 100). You are billed per reaction returned, so a lower limit costs less. Range: 1 to 100."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """URL of the LinkedIn post to list reactions for (a /posts/...-activity-... or /feed/update/urn:li:activity:... link)."""
 
@@ -221,6 +251,8 @@ class LinkedinPostReactionsInput(TypedDict, total=False):
 class LinkedinPostTranscriptInput(TypedDict, total=False):
     """Input for LinkedIn Post Transcript."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """The full URL of the LinkedIn post to get the video transcript from."""
 
@@ -228,6 +260,8 @@ class LinkedinPostTranscriptInput(TypedDict, total=False):
 class LinkedinProfileInput(TypedDict, total=False):
     """Input for LinkedIn Profile."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full LinkedIn profile URL."""
 
@@ -249,6 +283,8 @@ class LinkedinProfilePostsFullInput(TypedDict, total=False):
     """Only return posts published within this relative time window."""
     postedLimitDate: NotRequired[str]
     """Only return posts published on or after this date or timestamp, using a JavaScript-compatible date-time string."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full URL of the public LinkedIn profile whose posts should be returned."""
 
@@ -258,6 +294,8 @@ class LinkedinProfilePostsThinInput(TypedDict, total=False):
 
     limit: NotRequired[int]
     """Maximum number of posts to return (10-100, default 10). You are billed per post returned, so a lower limit costs less. Range: 10 to 100. Default: 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full URL of the public LinkedIn profile whose posts should be returned."""
 
@@ -265,6 +303,8 @@ class LinkedinProfilePostsThinInput(TypedDict, total=False):
 class LinkedinProfileThinInput(TypedDict, total=False):
     """Input for LinkedIn Profile (basic)."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full LinkedIn profile URL."""
 
@@ -276,6 +316,8 @@ class LinkedinSearchCompaniesInput(TypedDict, total=False):
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     location: NotRequired[str]
     """Optional location filter, written out in full (e.g. United Kingdom or San Francisco)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search LinkedIn companies for (e.g. marketing agency)."""
 
@@ -289,6 +331,8 @@ class LinkedinSearchPostsInput(TypedDict, total=False):
         Literal["last-hour", "last-day", "last-week", "last-month", "last-year"]
     ]
     """Filter by recency. One of last-hour, last-day, last-week, last-month, last-year."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The post search query."""
     requireCursor: NotRequired[bool]
@@ -334,6 +378,8 @@ class LinkedinSearchPostsFullInput(TypedDict, total=False):
     """Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page. You are billed per post returned. Range: 1 to 100. Default: 10."""
     mentioningMemberUrls: NotRequired[list[str]]
     """Only return posts mentioning these LinkedIn member profile URLs."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """LinkedIn post search query, including quoted terms or Boolean operators accepted by LinkedIn search."""
     sort: NotRequired[Literal["relevance", "date"]]
@@ -453,6 +499,8 @@ class LinkedinSearchProfilesInput(TypedDict, total=False):
     """Filter to people who previously worked at any of these companies, by name."""
     pastJobTitles: NotRequired[list[str]]
     """Filter by a past job title the person held (e.g. ['Product Manager'])."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     profileLanguages: NotRequired[
         list[
             Literal[
@@ -617,6 +665,8 @@ class LinkedinSearchProfilesEmailInput(TypedDict, total=False):
     """Filter to people who previously worked at any of these companies, by name."""
     pastJobTitles: NotRequired[list[str]]
     """Filter by a past job title the person held (e.g. ['Product Manager'])."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     profileLanguages: NotRequired[
         list[
             Literal[
@@ -671,6 +721,8 @@ class LinkedinSearchProfilesEmailInput(TypedDict, total=False):
 class LinkedinSearchProfilesThinInput(TypedDict, total=False):
     """Input for LinkedIn Profile Search (basic)."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search query for LinkedIn profiles - a role, name, or keywords (e.g. 'Marketing Manager')."""
 

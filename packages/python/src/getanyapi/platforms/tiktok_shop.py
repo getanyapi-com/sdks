@@ -24,6 +24,8 @@ if TYPE_CHECKING:
 class TiktokShopCategoriesInput(TypedDict, total=False):
     """Input for TikTok Shop Categories."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[Literal["US", "VN"]]
     """Country code of the TikTok Shop market whose category tree to list. Only US and VN publish a category tree. Default: US."""
 
@@ -33,6 +35,8 @@ class TiktokShopCategoryProductsInput(TypedDict, total=False):
 
     categoryId: Required[str]
     """TikTok Shop category id, from tiktok_shop.categories (e.g. 700645 for Health)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[str]
     """Two-letter country code of the TikTok Shop market (e.g. US). Default: US."""
 
@@ -42,6 +46,8 @@ class TiktokShopCreatorInput(TypedDict, total=False):
 
     handle: Required[str]
     """TikTok handle of the creator or shop account, without the @ (e.g. golinutrition)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[str]
     """Lowercase two-letter country code of the TikTok Shop market (e.g. us). Default: us."""
 
@@ -49,6 +55,8 @@ class TiktokShopCreatorInput(TypedDict, total=False):
 class TiktokShopProductInput(TypedDict, total=False):
     """Input for TikTok Shop Product."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[str]
     """Two-letter country code for the proxy location used to access region-specific products (e.g. US, GB, FR). Defaults to US."""
     url: Required[str]
@@ -58,6 +66,8 @@ class TiktokShopProductInput(TypedDict, total=False):
 class TiktokShopProductFullInput(TypedDict, total=False):
     """Input for TikTok Shop Product Full."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """TikTok Shop product URL. Any of the public forms works (https://www.tiktok.com/shop/pdp/<id>, https://shop.tiktok.com/<region>/pdp/<slug>/<id>, or https://shop.tiktok.com/view/product/<id>); the product id is read out of it."""
 
@@ -67,6 +77,8 @@ class TiktokShopProductReviewsInput(TypedDict, total=False):
 
     page: NotRequired[int]
     """1-based results page. Use with hasMore in the output to paginate. Minimum: 1. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[str]
     """Two-letter country code of the product's shop region (e.g. US). Strongly recommended for correct results."""
     url: Required[str]
@@ -98,6 +110,8 @@ class TiktokShopSearchInput(TypedDict, total=False):
     """Country code of the TikTok Shop market to search (e.g. US). Default: US."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less. Range: 1 to 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search keyword for TikTok Shop products (e.g. wireless earbuds)."""
 
@@ -109,6 +123,8 @@ class TiktokShopSearchSuggestionsInput(TypedDict, total=False):
     """Two-letter country code of the TikTok Shop market (e.g. US). Default: US."""
     language: NotRequired[str]
     """Language tag for the suggestions (e.g. en-US). Default: en-US."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Seed keyword to expand (e.g. ashwagandha gummies)."""
 
@@ -118,6 +134,8 @@ class TiktokShopShopProductsInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[str]
     """Two-letter country code of the store's market (e.g. US)."""
     sortBy: NotRequired[Literal["top", "new_releases"]]
@@ -133,6 +151,8 @@ class TiktokShopUserShowcaseInput(TypedDict, total=False):
     """Pagination token for retrieving subsequent product pages."""
     handle: Required[str]
     """The handle of the TikTok user (e.g. mrtiktokreviews)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[str]
     """Geographical region for proxy placement (defaults to US)."""
 

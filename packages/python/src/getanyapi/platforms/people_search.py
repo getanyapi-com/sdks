@@ -32,6 +32,8 @@ class PeopleSearchAiArkInput(TypedDict, total=False):
     """AI Ark saved-list filter expression."""
     page: NotRequired[int]
     """Zero-based result page. Minimum: 0. Default: 0."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     size: NotRequired[int]
     """Maximum people to return on this page. Range: 1 to 100. Default: 10."""
 
@@ -46,6 +48,8 @@ class PeopleSearchCrustdataV3Input(TypedDict, total=False):
     """Default: true."""
     limit: NotRequired[int]
     """Range: 1 to 100. Default: 3."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     profileKeywords: NotRequired[Any]
     requireVerifiedEmail: NotRequired[bool]
     """Default: false."""
@@ -110,6 +114,8 @@ class PeopleSearchFullenrichInput(TypedDict, total=False):
     """Filter by person name. Each entry is an object taking a `value` string and an optional `exact_match` boolean, e.g. [{"value": "stripe.com", "exact_match": true}]. A bare string is rejected."""
     personSkills: NotRequired[list[dict[str, Any]]]
     """Filter by a skill the person lists. Each entry is an object taking a `value` string and an optional `exact_match` boolean, e.g. [{"value": "stripe.com", "exact_match": true}]. A bare string is rejected."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class PeopleSearchLushaInput(TypedDict, total=False):
@@ -123,6 +129,8 @@ class PeopleSearchLushaInput(TypedDict, total=False):
     """Include contacts Lusha holds only partial information for. Defaults to true upstream."""
     pages: NotRequired[dict[str, Any]]
     """Which page of results to return. Lusha charges one flat price per page whatever its size."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class PeopleSearchPeopledatalabsInput(TypedDict, total=False):
@@ -134,6 +142,8 @@ class PeopleSearchPeopledatalabsInput(TypedDict, total=False):
     """People Data Labs dataset to search, when your plan exposes more than one."""
     limit: NotRequired[int]
     """Maximum profiles to return. Every profile returned is billed, so start at 1 to check a query and read total before asking for more. Range: 1 to 59. Default: 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: NotRequired[dict[str, Any]]
     """Elasticsearch-style query over the People Data Labs person dataset, e.g. {"bool": {"must": [{"term": {"job_company_website": "posthog.com"}}]}}. Send this or sql, never both."""
     sql: NotRequired[str]
@@ -209,6 +219,8 @@ class PeopleSearchProspeoInput(TypedDict, total=False):
     """Filter by time in the current role, as a numeric range."""
     personYearOfExperience: NotRequired[dict[str, Any]]
     """Filter by total years of experience, as a numeric range."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class PeopleSearchQuickenrichInput(TypedDict, total=False):
@@ -238,6 +250,8 @@ class PeopleSearchQuickenrichInput(TypedDict, total=False):
     """Filter on locality."""
     page: NotRequired[int]
     """One-based result page. Minimum: 1. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     revenue: NotRequired[dict[str, Any]]
     """Filter on employer revenue band."""
     services: NotRequired[dict[str, Any]]
@@ -253,6 +267,8 @@ class PeopleSearchQuickenrichCompanyInput(TypedDict, total=False):
     """Company website domain, normalized upstream (example.com or https://example.com both work)."""
     page: NotRequired[int]
     """One-based result page. Each page holds up to 20 people. Minimum: 1. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     title: NotRequired[str]
     """One job title, or several comma-separated, e.g. "CEO, CFO"."""
 

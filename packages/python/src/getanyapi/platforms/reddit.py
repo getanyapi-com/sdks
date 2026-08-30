@@ -24,6 +24,8 @@ if TYPE_CHECKING:
 class RedditPostInput(TypedDict, total=False):
     """Input for Reddit Post."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full Reddit post URL in the /r/<subreddit>/comments/<id>/<slug>/ form, e.g. "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/". The short "reddit.com/comments/<id>" form is not accepted."""
 
@@ -33,6 +35,8 @@ class RedditPostCommentsInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Cursor from a previous response for more comments."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full Reddit post URL."""
 
@@ -42,6 +46,8 @@ class RedditPostTranscriptInput(TypedDict, total=False):
 
     language: NotRequired[str]
     """Optional two-letter language code (defaults to en)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Reddit post URL or direct v.redd.it video URL to transcribe."""
 
@@ -49,6 +55,8 @@ class RedditPostTranscriptInput(TypedDict, total=False):
 class RedditProfileInput(TypedDict, total=False):
     """Input for Reddit Profile."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     username: Required[str]
     """Reddit username, without the u/ prefix. Example: "spez"."""
 
@@ -58,6 +66,8 @@ class RedditSearchInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of results."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Free-text search across all of Reddit. Reddit's field operators are supported inside the string: subreddit:<name> to scope to one subreddit, author:<user>, title:<text>, selftext:<text>, self:yes|no, nsfw:yes|no, and boolean AND/OR/NOT. To restrict to a single subreddit you can use subreddit:<name> here, or use the reddit.subreddit_posts SKU for a plain subreddit listing."""
     sort: NotRequired[Literal["relevance", "hot", "top", "new", "comments"]]
@@ -69,6 +79,8 @@ class RedditSearchInput(TypedDict, total=False):
 class RedditSubredditDetailsInput(TypedDict, total=False):
     """Input for Reddit Subreddit Details."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     subreddit: Required[str]
     """Subreddit name without the r/ prefix. Case-sensitive (e.g. "AskReddit", not "askreddit")."""
 
@@ -82,6 +94,8 @@ class RedditSubredditPostsInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's `nextCursor`; omit for the first page."""
     limit: NotRequired[int]
     """Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, pass `nextCursor` back as `cursor`. Range: 1 to 100. Default: 25."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["hot", "new", "top"]]
     """Listing sort order. Default: hot."""
     subreddit: Required[str]
@@ -95,6 +109,8 @@ class RedditSubredditSearchInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Optional pagination token from a previous response."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: NotRequired[str]
     """Optional search query to match posts (e.g. 'push ups')."""
     sort: NotRequired[str]
@@ -112,6 +128,8 @@ class RedditTrendingPostsInput(TypedDict, total=False):
     """Pagination cursor from a previous response's nextCursor. Omit for the first page."""
     limit: NotRequired[int]
     """Maximum number of trending posts to return (1-100, default 25). Range: 1 to 100. Default: 25."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class RedditUserCommentsInput(TypedDict, total=False):
@@ -121,6 +139,8 @@ class RedditUserCommentsInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page."""
     limit: NotRequired[int]
     """Maximum number of comments to return in this response (a page cap, not a total). Defaults to 25. Range: 1 to 100. Default: 25."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["new", "top", "hot", "controversial"]]
     """Sort order for the user's comments. Defaults to new (most recent first)."""
     username: Required[str]
@@ -132,6 +152,8 @@ class RedditUserPostsInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["new", "top", "hot", "controversial"]]
     """Sort order for the user's posts. Defaults to new (most recent first)."""
     username: Required[str]

@@ -34,6 +34,8 @@ class CompanySearchAiArkInput(TypedDict, total=False):
     """Company-name search text."""
     page: NotRequired[int]
     """Zero-based result page. Minimum: 0. Default: 0."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     size: NotRequired[int]
     """Maximum companies to return on this page. Range: 1 to 100. Default: 10."""
 
@@ -47,6 +49,8 @@ class CompanySearchCrustdataV3Input(TypedDict, total=False):
     """Crustdata company-database filter expression. A leaf condition is {"filter_type": <column>, "type": <operator>, "value": <match>}; a group is {"op": "and"|"or", "conditions": [<leaf>, ...]}. Pass a single leaf, an array of leaves, or a group. See the example for a domain lookup."""
     limit: NotRequired[int]
     """Maximum companies to return on this page. Every company returned is billed; the page is capped at 250 to bound the cost of a single call. Range: 1 to 250. Default: 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sorts: NotRequired[list[dict[str, Any]]]
 
 
@@ -77,6 +81,8 @@ class CompanySearchFullenrichInput(TypedDict, total=False):
     """Filter by company name. Each entry is an object taking a `value` string and an optional `exact_match` boolean, e.g. [{"value": "stripe.com", "exact_match": true}]. A bare string is rejected."""
     offset: NotRequired[int]
     """Rows to skip. FullEnrich caps offset at 10000; past that, page with cursor. Minimum: 0. Default: 0."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     specialties: NotRequired[list[dict[str, Any]]]
     """Filter by company specialty. Each entry is an object taking a `value` string and an optional `exact_match` boolean, e.g. [{"value": "stripe.com", "exact_match": true}]. A bare string is rejected."""
     types: NotRequired[list[dict[str, Any]]]
@@ -90,6 +96,8 @@ class CompanySearchPeopledatalabsInput(TypedDict, total=False):
     """Comma-separated People Data Labs fields to include, or a leading - list to exclude. Projection changes the payload only; billing still follows companies returned."""
     limit: NotRequired[int]
     """Maximum companies to return. Every company returned is billed, so start at 1 to check a query and read total before asking for more. Range: 1 to 83. Default: 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: NotRequired[dict[str, Any]]
     """Elasticsearch-style query over the People Data Labs company dataset, e.g. {"bool": {"must": [{"term": {"website": "posthog.com"}}]}}. Send this or sql, never both."""
     sql: NotRequired[str]
@@ -141,6 +149,8 @@ class CompanySearchProspeoInput(TypedDict, total=False):
     """Filter by ownership type."""
     page: NotRequired[int]
     """Page number, one-based. Prospeo returns 25 results per page and charges one flat price per page. Minimum: 1. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class CompanySearchQuickenrichInput(TypedDict, total=False):
@@ -168,6 +178,8 @@ class CompanySearchQuickenrichInput(TypedDict, total=False):
     """Filter on words found in the company LinkedIn bio."""
     page: NotRequired[int]
     """One-based result page. Minimum: 1. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     revenue: NotRequired[dict[str, Any]]
     """Filter on revenue band."""
     services: NotRequired[dict[str, Any]]
@@ -284,6 +296,8 @@ class CompanySearchTheirstackInput(TypedDict, total=False):
     """List of column objects. You can pass several columns to order by, in order of priority. Only `field` is required, `desc` is True by default"""
     page: NotRequired[int]
     """Page number. Required when using page-based pagination."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     propertyExistsAnd: NotRequired[list[str]]
     """Return companies that have all of these fields not null. For example, if you pass ['domain', 'linkedin_url'], it will return companies that have both domain AND linkedin_url set."""
     propertyExistsOr: NotRequired[list[str]]

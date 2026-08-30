@@ -26,6 +26,8 @@ class FacebookAdDetailsInput(TypedDict, total=False):
 
     id: NotRequired[str]
     """Meta Ad Library ad ID (e.g. "702369045530963"). Provide either id or url."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: NotRequired[str]
     """Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=1185617869915074"). Provide either id or url."""
 
@@ -35,6 +37,8 @@ class FacebookAdDetailsFullInput(TypedDict, total=False):
 
     id: Required[str]
     """Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "1519158199783790" from https://www.facebook.com/ads/library/?id=1519158199783790)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class FacebookAdTranscriptInput(TypedDict, total=False):
@@ -42,6 +46,8 @@ class FacebookAdTranscriptInput(TypedDict, total=False):
 
     id: NotRequired[str]
     """Meta Ad Library ad ID (e.g. "1020359190509080"). Provide either id or url."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: NotRequired[str]
     """Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=1020359190509080"). Provide either id or url."""
 
@@ -61,6 +67,8 @@ class FacebookAdsSearchInput(TypedDict, total=False):
         Literal["ALL", "IMAGE", "VIDEO", "MEME", "IMAGE_AND_MEME", "NONE"]
     ]
     """Creative media type filter."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search the Meta Ad Library for (e.g. "protein powder")."""
     searchType: NotRequired[Literal["keyword_unordered", "keyword_exact_phrase"]]
@@ -82,6 +90,8 @@ class FacebookCommentRepliesInput(TypedDict, total=False):
     """The expansion_token of the comment, from the post comments endpoint."""
     feedbackId: Required[str]
     """The feedback_id of the comment (not the comment id)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class FacebookCompanyAdsInput(TypedDict, total=False):
@@ -103,6 +113,8 @@ class FacebookCompanyAdsInput(TypedDict, total=False):
     """Creative media type filter."""
     pageId: NotRequired[str]
     """Company's Ad Library page ID. Provide either pageId or companyName."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sortBy: NotRequired[Literal["impressions", "recent"]]
     """Sort order: impressions (highest first, the default) or recent (most recent)."""
     startDate: NotRequired[str]
@@ -116,6 +128,8 @@ class FacebookEventDetailsInput(TypedDict, total=False):
 
     id: NotRequired[str]
     """The event's numeric identifier."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: NotRequired[str]
     """The event's Facebook URL."""
 
@@ -125,6 +139,8 @@ class FacebookEventsInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response to fetch the next page."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     time: NotRequired[Literal["today", "this_week", "next_week"]]
     """Timeframe filter for the returned events. Defaults to all time."""
     url: Required[str]
@@ -136,6 +152,8 @@ class FacebookEventsSearchInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The query to search events for."""
 
@@ -147,6 +165,8 @@ class FacebookFollowersInput(TypedDict, total=False):
     """Which relation to fetch: 'follower' or 'following' (e.g. follower). Default: follower."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Facebook page or profile URL to list follows for (e.g. https://www.facebook.com/nasa)."""
 
@@ -156,6 +176,8 @@ class FacebookGroupPostsInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response to fetch the next page."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[
         Literal[
             "TOP_POSTS", "RECENT_ACTIVITY", "CHRONOLOGICAL", "CHRONOLOGICAL_LISTINGS"
@@ -185,6 +207,8 @@ class FacebookMarketplaceInput(TypedDict, total=False):
     """Latitude of the search location (e.g. '30.2677')."""
     lng: Required[str]
     """Longitude of the search location (e.g. '-97.7475')."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     priceMax: NotRequired[int]
     """Maximum listing price in whole currency units, e.g. 500 for $500. Facebook may mix in a few suggested listings outside the range. Minimum: 0."""
     priceMin: NotRequired[int]
@@ -208,6 +232,8 @@ class FacebookMarketplaceItemInput(TypedDict, total=False):
 
     id: NotRequired[str]
     """Facebook Marketplace item ID."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: NotRequired[str]
     """Facebook Marketplace item URL."""
 
@@ -215,6 +241,8 @@ class FacebookMarketplaceItemInput(TypedDict, total=False):
 class FacebookMarketplaceLocationSearchInput(TypedDict, total=False):
     """Input for Facebook Marketplace Location Search."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Location search query (e.g. a city name)."""
 
@@ -226,6 +254,8 @@ class FacebookPageContactInput(TypedDict, total=False):
     """Locale code for the returned data (e.g. en-US). Default: en-US."""
     page: Required[str]
     """Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class FacebookPhotosInput(TypedDict, total=False):
@@ -233,6 +263,8 @@ class FacebookPhotosInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response to fetch the next page."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """URL of the public Facebook page or profile to fetch photos from (e.g. https://www.facebook.com/Spurs)."""
 
@@ -240,6 +272,8 @@ class FacebookPhotosInput(TypedDict, total=False):
 class FacebookPostInput(TypedDict, total=False):
     """Input for Facebook Post."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full Facebook post URL."""
 
@@ -251,6 +285,8 @@ class FacebookPostCommentsInput(TypedDict, total=False):
     """Pagination cursor from a previous response's nextCursor."""
     feedbackId: NotRequired[str]
     """Facebook feedback id for the post (alternative to url)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: NotRequired[str]
     """Full Facebook post URL."""
 
@@ -258,6 +294,8 @@ class FacebookPostCommentsInput(TypedDict, total=False):
 class FacebookPostTranscriptInput(TypedDict, total=False):
     """Input for Facebook Post Transcript."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """The Facebook post or video URL."""
 
@@ -267,6 +305,8 @@ class FacebookProfileInput(TypedDict, total=False):
 
     handle: NotRequired[str]
     """Facebook page handle/username."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: NotRequired[str]
     """Full Facebook page URL."""
 
@@ -276,6 +316,8 @@ class FacebookProfileEventsInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """The Facebook page URL."""
 
@@ -287,6 +329,8 @@ class FacebookProfilePostsInput(TypedDict, total=False):
     """Pagination cursor from a previous response."""
     pageId: NotRequired[str]
     """Facebook page id."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: NotRequired[str]
     """Full Facebook page/profile URL."""
 
@@ -296,6 +340,8 @@ class FacebookProfileReelsInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full Facebook page/profile URL."""
 
@@ -303,6 +349,8 @@ class FacebookProfileReelsInput(TypedDict, total=False):
 class FacebookSearchCompaniesInput(TypedDict, total=False):
     """Input for Facebook Company Search."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search advertiser pages for (e.g. "nike")."""
 
@@ -314,6 +362,8 @@ class FacebookSearchPagesInput(TypedDict, total=False):
     """Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less. Range: 1 to 10."""
     location: NotRequired[str]
     """Optional free-text location to narrow the search: a city, province, or country (e.g. 'Berlin')."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search Facebook Pages for (e.g. 'coffee roasters')."""
 
@@ -327,6 +377,8 @@ class FacebookSearchPostsInput(TypedDict, total=False):
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     location: NotRequired[str]
     """Optional location to narrow results; include both city and country for best matches (e.g. 'Paris, France')."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword or phrase to search Facebook posts for (e.g. 'product launch')."""
     startDate: NotRequired[str]

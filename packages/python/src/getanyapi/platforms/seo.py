@@ -39,6 +39,8 @@ class SeoCompetitorsDomainInput(TypedDict, total=False):
         ]
     ]
     """Sort order for the returned competitors: by shared keyword count (intersections), organic keyword count, organic traffic value (etv), or average position. Omit for the default order."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
 
@@ -60,6 +62,8 @@ class SeoDomainIntersectionInput(TypedDict, total=False):
         ]
     ]
     """Sort order for the returned keywords: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     target1: Required[str]
     """First domain to compare, without a protocol or leading www."""
     target2: Required[str]
@@ -73,6 +77,8 @@ class SeoDomainRankOverviewInput(TypedDict, total=False):
     """Language code for SEO domain metrics. Default: en."""
     location: NotRequired[int]
     """Location code for SEO domain metrics. The default is the United States. Default: 2840."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
 
@@ -82,6 +88,8 @@ class SeoDomainTechnologiesInput(TypedDict, total=False):
 
     domain: Required[str]
     """Domain to analyze, without a protocol or leading www. Billing is flat per request."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class SeoDomainsByTechnologyInput(TypedDict, total=False):
@@ -101,6 +109,8 @@ class SeoDomainsByTechnologyInput(TypedDict, total=False):
         Literal["rank_desc", "rank_asc", "last_visited_desc", "country_asc"]
     ]
     """Sort order for the returned domains: by domain rank descending or ascending, by most recently crawled, or by country code. Omit for the default order."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     technology: NotRequired[str]
     """Exact technology name to match, for example Nginx or HubSpot. Only technologies present in the detection index are accepted; an unindexed name returns found false, so use keyword instead when a product is not matched by name."""
 
@@ -114,6 +124,8 @@ class SeoKeywordDifficultyInput(TypedDict, total=False):
     """Language code for SEO keyword difficulty metrics. Default: en."""
     location: NotRequired[int]
     """Location code for SEO keyword difficulty metrics. The default is the United States. Default: 2840."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class SeoKeywordIdeasInput(TypedDict, total=False):
@@ -135,6 +147,8 @@ class SeoKeywordIdeasInput(TypedDict, total=False):
         ]
     ]
     """Sort order for the returned ideas: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class SeoKeywordOverviewInput(TypedDict, total=False):
@@ -146,6 +160,8 @@ class SeoKeywordOverviewInput(TypedDict, total=False):
     """Language code for SEO metrics. Default: en."""
     location: NotRequired[int]
     """Location code for SEO metrics. The default is the United States. Default: 2840."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class SeoKeywordSuggestionsInput(TypedDict, total=False):
@@ -167,6 +183,8 @@ class SeoKeywordSuggestionsInput(TypedDict, total=False):
         ]
     ]
     """Sort order for the returned suggestions: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class SeoLocalPackInput(TypedDict, total=False):
@@ -182,6 +200,8 @@ class SeoLocalPackInput(TypedDict, total=False):
     """Local pack search location name, formatted like City,Region,Country; for example, New York,New York,United States. Supply either location or locationCoordinate, not both."""
     locationCoordinate: NotRequired[str]
     """Precise geo target as latitude,longitude or latitude,longitude,radius (radius in meters); for example, 40.7580,-73.9855 or 40.7580,-73.9855,1000. Supply either location or locationCoordinate, not both."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class SeoRankedKeywordsInput(TypedDict, total=False):
@@ -197,6 +217,8 @@ class SeoRankedKeywordsInput(TypedDict, total=False):
         Literal["position_asc", "position_desc", "volume_desc", "etv_desc"]
     ]
     """Sort order for the returned ranked keywords: by SERP position (ascending for best rankings first), search volume, or estimated traffic value (etv). Omit for the default order."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
 
@@ -220,6 +242,8 @@ class SeoRelatedKeywordsInput(TypedDict, total=False):
         ]
     ]
     """Sort order for the returned related keywords: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class SeoSearchIntentInput(TypedDict, total=False):
@@ -229,6 +253,8 @@ class SeoSearchIntentInput(TypedDict, total=False):
     """SEO keywords to classify by search intent."""
     language: NotRequired[str]
     """Language code for search intent classification. Default: en."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class SeoSearchVolumeInput(TypedDict, total=False):
@@ -244,6 +270,8 @@ class SeoSearchVolumeInput(TypedDict, total=False):
     """Language code for SEO search-volume metrics. Default: en."""
     location: NotRequired[int]
     """Location code for SEO search-volume metrics. The default is the United States. Default: 2840."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     searchPartners: NotRequired[bool]
     """When true, include Google search-partner network volume in the reported numbers; when false (the default), count Google search only."""
 

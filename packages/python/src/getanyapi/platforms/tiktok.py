@@ -26,6 +26,8 @@ class TiktokAdLibraryAdInput(TypedDict, total=False):
 
     adId: Required[str]
     """TikTok Top Ads material/ad ID, or a Top Ads detail URL (e.g. 7648493525660270600)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokAdLibrarySearchInput(TypedDict, total=False):
@@ -110,6 +112,8 @@ class TiktokAdLibrarySearchInput(TypedDict, total=False):
     """Sort metric: for_you, impression, play_2s_rate, play_6s_rate, cvr, ctr, or like."""
     period: NotRequired[Any]
     """Time window for top ads. Use the canonical JSON integer 7, 30, or 180; legacy numeric strings remain accepted."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search ad titles and content (e.g. spotify)."""
     region: NotRequired[str]
@@ -129,6 +133,8 @@ class TiktokAdTransparencySearchInput(TypedDict, total=False):
     """Maximum number of ads to return, from 1 to 50. Defaults to 20. Billing is flat per request. Range: 1 to 50. Default: 20."""
     offset: NotRequired[int]
     """Zero-based result offset. Defaults to 0. Minimum: 0. Default: 0."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: NotRequired[str]
     """Keyword to search in TikTok's EU Commercial Content Library. Provide query or advertiserId."""
     region: NotRequired[str]
@@ -142,6 +148,8 @@ class TiktokAudienceDemographicsInput(TypedDict, total=False):
 
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "shakira")."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokCommentRepliesInput(TypedDict, total=False):
@@ -151,6 +159,8 @@ class TiktokCommentRepliesInput(TypedDict, total=False):
     """TikTok comment ID (the comment's cid from the comments endpoint)."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """TikTok video URL the comment belongs to."""
 
@@ -162,6 +172,8 @@ class TiktokFollowersInput(TypedDict, total=False):
     """Pagination cursor from a previous response's nextCursor, to fetch the next page of followers."""
     handle: Required[str]
     """TikTok username whose followers to list, without the @ prefix (e.g. stoolpresidente)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokFollowingInput(TypedDict, total=False):
@@ -171,6 +183,8 @@ class TiktokFollowingInput(TypedDict, total=False):
     """Pagination cursor from a previous response."""
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "stoolpresidente")."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireCursor: NotRequired[bool]
     """Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. Not all sources for this list can page, and one that can may cost more per request."""
 
@@ -182,6 +196,8 @@ class TiktokHashtagVideosInput(TypedDict, total=False):
     """TikTok hashtag to fetch videos for, without the # prefix (e.g. booktok)."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokLiveInput(TypedDict, total=False):
@@ -189,11 +205,15 @@ class TiktokLiveInput(TypedDict, total=False):
 
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "thejustalex")."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokPhotosInput(TypedDict, total=False):
     """Input for TikTok Photos."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full TikTok photo-mode post URL. TikTok serves slideshow posts under the same /video/<id> path as videos, so the normal share link works."""
 
@@ -203,6 +223,8 @@ class TiktokProfileInput(TypedDict, total=False):
 
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "stoolpresidente")."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokProfileRegionInput(TypedDict, total=False):
@@ -210,6 +232,8 @@ class TiktokProfileRegionInput(TypedDict, total=False):
 
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "stoolpresidente")."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokProfileVideosInput(TypedDict, total=False):
@@ -219,6 +243,8 @@ class TiktokProfileVideosInput(TypedDict, total=False):
     """Pagination cursor from a previous response's nextCursor."""
     handle: Required[str]
     """TikTok username without the leading @."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokSearchHashtagInput(TypedDict, total=False):
@@ -226,6 +252,8 @@ class TiktokSearchHashtagInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Hashtag or keyword to search for (without the leading #)."""
 
@@ -237,6 +265,8 @@ class TiktokSearchKeywordInput(TypedDict, total=False):
     """Pagination cursor from a previous response."""
     datePosted: NotRequired[Any]
     """Time frame filter. Use a canonical JSON integer that is nonnegative; common values are 0 for any time, 1 for the past 24 hours, 7 for the past week, and 30 for the past month. Legacy numeric strings remain accepted."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The keyword to search TikTok for."""
     requireCursor: NotRequired[bool]
@@ -250,6 +280,8 @@ class TiktokSearchTopInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     publishTime: NotRequired[str]
     """Time-frame filter: yesterday, this-week, this-month, last-3-months, last-6-months, all-time."""
     query: Required[str]
@@ -265,6 +297,8 @@ class TiktokSearchUsersInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The keyword to search TikTok accounts for."""
 
@@ -274,6 +308,8 @@ class TiktokSongInput(TypedDict, total=False):
 
     clipId: Required[str]
     """The clip identifier for the song, found in TikTok music URLs (e.g. 7439295283975702544)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokSongVideosInput(TypedDict, total=False):
@@ -283,6 +319,8 @@ class TiktokSongVideosInput(TypedDict, total=False):
     """The song ID found in TikTok music URLs (e.g. 7439295283975702544)."""
     cursor: NotRequired[str]
     """Pagination cursor for retrieving the next page of results."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class TiktokTopAdsSearchInput(TypedDict, total=False):
@@ -333,6 +371,8 @@ class TiktokTopAdsSearchInput(TypedDict, total=False):
     """Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent (default top_1_20). Default: top_1_20."""
     period: NotRequired[int]
     """Lookback period in days (default 180). Default: 180."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search in TikTok Creative Center top video ads."""
     region: NotRequired[str]
@@ -342,6 +382,8 @@ class TiktokTopAdsSearchInput(TypedDict, total=False):
 class TiktokTrendingFeedInput(TypedDict, total=False):
     """Input for TikTok Trending Feed."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: Required[str]
     """2-letter country code for the proxy location (e.g. "US")."""
     trim: NotRequired[str]
@@ -375,6 +417,8 @@ class TiktokTrendingHashtagsInput(TypedDict, total=False):
     """Maximum number of ranked hashtags to return, from 1 through 100 (default 3). TikTok publishes only the top 3 hashtags per board to anonymous callers, so 1 through 3 is served by the cheapest source; a higher limit routes to a dearer source that reads the full ranking. Range: 1 to 100. Default: 3."""
     period: NotRequired[int]
     """Lookback window in days that the ranking and the popularity curve cover (default 7). Default: 7."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[
         Literal[
             "US",
@@ -412,6 +456,8 @@ class TiktokTrendingHashtagsInput(TypedDict, total=False):
 class TiktokVideoInput(TypedDict, total=False):
     """Input for TikTok Video."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full TikTok video URL."""
 
@@ -421,6 +467,8 @@ class TiktokVideoCommentsInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full TikTok video URL."""
 
@@ -428,6 +476,8 @@ class TiktokVideoCommentsInput(TypedDict, total=False):
 class TiktokVideoDownloadInput(TypedDict, total=False):
     """Input for TikTok Video Download."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full TikTok video URL. Share links and tracking query params are fine."""
 
@@ -435,6 +485,8 @@ class TiktokVideoDownloadInput(TypedDict, total=False):
 class TiktokVideoTranscriptInput(TypedDict, total=False):
     """Input for TikTok Video Transcript."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full TikTok video URL."""
 
@@ -442,6 +494,8 @@ class TiktokVideoTranscriptInput(TypedDict, total=False):
 class TiktokVideoTranscriptFullInput(TypedDict, total=False):
     """Input for TikTok Video Transcript (Audio)."""
 
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """TikTok video URL (e.g. "https://www.tiktok.com/@user/video/1234567890")."""
 
