@@ -40,17 +40,13 @@ class EmailFindData(BaseModel):
 
 
 class EmailFindItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
+    model_config = ConfigDict(extra="allow")
 
-    domain: str | None = None
     email: str = Field(
-        description="Discovered email address, or empty when none was found. Populated whenever the provider has data for the entity."
+        description="The discovered work email address. Populated whenever the provider has data for the entity."
     )
-    first_name: str | None = Field(default=None, alias="firstName")
-    is_deliverable: bool | None = Field(default=None, alias="isDeliverable")
-    last_name: str | None = Field(default=None, alias="lastName")
     status: str = Field(
-        description="Lookup status (e.g. found, not_found). Populated whenever the provider has data for the entity."
+        description='Lookup status. Always "found": a lookup that finds nothing returns found:false with a null data instead of an item, and is not charged. Populated whenever the provider has data for the entity.'
     )
 
 
@@ -95,10 +91,10 @@ class EmailNamespace:
 
         Find a person's work email address from their name and company domain.
 
-        Price: $0.0231 per request plus $0 per result (maximum $0.0231).
+        Price: $0.0154 per request.
 
         Example:
-            res = client.email.find(person={"domain": "stripe.com", "firstName": "Patrick", "surname": "Collison"})
+            res = client.email.find(person={"domain": "google.com", "firstName": "Damien", "surname": "Neil"})
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "email.find", dict(input), options
@@ -143,10 +139,10 @@ class AsyncEmailNamespace:
 
         Find a person's work email address from their name and company domain.
 
-        Price: $0.0231 per request plus $0 per result (maximum $0.0231).
+        Price: $0.0154 per request.
 
         Example:
-            res = client.email.find(person={"domain": "stripe.com", "firstName": "Patrick", "surname": "Collison"})
+            res = client.email.find(person={"domain": "google.com", "firstName": "Damien", "surname": "Neil"})
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "email.find", dict(input), options

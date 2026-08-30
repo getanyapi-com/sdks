@@ -759,6 +759,11 @@ export interface TiktokProfileData {
    * Populated whenever the provider has data for the entity.
    */
   displayName: string;
+  /**
+   * The single link the account publishes in its bio, normalized to an absolute URL. Absent when the account publishes no link. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  externalUrl?: string;
   followers: number;
   following: number;
   /**
@@ -777,6 +782,132 @@ export interface TiktokProfileData {
   userId?: string;
   verified: boolean;
   videos: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for TikTok Profile Contact Info (tiktok.profile_contact).
+ */
+export interface TiktokProfileContactInput {
+  /**
+   * TikTok username without the leading @.
+   */
+  handle: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+}
+
+export interface TiktokProfileContactEmail {
+  /**
+   * The email address's own domain. Absent when the source that served the request does not report it.
+   */
+  domain?: string;
+  /**
+   * The source's verdict on whether the address can receive mail: healthy or unhealthy from a domain-level check, deliverable, risky or missing from a mailbox-level one. Which vocabulary you get varies with the source that served the request.
+   */
+  domainHealth?: string;
+  /**
+   * The email address as published.
+   */
+  email: string;
+  /**
+   * Where the address was read: the TikTok bio itself (tiktok_bio) or a page the profile links to (linked_page, website). An address read off a linked page may belong to a brand or a partner rather than the creator. The exact word varies with the source that served the request.
+   */
+  sourceType?: string;
+  /**
+   * The page the address was read from. Absent for an address read from the TikTok bio itself.
+   */
+  sourceUrl?: string;
+  [extra: string]: unknown;
+}
+
+export interface TiktokProfileContactSocialLink {
+  /**
+   * The platform the link points at, for example instagram, youtube, facebook.
+   */
+  platform: string;
+  /**
+   * The account URL on that platform.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Profile Contact Info (tiktok.profile_contact).
+ */
+export interface TiktokProfileContactData {
+  /**
+   * Profile picture URL. TikTok signs this URL, so it expires; re-fetch rather than storing it.
+   */
+  avatarUrl?: string;
+  /**
+   * Profile biography text.
+   */
+  bio?: string;
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Every public email the source publishes for the creator, each labelled with where it came from. Some sources report only the address they judge best, so a single entry does not mean a single address exists. Never empty: a creator with no public email returns found false instead. Populated whenever the provider has data for the entity.
+   */
+  emails: TiktokProfileContactEmail[];
+  /**
+   * The single link the account publishes in its bio. Absent when the account publishes no link.
+   */
+  externalUrl?: string;
+  /**
+   * Follower count.
+   */
+  followers?: number;
+  /**
+   * Number of accounts this account follows.
+   */
+  following?: number;
+  /**
+   * TikTok username without the leading @. Populated whenever the provider has data for the entity.
+   */
+  handle: string;
+  /**
+   * Total likes across the account's videos.
+   */
+  likes?: number;
+  /**
+   * The address the upstream considers the creator's best contact, chosen from emails. Absent when no email was found.
+   */
+  primaryEmail?: string;
+  /**
+   * Whether the account is private.
+   */
+  private?: boolean;
+  /**
+   * Canonical URL of the TikTok profile.
+   */
+  profileUrl?: string;
+  /**
+   * Whether the account sells through TikTok Shop.
+   */
+  seller?: boolean;
+  /**
+   * Other social accounts found for the creator on the page their profile links to. Empty when none were found.
+   */
+  socialLinks?: TiktokProfileContactSocialLink[];
+  /**
+   * TikTok's numeric internal user id for the account. Unlike the handle it never changes, so store it as the account's key.
+   */
+  userId?: string;
+  /**
+   * Whether the account carries TikTok's verified badge.
+   */
+  verified?: boolean;
+  /**
+   * Number of videos the account has published.
+   */
+  videos?: number;
   [extra: string]: unknown;
 }
 
@@ -2209,6 +2340,23 @@ export class TiktokNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TiktokProfileData>> {
     return this._core.run("tiktok.profile", input, options);
+  }
+
+  /**
+   * TikTok Profile Contact Info
+   *
+   * Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.
+   *
+   * Price: $0.00116 per request plus $0 per result (maximum $0.00116).
+   *
+   * @example
+   * const res = await client.tiktok.profileContact({ handle: "gordonramsayofficial" });
+   */
+  profileContact(
+    input: TiktokProfileContactInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokProfileContactData>> {
+    return this._core.run("tiktok.profile_contact", input, options);
   }
 
   /**

@@ -227,6 +227,15 @@ class TiktokProfileInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
+class TiktokProfileContactInput(TypedDict, total=False):
+    """Input for TikTok Profile Contact Info."""
+
+    handle: Required[str]
+    """TikTok username without the leading @."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+
+
 class TiktokProfileRegionInput(TypedDict, total=False):
     """Input for TikTok Profile Region."""
 
@@ -877,6 +886,11 @@ class TiktokProfileData(BaseModel):
         alias="displayName",
         description="Populated whenever the provider has data for the entity.",
     )
+    external_url: str | None = Field(
+        default=None,
+        alias="externalUrl",
+        description="The single link the account publishes in its bio, normalized to an absolute URL. Absent when the account publishes no link. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     followers: int
     following: int
     handle: str = Field(
@@ -895,6 +909,104 @@ class TiktokProfileData(BaseModel):
     )
     verified: bool
     videos: int
+
+
+class TiktokProfileContactData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL. TikTok signs this URL, so it expires; re-fetch rather than storing it.",
+    )
+    bio: str | None = Field(default=None, description="Profile biography text.")
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    emails: list[TiktokProfileContactEmail] = Field(
+        description="Every public email the source publishes for the creator, each labelled with where it came from. Some sources report only the address they judge best, so a single entry does not mean a single address exists. Never empty: a creator with no public email returns found false instead. Populated whenever the provider has data for the entity."
+    )
+    external_url: str | None = Field(
+        default=None,
+        alias="externalUrl",
+        description="The single link the account publishes in its bio. Absent when the account publishes no link.",
+    )
+    followers: int | None = Field(default=None, description="Follower count.")
+    following: int | None = Field(
+        default=None, description="Number of accounts this account follows."
+    )
+    handle: str = Field(
+        description="TikTok username without the leading @. Populated whenever the provider has data for the entity."
+    )
+    likes: int | None = Field(
+        default=None, description="Total likes across the account's videos."
+    )
+    primary_email: str | None = Field(
+        default=None,
+        alias="primaryEmail",
+        description="The address the upstream considers the creator's best contact, chosen from emails. Absent when no email was found.",
+    )
+    private: bool | None = Field(
+        default=None, description="Whether the account is private."
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical URL of the TikTok profile.",
+    )
+    seller: bool | None = Field(
+        default=None, description="Whether the account sells through TikTok Shop."
+    )
+    social_links: list[TiktokProfileContactSocialLink] | None = Field(
+        default=None,
+        alias="socialLinks",
+        description="Other social accounts found for the creator on the page their profile links to. Empty when none were found.",
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="TikTok's numeric internal user id for the account. Unlike the handle it never changes, so store it as the account's key.",
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether the account carries TikTok's verified badge."
+    )
+    videos: int | None = Field(
+        default=None, description="Number of videos the account has published."
+    )
+
+
+class TiktokProfileContactEmail(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    domain: str | None = Field(
+        default=None,
+        description="The email address's own domain. Absent when the source that served the request does not report it.",
+    )
+    domain_health: str | None = Field(
+        default=None,
+        alias="domainHealth",
+        description="The source's verdict on whether the address can receive mail: healthy or unhealthy from a domain-level check, deliverable, risky or missing from a mailbox-level one. Which vocabulary you get varies with the source that served the request.",
+    )
+    email: str = Field(description="The email address as published.")
+    source_type: str | None = Field(
+        default=None,
+        alias="sourceType",
+        description="Where the address was read: the TikTok bio itself (tiktok_bio) or a page the profile links to (linked_page, website). An address read off a linked page may belong to a brand or a partner rather than the creator. The exact word varies with the source that served the request.",
+    )
+    source_url: str | None = Field(
+        default=None,
+        alias="sourceUrl",
+        description="The page the address was read from. Absent for an address read from the TikTok bio itself.",
+    )
+
+
+class TiktokProfileContactSocialLink(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    platform: str = Field(
+        description="The platform the link points at, for example instagram, youtube, facebook."
+    )
+    url: str = Field(description="The account URL on that platform.")
 
 
 class TiktokProfileRegionData(BaseModel):
@@ -1843,6 +1955,29 @@ class TiktokNamespace:
         )
         return RunResult[TiktokProfileData].model_validate(raw)
 
+    def profile_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfileContactInput],
+    ) -> RunResult[TiktokProfileContactData]:
+        """TikTok Profile Contact Info
+
+        Find the public contact email behind a TikTok creator's profile: the address
+        written into the bio plus any published on the site the profile links to,
+        each labelled with where it came from. Returns the creator's profile stats
+        and linked social accounts alongside.
+
+        Price: $0.00116 per request plus $0 per result (maximum $0.00116).
+
+        Example:
+            res = client.tiktok.profile_contact(handle="gordonramsayofficial")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.profile_contact", dict(input), options
+        )
+        return RunResult[TiktokProfileContactData].model_validate(raw)
+
     def profile_region(
         self,
         *,
@@ -2694,6 +2829,29 @@ class AsyncTiktokNamespace:
             "tiktok.profile", dict(input), options
         )
         return RunResult[TiktokProfileData].model_validate(raw)
+
+    async def profile_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfileContactInput],
+    ) -> RunResult[TiktokProfileContactData]:
+        """TikTok Profile Contact Info
+
+        Find the public contact email behind a TikTok creator's profile: the address
+        written into the bio plus any published on the site the profile links to,
+        each labelled with where it came from. Returns the creator's profile stats
+        and linked social accounts alongside.
+
+        Price: $0.00116 per request plus $0 per result (maximum $0.00116).
+
+        Example:
+            res = client.tiktok.profile_contact(handle="gordonramsayofficial")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.profile_contact", dict(input), options
+        )
+        return RunResult[TiktokProfileContactData].model_validate(raw)
 
     async def profile_region(
         self,

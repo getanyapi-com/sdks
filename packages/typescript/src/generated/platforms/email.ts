@@ -35,16 +35,12 @@ export interface EmailFindInput {
 }
 
 export interface EmailFindItem {
-  domain?: string;
   /**
-   * Discovered email address, or empty when none was found. Populated whenever the provider has data for the entity.
+   * The discovered work email address. Populated whenever the provider has data for the entity.
    */
   email: string;
-  firstName?: string;
-  isDeliverable?: boolean;
-  lastName?: string;
   /**
-   * Lookup status (e.g. found, not_found). Populated whenever the provider has data for the entity.
+   * Lookup status. Always "found": a lookup that finds nothing returns found:false with a null data instead of an item, and is not charged. Populated whenever the provider has data for the entity.
    */
   status: string;
   [extra: string]: unknown;
@@ -128,10 +124,10 @@ export class EmailNamespace {
    *
    * Find a person's work email address from their name and company domain.
    *
-   * Price: $0.0231 per request plus $0 per result (maximum $0.0231).
+   * Price: $0.0154 per request.
    *
    * @example
-   * const res = await client.email.find({ person: { domain: "stripe.com", firstName: "Patrick", surname: "Collison" } });
+   * const res = await client.email.find({ person: { domain: "google.com", firstName: "Damien", surname: "Neil" } });
    */
   find(
     input: EmailFindInput,

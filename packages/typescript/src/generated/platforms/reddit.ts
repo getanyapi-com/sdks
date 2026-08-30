@@ -120,6 +120,10 @@ export interface RedditPostCommentsComment {
    */
   id: string;
   /**
+   * Net score (upvotes minus downvotes) on the comment at fetch time.
+   */
+  score?: number;
+  /**
    * Permalink to the comment on reddit.com. Populated whenever the provider has data for the entity.
    */
   url: string;

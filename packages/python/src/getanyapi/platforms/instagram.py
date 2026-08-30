@@ -179,6 +179,15 @@ class InstagramProfileInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
+class InstagramProfileContactInput(TypedDict, total=False):
+    """Input for Instagram Profile Contact Info."""
+
+    handle: Required[str]
+    """Instagram username without the leading @."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+
+
 class InstagramReelTranscriptInput(TypedDict, total=False):
     """Input for Instagram Reel Transcript."""
 
@@ -854,6 +863,47 @@ class InstagramProfileBioLink(BaseModel):
     )
     url: str = Field(
         description="Destination URL, exactly as the account published it."
+    )
+
+
+class InstagramProfileContactData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    bio: str | None = Field(default=None, description="Profile biography text.")
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    emails: list[str] = Field(
+        description="Every email address found for the account: the contact-button address plus any address written into the bio, deduplicated. Empty when the account publishes none. Populated whenever the provider has data for the entity."
+    )
+    external_url: str | None = Field(
+        default=None,
+        alias="externalUrl",
+        description="The website link on the profile. Absent when the account publishes no link.",
+    )
+    handle: str = Field(
+        description="Instagram username without the leading @. Populated whenever the provider has data for the entity."
+    )
+    phones: list[str] | None = Field(
+        default=None,
+        description="Every phone number found for the account, in E.164 form where the number could be normalized. Empty when the account publishes none.",
+    )
+    private: bool | None = Field(
+        default=None, description="Whether the account is private."
+    )
+    public_email: str | None = Field(
+        default=None,
+        alias="publicEmail",
+        description="The address behind the profile's Email contact button, as the account owner entered it. Absent when the account publishes no contact email. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    public_phone: str | None = Field(
+        default=None,
+        alias="publicPhone",
+        description="The number behind the profile's Call or Text contact button, as the account owner entered it. Absent when the account publishes no contact phone.",
+    )
+    verified: bool | None = Field(
+        default=None,
+        description="Whether the account carries Instagram's verified badge.",
     )
 
 
@@ -1901,6 +1951,28 @@ class InstagramNamespace:
         )
         return RunResult[InstagramProfileData].model_validate(raw)
 
+    def profile_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramProfileContactInput],
+    ) -> RunResult[InstagramProfileContactData]:
+        """Instagram Profile Contact Info
+
+        Look up the contact email and phone number an Instagram creator or business
+        publishes on its profile, including the address behind the profile's Email
+        button that public profile lookups do not return.
+
+        Price: $0.00721 per request plus $0 per result (maximum $0.00721).
+
+        Example:
+            res = client.instagram.profile_contact(handle="eminenceorganics")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.profile_contact", dict(input), options
+        )
+        return RunResult[InstagramProfileContactData].model_validate(raw)
+
     def reel_transcript(
         self,
         *,
@@ -2743,6 +2815,28 @@ class AsyncInstagramNamespace:
             "instagram.profile", dict(input), options
         )
         return RunResult[InstagramProfileData].model_validate(raw)
+
+    async def profile_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramProfileContactInput],
+    ) -> RunResult[InstagramProfileContactData]:
+        """Instagram Profile Contact Info
+
+        Look up the contact email and phone number an Instagram creator or business
+        publishes on its profile, including the address behind the profile's Email
+        button that public profile lookups do not return.
+
+        Price: $0.00721 per request plus $0 per result (maximum $0.00721).
+
+        Example:
+            res = client.instagram.profile_contact(handle="eminenceorganics")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.profile_contact", dict(input), options
+        )
+        return RunResult[InstagramProfileContactData].model_validate(raw)
 
     async def reel_transcript(
         self,

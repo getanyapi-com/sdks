@@ -16500,10 +16500,10 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0231,
-        "baseUsd": 0.0231,
-        "perItemUsd": 0,
-        "perItemUnit": "result"
+        "priceUsd": 0.0154,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "email",
       "tsMethod": "find",
@@ -16515,9 +16515,9 @@
       "outputTypeName": "EmailFindData",
       "example": {
         "person": {
-          "domain": "stripe.com",
-          "firstName": "Patrick",
-          "surname": "Collison"
+          "domain": "google.com",
+          "firstName": "Damien",
+          "surname": "Neil"
         }
       },
       "input": {
@@ -16578,38 +16578,16 @@
               "items": {
                 "kind": "object",
                 "properties": {
-                  "domain": {
-                    "kind": "string",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
                   "email": {
                     "kind": "string",
-                    "description": "Discovered email address, or empty when none was found. Populated whenever the provider has data for the entity.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "firstName": {
-                    "kind": "string",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "isDeliverable": {
-                    "kind": "boolean",
-                    "default": null
-                  },
-                  "lastName": {
-                    "kind": "string",
+                    "description": "The discovered work email address. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "status": {
                     "kind": "string",
-                    "description": "Lookup status (e.g. found, not_found). Populated whenever the provider has data for the entity.",
+                    "description": "Lookup status. Always \"found\": a lookup that finds nothing returns found:false with a null data instead of an item, and is not charged. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -32419,6 +32397,153 @@
             "externalUrl",
             "handle",
             "userId"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "instagram.profile_contact",
+      "platform": "instagram",
+      "action": "profile_contact",
+      "operationId": "instagram_profile_contact",
+      "name": "Instagram Profile Contact Info",
+      "category": "social",
+      "description": "Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.",
+      "pricing": {
+        "priceUsd": 0.00721,
+        "baseUsd": 0.00721,
+        "perItemUsd": 0,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "instagram",
+      "tsMethod": "profileContact",
+      "tsIterMethod": null,
+      "pyNamespace": "instagram",
+      "pyMethod": "profile_contact",
+      "pyIterMethod": null,
+      "inputTypeName": "InstagramProfileContactInput",
+      "outputTypeName": "InstagramProfileContactData",
+      "example": {
+        "handle": "eminenceorganics"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "handle": {
+            "kind": "string",
+            "description": "Instagram username without the leading @.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "bio": {
+              "kind": "string",
+              "description": "Profile biography text.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "displayName": {
+              "kind": "string",
+              "description": "Account display name.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "emails": {
+              "kind": "array",
+              "description": "Every email address found for the account: the contact-button address plus any address written into the bio, deduplicated. Empty when the account publishes none. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": true
+            },
+            "externalUrl": {
+              "kind": "string",
+              "description": "The website link on the profile. Absent when the account publishes no link.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "handle": {
+              "kind": "string",
+              "description": "Instagram username without the leading @. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "phones": {
+              "kind": "array",
+              "description": "Every phone number found for the account, in E.164 form where the number could be normalized. Empty when the account publishes none.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "private": {
+              "kind": "boolean",
+              "description": "Whether the account is private.",
+              "default": null
+            },
+            "publicEmail": {
+              "kind": "string",
+              "description": "The address behind the profile's Email contact button, as the account owner entered it. Absent when the account publishes no contact email. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "publicPhone": {
+              "kind": "string",
+              "description": "The number behind the profile's Call or Text contact button, as the account owner entered it. Absent when the account publishes no contact phone.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "verified": {
+              "kind": "boolean",
+              "description": "Whether the account carries Instagram's verified badge.",
+              "default": null
+            }
+          },
+          "required": [
+            "handle",
+            "emails"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "emails",
+            "handle",
+            "publicEmail"
           ]
         }
       },
@@ -59973,6 +60098,13 @@
                     "default": null,
                     "format": null
                   },
+                  "score": {
+                    "kind": "integer",
+                    "description": "Net score (upvotes minus downvotes) on the comment at fetch time.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "url": {
                     "kind": "string",
                     "description": "Permalink to the comment on reddit.com. Populated whenever the provider has data for the entity.",
@@ -71303,6 +71435,13 @@
               "default": null,
               "format": null
             },
+            "externalUrl": {
+              "kind": "string",
+              "description": "The single link the account publishes in its bio, normalized to an absolute URL. Absent when the account publishes no link. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "followers": {
               "kind": "integer",
               "minimum": null,
@@ -71369,8 +71508,258 @@
             "avatarUrl",
             "bio",
             "displayName",
+            "externalUrl",
             "handle",
             "userId"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "tiktok.profile_contact",
+      "platform": "tiktok",
+      "action": "profile_contact",
+      "operationId": "tiktok_profile_contact",
+      "name": "TikTok Profile Contact Info",
+      "category": "social",
+      "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
+      "pricing": {
+        "priceUsd": 0.00116,
+        "baseUsd": 0.00116,
+        "perItemUsd": 0,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "tiktok",
+      "tsMethod": "profileContact",
+      "tsIterMethod": null,
+      "pyNamespace": "tiktok",
+      "pyMethod": "profile_contact",
+      "pyIterMethod": null,
+      "inputTypeName": "TiktokProfileContactInput",
+      "outputTypeName": "TiktokProfileContactData",
+      "example": {
+        "handle": "gordonramsayofficial"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "handle": {
+            "kind": "string",
+            "description": "TikTok username without the leading @.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "avatarUrl": {
+              "kind": "string",
+              "description": "Profile picture URL. TikTok signs this URL, so it expires; re-fetch rather than storing it.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "bio": {
+              "kind": "string",
+              "description": "Profile biography text.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "displayName": {
+              "kind": "string",
+              "description": "Account display name.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "emails": {
+              "kind": "array",
+              "description": "Every public email the source publishes for the creator, each labelled with where it came from. Some sources report only the address they judge best, so a single entry does not mean a single address exists. Never empty: a creator with no public email returns found false instead. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "domain": {
+                    "kind": "string",
+                    "description": "The email address's own domain. Absent when the source that served the request does not report it.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domainHealth": {
+                    "kind": "string",
+                    "description": "The source's verdict on whether the address can receive mail: healthy or unhealthy from a domain-level check, deliverable, risky or missing from a mailbox-level one. Which vocabulary you get varies with the source that served the request.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "email": {
+                    "kind": "string",
+                    "description": "The email address as published.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sourceType": {
+                    "kind": "string",
+                    "description": "Where the address was read: the TikTok bio itself (tiktok_bio) or a page the profile links to (linked_page, website). An address read off a linked page may belong to a brand or a partner rather than the creator. The exact word varies with the source that served the request.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sourceUrl": {
+                    "kind": "string",
+                    "description": "The page the address was read from. Absent for an address read from the TikTok bio itself.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "email"
+                ],
+                "open": true
+              },
+              "mustPopulate": true
+            },
+            "externalUrl": {
+              "kind": "string",
+              "description": "The single link the account publishes in its bio. Absent when the account publishes no link.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "followers": {
+              "kind": "integer",
+              "description": "Follower count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "following": {
+              "kind": "integer",
+              "description": "Number of accounts this account follows.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "handle": {
+              "kind": "string",
+              "description": "TikTok username without the leading @. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "likes": {
+              "kind": "integer",
+              "description": "Total likes across the account's videos.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "primaryEmail": {
+              "kind": "string",
+              "description": "The address the upstream considers the creator's best contact, chosen from emails. Absent when no email was found.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "private": {
+              "kind": "boolean",
+              "description": "Whether the account is private.",
+              "default": null
+            },
+            "profileUrl": {
+              "kind": "string",
+              "description": "Canonical URL of the TikTok profile.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "seller": {
+              "kind": "boolean",
+              "description": "Whether the account sells through TikTok Shop.",
+              "default": null
+            },
+            "socialLinks": {
+              "kind": "array",
+              "description": "Other social accounts found for the creator on the page their profile links to. Empty when none were found.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "platform": {
+                    "kind": "string",
+                    "description": "The platform the link points at, for example instagram, youtube, facebook.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The account URL on that platform.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "platform",
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "userId": {
+              "kind": "string",
+              "description": "TikTok's numeric internal user id for the account. Unlike the handle it never changes, so store it as the account's key.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "verified": {
+              "kind": "boolean",
+              "description": "Whether the account carries TikTok's verified badge.",
+              "default": null
+            },
+            "videos": {
+              "kind": "integer",
+              "description": "Number of videos the account has published.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "handle",
+            "emails"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "emails",
+            "handle"
           ]
         }
       },
@@ -80155,10 +80544,10 @@
       "category": "social",
       "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.",
       "pricing": {
-        "priceUsd": 0.01818,
-        "baseUsd": 0.00018,
-        "perItemUsd": 0.00018,
-        "perItemUnit": "result"
+        "priceUsd": 0.00075,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "twitter",
       "tsMethod": "userTweets",

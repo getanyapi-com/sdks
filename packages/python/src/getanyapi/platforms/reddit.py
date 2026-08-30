@@ -241,6 +241,10 @@ class RedditPostCommentsComment(BaseModel):
     id: str = Field(
         description="Reddit comment ID (base-36, without the t1_ prefix). Populated whenever the provider has data for the entity."
     )
+    score: int | None = Field(
+        default=None,
+        description="Net score (upvotes minus downvotes) on the comment at fetch time.",
+    )
     url: str = Field(
         description="Permalink to the comment on reddit.com. Populated whenever the provider has data for the entity."
     )

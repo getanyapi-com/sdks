@@ -341,6 +341,8 @@ import type {
   InstagramPostCommentsInput,
   InstagramPostData,
   InstagramPostInput,
+  InstagramProfileContactData,
+  InstagramProfileContactInput,
   InstagramProfileData,
   InstagramProfileInput,
   InstagramReelTranscriptData,
@@ -658,6 +660,8 @@ import type {
   TiktokLiveInput,
   TiktokPhotosData,
   TiktokPhotosInput,
+  TiktokProfileContactData,
+  TiktokProfileContactInput,
   TiktokProfileData,
   TiktokProfileInput,
   TiktokProfileRegionData,
@@ -1563,6 +1567,11 @@ export interface SkuMap {
     data: InstagramProfileData;
     result: RunResult<InstagramProfileData>;
   };
+  "instagram.profile_contact": {
+    input: InstagramProfileContactInput;
+    data: InstagramProfileContactData;
+    result: RunResult<InstagramProfileContactData>;
+  };
   "instagram.reel_transcript": {
     input: InstagramReelTranscriptInput;
     data: InstagramReelTranscriptData;
@@ -2227,6 +2236,11 @@ export interface SkuMap {
     input: TiktokProfileInput;
     data: TiktokProfileData;
     result: RunResult<TiktokProfileData>;
+  };
+  "tiktok.profile_contact": {
+    input: TiktokProfileContactInput;
+    data: TiktokProfileContactData;
+    result: RunResult<TiktokProfileContactData>;
   };
   "tiktok.profile_region": {
     input: TiktokProfileRegionInput;
