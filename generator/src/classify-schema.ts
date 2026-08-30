@@ -132,10 +132,17 @@ export function classifySchema(
           item("openness-change", slug, `${location} openness changed`),
         );
       }
+      // must-populate is a DOC-ONLY signal in both emitters: optionality comes from
+      // `required` alone (emit-ts renderProperties, emit-py fieldDocComment), and the
+      // annotation only adds the "Present whenever the upstream returns this record."
+      // line to a field that is already optional. Blocking it as a requiredness change
+      // classified the annotation by its name rather than by what it emits, and stalled
+      // every release behind a comment edit. If it ever becomes type-bearing, the
+      // emit-ts/emit-py optionality tests fail first and this must go back to blocked.
       if (!same(before.mustPopulate, next.mustPopulate)) {
-        state.blocked.push(
+        state.changed.push(
           item(
-            "requiredness-change",
+            "documentation",
             slug,
             `${location} must-populate fields changed`,
           ),
@@ -190,10 +197,11 @@ export function classifySchema(
     }
     case "array": {
       const next = after as typeof before;
+      // Doc-only, exactly as in the object case above.
       if (!same(before.mustPopulate, next.mustPopulate)) {
-        state.blocked.push(
+        state.changed.push(
           item(
-            "requiredness-change",
+            "documentation",
             slug,
             `${location} must-populate changed`,
           ),
