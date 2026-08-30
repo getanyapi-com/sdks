@@ -181,6 +181,47 @@ describe("classifyIr blocked changes", () => {
     expect(enumRemoval.hasRemoval).toBe(true);
   });
 
+  // must-populate is doc-only in both emitters (optionality comes from `required`), so a
+  // change to it may not block a release. It did: on 2026-08-30 a single annotation added
+  // to tiktok.profile.externalUrl stalled every SDK release behind a comment edit.
+  it("treats a must-populate change as documentation, not a blocked requiredness change", () => {
+    // A must-populate edit really does rewrite both emitted trees - it is a doc comment
+    // in each - so the byte-state evidence says ir + typescript + python changed.
+    const result = classifyMutation(
+      (next) => {
+        input(next).mustPopulate = ["sort"];
+      },
+      fileChanges({
+        irChanged: true,
+        typescriptChanged: true,
+        pythonChanged: true,
+      }),
+    );
+    expect(result.bump).toBe("patch");
+    expect(result.blocked).toHaveLength(0);
+    expect(
+      result.changed.some((change) => change.kind === "documentation"),
+    ).toBe(true);
+  });
+
+  it("still blocks a real requiredness change alongside a must-populate change", () => {
+    const result = classifyMutation(
+      (next) => {
+        input(next).mustPopulate = ["sort"];
+        input(next).required.push("sort");
+      },
+      fileChanges({
+        irChanged: true,
+        typescriptChanged: true,
+        pythonChanged: true,
+      }),
+    );
+    expect(result.bump).toBe("blocked");
+    expect(
+      result.blocked.some((change) => change.kind === "requiredness-change"),
+    ).toBe(true);
+  });
+
   it("blocks a field added as required", () => {
     const result = classifyMutation((next) => {
       input(next).properties.region = str();
