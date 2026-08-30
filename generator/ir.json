@@ -81285,8 +81285,7 @@
           "required": [
             "url",
             "title",
-            "description",
-            "markdown"
+            "description"
           ],
           "open": true,
           "mustPopulate": [

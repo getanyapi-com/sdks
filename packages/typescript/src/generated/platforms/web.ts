@@ -167,8 +167,9 @@ export interface WebScrapeData {
   html?: string;
   /**
    * The page content as clean Markdown. Present when 'markdown' is among the requested formats (the default). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
-  markdown: string;
+  markdown?: string;
   /**
    * The verbatim page HTML before cleaning. Present only when 'rawHtml' is among the requested formats.
    */
