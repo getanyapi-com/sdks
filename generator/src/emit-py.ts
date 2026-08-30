@@ -239,7 +239,7 @@ function emitInputTypedDict(sku: SkuEntry): string {
     // Degenerate: no object input. Emit an empty total=False TypedDict.
     return [
       `class ${sku.inputTypeName}(TypedDict, total=False):`,
-      `    """Input for ${dashNorm(sku.name)}."""`,
+      `    ${docstringLine(`Input for ${dashNorm(sku.name)}.`)}`,
     ].join("\n");
   }
 
@@ -281,11 +281,11 @@ function emitInputTypedDict(sku: SkuEntry): string {
 
   const lines: string[] = [];
   lines.push(`class ${sku.inputTypeName}(TypedDict, total=False):`);
-  lines.push(`    """Input for ${dashNorm(sku.name)}."""`);
+  lines.push(`    ${docstringLine(`Input for ${dashNorm(sku.name)}.`)}`);
   lines.push("");
   for (const f of fieldEntries) {
     lines.push(`    ${f.key}: ${f.type}`);
-    if (f.doc) lines.push(`    """${f.doc}"""`);
+    if (f.doc) lines.push(`    ${docstringLine(f.doc)}`);
   }
   return lines.join("\n");
 }
@@ -618,7 +618,7 @@ function emitIterMethod(sku: SkuEntry, async: boolean): string {
   );
   const pageWord = bare ? "BareRunResult" : "RunResult";
   const doc = [
-    `"""Iterate ${dashNorm(sku.name)} results, following pagination cursors.`,
+    `"""Iterate ${docstringSafe(dashNorm(sku.name))} results, following pagination cursors.`,
     "",
     `Yields validated \`${itemType}\` items from the \`${itemsField}\` field of`,
     `each page. Use \`.pages()\` on the returned paginator to walk whole`,
@@ -687,6 +687,20 @@ function methodDocstring(sku: SkuEntry, method: string): string[] {
 /** Escape source-significant sequences in text embedded directly in a Python docstring. */
 function docstringSafe(value: string): string {
   return value.replace(/\\/g, "\\\\").replace(/"""/g, '\\"\\"\\"');
+}
+
+/**
+ * Render one line of catalog prose as a complete single-line Python docstring.
+ *
+ * Beyond the usual escaping, text that ENDS in a double quote has to be separated
+ * from the closing delimiter: `"""Available values: "high", "low""""` is four
+ * quotes in a row and Python refuses to parse it. Five technographics.theirstack
+ * input descriptions end that way, which is what broke `ruff format` and left the
+ * SDK regeneration workflow red - no release picked up a new SKU while it was.
+ */
+function docstringLine(value: string): string {
+  const body = docstringSafe(value);
+  return body.endsWith('"') ? `"""${body} """` : `"""${body}"""`;
 }
 
 /** Example: block rendered as client.<ns>.<method>(k=v, ...) from SkuEntry.example. */

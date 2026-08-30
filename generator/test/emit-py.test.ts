@@ -505,6 +505,35 @@ describe("Python syntax smoke (py_compile)", () => {
   });
 });
 
+describe("docstrings built from catalog prose", () => {
+  // technographics.theirstack ships five input descriptions that end in a double
+  // quote (`Available values: "high", "medium", "low"`). Emitted straight into a
+  // single-line docstring that is `""""`, which Python cannot parse: it failed
+  // `ruff format` and left every SDK regeneration red.
+  const QUOTED = 'Available values: "high", "medium", "low"';
+  const files = emitDeterministic(
+    ir([
+      sku({
+        slug: "technographics.theirstack",
+        input: obj({ confidenceOr: str({ description: QUOTED }) }, []),
+      }),
+    ]),
+  );
+  const source = Object.values(files).join("\n");
+
+  it("separates a trailing quote from the closing delimiter", () => {
+    expect(source).toContain(`"""${QUOTED} """`);
+    expect(source).not.toContain('""""');
+  });
+
+  it("stays parseable Python", () => {
+    if (!ruffAvailable()) return; // environment has no ruff; the identity fallback is fine.
+    for (const content of Object.values(files)) {
+      expect(() => formatPy(content)).not.toThrow();
+    }
+  });
+});
+
 describe("ruff formatting", () => {
   it("emitted output is a ruff fixed point when ruff is available", () => {
     if (!ruffAvailable()) return; // environment has no ruff; the identity fallback is fine.
