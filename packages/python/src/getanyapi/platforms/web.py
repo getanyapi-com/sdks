@@ -120,8 +120,9 @@ class WebScrapeData(BaseModel):
         default=None,
         description="The cleaned page HTML. Present only when 'html' is among the requested formats.",
     )
-    markdown: str = Field(
-        description="The page content as clean Markdown. Present when 'markdown' is among the requested formats (the default). Populated whenever the provider has data for the entity."
+    markdown: str | None = Field(
+        default=None,
+        description="The page content as clean Markdown. Present when 'markdown' is among the requested formats (the default). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     raw_html: str | None = Field(
         default=None,
