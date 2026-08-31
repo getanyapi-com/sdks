@@ -45,6 +45,17 @@ class YoutubeChannelCommunityPostsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
+class YoutubeChannelContactInput(TypedDict, total=False):
+    """Input for YouTube Channel Contact Email."""
+
+    channelId: NotRequired[str]
+    """YouTube channel ID (UC...)."""
+    handle: NotRequired[str]
+    """YouTube channel handle, with or without the leading @."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+
+
 class YoutubeChannelLivesInput(TypedDict, total=False):
     """Input for YouTube Channel Live Streams."""
 
@@ -272,6 +283,14 @@ class YoutubeChannelCommunityPostsPost(BaseModel):
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+
+
+class YoutubeChannelContactData(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    email: str = Field(
+        description="The business inquiry email the creator published on the channel's About tab, as YouTube reveals it behind the View email address button. This is the address YouTube gates behind a signed-in session, so it is often different from any address written into the channel description."
     )
 
 
@@ -834,6 +853,29 @@ class YoutubeNamespace:
             options=options,
         )
 
+    def channel_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubeChannelContactInput],
+    ) -> RunResult[YoutubeChannelContactData]:
+        """YouTube Channel Contact Email
+
+        Reveal the business inquiry email a YouTube creator publishes behind the
+        channel's View email address button. YouTube gates that address behind a
+        signed-in Google session and a CAPTCHA, so it is absent from the channel
+        page a logged-out scraper reads.
+
+        Price: $0.0718 per request plus $0 per result (maximum $0.0718).
+
+        Example:
+            res = client.youtube.channel_contact(handle="@mkbhd")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "youtube.channel_contact", dict(input), options
+        )
+        return RunResult[YoutubeChannelContactData].model_validate(raw)
+
     def channel_lives(
         self,
         *,
@@ -1382,6 +1424,29 @@ class AsyncYoutubeNamespace:
             bare=False,
             options=options,
         )
+
+    async def channel_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubeChannelContactInput],
+    ) -> RunResult[YoutubeChannelContactData]:
+        """YouTube Channel Contact Email
+
+        Reveal the business inquiry email a YouTube creator publishes behind the
+        channel's View email address button. YouTube gates that address behind a
+        signed-in Google session and a CAPTCHA, so it is absent from the channel
+        page a logged-out scraper reads.
+
+        Price: $0.0718 per request plus $0 per result (maximum $0.0718).
+
+        Example:
+            res = client.youtube.channel_contact(handle="@mkbhd")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "youtube.channel_contact", dict(input), options
+        )
+        return RunResult[YoutubeChannelContactData].model_validate(raw)
 
     async def channel_lives(
         self,
