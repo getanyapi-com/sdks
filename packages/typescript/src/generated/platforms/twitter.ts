@@ -1423,7 +1423,7 @@ export class TwitterNamespace {
    *
    * List recent tweets posted in a Twitter/X community by URL.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.twitter.communityTweets({ url: "https://x.com/i/communities/1926186499399139650" });
@@ -1514,7 +1514,7 @@ export class TwitterNamespace {
    *
    * Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.
    *
-   * Price: $0.00018 per request.
+   * Price: $0.0003 per request.
    *
    * @example
    * const res = await client.twitter.profile({ handle: "nasa" });
@@ -1531,7 +1531,7 @@ export class TwitterNamespace {
    *
    * Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20" });
@@ -1548,7 +1548,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.00065 per request.
    *
    * @example
    * const res = await client.twitter.search({ query: "openai" });
@@ -1699,7 +1699,7 @@ export class TwitterNamespace {
    *
    * Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).
    *
-   * Price: $0.00018 per request.
+   * Price: $0.0003 per request.
    *
    * @example
    * const res = await client.twitter.tweet({ url: "https://x.com/SpaceX/status/1732824684683784516" });
@@ -1733,7 +1733,7 @@ export class TwitterNamespace {
    *
    * Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.twitter.userPosts({ handle: "levelsio" });
@@ -1770,7 +1770,7 @@ export class TwitterNamespace {
    *
    * Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.twitter.userTweets({ handle: "levelsio", limit: 20 });
