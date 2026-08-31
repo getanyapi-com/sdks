@@ -84771,7 +84771,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -85260,7 +85260,7 @@
       "category": "video",
       "description": "Fetch a YouTube video's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.00125,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -85700,7 +85700,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video by URL or ID.",
       "pricing": {
-        "priceUsd": 0.011,
+        "priceUsd": 0.00125,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
