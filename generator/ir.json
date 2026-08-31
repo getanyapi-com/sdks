@@ -30362,7 +30362,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -30504,7 +30504,7 @@
       "category": "social",
       "description": "List the replies to an Instagram comment with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -30747,7 +30747,7 @@
       "category": "social",
       "description": "List the followers of any public Instagram account by username: follower usernames, names, and profile details.",
       "pricing": {
-        "priceUsd": 0.018,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -30914,7 +30914,7 @@
       "category": "social",
       "description": "List the accounts a public Instagram user follows: usernames, names, and profile details.",
       "pricing": {
-        "priceUsd": 0.018,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -31221,7 +31221,7 @@
       "category": "social",
       "description": "Instagram posts published under a hashtag, newest first, read from its live chronological feed rather than a web search index. Built for monitoring: results arrive within a couple of minutes of posting, so engagement counts are usually still zero and reels do not appear (Instagram keeps those on a separate tab). For engagement-ranked results use instagram.hashtag_top_posts; for older relevance-ranked results use instagram.search_hashtag.",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -31458,7 +31458,7 @@
       "category": "social",
       "description": "Instagram's own top-ranked posts for a hashtag, read from its live hashtag feed rather than a web search index, with view, like, and comment counts. Reels-heavy and engagement-ranked, so it answers what is performing on a tag right now. For older relevance-ranked results with date and media-type filters use instagram.search_hashtag; for the chronological feed use instagram.hashtag_recent_posts.",
       "pricing": {
-        "priceUsd": 0.018,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -32055,7 +32055,7 @@
       "category": "social",
       "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.00144,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -32770,7 +32770,7 @@
       "category": "social",
       "description": "Search Instagram Reels by keyword and get matching reels (caption, likes, comments, creator, and duration). Instagram does not return view or play counts in reels search results. Results are relevance-ranked, not chronological. Paging tops out around 110 reels per query (11 pages of 10).",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -32964,7 +32964,7 @@
       "category": "social",
       "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33722,7 +33722,7 @@
       "category": "social",
       "description": "Fetch a public Instagram account's currently live stories - media URL, owner, and posting time - by username. Lightweight projection; for media type, dimensions, and the 24h expiry time use instagram.stories_full.",
       "pricing": {
-        "priceUsd": 0.018,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33847,7 +33847,7 @@
       "category": "social",
       "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -34146,7 +34146,7 @@
       "category": "social",
       "description": "List an Instagram account's story highlight reels by handle.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -34274,7 +34274,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -34496,7 +34496,7 @@
       "category": "social",
       "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

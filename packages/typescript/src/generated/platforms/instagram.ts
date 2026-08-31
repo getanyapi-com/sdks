@@ -1960,7 +1960,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.basicProfile({ userId: "314216" });
@@ -1977,7 +1977,7 @@ export class InstagramNamespace {
    *
    * List the replies to an Instagram comment with cursor pagination (text, author, likes).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.commentReplies({ commentId: "18126632131325044", url: "https://www.instagram.com/p/C8rKmYvsrck/" });
@@ -2037,7 +2037,7 @@ export class InstagramNamespace {
    *
    * List the followers of any public Instagram account by username: follower usernames, names, and profile details.
    *
-   * Price: $0.018 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.followers({ username: "nasa", limit: 50 });
@@ -2074,7 +2074,7 @@ export class InstagramNamespace {
    *
    * List the accounts a public Instagram user follows: usernames, names, and profile details.
    *
-   * Price: $0.018 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.following({ username: "nasa", limit: 50 });
@@ -2128,7 +2128,7 @@ export class InstagramNamespace {
    *
    * Instagram posts published under a hashtag, newest first, read from its live chronological feed rather than a web search index. Built for monitoring: results arrive within a couple of minutes of posting, so engagement counts are usually still zero and reels do not appear (Instagram keeps those on a separate tab). For engagement-ranked results use instagram.hashtag_top_posts; for older relevance-ranked results use instagram.search_hashtag.
    *
-   * Price: $0.0024 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.hashtagRecentPosts({ hashtag: "skincare" });
@@ -2171,7 +2171,7 @@ export class InstagramNamespace {
    *
    * Instagram's own top-ranked posts for a hashtag, read from its live hashtag feed rather than a web search index, with view, like, and comment counts. Reels-heavy and engagement-ranked, so it answers what is performing on a tag right now. For older relevance-ranked results with date and media-type filters use instagram.search_hashtag; for the chronological feed use instagram.hashtag_recent_posts.
    *
-   * Price: $0.018 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.hashtagTopPosts({ hashtag: "skincare" });
@@ -2265,7 +2265,7 @@ export class InstagramNamespace {
    *
    * List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).
    *
-   * Price: $0.00144 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.postComments({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -2359,7 +2359,7 @@ export class InstagramNamespace {
    *
    * Search Instagram Reels by keyword and get matching reels (caption, likes, comments, creator, and duration). Instagram does not return view or play counts in reels search results. Results are relevance-ranked, not chronological. Paging tops out around 110 reels per query (11 pages of 10).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.reelsSearch({ query: "travel" });
@@ -2376,7 +2376,7 @@ export class InstagramNamespace {
    *
    * Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.
    *
-   * Price: $0.0036 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.search({ query: "nasa" });
@@ -2496,7 +2496,7 @@ export class InstagramNamespace {
    *
    * Fetch a public Instagram account's currently live stories - media URL, owner, and posting time - by username. Lightweight projection; for media type, dimensions, and the 24h expiry time use instagram.stories_full.
    *
-   * Price: $0.018 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.storiesThin({ username: "natgeo" });
@@ -2513,7 +2513,7 @@ export class InstagramNamespace {
    *
    * List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).
    *
-   * Price: $0.0024 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.taggedPosts({ handle: "nasa" });
@@ -2570,7 +2570,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's story highlight reels by handle.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.userHighlights({ handle: "nasa" });
@@ -2587,7 +2587,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.userPosts({ handle: "nasa" });
@@ -2624,7 +2624,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.userReels({ handle: "nasa" });

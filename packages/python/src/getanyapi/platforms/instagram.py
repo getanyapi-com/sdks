@@ -1544,7 +1544,7 @@ class InstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -1565,7 +1565,7 @@ class InstagramNamespace:
         List the replies to an Instagram comment with cursor pagination (text,
         author, likes).
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.comment_replies(commentId="18126632131325044", url="https://www.instagram.com/p/C8rKmYvsrck/")
@@ -1629,7 +1629,7 @@ class InstagramNamespace:
         List the followers of any public Instagram account by username: follower
         usernames, names, and profile details.
 
-        Price: $0.018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.followers(limit=50, username="nasa")
@@ -1673,7 +1673,7 @@ class InstagramNamespace:
         List the accounts a public Instagram user follows: usernames, names, and
         profile details.
 
-        Price: $0.018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.following(limit=50, username="nasa")
@@ -1743,7 +1743,7 @@ class InstagramNamespace:
         instagram.hashtag_top_posts; for older relevance-ranked results use
         instagram.search_hashtag.
 
-        Price: $0.0024 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.hashtag_recent_posts(hashtag="skincare")
@@ -1791,7 +1791,7 @@ class InstagramNamespace:
         filters use instagram.search_hashtag; for the chronological feed use
         instagram.hashtag_recent_posts.
 
-        Price: $0.018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.hashtag_top_posts(hashtag="skincare")
@@ -1897,7 +1897,7 @@ class InstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.00144 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -2007,7 +2007,7 @@ class InstagramNamespace:
         counts in reels search results. Results are relevance-ranked, not
         chronological. Paging tops out around 110 reels per query (11 pages of 10).
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.reels_search(query="travel")
@@ -2028,7 +2028,7 @@ class InstagramNamespace:
         Search Instagram for users, hashtags, or places by keyword and get matching
         results with names, counts, and links.
 
-        Price: $0.0036 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.search(query="nasa")
@@ -2163,7 +2163,7 @@ class InstagramNamespace:
         owner, and posting time - by username. Lightweight projection; for media
         type, dimensions, and the 24h expiry time use instagram.stories_full.
 
-        Price: $0.018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.stories_thin(username="natgeo")
@@ -2184,7 +2184,7 @@ class InstagramNamespace:
         List the posts an Instagram user is tagged in, with cursor pagination
         (author, caption, likes, comments).
 
-        Price: $0.0024 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.tagged_posts(handle="nasa")
@@ -2248,7 +2248,7 @@ class InstagramNamespace:
 
         List an Instagram account's story highlight reels by handle.
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.user_highlights(handle="nasa")
@@ -2269,7 +2269,7 @@ class InstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -2313,7 +2313,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -2407,7 +2407,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -2428,7 +2428,7 @@ class AsyncInstagramNamespace:
         List the replies to an Instagram comment with cursor pagination (text,
         author, likes).
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.comment_replies(commentId="18126632131325044", url="https://www.instagram.com/p/C8rKmYvsrck/")
@@ -2492,7 +2492,7 @@ class AsyncInstagramNamespace:
         List the followers of any public Instagram account by username: follower
         usernames, names, and profile details.
 
-        Price: $0.018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.followers(limit=50, username="nasa")
@@ -2536,7 +2536,7 @@ class AsyncInstagramNamespace:
         List the accounts a public Instagram user follows: usernames, names, and
         profile details.
 
-        Price: $0.018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.following(limit=50, username="nasa")
@@ -2606,7 +2606,7 @@ class AsyncInstagramNamespace:
         instagram.hashtag_top_posts; for older relevance-ranked results use
         instagram.search_hashtag.
 
-        Price: $0.0024 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.hashtag_recent_posts(hashtag="skincare")
@@ -2656,7 +2656,7 @@ class AsyncInstagramNamespace:
         filters use instagram.search_hashtag; for the chronological feed use
         instagram.hashtag_recent_posts.
 
-        Price: $0.018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.hashtag_top_posts(hashtag="skincare")
@@ -2762,7 +2762,7 @@ class AsyncInstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.00144 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -2872,7 +2872,7 @@ class AsyncInstagramNamespace:
         counts in reels search results. Results are relevance-ranked, not
         chronological. Paging tops out around 110 reels per query (11 pages of 10).
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.reels_search(query="travel")
@@ -2893,7 +2893,7 @@ class AsyncInstagramNamespace:
         Search Instagram for users, hashtags, or places by keyword and get matching
         results with names, counts, and links.
 
-        Price: $0.0036 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.search(query="nasa")
@@ -3028,7 +3028,7 @@ class AsyncInstagramNamespace:
         owner, and posting time - by username. Lightweight projection; for media
         type, dimensions, and the 24h expiry time use instagram.stories_full.
 
-        Price: $0.018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.stories_thin(username="natgeo")
@@ -3049,7 +3049,7 @@ class AsyncInstagramNamespace:
         List the posts an Instagram user is tagged in, with cursor pagination
         (author, caption, likes, comments).
 
-        Price: $0.0024 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.tagged_posts(handle="nasa")
@@ -3113,7 +3113,7 @@ class AsyncInstagramNamespace:
 
         List an Instagram account's story highlight reels by handle.
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.user_highlights(handle="nasa")
@@ -3134,7 +3134,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -3178,7 +3178,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.002 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
