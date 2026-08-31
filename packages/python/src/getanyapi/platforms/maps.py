@@ -447,7 +447,7 @@ class MapsNamespace:
         a location) and get the best-matching place with available address, contact,
         rating, and coordinate details as normalized JSON.
 
-        Price: $0.00297 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee", website="withWebsite")
@@ -487,7 +487,7 @@ class MapsNamespace:
         normalized place records with ratings, addresses, and contact basics per
         request.
 
-        Price: $0.00297 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.maps.search(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee", website="withWebsite")
@@ -535,7 +535,7 @@ class AsyncMapsNamespace:
         a location) and get the best-matching place with available address, contact,
         rating, and coordinate details as normalized JSON.
 
-        Price: $0.00297 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee", website="withWebsite")
@@ -575,7 +575,7 @@ class AsyncMapsNamespace:
         normalized place records with ratings, addresses, and contact basics per
         request.
 
-        Price: $0.00297 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.maps.search(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee", website="withWebsite")
