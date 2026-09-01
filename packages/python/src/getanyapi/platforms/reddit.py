@@ -370,7 +370,7 @@ class RedditSearchPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     author: str = Field(
-        description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
+        description="Author username, without the u/ prefix. Empty when the upstream omits it."
     )
     created_utc: float = Field(
         alias="createdUtc",
@@ -506,7 +506,7 @@ class RedditSubredditSearchPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     author: str = Field(
-        description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
+        description="Author username, without the u/ prefix. Empty when the upstream omits it."
     )
     created_utc: float = Field(
         alias="createdUtc",

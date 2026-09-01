@@ -338,7 +338,7 @@ export interface RedditSearchInput {
 
 export interface RedditSearchPost {
   /**
-   * Author username, without the u/ prefix. Populated whenever the provider has data for the entity.
+   * Author username, without the u/ prefix. Empty when the upstream omits it.
    */
   author: string;
   /**
@@ -591,7 +591,7 @@ export interface RedditSubredditSearchInput {
 
 export interface RedditSubredditSearchPost {
   /**
-   * Author username, without the u/ prefix. Populated whenever the provider has data for the entity.
+   * Author username, without the u/ prefix. Empty when the upstream omits it.
    */
   author: string;
   /**
