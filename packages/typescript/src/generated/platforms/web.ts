@@ -115,7 +115,7 @@ export interface WebScrapeInput {
    */
   excludeTags?: string[];
   /**
-   * Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to Markdown and raw HTML.
+   * Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (the page HTML exactly as the browser received it, including head and script tags). Each requested format is returned under the matching output field. Defaults to both. rawHtml is a deprecated alias of html, returned under a rawHtml field for callers that predate the rename; send html instead.
    */
   formats?: ("markdown" | "html" | "rawHtml")[];
   /**
@@ -137,11 +137,6 @@ export interface WebScrapeInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * When true, fetch through a stealth proxy that gets past bot protection which refuses an ordinary request. This costs materially more per request (see the pricing ceiling), so leave it off unless a normal scrape of the site comes back blocked or empty.
-   * Default: false.
-   */
-  stealth?: boolean;
-  /**
    * The URL of the page to scrape.
    * Format: uri.
    */
@@ -162,7 +157,7 @@ export interface WebScrapeData {
    */
   description: string;
   /**
-   * The cleaned page HTML. Present only when 'html' is among the requested formats.
+   * The page HTML exactly as the browser received it, head and script tags included. Present when 'html' is among the requested formats (the default).
    */
   html?: string;
   /**
@@ -171,7 +166,7 @@ export interface WebScrapeData {
    */
   markdown?: string;
   /**
-   * The verbatim page HTML before cleaning. Present only when 'rawHtml' is among the requested formats.
+   * The same bytes as 'html'. Deprecated alias returned only when 'rawHtml' is among the requested formats; use 'html'.
    */
   rawHtml?: string;
   /**
@@ -277,7 +272,7 @@ export class WebNamespace {
    * Price: $0.0007 per request.
    *
    * @example
-   * const res = await client.web.scrape({ url: "https://example.com", formats: ["markdown", "rawHtml"], onlyMainContent: false });
+   * const res = await client.web.scrape({ url: "https://example.com", formats: ["markdown", "html"], onlyMainContent: false });
    */
   scrape(
     input: WebScrapeInput,

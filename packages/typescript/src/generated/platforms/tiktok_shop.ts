@@ -667,7 +667,7 @@ export interface TiktokShopSearchInput {
     | "BR"
     | "JP";
   /**
-   * Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-10, default 10).
    * Range: minimum 1, maximum 10.
    */
   limit?: number;

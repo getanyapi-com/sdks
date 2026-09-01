@@ -1168,7 +1168,7 @@ export interface InstagramReelsSearchData {
  */
 export interface InstagramSearchInput {
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
@@ -2376,7 +2376,7 @@ export class InstagramNamespace {
    *
    * Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0036 per request.
    *
    * @example
    * const res = await client.instagram.search({ query: "nasa" });

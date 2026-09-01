@@ -42,7 +42,7 @@ class MapsPlaceInput(TypedDict, total=False):
     """Input for Google Maps Place Lookup."""
 
     categoryFilterWords: NotRequired[list[str]]
-    """Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop"]). Omit to allow any category."""
+    """Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop"]). Omit to allow any category and stay on the cheapest price; a category filter routes to a dearer source."""
     language: NotRequired[str]
     """Two-letter language code for the result details (e.g. en). Default: en."""
     location: NotRequired[str]
@@ -50,13 +50,13 @@ class MapsPlaceInput(TypedDict, total=False):
     placeMinimumStars: NotRequired[
         Literal["two", "twoAndHalf", "three", "threeAndHalf", "four", "fourAndHalf"]
     ]
-    """Only match a place with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter."""
+    """Only match a place with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit this field to stay on the cheapest price; a rating floor routes to a dearer source."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The business name or search text to look up, as you would type it into the Google Maps search bar (e.g. Blue Bottle Coffee)."""
     website: NotRequired[Literal["allPlaces", "withWebsite", "withoutWebsite"]]
-    """Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none)."""
+    """Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source."""
 
 
 class MapsReviewsInput(TypedDict, total=False):
@@ -84,7 +84,7 @@ class MapsSearchInput(TypedDict, total=False):
     """Input for Google Maps Search."""
 
     categoryFilterWords: NotRequired[list[str]]
-    """Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop", "restaurant"]). Omit to include all categories."""
+    """Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop", "restaurant"]). Omit to include all categories and stay on the cheapest price; a category filter routes to a dearer source."""
     language: NotRequired[str]
     """Two-letter language code for the results (e.g. en). Default: en."""
     limit: NotRequired[int]
@@ -94,13 +94,13 @@ class MapsSearchInput(TypedDict, total=False):
     placeMinimumStars: NotRequired[
         Literal["two", "twoAndHalf", "three", "threeAndHalf", "four", "fourAndHalf"]
     ]
-    """Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter."""
+    """Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit this field to stay on the cheapest price; a rating floor routes to a dearer source."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """What you would type in the Google Maps search bar (e.g. coffee shop)."""
     website: NotRequired[Literal["allPlaces", "withWebsite", "withoutWebsite"]]
-    """Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one)."""
+    """Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source."""
 
 
 class MapsContactsData(BaseModel):
@@ -450,7 +450,7 @@ class MapsNamespace:
         Price: $0.00175 per request.
 
         Example:
-            res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee", website="withWebsite")
+            res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.place", dict(input), options
@@ -490,7 +490,7 @@ class MapsNamespace:
         Price: $0.00175 per request.
 
         Example:
-            res = client.maps.search(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee", website="withWebsite")
+            res = client.maps.search(limit=3, location="Austin, TX", query="coffee")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.search", dict(input), options
@@ -538,7 +538,7 @@ class AsyncMapsNamespace:
         Price: $0.00175 per request.
 
         Example:
-            res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee", website="withWebsite")
+            res = client.maps.place(location="San Francisco, CA", query="Blue Bottle Coffee")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.place", dict(input), options
@@ -578,7 +578,7 @@ class AsyncMapsNamespace:
         Price: $0.00175 per request.
 
         Example:
-            res = client.maps.search(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee", website="withWebsite")
+            res = client.maps.search(limit=3, location="Austin, TX", query="coffee")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.search", dict(input), options

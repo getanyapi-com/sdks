@@ -226,7 +226,7 @@ class LinkedinPostCommentsInput(TypedDict, total=False):
     """Input for LinkedIn Post Comments."""
 
     limit: NotRequired[int]
-    """Maximum number of comments to return. You are billed per comment returned, so a lower limit costs less. Range: 1 to 100. Default: 100."""
+    """Maximum number of comments to return. Range: 1 to 100. Default: 100."""
     postedLimit: NotRequired[
         Literal["any", "24h", "week", "month", "3months", "6months", "year"]
     ]
@@ -241,7 +241,7 @@ class LinkedinPostReactionsInput(TypedDict, total=False):
     """Input for LinkedIn Post Reactions."""
 
     limit: NotRequired[int]
-    """Maximum number of reactions to return (1-100, default 100). You are billed per reaction returned, so a lower limit costs less. Range: 1 to 100."""
+    """Maximum number of reactions to return (1-100, default 100). Range: 1 to 100."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
@@ -276,7 +276,7 @@ class LinkedinProfilePostsFullInput(TypedDict, total=False):
     includeReposts: NotRequired[bool]
     """Whether to include reposts that share content without added commentary. Default: true."""
     limit: NotRequired[int]
-    """Maximum number of posts to return (1-100, default 10). You are billed per post returned, so a lower limit costs less. Range: 1 to 100. Default: 10."""
+    """Maximum number of posts to return (1-100, default 10). Range: 1 to 100. Default: 10."""
     postedLimit: NotRequired[
         Literal["any", "1h", "24h", "week", "month", "3months", "6months", "year"]
     ]
@@ -293,7 +293,7 @@ class LinkedinProfilePostsThinInput(TypedDict, total=False):
     """Input for LinkedIn Profile Posts (basic)."""
 
     limit: NotRequired[int]
-    """Maximum number of posts to return (10-100, default 10). You are billed per post returned, so a lower limit costs less. Range: 10 to 100. Default: 10."""
+    """Maximum number of posts to return (10-100, default 10). Range: 10 to 100. Default: 10."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
@@ -313,7 +313,7 @@ class LinkedinSearchCompaniesInput(TypedDict, total=False):
     """Input for LinkedIn Company Search."""
 
     limit: NotRequired[int]
-    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    """Maximum number of results to return (1-20, default 20). Range: 1 to 20. Default: 20."""
     location: NotRequired[str]
     """Optional location filter, written out in full (e.g. United Kingdom or San Francisco)."""
     preferLatencyUnderMs: NotRequired[int]
@@ -375,7 +375,7 @@ class LinkedinSearchPostsFullInput(TypedDict, total=False):
     ]
     """Only return posts published within this relative time window. Last-hour and windows beyond one month route to the provider that supports them. Default: last-day."""
     limit: NotRequired[int]
-    """Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page. You are billed per post returned. Range: 1 to 100. Default: 10."""
+    """Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page. Range: 1 to 100. Default: 10."""
     mentioningMemberUrls: NotRequired[list[str]]
     """Only return posts mentioning these LinkedIn member profile URLs."""
     preferLatencyUnderMs: NotRequired[int]
@@ -1913,7 +1913,7 @@ class LinkedinProfilePostsFullItem(BaseModel):
     type_: str | None = Field(
         default=None,
         alias="type",
-        description="LinkedIn record type reported for the post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="LinkedIn record type reported for the post.",
     )
     url: str = Field(
         description="Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity."
@@ -2985,7 +2985,7 @@ class LinkedinNamespace:
         link, publish date, author, engagement counts with a per-reaction breakdown,
         and attached media.
 
-        Price: $0.00116 per request plus $0.00193 per result (maximum $0.0975).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.company_posts(limit=10, url="https://www.linkedin.com/company/stripe")
@@ -3093,7 +3093,7 @@ class LinkedinNamespace:
         Cheap job index: title, company, location, posted date, URL. No description,
         salary, applicant counts, or seniority - for those use linkedin.jobs.
 
-        Price: $0.0009 per request.
+        Price: $0.00066 per request.
 
         Example:
             res = client.linkedin.jobs_thin(limit=3, location="United States", query="software engineer", workplaceType="remote")
@@ -3135,7 +3135,7 @@ class LinkedinNamespace:
         List comments on a LinkedIn post - full text, commenter name/URL/job title,
         timestamps, and engagement.
 
-        Price: $0 per request plus $0.00143 per result (maximum $0.143).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.post_comments(limit=10, url="https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ")
@@ -3156,7 +3156,7 @@ class LinkedinNamespace:
         List who reacted to a LinkedIn post - reactor name, profile URL, job title,
         and reaction type. Lead-gen grade.
 
-        Price: $0 per request plus $0.0022 per result (maximum $0.22).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.post_reactions(limit=5, url="https://www.linkedin.com/posts/satyanadella_today-were-bringing-skills-to-copilot-for-activity-7475945433668694017--kvG")
@@ -3201,10 +3201,10 @@ class LinkedinNamespace:
         awards, languages, projects, publications, and verified/premium/open-to-work
         flags.
 
-        Price: $0.0044 per request plus $0 per result (maximum $0.0044).
+        Price: $0.004 per request.
 
         Example:
-            res = client.linkedin.profile(url="https://www.linkedin.com/in/williamhgates")
+            res = client.linkedin.profile(url="https://www.linkedin.com/in/patrickcollison")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.profile", dict(input), options
@@ -3222,7 +3222,7 @@ class LinkedinNamespace:
         Fetch recent public LinkedIn profile posts with enriched author, engagement,
         article, newsletter, media, annotation, repost, and social activity details.
 
-        Price: $0.00116 per request plus $0.00193 per result (maximum $0.194).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.profile_posts_full(limit=10, url="https://www.linkedin.com/in/williamhgates/")
@@ -3243,7 +3243,7 @@ class LinkedinNamespace:
         Fetch recent public LinkedIn profile posts with portable identity, author,
         engagement, article, image, video, and repost fields.
 
-        Price: $0 per request plus $0.00143 per result (maximum $0.143).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.profile_posts_thin(limit=10, url="https://www.linkedin.com/in/williamhgates/")
@@ -3288,7 +3288,7 @@ class LinkedinNamespace:
         Search LinkedIn companies by keyword with optional location filtering,
         returning normalized company records.
 
-        Price: $0.0011 per request plus $0.0044 per result (maximum $0.0891).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.search_companies(limit=3, query="fintech")
@@ -3352,7 +3352,7 @@ class LinkedinNamespace:
         Search public LinkedIn posts with rich author, engagement, attachment, and
         poll details.
 
-        Price: $0 per request plus $0.00143 per result (maximum $0.143).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.search_posts_full(datePosted="last-week", limit=10, query="artificial intelligence", sort="relevance")
@@ -3587,7 +3587,7 @@ class AsyncLinkedinNamespace:
         link, publish date, author, engagement counts with a per-reaction breakdown,
         and attached media.
 
-        Price: $0.00116 per request plus $0.00193 per result (maximum $0.0975).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.company_posts(limit=10, url="https://www.linkedin.com/company/stripe")
@@ -3695,7 +3695,7 @@ class AsyncLinkedinNamespace:
         Cheap job index: title, company, location, posted date, URL. No description,
         salary, applicant counts, or seniority - for those use linkedin.jobs.
 
-        Price: $0.0009 per request.
+        Price: $0.00066 per request.
 
         Example:
             res = client.linkedin.jobs_thin(limit=3, location="United States", query="software engineer", workplaceType="remote")
@@ -3737,7 +3737,7 @@ class AsyncLinkedinNamespace:
         List comments on a LinkedIn post - full text, commenter name/URL/job title,
         timestamps, and engagement.
 
-        Price: $0 per request plus $0.00143 per result (maximum $0.143).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.post_comments(limit=10, url="https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ")
@@ -3758,7 +3758,7 @@ class AsyncLinkedinNamespace:
         List who reacted to a LinkedIn post - reactor name, profile URL, job title,
         and reaction type. Lead-gen grade.
 
-        Price: $0 per request plus $0.0022 per result (maximum $0.22).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.post_reactions(limit=5, url="https://www.linkedin.com/posts/satyanadella_today-were-bringing-skills-to-copilot-for-activity-7475945433668694017--kvG")
@@ -3803,10 +3803,10 @@ class AsyncLinkedinNamespace:
         awards, languages, projects, publications, and verified/premium/open-to-work
         flags.
 
-        Price: $0.0044 per request plus $0 per result (maximum $0.0044).
+        Price: $0.004 per request.
 
         Example:
-            res = client.linkedin.profile(url="https://www.linkedin.com/in/williamhgates")
+            res = client.linkedin.profile(url="https://www.linkedin.com/in/patrickcollison")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "linkedin.profile", dict(input), options
@@ -3824,7 +3824,7 @@ class AsyncLinkedinNamespace:
         Fetch recent public LinkedIn profile posts with enriched author, engagement,
         article, newsletter, media, annotation, repost, and social activity details.
 
-        Price: $0.00116 per request plus $0.00193 per result (maximum $0.194).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.profile_posts_full(limit=10, url="https://www.linkedin.com/in/williamhgates/")
@@ -3845,7 +3845,7 @@ class AsyncLinkedinNamespace:
         Fetch recent public LinkedIn profile posts with portable identity, author,
         engagement, article, image, video, and repost fields.
 
-        Price: $0 per request plus $0.00143 per result (maximum $0.143).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.profile_posts_thin(limit=10, url="https://www.linkedin.com/in/williamhgates/")
@@ -3890,7 +3890,7 @@ class AsyncLinkedinNamespace:
         Search LinkedIn companies by keyword with optional location filtering,
         returning normalized company records.
 
-        Price: $0.0011 per request plus $0.0044 per result (maximum $0.0891).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.search_companies(limit=3, query="fintech")
@@ -3954,7 +3954,7 @@ class AsyncLinkedinNamespace:
         Search public LinkedIn posts with rich author, engagement, attachment, and
         poll details.
 
-        Price: $0 per request plus $0.00143 per result (maximum $0.143).
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.search_posts_full(datePosted="last-week", limit=10, query="artificial intelligence", sort="relevance")

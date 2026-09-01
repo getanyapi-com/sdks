@@ -1340,7 +1340,7 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
             "default": 20
@@ -1741,7 +1741,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-50, default 50).",
             "minimum": 1,
             "maximum": 50,
             "default": 50
@@ -1960,7 +1960,7 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
             "default": 20
@@ -16026,7 +16026,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1 to 25, default 25). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1 to 25, default 25).",
             "minimum": 1,
             "maximum": 25,
             "default": null
@@ -16629,12 +16629,12 @@
       "operationId": "email_verify",
       "name": "Email Verifier",
       "category": "data",
-      "description": "Verify an email address for deliverability: a status verdict (valid, risky, or invalid) with domain, mailbox, catch-all, disposable, and role signals plus a confidence score. Malformed addresses are rejected by the input schema with no charge; every syntactically valid address returns a billed verdict, including undeliverable ones.",
+      "description": "Verify an email address for deliverability: a status verdict (good, risky, or bad) with domain, mailbox, catch-all, disposable, and role signals plus a confidence score. Malformed addresses are rejected by the input schema with no charge; every syntactically valid address returns a billed verdict, including undeliverable ones.",
       "pricing": {
-        "priceUsd": 0.00088,
-        "baseUsd": 0,
-        "perItemUsd": 0.00088,
-        "perItemUnit": "result"
+        "priceUsd": 0.0066,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "email",
       "tsMethod": "verify",
@@ -16710,6 +16710,7 @@
                   },
                   "reason": {
                     "kind": "string",
+                    "description": "Why the verdict was reached. Published by only one of the two sources, so it is absent on most calls; never treat it as required.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -16721,14 +16722,14 @@
                   },
                   "score": {
                     "kind": "integer",
-                    "description": "Confidence score (0-100).",
+                    "description": "Confidence in the verdict, 0-100. Coarse rather than graded on most calls: it tracks the status rather than ranking addresses within one.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "status": {
                     "kind": "string",
-                    "description": "Deliverability verdict (e.g. valid, risky, invalid). Populated whenever the provider has data for the entity.",
+                    "description": "Deliverability verdict: good (the mailbox accepted), bad (it was refused), or risky (no source could settle it - usually a catch-all domain that accepts every address, sometimes a receiving server that declined to answer at all). Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -29314,7 +29315,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-10, default 10).",
             "minimum": 1,
             "maximum": 10,
             "default": null
@@ -32964,7 +32965,7 @@
       "category": "social",
       "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -32985,7 +32986,7 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -37724,10 +37725,10 @@
       "category": "social",
       "description": "List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.",
       "pricing": {
-        "priceUsd": 0.0975,
-        "baseUsd": 0.00116,
-        "perItemUsd": 0.00193,
-        "perItemUnit": "result"
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "companyPosts",
@@ -38799,7 +38800,7 @@
       "category": "data",
       "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00066,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39155,10 +39156,10 @@
       "category": "social",
       "description": "List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.",
       "pricing": {
-        "priceUsd": 0.143,
-        "baseUsd": 0,
-        "perItemUsd": 0.00143,
-        "perItemUnit": "result"
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "postComments",
@@ -39177,7 +39178,7 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of comments to return. You are billed per comment returned, so a lower limit costs less.",
+            "description": "Maximum number of comments to return.",
             "minimum": 1,
             "maximum": 100,
             "default": 100
@@ -39378,10 +39379,10 @@
       "category": "social",
       "description": "List who reacted to a LinkedIn post - reactor name, profile URL, job title, and reaction type. Lead-gen grade.",
       "pricing": {
-        "priceUsd": 0.22,
-        "baseUsd": 0,
-        "perItemUsd": 0.0022,
-        "perItemUnit": "result"
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "postReactions",
@@ -39400,7 +39401,7 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of reactions to return (1-100, default 100). You are billed per reaction returned, so a lower limit costs less.",
+            "description": "Maximum number of reactions to return (1-100, default 100).",
             "minimum": 1,
             "maximum": 100,
             "default": null
@@ -39625,10 +39626,10 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.0044,
-        "baseUsd": 0.0044,
-        "perItemUsd": 0,
-        "perItemUnit": "result"
+        "priceUsd": 0.004,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "profile",
@@ -39639,7 +39640,7 @@
       "inputTypeName": "LinkedinProfileInput",
       "outputTypeName": "LinkedinProfileData",
       "example": {
-        "url": "https://www.linkedin.com/in/williamhgates"
+        "url": "https://www.linkedin.com/in/patrickcollison"
       },
       "input": {
         "kind": "object",
@@ -40120,10 +40121,10 @@
       "category": "social",
       "description": "Fetch recent public LinkedIn profile posts with enriched author, engagement, article, newsletter, media, annotation, repost, and social activity details.",
       "pricing": {
-        "priceUsd": 0.194,
-        "baseUsd": 0.00116,
-        "perItemUsd": 0.00193,
-        "perItemUnit": "result"
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "profilePostsFull",
@@ -40165,7 +40166,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of posts to return (1-100, default 10). You are billed per post returned, so a lower limit costs less.",
+            "description": "Maximum number of posts to return (1-100, default 10).",
             "minimum": 1,
             "maximum": 100,
             "default": 10
@@ -40871,7 +40872,7 @@
                   },
                   "type": {
                     "kind": "string",
-                    "description": "LinkedIn record type reported for the post. Populated whenever the provider has data for the entity.",
+                    "description": "LinkedIn record type reported for the post.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -40912,7 +40913,6 @@
                   "id",
                   "publicationUrl",
                   "text",
-                  "type",
                   "url"
                 ]
               },
@@ -40944,10 +40944,10 @@
       "category": "social",
       "description": "Fetch recent public LinkedIn profile posts with portable identity, author, engagement, article, image, video, and repost fields.",
       "pricing": {
-        "priceUsd": 0.143,
-        "baseUsd": 0,
-        "perItemUsd": 0.00143,
-        "perItemUnit": "result"
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "profilePostsThin",
@@ -40966,7 +40966,7 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of posts to return (10-100, default 10). You are billed per post returned, so a lower limit costs less.",
+            "description": "Maximum number of posts to return (10-100, default 10).",
             "minimum": 10,
             "maximum": 100,
             "default": 10
@@ -41529,10 +41529,10 @@
       "category": "social",
       "description": "Search LinkedIn companies by keyword with optional location filtering, returning normalized company records.",
       "pricing": {
-        "priceUsd": 0.0891,
-        "baseUsd": 0.0011,
-        "perItemUsd": 0.0044,
-        "perItemUnit": "result"
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "searchCompanies",
@@ -41551,10 +41551,10 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
-            "default": null
+            "default": 20
           },
           "location": {
             "kind": "string",
@@ -41895,10 +41895,10 @@
       "category": "social",
       "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.",
       "pricing": {
-        "priceUsd": 0.143,
-        "baseUsd": 0,
-        "perItemUsd": 0.00143,
-        "perItemUnit": "result"
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "searchPostsFull",
@@ -41989,7 +41989,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page. You are billed per post returned.",
+            "description": "Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page.",
             "minimum": 1,
             "maximum": 100,
             "default": 10
@@ -44074,15 +44074,14 @@
       "outputTypeName": "MapsPlaceData",
       "example": {
         "location": "San Francisco, CA",
-        "query": "Blue Bottle Coffee",
-        "website": "withWebsite"
+        "query": "Blue Bottle Coffee"
       },
       "input": {
         "kind": "object",
         "properties": {
           "categoryFilterWords": {
             "kind": "array",
-            "description": "Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. [\"coffee shop\"]). Omit to allow any category.",
+            "description": "Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. [\"coffee shop\"]). Omit to allow any category and stay on the cheapest price; a category filter routes to a dearer source.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -44107,7 +44106,7 @@
           },
           "placeMinimumStars": {
             "kind": "string",
-            "description": "Only match a place with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter.",
+            "description": "Only match a place with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit this field to stay on the cheapest price; a rating floor routes to a dearer source.",
             "enum": [
               "two",
               "twoAndHalf",
@@ -44135,7 +44134,7 @@
           },
           "website": {
             "kind": "string",
-            "description": "Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none).",
+            "description": "Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.",
             "enum": [
               "allPlaces",
               "withWebsite",
@@ -44615,16 +44614,14 @@
       "example": {
         "limit": 3,
         "location": "Austin, TX",
-        "placeMinimumStars": "four",
-        "query": "coffee",
-        "website": "withWebsite"
+        "query": "coffee"
       },
       "input": {
         "kind": "object",
         "properties": {
           "categoryFilterWords": {
             "kind": "array",
-            "description": "Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. [\"coffee shop\", \"restaurant\"]). Omit to include all categories.",
+            "description": "Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. [\"coffee shop\", \"restaurant\"]). Omit to include all categories and stay on the cheapest price; a category filter routes to a dearer source.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -44656,7 +44653,7 @@
           },
           "placeMinimumStars": {
             "kind": "string",
-            "description": "Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter.",
+            "description": "Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit this field to stay on the cheapest price; a rating floor routes to a dearer source.",
             "enum": [
               "two",
               "twoAndHalf",
@@ -44684,7 +44681,7 @@
           },
           "website": {
             "kind": "string",
-            "description": "Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one).",
+            "description": "Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.",
             "enum": [
               "allPlaces",
               "withWebsite",
@@ -58937,7 +58934,7 @@
         "properties": {
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -70937,7 +70934,7 @@
       "category": "video",
       "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).",
       "pricing": {
-        "priceUsd": 0.00144,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70966,7 +70963,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -75864,7 +75861,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-10, default 10).",
             "minimum": 1,
             "maximum": 10,
             "default": null
@@ -76561,7 +76558,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -76741,7 +76738,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -76965,10 +76962,10 @@
       "category": "shop",
       "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00886,
-        "baseUsd": 0.00006,
-        "perItemUsd": 0.00005,
-        "perItemUnit": "result"
+        "priceUsd": 0.00225,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "trustpilot",
       "tsMethod": "reviews",
@@ -77016,10 +77013,10 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-200, default 200). Trustpilot serves at most 200 reviews per company. You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-200, default 200). Trustpilot serves at most 200 reviews per company.",
             "minimum": 1,
             "maximum": 200,
-            "default": null
+            "default": 200
           },
           "preferLatencyUnderMs": {
             "kind": "integer",
@@ -81531,7 +81528,7 @@
       "example": {
         "formats": [
           "markdown",
-          "rawHtml"
+          "html"
         ],
         "onlyMainContent": false,
         "url": "https://example.com"
@@ -81557,7 +81554,7 @@
           },
           "formats": {
             "kind": "array",
-            "description": "Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to Markdown and raw HTML.",
+            "description": "Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (the page HTML exactly as the browser received it, including head and script tags). Each requested format is returned under the matching output field. Defaults to both. rawHtml is a deprecated alias of html, returned under a rawHtml field for callers that predate the rename; send html instead.",
             "items": {
               "kind": "string",
               "enum": [
@@ -81598,11 +81595,6 @@
             "maximum": null,
             "default": null
           },
-          "stealth": {
-            "kind": "boolean",
-            "description": "When true, fetch through a stealth proxy that gets past bot protection which refuses an ordinary request. This costs materially more per request (see the pricing ceiling), so leave it off unless a normal scrape of the site comes back blocked or empty.",
-            "default": false
-          },
           "url": {
             "kind": "string",
             "description": "The URL of the page to scrape.",
@@ -81637,7 +81629,7 @@
             },
             "html": {
               "kind": "string",
-              "description": "The cleaned page HTML. Present only when 'html' is among the requested formats.",
+              "description": "The page HTML exactly as the browser received it, head and script tags included. Present when 'html' is among the requested formats (the default).",
               "enum": null,
               "default": null,
               "format": null
@@ -81651,7 +81643,7 @@
             },
             "rawHtml": {
               "kind": "string",
-              "description": "The verbatim page HTML before cleaning. Present only when 'rawHtml' is among the requested formats.",
+              "description": "The same bytes as 'html'. Deprecated alias returned only when 'rawHtml' is among the requested formats; use 'html'.",
               "enum": null,
               "default": null,
               "format": null
@@ -87294,7 +87286,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-25, default 25).",
             "minimum": 1,
             "maximum": 25,
             "default": 25

@@ -5008,7 +5008,7 @@
                 "properties": {
                   "limit": {
                     "default": 20,
-                    "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-20, default 20).",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -6093,7 +6093,7 @@
                   },
                   "limit": {
                     "default": 50,
-                    "description": "Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-50, default 50).",
                     "maximum": 50,
                     "minimum": 1,
                     "type": "integer"
@@ -6665,7 +6665,7 @@
                 "properties": {
                   "limit": {
                     "default": 20,
-                    "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-20, default 20).",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -31782,7 +31782,7 @@
                     "type": "array"
                   },
                   "limit": {
-                    "description": "Maximum number of results to return (1 to 25, default 25). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1 to 25, default 25).",
                     "maximum": 25,
                     "minimum": 1,
                     "type": "integer"
@@ -33378,7 +33378,7 @@
     },
     "/v1/run/email.verify": {
       "post": {
-        "description": "Verify an email address for deliverability: a status verdict (valid, risky, or invalid) with domain, mailbox, catch-all, disposable, and role signals plus a confidence score. Malformed addresses are rejected by the input schema with no charge; every syntactically valid address returns a billed verdict, including undeliverable ones.\n\n**Price:** billed per result - \\$0.88 per 1,000 results, capped at \\$0.88 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Email Verifier pricing and uptime](https://getanyapi.com/api/email/verify) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).",
+        "description": "Verify an email address for deliverability: a status verdict (good, risky, or bad) with domain, mailbox, catch-all, disposable, and role signals plus a confidence score. Malformed addresses are rejected by the input schema with no charge; every syntactically valid address returns a billed verdict, including undeliverable ones.\n\n**Price:** \\$6.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Email Verifier pricing and uptime](https://getanyapi.com/api/email/verify) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).\n\n**How it works:** One source verifies every call: it opens an SMTP conversation with the receiving mail server and reports what that server said, which is what settles a catch-all domain rather than guessing at one. If it cannot be reached, a second source verifies the same address instead of failing the request. Both answer in the same vocabulary - good, bad or risky - and both report whether the domain accepts every address, so the price is one number either way. The two differ in two optional fields: `reason` is published only by the rescue source, so it is absent on almost every call, and `score` is coarse on the primary (it restates the verdict rather than grading it). Every syntactically valid address returns a billed verdict; a malformed one is rejected by the input schema with no charge.",
         "operationId": "email_verify",
         "parameters": [
           {
@@ -33527,6 +33527,7 @@
                                             "type": "boolean"
                                           },
                                           "reason": {
+                                            "description": "Why the verdict was reached. Published by only one of the two sources, so it is absent on most calls; never treat it as required.",
                                             "type": "string"
                                           },
                                           "role": {
@@ -33534,11 +33535,11 @@
                                             "type": "boolean"
                                           },
                                           "score": {
-                                            "description": "Confidence score (0-100).",
+                                            "description": "Confidence in the verdict, 0-100. Coarse rather than graded on most calls: it tracks the status rather than ranking addresses within one.",
                                             "type": "integer"
                                           },
                                           "status": {
-                                            "description": "Deliverability verdict (e.g. valid, risky, invalid). Populated whenever the provider has data for the entity.",
+                                            "description": "Deliverability verdict: good (the mailbox accepted), bad (it was refused), or risky (no source could settle it - usually a catch-all domain that accepts every address, sometimes a receiving server that declined to answer at all). Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
                                           }
@@ -33569,7 +33570,8 @@
                             "data"
                           ],
                           "title": "Email Verifier output",
-                          "type": "object"
+                          "type": "object",
+                          "x-anyapi-how-it-works": "One source verifies every call: it opens an SMTP conversation with the receiving mail server and reports what that server said, which is what settles a catch-all domain rather than guessing at one. If it cannot be reached, a second source verifies the same address instead of failing the request. Both answer in the same vocabulary - good, bad or risky - and both report whether the domain accepts every address, so the price is one number either way. The two differ in two optional fields: `reason` is published only by the rescue source, so it is absent on almost every call, and `score` is coarse on the primary (it restates the verdict rather than grading it). Every syntactically valid address returns a billed verdict; a malformed one is rejected by the input schema with no charge."
                         },
                         {
                           "type": "null"
@@ -33782,10 +33784,9 @@
         },
         "x-payment-info": {
           "price": {
+            "amount": "0.006600",
             "currency": "USD",
-            "max": "0.000880",
-            "min": "0.000000",
-            "mode": "dynamic"
+            "mode": "fixed"
           },
           "protocols": [
             {
@@ -33825,11 +33826,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.006600",
                 "currency": "USD",
-                "max": "0.001000",
-                "min": "0.001000",
                 "minimumUsd": "0.001000",
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -33858,11 +33858,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.006600",
                 "currency": "USD",
-                "max": "0.000880",
-                "min": "0.000000",
                 "minimumUsd": null,
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "funded_ceiling"
               },
               "protocol": {
@@ -70034,7 +70033,7 @@
                     "type": "string"
                   },
                   "limit": {
-                    "description": "Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-10, default 10).",
                     "maximum": 10,
                     "minimum": 1,
                     "type": "integer"
@@ -81838,7 +81837,7 @@
     },
     "/v1/run/instagram.search": {
       "post": {
-        "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Search pricing and uptime](https://getanyapi.com/api/instagram/search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.\n\n**Price:** \\$3.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Search pricing and uptime](https://getanyapi.com/api/instagram/search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_search",
         "parameters": [
           {
@@ -81903,7 +81902,7 @@
                 },
                 "properties": {
                   "limit": {
-                    "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-20, default 20).",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -82264,7 +82263,7 @@
           "price": {
             "currency": "USD",
             "max": "0.041800",
-            "min": "0.001500",
+            "min": "0.003600",
             "mode": "dynamic"
           },
           "protocols": [
@@ -82307,7 +82306,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.041800",
-                "min": "0.001500",
+                "min": "0.003600",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -82340,7 +82339,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.041800",
-                "min": "0.001500",
+                "min": "0.003600",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -90782,7 +90781,7 @@
     },
     "/v1/run/linkedin.company": {
       "post": {
-        "description": "Fetch a full LinkedIn company page by URL: name, description, industry, employee count and range, follower count, founded year, headquarters and office locations, funding data, tagline, logo, website, and specialities.\n\n**Price:** billed per result - \\$1.43 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$1.43 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company pricing and uptime](https://getanyapi.com/api/linkedin/company) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Fetch a full LinkedIn company page by URL: name, description, industry, employee count and range, follower count, founded year, headquarters and office locations, funding data, tagline, logo, website, and specialities.\n\n**Price:** billed per result - \\$1.43 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$1.43 per 1,000 requests.\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company pricing and uptime](https://getanyapi.com/api/linkedin/company) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company",
         "parameters": [
           {
@@ -91889,7 +91888,7 @@
     },
     "/v1/run/linkedin.company_posts": {
       "post": {
-        "description": "List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.\n\n**Price:** billed per result - \\$1.16 per 1,000 requests base + \\$1.93 per 1,000 results, capped at \\$97.50 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Company Posts pricing and uptime](https://getanyapi.com/api/linkedin/company-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.\n\n**Price:** \\$5.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Posts pricing and uptime](https://getanyapi.com/api/linkedin/company-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company_posts",
         "parameters": [
           {
@@ -92395,7 +92394,7 @@
           "price": {
             "currency": "USD",
             "max": "0.097500",
-            "min": "0.001160",
+            "min": "0.005000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -92438,7 +92437,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.097500",
-                "min": "0.001160",
+                "min": "0.005000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -92471,7 +92470,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.097500",
-                "min": "0.001160",
+                "min": "0.005000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -92499,7 +92498,7 @@
     },
     "/v1/run/linkedin.company_posts_thin": {
       "post": {
-        "description": "Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Company Posts (basic) pricing and uptime](https://getanyapi.com/api/linkedin/company-posts-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Posts (basic) pricing and uptime](https://getanyapi.com/api/linkedin/company-posts-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company_posts_thin",
         "parameters": [
           {
@@ -92891,9 +92890,10 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.002000",
             "currency": "USD",
-            "mode": "fixed"
+            "max": "0.002530",
+            "min": "0.002000",
+            "mode": "dynamic"
           },
           "protocols": [
             {
@@ -92933,10 +92933,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002000",
                 "currency": "USD",
+                "max": "0.002530",
+                "min": "0.002000",
                 "minimumUsd": "0.001000",
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -92965,10 +92966,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002000",
                 "currency": "USD",
+                "max": "0.002530",
+                "min": "0.002000",
                 "minimumUsd": null,
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
               },
               "protocol": {
@@ -92994,7 +92996,7 @@
     },
     "/v1/run/linkedin.company_thin": {
       "post": {
-        "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Company (basic) pricing and uptime](https://getanyapi.com/api/linkedin/company-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company (basic) pricing and uptime](https://getanyapi.com/api/linkedin/company-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company_thin",
         "parameters": [
           {
@@ -93381,9 +93383,10 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.002000",
             "currency": "USD",
-            "mode": "fixed"
+            "max": "0.002530",
+            "min": "0.002000",
+            "mode": "dynamic"
           },
           "protocols": [
             {
@@ -93423,10 +93426,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002000",
                 "currency": "USD",
+                "max": "0.002530",
+                "min": "0.002000",
                 "minimumUsd": "0.001000",
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -93455,10 +93459,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002000",
                 "currency": "USD",
+                "max": "0.002530",
+                "min": "0.002000",
                 "minimumUsd": null,
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
               },
               "protocol": {
@@ -94666,7 +94671,7 @@
     },
     "/v1/run/linkedin.jobs_thin": {
       "post": {
-        "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Jobs (index) pricing and uptime](https://getanyapi.com/api/linkedin/jobs-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.\n\n**Price:** \\$0.66 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Jobs (index) pricing and uptime](https://getanyapi.com/api/linkedin/jobs-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_jobs_thin",
         "parameters": [
           {
@@ -95134,8 +95139,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.001200",
-            "min": "0.000900",
+            "max": "0.000900",
+            "min": "0.000660",
             "mode": "dynamic"
           },
           "protocols": [
@@ -95177,7 +95182,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001200",
+                "max": "0.001000",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -95210,8 +95215,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001200",
-                "min": "0.000900",
+                "max": "0.000900",
+                "min": "0.000660",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -95628,7 +95633,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.002000",
+            "max": "0.002530",
             "min": "0.000900",
             "mode": "dynamic"
           },
@@ -95671,7 +95676,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.002000",
+                "max": "0.002530",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -95704,7 +95709,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.002000",
+                "max": "0.002530",
                 "min": "0.000900",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -95733,7 +95738,7 @@
     },
     "/v1/run/linkedin.post_comments": {
       "post": {
-        "description": "List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.\n\n**Price:** billed per result - \\$1.43 per 1,000 results, capped at \\$143.00 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Comments pricing and uptime](https://getanyapi.com/api/linkedin/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.\n\n**Price:** \\$5.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Comments pricing and uptime](https://getanyapi.com/api/linkedin/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_post_comments",
         "parameters": [
           {
@@ -95801,7 +95806,7 @@
                 "properties": {
                   "limit": {
                     "default": 100,
-                    "description": "Maximum number of comments to return. You are billed per comment returned, so a lower limit costs less.",
+                    "description": "Maximum number of comments to return.",
                     "maximum": 100,
                     "minimum": 1,
                     "type": "integer"
@@ -96194,7 +96199,7 @@
           "price": {
             "currency": "USD",
             "max": "0.220000",
-            "min": "0.000000",
+            "min": "0.005000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -96237,7 +96242,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.220000",
-                "min": "0.001000",
+                "min": "0.005000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -96270,7 +96275,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.220000",
-                "min": "0.000000",
+                "min": "0.005000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -96298,7 +96303,7 @@
     },
     "/v1/run/linkedin.post_reactions": {
       "post": {
-        "description": "List who reacted to a LinkedIn post - reactor name, profile URL, job title, and reaction type. Lead-gen grade.\n\n**Price:** billed per result - \\$2.20 per 1,000 results, capped at \\$220.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Post Reactions pricing and uptime](https://getanyapi.com/api/linkedin/post-reactions) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "List who reacted to a LinkedIn post - reactor name, profile URL, job title, and reaction type. Lead-gen grade.\n\n**Price:** \\$5.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Reactions pricing and uptime](https://getanyapi.com/api/linkedin/post-reactions) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_post_reactions",
         "parameters": [
           {
@@ -96365,7 +96370,7 @@
                 },
                 "properties": {
                   "limit": {
-                    "description": "Maximum number of reactions to return (1-100, default 100). You are billed per reaction returned, so a lower limit costs less.",
+                    "description": "Maximum number of reactions to return (1-100, default 100).",
                     "maximum": 100,
                     "minimum": 1,
                     "type": "integer"
@@ -96714,7 +96719,7 @@
           "price": {
             "currency": "USD",
             "max": "0.220000",
-            "min": "0.000000",
+            "min": "0.005000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -96757,7 +96762,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.220000",
-                "min": "0.001000",
+                "min": "0.005000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -96790,7 +96795,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.220000",
-                "min": "0.000000",
+                "min": "0.005000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -97282,7 +97287,7 @@
     },
     "/v1/run/linkedin.profile": {
       "post": {
-        "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.\n\n**Price:** billed per result - \\$4.40 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$4.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Profile pricing and uptime](https://getanyapi.com/api/linkedin/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.\n\n**Price:** \\$4.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile pricing and uptime](https://getanyapi.com/api/linkedin/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile",
         "parameters": [
           {
@@ -97338,12 +97343,12 @@
           "content": {
             "application/json": {
               "example": {
-                "url": "https://www.linkedin.com/in/williamhgates"
+                "url": "https://www.linkedin.com/in/patrickcollison"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "url": "https://www.linkedin.com/in/williamhgates"
+                  "url": "https://www.linkedin.com/in/patrickcollison"
                 },
                 "properties": {
                   "preferLatencyUnderMs": {
@@ -97900,8 +97905,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.004400",
-            "min": "0.004400",
+            "max": "0.004200",
+            "min": "0.004000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -97943,8 +97948,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.004400",
-                "min": "0.004400",
+                "max": "0.004200",
+                "min": "0.004000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -97976,8 +97981,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.004400",
-                "min": "0.004400",
+                "max": "0.004200",
+                "min": "0.004000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -98005,7 +98010,7 @@
     },
     "/v1/run/linkedin.profile_posts_full": {
       "post": {
-        "description": "Fetch recent public LinkedIn profile posts with enriched author, engagement, article, newsletter, media, annotation, repost, and social activity details.\n\n**Price:** billed per result - \\$1.16 per 1,000 requests base + \\$1.93 per 1,000 results, capped at \\$194.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Profile Posts (full) pricing and uptime](https://getanyapi.com/api/linkedin/profile-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Fetch recent public LinkedIn profile posts with enriched author, engagement, article, newsletter, media, annotation, repost, and social activity details.\n\n**Price:** \\$5.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile Posts (full) pricing and uptime](https://getanyapi.com/api/linkedin/profile-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_posts_full",
         "parameters": [
           {
@@ -98094,7 +98099,7 @@
                   },
                   "limit": {
                     "default": 10,
-                    "description": "Maximum number of posts to return (1-100, default 10). You are billed per post returned, so a lower limit costs less.",
+                    "description": "Maximum number of posts to return (1-100, default 10).",
                     "maximum": 100,
                     "minimum": 1,
                     "type": "integer"
@@ -98623,9 +98628,8 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "type": {
-                                            "description": "LinkedIn record type reported for the post. Populated whenever the provider has data for the entity.",
-                                            "type": "string",
-                                            "x-anyapi-must-populate": true
+                                            "description": "LinkedIn record type reported for the post.",
+                                            "type": "string"
                                           },
                                           "url": {
                                             "description": "Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity.",
@@ -98888,7 +98892,7 @@
           "price": {
             "currency": "USD",
             "max": "0.194000",
-            "min": "0.001160",
+            "min": "0.005000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -98931,7 +98935,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.194000",
-                "min": "0.001160",
+                "min": "0.005000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -98964,7 +98968,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.194000",
-                "min": "0.001160",
+                "min": "0.005000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -98992,7 +98996,7 @@
     },
     "/v1/run/linkedin.profile_posts_thin": {
       "post": {
-        "description": "Fetch recent public LinkedIn profile posts with portable identity, author, engagement, article, image, video, and repost fields.\n\n**Price:** billed per result - \\$1.43 per 1,000 results, capped at \\$143.00 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile Posts (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-posts-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Fetch recent public LinkedIn profile posts with portable identity, author, engagement, article, image, video, and repost fields.\n\n**Price:** \\$5.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile Posts (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-posts-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_posts_thin",
         "parameters": [
           {
@@ -99060,7 +99064,7 @@
                 "properties": {
                   "limit": {
                     "default": 10,
-                    "description": "Maximum number of posts to return (10-100, default 10). You are billed per post returned, so a lower limit costs less.",
+                    "description": "Maximum number of posts to return (10-100, default 10).",
                     "maximum": 100,
                     "minimum": 10,
                     "type": "integer"
@@ -99517,7 +99521,7 @@
           "price": {
             "currency": "USD",
             "max": "0.194000",
-            "min": "0.000000",
+            "min": "0.005000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -99560,7 +99564,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.194000",
-                "min": "0.001000",
+                "min": "0.005000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -99593,7 +99597,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.194000",
-                "min": "0.000000",
+                "min": "0.005000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -100210,7 +100214,7 @@
     },
     "/v1/run/linkedin.search_companies": {
       "post": {
-        "description": "Search LinkedIn companies by keyword with optional location filtering, returning normalized company records.\n\n**Price:** billed per result - \\$1.10 per 1,000 requests base + \\$4.40 per 1,000 results, capped at \\$89.10 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Company Search pricing and uptime](https://getanyapi.com/api/linkedin/search-companies) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Search LinkedIn companies by keyword with optional location filtering, returning normalized company records.\n\n**Price:** \\$5.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Search pricing and uptime](https://getanyapi.com/api/linkedin/search-companies) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_search_companies",
         "parameters": [
           {
@@ -100277,7 +100281,8 @@
                 },
                 "properties": {
                   "limit": {
-                    "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+                    "default": 20,
+                    "description": "Maximum number of results to return (1-20, default 20).",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -100636,7 +100641,7 @@
           "price": {
             "currency": "USD",
             "max": "0.089100",
-            "min": "0.001100",
+            "min": "0.005000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -100679,7 +100684,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.089100",
-                "min": "0.001100",
+                "min": "0.005000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -100712,7 +100717,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.089100",
-                "min": "0.001100",
+                "min": "0.005000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -101281,7 +101286,7 @@
     },
     "/v1/run/linkedin.search_posts_full": {
       "post": {
-        "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.\n\n**Price:** billed per result - \\$1.43 per 1,000 results, capped at \\$143.00 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Search (full) pricing and uptime](https://getanyapi.com/api/linkedin/search-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.\n\n**Price:** \\$5.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Search (full) pricing and uptime](https://getanyapi.com/api/linkedin/search-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_search_posts_full",
         "parameters": [
           {
@@ -101412,7 +101417,7 @@
                   },
                   "limit": {
                     "default": 10,
-                    "description": "Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page. You are billed per post returned.",
+                    "description": "Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page.",
                     "maximum": 100,
                     "minimum": 1,
                     "type": "integer"
@@ -101911,7 +101916,7 @@
           "price": {
             "currency": "USD",
             "max": "0.194000",
-            "min": "0.000000",
+            "min": "0.005000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -101954,7 +101959,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.194000",
-                "min": "0.001000",
+                "min": "0.005000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -101987,7 +101992,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.194000",
-                "min": "0.000000",
+                "min": "0.005000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -104958,19 +104963,17 @@
             "application/json": {
               "example": {
                 "location": "San Francisco, CA",
-                "query": "Blue Bottle Coffee",
-                "website": "withWebsite"
+                "query": "Blue Bottle Coffee"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
                   "location": "San Francisco, CA",
-                  "query": "Blue Bottle Coffee",
-                  "website": "withWebsite"
+                  "query": "Blue Bottle Coffee"
                 },
                 "properties": {
                   "categoryFilterWords": {
-                    "description": "Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. [\"coffee shop\"]). Omit to allow any category.",
+                    "description": "Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. [\"coffee shop\"]). Omit to allow any category and stay on the cheapest price; a category filter routes to a dearer source.",
                     "items": {
                       "type": "string"
                     },
@@ -104986,7 +104989,7 @@
                     "type": "string"
                   },
                   "placeMinimumStars": {
-                    "description": "Only match a place with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter.",
+                    "description": "Only match a place with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit this field to stay on the cheapest price; a rating floor routes to a dearer source.",
                     "enum": [
                       "two",
                       "twoAndHalf",
@@ -105007,7 +105010,7 @@
                     "type": "string"
                   },
                   "website": {
-                    "description": "Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none).",
+                    "description": "Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.",
                     "enum": [
                       "allPlaces",
                       "withWebsite",
@@ -106139,22 +106142,18 @@
               "example": {
                 "limit": 3,
                 "location": "Austin, TX",
-                "placeMinimumStars": "four",
-                "query": "coffee",
-                "website": "withWebsite"
+                "query": "coffee"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
                   "limit": 3,
                   "location": "Austin, TX",
-                  "placeMinimumStars": "four",
-                  "query": "coffee",
-                  "website": "withWebsite"
+                  "query": "coffee"
                 },
                 "properties": {
                   "categoryFilterWords": {
-                    "description": "Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. [\"coffee shop\", \"restaurant\"]). Omit to include all categories.",
+                    "description": "Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. [\"coffee shop\", \"restaurant\"]). Omit to include all categories and stay on the cheapest price; a category filter routes to a dearer source.",
                     "items": {
                       "type": "string"
                     },
@@ -106177,7 +106176,7 @@
                     "type": "string"
                   },
                   "placeMinimumStars": {
-                    "description": "Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter.",
+                    "description": "Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit this field to stay on the cheapest price; a rating floor routes to a dearer source.",
                     "enum": [
                       "two",
                       "twoAndHalf",
@@ -106198,7 +106197,7 @@
                     "type": "string"
                   },
                   "website": {
-                    "description": "Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one).",
+                    "description": "Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.",
                     "enum": [
                       "allPlaces",
                       "withWebsite",
@@ -126097,7 +126096,7 @@
                 },
                 "properties": {
                   "limit": {
-                    "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-20, default 20).",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -159614,7 +159613,7 @@
     },
     "/v1/run/tiktok.hashtag_videos": {
       "post": {
-        "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).\n\n**Price:** \\$1.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Hashtag Videos pricing and uptime](https://getanyapi.com/api/tiktok/hashtag-videos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).\n\n**Price:** \\$3.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Hashtag Videos pricing and uptime](https://getanyapi.com/api/tiktok/hashtag-videos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_hashtag_videos",
         "parameters": [
           {
@@ -159685,7 +159684,7 @@
                     "type": "string"
                   },
                   "limit": {
-                    "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-20, default 20).",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -160031,7 +160030,7 @@
           "price": {
             "currency": "USD",
             "max": "0.006600",
-            "min": "0.001440",
+            "min": "0.003600",
             "mode": "dynamic"
           },
           "protocols": [
@@ -160074,7 +160073,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.006600",
-                "min": "0.001440",
+                "min": "0.003600",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -160107,7 +160106,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.006600",
-                "min": "0.001440",
+                "min": "0.003600",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -174023,7 +174022,7 @@
                     "type": "string"
                   },
                   "limit": {
-                    "description": "Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-10, default 10).",
                     "maximum": 10,
                     "minimum": 1,
                     "type": "integer"
@@ -176113,7 +176112,7 @@
                     "type": "array"
                   },
                   "limit": {
-                    "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-20, default 20).",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -176654,7 +176653,7 @@
                     "type": "boolean"
                   },
                   "limit": {
-                    "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-20, default 20).",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -177154,7 +177153,7 @@
     },
     "/v1/run/trustpilot.reviews": {
       "post": {
-        "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$0.05 per 1,000 results, capped at \\$8.86 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Trustpilot Reviews pricing and uptime](https://getanyapi.com/api/trustpilot/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Trustpilot endpoint](https://getanyapi.com/api/trustpilot).",
+        "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.\n\n**Price:** \\$2.25 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Trustpilot Reviews pricing and uptime](https://getanyapi.com/api/trustpilot/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Trustpilot endpoint](https://getanyapi.com/api/trustpilot).",
         "operationId": "trustpilot_reviews",
         "parameters": [
           {
@@ -177239,7 +177238,8 @@
                     "type": "array"
                   },
                   "limit": {
-                    "description": "Maximum number of results to return (1-200, default 200). Trustpilot serves at most 200 reviews per company. You are billed per result returned, so a lower limit costs less.",
+                    "default": 200,
+                    "description": "Maximum number of results to return (1-200, default 200). Trustpilot serves at most 200 reviews per company.",
                     "maximum": 200,
                     "minimum": 1,
                     "type": "integer"
@@ -177593,7 +177593,7 @@
           "price": {
             "currency": "USD",
             "max": "0.165000",
-            "min": "0.000060",
+            "min": "0.002250",
             "mode": "dynamic"
           },
           "protocols": [
@@ -177636,7 +177636,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.165000",
-                "min": "0.001000",
+                "min": "0.002250",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -177669,7 +177669,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.165000",
-                "min": "0.000060",
+                "min": "0.002250",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -190090,7 +190090,7 @@
     },
     "/v1/run/web.scrape": {
       "post": {
-        "description": "Scrape any web page and get its content back as clean Markdown (or HTML, or raw HTML) plus title and metadata.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Web Scrape pricing and uptime](https://getanyapi.com/api/web/scrape) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
+        "description": "Scrape any web page and get its content back as clean Markdown (or HTML, or raw HTML) plus title and metadata.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Web Scrape pricing and uptime](https://getanyapi.com/api/web/scrape) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
         "operationId": "web_scrape",
         "parameters": [
           {
@@ -190148,7 +190148,7 @@
               "example": {
                 "formats": [
                   "markdown",
-                  "rawHtml"
+                  "html"
                 ],
                 "onlyMainContent": false,
                 "url": "https://example.com"
@@ -190158,7 +190158,7 @@
                 "example": {
                   "formats": [
                     "markdown",
-                    "rawHtml"
+                    "html"
                   ],
                   "onlyMainContent": false,
                   "url": "https://example.com"
@@ -190178,9 +190178,9 @@
                   "formats": {
                     "default": [
                       "markdown",
-                      "rawHtml"
+                      "html"
                     ],
-                    "description": "Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to Markdown and raw HTML.",
+                    "description": "Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (the page HTML exactly as the browser received it, including head and script tags). Each requested format is returned under the matching output field. Defaults to both. rawHtml is a deprecated alias of html, returned under a rawHtml field for callers that predate the rename; send html instead.",
                     "items": {
                       "enum": [
                         "markdown",
@@ -190211,11 +190211,6 @@
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
                     "minimum": 1,
                     "type": "integer"
-                  },
-                  "stealth": {
-                    "default": false,
-                    "description": "When true, fetch through a stealth proxy that gets past bot protection which refuses an ordinary request. This costs materially more per request (see the pricing ceiling), so leave it off unless a normal scrape of the site comes back blocked or empty.",
-                    "type": "boolean"
                   },
                   "url": {
                     "description": "The URL of the page to scrape.",
@@ -190282,7 +190277,7 @@
                                       "type": "string"
                                     },
                                     "html": {
-                                      "description": "The cleaned page HTML. Present only when 'html' is among the requested formats.",
+                                      "description": "The page HTML exactly as the browser received it, head and script tags included. Present when 'html' is among the requested formats (the default).",
                                       "type": "string"
                                     },
                                     "markdown": {
@@ -190291,7 +190286,7 @@
                                       "x-anyapi-must-populate": true
                                     },
                                     "rawHtml": {
-                                      "description": "The verbatim page HTML before cleaning. Present only when 'rawHtml' is among the requested formats.",
+                                      "description": "The same bytes as 'html'. Deprecated alias returned only when 'rawHtml' is among the requested formats; use 'html'.",
                                       "type": "string"
                                     },
                                     "title": {
@@ -190537,7 +190532,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.005000",
+            "max": "0.001500",
             "min": "0.000700",
             "mode": "dynamic"
           },
@@ -190580,7 +190575,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005000",
+                "max": "0.001500",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -190613,7 +190608,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005000",
+                "max": "0.001500",
                 "min": "0.000700",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -208065,7 +208060,7 @@
                   },
                   "limit": {
                     "default": 25,
-                    "description": "Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of results to return (1-25, default 25).",
                     "maximum": 25,
                     "minimum": 1,
                     "type": "integer"

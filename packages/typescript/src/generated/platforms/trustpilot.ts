@@ -23,8 +23,9 @@ export interface TrustpilotReviewsInput {
    */
   languages?: string[];
   /**
-   * Maximum number of results to return (1-200, default 200). Trustpilot serves at most 200 reviews per company. You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-200, default 200). Trustpilot serves at most 200 reviews per company.
    * Range: minimum 1, maximum 200.
+   * Default: 200.
    */
   limit?: number;
   /**
@@ -109,7 +110,7 @@ export class TrustpilotNamespace {
    *
    * Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.
    *
-   * Price: $0.00006 per request plus $0.00005 per result (maximum $0.00886).
+   * Price: $0.00225 per request.
    *
    * @example
    * const res = await client.trustpilot.reviews({ company: "stripe.com", limit: 3 });

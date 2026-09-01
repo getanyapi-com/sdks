@@ -62,7 +62,7 @@ class ZillowSearchInput(TypedDict, total=False):
     includeRoomForRent: NotRequired[bool]
     """Include room-for-rent listings in rent searches; when omitted or false only entire places are returned (e.g. true)."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25. Default: 25."""
+    """Maximum number of results to return (1-25, default 25). Range: 1 to 25. Default: 25."""
     listingTypes: NotRequired[
         list[
             Literal[

@@ -1179,7 +1179,7 @@ export interface LinkedinPostData {
  */
 export interface LinkedinPostCommentsInput {
   /**
-   * Maximum number of comments to return. You are billed per comment returned, so a lower limit costs less.
+   * Maximum number of comments to return.
    * Range: minimum 1, maximum 100.
    * Default: 100.
    */
@@ -1288,7 +1288,7 @@ export interface LinkedinPostCommentsData {
  */
 export interface LinkedinPostReactionsInput {
   /**
-   * Maximum number of reactions to return (1-100, default 100). You are billed per reaction returned, so a lower limit costs less.
+   * Maximum number of reactions to return (1-100, default 100).
    * Range: minimum 1, maximum 100.
    */
   limit?: number;
@@ -1670,7 +1670,7 @@ export interface LinkedinProfilePostsFullInput {
    */
   includeReposts?: boolean;
   /**
-   * Maximum number of posts to return (1-100, default 10). You are billed per post returned, so a lower limit costs less.
+   * Maximum number of posts to return (1-100, default 10).
    * Range: minimum 1, maximum 100.
    * Default: 10.
    */
@@ -2009,8 +2009,7 @@ export interface LinkedinProfilePostsFullItem {
    */
   text: string;
   /**
-   * LinkedIn record type reported for the post. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
+   * LinkedIn record type reported for the post.
    */
   type?: string;
   /**
@@ -2159,7 +2158,7 @@ export interface LinkedinProfilePostsFullData {
  */
 export interface LinkedinProfilePostsThinInput {
   /**
-   * Maximum number of posts to return (10-100, default 10). You are billed per post returned, so a lower limit costs less.
+   * Maximum number of posts to return (10-100, default 10).
    * Range: minimum 10, maximum 100.
    * Default: 10.
    */
@@ -2470,8 +2469,9 @@ export interface LinkedinProfileThinData {
  */
 export interface LinkedinSearchCompaniesInput {
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
+   * Default: 20.
    */
   limit?: number;
   /**
@@ -2677,7 +2677,7 @@ export interface LinkedinSearchPostsFullInput {
     | "last-six-months"
     | "last-year";
   /**
-   * Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page. You are billed per post returned.
+   * Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page.
    * Range: minimum 1, maximum 100.
    * Default: 10.
    */
@@ -3688,7 +3688,7 @@ export class LinkedinNamespace {
    *
    * List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.
    *
-   * Price: $0.00116 per request plus $0.00193 per result (maximum $0.0975).
+   * Price: $0.005 per request.
    *
    * @example
    * const res = await client.linkedin.companyPosts({ url: "https://www.linkedin.com/company/stripe", limit: 10 });
@@ -3773,7 +3773,7 @@ export class LinkedinNamespace {
    *
    * Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.00066 per request.
    *
    * @example
    * const res = await client.linkedin.jobsThin({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });
@@ -3807,7 +3807,7 @@ export class LinkedinNamespace {
    *
    * List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.
    *
-   * Price: $0 per request plus $0.00143 per result (maximum $0.143).
+   * Price: $0.005 per request.
    *
    * @example
    * const res = await client.linkedin.postComments({ url: "https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ", limit: 10 });
@@ -3824,7 +3824,7 @@ export class LinkedinNamespace {
    *
    * List who reacted to a LinkedIn post - reactor name, profile URL, job title, and reaction type. Lead-gen grade.
    *
-   * Price: $0 per request plus $0.0022 per result (maximum $0.22).
+   * Price: $0.005 per request.
    *
    * @example
    * const res = await client.linkedin.postReactions({ url: "https://www.linkedin.com/posts/satyanadella_today-were-bringing-skills-to-copilot-for-activity-7475945433668694017--kvG", limit: 5 });
@@ -3858,10 +3858,10 @@ export class LinkedinNamespace {
    *
    * Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.
    *
-   * Price: $0.0044 per request plus $0 per result (maximum $0.0044).
+   * Price: $0.004 per request.
    *
    * @example
-   * const res = await client.linkedin.profile({ url: "https://www.linkedin.com/in/williamhgates" });
+   * const res = await client.linkedin.profile({ url: "https://www.linkedin.com/in/patrickcollison" });
    */
   profile(
     input: LinkedinProfileInput,
@@ -3875,7 +3875,7 @@ export class LinkedinNamespace {
    *
    * Fetch recent public LinkedIn profile posts with enriched author, engagement, article, newsletter, media, annotation, repost, and social activity details.
    *
-   * Price: $0.00116 per request plus $0.00193 per result (maximum $0.194).
+   * Price: $0.005 per request.
    *
    * @example
    * const res = await client.linkedin.profilePostsFull({ url: "https://www.linkedin.com/in/williamhgates/", limit: 10 });
@@ -3892,7 +3892,7 @@ export class LinkedinNamespace {
    *
    * Fetch recent public LinkedIn profile posts with portable identity, author, engagement, article, image, video, and repost fields.
    *
-   * Price: $0 per request plus $0.00143 per result (maximum $0.143).
+   * Price: $0.005 per request.
    *
    * @example
    * const res = await client.linkedin.profilePostsThin({ url: "https://www.linkedin.com/in/williamhgates/", limit: 10 });
@@ -3926,7 +3926,7 @@ export class LinkedinNamespace {
    *
    * Search LinkedIn companies by keyword with optional location filtering, returning normalized company records.
    *
-   * Price: $0.0011 per request plus $0.0044 per result (maximum $0.0891).
+   * Price: $0.005 per request.
    *
    * @example
    * const res = await client.linkedin.searchCompanies({ query: "fintech", limit: 3 });
@@ -3983,7 +3983,7 @@ export class LinkedinNamespace {
    *
    * Search public LinkedIn posts with rich author, engagement, attachment, and poll details.
    *
-   * Price: $0 per request plus $0.00143 per result (maximum $0.143).
+   * Price: $0.005 per request.
    *
    * @example
    * const res = await client.linkedin.searchPostsFull({ query: "artificial intelligence", datePosted: "last-week", limit: 10, sort: "relevance" });

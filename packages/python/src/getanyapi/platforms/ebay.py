@@ -41,7 +41,7 @@ class EbaySearchInput(TypedDict, total=False):
     ]
     """Filter by one or more item conditions; omit for all conditions (e.g. ["new", "open_box"])."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1 to 25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
+    """Maximum number of results to return (1 to 25, default 25). Range: 1 to 25."""
     listingType: NotRequired[Literal["all", "auction", "buy_it_now"]]
     """Restrict to a listing format; omit or use all for both (e.g. buy_it_now for fixed-price only)."""
     maxPrice: NotRequired[int]

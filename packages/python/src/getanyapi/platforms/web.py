@@ -51,7 +51,7 @@ class WebScrapeInput(TypedDict, total=False):
     excludeTags: NotRequired[list[str]]
     """CSS selectors to drop before capture (for example ["nav", "footer", ".ads"]). Applied after includeTags."""
     formats: NotRequired[list[Literal["markdown", "html", "rawHtml"]]]
-    """Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (cleaned HTML), rawHtml (verbatim page HTML). Each requested format is returned under the matching output field. Defaults to Markdown and raw HTML."""
+    """Which representations of the page to return. Any combination of: markdown (page content as Markdown), html (the page HTML exactly as the browser received it, including head and script tags). Each requested format is returned under the matching output field. Defaults to both. rawHtml is a deprecated alias of html, returned under a rawHtml field for callers that predate the rename; send html instead."""
     includeTags: NotRequired[list[str]]
     """CSS selectors to keep. When set, only content matching these selectors is captured (for example ["article", "main"] or ["#content"])."""
     mobile: NotRequired[bool]
@@ -60,8 +60,6 @@ class WebScrapeInput(TypedDict, total=False):
     """When true, return only the main article content, stripping navigation, headers, footers, and other boilerplate. Defaults to false to capture the full page. Default: false."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    stealth: NotRequired[bool]
-    """When true, fetch through a stealth proxy that gets past bot protection which refuses an ordinary request. This costs materially more per request (see the pricing ceiling), so leave it off unless a normal scrape of the site comes back blocked or empty. Default: false."""
     url: Required[str]
     """The URL of the page to scrape."""
     waitFor: NotRequired[int]
@@ -118,7 +116,7 @@ class WebScrapeData(BaseModel):
     description: str = Field(description="The page meta description.")
     html: str | None = Field(
         default=None,
-        description="The cleaned page HTML. Present only when 'html' is among the requested formats.",
+        description="The page HTML exactly as the browser received it, head and script tags included. Present when 'html' is among the requested formats (the default).",
     )
     markdown: str | None = Field(
         default=None,
@@ -127,7 +125,7 @@ class WebScrapeData(BaseModel):
     raw_html: str | None = Field(
         default=None,
         alias="rawHtml",
-        description="The verbatim page HTML before cleaning. Present only when 'rawHtml' is among the requested formats.",
+        description="The same bytes as 'html'. Deprecated alias returned only when 'rawHtml' is among the requested formats; use 'html'.",
     )
     title: str = Field(description="The page title from its metadata.")
     url: str = Field(
@@ -206,7 +204,7 @@ class WebNamespace:
         Price: $0.0007 per request.
 
         Example:
-            res = client.web.scrape(formats=["markdown", "rawHtml"], onlyMainContent=False, url="https://example.com")
+            res = client.web.scrape(formats=["markdown", "html"], onlyMainContent=False, url="https://example.com")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options
@@ -287,7 +285,7 @@ class AsyncWebNamespace:
         Price: $0.0007 per request.
 
         Example:
-            res = client.web.scrape(formats=["markdown", "rawHtml"], onlyMainContent=False, url="https://example.com")
+            res = client.web.scrape(formats=["markdown", "html"], onlyMainContent=False, url="https://example.com")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "web.scrape", dict(input), options

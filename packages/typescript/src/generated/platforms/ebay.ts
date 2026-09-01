@@ -280,7 +280,7 @@ export interface EbaySearchInput {
    */
   condition?: ("new" | "open_box" | "refurbished" | "used" | "for_parts")[];
   /**
-   * Maximum number of results to return (1 to 25, default 25). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1 to 25, default 25).
    * Range: minimum 1, maximum 25.
    */
   limit?: number;

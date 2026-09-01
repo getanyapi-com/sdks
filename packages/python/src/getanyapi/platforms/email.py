@@ -68,13 +68,19 @@ class EmailVerifyItem(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     free: bool | None = Field(default=None, description="Free email provider.")
-    reason: str | None = None
+    reason: str | None = Field(
+        default=None,
+        description="Why the verdict was reached. Published by only one of the two sources, so it is absent on most calls; never treat it as required.",
+    )
     role: bool | None = Field(
         default=None, description="Role-based address (e.g. info@)."
     )
-    score: int | None = Field(default=None, description="Confidence score (0-100).")
+    score: int | None = Field(
+        default=None,
+        description="Confidence in the verdict, 0-100. Coarse rather than graded on most calls: it tracks the status rather than ranking addresses within one.",
+    )
     status: str = Field(
-        description="Deliverability verdict (e.g. valid, risky, invalid). Populated whenever the provider has data for the entity."
+        description="Deliverability verdict: good (the mailbox accepted), bad (it was refused), or risky (no source could settle it - usually a catch-all domain that accepts every address, sometimes a receiving server that declined to answer at all). Populated whenever the provider has data for the entity."
     )
 
 
@@ -109,13 +115,13 @@ class EmailNamespace:
     ) -> RunResult[EmailVerifyData]:
         """Email Verifier
 
-        Verify an email address for deliverability: a status verdict (valid, risky,
-        or invalid) with domain, mailbox, catch-all, disposable, and role signals
-        plus a confidence score. Malformed addresses are rejected by the input
-        schema with no charge; every syntactically valid address returns a billed
-        verdict, including undeliverable ones.
+        Verify an email address for deliverability: a status verdict (good, risky,
+        or bad) with domain, mailbox, catch-all, disposable, and role signals plus a
+        confidence score. Malformed addresses are rejected by the input schema with
+        no charge; every syntactically valid address returns a billed verdict,
+        including undeliverable ones.
 
-        Price: $0 per request plus $0.00088 per result (maximum $0.00088).
+        Price: $0.0066 per request.
 
         Example:
             res = client.email.verify(email="patrick@stripe.com")
@@ -157,13 +163,13 @@ class AsyncEmailNamespace:
     ) -> RunResult[EmailVerifyData]:
         """Email Verifier
 
-        Verify an email address for deliverability: a status verdict (valid, risky,
-        or invalid) with domain, mailbox, catch-all, disposable, and role signals
-        plus a confidence score. Malformed addresses are rejected by the input
-        schema with no charge; every syntactically valid address returns a billed
-        verdict, including undeliverable ones.
+        Verify an email address for deliverability: a status verdict (good, risky,
+        or bad) with domain, mailbox, catch-all, disposable, and role signals plus a
+        confidence score. Malformed addresses are rejected by the input schema with
+        no charge; every syntactically valid address returns a billed verdict,
+        including undeliverable ones.
 
-        Price: $0 per request plus $0.00088 per result (maximum $0.00088).
+        Price: $0.0066 per request.
 
         Example:
             res = client.email.verify(email="patrick@stripe.com")

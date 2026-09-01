@@ -85,7 +85,7 @@ export interface AmazonAsinsData {
  */
 export interface AmazonBestsellersInput {
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
    * Default: 20.
    */
@@ -267,7 +267,7 @@ export interface AmazonReviewsInput {
    */
   keyword?: string;
   /**
-   * Maximum number of results to return (1-50, default 50). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-50, default 50).
    * Range: minimum 1, maximum 50.
    * Default: 50.
    */
@@ -379,7 +379,7 @@ export interface AmazonReviewsData {
  */
 export interface AmazonSearchInput {
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
    * Default: 20.
    */

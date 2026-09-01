@@ -169,7 +169,7 @@ export interface MapsContactsData {
  */
 export interface MapsPlaceInput {
   /**
-   * Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop"]). Omit to allow any category.
+   * Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop"]). Omit to allow any category and stay on the cheapest price; a category filter routes to a dearer source.
    */
   categoryFilterWords?: string[];
   /**
@@ -182,7 +182,7 @@ export interface MapsPlaceInput {
    */
   location?: string;
   /**
-   * Only match a place with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter.
+   * Only match a place with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit this field to stay on the cheapest price; a rating floor routes to a dearer source.
    * One of: two, twoAndHalf, three, threeAndHalf, four, fourAndHalf.
    */
   placeMinimumStars?:
@@ -197,7 +197,7 @@ export interface MapsPlaceInput {
    */
   query: string;
   /**
-   * Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none).
+   * Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.
    * One of: allPlaces, withWebsite, withoutWebsite.
    */
   website?: "allPlaces" | "withWebsite" | "withoutWebsite";
@@ -428,7 +428,7 @@ export interface MapsReviewsData {
  */
 export interface MapsSearchInput {
   /**
-   * Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop", "restaurant"]). Omit to include all categories.
+   * Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop", "restaurant"]). Omit to include all categories and stay on the cheapest price; a category filter routes to a dearer source.
    */
   categoryFilterWords?: string[];
   /**
@@ -446,7 +446,7 @@ export interface MapsSearchInput {
    */
   location: string;
   /**
-   * Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit for no rating filter.
+   * Only return places with at least this average rating: two (2+), twoAndHalf (2.5+), three (3+), threeAndHalf (3.5+), four (4+), or fourAndHalf (4.5+). Places with no reviews are excluded. Omit this field to stay on the cheapest price; a rating floor routes to a dearer source.
    * One of: two, twoAndHalf, three, threeAndHalf, four, fourAndHalf.
    */
   placeMinimumStars?:
@@ -461,7 +461,7 @@ export interface MapsSearchInput {
    */
   query: string;
   /**
-   * Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one).
+   * Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.
    * One of: allPlaces, withWebsite, withoutWebsite.
    */
   website?: "allPlaces" | "withWebsite" | "withoutWebsite";
@@ -593,7 +593,7 @@ export class MapsNamespace {
    * Price: $0.00175 per request.
    *
    * @example
-   * const res = await client.maps.place({ query: "Blue Bottle Coffee", location: "San Francisco, CA", website: "withWebsite" });
+   * const res = await client.maps.place({ query: "Blue Bottle Coffee", location: "San Francisco, CA" });
    */
   place(
     input: MapsPlaceInput,
@@ -627,7 +627,7 @@ export class MapsNamespace {
    * Price: $0.00175 per request.
    *
    * @example
-   * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3, placeMinimumStars: "four", website: "withWebsite" });
+   * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3 });
    */
   search(
     input: MapsSearchInput,

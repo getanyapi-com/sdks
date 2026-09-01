@@ -11,7 +11,7 @@ import type {
  */
 export interface PinterestSearchInput {
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
