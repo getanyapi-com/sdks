@@ -10417,7 +10417,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "One page of matching records plus FullEnrich's paging state.",
           "properties": {
             "companies": {
               "kind": "array",
@@ -10738,7 +10737,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "The matching companies plus the total the query matched. People Data Labs paginates with a scroll token that is not exposed here, so a call returns one page and total tells you how much is behind it.",
           "properties": {
             "companies": {
               "kind": "array",
@@ -11590,7 +11588,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "One page of matching records plus Prospeo's paging counters.",
           "properties": {
             "companies": {
               "kind": "array",
@@ -13355,7 +13352,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "The matching rows plus TheirStack's result counters.",
           "properties": {
             "companies": {
               "kind": "array",
@@ -35694,7 +35690,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "The matching rows plus TheirStack's result counters.",
           "properties": {
             "jobs": {
               "kind": "array",
@@ -48643,7 +48638,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "One page of matching records plus FullEnrich's paging state.",
           "properties": {
             "nextCursor": {
               "kind": "string",
@@ -49218,7 +49212,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "One page of matching contacts plus its paging counters.",
           "properties": {
             "currentPage": {
               "kind": "integer",
@@ -49523,7 +49516,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "The matching profiles plus the total the query matched. People Data Labs paginates with a scroll token that is not exposed here, so a call returns one page and total tells you how much is behind it.",
           "properties": {
             "datasetVersion": {
               "kind": "string",
@@ -50603,7 +50595,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "One page of matching records plus Prospeo's paging counters.",
           "properties": {
             "currentPage": {
               "kind": "integer",
@@ -62168,7 +62159,7 @@
       "inputTypeName": "RednoteNoteInput",
       "outputTypeName": "RednoteNoteData",
       "example": {
-        "noteId": "66f2a24f000000002c02cf57"
+        "noteId": "6a8fe7c20000000026003bbf"
       },
       "input": {
         "kind": "object",
@@ -68656,7 +68647,6 @@
         "envelope": "found-data",
         "data": {
           "kind": "object",
-          "description": "The matching rows plus TheirStack's result counters.",
           "properties": {
             "technologies": {
               "kind": "array",

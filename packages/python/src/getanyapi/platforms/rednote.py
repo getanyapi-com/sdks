@@ -506,7 +506,7 @@ class RednoteNamespace:
         Price: $0.012 per request.
 
         Example:
-            res = client.rednote.note(noteId="66f2a24f000000002c02cf57")
+            res = client.rednote.note(noteId="6a8fe7c20000000026003bbf")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note", dict(input), options
@@ -731,7 +731,7 @@ class AsyncRednoteNamespace:
         Price: $0.012 per request.
 
         Example:
-            res = client.rednote.note(noteId="66f2a24f000000002c02cf57")
+            res = client.rednote.note(noteId="6a8fe7c20000000026003bbf")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "rednote.note", dict(input), options

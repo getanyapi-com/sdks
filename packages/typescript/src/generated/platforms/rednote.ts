@@ -563,7 +563,7 @@ export class RednoteNamespace {
    * Price: $0.012 per request.
    *
    * @example
-   * const res = await client.rednote.note({ noteId: "66f2a24f000000002c02cf57" });
+   * const res = await client.rednote.note({ noteId: "6a8fe7c20000000026003bbf" });
    */
   note(
     input: RednoteNoteInput,
