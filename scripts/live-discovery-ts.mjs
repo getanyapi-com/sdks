@@ -66,6 +66,11 @@ assert(eligible, "catalog has no try-eligible SKU");
 const search = await client.search({ query: "web", limit: 1 });
 assert(search.results.length > 0, "search is empty");
 
+// A scope with no query at all is a complete search: the gateway takes any
+// non-empty combination of q, category and platform.
+const scoped = await client.search({ platform: "reddit", limit: 3 });
+assert(scoped.results.length > 0, "scope-only search is empty");
+
 const detail = await client.describe(eligible.slug);
 assert(detail.slug === eligible.slug, "detail slug does not match");
 assert(detail.inputSchema, "detail input schema is missing");

@@ -299,6 +299,36 @@ describe("search", () => {
     });
   });
 
+  it("searches a scope with no query and omits q entirely", async () => {
+    const body = clone(golden.rest.search);
+    const { fetch, calls } = mockFetch([{ body }]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    await client.search({ platform: "reddit" });
+    const url = new URL(calls[0]!.url);
+    expect(url.pathname).toBe("/catalog/search");
+    expect(url.searchParams.has("q")).toBe(false);
+    expect(Object.fromEntries(url.searchParams)).toEqual({
+      platform: "reddit",
+    });
+  });
+
+  it("omits an empty query rather than sending q=", async () => {
+    const body = clone(golden.rest.search);
+    const { fetch, calls } = mockFetch([{ body }]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    await client.search({ query: "", category: "social" });
+    expect(new URL(calls[0]!.url).searchParams.has("q")).toBe(false);
+  });
+
+  it("rejects a search naming none of query, category, or platform", async () => {
+    const { fetch, calls } = mockFetch([]);
+    const client = new AnyAPI({ apiKey: "k", fetch });
+    await expect(client.search({ limit: 5 })).rejects.toThrow(
+      "search needs at least one of query, category, or platform",
+    );
+    expect(calls).toHaveLength(0);
+  });
+
   it("rejects an upstream provider identity", async () => {
     const body = clone(golden.rest.search);
     body.results[0]!.provider = "upstream";

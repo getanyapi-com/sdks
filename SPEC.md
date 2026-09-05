@@ -779,7 +779,12 @@ export interface AgentSignupResult {
   `signupGrantApplied`; keep `id`, `email`, `status`, `createdAt`, `onboardingComplete`).
 - `catalog(options?)` -> category-only GET `/v1/apis?category=` -> `CatalogEntry[]`.
 - `search(options)` -> dedicated GET `/catalog/search?q=&category=&platform=&limit=` ->
-  `{ results, total, ranking }` with nested pricing and relevance.
+  `{ results, total, ranking }` with nested pricing and relevance. The gateway accepts any
+  non-empty combination of `q`, `category`, and `platform`, so a scope with no query at all
+  is a valid search and `query` is optional in both readers. An absent or empty query omits
+  `q` from the query string rather than sending it empty, which is a different request. A
+  call naming none of the three never reaches the gateway: the reader raises `AnyAPIError`
+  with status `0`.
 - `describe(slug)` -> GET `/v1/apis/{slug}` -> one `CatalogEntry`. 404 -> `NotFoundError`.
 - Browse, search, and detail carry the gateway-authored `method`, `path`, and `execution.mode`
   unchanged. Ranked search also carries the gateway's `failover`, optional
