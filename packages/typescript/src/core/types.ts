@@ -307,8 +307,13 @@ export interface CatalogEntry {
   latency?: DiscoveryLatency | null;
 }
 
+/**
+ * Ranked catalog search accepts any non-empty combination of query, category and
+ * platform, so a scope with no query at all ("every reddit API") is expressible.
+ * At least one of the three is required; see `AnyAPI.search`.
+ */
 export interface SearchOptions {
-  query: string;
+  query?: string;
   category?: string;
   platform?: string;
   limit?: number;

@@ -12,6 +12,7 @@ import pytest
 
 from conftest import json_response, make_async_client, make_sync_client
 from getanyapi import (
+    AnyAPIError,
     DiscoveryPricing,
     FlatPricingOffer,
     LinearPricingOffer,
@@ -329,6 +330,40 @@ def test_search_reads_every_shared_ranked_field_and_forwards_filters() -> None:
     client, _ = make_sync_client(respond)
     found = client.search(query="data", category="data", platform="linear", limit=2)
     assert found.model_dump(by_alias=True, exclude_defaults=True) == body
+
+
+def test_search_scopes_without_a_query_and_omits_q_entirely() -> None:
+    body = discovery_search()
+
+    def respond(req: httpx.Request) -> httpx.Response:
+        assert req.url.path == "/catalog/search"
+        assert dict(req.url.params) == {"platform": "reddit"}
+        return json_response(200, body)
+
+    client, _ = make_sync_client(respond)
+    assert client.search(platform="reddit").results
+
+
+def test_search_omits_an_empty_query_rather_than_sending_it_empty() -> None:
+    body = discovery_search()
+
+    def respond(req: httpx.Request) -> httpx.Response:
+        assert "q" not in dict(req.url.params)
+        return json_response(200, body)
+
+    client, _ = make_sync_client(respond)
+    assert client.search(query="", category="social").results
+
+
+def test_search_without_query_category_or_platform_never_calls_the_gateway() -> None:
+    client, recorder = make_sync_client(
+        lambda _req: json_response(200, discovery_search())
+    )
+    with pytest.raises(
+        AnyAPIError, match="at least one of query, category, or platform"
+    ):
+        client.search(limit=5)
+    assert recorder.requests == []
 
 
 def test_search_drops_safe_additive_result_and_envelope_fields() -> None:

@@ -49,13 +49,26 @@ def catalog_request(category: str | None) -> tuple[str, dict[str, str]]:
 
 
 def search_request(
-    query: str,
+    query: str | None,
     category: str | None,
     platform: str | None,
     limit: int | None,
 ) -> tuple[str, dict[str, str]]:
-    """Path and query params for dedicated ranked discovery search."""
-    params = {"q": query}
+    """Path and query params for dedicated ranked discovery search.
+
+    The gateway needs at least one of query, category or platform, in any
+    combination, so a scope with no query at all is a valid search. An absent or
+    empty query omits ``q`` entirely, because an empty ``q`` is a different
+    request.
+    """
+    if not query and category is None and platform is None:
+        raise AnyAPIError(
+            "search needs at least one of query, category, or platform",
+            status=0,
+        )
+    params: dict[str, str] = {}
+    if query:
+        params["q"] = query
     if category is not None:
         params["category"] = category
     if platform is not None:

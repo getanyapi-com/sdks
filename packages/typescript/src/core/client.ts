@@ -538,9 +538,22 @@ export class AnyAPI implements ClientCore {
     return mapCatalogList(raw);
   }
 
-  /** Ranked catalog search. GET /catalog/search. Browse never accepts a query. */
+  /**
+   * Ranked catalog search. GET /catalog/search. Browse never accepts a query.
+   *
+   * The gateway needs at least one of query, category or platform, in any
+   * combination, so a scope with no query at all is a valid search. An absent or
+   * empty query omits `q` entirely, because an empty `q` is a different request.
+   */
   async search(options: SearchOptions): Promise<CatalogSearchResults> {
-    const search = new URLSearchParams({ q: options.query });
+    if (!options.query && !options.category && !options.platform) {
+      throw new AnyAPIError(
+        "search needs at least one of query, category, or platform",
+        0,
+      );
+    }
+    const search = new URLSearchParams();
+    if (options.query) search.set("q", options.query);
     if (options.category) search.set("category", options.category);
     if (options.platform) search.set("platform", options.platform);
     if (options.limit !== undefined) search.set("limit", String(options.limit));

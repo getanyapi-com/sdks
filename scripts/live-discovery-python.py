@@ -59,6 +59,11 @@ def main() -> None:
             search = client.search(query="web", limit=1)
             assert search.results, "search is empty"
 
+            # A scope with no query at all is a complete search: the gateway takes
+            # any non-empty combination of q, category and platform.
+            scoped = client.search(platform="reddit", limit=3)
+            assert scoped.results, "scope-only search is empty"
+
             detail = client.describe(eligible.slug)
             assert detail.slug == eligible.slug, "detail slug does not match"
             assert detail.input_schema is not None, "detail input schema is missing"
