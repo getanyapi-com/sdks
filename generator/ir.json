@@ -59825,7 +59825,7 @@
       "category": "social",
       "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60499,7 +60499,7 @@
       "category": "social",
       "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
