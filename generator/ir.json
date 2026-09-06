@@ -6883,7 +6883,6 @@
             }
           },
           "required": [
-            "name",
             "domain"
           ],
           "open": true
@@ -27765,7 +27764,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.00099,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -31917,7 +31916,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -31950,7 +31949,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "Full Instagram post or reel URL.",
+            "description": "Full Instagram post or reel URL, carrying the media shortcode: /p/, /reel/, /reels/, or /tv/. A profile URL such as https://www.instagram.com/username names no post, so it is rejected instead of charged for an empty result.",
             "enum": null,
             "default": null,
             "format": null
@@ -32052,7 +32051,7 @@
       "category": "social",
       "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.00144,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33136,7 +33135,7 @@
       "operationId": "instagram_search_hashtag",
       "name": "Instagram Hashtag Search",
       "category": "social",
-      "description": "Search posts under an Instagram hashtag through a web search index rather than Instagram's own hashtag feed. That is what lets it filter by date and media type and return reels whose like counts have settled, and it is also why results skew older (median around three months) and stop at roughly 110 per hashtag. For Instagram's own live ranking of a tag use instagram.hashtag_top_posts, and for the chronological feed use instagram.hashtag_recent_posts.",
+      "description": "Search posts under an Instagram hashtag through a web search index rather than Instagram's own hashtag feed. That is what lets it filter by date and media type and return reels whose like counts have settled, and it is also why results skew older (median around three months) and stop at roughly 110 per hashtag. If that web search index is unavailable, a first-page request that sets no date and no media type is served from Instagram's own live top feed instead. For Instagram's own live ranking of a tag use instagram.hashtag_top_posts, and for the chronological feed use instagram.hashtag_recent_posts.",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -44352,10 +44351,10 @@
       "category": "data",
       "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0441,
-        "baseUsd": 0.00006,
-        "perItemUsd": 0.00044,
-        "perItemUnit": "result"
+        "priceUsd": 0.0035,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "maps",
       "tsMethod": "reviews",
@@ -44367,8 +44366,7 @@
       "outputTypeName": "MapsReviewsData",
       "example": {
         "limit": 3,
-        "placeId": "ChIJN1t_tDeuEmsRUsoyG83frY4",
-        "postedLimit": "year"
+        "placeId": "ChIJN1t_tDeuEmsRUsoyG83frY4"
       },
       "input": {
         "kind": "object",
@@ -44382,7 +44380,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-100, default 100). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-100, default 100).",
             "minimum": 1,
             "maximum": 100,
             "default": null
@@ -44498,7 +44496,7 @@
                   },
                   "placeId": {
                     "kind": "string",
-                    "description": "Google Maps place id the review belongs to. Populated whenever the provider has data for the entity.",
+                    "description": "Google Maps place id the review belongs to. Echoes the requested placeId; a lane that does not repeat it per review omits it.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -44560,7 +44558,6 @@
                 "mustPopulate": [
                   "author",
                   "createdUtc",
-                  "placeId",
                   "reviewId",
                   "url"
                 ]
@@ -52441,10 +52438,10 @@
       "category": "search",
       "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0111,
-        "baseUsd": 0.00006,
-        "perItemUsd": 0.011,
-        "perItemUnit": "result"
+        "priceUsd": 0.0036,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "perplexity",
       "tsMethod": "search",
@@ -59828,7 +59825,7 @@
       "category": "social",
       "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60502,7 +60499,7 @@
       "category": "social",
       "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -69146,6 +69143,13 @@
       "input": {
         "kind": "object",
         "properties": {
+          "endDate": {
+            "kind": "string",
+            "description": "Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2026-08-07). Threads pages backwards in time from here, so narrowing this is how you walk older results.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -69155,7 +69159,14 @@
           },
           "query": {
             "kind": "string",
-            "description": "Keyword or hashtag to search public Threads posts for; the # prefix is optional (e.g. AI agents).",
+            "description": "Keyword or hashtag to search public Threads posts for; the # prefix is optional (e.g. AI agents). Threads matches text in posts, so search a brand or topic rather than a URL - a query that is only a domain is searched by its name (wander.com is searched as wander).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "startDate": {
+            "kind": "string",
+            "description": "Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2026-08-01).",
             "enum": null,
             "default": null,
             "format": null
@@ -73806,6 +73817,13 @@
       "input": {
         "kind": "object",
         "properties": {
+          "id": {
+            "kind": "string",
+            "description": "TikTok video ID, the numeric run at the end of a video URL. Use it when a listing SKU handed you an id and no URL.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -73821,9 +73839,7 @@
             "format": null
           }
         },
-        "required": [
-          "url"
-        ],
+        "required": [],
         "open": false
       },
       "output": {
@@ -74379,9 +74395,9 @@
                       "properties": {
                         "confidence": {
                           "kind": "number",
-                          "description": "Recognizer confidence for this word, 0 to 1. Low values mark words the recognizer guessed; they are common on names, jargon, and music.",
-                          "minimum": 0,
-                          "maximum": 1,
+                          "description": "Recognizer score for this word, exactly as the recognizer reported it. It is normally an alignment probability between 0 and 1, but on audio the recognizer could not align it reports a negative log-scale score instead, so read the sign before treating the number as a probability. Either way, lower means less certain, and low values are common on names, jargon, and music.",
+                          "minimum": null,
+                          "maximum": null,
                           "default": null
                         },
                         "endSeconds": {
@@ -76513,7 +76529,7 @@
       "category": "travel",
       "description": "Fetch the latest reviews for any Tripadvisor hotel, restaurant, or attraction by its page URL: rating, text, date, and trip details as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.003,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -76682,7 +76698,7 @@
       "category": "travel",
       "description": "Search Tripadvisor for hotels, restaurants, and attractions in any destination and get rich place records (ratings, review counts, contact details, pricing) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.003,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -76979,7 +76995,7 @@
           },
           "countries": {
             "kind": "array",
-            "description": "Only return reviews from reviewers in these ISO 3166-1 alpha-2 countries (e.g. [\"US\", \"GB\"]); omit for all countries.",
+            "description": "Only return reviews from reviewers in these ISO 3166-1 alpha-2 countries (e.g. [\"US\", \"GB\"]). Omit this field for all countries and to stay on the cheapest price; a country filter routes to the dearest source.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -76990,7 +77006,7 @@
           },
           "languages": {
             "kind": "array",
-            "description": "Only return reviews in these ISO 639-1 languages (e.g. [\"en\", \"de\"]); omit for all languages.",
+            "description": "Only return reviews in these ISO 639-1 languages (e.g. [\"en\", \"de\"]). Omit this field for all languages and to stay on the cheapest price; a language filter routes to the dearest source.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -77022,21 +77038,21 @@
           },
           "stars": {
             "kind": "string",
-            "description": "Limit reviews to a single star rating from 1 to 5 (e.g. 5); omit for all ratings.",
+            "description": "Limit reviews to a single star rating from 1 to 5 (e.g. 5). Omit this field to stay on the cheapest price; a star filter routes to a dearer source.",
             "enum": null,
             "default": null,
             "format": null
           },
           "startDate": {
             "kind": "string",
-            "description": "Only return reviews on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01).",
+            "description": "Only return reviews on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01). Omit this field to stay on the cheapest price; a date floor routes to the dearest source.",
             "enum": null,
             "default": null,
             "format": null
           },
           "verifiedOnly": {
             "kind": "boolean",
-            "description": "Set true to return only verified reviews (e.g. true).",
+            "description": "Set true to return only verified reviews (e.g. true). Omit this field, or send false, to stay on the cheapest price; true routes to a dearer source.",
             "default": false
           }
         },
@@ -78977,13 +78993,6 @@
           "cursor": {
             "kind": "string",
             "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of search results.",
-            "enum": null,
-            "default": null,
-            "format": null
-          },
-          "lang": {
-            "kind": "string",
-            "description": "Optional ISO 639-1 language code to restrict tweets to (e.g. en).",
             "enum": null,
             "default": null,
             "format": null
@@ -82998,10 +83007,10 @@
       "category": "data",
       "description": "Search Yelp for businesses by keyword and location: up to 20 listings with ratings, categories, and core business info per request.",
       "pricing": {
-        "priceUsd": 0.0605,
-        "baseUsd": 0.044,
-        "perItemUsd": 0.00083,
-        "perItemUnit": "result"
+        "priceUsd": 0.0035,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "yelp",
       "tsMethod": "search",
@@ -83024,7 +83033,7 @@
             "description": "Maximum number of results to return (1 to 20, default 20).",
             "minimum": 1,
             "maximum": 20,
-            "default": null
+            "default": 20
           },
           "location": {
             "kind": "string",
@@ -84125,7 +84134,6 @@
                 "required": [
                   "id",
                   "url",
-                  "title",
                   "views",
                   "viewsAvailable",
                   "likes",
@@ -84979,10 +84987,9 @@
           },
           "type": {
             "kind": "string",
-            "description": "Content filter.",
+            "description": "Content filter. Only \"all\" is served: no source we buy returns a Shorts row with the channel and publish time this endpoint requires.",
             "enum": [
-              "all",
-              "shorts"
+              "all"
             ],
             "default": null,
             "format": null
@@ -85094,6 +85101,177 @@
       "pagination": {
         "paginated": true,
         "itemsField": "videos",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "youtube.search_shorts",
+      "platform": "youtube",
+      "action": "search_shorts",
+      "operationId": "youtube_search_shorts",
+      "name": "YouTube Shorts Search",
+      "category": "video",
+      "description": "Search YouTube Shorts by keyword and get matching Shorts (title, views, URL) with cursor pagination as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.002,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "youtube",
+      "tsMethod": "searchShorts",
+      "tsIterMethod": "iterSearchShorts",
+      "pyNamespace": "youtube",
+      "pyMethod": "search_shorts",
+      "pyIterMethod": "iter_search_shorts",
+      "inputTypeName": "YoutubeSearchShortsInput",
+      "outputTypeName": "YoutubeSearchShortsData",
+      "example": {
+        "query": "cats"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "cursor": {
+            "kind": "string",
+            "description": "Continuation token from a previous response for pagination.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "The keyword to search Shorts for.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sortBy": {
+            "kind": "string",
+            "description": "Sort order: \"relevance\" (default) or \"popular\" (most-viewed).",
+            "enum": [
+              "relevance",
+              "popular"
+            ],
+            "default": "relevance",
+            "format": null
+          },
+          "uploadDate": {
+            "kind": "string",
+            "description": "Filter by upload recency. Omit for any time.",
+            "enum": [
+              "today",
+              "this_week",
+              "this_month",
+              "this_year"
+            ],
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of results, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "shorts": {
+              "kind": "array",
+              "description": "Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "contentType": {
+                    "kind": "string",
+                    "description": "Always \"short\": every row here comes from YouTube's Shorts shelf.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "YouTube video id of the Short. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Title of the Short. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Watch URL for the Short. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "views": {
+                    "kind": "integer",
+                    "description": "View count, or 0 when the source did not publish one. Read viewsAvailable before trusting a 0.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "viewsAvailable": {
+                    "kind": "boolean",
+                    "description": "False when the source published no view count, so views is a placeholder rather than a measured zero.",
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "url",
+                  "title",
+                  "views",
+                  "viewsAvailable",
+                  "contentType"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "id",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "shorts"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "shorts"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "shorts",
         "cursorInputField": "cursor",
         "nextCursorField": "nextCursor"
       }
@@ -85238,7 +85416,7 @@
       "operationId": "youtube_video",
       "name": "YouTube Video",
       "category": "video",
-      "description": "Fetch a YouTube video's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
+      "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
         "priceUsd": 0.00125,
         "baseUsd": null,
@@ -85261,7 +85439,7 @@
         "properties": {
           "id": {
             "kind": "string",
-            "description": "YouTube video ID.",
+            "description": "YouTube video ID. A Short uses the same ID as any other video.",
             "enum": null,
             "default": null,
             "format": null
@@ -85275,7 +85453,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "Full YouTube video URL.",
+            "description": "Full YouTube video URL. Shorts (youtube.com/shorts/...), youtu.be, live, and embed URLs all work.",
             "enum": null,
             "default": null,
             "format": null
@@ -85379,7 +85557,7 @@
       "operationId": "youtube_video_comments",
       "name": "YouTube Video Comments",
       "category": "video",
-      "description": "List the comments on a YouTube video by URL with cursor pagination (text, author, likes, reply count).",
+      "description": "List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
         "priceUsd": 0.002,
         "baseUsd": null,
@@ -85423,7 +85601,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "Full YouTube video URL.",
+            "description": "Full YouTube video URL. Shorts (youtube.com/shorts/...) and youtu.be URLs also work.",
             "enum": null,
             "default": null,
             "format": null
@@ -85678,7 +85856,7 @@
       "operationId": "youtube_video_transcript",
       "name": "YouTube Video Transcript",
       "category": "video",
-      "description": "Fetch the transcript/captions of a YouTube video by URL or ID.",
+      "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
         "priceUsd": 0.00125,
         "baseUsd": null,
@@ -85701,7 +85879,7 @@
         "properties": {
           "id": {
             "kind": "string",
-            "description": "YouTube video ID.",
+            "description": "YouTube video ID. A Short uses the same ID as any other video.",
             "enum": null,
             "default": null,
             "format": null
@@ -85715,7 +85893,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "Full YouTube video URL.",
+            "description": "Full YouTube video URL. Shorts (youtube.com/shorts/...), youtu.be, live, and embed URLs all work.",
             "enum": null,
             "default": null,
             "format": null
@@ -85806,12 +85984,12 @@
       "operationId": "youtube_video_transcript_full",
       "name": "YouTube Video Transcript (Provenance)",
       "category": "video",
-      "description": "Fetch a YouTube transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.",
+      "description": "Fetch a YouTube video or Short transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.",
       "pricing": {
-        "priceUsd": 0.00308,
-        "baseUsd": 0.00308,
-        "perItemUsd": 0,
-        "perItemUnit": "result"
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "youtube",
       "tsMethod": "videoTranscriptFull",
@@ -85854,7 +86032,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "YouTube video URL (e.g. \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\").",
+            "description": "YouTube video or Short URL (e.g. \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\" or \"https://www.youtube.com/shorts/Fir1x9cw2vg\").",
             "enum": null,
             "default": null,
             "format": null

@@ -13,6 +13,7 @@ export interface YelpSearchInput {
   /**
    * Maximum number of results to return (1 to 20, default 20).
    * Range: minimum 1, maximum 20.
+   * Default: 20.
    */
   limit?: number;
   /**
@@ -161,7 +162,7 @@ export class YelpNamespace {
    *
    * Search Yelp for businesses by keyword and location: up to 20 listings with ratings, categories, and core business info per request.
    *
-   * Price: $0.044 per request plus $0.00083 per result (maximum $0.0605).
+   * Price: $0.0035 per request.
    *
    * @example
    * const res = await client.yelp.search({ location: "Chicago, IL", query: "pizza", limit: 5 });

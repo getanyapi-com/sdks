@@ -306,8 +306,9 @@ export interface YoutubeChannelShortsShort {
   likes: number;
   /**
    * Public title or caption for the Short. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
-  title: string;
+  title?: string;
   /**
    * Public YouTube URL for the Short. Populated whenever the provider has data for the entity.
    * Format: uri.
@@ -644,10 +645,10 @@ export interface YoutubeSearchHashtagInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Content filter.
-   * One of: all, shorts.
+   * Content filter. Only "all" is served: no source we buy returns a Shorts row with the channel and publish time this endpoint requires.
+   * One of: all.
    */
-  type?: "all" | "shorts";
+  type?: "all";
 }
 
 export interface YoutubeSearchHashtagVideo {
@@ -688,6 +689,78 @@ export interface YoutubeSearchHashtagData {
    * Populated whenever the provider has data for the entity.
    */
   videos: YoutubeSearchHashtagVideo[];
+}
+
+/**
+ * Input for YouTube Shorts Search (youtube.search_shorts).
+ */
+export interface YoutubeSearchShortsInput {
+  /**
+   * Continuation token from a previous response for pagination.
+   */
+  cursor?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * The keyword to search Shorts for.
+   */
+  query: string;
+  /**
+   * Sort order: "relevance" (default) or "popular" (most-viewed).
+   * One of: relevance, popular.
+   * Default: relevance.
+   */
+  sortBy?: "relevance" | "popular";
+  /**
+   * Filter by upload recency. Omit for any time.
+   * One of: today, this_week, this_month, this_year.
+   */
+  uploadDate?: "today" | "this_week" | "this_month" | "this_year";
+}
+
+export interface YoutubeSearchShortsShort {
+  /**
+   * Always "short": every row here comes from YouTube's Shorts shelf.
+   */
+  contentType: string;
+  /**
+   * YouTube video id of the Short. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Title of the Short. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Watch URL for the Short. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * View count, or 0 when the source did not publish one. Read viewsAvailable before trusting a 0.
+   */
+  views: number;
+  /**
+   * False when the source published no view count, so views is a placeholder rather than a measured zero.
+   */
+  viewsAvailable: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of YouTube Shorts Search (youtube.search_shorts).
+ */
+export interface YoutubeSearchShortsData {
+  /**
+   * Opaque cursor for the next page of results, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  shorts: YoutubeSearchShortsShort[];
 }
 
 /**
@@ -742,7 +815,7 @@ export interface YoutubeTrendingShortsData {
  */
 export interface YoutubeVideoInput {
   /**
-   * YouTube video ID.
+   * YouTube video ID. A Short uses the same ID as any other video.
    */
   id?: string;
   /**
@@ -751,7 +824,7 @@ export interface YoutubeVideoInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Full YouTube video URL.
+   * Full YouTube video URL. Shorts (youtube.com/shorts/...), youtu.be, live, and embed URLs all work.
    */
   url?: string;
 }
@@ -813,7 +886,7 @@ export interface YoutubeVideoCommentsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Full YouTube video URL.
+   * Full YouTube video URL. Shorts (youtube.com/shorts/...) and youtu.be URLs also work.
    */
   url: string;
 }
@@ -905,7 +978,7 @@ export interface YoutubeVideoSponsorsData {
  */
 export interface YoutubeVideoTranscriptInput {
   /**
-   * YouTube video ID.
+   * YouTube video ID. A Short uses the same ID as any other video.
    */
   id?: string;
   /**
@@ -914,7 +987,7 @@ export interface YoutubeVideoTranscriptInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Full YouTube video URL.
+   * Full YouTube video URL. Shorts (youtube.com/shorts/...), youtu.be, live, and embed URLs all work.
    */
   url?: string;
 }
@@ -976,7 +1049,7 @@ export interface YoutubeVideoTranscriptFullInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * YouTube video URL (e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ").
+   * YouTube video or Short URL (e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ" or "https://www.youtube.com/shorts/Fir1x9cw2vg").
    */
   url: string;
 }
@@ -1416,6 +1489,46 @@ export class YoutubeNamespace {
   }
 
   /**
+   * YouTube Shorts Search
+   *
+   * Search YouTube Shorts by keyword and get matching Shorts (title, views, URL) with cursor pagination as normalized JSON.
+   *
+   * Price: $0.002 per request.
+   *
+   * @example
+   * const res = await client.youtube.searchShorts({ query: "cats" });
+   */
+  searchShorts(
+    input: YoutubeSearchShortsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<YoutubeSearchShortsData>> {
+    return this._core.run("youtube.search_shorts", input, options);
+  }
+
+  /**
+   * Iterate every result of YouTube Shorts Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchShorts(
+    input: YoutubeSearchShortsInput,
+    options?: RequestOptions,
+  ): Paginator<YoutubeSearchShortsShort, RunResult<YoutubeSearchShortsData>> {
+    return paginate<
+      YoutubeSearchShortsShort,
+      RunResult<YoutubeSearchShortsData>
+    >(
+      this._core,
+      "youtube.search_shorts",
+      input as unknown as Record<string, unknown>,
+      "shorts",
+      false,
+      options,
+    );
+  }
+
+  /**
    * YouTube Trending Shorts
    *
    * List currently trending YouTube Shorts (title, channel, views, likes, duration).
@@ -1435,7 +1548,7 @@ export class YoutubeNamespace {
   /**
    * YouTube Video
    *
-   * Fetch a YouTube video's metadata (title, channel, views, likes, duration, publish date) by URL or ID.
+   * Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.
    *
    * Price: $0.00125 per request.
    *
@@ -1452,7 +1565,7 @@ export class YoutubeNamespace {
   /**
    * YouTube Video Comments
    *
-   * List the comments on a YouTube video by URL with cursor pagination (text, author, likes, reply count).
+   * List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).
    *
    * Price: $0.002 per request.
    *
@@ -1512,7 +1625,7 @@ export class YoutubeNamespace {
   /**
    * YouTube Video Transcript
    *
-   * Fetch the transcript/captions of a YouTube video by URL or ID.
+   * Fetch the transcript/captions of a YouTube video or Short by URL or ID.
    *
    * Price: $0.00125 per request.
    *
@@ -1529,9 +1642,9 @@ export class YoutubeNamespace {
   /**
    * YouTube Video Transcript (Provenance)
    *
-   * Fetch a YouTube transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.
+   * Fetch a YouTube video or Short transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.
    *
-   * Price: $0.00308 per request plus $0 per result (maximum $0.00308).
+   * Price: $0.001 per request.
    *
    * @example
    * const res = await client.youtube.videoTranscriptFull({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });

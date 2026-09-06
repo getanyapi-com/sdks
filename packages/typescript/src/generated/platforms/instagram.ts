@@ -728,7 +728,7 @@ export interface InstagramPostInput {
    */
   requirePlayCount?: boolean;
   /**
-   * Full Instagram post or reel URL.
+   * Full Instagram post or reel URL, carrying the media shortcode: /p/, /reel/, /reels/, or /tv/. A profile URL such as https://www.instagram.com/username names no post, so it is rejected instead of charged for an empty result.
    */
   url: string;
 }
@@ -2248,7 +2248,7 @@ export class InstagramNamespace {
    *
    * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.instagram.post({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -2265,7 +2265,7 @@ export class InstagramNamespace {
    *
    * List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).
    *
-   * Price: $0.0015 per request.
+   * Price: $0.00144 per request.
    *
    * @example
    * const res = await client.instagram.postComments({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -2391,7 +2391,7 @@ export class InstagramNamespace {
   /**
    * Instagram Hashtag Search
    *
-   * Search posts under an Instagram hashtag through a web search index rather than Instagram's own hashtag feed. That is what lets it filter by date and media type and return reels whose like counts have settled, and it is also why results skew older (median around three months) and stop at roughly 110 per hashtag. For Instagram's own live ranking of a tag use instagram.hashtag_top_posts, and for the chronological feed use instagram.hashtag_recent_posts.
+   * Search posts under an Instagram hashtag through a web search index rather than Instagram's own hashtag feed. That is what lets it filter by date and media type and return reels whose like counts have settled, and it is also why results skew older (median around three months) and stop at roughly 110 per hashtag. If that web search index is unavailable, a first-page request that sets no date and no media type is served from Instagram's own live top feed instead. For Instagram's own live ranking of a tag use instagram.hashtag_top_posts, and for the chronological feed use instagram.hashtag_recent_posts.
    *
    * Price: $0.002 per request.
    *

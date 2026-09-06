@@ -625,10 +625,6 @@ export interface TwitterSearchInput {
    */
   cursor?: string;
   /**
-   * Optional ISO 639-1 language code to restrict tweets to (e.g. en).
-   */
-  lang?: string;
-  /**
    * Per-page maximum number of results to return (1-50, default 20). A provider may return a smaller native page; follow nextCursor for more.
    * Range: minimum 1, maximum 50.
    * Default: 20.

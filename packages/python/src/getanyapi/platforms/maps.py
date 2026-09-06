@@ -65,7 +65,7 @@ class MapsReviewsInput(TypedDict, total=False):
     language: NotRequired[str]
     """Two-letter language code for the review details (e.g. en). Default: en."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-100, default 100). You are billed per result returned, so a lower limit costs less. Range: 1 to 100."""
+    """Maximum number of results to return (1-100, default 100). Range: 1 to 100."""
     placeId: Required[str]
     """The Google Maps place ID to fetch reviews for (e.g. ChIJj61dQgK6j4AR4GeTYWZsKWw)."""
     postedLimit: NotRequired[Literal["24h", "week", "month", "year"]]
@@ -308,7 +308,7 @@ class MapsReviewsItem(BaseModel):
     place_id: str | None = Field(
         default=None,
         alias="placeId",
-        description="Google Maps place id the review belongs to. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="Google Maps place id the review belongs to. Echoes the requested placeId; a lane that does not repeat it per review omits it.",
     )
     published_ago: str | None = Field(
         default=None,
@@ -468,10 +468,10 @@ class MapsNamespace:
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
         you need, in one normalized response.
 
-        Price: $0.00006 per request plus $0.00044 per result (maximum $0.0441).
+        Price: $0.0035 per request.
 
         Example:
-            res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4", postedLimit="year")
+            res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.reviews", dict(input), options
@@ -556,10 +556,10 @@ class AsyncMapsNamespace:
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
         you need, in one normalized response.
 
-        Price: $0.00006 per request plus $0.00044 per result (maximum $0.0441).
+        Price: $0.0035 per request.
 
         Example:
-            res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4", postedLimit="year")
+            res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "maps.reviews", dict(input), options
