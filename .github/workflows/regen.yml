@@ -13,6 +13,13 @@ name: regen
 #
 # Loop guard: the job only commits/tags for patch or minor. `none` requires byte identity
 # across IR, fixtures, and both emitted trees. Unsafe or unexplained changes are blocked.
+#
+# A blocked run needs a HUMAN, so it opens a GitHub issue assigned to the owner and keeps
+# one issue per outage rather than one per run. The next healthy run closes it. Closing is
+# the point: the upsert reuses an open issue by title, so a stale open issue would turn the
+# next real failure into another silent comment on a thread nobody watches. Between
+# 2026-09-01 and 2026-09-05 this job failed every night with no signal but GitHub's default
+# Actions email, and the published SDKs sat five days stale.
 
 on:
   repository_dispatch:
@@ -24,10 +31,16 @@ on:
 permissions:
   contents: write
   actions: write # to trigger release.yml via workflow_dispatch after tagging
+  issues: write # to open/close the blocked-regen incident
 
 concurrency:
   group: regen
   cancel-in-progress: false
+
+env:
+  # The upsert deduplicates by exact title, so the failure and recovery paths must name
+  # the same string. Changing it orphans any issue already open under the old title.
+  REGEN_ISSUE_TITLE: "regen is blocked: the SDKs are not being published"
 
 jobs:
   regen:
@@ -65,7 +78,7 @@ jobs:
       - name: classify generated diff -> release state + change summary
         id: classify
         run: |
-          bash scripts/release-notes.sh release-bump.txt release-notes.md
+          bash scripts/release-notes.sh release-bump.txt release-notes.md release-changes.json
           echo "bump=$(cat release-bump.txt)" >> "$GITHUB_OUTPUT"
 
       - name: prepare blocked-change evidence
@@ -77,6 +90,7 @@ jobs:
           fi
           cp generator/ir.json blocked-release/new-ir.json
           cp release-notes.md blocked-release/release-notes.md
+          cp release-changes.json blocked-release/release-changes.json
           git add -N -- generator/ir.json generator/fixtures.json \
             packages/typescript/src/generated packages/python/src/getanyapi/platforms
           git diff --binary --no-ext-diff HEAD -- \
@@ -85,6 +99,7 @@ jobs:
             > blocked-release/generated.diff
 
       - name: upload blocked-change evidence
+        id: evidence
         if: ${{ always() && steps.classify.outputs.bump == 'blocked' }}
         uses: actions/upload-artifact@v4
         with:
@@ -160,3 +175,54 @@ jobs:
         # `push` tag (for a human-pushed tag, e.g. the first manual v0.1.0). Both paths reach
         # the same publish jobs.
         run: gh workflow run release.yml --ref "v$NEXT" -f tag="v$NEXT"
+
+      # Every failing path lands here: a blocked classification (the stop step above exits
+      # 1) and any other failure, including one before the classifier ever ran.
+      - name: open or update the blocked-regen issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUMP: ${{ steps.classify.outputs.bump }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ARTIFACT_URL: ${{ steps.evidence.outputs.artifact-url }}
+        run: |
+          # The blocked and removed items ARE the block, and their slugs are what the
+          # reviewer decides from, so they are both the issue body and the fingerprint.
+          # A failure before or outside classification has no item list; it still files,
+          # under a single stable item, so the run link reaches a human.
+          if [ "$BUMP" = "blocked" ] && [ -f release-changes.json ]; then
+            jq -r '(.blocked + .removed)[] | "\(.slug): \(.detail)"' \
+              release-changes.json > regen-items.txt
+          else
+            printf 'regen failed with no classification (state: %s)\n' \
+              "${BUMP:-before the classifier ran}" > regen-items.txt
+          fi
+          {
+            printf '`regen` stopped and did not publish. The SDKs stay at the last released version until this is resolved.\n\n'
+            printf '## What is blocking\n\n'
+            sed 's/^/- /' regen-items.txt
+            printf '\n[Failing run](%s)\n' "$RUN_URL"
+            if [ -n "$ARTIFACT_URL" ]; then
+              printf '\n[Evidence artifact](%s) - old/new IR, release notes, and the generated diff.\n' "$ARTIFACT_URL"
+            fi
+            if [ -f release-notes.md ]; then
+              printf '\n## Full classifier output\n\n```\n'
+              cat release-notes.md
+              printf '```\n'
+            fi
+            printf '\nAccepting this batch is a human decision: review each blocked item against its upstream catalog change, then land a reviewed catalog-refresh PR with the version applied in lockstep. Do not relax the classifier to make it pass.\n'
+          } > regen-issue.md
+          node scripts/upsert-regen-issue.mjs \
+            --title "$REGEN_ISSUE_TITLE" \
+            --body-file regen-issue.md \
+            --items "$(cat regen-items.txt)"
+
+      - name: close the blocked-regen issue on recovery
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node scripts/upsert-regen-issue.mjs \
+            --title "$REGEN_ISSUE_TITLE" \
+            --resolve \
+            --body "regen recovered: [run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) classified \`${{ steps.classify.outputs.bump }}\`."

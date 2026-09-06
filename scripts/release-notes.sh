@@ -8,9 +8,12 @@
 #         release-bump.txt)
 #       * the human-readable change summary (commit body / release notes) to the file named
 #         by $2 (default: release-notes.md)
+#       * the full classification as JSON to the file named by $3 (default:
+#         release-changes.json). Its items carry the SKU slug the summary omits, which is
+#         what the blocked-regen issue names.
 #
 # Usage:
-#   scripts/release-notes.sh [bumpOutPath] [summaryOutPath]
+#   scripts/release-notes.sh [bumpOutPath] [summaryOutPath] [jsonOutPath]
 #
 # The classifier itself lives in generator/src/classify.ts (unit-tested). This wrapper
 # extracts the old IR and proves which generator-owned files differ byte-for-byte from HEAD.
@@ -20,6 +23,7 @@ cd "$(dirname "$0")/.."
 
 BUMP_OUT="${1:-release-bump.txt}"
 SUMMARY_OUT="${2:-release-notes.md}"
+JSON_OUT="${3:-release-changes.json}"
 
 OLD_IR="$(mktemp)"
 trap 'rm -f "$OLD_IR"' EXIT
@@ -35,6 +39,7 @@ fi
 # to the intended location, not relative to the package dir.
 case "$BUMP_OUT" in /*) ;; *) BUMP_OUT="$PWD/$BUMP_OUT" ;; esac
 case "$SUMMARY_OUT" in /*) ;; *) SUMMARY_OUT="$PWD/$SUMMARY_OUT" ;; esac
+case "$JSON_OUT" in /*) ;; *) JSON_OUT="$PWD/$JSON_OUT" ;; esac
 
 # Byte equality covers every generator-consumed artifact. `git status` includes tracked,
 # deleted, and untracked emitter output, unlike `git diff` alone.
@@ -56,10 +61,12 @@ fi
 # 3.2 treats an empty array expansion as unset under `set -u`, so omit it explicitly.
 if [ "${#CLASSIFY_ARGS[@]}" -eq 0 ]; then
   BUMP="$(pnpm --silent --filter @anyapi/generator exec tsx src/classify-cli.ts \
-    "$OLD_IR" "$PWD/generator/ir.json" --summary-out "$SUMMARY_OUT")"
+    "$OLD_IR" "$PWD/generator/ir.json" --summary-out "$SUMMARY_OUT" \
+    --json-out "$JSON_OUT")"
 else
   BUMP="$(pnpm --silent --filter @anyapi/generator exec tsx src/classify-cli.ts \
-    "$OLD_IR" "$PWD/generator/ir.json" "${CLASSIFY_ARGS[@]}" --summary-out "$SUMMARY_OUT")"
+    "$OLD_IR" "$PWD/generator/ir.json" "${CLASSIFY_ARGS[@]}" --summary-out "$SUMMARY_OUT" \
+    --json-out "$JSON_OUT")"
 fi
 
 printf '%s\n' "$BUMP" > "$BUMP_OUT"
@@ -67,3 +74,4 @@ printf '%s\n' "$BUMP" > "$BUMP_OUT"
 echo "Generated diff classified: state=$BUMP"
 echo "  bump    -> $BUMP_OUT"
 echo "  summary -> $SUMMARY_OUT"
+echo "  json    -> $JSON_OUT"

@@ -4,7 +4,9 @@
 //
 // Prints the state on stdout (none | patch | minor | blocked) so the workflow can read
 // `$(tsx ...)`. With --summary-out it writes the human-readable change summary (commit body
-// / release notes) to that path. Byte-change flags come from scripts/release-notes.sh.
+// / release notes) to that path; with --json-out it writes the full classification, whose
+// items carry the SKU slug the summary omits (the blocked-regen issue names them, so the
+// issue alone is enough to decide). Byte-change flags come from scripts/release-notes.sh.
 // Exit code is always 0 so a blocked result can be uploaded before the workflow fails.
 
 import { readFileSync, writeFileSync } from "node:fs";
@@ -23,7 +25,7 @@ function main(): void {
     console.error(
       "usage: classify-cli <oldIrPath> <newIrPath> [--ir-changed] " +
         "[--fixtures-changed] [--typescript-changed] [--python-changed] " +
-        "[--summary-out <path>] [--json]",
+        "[--summary-out <path>] [--json-out <path>] [--json]",
     );
     process.exitCode = 2;
     return;
@@ -31,6 +33,8 @@ function main(): void {
 
   const summaryIdx = args.indexOf("--summary-out");
   const summaryOut = summaryIdx >= 0 ? args[summaryIdx + 1] : null;
+  const jsonIdx = args.indexOf("--json-out");
+  const jsonOut = jsonIdx >= 0 ? args[jsonIdx + 1] : null;
   const asJson = args.includes("--json");
   const flags = new Set([
     "--ir-changed",
@@ -41,10 +45,10 @@ function main(): void {
   ]);
   for (let index = 2; index < args.length; index += 1) {
     const arg = args[index] as string;
-    if (arg === "--summary-out") {
+    if (arg === "--summary-out" || arg === "--json-out") {
       if (!args[index + 1]) {
         // eslint-disable-next-line no-console
-        console.error("--summary-out requires a path");
+        console.error(`${arg} requires a path`);
         process.exitCode = 2;
         return;
       }
@@ -65,6 +69,7 @@ function main(): void {
   });
 
   if (summaryOut) writeFileSync(summaryOut, result.summary);
+  if (jsonOut) writeFileSync(jsonOut, `${JSON.stringify(result, null, 2)}\n`);
   if (asJson) {
     // eslint-disable-next-line no-console
     console.error(JSON.stringify(result, null, 2));

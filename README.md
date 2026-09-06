@@ -170,7 +170,14 @@ Releases are automated from the live catalog. Two workflows drive it:
   The workflow first proves that the committed generated trees match the old IR. Public
   generated changes must then appear in both language trees, and the post-refresh drift check
   proves that both match the new IR. A blocked run uploads the old/new IR, release notes, and
-  generated diff, then fails before versioning, committing, or tagging. On patch or minor it applies the version to BOTH
+  generated diff, then fails before versioning, committing, or tagging. Because a blocked run
+  needs a person, it also opens a GitHub issue assigned to the owner naming the blocked SKUs
+  and linking the run and that artifact (`scripts/upsert-regen-issue.mjs`); any other job
+  failure files the same issue. There is one issue per outage, not one per run: a repeat
+  rewrites the body, a changed block adds a delta comment, and the next healthy run closes
+  it. Closing matters - the upsert reuses an open issue by title, so leaving it open would
+  turn the next real failure into another silent comment.
+  On patch or minor it applies the version to BOTH
   `packages/typescript/package.json` and `packages/python/pyproject.toml` in lockstep, commits
   the regenerated tree, tags `v<X.Y.Z>`, pushes, and dispatches `release.yml`. The change
   summary is the commit body and becomes the GitHub Release notes.
