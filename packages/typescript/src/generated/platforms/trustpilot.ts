@@ -15,11 +15,11 @@ export interface TrustpilotReviewsInput {
    */
   company: string;
   /**
-   * Only return reviews from reviewers in these ISO 3166-1 alpha-2 countries (e.g. ["US", "GB"]); omit for all countries.
+   * Only return reviews from reviewers in these ISO 3166-1 alpha-2 countries (e.g. ["US", "GB"]). Omit this field for all countries and to stay on the cheapest price; a country filter routes to the dearest source.
    */
   countries?: string[];
   /**
-   * Only return reviews in these ISO 639-1 languages (e.g. ["en", "de"]); omit for all languages.
+   * Only return reviews in these ISO 639-1 languages (e.g. ["en", "de"]). Omit this field for all languages and to stay on the cheapest price; a language filter routes to the dearest source.
    */
   languages?: string[];
   /**
@@ -39,15 +39,15 @@ export interface TrustpilotReviewsInput {
    */
   sortBy?: string;
   /**
-   * Limit reviews to a single star rating from 1 to 5 (e.g. 5); omit for all ratings.
+   * Limit reviews to a single star rating from 1 to 5 (e.g. 5). Omit this field to stay on the cheapest price; a star filter routes to a dearer source.
    */
   stars?: string;
   /**
-   * Only return reviews on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01).
+   * Only return reviews on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01). Omit this field to stay on the cheapest price; a date floor routes to the dearest source.
    */
   startDate?: string;
   /**
-   * Set true to return only verified reviews (e.g. true).
+   * Set true to return only verified reviews (e.g. true). Omit this field, or send false, to stay on the cheapest price; true routes to a dearer source.
    * Default: false.
    */
   verifiedOnly?: boolean;

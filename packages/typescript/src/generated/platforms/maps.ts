@@ -315,7 +315,7 @@ export interface MapsReviewsInput {
    */
   language?: string;
   /**
-   * Maximum number of results to return (1-100, default 100). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-100, default 100).
    * Range: minimum 1, maximum 100.
    */
   limit?: number;
@@ -377,8 +377,7 @@ export interface MapsReviewsItem {
    */
   ownerResponseAt?: string;
   /**
-   * Google Maps place id the review belongs to. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
+   * Google Maps place id the review belongs to. Echoes the requested placeId; a lane that does not repeat it per review omits it.
    */
   placeId?: string;
   /**
@@ -607,10 +606,10 @@ export class MapsNamespace {
    *
    * Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.
    *
-   * Price: $0.00006 per request plus $0.00044 per result (maximum $0.0441).
+   * Price: $0.0035 per request.
    *
    * @example
-   * const res = await client.maps.reviews({ placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4", limit: 3, postedLimit: "year" });
+   * const res = await client.maps.reviews({ placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4", limit: 3 });
    */
   reviews(
     input: MapsReviewsInput,

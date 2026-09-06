@@ -19,7 +19,7 @@ class YelpSearchInput(TypedDict, total=False):
     """Input for Yelp Search."""
 
     limit: NotRequired[int]
-    """Maximum number of results to return (1 to 20, default 20). Range: 1 to 20."""
+    """Maximum number of results to return (1 to 20, default 20). Range: 1 to 20. Default: 20."""
     location: Required[str]
     """City and state defining the search area (e.g. San Francisco, CA)."""
     preferLatencyUnderMs: NotRequired[int]
@@ -113,7 +113,7 @@ class YelpNamespace:
         Search Yelp for businesses by keyword and location: up to 20 listings with
         ratings, categories, and core business info per request.
 
-        Price: $0.044 per request plus $0.00083 per result (maximum $0.0605).
+        Price: $0.0035 per request.
 
         Example:
             res = client.yelp.search(limit=5, location="Chicago, IL", query="pizza")
@@ -138,7 +138,7 @@ class AsyncYelpNamespace:
         Search Yelp for businesses by keyword and location: up to 20 listings with
         ratings, categories, and core business info per request.
 
-        Price: $0.044 per request plus $0.00083 per result (maximum $0.0605).
+        Price: $0.0035 per request.
 
         Example:
             res = client.yelp.search(limit=5, location="Chicago, IL", query="pizza")

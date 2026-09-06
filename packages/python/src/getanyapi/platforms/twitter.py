@@ -103,8 +103,6 @@ class TwitterSearchInput(TypedDict, total=False):
 
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of search results."""
-    lang: NotRequired[str]
-    """Optional ISO 639-1 language code to restrict tweets to (e.g. en)."""
     limit: NotRequired[int]
     """Per-page maximum number of results to return (1-50, default 20). A provider may return a smaller native page; follow nextCursor for more. Range: 1 to 50. Default: 20."""
     preferLatencyUnderMs: NotRequired[int]

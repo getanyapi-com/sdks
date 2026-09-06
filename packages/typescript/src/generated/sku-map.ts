@@ -830,6 +830,8 @@ import type {
   YoutubeSearchHashtagData,
   YoutubeSearchHashtagInput,
   YoutubeSearchInput,
+  YoutubeSearchShortsData,
+  YoutubeSearchShortsInput,
   YoutubeTrendingShortsData,
   YoutubeTrendingShortsInput,
   YoutubeVideoCommentsData,
@@ -2613,6 +2615,11 @@ export interface SkuMap {
     input: YoutubeSearchHashtagInput;
     data: YoutubeSearchHashtagData;
     result: RunResult<YoutubeSearchHashtagData>;
+  };
+  "youtube.search_shorts": {
+    input: YoutubeSearchShortsInput;
+    data: YoutubeSearchShortsData;
+    result: RunResult<YoutubeSearchShortsData>;
   };
   "youtube.trending_shorts": {
     input: YoutubeTrendingShortsInput;

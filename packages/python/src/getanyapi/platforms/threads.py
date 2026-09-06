@@ -36,10 +36,14 @@ class ThreadsProfileInput(TypedDict, total=False):
 class ThreadsSearchInput(TypedDict, total=False):
     """Input for Threads Search."""
 
+    endDate: NotRequired[str]
+    """Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2026-08-07). Threads pages backwards in time from here, so narrowing this is how you walk older results."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
-    """Keyword or hashtag to search public Threads posts for; the # prefix is optional (e.g. AI agents)."""
+    """Keyword or hashtag to search public Threads posts for; the # prefix is optional (e.g. AI agents). Threads matches text in posts, so search a brand or topic rather than a URL - a query that is only a domain is searched by its name (wander.com is searched as wander)."""
+    startDate: NotRequired[str]
+    """Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2026-08-01)."""
 
 
 class ThreadsSearchUsersInput(TypedDict, total=False):

@@ -1765,6 +1765,10 @@ export interface TiktokTrendingHashtagsData {
  */
 export interface TiktokVideoInput {
   /**
+   * TikTok video ID, the numeric run at the end of a video URL. Use it when a listing SKU handed you an id and no URL.
+   */
+  id?: string;
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -1772,7 +1776,7 @@ export interface TiktokVideoInput {
   /**
    * Full TikTok video URL.
    */
-  url: string;
+  url?: string;
 }
 
 /**
@@ -1979,8 +1983,7 @@ export interface TiktokVideoTranscriptFullSegment {
 
 export interface TiktokVideoTranscriptFullWord {
   /**
-   * Recognizer confidence for this word, 0 to 1. Low values mark words the recognizer guessed; they are common on names, jargon, and music.
-   * Range: minimum 0, maximum 1.
+   * Recognizer score for this word, exactly as the recognizer reported it. It is normally an alignment probability between 0 and 1, but on audio the recognizer could not align it reports a negative log-scale score instead, so read the sign before treating the number as a probability. Either way, lower means less certain, and low values are common on names, jargon, and music.
    */
   confidence: number;
   /**

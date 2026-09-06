@@ -304,7 +304,7 @@ export interface CompanyEnrichmentCrustdataV3Data {
   /**
    * Company name.
    */
-  name: string;
+  name?: string;
   /**
    * Regions bucketed by the share of headcount they represent. Restates headcountByRegionPercent as bands.
    */

@@ -275,7 +275,7 @@ class CompanyEnrichmentCrustdataV3Data(BaseModel):
     naics: CompanyEnrichmentCrustdataV3Naic | None = Field(
         default=None, description="Primary NAICS industry classification."
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(default=None, description="Company name.")
     region_metrics: CompanyEnrichmentCrustdataV3RegionMetric | None = Field(
         default=None,
         alias="regionMetrics",

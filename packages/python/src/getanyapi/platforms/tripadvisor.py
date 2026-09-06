@@ -178,7 +178,7 @@ class TripadvisorNamespace:
         attraction by its page URL: rating, text, date, and trip details as
         normalized JSON.
 
-        Price: $0.0036 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.tripadvisor.reviews(limit=3, url="https://www.tripadvisor.com/Hotel_Review-g60763-d93450-Reviews-The_Plaza-New_York_City_New_York.html")
@@ -200,7 +200,7 @@ class TripadvisorNamespace:
         destination and get rich place records (ratings, review counts, contact
         details, pricing) as normalized JSON.
 
-        Price: $0.0036 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.tripadvisor.search(limit=3, query="Paris")
@@ -229,7 +229,7 @@ class AsyncTripadvisorNamespace:
         attraction by its page URL: rating, text, date, and trip details as
         normalized JSON.
 
-        Price: $0.0036 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.tripadvisor.reviews(limit=3, url="https://www.tripadvisor.com/Hotel_Review-g60763-d93450-Reviews-The_Plaza-New_York_City_New_York.html")
@@ -251,7 +251,7 @@ class AsyncTripadvisorNamespace:
         destination and get rich place records (ratings, review counts, contact
         details, pricing) as normalized JSON.
 
-        Price: $0.0036 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.tripadvisor.search(limit=3, query="Paris")

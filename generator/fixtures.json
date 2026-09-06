@@ -518,7 +518,6 @@
     "output": {
       "found": true,
       "data": {
-        "name": "sample",
         "domain": "sample",
         "_extra": "passthrough"
       }
@@ -6758,7 +6757,6 @@
           {
             "id": "sample",
             "url": "https://example.com/x",
-            "title": "sample",
             "views": 1,
             "viewsAvailable": true,
             "likes": 1,
@@ -6903,6 +6901,28 @@
           }
         ],
         "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "youtube.search_shorts": {
+    "output": {
+      "found": true,
+      "data": {
+        "shorts": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "title": "sample",
+            "views": 1,
+            "viewsAvailable": true,
+            "contentType": "sample",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
