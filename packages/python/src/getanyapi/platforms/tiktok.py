@@ -1689,7 +1689,7 @@ class TiktokNamespace:
 
         Search TikTok's EU Commercial Content Library by keyword or advertiser ID.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.ad_transparency_search(days=30, limit=20, query="nike", region="DE")
@@ -1886,7 +1886,7 @@ class TiktokNamespace:
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
         shares).
 
-        Price: $0.00144 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)
@@ -1947,7 +1947,7 @@ class TiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -2363,7 +2363,7 @@ class TiktokNamespace:
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves).
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")
@@ -2384,7 +2384,7 @@ class TiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.00144 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")
@@ -2564,7 +2564,7 @@ class AsyncTiktokNamespace:
 
         Search TikTok's EU Commercial Content Library by keyword or advertiser ID.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.ad_transparency_search(days=30, limit=20, query="nike", region="DE")
@@ -2761,7 +2761,7 @@ class AsyncTiktokNamespace:
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
         shares).
 
-        Price: $0.00144 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)
@@ -2822,7 +2822,7 @@ class AsyncTiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -3238,7 +3238,7 @@ class AsyncTiktokNamespace:
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves).
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")
@@ -3259,7 +3259,7 @@ class AsyncTiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.00144 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")

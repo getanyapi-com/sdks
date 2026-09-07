@@ -68,7 +68,7 @@ export class GeminiNamespace {
    *
    * Ask Gemini a web-grounded question and receive an answer with source citations.
    *
-   * Price: $0.0036 per request.
+   * Price: $0.0018 per request.
    *
    * @example
    * const res = await client.gemini.search({ prompt: "What is AnyAPI at getanyapi.com, and what does it offer?" });

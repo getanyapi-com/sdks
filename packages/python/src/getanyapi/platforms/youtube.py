@@ -853,7 +853,7 @@ class YoutubeNamespace:
         Fetch a YouTube channel's stats (subscribers, video count, total views,
         description) by handle or channel ID.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.youtube.channel(handle="@mkbhd")
@@ -1073,7 +1073,7 @@ class YoutubeNamespace:
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time).
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.youtube.channel_videos(handle="@mkbhd")
@@ -1180,7 +1180,7 @@ class YoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.0008 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")
@@ -1468,7 +1468,7 @@ class AsyncYoutubeNamespace:
         Fetch a YouTube channel's stats (subscribers, video count, total views,
         description) by handle or channel ID.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.youtube.channel(handle="@mkbhd")
@@ -1690,7 +1690,7 @@ class AsyncYoutubeNamespace:
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time).
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.youtube.channel_videos(handle="@mkbhd")
@@ -1797,7 +1797,7 @@ class AsyncYoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.0008 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")

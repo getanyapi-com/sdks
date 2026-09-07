@@ -524,7 +524,7 @@ export class EbayNamespace {
    *
    * Fetch one eBay listing by URL and get the full offer record: price, condition, shipping, item location, seller feedback, quantity, watchers, and live auction state (bid count and end time).
    *
-   * Price: $0.0009 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.ebay.product({ url: "https://www.ebay.com/itm/133576802017" });
@@ -558,7 +558,7 @@ export class EbayNamespace {
    *
    * Search eBay active listings by keyword with optional price-range, item-condition, listing-type, and sort filters and get title, price, condition, shipping, and seller in one normalized response.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.ebay.search({ query: "nintendo switch", limit: 3, sort: "price_low" });

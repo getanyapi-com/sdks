@@ -1897,7 +1897,7 @@ class InstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.00144 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -1941,7 +1941,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -2764,7 +2764,7 @@ class AsyncInstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.00144 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -2808,7 +2808,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")

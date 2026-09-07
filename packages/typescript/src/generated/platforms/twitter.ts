@@ -1402,7 +1402,7 @@ export class TwitterNamespace {
    *
    * Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL.
    *
-   * Price: $0.00018 per request.
+   * Price: $0.00009 per request.
    *
    * @example
    * const res = await client.twitter.community({ url: "https://x.com/i/communities/1926186499399139650" });
@@ -1510,7 +1510,7 @@ export class TwitterNamespace {
    *
    * Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.
    *
-   * Price: $0.0003 per request.
+   * Price: $0.00022 per request.
    *
    * @example
    * const res = await client.twitter.profile({ handle: "nasa" });
@@ -1581,7 +1581,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) communities by keyword and get their id, name, topic, and member count with cursor pagination. This is how you find a community URL to pass to twitter.community or twitter.community_tweets.
    *
-   * Price: $0.00018 per request plus $0.00018 per result (maximum $0.00198).
+   * Price: $0.00009 per request plus $0.00009 per result (maximum $0.00099).
    *
    * @example
    * const res = await client.twitter.searchCommunities({ query: "artificial intelligence" });
@@ -1678,7 +1678,7 @@ export class TwitterNamespace {
    *
    * Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.
    *
-   * Price: $0.00018 per request.
+   * Price: $0.00009 per request.
    *
    * @example
    * const res = await client.twitter.trends({ limit: 10, location: "US" });
@@ -1695,7 +1695,7 @@ export class TwitterNamespace {
    *
    * Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).
    *
-   * Price: $0.0003 per request.
+   * Price: $0.00022 per request.
    *
    * @example
    * const res = await client.twitter.tweet({ url: "https://x.com/SpaceX/status/1732824684683784516" });

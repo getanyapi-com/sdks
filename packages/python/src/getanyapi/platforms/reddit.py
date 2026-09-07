@@ -710,7 +710,7 @@ class RedditNamespace:
         Fetch a single Reddit post by URL, including its full body text, score,
         comment count, upvote ratio, and subreddit, as normalized JSON.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.post(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
@@ -815,7 +815,7 @@ class RedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -879,7 +879,7 @@ class RedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -922,7 +922,7 @@ class RedditNamespace:
 
         Search posts within a single subreddit by query, sort, and timeframe.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_search(query="push ups", subreddit="Fitness")
@@ -966,7 +966,7 @@ class RedditNamespace:
         Get currently trending Reddit posts across all subreddits with stable cursor
         pagination.
 
-        Price: $0.00036 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.reddit.trending_posts(limit=25)
@@ -1035,7 +1035,7 @@ class RedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")
@@ -1083,7 +1083,7 @@ class AsyncRedditNamespace:
         Fetch a single Reddit post by URL, including its full body text, score,
         comment count, upvote ratio, and subreddit, as normalized JSON.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.post(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
@@ -1188,7 +1188,7 @@ class AsyncRedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -1252,7 +1252,7 @@ class AsyncRedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -1295,7 +1295,7 @@ class AsyncRedditNamespace:
 
         Search posts within a single subreddit by query, sort, and timeframe.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_search(query="push ups", subreddit="Fitness")
@@ -1339,7 +1339,7 @@ class AsyncRedditNamespace:
         Get currently trending Reddit posts across all subreddits with stable cursor
         pagination.
 
-        Price: $0.00036 per request.
+        Price: $0.00018 per request.
 
         Example:
             res = client.reddit.trending_posts(limit=25)
@@ -1408,7 +1408,7 @@ class AsyncRedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.0009 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")

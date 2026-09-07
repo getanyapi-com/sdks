@@ -482,7 +482,7 @@ export class AmazonNamespace {
    *
    * List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.amazon.bestsellers({ url: "https://www.amazon.com/gp/bestsellers/electronics", limit: 3 });
@@ -499,7 +499,7 @@ export class AmazonNamespace {
    *
    * Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.
    *
-   * Price: $0.0018 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.amazon.product({ url: "https://www.amazon.com/dp/B00NTCH52W" });
@@ -516,7 +516,7 @@ export class AmazonNamespace {
    *
    * Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.
    *
-   * Price: $0.0018 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.amazon.reviews({ product: "B07PXGQC1Q", limit: 3 });
@@ -533,7 +533,7 @@ export class AmazonNamespace {
    *
    * Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.amazon.search({ url: "https://www.amazon.com/s?k=laptop", limit: 3 });

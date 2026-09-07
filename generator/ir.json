@@ -1318,7 +1318,7 @@
       "category": "shop",
       "description": "List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -1494,7 +1494,7 @@
       "category": "shop",
       "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -1705,7 +1705,7 @@
       "category": "shop",
       "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -1938,7 +1938,7 @@
       "category": "shop",
       "description": "Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -15447,7 +15447,7 @@
       "category": "shop",
       "description": "Fetch one eBay listing by URL and get the full offer record: price, condition, shipping, item location, seller feedback, quantity, watchers, and live auction state (bid count and end time).",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -15981,7 +15981,7 @@
       "category": "shop",
       "description": "Search eBay active listings by keyword with optional price-range, item-condition, listing-type, and sort filters and get title, price, condition, shipping, and seller in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -24503,7 +24503,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -26576,7 +26576,7 @@
       "category": "search",
       "description": "Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.",
       "pricing": {
-        "priceUsd": 0.00126,
+        "priceUsd": 0.00063,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -27764,7 +27764,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00063,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -32051,7 +32051,7 @@
       "category": "social",
       "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.00144,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -32207,7 +32207,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -38794,7 +38794,7 @@
       "category": "data",
       "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.",
       "pricing": {
-        "priceUsd": 0.00066,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39022,7 +39022,7 @@
       "category": "social",
       "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -41250,7 +41250,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, and a basic experience/education list (company + dates only, no job titles, descriptions, or skills; past companies may be redacted). For full experience detail, skills, certifications, connections, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.00144,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -52438,7 +52438,7 @@
       "category": "search",
       "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -59825,7 +59825,7 @@
       "category": "social",
       "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60499,7 +60499,7 @@
       "category": "social",
       "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60881,7 +60881,7 @@
       "category": "social",
       "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61101,7 +61101,7 @@
       "category": "social",
       "description": "Search posts within a single subreddit by query, sort, and timeframe.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61307,7 +61307,7 @@
       "category": "reddit",
       "description": "Get currently trending Reddit posts across all subreddits with stable cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00036,
+        "priceUsd": 0.00018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61668,7 +61668,7 @@
       "category": "social",
       "description": "List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70108,7 +70108,7 @@
       "category": "social",
       "description": "Search TikTok's EU Commercial Content Library by keyword or advertiser ID.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70933,7 +70933,7 @@
       "category": "video",
       "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).",
       "pricing": {
-        "priceUsd": 0.00144,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -71366,7 +71366,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -73798,7 +73798,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -73938,7 +73938,7 @@
       "category": "social",
       "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.00144,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -77975,7 +77975,7 @@
       "category": "social",
       "description": "Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL.",
       "pricing": {
-        "priceUsd": 0.00018,
+        "priceUsd": 0.00009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -78609,7 +78609,7 @@
       "category": "social",
       "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0003,
+        "priceUsd": 0.00022,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -79247,9 +79247,9 @@
       "category": "social",
       "description": "Search X (Twitter) communities by keyword and get their id, name, topic, and member count with cursor pagination. This is how you find a community URL to pass to twitter.community or twitter.community_tweets.",
       "pricing": {
-        "priceUsd": 0.00198,
-        "baseUsd": 0.00018,
-        "perItemUsd": 0.00018,
+        "priceUsd": 0.00099,
+        "baseUsd": 0.00009,
+        "perItemUsd": 0.00009,
         "perItemUnit": "result"
       },
       "tsNamespace": "twitter",
@@ -79862,7 +79862,7 @@
       "category": "social",
       "description": "Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.",
       "pricing": {
-        "priceUsd": 0.00018,
+        "priceUsd": 0.00009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -80017,7 +80017,7 @@
       "category": "social",
       "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).",
       "pricing": {
-        "priceUsd": 0.0003,
+        "priceUsd": 0.00022,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -83319,7 +83319,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -84176,7 +84176,7 @@
       "category": "video",
       "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -84759,7 +84759,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -87147,7 +87147,7 @@
       "category": "data",
       "description": "Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history).",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -87376,7 +87376,7 @@
       "category": "data",
       "description": "Search Zillow for-sale, rental, or sold listings by region-level location (city, ZIP, county, or neighborhood) with optional price, bedroom, living-area, home-type, recency, and sort filters and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
