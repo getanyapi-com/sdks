@@ -281,7 +281,7 @@ class TiktokSearchKeywordInput(TypedDict, total=False):
     requireCursor: NotRequired[bool]
     """Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Not all sources for this search can page, and one that can may cost more per request."""
     sortBy: NotRequired[Any]
-    """Sort order. Use the canonical JSON integer 0 for relevance or 1 for most liked; legacy numeric strings remain accepted."""
+    """Sort order. Use the canonical JSON integer 0 for relevance, 1 for most liked, or 2 for newest first; legacy numeric strings remain accepted."""
 
 
 class TiktokSearchTopInput(TypedDict, total=False):
@@ -1109,12 +1109,21 @@ class TiktokSearchKeywordData(BaseModel):
 
 
 class TiktokSearchKeywordVideo(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author: str | None = Field(
+        default=None,
+        description="Username (handle) of the account that posted, without the @ prefix.",
+    )
     caption: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     comments: int
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )

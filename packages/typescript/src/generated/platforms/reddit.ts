@@ -366,6 +366,10 @@ export interface RedditSearchPost {
    */
   score: number;
   /**
+   * Body text of a self post, as Markdown. Empty on a link post, which has no body.
+   */
+  selftext?: string;
+  /**
    * Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.
    */
   subreddit: string;
@@ -530,6 +534,10 @@ export interface RedditSubredditPostsPost {
    */
   score: number;
   /**
+   * Body text of a self post, as Markdown. Empty on a link post, which has no body.
+   */
+  selftext?: string;
+  /**
    * Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.
    */
   subreddit: string;
@@ -619,6 +627,10 @@ export interface RedditSubredditSearchPost {
    */
   score: number;
   /**
+   * Body text of a self post, as Markdown. Empty on a link post, which has no body.
+   */
+  selftext?: string;
+  /**
    * Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.
    */
   subreddit: string;
@@ -693,6 +705,10 @@ export interface RedditTrendingPostsPost {
    * Net score (upvotes minus downvotes) at fetch time.
    */
   score: number;
+  /**
+   * Body text of a self post, as Markdown. Empty on a link post, which has no body.
+   */
+  selftext?: string;
   /**
    * Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.
    */
@@ -857,6 +873,10 @@ export interface RedditUserPostsPost {
    * Net score (upvotes minus downvotes) at fetch time.
    */
   score?: number;
+  /**
+   * Body text of a self post, as Markdown. Empty on a link post, which has no body.
+   */
+  selftext?: string;
   /**
    * Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.

@@ -1320,11 +1320,10 @@ export interface InstagramReelTranscriptData {
  */
 export interface InstagramReelsSearchInput {
   /**
-   * Recency hint, not a hard filter. Reel discovery runs on top of Google search, so this window narrows Google's index by when it discovered or last crawled the reel, which is not the same as when the reel was published to Instagram. Returned reels can have a createdUtc outside the requested window, and narrow windows such as last-hour often return older reels or no results. Check createdUtc yourself if you need exact publication-time precision.
-   * One of: last-hour, last-day, last-week, last-month, last-year.
+   * Recency hint, not a hard filter. Reel discovery runs on top of Google search, so this window narrows Google's index by when it discovered or last crawled the reel, which is not the same as when the reel was published to Instagram. Returned reels can have a createdUtc outside the requested window, and the narrowest window, last-week, often returns older reels or no results. Check createdUtc yourself if you need exact publication-time precision.
+   * One of: last-week, last-month, last-year.
    */
-  datePosted?:
-    "last-hour" | "last-day" | "last-week" | "last-month" | "last-year";
+  datePosted?: "last-week" | "last-month" | "last-year";
   /**
    * 1-based results page.
    * Range: minimum 1.
