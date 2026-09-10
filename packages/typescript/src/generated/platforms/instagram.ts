@@ -2852,7 +2852,7 @@ export class InstagramNamespace {
    *
    * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.instagram.post({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -2869,7 +2869,7 @@ export class InstagramNamespace {
    *
    * List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).
    *
-   * Price: $0.0008 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.postComments({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -2929,7 +2929,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });

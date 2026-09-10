@@ -32564,7 +32564,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -32699,7 +32699,7 @@
       "category": "social",
       "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33000,7 +33000,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
