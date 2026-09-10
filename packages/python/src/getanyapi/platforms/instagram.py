@@ -813,7 +813,7 @@ class InstagramLocationPostsPost(BaseModel):
         description="Number of slides, present on carousel posts only.",
     )
     coauthors: list[InstagramLocationPostsCoauthor] | None = Field(
-        default=None, description="Accounts credited as coauthors of the post."
+        default=None, description="Accounts listed as coauthors of the post."
     )
     comments: int = Field(description="Number of comments on the post.")
     counts_hidden: bool | None = Field(
@@ -1836,7 +1836,7 @@ class InstagramUserRepostsPost(BaseModel):
         description="Number of slides, present on carousel posts only.",
     )
     coauthors: list[InstagramUserRepostsCoauthor] | None = Field(
-        default=None, description="Accounts credited as coauthors of the post."
+        default=None, description="Accounts listed as coauthors of the post."
     )
     comments: int = Field(description="Number of comments on the post.")
     counts_hidden: bool | None = Field(

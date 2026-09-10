@@ -710,7 +710,7 @@ export interface InstagramLocationPostsPost {
    */
   carouselCount?: number;
   /**
-   * Accounts credited as coauthors of the post.
+   * Accounts listed as coauthors of the post.
    */
   coauthors?: InstagramLocationPostsCoauthor[];
   /**
@@ -2318,7 +2318,7 @@ export interface InstagramUserRepostsPost {
    */
   carouselCount?: number;
   /**
-   * Accounts credited as coauthors of the post.
+   * Accounts listed as coauthors of the post.
    */
   coauthors?: InstagramUserRepostsCoauthor[];
   /**

@@ -32210,7 +32210,7 @@
                   },
                   "coauthors": {
                     "kind": "array",
-                    "description": "Accounts credited as coauthors of the post.",
+                    "description": "Accounts listed as coauthors of the post.",
                     "items": {
                       "kind": "object",
                       "properties": {
@@ -35921,7 +35921,7 @@
                   },
                   "coauthors": {
                     "kind": "array",
-                    "description": "Accounts credited as coauthors of the post.",
+                    "description": "Accounts listed as coauthors of the post.",
                     "items": {
                       "kind": "object",
                       "properties": {
