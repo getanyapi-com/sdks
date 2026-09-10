@@ -46,7 +46,7 @@ export * from "./platforms/linkedin.js";
 export * from "./platforms/maps.js";
 export * from "./platforms/mobile_phone.js";
 export * from "./platforms/naver.js";
-export * from "./platforms/pandaexpress.js";
+export * from "./platforms/nextdoor.js";
 export * from "./platforms/people_search.js";
 export * from "./platforms/perplexity.js";
 export * from "./platforms/person.js";

@@ -16,20 +16,12 @@ export interface UpworkJobsInput {
    */
   experienceLevel?: "entry" | "intermediate" | "expert";
   /**
-   * Budget range [min, max] in USD for fixed-price jobs (e.g. [500, 5000]).
-   */
-  fixedPriceRange?: number[];
-  /**
-   * Hourly rate range [min, max] in USD/hour for hourly jobs (e.g. [20, 50]).
-   */
-  hourlyRateRange?: number[];
-  /**
    * Filter by payment type: fixed-price or hourly jobs.
    * One of: fixed, hourly.
    */
   jobType?: "fixed" | "hourly";
   /**
-   * Maximum number of results to return (10-25, default 25). You are billed per result returned, so a lower limit costs less. This search has a floor of 10 results per page.
+   * Maximum number of results to return (10-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 10, maximum 25.
    */
   limit?: number;
@@ -60,7 +52,7 @@ export interface UpworkJobsInput {
 
 export interface UpworkJobsItem {
   /**
-   * Fixed budget or hourly range.
+   * Fixed-price budget in USD (e.g. $4000). Absent on hourly jobs, which carry hourlyRateMin and hourlyRateMax.
    */
   budget?: string;
   /**
@@ -88,6 +80,14 @@ export interface UpworkJobsItem {
    * Required experience level (e.g. Entry, Intermediate, Expert).
    */
   experienceLevel?: string;
+  /**
+   * Upper bound of the client's hourly rate range in USD. Absent on fixed-price jobs.
+   */
+  hourlyRateMax?: number;
+  /**
+   * Lower bound of the client's hourly rate range in USD. Absent on fixed-price jobs.
+   */
+  hourlyRateMin?: number;
   /**
    * Upwork job identifier. Populated whenever the provider has data for the entity.
    */
@@ -141,7 +141,7 @@ export class UpworkNamespace {
    *
    * Search Upwork job postings by keyword, with up to 25 fresh listings per request.
    *
-   * Price: $0 per request plus $0.00363 per result (maximum $0.0908).
+   * Price: $0.0011 per request plus $0.0011 per result (maximum $0.0286).
    *
    * @example
    * const res = await client.upwork.jobs({ query: "web developer", jobType: "fixed", limit: 10 });

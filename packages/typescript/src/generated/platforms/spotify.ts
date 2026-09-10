@@ -448,7 +448,7 @@ export class SpotifyNamespace {
    *
    * Fetch a Spotify album's tracklist, play counts, label, and release details by album URL or ID.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.spotify.album({ url: "https://open.spotify.com/album/0pgrg7phBbnwGJ2HBEl9EG" });
@@ -465,7 +465,7 @@ export class SpotifyNamespace {
    *
    * Fetch a Spotify artist's discography (albums, singles, top tracks) and metadata by artist URL or ID.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.spotify.artist({ url: "https://open.spotify.com/artist/3DiDSECUqqY1AuBP8qtaIa" });
@@ -499,7 +499,7 @@ export class SpotifyNamespace {
    *
    * Fetch a Spotify podcast show's name, publisher, description, rating, and topics by show URL or ID.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.spotify.podcast({ url: "https://open.spotify.com/show/3mliji9352UAk3XnWElnDV" });
@@ -516,7 +516,7 @@ export class SpotifyNamespace {
    *
    * List a Spotify podcast show's episodes with titles, durations, descriptions, and release dates by show URL or ID.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.spotify.podcastEpisodes({ url: "https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk" });
@@ -559,7 +559,7 @@ export class SpotifyNamespace {
    *
    * Search Spotify for matching tracks, albums, artists, podcasts, and playlists by keyword.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.spotify.search({ query: "my first million" });
@@ -576,7 +576,7 @@ export class SpotifyNamespace {
    *
    * Fetch a Spotify track's play count, popularity, duration, and album details by track URL or ID.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.spotify.track({ url: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT" });

@@ -920,7 +920,7 @@ export class RedditNamespace {
    *
    * Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.reddit.post({ url: "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/" });
@@ -937,7 +937,7 @@ export class RedditNamespace {
    *
    * List the top-level comments on a Reddit post by URL (author, body, score, timestamp).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.postComments({ url: "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/" });
@@ -977,7 +977,7 @@ export class RedditNamespace {
    *
    * Extract the spoken transcript from a Reddit video post by URL.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.postTranscript({ url: "https://www.reddit.com/r/youseeingthisshit/comments/1oiu9xm/" });
@@ -1011,7 +1011,7 @@ export class RedditNamespace {
    *
    * Search Reddit posts across all subreddits by query.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.reddit.search({ query: "mechanical keyboard" });
@@ -1065,7 +1065,7 @@ export class RedditNamespace {
    *
    * Fetch posts from a subreddit listing (hot, new, or top).
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.reddit.subredditPosts({ subreddit: "programming", limit: 5 });
@@ -1105,7 +1105,7 @@ export class RedditNamespace {
    *
    * Search posts within a single subreddit by query, sort, and timeframe.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.reddit.subredditSearch({ subreddit: "Fitness", query: "push ups" });
@@ -1148,7 +1148,7 @@ export class RedditNamespace {
    *
    * Get currently trending Reddit posts across all subreddits with stable cursor pagination.
    *
-   * Price: $0.00018 per request.
+   * Price: $0.0002 per request.
    *
    * @example
    * const res = await client.reddit.trendingPosts({ limit: 25 });
@@ -1205,7 +1205,7 @@ export class RedditNamespace {
    *
    * List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.reddit.userPosts({ username: "spez" });

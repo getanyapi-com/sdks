@@ -335,12 +335,16 @@ import type {
   InstagramHashtagTopPostsInput,
   InstagramHighlightDetailData,
   InstagramHighlightDetailInput,
+  InstagramLocationPostsData,
+  InstagramLocationPostsInput,
   InstagramMediaTranscriptData,
   InstagramMediaTranscriptInput,
   InstagramPostCommentsData,
   InstagramPostCommentsInput,
   InstagramPostData,
   InstagramPostInput,
+  InstagramPostLikersData,
+  InstagramPostLikersInput,
   InstagramProfileContactData,
   InstagramProfileContactInput,
   InstagramProfileData,
@@ -353,8 +357,12 @@ import type {
   InstagramSearchHashtagData,
   InstagramSearchHashtagInput,
   InstagramSearchInput,
+  InstagramSearchLocationsData,
+  InstagramSearchLocationsInput,
   InstagramSearchProfilesData,
   InstagramSearchProfilesInput,
+  InstagramSimilarProfilesData,
+  InstagramSimilarProfilesInput,
   InstagramStoriesFullData,
   InstagramStoriesFullInput,
   InstagramStoriesThinData,
@@ -369,6 +377,8 @@ import type {
   InstagramUserPostsInput,
   InstagramUserReelsData,
   InstagramUserReelsInput,
+  InstagramUserRepostsData,
+  InstagramUserRepostsInput,
 } from "./platforms/instagram.js";
 import type {
   JobSearchTheirstackData,
@@ -449,13 +459,11 @@ import type {
   NaverBlogSearchInput,
 } from "./platforms/naver.js";
 import type {
-  PandaexpressLocationsData,
-  PandaexpressLocationsInput,
-  PandaexpressMenuData,
-  PandaexpressMenuInput,
-  PandaexpressNutritionData,
-  PandaexpressNutritionInput,
-} from "./platforms/pandaexpress.js";
+  NextdoorBusinessData,
+  NextdoorBusinessInput,
+  NextdoorSearchData,
+  NextdoorSearchInput,
+} from "./platforms/nextdoor.js";
 import type {
   PeopleSearchAiArkData,
   PeopleSearchAiArkInput,
@@ -483,8 +491,6 @@ import type {
   PersonSkipTraceInput,
 } from "./platforms/person.js";
 import type {
-  PersonEnrichmentAviatoData,
-  PersonEnrichmentAviatoInput,
   PersonEnrichmentBettercontactData,
   PersonEnrichmentBettercontactInput,
   PersonEnrichmentFullenrichBulkData,
@@ -1551,6 +1557,11 @@ export interface SkuMap {
     data: InstagramHighlightDetailData;
     result: RunResult<InstagramHighlightDetailData>;
   };
+  "instagram.location_posts": {
+    input: InstagramLocationPostsInput;
+    data: InstagramLocationPostsData;
+    result: RunResult<InstagramLocationPostsData>;
+  };
   "instagram.media_transcript": {
     input: InstagramMediaTranscriptInput;
     data: InstagramMediaTranscriptData;
@@ -1565,6 +1576,11 @@ export interface SkuMap {
     input: InstagramPostCommentsInput;
     data: InstagramPostCommentsData;
     result: RunResult<InstagramPostCommentsData>;
+  };
+  "instagram.post_likers": {
+    input: InstagramPostLikersInput;
+    data: InstagramPostLikersData;
+    result: RunResult<InstagramPostLikersData>;
   };
   "instagram.profile": {
     input: InstagramProfileInput;
@@ -1596,10 +1612,20 @@ export interface SkuMap {
     data: InstagramSearchHashtagData;
     result: RunResult<InstagramSearchHashtagData>;
   };
+  "instagram.search_locations": {
+    input: InstagramSearchLocationsInput;
+    data: InstagramSearchLocationsData;
+    result: RunResult<InstagramSearchLocationsData>;
+  };
   "instagram.search_profiles": {
     input: InstagramSearchProfilesInput;
     data: InstagramSearchProfilesData;
     result: RunResult<InstagramSearchProfilesData>;
+  };
+  "instagram.similar_profiles": {
+    input: InstagramSimilarProfilesInput;
+    data: InstagramSimilarProfilesData;
+    result: RunResult<InstagramSimilarProfilesData>;
   };
   "instagram.stories_full": {
     input: InstagramStoriesFullInput;
@@ -1635,6 +1661,11 @@ export interface SkuMap {
     input: InstagramUserReelsInput;
     data: InstagramUserReelsData;
     result: RunResult<InstagramUserReelsData>;
+  };
+  "instagram.user_reposts": {
+    input: InstagramUserRepostsInput;
+    data: InstagramUserRepostsData;
+    result: RunResult<InstagramUserRepostsData>;
   };
   "job_search.theirstack": {
     input: JobSearchTheirstackInput;
@@ -1806,20 +1837,15 @@ export interface SkuMap {
     data: NaverBlogSearchData;
     result: RunResult<NaverBlogSearchData>;
   };
-  "pandaexpress.locations": {
-    input: PandaexpressLocationsInput;
-    data: PandaexpressLocationsData;
-    result: RunResult<PandaexpressLocationsData>;
+  "nextdoor.business": {
+    input: NextdoorBusinessInput;
+    data: NextdoorBusinessData;
+    result: RunResult<NextdoorBusinessData>;
   };
-  "pandaexpress.menu": {
-    input: PandaexpressMenuInput;
-    data: PandaexpressMenuData;
-    result: RunResult<PandaexpressMenuData>;
-  };
-  "pandaexpress.nutrition": {
-    input: PandaexpressNutritionInput;
-    data: PandaexpressNutritionData;
-    result: RunResult<PandaexpressNutritionData>;
+  "nextdoor.search": {
+    input: NextdoorSearchInput;
+    data: NextdoorSearchData;
+    result: RunResult<NextdoorSearchData>;
   };
   "people_search.ai_ark": {
     input: PeopleSearchAiArkInput;
@@ -1870,11 +1896,6 @@ export interface SkuMap {
     input: PersonSkipTraceInput;
     data: PersonSkipTraceData;
     result: RunResult<PersonSkipTraceData>;
-  };
-  "person_enrichment.aviato": {
-    input: PersonEnrichmentAviatoInput;
-    data: PersonEnrichmentAviatoData;
-    result: RunResult<PersonEnrichmentAviatoData>;
   };
   "person_enrichment.bettercontact": {
     input: PersonEnrichmentBettercontactInput;

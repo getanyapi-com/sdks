@@ -675,7 +675,7 @@ export class GithubNamespace {
    *
    * Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.repository({ url: "https://github.com/facebook/react" });
@@ -692,7 +692,7 @@ export class GithubNamespace {
    *
    * List trending GitHub developers (rank, username, name, avatar, and their most popular repository), optionally filtered by programming language and time range.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.trendingDevelopers({ language: "go", since: "weekly" });
@@ -709,7 +709,7 @@ export class GithubNamespace {
    *
    * List GitHub Trending repositories (rank, stars, stars gained today, language, and description), filterable by language and time window.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.trendingRepositories({ language: "python", since: "daily" });
@@ -726,7 +726,7 @@ export class GithubNamespace {
    *
    * Fetch a GitHub user's public profile by handle (name, bio, company, location, followers, and repo counts).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.user({ handle: "torvalds" });
@@ -743,7 +743,7 @@ export class GithubNamespace {
    *
    * List a GitHub user's public contribution activity by handle (grouped monthly summaries of commits, pull requests, and issues with repository links) for a given year.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.userActivity({ handle: "kentcdodds" });
@@ -783,7 +783,7 @@ export class GithubNamespace {
    *
    * Fetch a GitHub user's contribution graph for a year (total contributions plus per-day counts and heatmap intensity).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.userContributions({ handle: "torvalds", year: 2024 });
@@ -800,7 +800,7 @@ export class GithubNamespace {
    *
    * List a GitHub user's followers by handle (each follower's login, type, avatar, and profile URL) with pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.userFollowers({ handle: "torvalds" });
@@ -843,7 +843,7 @@ export class GithubNamespace {
    *
    * List the GitHub users a given user follows by handle (each account's login, type, avatar, and profile URL) with pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.userFollowing({ handle: "kentcdodds" });
@@ -886,7 +886,7 @@ export class GithubNamespace {
    *
    * List a GitHub user's public pull requests by handle (title, repository, state, creation date, and URL) with optional date filtering and pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.userPullRequests({ handle: "torvalds" });
@@ -929,7 +929,7 @@ export class GithubNamespace {
    *
    * List a GitHub user's public repositories (name, description, language, stars, and forks) with sorting and cursor pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.github.userRepositories({ handle: "torvalds" });

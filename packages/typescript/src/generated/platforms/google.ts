@@ -572,7 +572,7 @@ export interface GoogleSearchInput {
    */
   query: string;
   /**
-   * Set true if you intend to page through results. The cheapest source for this search cannot return a nextCursor, so by default a single call may come back with no way to continue; setting this routes to a source that can page, at a higher price per request.
+   * Set true if you intend to page through results. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays supported so callers that already send it keep working.
    */
   requireCursor?: boolean;
   /**
@@ -777,7 +777,7 @@ export class GoogleNamespace {
    *
    * Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.
    *
-   * Price: $0.00063 per request.
+   * Price: $0.0007 per request.
    *
    * @example
    * const res = await client.google.aiMode({ prompt: "What is AnyAPI at getanyapi.com, and what does it offer?" });
@@ -913,7 +913,7 @@ export class GoogleNamespace {
    *
    * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.
    *
-   * Price: $0.00063 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.google.search({ query: "best coffee maker", gl: "us", hl: "en", limit: 10 });

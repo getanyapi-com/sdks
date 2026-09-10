@@ -2051,7 +2051,7 @@ export class FacebookNamespace {
    *
    * Look up a single Meta Ad Library ad by ID or URL and get the advertiser, creative text, call-to-action, platforms, and run dates as clean JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.adDetails({ id: "1249043200627555" });
@@ -2085,7 +2085,7 @@ export class FacebookNamespace {
    *
    * Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or URL.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.adTranscript({ id: "931919822778200" });
@@ -2102,7 +2102,7 @@ export class FacebookNamespace {
    *
    * Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.adsSearch({ query: "nike", country: "US", searchType: "keyword_exact_phrase" });
@@ -2139,7 +2139,7 @@ export class FacebookNamespace {
    *
    * List the replies to a Facebook post comment (text, author, reactions, and timestamps) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.commentReplies({ expansionToken: "MjoxNzgzMjI4OTY4OgF_o5zrjDnpemv4bwPtpsShXutqvKIw2bKs2YuJksL1Ak8n8YG-_KPSQGkIks5oW6wdRfhb_cRv9q5OX0NHjFJwEupYNZi9pcMV-FYLWLp47u-eusMkZFOMwbkISsTln7gtSvQrOzlffyavOTIL85PECYzGfunU2IAEkd13CIikxu06Mw10UJ1ShcFAmz8175R1uJfYy_iOixWZukqfrWhUfVOXApXznxx7qXvUxPwct76qe6p7-nVWQrPC_SZc2xh9Z8ggL3WMjgTzSq4oWFSsyZuuVsyVVjSgdjRQiDqtJSeEUlSjTr6vOnKsvKV-GpnBRaeA0BCaNRhqpB4xDZoduBuO5ZYrFvWLJdJLryDhCPI2Ss-Z33cEM2Vz7pLf1wJzE7TuizXPwICSn1DA_Prca-BItTbOUjAjfiySap1LXYkGuuDC2ziUdiEsmE5XhevMP8XtF_2WQlMNcGbXMEQyAWDUawtPAxXgMeRrCO9YGSweFQ4OZumoIlSGa3Vfjy-euUOHT1IAsNbV2A8rAq4HJNU3jCXQTn0vfW9xvbVQhL-53Mhw2YPjhlvUj6QpnGA25N8", feedbackId: "ZmVlZGJhY2s6MTM5MzQ2MTExNTQ4MTkyN18yMDgyNjUzMjQ1ODA5Mzg2" });
@@ -2182,7 +2182,7 @@ export class FacebookNamespace {
    *
    * List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.companyAds({ companyName: "nike", sortBy: "recent" });
@@ -2219,7 +2219,7 @@ export class FacebookNamespace {
    *
    * Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.eventDetails({ id: "4045709448982422" });
@@ -2236,7 +2236,7 @@ export class FacebookNamespace {
    *
    * List public Facebook events for a city or place by its events-page URL (event name, date, venue, and attendance) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.events({ url: "https://www.facebook.com/events/explore/saint-petersburg-florida/111326725552547" });
@@ -2273,7 +2273,7 @@ export class FacebookNamespace {
    *
    * Search public Facebook events by keyword and get structured event records (name, schedule, venue, pricing, and attendance) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.eventsSearch({ query: "music festival" });
@@ -2330,7 +2330,7 @@ export class FacebookNamespace {
    *
    * Fetch recent posts from any public Facebook group by URL: text, author, reactions, and comment counts.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.groupPosts({ url: "https://www.facebook.com/groups/1270525996445602/" });
@@ -2367,7 +2367,7 @@ export class FacebookNamespace {
    *
    * Search Facebook Marketplace listings by keyword near a location, filter by price, condition, delivery, recency, and availability, and get title, price, location, and image as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.marketplace({ lat: "30.2677", lng: "-97.7475", query: "bike", priceMax: 500, priceMin: 100 });
@@ -2407,7 +2407,7 @@ export class FacebookNamespace {
    *
    * Fetch full details for a single Facebook Marketplace listing by ID or URL (title, price, location, photos, and attributes) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.marketplaceItem({ url: "https://www.facebook.com/marketplace/item/1656586118821988/" });
@@ -2424,7 +2424,7 @@ export class FacebookNamespace {
    *
    * Resolve a place name to Facebook Marketplace locations with coordinates and metadata as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.marketplaceLocationSearch({ query: "Austin" });
@@ -2445,7 +2445,7 @@ export class FacebookNamespace {
    *
    * Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.pageContact({ page: "https://www.facebook.com/joesstonecrab" });
@@ -2462,7 +2462,7 @@ export class FacebookNamespace {
    *
    * Fetch recent photos posted by any public Facebook page or profile (image URLs, captions, and dimensions) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.photos({ url: "https://www.facebook.com/Spurs" });
@@ -2499,7 +2499,7 @@ export class FacebookNamespace {
    *
    * Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.post({ url: "https://www.facebook.com/reel/2166091230582141/" });
@@ -2516,7 +2516,7 @@ export class FacebookNamespace {
    *
    * List the comments on a Facebook post by URL with cursor pagination (text, author, reactions, reply count).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.postComments({ url: "https://www.facebook.com/reel/2166091230582141/" });
@@ -2559,7 +2559,7 @@ export class FacebookNamespace {
    *
    * Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.postTranscript({ url: "https://www.facebook.com/reel/2166091230582141/" });
@@ -2576,7 +2576,7 @@ export class FacebookNamespace {
    *
    * Fetch a Facebook page's public profile (likes, followers, category, about) by URL or handle.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.profile({ url: "https://www.facebook.com/nike" });
@@ -2593,7 +2593,7 @@ export class FacebookNamespace {
    *
    * List upcoming and past events hosted by any public Facebook page by URL (name, schedule, venue, and host) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.profileEvents({ url: "https://www.facebook.com/brickyardoldtown" });
@@ -2636,7 +2636,7 @@ export class FacebookNamespace {
    *
    * List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.profilePosts({ url: "https://www.facebook.com/nike" });
@@ -2676,7 +2676,7 @@ export class FacebookNamespace {
    *
    * List a Facebook page's reels by URL with cursor pagination (caption, view count, permalink, thumbnail).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.profileReels({ url: "https://www.facebook.com/nike" });
@@ -2693,7 +2693,7 @@ export class FacebookNamespace {
    *
    * Search the Meta Ad Library for advertisers by keyword and get matching pages: page ID, category, verification, follower counts, and linked Instagram.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.searchCompanies({ query: "nike" });

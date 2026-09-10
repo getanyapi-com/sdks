@@ -67,15 +67,9 @@ class InstagramFollowersInput(TypedDict, total=False):
     """Input for Instagram Followers."""
 
     cursor: NotRequired[str]
-    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers."""
-    limit: NotRequired[int]
-    """How many followers you want (50-1000). By default results come back in cheap pages of up to ~50: follow the response's nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call. Range: 50 to 1000."""
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers. A page holds up to 50 followers."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireCursor: NotRequired[bool]
-    """Set true if you intend to page through followers, so the request is only served by a source that can return a nextCursor. The bulk source cannot page, and a paging source may cost more per request. Cannot be combined with requireSinglePage."""
-    requireSinglePage: NotRequired[bool]
-    """Set true to get up to limit followers in a single response instead of cheap pages, served by a bulk provider at a higher price."""
     username: Required[str]
     """The Instagram username, user ID, or profile URL whose followers to list (e.g. natgeo)."""
 
@@ -84,15 +78,9 @@ class InstagramFollowingInput(TypedDict, total=False):
     """Input for Instagram Following."""
 
     cursor: NotRequired[str]
-    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page."""
-    limit: NotRequired[int]
-    """How many accounts you want (50-1000). By default results come back in cheap pages of up to ~50: follow the response's nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call. Range: 50 to 1000."""
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page. A page holds up to 50 accounts."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireCursor: NotRequired[bool]
-    """Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. The bulk source cannot page, and a paging source may cost more per request. Cannot be combined with requireSinglePage."""
-    requireSinglePage: NotRequired[bool]
-    """Set true to get up to limit accounts in a single response instead of cheap pages, served by a bulk provider at a higher price."""
     username: Required[str]
     """The Instagram username, user ID, or profile URL whose following list to fetch (e.g. natgeo)."""
 
@@ -139,6 +127,19 @@ class InstagramHighlightDetailInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
+class InstagramLocationPostsInput(TypedDict, total=False):
+    """Input for Instagram Location Posts."""
+
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    locationId: Required[str]
+    """Instagram location id, as returned by instagram.search_locations."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    sort: NotRequired[Literal["ranked", "recent"]]
+    """Order the posts by Instagram's top ranking or by newest first. Defaults to ranked."""
+
+
 class InstagramMediaTranscriptInput(TypedDict, total=False):
     """Input for Instagram Media Transcript."""
 
@@ -168,6 +169,15 @@ class InstagramPostCommentsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
     """Full Instagram post or reel URL."""
+
+
+class InstagramPostLikersInput(TypedDict, total=False):
+    """Input for Instagram Post Likers."""
+
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    url: Required[str]
+    """Canonical URL of a public Instagram post or reel."""
 
 
 class InstagramProfileInput(TypedDict, total=False):
@@ -244,6 +254,15 @@ class InstagramSearchHashtagInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
+class InstagramSearchLocationsInput(TypedDict, total=False):
+    """Input for Instagram Location Search."""
+
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Place name, address or city to search for."""
+
+
 class InstagramSearchProfilesInput(TypedDict, total=False):
     """Input for Instagram Profile Search."""
 
@@ -253,6 +272,15 @@ class InstagramSearchProfilesInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Bio or caption keyword/phrase to search for."""
+
+
+class InstagramSimilarProfilesInput(TypedDict, total=False):
+    """Input for Instagram Similar Profiles."""
+
+    handle: Required[str]
+    """Instagram username without the leading @."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
 
 class InstagramStoriesFullInput(TypedDict, total=False):
@@ -324,6 +352,17 @@ class InstagramUserReelsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     userId: NotRequired[str]
     """Instagram user id (faster than handle when known)."""
+
+
+class InstagramUserRepostsInput(TypedDict, total=False):
+    """Input for Instagram User Reposts."""
+
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    userId: Required[str]
+    """Instagram's numeric account id, as returned by instagram.profile."""
 
 
 class InstagramAudioReelsData(BaseModel):
@@ -719,6 +758,170 @@ class InstagramHighlightDetailData(BaseModel):
     )
 
 
+class InstagramLocationPostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.",
+    )
+    posts: list[InstagramLocationPostsPost] = Field(
+        description="Public posts tagged at the location. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramLocationPostsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    alt_text: str | None = Field(
+        default=None,
+        alias="altText",
+        description="Instagram's generated accessibility description of the media.",
+    )
+    author: str = Field(
+        description="Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity."
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="The author's numeric Instagram account id, as a string.",
+    )
+    author_private: bool | None = Field(
+        default=None,
+        alias="authorPrivate",
+        description="Whether the author's account is private.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the author carries Instagram's verified badge.",
+    )
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Author's profile picture URL, as Instagram's CDN serves it.",
+    )
+    caption: str = Field(description="Post caption text.")
+    caption_edited: bool | None = Field(
+        default=None,
+        alias="captionEdited",
+        description="Whether the caption has been edited since posting.",
+    )
+    carousel_count: int | None = Field(
+        default=None,
+        alias="carouselCount",
+        description="Number of slides, present on carousel posts only.",
+    )
+    coauthors: list[InstagramLocationPostsCoauthor] | None = Field(
+        default=None, description="Accounts credited as coauthors of the post."
+    )
+    comments: int = Field(description="Number of comments on the post.")
+    counts_hidden: bool | None = Field(
+        default=None,
+        alias="countsHidden",
+        description="Whether the author has hidden the like and view counts.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    has_audio: bool | None = Field(
+        default=None,
+        alias="hasAudio",
+        description="Whether the video carries an audio track.",
+    )
+    height: int | None = Field(default=None, description="Media height in pixels.")
+    id: str = Field(
+        description="The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Post image or video thumbnail URL, as Instagram's CDN serves it. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    likes: int = Field(description="Number of likes on the post.")
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at.",
+    )
+    media_type: str | None = Field(
+        default=None,
+        alias="mediaType",
+        description="What the post is: photo, video or carousel.",
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="Whether the post is tagged as a paid partnership.",
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram's own surface label for the post, such as feed, clips or carousel_container.",
+    )
+    shortcode: str | None = Field(
+        default=None,
+        description="The post's short code, the segment Instagram puts in its URL.",
+    )
+    tagged_users: list[InstagramLocationPostsTaggedUser] | None = Field(
+        default=None, alias="taggedUsers", description="Accounts tagged in the media."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Direct video file URL, present on video posts and reels only.",
+    )
+    width: int | None = Field(default=None, description="Media width in pixels.")
+
+
+class InstagramLocationPostsCoauthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Coauthor's profile picture URL, as Instagram's CDN serves it.",
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
+
+
+class InstagramLocationPostsTaggedUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
+
+
 class InstagramMediaTranscriptData(BaseModel):
     transcripts: list[InstagramMediaTranscriptTranscript] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -797,6 +1000,43 @@ class InstagramPostCommentsComment(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     verified: bool
+
+
+class InstagramPostLikersData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    likers: list[InstagramPostLikersLiker] = Field(
+        description="One page of accounts that liked the post. A single call returns one page; it does not walk the whole liker list. Populated whenever the provider has data for the entity."
+    )
+    total_likes: int = Field(
+        alias="totalLikes",
+        description="Total number of likes on the post, which can exceed the number of likers returned in this page.",
+    )
+
+
+class InstagramPostLikersLiker(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Profile picture URL, as Instagram's CDN serves it.",
+    )
+    display_name: str = Field(alias="displayName", description="Account display name.")
+    latest_story_utc: float | None = Field(
+        default=None,
+        alias="latestStoryUtc",
+        description="Timestamp of the account's most recent story. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    private: bool = Field(description="Whether the account is private.")
+    user_id: str = Field(
+        alias="userId", description="Instagram's numeric account id, as a string."
+    )
+    username: str = Field(
+        description="Instagram username without the leading @. Populated whenever the provider has data for the entity."
+    )
+    verified: bool = Field(
+        description="Whether the account carries Instagram's verified badge."
+    )
 
 
 class InstagramProfileData(BaseModel):
@@ -1137,6 +1377,34 @@ class InstagramSearchHashtagPost(BaseModel):
     )
 
 
+class InstagramSearchLocationsData(BaseModel):
+    locations: list[InstagramSearchLocationsLocation] = Field(
+        description="Instagram locations matching the keyword, best match first. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramSearchLocationsLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    address: str | None = Field(
+        default=None, description="Street address of the place."
+    )
+    city: str | None = Field(default=None, description="City the place sits in.")
+    id: str = Field(
+        description="Instagram location id. Pass it to instagram.location_posts as locationId. Populated whenever the provider has data for the entity."
+    )
+    latitude: float = Field(description="Latitude in decimal degrees.")
+    longitude: float = Field(description="Longitude in decimal degrees.")
+    name: str = Field(
+        description="Full place name, usually including city and country. Populated whenever the provider has data for the entity."
+    )
+    short_name: str | None = Field(
+        default=None,
+        alias="shortName",
+        description="Place name without the city and country suffix.",
+    )
+
+
 class InstagramSearchProfilesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -1174,6 +1442,32 @@ class InstagramSearchProfilesProfile(BaseModel):
     posts: int
     private: bool
     verified: bool
+
+
+class InstagramSimilarProfilesData(BaseModel):
+    profiles: list[InstagramSimilarProfilesProfile] = Field(
+        description="Accounts Instagram recommends as similar to the requested profile. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramSimilarProfilesProfile(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Profile picture URL, as Instagram's CDN serves it.",
+    )
+    display_name: str = Field(alias="displayName", description="Account display name.")
+    private: bool = Field(description="Whether the account is private.")
+    user_id: str = Field(
+        alias="userId", description="Instagram's numeric account id, as a string."
+    )
+    username: str = Field(
+        description="Instagram username without the leading @. Populated whenever the provider has data for the entity."
+    )
+    verified: bool = Field(
+        description="Whether the account carries Instagram's verified badge."
+    )
 
 
 class InstagramStoriesFullData(BaseModel):
@@ -1484,6 +1778,187 @@ class InstagramUserReelsMedia(BaseModel):
     )
 
 
+class InstagramUserRepostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of reposts, or null when there are no more. Pass it back as cursor to continue.",
+    )
+    posts: list[InstagramUserRepostsPost] = Field(
+        description="Posts the account has reposted to its feed, newest first. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramUserRepostsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    alt_text: str | None = Field(
+        default=None,
+        alias="altText",
+        description="Instagram's generated accessibility description of the media.",
+    )
+    author: str = Field(
+        description="Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity."
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="The author's numeric Instagram account id, as a string.",
+    )
+    author_name: str | None = Field(
+        default=None, alias="authorName", description="The author's display name."
+    )
+    author_private: bool | None = Field(
+        default=None,
+        alias="authorPrivate",
+        description="Whether the author's account is private.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the author carries Instagram's verified badge.",
+    )
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Author's profile picture URL, as Instagram's CDN serves it.",
+    )
+    caption: str = Field(description="Post caption text.")
+    caption_edited: bool | None = Field(
+        default=None,
+        alias="captionEdited",
+        description="Whether the caption has been edited since posting.",
+    )
+    carousel_count: int | None = Field(
+        default=None,
+        alias="carouselCount",
+        description="Number of slides, present on carousel posts only.",
+    )
+    coauthors: list[InstagramUserRepostsCoauthor] | None = Field(
+        default=None, description="Accounts credited as coauthors of the post."
+    )
+    comments: int = Field(description="Number of comments on the post.")
+    counts_hidden: bool | None = Field(
+        default=None,
+        alias="countsHidden",
+        description="Whether the author has hidden the like and view counts.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    has_audio: bool | None = Field(
+        default=None,
+        alias="hasAudio",
+        description="Whether the video carries an audio track.",
+    )
+    height: int | None = Field(default=None, description="Media height in pixels.")
+    id: str = Field(
+        description="The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Post image or video thumbnail URL, as Instagram's CDN serves it. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    likes: int = Field(description="Number of likes on the post.")
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at.",
+    )
+    media_type: str | None = Field(
+        default=None,
+        alias="mediaType",
+        description="What the post is: photo, video or carousel.",
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="Whether the post is tagged as a paid partnership.",
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram's own surface label for the post, such as feed, clips or carousel_container.",
+    )
+    reshares: int | None = Field(
+        default=None,
+        description="Number of times the post has been reshared, when Instagram reports it.",
+    )
+    shortcode: str | None = Field(
+        default=None,
+        description="The post's short code, the segment Instagram puts in its URL.",
+    )
+    tagged_users: list[InstagramUserRepostsTaggedUser] | None = Field(
+        default=None, alias="taggedUsers", description="Accounts tagged in the media."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
+    video_duration_seconds: float | None = Field(
+        default=None,
+        alias="videoDurationSeconds",
+        description="Video length in seconds, present on video posts and reels only.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Direct video file URL, present on video posts and reels only.",
+    )
+    views: int | None = Field(
+        default=None, description="Play count, present on video posts and reels only."
+    )
+    width: int | None = Field(default=None, description="Media width in pixels.")
+
+
+class InstagramUserRepostsCoauthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
+    verified: bool | None = Field(
+        default=None,
+        description="Whether the account carries Instagram's verified badge.",
+    )
+
+
+class InstagramUserRepostsTaggedUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
+
+
 class InstagramNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
@@ -1500,7 +1975,7 @@ class InstagramNamespace:
 
         List Instagram reels that use a given audio track by audio id.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.audio_reels(audioId="1392969992841787")
@@ -1544,7 +2019,7 @@ class InstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -1565,7 +2040,7 @@ class InstagramNamespace:
         List the replies to an Instagram comment with cursor pagination (text,
         author, likes).
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.comment_replies(commentId="18126632131325044", url="https://www.instagram.com/p/C8rKmYvsrck/")
@@ -1608,7 +2083,7 @@ class InstagramNamespace:
 
         Fetch the public embed HTML for an Instagram profile by handle.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.embed(handle="nasa")
@@ -1632,7 +2107,7 @@ class InstagramNamespace:
         Price: $0.0015 per request.
 
         Example:
-            res = client.instagram.followers(limit=50, username="nasa")
+            res = client.instagram.followers(username="nasa")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.followers", dict(input), options
@@ -1676,7 +2151,7 @@ class InstagramNamespace:
         Price: $0.0015 per request.
 
         Example:
-            res = client.instagram.following(limit=50, username="nasa")
+            res = client.instagram.following(username="nasa")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.following", dict(input), options
@@ -1835,7 +2310,7 @@ class InstagramNamespace:
         Fetch the details and media items of a single Instagram story highlight by
         id.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.highlight_detail(id="18201653992314974")
@@ -1844,6 +2319,50 @@ class InstagramNamespace:
             "instagram.highlight_detail", dict(input), options
         )
         return RunResult[InstagramHighlightDetailData].model_validate(raw)
+
+    def location_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramLocationPostsInput],
+    ) -> RunResult[InstagramLocationPostsData]:
+        """Instagram Location Posts
+
+        List public Instagram posts tagged at a location, ranked or most recent,
+        with cursor pagination.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.instagram.location_posts(locationId="103912118089363", sort="recent")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.location_posts", dict(input), options
+        )
+        return RunResult[InstagramLocationPostsData].model_validate(raw)
+
+    def iter_location_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramLocationPostsInput],
+    ) -> Paginator[InstagramLocationPostsPost, InstagramLocationPostsData]:
+        """Iterate Instagram Location Posts results, following pagination cursors.
+
+        Yields validated `InstagramLocationPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.location_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramLocationPostsPost,
+            data_model=InstagramLocationPostsData,
+            bare=False,
+            options=options,
+        )
 
     def media_transcript(
         self,
@@ -1855,7 +2374,7 @@ class InstagramNamespace:
 
         Get the spoken-audio transcript text for an Instagram post or reel by URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.media_transcript(url="https://www.instagram.com/reel/DHsD6HGqJhp/")
@@ -1876,7 +2395,7 @@ class InstagramNamespace:
         Fetch a single Instagram post or reel by URL (media URLs, like count, owner,
         type) as normalized JSON.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -1897,7 +2416,7 @@ class InstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.00072 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -1930,6 +2449,27 @@ class InstagramNamespace:
             options=options,
         )
 
+    def post_likers(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramPostLikersInput],
+    ) -> RunResult[InstagramPostLikersData]:
+        """Instagram Post Likers
+
+        List the accounts that liked a public Instagram post, one page of likers per
+        call, with each liker's handle, display name, verified flag and avatar.
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.post_likers(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.post_likers", dict(input), options
+        )
+        return RunResult[InstagramPostLikersData].model_validate(raw)
+
     def profile(
         self,
         *,
@@ -1941,7 +2481,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.00045 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -2007,7 +2547,7 @@ class InstagramNamespace:
         counts in reels search results. Results are relevance-ranked, not
         chronological. Paging tops out around 110 reels per query (11 pages of 10).
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.reels_search(query="travel")
@@ -2056,7 +2596,7 @@ class InstagramNamespace:
         instagram.hashtag_top_posts, and for the chronological feed use
         instagram.hashtag_recent_posts.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.search_hashtag(datePosted="last-month", hashtag="skincare", mediaType="reel")
@@ -2089,6 +2629,27 @@ class InstagramNamespace:
             options=options,
         )
 
+    def search_locations(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchLocationsInput],
+    ) -> RunResult[InstagramSearchLocationsData]:
+        """Instagram Location Search
+
+        Search Instagram locations by keyword and return each place's id, name,
+        address and coordinates.
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.search_locations(query="Eiffel Tower")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.search_locations", dict(input), options
+        )
+        return RunResult[InstagramSearchLocationsData].model_validate(raw)
+
     def search_profiles(
         self,
         *,
@@ -2099,7 +2660,7 @@ class InstagramNamespace:
 
         Search public Instagram profiles by a bio or caption keyword.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.search_profiles(query="coffee roaster")
@@ -2131,6 +2692,27 @@ class InstagramNamespace:
             bare=False,
             options=options,
         )
+
+    def similar_profiles(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSimilarProfilesInput],
+    ) -> RunResult[InstagramSimilarProfilesData]:
+        """Instagram Similar Profiles
+
+        List the accounts Instagram recommends as similar to a public profile, with
+        each account's handle, display name, verified flag and avatar.
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.similar_profiles(handle="nasa")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.similar_profiles", dict(input), options
+        )
+        return RunResult[InstagramSimilarProfilesData].model_validate(raw)
 
     def stories_full(
         self,
@@ -2230,7 +2812,7 @@ class InstagramNamespace:
         List currently trending Instagram reels. Instagram does not return play
         counts on this feed.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.trending_reels()
@@ -2250,7 +2832,7 @@ class InstagramNamespace:
 
         List an Instagram account's story highlight reels by handle.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.user_highlights(handle="nasa")
@@ -2271,7 +2853,7 @@ class InstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -2315,7 +2897,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -2348,6 +2930,50 @@ class InstagramNamespace:
             options=options,
         )
 
+    def user_reposts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramUserRepostsInput],
+    ) -> RunResult[InstagramUserRepostsData]:
+        """Instagram User Reposts
+
+        List the posts a public Instagram account has reposted to its feed, with
+        cursor pagination.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.instagram.user_reposts(userId="787132")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.user_reposts", dict(input), options
+        )
+        return RunResult[InstagramUserRepostsData].model_validate(raw)
+
+    def iter_user_reposts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramUserRepostsInput],
+    ) -> Paginator[InstagramUserRepostsPost, InstagramUserRepostsData]:
+        """Iterate Instagram User Reposts results, following pagination cursors.
+
+        Yields validated `InstagramUserRepostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.user_reposts",
+            dict(input),
+            "posts",
+            item_model=InstagramUserRepostsPost,
+            data_model=InstagramUserRepostsData,
+            bare=False,
+            options=options,
+        )
+
 
 class AsyncInstagramNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -2365,7 +2991,7 @@ class AsyncInstagramNamespace:
 
         List Instagram reels that use a given audio track by audio id.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.audio_reels(audioId="1392969992841787")
@@ -2409,7 +3035,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -2430,7 +3056,7 @@ class AsyncInstagramNamespace:
         List the replies to an Instagram comment with cursor pagination (text,
         author, likes).
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.comment_replies(commentId="18126632131325044", url="https://www.instagram.com/p/C8rKmYvsrck/")
@@ -2473,7 +3099,7 @@ class AsyncInstagramNamespace:
 
         Fetch the public embed HTML for an Instagram profile by handle.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.embed(handle="nasa")
@@ -2497,7 +3123,7 @@ class AsyncInstagramNamespace:
         Price: $0.0015 per request.
 
         Example:
-            res = client.instagram.followers(limit=50, username="nasa")
+            res = client.instagram.followers(username="nasa")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.followers", dict(input), options
@@ -2541,7 +3167,7 @@ class AsyncInstagramNamespace:
         Price: $0.0015 per request.
 
         Example:
-            res = client.instagram.following(limit=50, username="nasa")
+            res = client.instagram.following(username="nasa")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.following", dict(input), options
@@ -2702,7 +3328,7 @@ class AsyncInstagramNamespace:
         Fetch the details and media items of a single Instagram story highlight by
         id.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.highlight_detail(id="18201653992314974")
@@ -2711,6 +3337,50 @@ class AsyncInstagramNamespace:
             "instagram.highlight_detail", dict(input), options
         )
         return RunResult[InstagramHighlightDetailData].model_validate(raw)
+
+    async def location_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramLocationPostsInput],
+    ) -> RunResult[InstagramLocationPostsData]:
+        """Instagram Location Posts
+
+        List public Instagram posts tagged at a location, ranked or most recent,
+        with cursor pagination.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.instagram.location_posts(locationId="103912118089363", sort="recent")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.location_posts", dict(input), options
+        )
+        return RunResult[InstagramLocationPostsData].model_validate(raw)
+
+    def iter_location_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramLocationPostsInput],
+    ) -> AsyncPaginator[InstagramLocationPostsPost, InstagramLocationPostsData]:
+        """Iterate Instagram Location Posts results, following pagination cursors.
+
+        Yields validated `InstagramLocationPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.location_posts",
+            dict(input),
+            "posts",
+            item_model=InstagramLocationPostsPost,
+            data_model=InstagramLocationPostsData,
+            bare=False,
+            options=options,
+        )
 
     async def media_transcript(
         self,
@@ -2722,7 +3392,7 @@ class AsyncInstagramNamespace:
 
         Get the spoken-audio transcript text for an Instagram post or reel by URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.media_transcript(url="https://www.instagram.com/reel/DHsD6HGqJhp/")
@@ -2743,7 +3413,7 @@ class AsyncInstagramNamespace:
         Fetch a single Instagram post or reel by URL (media URLs, like count, owner,
         type) as normalized JSON.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -2764,7 +3434,7 @@ class AsyncInstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.00072 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -2797,6 +3467,27 @@ class AsyncInstagramNamespace:
             options=options,
         )
 
+    async def post_likers(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramPostLikersInput],
+    ) -> RunResult[InstagramPostLikersData]:
+        """Instagram Post Likers
+
+        List the accounts that liked a public Instagram post, one page of likers per
+        call, with each liker's handle, display name, verified flag and avatar.
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.post_likers(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.post_likers", dict(input), options
+        )
+        return RunResult[InstagramPostLikersData].model_validate(raw)
+
     async def profile(
         self,
         *,
@@ -2808,7 +3499,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.00045 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -2874,7 +3565,7 @@ class AsyncInstagramNamespace:
         counts in reels search results. Results are relevance-ranked, not
         chronological. Paging tops out around 110 reels per query (11 pages of 10).
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.reels_search(query="travel")
@@ -2923,7 +3614,7 @@ class AsyncInstagramNamespace:
         instagram.hashtag_top_posts, and for the chronological feed use
         instagram.hashtag_recent_posts.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.search_hashtag(datePosted="last-month", hashtag="skincare", mediaType="reel")
@@ -2956,6 +3647,27 @@ class AsyncInstagramNamespace:
             options=options,
         )
 
+    async def search_locations(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchLocationsInput],
+    ) -> RunResult[InstagramSearchLocationsData]:
+        """Instagram Location Search
+
+        Search Instagram locations by keyword and return each place's id, name,
+        address and coordinates.
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.search_locations(query="Eiffel Tower")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.search_locations", dict(input), options
+        )
+        return RunResult[InstagramSearchLocationsData].model_validate(raw)
+
     async def search_profiles(
         self,
         *,
@@ -2966,7 +3678,7 @@ class AsyncInstagramNamespace:
 
         Search public Instagram profiles by a bio or caption keyword.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.search_profiles(query="coffee roaster")
@@ -2998,6 +3710,27 @@ class AsyncInstagramNamespace:
             bare=False,
             options=options,
         )
+
+    async def similar_profiles(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSimilarProfilesInput],
+    ) -> RunResult[InstagramSimilarProfilesData]:
+        """Instagram Similar Profiles
+
+        List the accounts Instagram recommends as similar to a public profile, with
+        each account's handle, display name, verified flag and avatar.
+
+        Price: $0.0024 per request.
+
+        Example:
+            res = client.instagram.similar_profiles(handle="nasa")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.similar_profiles", dict(input), options
+        )
+        return RunResult[InstagramSimilarProfilesData].model_validate(raw)
 
     async def stories_full(
         self,
@@ -3097,7 +3830,7 @@ class AsyncInstagramNamespace:
         List currently trending Instagram reels. Instagram does not return play
         counts on this feed.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.trending_reels()
@@ -3117,7 +3850,7 @@ class AsyncInstagramNamespace:
 
         List an Instagram account's story highlight reels by handle.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.user_highlights(handle="nasa")
@@ -3138,7 +3871,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -3182,7 +3915,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -3211,6 +3944,50 @@ class AsyncInstagramNamespace:
             "reels",
             item_model=InstagramUserReelsReel,
             data_model=InstagramUserReelsData,
+            bare=False,
+            options=options,
+        )
+
+    async def user_reposts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramUserRepostsInput],
+    ) -> RunResult[InstagramUserRepostsData]:
+        """Instagram User Reposts
+
+        List the posts a public Instagram account has reposted to its feed, with
+        cursor pagination.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.instagram.user_reposts(userId="787132")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.user_reposts", dict(input), options
+        )
+        return RunResult[InstagramUserRepostsData].model_validate(raw)
+
+    def iter_user_reposts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramUserRepostsInput],
+    ) -> AsyncPaginator[InstagramUserRepostsPost, InstagramUserRepostsData]:
+        """Iterate Instagram User Reposts results, following pagination cursors.
+
+        Yields validated `InstagramUserRepostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.user_reposts",
+            dict(input),
+            "posts",
+            item_model=InstagramUserRepostsPost,
+            data_model=InstagramUserRepostsData,
             bare=False,
             options=options,
         )

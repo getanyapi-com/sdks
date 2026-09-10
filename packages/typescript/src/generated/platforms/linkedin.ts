@@ -3586,7 +3586,7 @@ export class LinkedinNamespace {
    *
    * Look up a single LinkedIn Ad Library ad by URL and get the advertiser, headline, creative text, format, CTA, targeting, run dates, and impressions as clean JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.ad({ url: "https://www.linkedin.com/ad-library/detail/1487405616" });
@@ -3620,7 +3620,7 @@ export class LinkedinNamespace {
    *
    * Search the LinkedIn Ad Library by company or keyword and list matching ads (advertiser, headline, creative text, format, CTA, and run dates) with pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.adsSearch({ company: "microsoft" });
@@ -3705,7 +3705,7 @@ export class LinkedinNamespace {
    *
    * Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.companyPostsThin({ url: "https://www.linkedin.com/company/stripe" });
@@ -3722,7 +3722,7 @@ export class LinkedinNamespace {
    *
    * Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.companyThin({ url: "https://www.linkedin.com/company/stripe" });
@@ -3773,7 +3773,7 @@ export class LinkedinNamespace {
    *
    * Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.linkedin.jobsThin({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });
@@ -3790,7 +3790,7 @@ export class LinkedinNamespace {
    *
    * Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.linkedin.post({ url: "https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs" });
@@ -3841,7 +3841,7 @@ export class LinkedinNamespace {
    *
    * Get the spoken transcript of a LinkedIn video post by URL.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.postTranscript({ url: "https://www.linkedin.com/posts/artificial-analysis_gemini-35-flash-is-a-step-forward-for-google-activity-7465082408409870337-4Pm-" });
@@ -3909,7 +3909,7 @@ export class LinkedinNamespace {
    *
    * Lightweight profile: name, avatar, location, followers, and a basic experience/education list (company + dates only, no job titles, descriptions, or skills; past companies may be redacted). For full experience detail, skills, certifications, connections, and verified flags use linkedin.profile.
    *
-   * Price: $0.00072 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.linkedin.profileThin({ url: "https://www.linkedin.com/in/williamhgates" });
@@ -3943,7 +3943,7 @@ export class LinkedinNamespace {
    *
    * Search public LinkedIn posts by keyword (text, link, publish date).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.searchPosts({ query: "hiring", datePosted: "last-week" });

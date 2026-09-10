@@ -24,6 +24,14 @@ class ChatgptSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     prompt: Required[str]
     """Question or research prompt for ChatGPT to answer using web search."""
+    requireAds: NotRequired[bool]
+    """Serve only from a source that can return sponsored placements shown with the answer. One source currently qualifies, so the request cannot fall back when it is unavailable. Default: false."""
+    requireEntities: NotRequired[bool]
+    """Serve only from a source that can return brands and other named entities recognized in the answer. One source currently qualifies, so the request cannot fall back when it is unavailable. Default: false."""
+    requirePlaces: NotRequired[bool]
+    """Serve only from a source that can return places shown with the answer. Leaving this off still returns places whenever the source that answered can. Turning it on selects the single source that guarantees them, which costs more and has nothing to fall back to if it is unavailable. Default: false."""
+    requireShoppingCards: NotRequired[bool]
+    """Serve only from a source that can return shopping cards shown with the answer. Leaving this off still returns shopping cards whenever the source that answered can. Turning it on selects the single source that guarantees them, which costs more and has nothing to fall back to if it is unavailable. Default: false."""
     webSearch: NotRequired[Literal["force", "auto"]]
     """Whether to insist ChatGPT browses the web. force instructs it to search and is the default; auto lets ChatGPT decide, which is cheaper and answers from memory roughly half the time. Check webSearchTriggered for what actually happened - an answer written without a search is not web-grounded. Default: force."""
 
@@ -31,6 +39,10 @@ class ChatgptSearchInput(TypedDict, total=False):
 class ChatgptSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    ads: list[ChatgptSearchAd] | None = Field(
+        default=None,
+        description="Sponsored placements ChatGPT displayed with the answer. null means the source that answered cannot report ads; an empty array means none were shown.",
+    )
     answer: str = Field(
         description="The web-grounded answer as text. Populated whenever the provider has data for the entity."
     )
@@ -46,9 +58,17 @@ class ChatgptSearchData(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. null means the source that answered does not report when it answered.",
     )
+    entities: list[ChatgptSearchEntitie] | None = Field(
+        default=None,
+        description="Brands and other named entities recognized in the answer. null means the source that answered cannot report them; an empty array means none were identified.",
+    )
     model: str | None = Field(
         default=None,
         description="The ChatGPT model that produced the answer. null means the source that answered does not report it, which is not the same as an unknown model.",
+    )
+    places: list[ChatgptSearchPlace] | None = Field(
+        default=None,
+        description="Places and local businesses ChatGPT displayed with the answer. null means the source that answered cannot report them; an empty array means none were shown.",
     )
     prompt: str = Field(description="The prompt answered by ChatGPT.")
     search_queries: list[str] | None = Field(
@@ -61,6 +81,11 @@ class ChatgptSearchData(BaseModel):
         alias="searchResults",
         description="Pages ChatGPT retrieved while answering. A SUPERSET of citations: a page can be read and not cited. null means the source that answered cannot report them.",
     )
+    shopping_cards: list[ChatgptSearchShoppingCard] | None = Field(
+        default=None,
+        alias="shoppingCards",
+        description="Products ChatGPT displayed with the answer. null means the source that answered cannot report shopping cards; an empty array means none were shown.",
+    )
     web_search_triggered: bool | None = Field(
         default=None,
         alias="webSearchTriggered",
@@ -68,13 +93,82 @@ class ChatgptSearchData(BaseModel):
     )
 
 
-class ChatgptSearchCitation(BaseModel):
-    model_config = ConfigDict(extra="allow")
+class ChatgptSearchAd(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    advertiser_name: str | None = Field(
+        default=None, alias="advertiserName", description="Advertiser name."
+    )
+    advertiser_url: str | None = Field(
+        default=None,
+        alias="advertiserUrl",
+        description="Advertiser URL, tracking parameters stripped.",
+    )
+    domain: str | None = Field(default=None, description="Advertised domain.")
+    image: str | None = Field(default=None, description="Sponsored image URL.")
+    snippet: str | None = Field(default=None, description="Sponsored placement text.")
+    title: str = Field(description="Sponsored placement title.")
+    url: str | None = Field(
+        default=None,
+        description="Sponsored destination URL, tracking parameters stripped.",
+    )
+
+
+class ChatgptSearchCitation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    answer_position: int | None = Field(
+        default=None,
+        alias="answerPosition",
+        description="One-based answer section where ChatGPT cited this source. null means the source that answered cannot report the position.",
+    )
     title: str = Field(
         description="Source page title when supplied by the search engine."
     )
     url: str = Field(description="Source page URL.")
+
+
+class ChatgptSearchEntitie(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    category: str | None = Field(default=None, description="Entity category.")
+    domain: str | None = Field(default=None, description="Entity domain.")
+    title: str = Field(description="Entity name.")
+    url: str | None = Field(
+        default=None, description="Entity URL, tracking parameters stripped."
+    )
+
+
+class ChatgptSearchPlace(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    address: str | None = Field(default=None, description="Place address as displayed.")
+    category: str | None = Field(
+        default=None, description="Place category shown by ChatGPT."
+    )
+    description: str | None = Field(
+        default=None, description="Place description shown by ChatGPT."
+    )
+    name: str = Field(description="Place or business name.")
+    phone: str | None = Field(
+        default=None, description="Place phone number as displayed."
+    )
+    position: int | None = Field(
+        default=None, description="One-based position in the places block."
+    )
+    rating: float | None = Field(
+        default=None, description="Place rating when the source reports one."
+    )
+    review_count: int | None = Field(
+        default=None,
+        alias="reviewCount",
+        description="Number of reviews behind the displayed rating.",
+    )
+    website_url: str | None = Field(
+        default=None,
+        alias="websiteUrl",
+        description="Place website URL, tracking parameters stripped.",
+    )
 
 
 class ChatgptSearchSearchResult(BaseModel):
@@ -91,6 +185,32 @@ class ChatgptSearchSearchResult(BaseModel):
     url: str | None = Field(
         default=None,
         description="Canonical URL of the retrieved page, tracking parameters stripped.",
+    )
+
+
+class ChatgptSearchShoppingCard(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    currency: str | None = Field(
+        default=None, description="ISO 4217 currency code when the source reports it."
+    )
+    description: str | None = Field(
+        default=None, description="Product description shown on the shopping card."
+    )
+    image: str | None = Field(default=None, description="Product image URL.")
+    merchants: str | None = Field(
+        default=None, description="Merchant name shown on the shopping card."
+    )
+    price: float | None = Field(
+        default=None,
+        description="Displayed product price as a number when the source reports one.",
+    )
+    rating: float | None = Field(
+        default=None, description="Product rating when the source reports one."
+    )
+    title: str = Field(description="Product name shown by ChatGPT.")
+    url: str | None = Field(
+        default=None, description="Product page URL, tracking parameters stripped."
     )
 
 
