@@ -2341,7 +2341,7 @@ export class TiktokNamespace {
    *
    * Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.tiktok.profile({ handle: "zachking" });
