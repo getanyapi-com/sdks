@@ -202,27 +202,14 @@ export interface InstagramEmbedData {
  */
 export interface InstagramFollowersInput {
   /**
-   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers.
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers. A page holds up to 50 followers.
    */
   cursor?: string;
-  /**
-   * How many followers you want (50-1000). By default results come back in cheap pages of up to ~50: follow the response's nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call.
-   * Range: minimum 50, maximum 1000.
-   */
-  limit?: number;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
-  /**
-   * Set true if you intend to page through followers, so the request is only served by a source that can return a nextCursor. The bulk source cannot page, and a paging source may cost more per request. Cannot be combined with requireSinglePage.
-   */
-  requireCursor?: boolean;
-  /**
-   * Set true to get up to limit followers in a single response instead of cheap pages, served by a bulk provider at a higher price.
-   */
-  requireSinglePage?: boolean;
   /**
    * The Instagram username, user ID, or profile URL whose followers to list (e.g. natgeo).
    */
@@ -280,27 +267,14 @@ export interface InstagramFollowersData {
  */
 export interface InstagramFollowingInput {
   /**
-   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page.
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page. A page holds up to 50 accounts.
    */
   cursor?: string;
-  /**
-   * How many accounts you want (50-1000). By default results come back in cheap pages of up to ~50: follow the response's nextCursor for more. With requireSinglePage true, up to this many are returned in one (pricier) call.
-   * Range: minimum 50, maximum 1000.
-   */
-  limit?: number;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
-  /**
-   * Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. The bulk source cannot page, and a paging source may cost more per request. Cannot be combined with requireSinglePage.
-   */
-  requireCursor?: boolean;
-  /**
-   * Set true to get up to limit accounts in a single response instead of cheap pages, served by a bulk provider at a higher price.
-   */
-  requireSinglePage?: boolean;
   /**
    * The Instagram username, user ID, or profile URL whose following list to fetch (e.g. natgeo).
    */
@@ -674,6 +648,206 @@ export interface InstagramHighlightDetailData {
 }
 
 /**
+ * Input for Instagram Location Posts (instagram.location_posts).
+ */
+export interface InstagramLocationPostsInput {
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Instagram location id, as returned by instagram.search_locations.
+   */
+  locationId: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Order the posts by Instagram's top ranking or by newest first. Defaults to ranked.
+   * One of: ranked, recent.
+   */
+  sort?: "ranked" | "recent";
+}
+
+export interface InstagramLocationPostsPost {
+  /**
+   * Instagram's generated accessibility description of the media.
+   */
+  altText?: string;
+  /**
+   * Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity.
+   */
+  author: string;
+  /**
+   * The author's numeric Instagram account id, as a string.
+   */
+  authorId?: string;
+  /**
+   * Whether the author's account is private.
+   */
+  authorPrivate?: boolean;
+  /**
+   * Whether the author carries Instagram's verified badge.
+   */
+  authorVerified?: boolean;
+  /**
+   * Author's profile picture URL, as Instagram's CDN serves it.
+   * Format: uri.
+   */
+  avatarUrl?: string;
+  /**
+   * Post caption text.
+   */
+  caption: string;
+  /**
+   * Whether the caption has been edited since posting.
+   */
+  captionEdited?: boolean;
+  /**
+   * Number of slides, present on carousel posts only.
+   */
+  carouselCount?: number;
+  /**
+   * Accounts credited as coauthors of the post.
+   */
+  coauthors?: InstagramLocationPostsCoauthor[];
+  /**
+   * Number of comments on the post.
+   */
+  comments: number;
+  /**
+   * Whether the author has hidden the like and view counts.
+   */
+  countsHidden?: boolean;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Whether the video carries an audio track.
+   */
+  hasAudio?: boolean;
+  /**
+   * Media height in pixels.
+   */
+  height?: number;
+  /**
+   * The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Post image or video thumbnail URL, as Instagram's CDN serves it. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * Number of likes on the post.
+   */
+  likes: number;
+  /**
+   * Instagram location id the post is tagged at.
+   */
+  locationId?: string;
+  /**
+   * Latitude of the tagged location, in decimal degrees.
+   */
+  locationLat?: number;
+  /**
+   * Longitude of the tagged location, in decimal degrees.
+   */
+  locationLng?: number;
+  /**
+   * Name of the location the post is tagged at.
+   */
+  locationName?: string;
+  /**
+   * What the post is: photo, video or carousel.
+   */
+  mediaType?: string;
+  /**
+   * Whether the post is tagged as a paid partnership.
+   */
+  paidPartnership?: boolean;
+  /**
+   * Instagram's own surface label for the post, such as feed, clips or carousel_container.
+   */
+  productType?: string;
+  /**
+   * The post's short code, the segment Instagram puts in its URL.
+   */
+  shortcode?: string;
+  /**
+   * Accounts tagged in the media.
+   */
+  taggedUsers?: InstagramLocationPostsTaggedUser[];
+  /**
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Direct video file URL, present on video posts and reels only.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Media width in pixels.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramLocationPostsCoauthor {
+  /**
+   * Coauthor's profile picture URL, as Instagram's CDN serves it.
+   * Format: uri.
+   */
+  avatarUrl?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
+
+export interface InstagramLocationPostsTaggedUser {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Location Posts (instagram.location_posts).
+ */
+export interface InstagramLocationPostsData {
+  /**
+   * Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Public posts tagged at the location. Populated whenever the provider has data for the entity.
+   */
+  posts: InstagramLocationPostsPost[];
+}
+
+/**
  * Input for Instagram Media Transcript (instagram.media_transcript).
  */
 export interface InstagramMediaTranscriptInput {
@@ -817,6 +991,69 @@ export interface InstagramPostCommentsData {
    * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor: string | null;
+}
+
+/**
+ * Input for Instagram Post Likers (instagram.post_likers).
+ */
+export interface InstagramPostLikersInput {
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Canonical URL of a public Instagram post or reel.
+   * Format: uri.
+   */
+  url: string;
+}
+
+export interface InstagramPostLikersLiker {
+  /**
+   * Profile picture URL, as Instagram's CDN serves it.
+   * Format: uri.
+   */
+  avatarUrl: string;
+  /**
+   * Account display name.
+   */
+  displayName: string;
+  /**
+   * Timestamp of the account's most recent story. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  latestStoryUtc?: number;
+  /**
+   * Whether the account is private.
+   */
+  private: boolean;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId: string;
+  /**
+   * Instagram username without the leading @. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Post Likers (instagram.post_likers).
+ */
+export interface InstagramPostLikersData {
+  /**
+   * One page of accounts that liked the post. A single call returns one page; it does not walk the whole liker list. Populated whenever the provider has data for the entity.
+   */
+  likers: InstagramPostLikersLiker[];
+  /**
+   * Total number of likes on the post, which can exceed the number of likers returned in this page.
+   */
+  totalLikes: number;
 }
 
 /**
@@ -1355,6 +1592,63 @@ export interface InstagramSearchHashtagData {
 }
 
 /**
+ * Input for Instagram Location Search (instagram.search_locations).
+ */
+export interface InstagramSearchLocationsInput {
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Place name, address or city to search for.
+   */
+  query: string;
+}
+
+export interface InstagramSearchLocationsLocation {
+  /**
+   * Street address of the place.
+   */
+  address?: string;
+  /**
+   * City the place sits in.
+   */
+  city?: string;
+  /**
+   * Instagram location id. Pass it to instagram.location_posts as locationId. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Latitude in decimal degrees.
+   */
+  latitude: number;
+  /**
+   * Longitude in decimal degrees.
+   */
+  longitude: number;
+  /**
+   * Full place name, usually including city and country. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Place name without the city and country suffix.
+   */
+  shortName?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Location Search (instagram.search_locations).
+ */
+export interface InstagramSearchLocationsData {
+  /**
+   * Instagram locations matching the keyword, best match first. Populated whenever the provider has data for the entity.
+   */
+  locations: InstagramSearchLocationsLocation[];
+}
+
+/**
  * Input for Instagram Profile Search (instagram.search_profiles).
  */
 export interface InstagramSearchProfilesInput {
@@ -1414,6 +1708,60 @@ export interface InstagramSearchProfilesData {
    * Populated whenever the provider has data for the entity.
    */
   profiles: InstagramSearchProfilesProfile[];
+}
+
+/**
+ * Input for Instagram Similar Profiles (instagram.similar_profiles).
+ */
+export interface InstagramSimilarProfilesInput {
+  /**
+   * Instagram username without the leading @.
+   */
+  handle: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+}
+
+export interface InstagramSimilarProfilesProfile {
+  /**
+   * Profile picture URL, as Instagram's CDN serves it.
+   * Format: uri.
+   */
+  avatarUrl: string;
+  /**
+   * Account display name.
+   */
+  displayName: string;
+  /**
+   * Whether the account is private.
+   */
+  private: boolean;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId: string;
+  /**
+   * Instagram username without the leading @. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Similar Profiles (instagram.similar_profiles).
+ */
+export interface InstagramSimilarProfilesData {
+  /**
+   * Accounts Instagram recommends as similar to the requested profile. Populated whenever the provider has data for the entity.
+   */
+  profiles: InstagramSimilarProfilesProfile[];
 }
 
 /**
@@ -1909,6 +2257,220 @@ export interface InstagramUserReelsData {
 }
 
 /**
+ * Input for Instagram User Reposts (instagram.user_reposts).
+ */
+export interface InstagramUserRepostsInput {
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Instagram's numeric account id, as returned by instagram.profile.
+   */
+  userId: string;
+}
+
+export interface InstagramUserRepostsPost {
+  /**
+   * Instagram's generated accessibility description of the media.
+   */
+  altText?: string;
+  /**
+   * Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity.
+   */
+  author: string;
+  /**
+   * The author's numeric Instagram account id, as a string.
+   */
+  authorId?: string;
+  /**
+   * The author's display name.
+   */
+  authorName?: string;
+  /**
+   * Whether the author's account is private.
+   */
+  authorPrivate?: boolean;
+  /**
+   * Whether the author carries Instagram's verified badge.
+   */
+  authorVerified?: boolean;
+  /**
+   * Author's profile picture URL, as Instagram's CDN serves it.
+   * Format: uri.
+   */
+  avatarUrl?: string;
+  /**
+   * Post caption text.
+   */
+  caption: string;
+  /**
+   * Whether the caption has been edited since posting.
+   */
+  captionEdited?: boolean;
+  /**
+   * Number of slides, present on carousel posts only.
+   */
+  carouselCount?: number;
+  /**
+   * Accounts credited as coauthors of the post.
+   */
+  coauthors?: InstagramUserRepostsCoauthor[];
+  /**
+   * Number of comments on the post.
+   */
+  comments: number;
+  /**
+   * Whether the author has hidden the like and view counts.
+   */
+  countsHidden?: boolean;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Whether the video carries an audio track.
+   */
+  hasAudio?: boolean;
+  /**
+   * Media height in pixels.
+   */
+  height?: number;
+  /**
+   * The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Post image or video thumbnail URL, as Instagram's CDN serves it. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * Number of likes on the post.
+   */
+  likes: number;
+  /**
+   * Instagram location id the post is tagged at.
+   */
+  locationId?: string;
+  /**
+   * Latitude of the tagged location, in decimal degrees.
+   */
+  locationLat?: number;
+  /**
+   * Longitude of the tagged location, in decimal degrees.
+   */
+  locationLng?: number;
+  /**
+   * Name of the location the post is tagged at.
+   */
+  locationName?: string;
+  /**
+   * What the post is: photo, video or carousel.
+   */
+  mediaType?: string;
+  /**
+   * Whether the post is tagged as a paid partnership.
+   */
+  paidPartnership?: boolean;
+  /**
+   * Instagram's own surface label for the post, such as feed, clips or carousel_container.
+   */
+  productType?: string;
+  /**
+   * Number of times the post has been reshared, when Instagram reports it.
+   */
+  reshares?: number;
+  /**
+   * The post's short code, the segment Instagram puts in its URL.
+   */
+  shortcode?: string;
+  /**
+   * Accounts tagged in the media.
+   */
+  taggedUsers?: InstagramUserRepostsTaggedUser[];
+  /**
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Video length in seconds, present on video posts and reels only.
+   */
+  videoDurationSeconds?: number;
+  /**
+   * Direct video file URL, present on video posts and reels only.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Play count, present on video posts and reels only.
+   */
+  views?: number;
+  /**
+   * Media width in pixels.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserRepostsCoauthor {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified?: boolean;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserRepostsTaggedUser {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram User Reposts (instagram.user_reposts).
+ */
+export interface InstagramUserRepostsData {
+  /**
+   * Opaque cursor for the next page of reposts, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Posts the account has reposted to its feed, newest first. Populated whenever the provider has data for the entity.
+   */
+  posts: InstagramUserRepostsPost[];
+}
+
+/**
  * Typed methods for the instagram platform. Attached to the AnyAPI client as
  * `client.instagram`.
  */
@@ -1920,7 +2482,7 @@ export class InstagramNamespace {
    *
    * List Instagram reels that use a given audio track by audio id.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.audioReels({ audioId: "1392969992841787" });
@@ -1960,7 +2522,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.basicProfile({ userId: "314216" });
@@ -1977,7 +2539,7 @@ export class InstagramNamespace {
    *
    * List the replies to an Instagram comment with cursor pagination (text, author, likes).
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.commentReplies({ commentId: "18126632131325044", url: "https://www.instagram.com/p/C8rKmYvsrck/" });
@@ -2020,7 +2582,7 @@ export class InstagramNamespace {
    *
    * Fetch the public embed HTML for an Instagram profile by handle.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.embed({ handle: "nasa" });
@@ -2040,7 +2602,7 @@ export class InstagramNamespace {
    * Price: $0.0015 per request.
    *
    * @example
-   * const res = await client.instagram.followers({ username: "nasa", limit: 50 });
+   * const res = await client.instagram.followers({ username: "nasa" });
    */
   followers(
     input: InstagramFollowersInput,
@@ -2077,7 +2639,7 @@ export class InstagramNamespace {
    * Price: $0.0015 per request.
    *
    * @example
-   * const res = await client.instagram.following({ username: "nasa", limit: 50 });
+   * const res = await client.instagram.following({ username: "nasa" });
    */
   following(
     input: InstagramFollowingInput,
@@ -2214,7 +2776,7 @@ export class InstagramNamespace {
    *
    * Fetch the details and media items of a single Instagram story highlight by id.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.highlightDetail({ id: "18201653992314974" });
@@ -2227,11 +2789,54 @@ export class InstagramNamespace {
   }
 
   /**
+   * Instagram Location Posts
+   *
+   * List public Instagram posts tagged at a location, ranked or most recent, with cursor pagination.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.instagram.locationPosts({ locationId: "103912118089363", sort: "recent" });
+   */
+  locationPosts(
+    input: InstagramLocationPostsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramLocationPostsData>> {
+    return this._core.run("instagram.location_posts", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram Location Posts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterLocationPosts(
+    input: InstagramLocationPostsInput,
+    options?: RequestOptions,
+  ): Paginator<
+    InstagramLocationPostsPost,
+    RunResult<InstagramLocationPostsData>
+  > {
+    return paginate<
+      InstagramLocationPostsPost,
+      RunResult<InstagramLocationPostsData>
+    >(
+      this._core,
+      "instagram.location_posts",
+      input as unknown as Record<string, unknown>,
+      "posts",
+      false,
+      options,
+    );
+  }
+
+  /**
    * Instagram Media Transcript
    *
    * Get the spoken-audio transcript text for an Instagram post or reel by URL.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.mediaTranscript({ url: "https://www.instagram.com/reel/DHsD6HGqJhp/" });
@@ -2248,7 +2853,7 @@ export class InstagramNamespace {
    *
    * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.post({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -2265,7 +2870,7 @@ export class InstagramNamespace {
    *
    * List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).
    *
-   * Price: $0.00072 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.instagram.postComments({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -2304,11 +2909,28 @@ export class InstagramNamespace {
   }
 
   /**
+   * Instagram Post Likers
+   *
+   * List the accounts that liked a public Instagram post, one page of likers per call, with each liker's handle, display name, verified flag and avatar.
+   *
+   * Price: $0.0024 per request.
+   *
+   * @example
+   * const res = await client.instagram.postLikers({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
+   */
+  postLikers(
+    input: InstagramPostLikersInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramPostLikersData>> {
+    return this._core.run("instagram.post_likers", input, options);
+  }
+
+  /**
    * Instagram Profile
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });
@@ -2359,7 +2981,7 @@ export class InstagramNamespace {
    *
    * Search Instagram Reels by keyword and get matching reels (caption, likes, comments, creator, and duration). Instagram does not return view or play counts in reels search results. Results are relevance-ranked, not chronological. Paging tops out around 110 reels per query (11 pages of 10).
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.reelsSearch({ query: "travel" });
@@ -2393,7 +3015,7 @@ export class InstagramNamespace {
    *
    * Search posts under an Instagram hashtag through a web search index rather than Instagram's own hashtag feed. That is what lets it filter by date and media type and return reels whose like counts have settled, and it is also why results skew older (median around three months) and stop at roughly 110 per hashtag. If that web search index is unavailable, a first-page request that sets no date and no media type is served from Instagram's own live top feed instead. For Instagram's own live ranking of a tag use instagram.hashtag_top_posts, and for the chronological feed use instagram.hashtag_recent_posts.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.searchHashtag({ hashtag: "skincare", datePosted: "last-month", mediaType: "reel" });
@@ -2432,11 +3054,28 @@ export class InstagramNamespace {
   }
 
   /**
+   * Instagram Location Search
+   *
+   * Search Instagram locations by keyword and return each place's id, name, address and coordinates.
+   *
+   * Price: $0.0024 per request.
+   *
+   * @example
+   * const res = await client.instagram.searchLocations({ query: "Eiffel Tower" });
+   */
+  searchLocations(
+    input: InstagramSearchLocationsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramSearchLocationsData>> {
+    return this._core.run("instagram.search_locations", input, options);
+  }
+
+  /**
    * Instagram Profile Search
    *
    * Search public Instagram profiles by a bio or caption keyword.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.searchProfiles({ query: "coffee roaster" });
@@ -2472,6 +3111,23 @@ export class InstagramNamespace {
       false,
       options,
     );
+  }
+
+  /**
+   * Instagram Similar Profiles
+   *
+   * List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.
+   *
+   * Price: $0.0024 per request.
+   *
+   * @example
+   * const res = await client.instagram.similarProfiles({ handle: "nasa" });
+   */
+  similarProfiles(
+    input: InstagramSimilarProfilesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramSimilarProfilesData>> {
+    return this._core.run("instagram.similar_profiles", input, options);
   }
 
   /**
@@ -2553,7 +3209,7 @@ export class InstagramNamespace {
    *
    * List currently trending Instagram reels. Instagram does not return play counts on this feed.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.trendingReels({});
@@ -2570,7 +3226,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's story highlight reels by handle.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.userHighlights({ handle: "nasa" });
@@ -2587,7 +3243,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.userPosts({ handle: "nasa" });
@@ -2624,7 +3280,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.userReels({ handle: "nasa" });
@@ -2651,6 +3307,46 @@ export class InstagramNamespace {
       "instagram.user_reels",
       input as unknown as Record<string, unknown>,
       "reels",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * Instagram User Reposts
+   *
+   * List the posts a public Instagram account has reposted to its feed, with cursor pagination.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.instagram.userReposts({ userId: "787132" });
+   */
+  userReposts(
+    input: InstagramUserRepostsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramUserRepostsData>> {
+    return this._core.run("instagram.user_reposts", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram User Reposts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterUserReposts(
+    input: InstagramUserRepostsInput,
+    options?: RequestOptions,
+  ): Paginator<InstagramUserRepostsPost, RunResult<InstagramUserRepostsData>> {
+    return paginate<
+      InstagramUserRepostsPost,
+      RunResult<InstagramUserRepostsData>
+    >(
+      this._core,
+      "instagram.user_reposts",
+      input as unknown as Record<string, unknown>,
+      "posts",
       false,
       options,
     );

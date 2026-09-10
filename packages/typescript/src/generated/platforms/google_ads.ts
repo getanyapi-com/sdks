@@ -322,7 +322,7 @@ export class GoogleAdsNamespace {
    *
    * Look up a single Google Ads Transparency Center creative by URL and get its format, run dates, impression range, regions, and creative variations as clean JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.googleAds.adDetails({ url: "https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217" });
@@ -339,7 +339,7 @@ export class GoogleAdsNamespace {
    *
    * Search the Google Ads Transparency Center for advertisers by keyword and get matching advertiser IDs, regions, and estimated ad counts as clean JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.googleAds.advertiserSearch({ query: "lululemon" });
@@ -356,7 +356,7 @@ export class GoogleAdsNamespace {
    *
    * List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.googleAds.companyAds({ domain: "lululemon.com" });

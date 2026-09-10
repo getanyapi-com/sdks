@@ -80,11 +80,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
         "AsyncMobilePhoneNamespace",
     ),
     "naver": ("naver", "NaverNamespace", "AsyncNaverNamespace"),
-    "pandaexpress": (
-        "pandaexpress",
-        "PandaexpressNamespace",
-        "AsyncPandaexpressNamespace",
-    ),
+    "nextdoor": ("nextdoor", "NextdoorNamespace", "AsyncNextdoorNamespace"),
     "people_search": (
         "people_search",
         "PeopleSearchNamespace",

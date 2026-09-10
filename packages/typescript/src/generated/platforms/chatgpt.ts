@@ -25,6 +25,26 @@ export interface ChatgptSearchInput {
    */
   prompt: string;
   /**
+   * Serve only from a source that can return sponsored placements shown with the answer. One source currently qualifies, so the request cannot fall back when it is unavailable.
+   * Default: false.
+   */
+  requireAds?: boolean;
+  /**
+   * Serve only from a source that can return brands and other named entities recognized in the answer. One source currently qualifies, so the request cannot fall back when it is unavailable.
+   * Default: false.
+   */
+  requireEntities?: boolean;
+  /**
+   * Serve only from a source that can return places shown with the answer. Leaving this off still returns places whenever the source that answered can. Turning it on selects the single source that guarantees them, which costs more and has nothing to fall back to if it is unavailable.
+   * Default: false.
+   */
+  requirePlaces?: boolean;
+  /**
+   * Serve only from a source that can return shopping cards shown with the answer. Leaving this off still returns shopping cards whenever the source that answered can. Turning it on selects the single source that guarantees them, which costs more and has nothing to fall back to if it is unavailable.
+   * Default: false.
+   */
+  requireShoppingCards?: boolean;
+  /**
    * Whether to insist ChatGPT browses the web. force instructs it to search and is the default; auto lets ChatGPT decide, which is cheaper and answers from memory roughly half the time. Check webSearchTriggered for what actually happened - an answer written without a search is not web-grounded.
    * One of: force, auto.
    * Default: force.
@@ -32,7 +52,46 @@ export interface ChatgptSearchInput {
   webSearch?: "force" | "auto";
 }
 
+export interface ChatgptSearchAd {
+  /**
+   * Advertiser name.
+   */
+  advertiserName?: string | null;
+  /**
+   * Advertiser URL, tracking parameters stripped.
+   * Format: uri.
+   */
+  advertiserUrl?: string | null;
+  /**
+   * Advertised domain.
+   */
+  domain?: string | null;
+  /**
+   * Sponsored image URL.
+   * Format: uri.
+   */
+  image?: string | null;
+  /**
+   * Sponsored placement text.
+   */
+  snippet?: string | null;
+  /**
+   * Sponsored placement title.
+   */
+  title: string;
+  /**
+   * Sponsored destination URL, tracking parameters stripped.
+   * Format: uri.
+   */
+  url?: string | null;
+  [extra: string]: unknown;
+}
+
 export interface ChatgptSearchCitation {
+  /**
+   * One-based answer section where ChatGPT cited this source. null means the source that answered cannot report the position.
+   */
+  answerPosition?: number | null;
   /**
    * Source page title when supplied by the search engine.
    */
@@ -42,6 +101,68 @@ export interface ChatgptSearchCitation {
    * Format: uri.
    */
   url: string;
+  [extra: string]: unknown;
+}
+
+export interface ChatgptSearchEntitie {
+  /**
+   * Entity category.
+   */
+  category?: string | null;
+  /**
+   * Entity domain.
+   */
+  domain?: string | null;
+  /**
+   * Entity name.
+   */
+  title: string;
+  /**
+   * Entity URL, tracking parameters stripped.
+   * Format: uri.
+   */
+  url?: string | null;
+  [extra: string]: unknown;
+}
+
+export interface ChatgptSearchPlace {
+  /**
+   * Place address as displayed.
+   */
+  address?: string | null;
+  /**
+   * Place category shown by ChatGPT.
+   */
+  category?: string | null;
+  /**
+   * Place description shown by ChatGPT.
+   */
+  description?: string | null;
+  /**
+   * Place or business name.
+   */
+  name: string;
+  /**
+   * Place phone number as displayed.
+   */
+  phone?: string | null;
+  /**
+   * One-based position in the places block.
+   */
+  position?: number;
+  /**
+   * Place rating when the source reports one.
+   */
+  rating?: number | null;
+  /**
+   * Number of reviews behind the displayed rating.
+   */
+  reviewCount?: number | null;
+  /**
+   * Place website URL, tracking parameters stripped.
+   * Format: uri.
+   */
+  websiteUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -62,10 +183,52 @@ export interface ChatgptSearchSearchResult {
   [extra: string]: unknown;
 }
 
+export interface ChatgptSearchShoppingCard {
+  /**
+   * ISO 4217 currency code when the source reports it.
+   */
+  currency?: string | null;
+  /**
+   * Product description shown on the shopping card.
+   */
+  description?: string | null;
+  /**
+   * Product image URL.
+   * Format: uri.
+   */
+  image?: string | null;
+  /**
+   * Merchant name shown on the shopping card.
+   */
+  merchants?: string | null;
+  /**
+   * Displayed product price as a number when the source reports one.
+   */
+  price?: number | null;
+  /**
+   * Product rating when the source reports one.
+   */
+  rating?: number | null;
+  /**
+   * Product name shown by ChatGPT.
+   */
+  title: string;
+  /**
+   * Product page URL, tracking parameters stripped.
+   * Format: uri.
+   */
+  url?: string | null;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of ChatGPT Search (chatgpt.search).
  */
 export interface ChatgptSearchData {
+  /**
+   * Sponsored placements ChatGPT displayed with the answer. null means the source that answered cannot report ads; an empty array means none were shown.
+   */
+  ads?: ChatgptSearchAd[] | null;
   /**
    * The web-grounded answer as text. Populated whenever the provider has data for the entity.
    */
@@ -83,9 +246,17 @@ export interface ChatgptSearchData {
    */
   createdUtc?: number | null;
   /**
+   * Brands and other named entities recognized in the answer. null means the source that answered cannot report them; an empty array means none were identified.
+   */
+  entities?: ChatgptSearchEntitie[] | null;
+  /**
    * The ChatGPT model that produced the answer. null means the source that answered does not report it, which is not the same as an unknown model.
    */
   model?: string | null;
+  /**
+   * Places and local businesses ChatGPT displayed with the answer. null means the source that answered cannot report them; an empty array means none were shown.
+   */
+  places?: ChatgptSearchPlace[] | null;
   /**
    * The prompt answered by ChatGPT.
    */
@@ -98,6 +269,10 @@ export interface ChatgptSearchData {
    * Pages ChatGPT retrieved while answering. A SUPERSET of citations: a page can be read and not cited. null means the source that answered cannot report them.
    */
   searchResults?: ChatgptSearchSearchResult[] | null;
+  /**
+   * Products ChatGPT displayed with the answer. null means the source that answered cannot report shopping cards; an empty array means none were shown.
+   */
+  shoppingCards?: ChatgptSearchShoppingCard[] | null;
   /**
    * Whether ChatGPT actually ran a web search before answering. ChatGPT decides this per session, and an answer written without one is not web-grounded. null means the source that answered cannot report it, which is not the same as false.
    */

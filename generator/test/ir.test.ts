@@ -311,9 +311,26 @@ describe("strict nested discovery pricing", () => {
 });
 
 describe("public-boundary invariants", () => {
+  // The invariant is that no INTERNAL ACCOUNTING KEY reaches a customer, which
+  // is how the gateway states it too (`collectViolations` in
+  // server/internal/test/contractjson/public_json.go walks keys, not values).
+  // A substring scan of the whole document also fails on ordinary English in a
+  // schema description - "Accounts credited as coauthors of the post" on the
+  // Instagram post SKUs - which says nothing about how we bill.
+  function creditKeyPaths(value: unknown, path = "$"): string[] {
+    if (Array.isArray(value)) {
+      return value.flatMap((child, index) => creditKeyPaths(child, `${path}[${index}]`));
+    }
+    if (value === null || typeof value !== "object") return [];
+    return Object.entries(value as Record<string, unknown>).flatMap(([key, child]) => {
+      const childPath = `${path}.${key}`;
+      const here = key.toLowerCase().includes("credit") ? [childPath] : [];
+      return [...here, ...creditKeyPaths(child, childPath)];
+    });
+  }
+
   it("has no credit key or em/en dash in the serialized live IR", () => {
-    const serialized = serializeIr(liveIr);
-    expect(serialized.toLowerCase()).not.toContain("credit");
-    expect(serialized).not.toMatch(/[\u2014\u2013]/);
+    expect(creditKeyPaths(liveIr)).toEqual([]);
+    expect(serializeIr(liveIr)).not.toMatch(/[\u2014\u2013]/);
   });
 });

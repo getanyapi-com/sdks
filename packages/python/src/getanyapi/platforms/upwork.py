@@ -20,14 +20,10 @@ class UpworkJobsInput(TypedDict, total=False):
 
     experienceLevel: NotRequired[Literal["entry", "intermediate", "expert"]]
     """Filter by required experience level."""
-    fixedPriceRange: NotRequired[list[float]]
-    """Budget range [min, max] in USD for fixed-price jobs (e.g. [500, 5000])."""
-    hourlyRateRange: NotRequired[list[float]]
-    """Hourly rate range [min, max] in USD/hour for hourly jobs (e.g. [20, 50])."""
     jobType: NotRequired[Literal["fixed", "hourly"]]
     """Filter by payment type: fixed-price or hourly jobs."""
     limit: NotRequired[int]
-    """Maximum number of results to return (10-25, default 25). You are billed per result returned, so a lower limit costs less. This search has a floor of 10 results per page. Range: 10 to 25."""
+    """Maximum number of results to return (10-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 10 to 25."""
     location: NotRequired[str]
     """Filter by client location - a region, subregion, or country (e.g. United States, Europe)."""
     paymentVerified: NotRequired[bool]
@@ -50,7 +46,8 @@ class UpworkJobsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     budget: str | None = Field(
-        default=None, description="Fixed budget or hourly range."
+        default=None,
+        description="Fixed-price budget in USD (e.g. $4000). Absent on hourly jobs, which carry hourlyRateMin and hourlyRateMax.",
     )
     client_location: str | None = Field(
         default=None, alias="clientLocation", description="Client country or location."
@@ -76,6 +73,16 @@ class UpworkJobsItem(BaseModel):
         default=None,
         alias="experienceLevel",
         description="Required experience level (e.g. Entry, Intermediate, Expert).",
+    )
+    hourly_rate_max: float | None = Field(
+        default=None,
+        alias="hourlyRateMax",
+        description="Upper bound of the client's hourly rate range in USD. Absent on fixed-price jobs.",
+    )
+    hourly_rate_min: float | None = Field(
+        default=None,
+        alias="hourlyRateMin",
+        description="Lower bound of the client's hourly rate range in USD. Absent on fixed-price jobs.",
     )
     job_id: str = Field(
         alias="jobId",
@@ -115,7 +122,7 @@ class UpworkNamespace:
         Search Upwork job postings by keyword, with up to 25 fresh listings per
         request.
 
-        Price: $0 per request plus $0.00363 per result (maximum $0.0908).
+        Price: $0.0011 per request plus $0.0011 per result (maximum $0.0286).
 
         Example:
             res = client.upwork.jobs(jobType="fixed", limit=10, query="web developer")
@@ -140,7 +147,7 @@ class AsyncUpworkNamespace:
         Search Upwork job postings by keyword, with up to 25 fresh listings per
         request.
 
-        Price: $0 per request plus $0.00363 per result (maximum $0.0908).
+        Price: $0.0011 per request plus $0.0011 per result (maximum $0.0286).
 
         Example:
             res = client.upwork.jobs(jobType="fixed", limit=10, query="web developer")

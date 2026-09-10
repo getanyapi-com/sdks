@@ -54,11 +54,9 @@ class TwitterFollowersInput(TypedDict, total=False):
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers."""
     limit: NotRequired[int]
-    """Per-page maximum number of followers to return (1-100000, default 200). A provider may return a smaller native page; follow nextCursor for more. Range: 1 to 100000. Default: 200."""
+    """Per-page maximum number of followers to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more. Range: 1 to 100000. Default: 200."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireSinglePage: NotRequired[bool]
-    """Set true to get up to limit followers in one response instead of provider-native pages, served by a bulk provider when needed."""
     username: Required[str]
     """The X (Twitter) username to fetch followers for, without the @ prefix (e.g. elonmusk)."""
 
@@ -69,11 +67,9 @@ class TwitterFollowingInput(TypedDict, total=False):
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followed accounts."""
     limit: NotRequired[int]
-    """Per-page maximum number of followed accounts to return (1-100000, default 200). A provider may return a smaller native page; follow nextCursor for more. Range: 1 to 100000. Default: 200."""
+    """Per-page maximum number of followed accounts to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more. Range: 1 to 100000. Default: 200."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireSinglePage: NotRequired[bool]
-    """Set true to get up to limit accounts in one response instead of provider-native pages, served by a bulk provider when needed."""
     username: Required[str]
     """The X (Twitter) username to fetch the following list for, without the @ prefix (e.g. elonmusk)."""
 
@@ -1086,7 +1082,7 @@ class TwitterNamespace:
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL.
 
-        Price: $0.00009 per request.
+        Price: $0.0001 per request.
 
         Example:
             res = client.twitter.community(url="https://x.com/i/communities/1926186499399139650")
@@ -1125,8 +1121,8 @@ class TwitterNamespace:
         """X / Twitter Followers
 
         Fetch the follower list of any public X (Twitter) account by username with
-        cursor pagination. Limit is a per-page maximum; native pages contain up to
-        200 accounts unless requireSinglePage selects a bulk lane.
+        cursor pagination. Limit is a per-page maximum and a native page holds up to
+        200 accounts; follow the response's nextCursor for more.
 
         Price: $0.00075 per request.
 
@@ -1170,8 +1166,8 @@ class TwitterNamespace:
         """X / Twitter Following
 
         List the accounts a public X (Twitter) account follows by username with
-        cursor pagination. Limit is a per-page maximum; native pages contain up to
-        200 accounts unless requireSinglePage selects a bulk lane.
+        cursor pagination. Limit is a per-page maximum and a native page holds up to
+        200 accounts; follow the response's nextCursor for more.
 
         Price: $0.00075 per request.
 
@@ -1308,7 +1304,7 @@ class TwitterNamespace:
         member count with cursor pagination. This is how you find a community URL to
         pass to twitter.community or twitter.community_tweets.
 
-        Price: $0.00009 per request plus $0.00009 per result (maximum $0.00099).
+        Price: $0.0001 per request plus $0.0001 per result (maximum $0.0011).
 
         Example:
             res = client.twitter.search_communities(query="artificial intelligence")
@@ -1420,7 +1416,7 @@ class TwitterNamespace:
         Get current X (Twitter) trends for worldwide, a country, or a city in X
         ranking order, including the resolved location.
 
-        Price: $0.00009 per request.
+        Price: $0.0001 per request.
 
         Example:
             res = client.twitter.trends(limit=10, location="US")
@@ -1461,7 +1457,7 @@ class TwitterNamespace:
 
         Extract the spoken transcript from a Twitter/X video tweet by URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.twitter.tweet_transcript(url="https://x.com/TheoVon/status/1916982720317821050")
@@ -1601,7 +1597,7 @@ class AsyncTwitterNamespace:
         Fetch a Twitter/X community's public details (name, description, member
         count, join policy) by URL.
 
-        Price: $0.00009 per request.
+        Price: $0.0001 per request.
 
         Example:
             res = client.twitter.community(url="https://x.com/i/communities/1926186499399139650")
@@ -1640,8 +1636,8 @@ class AsyncTwitterNamespace:
         """X / Twitter Followers
 
         Fetch the follower list of any public X (Twitter) account by username with
-        cursor pagination. Limit is a per-page maximum; native pages contain up to
-        200 accounts unless requireSinglePage selects a bulk lane.
+        cursor pagination. Limit is a per-page maximum and a native page holds up to
+        200 accounts; follow the response's nextCursor for more.
 
         Price: $0.00075 per request.
 
@@ -1685,8 +1681,8 @@ class AsyncTwitterNamespace:
         """X / Twitter Following
 
         List the accounts a public X (Twitter) account follows by username with
-        cursor pagination. Limit is a per-page maximum; native pages contain up to
-        200 accounts unless requireSinglePage selects a bulk lane.
+        cursor pagination. Limit is a per-page maximum and a native page holds up to
+        200 accounts; follow the response's nextCursor for more.
 
         Price: $0.00075 per request.
 
@@ -1823,7 +1819,7 @@ class AsyncTwitterNamespace:
         member count with cursor pagination. This is how you find a community URL to
         pass to twitter.community or twitter.community_tweets.
 
-        Price: $0.00009 per request plus $0.00009 per result (maximum $0.00099).
+        Price: $0.0001 per request plus $0.0001 per result (maximum $0.0011).
 
         Example:
             res = client.twitter.search_communities(query="artificial intelligence")
@@ -1937,7 +1933,7 @@ class AsyncTwitterNamespace:
         Get current X (Twitter) trends for worldwide, a country, or a city in X
         ranking order, including the resolved location.
 
-        Price: $0.00009 per request.
+        Price: $0.0001 per request.
 
         Example:
             res = client.twitter.trends(limit=10, location="US")
@@ -1978,7 +1974,7 @@ class AsyncTwitterNamespace:
 
         Extract the spoken transcript from a Twitter/X video tweet by URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.twitter.tweet_transcript(url="https://x.com/TheoVon/status/1916982720317821050")

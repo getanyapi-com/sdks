@@ -45,7 +45,7 @@ import { LinkedinNamespace } from "./platforms/linkedin.js";
 import { MapsNamespace } from "./platforms/maps.js";
 import { MobilePhoneNamespace } from "./platforms/mobile_phone.js";
 import { NaverNamespace } from "./platforms/naver.js";
-import { PandaexpressNamespace } from "./platforms/pandaexpress.js";
+import { NextdoorNamespace } from "./platforms/nextdoor.js";
 import { PeopleSearchNamespace } from "./platforms/people_search.js";
 import { PerplexityNamespace } from "./platforms/perplexity.js";
 import { PersonNamespace } from "./platforms/person.js";
@@ -463,12 +463,12 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
-   * Typed methods for the pandaexpress platform.
+   * Typed methods for the nextdoor platform.
    */
-  get pandaexpress(): PandaexpressNamespace {
-    return (this._namespaces["pandaexpress"] ??= new PandaexpressNamespace(
+  get nextdoor(): NextdoorNamespace {
+    return (this._namespaces["nextdoor"] ??= new NextdoorNamespace(
       this._core,
-    )) as PandaexpressNamespace;
+    )) as NextdoorNamespace;
   }
 
   /**

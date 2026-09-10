@@ -1247,7 +1247,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO competitor domains for a target domain with shared keyword counts and organic metrics as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
+   * Price: $0.02864 per request plus $0.00016 per result (maximum $0.18864).
    *
    * @example
    * const res = await client.seo.competitorsDomain({ target: "github.com", language: "en", limit: 10, location: 2840 });
@@ -1264,7 +1264,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO keyword overlap for two domains with each domain's rankings, URLs, volume, CPC, and difficulty as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
+   * Price: $0.02864 per request plus $0.00016 per result (maximum $0.18864).
    *
    * @example
    * const res = await client.seo.domainIntersection({ target1: "github.com", target2: "gitlab.com", language: "en", limit: 10, location: 2840 });
@@ -1281,7 +1281,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO domain ranking, organic traffic, and paid traffic metrics as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0 per result (maximum $0.0156).
+   * Price: $0.01455 per request plus $0 per result (maximum $0.01455).
    *
    * @example
    * const res = await client.seo.domainRankOverview({ target: "ahrefs.com", language: "en", location: 2840 });
@@ -1298,7 +1298,7 @@ export class SeoNamespace {
    *
    * Detect the technology stack a website runs: CMS, analytics, marketing, hosting, and security, plus contacts and social profiles as normalized JSON.
    *
-   * Price: $0.012 per request.
+   * Price: $0.0144 per request.
    *
    * @example
    * const res = await client.seo.domainTechnologies({ domain: "hubspot.com" });
@@ -1315,7 +1315,7 @@ export class SeoNamespace {
    *
    * Find websites running a given technology, category, or on-page term: domain, rank, detected stack, contacts, and social profiles as normalized JSON.
    *
-   * Price: $0.012 per request plus $0.0012 per result (maximum $0.132).
+   * Price: $0.01464 per request plus $0.0012 per result (maximum $0.13464).
    *
    * @example
    * const res = await client.seo.domainsByTechnology({ keyword: "highlevel", limit: 10, orderBy: "rank_desc" });
@@ -1358,7 +1358,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO keyword difficulty scores for one or more keywords as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0.00016 per keyword (maximum $0.1756).
+   * Price: $0.01438 per request plus $0.00016 per keyword (maximum $0.17438).
    *
    * @example
    * const res = await client.seo.keywordDifficulty({ keywords: ["seo tools"], language: "en", location: 2840 });
@@ -1375,7 +1375,7 @@ export class SeoNamespace {
    *
    * Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
+   * Price: $0.01496 per request plus $0.00016 per result (maximum $0.17496).
    *
    * @example
    * const res = await client.seo.keywordIdeas({ keywords: ["project management software"], language: "en", limit: 5, location: 2840 });
@@ -1392,7 +1392,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO keyword metrics including search volume, CPC, competition, difficulty, and search intent as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0.00016 per keyword (maximum $0.1276).
+   * Price: $0.01438 per request plus $0.00016 per keyword (maximum $0.12638).
    *
    * @example
    * const res = await client.seo.keywordOverview({ keywords: ["project management software"], language: "en", location: 2840 });
@@ -1409,7 +1409,7 @@ export class SeoNamespace {
    *
    * Find AnyAPI SEO keyword suggestions from a seed term with volume, CPC, competition, difficulty, and intent as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
+   * Price: $0.01496 per request plus $0.00016 per result (maximum $0.17496).
    *
    * @example
    * const res = await client.seo.keywordSuggestions({ keyword: "project management software", language: "en", limit: 5, location: 2840 });
@@ -1426,7 +1426,7 @@ export class SeoNamespace {
    *
    * Search AnyAPI SEO local pack results with rankings, ratings, addresses, and contact basics as normalized JSON.
    *
-   * Price: $0.0026 per request plus $0 per result (maximum $0.0026).
+   * Price: $0.0024 per request plus $0 per result (maximum $0.0024).
    *
    * @example
    * const res = await client.seo.localPack({ keyword: "coffee shop", language: "en", limit: 5, location: "New York,New York,United States" });
@@ -1443,7 +1443,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO ranked keywords for a domain with rankings, traffic estimates, volume, CPC, difficulty, and intent as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
+   * Price: $0.01496 per request plus $0.00016 per result (maximum $0.17496).
    *
    * @example
    * const res = await client.seo.rankedKeywords({ target: "github.com", language: "en", limit: 10, location: 2840 });
@@ -1460,7 +1460,7 @@ export class SeoNamespace {
    *
    * Find AnyAPI SEO related keywords from a seed term with volume, CPC, competition, difficulty, and intent as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0.00016 per result (maximum $0.1756).
+   * Price: $0.01496 per request plus $0.00016 per result (maximum $0.17496).
    *
    * @example
    * const res = await client.seo.relatedKeywords({ keyword: "project management software", language: "en", limit: 5, location: 2840 });
@@ -1477,7 +1477,7 @@ export class SeoNamespace {
    *
    * Classify AnyAPI SEO keyword search intent as normalized JSON.
    *
-   * Price: $0.0156 per request plus $0.00016 per keyword (maximum $0.1756).
+   * Price: $0.01438 per request plus $0.00016 per keyword (maximum $0.17438).
    *
    * @example
    * const res = await client.seo.searchIntent({ keywords: ["seo tools"], language: "en" });
@@ -1494,7 +1494,7 @@ export class SeoNamespace {
    *
    * Get AnyAPI SEO keyword search volume, CPC, competition, bid estimates, and monthly history as normalized JSON.
    *
-   * Price: $0.117 per request plus $0 per result (maximum $0.117).
+   * Price: $0.108 per request plus $0 per result (maximum $0.108).
    *
    * @example
    * const res = await client.seo.searchVolume({ keywords: ["seo tools"], language: "en", location: 2840 });

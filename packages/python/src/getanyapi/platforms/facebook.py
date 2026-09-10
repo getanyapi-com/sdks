@@ -1613,7 +1613,7 @@ class FacebookNamespace:
         Look up a single Meta Ad Library ad by ID or URL and get the advertiser,
         creative text, call-to-action, platforms, and run dates as clean JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.ad_details(id="1249043200627555")
@@ -1655,7 +1655,7 @@ class FacebookNamespace:
         Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or
         URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.ad_transcript(id="931919822778200")
@@ -1676,7 +1676,7 @@ class FacebookNamespace:
         Search the Meta Ad Library by keyword and get matching ads (advertiser,
         creative text, CTA, platforms, and run dates) with cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.ads_search(country="US", query="nike", searchType="keyword_exact_phrase")
@@ -1720,7 +1720,7 @@ class FacebookNamespace:
         List the replies to a Facebook post comment (text, author, reactions, and
         timestamps) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.comment_replies(expansionToken="MjoxNzgzMjI4OTY4OgF_o5zrjDnpemv4bwPtpsShXutqvKIw2bKs2YuJksL1Ak8n8YG-_KPSQGkIks5oW6wdRfhb_cRv9q5OX0NHjFJwEupYNZi9pcMV-FYLWLp47u-eusMkZFOMwbkISsTln7gtSvQrOzlffyavOTIL85PECYzGfunU2IAEkd13CIikxu06Mw10UJ1ShcFAmz8175R1uJfYy_iOixWZukqfrWhUfVOXApXznxx7qXvUxPwct76qe6p7-nVWQrPC_SZc2xh9Z8ggL3WMjgTzSq4oWFSsyZuuVsyVVjSgdjRQiDqtJSeEUlSjTr6vOnKsvKV-GpnBRaeA0BCaNRhqpB4xDZoduBuO5ZYrFvWLJdJLryDhCPI2Ss-Z33cEM2Vz7pLf1wJzE7TuizXPwICSn1DA_Prca-BItTbOUjAjfiySap1LXYkGuuDC2ziUdiEsmE5XhevMP8XtF_2WQlMNcGbXMEQyAWDUawtPAxXgMeRrCO9YGSweFQ4OZumoIlSGa3Vfjy-euUOHT1IAsNbV2A8rAq4HJNU3jCXQTn0vfW9xvbVQhL-53Mhw2YPjhlvUj6QpnGA25N8", feedbackId="ZmVlZGJhY2s6MTM5MzQ2MTExNTQ4MTkyN18yMDgyNjUzMjQ1ODA5Mzg2")
@@ -1764,7 +1764,7 @@ class FacebookNamespace:
         List the Meta Ad Library ads a company is running by page ID or company name
         (creative text, format, platforms, and run dates) with cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.company_ads(companyName="nike", sortBy="recent")
@@ -1808,7 +1808,7 @@ class FacebookNamespace:
         Fetch full details for a single Facebook event by ID or URL (name, schedule,
         venue, hosts, and attendance) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.event_details(id="4045709448982422")
@@ -1829,7 +1829,7 @@ class FacebookNamespace:
         List public Facebook events for a city or place by its events-page URL
         (event name, date, venue, and attendance) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.events(url="https://www.facebook.com/events/explore/saint-petersburg-florida/111326725552547")
@@ -1873,7 +1873,7 @@ class FacebookNamespace:
         Search public Facebook events by keyword and get structured event records
         (name, schedule, venue, pricing, and attendance) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.events_search(query="music festival")
@@ -1938,7 +1938,7 @@ class FacebookNamespace:
         Fetch recent posts from any public Facebook group by URL: text, author,
         reactions, and comment counts.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.group_posts(url="https://www.facebook.com/groups/1270525996445602/")
@@ -1983,7 +1983,7 @@ class FacebookNamespace:
         price, condition, delivery, recency, and availability, and get title, price,
         location, and image as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.marketplace(lat="30.2677", lng="-97.7475", priceMax=500, priceMin=100, query="bike")
@@ -2027,7 +2027,7 @@ class FacebookNamespace:
         Fetch full details for a single Facebook Marketplace listing by ID or URL
         (title, price, location, photos, and attributes) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.marketplace_item(url="https://www.facebook.com/marketplace/item/1656586118821988/")
@@ -2048,7 +2048,7 @@ class FacebookNamespace:
         Resolve a place name to Facebook Marketplace locations with coordinates and
         metadata as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.marketplace_location_search(query="Austin")
@@ -2069,7 +2069,7 @@ class FacebookNamespace:
         Look up a Facebook Page's public contact details (email, phone, website, and
         address) by page URL or ID.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.page_contact(page="https://www.facebook.com/joesstonecrab")
@@ -2090,7 +2090,7 @@ class FacebookNamespace:
         Fetch recent photos posted by any public Facebook page or profile (image
         URLs, captions, and dimensions) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.photos(url="https://www.facebook.com/Spurs")
@@ -2134,7 +2134,7 @@ class FacebookNamespace:
         Fetch a single Facebook post by URL with its text and engagement counts
         (likes, comments, shares, views).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.post(url="https://www.facebook.com/reel/2166091230582141/")
@@ -2155,7 +2155,7 @@ class FacebookNamespace:
         List the comments on a Facebook post by URL with cursor pagination (text,
         author, reactions, reply count).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.post_comments(url="https://www.facebook.com/reel/2166091230582141/")
@@ -2199,7 +2199,7 @@ class FacebookNamespace:
         Get the spoken-word transcript of any public Facebook video post by URL as
         normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.post_transcript(url="https://www.facebook.com/reel/2166091230582141/")
@@ -2220,7 +2220,7 @@ class FacebookNamespace:
         Fetch a Facebook page's public profile (likes, followers, category, about)
         by URL or handle.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile(url="https://www.facebook.com/nike")
@@ -2241,7 +2241,7 @@ class FacebookNamespace:
         List upcoming and past events hosted by any public Facebook page by URL
         (name, schedule, venue, and host) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile_events(url="https://www.facebook.com/brickyardoldtown")
@@ -2285,7 +2285,7 @@ class FacebookNamespace:
         List a Facebook page's recent posts by URL or page id with cursor pagination
         (text, author, publication time, permalink).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile_posts(url="https://www.facebook.com/nike")
@@ -2329,7 +2329,7 @@ class FacebookNamespace:
         List a Facebook page's reels by URL with cursor pagination (caption, view
         count, permalink, thumbnail).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile_reels(url="https://www.facebook.com/nike")
@@ -2351,7 +2351,7 @@ class FacebookNamespace:
         pages: page ID, category, verification, follower counts, and linked
         Instagram.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.search_companies(query="nike")
@@ -2421,7 +2421,7 @@ class AsyncFacebookNamespace:
         Look up a single Meta Ad Library ad by ID or URL and get the advertiser,
         creative text, call-to-action, platforms, and run dates as clean JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.ad_details(id="1249043200627555")
@@ -2463,7 +2463,7 @@ class AsyncFacebookNamespace:
         Get the spoken-word transcript of a Meta Ad Library video ad by ad ID or
         URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.ad_transcript(id="931919822778200")
@@ -2484,7 +2484,7 @@ class AsyncFacebookNamespace:
         Search the Meta Ad Library by keyword and get matching ads (advertiser,
         creative text, CTA, platforms, and run dates) with cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.ads_search(country="US", query="nike", searchType="keyword_exact_phrase")
@@ -2528,7 +2528,7 @@ class AsyncFacebookNamespace:
         List the replies to a Facebook post comment (text, author, reactions, and
         timestamps) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.comment_replies(expansionToken="MjoxNzgzMjI4OTY4OgF_o5zrjDnpemv4bwPtpsShXutqvKIw2bKs2YuJksL1Ak8n8YG-_KPSQGkIks5oW6wdRfhb_cRv9q5OX0NHjFJwEupYNZi9pcMV-FYLWLp47u-eusMkZFOMwbkISsTln7gtSvQrOzlffyavOTIL85PECYzGfunU2IAEkd13CIikxu06Mw10UJ1ShcFAmz8175R1uJfYy_iOixWZukqfrWhUfVOXApXznxx7qXvUxPwct76qe6p7-nVWQrPC_SZc2xh9Z8ggL3WMjgTzSq4oWFSsyZuuVsyVVjSgdjRQiDqtJSeEUlSjTr6vOnKsvKV-GpnBRaeA0BCaNRhqpB4xDZoduBuO5ZYrFvWLJdJLryDhCPI2Ss-Z33cEM2Vz7pLf1wJzE7TuizXPwICSn1DA_Prca-BItTbOUjAjfiySap1LXYkGuuDC2ziUdiEsmE5XhevMP8XtF_2WQlMNcGbXMEQyAWDUawtPAxXgMeRrCO9YGSweFQ4OZumoIlSGa3Vfjy-euUOHT1IAsNbV2A8rAq4HJNU3jCXQTn0vfW9xvbVQhL-53Mhw2YPjhlvUj6QpnGA25N8", feedbackId="ZmVlZGJhY2s6MTM5MzQ2MTExNTQ4MTkyN18yMDgyNjUzMjQ1ODA5Mzg2")
@@ -2572,7 +2572,7 @@ class AsyncFacebookNamespace:
         List the Meta Ad Library ads a company is running by page ID or company name
         (creative text, format, platforms, and run dates) with cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.company_ads(companyName="nike", sortBy="recent")
@@ -2616,7 +2616,7 @@ class AsyncFacebookNamespace:
         Fetch full details for a single Facebook event by ID or URL (name, schedule,
         venue, hosts, and attendance) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.event_details(id="4045709448982422")
@@ -2637,7 +2637,7 @@ class AsyncFacebookNamespace:
         List public Facebook events for a city or place by its events-page URL
         (event name, date, venue, and attendance) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.events(url="https://www.facebook.com/events/explore/saint-petersburg-florida/111326725552547")
@@ -2681,7 +2681,7 @@ class AsyncFacebookNamespace:
         Search public Facebook events by keyword and get structured event records
         (name, schedule, venue, pricing, and attendance) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.events_search(query="music festival")
@@ -2746,7 +2746,7 @@ class AsyncFacebookNamespace:
         Fetch recent posts from any public Facebook group by URL: text, author,
         reactions, and comment counts.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.group_posts(url="https://www.facebook.com/groups/1270525996445602/")
@@ -2791,7 +2791,7 @@ class AsyncFacebookNamespace:
         price, condition, delivery, recency, and availability, and get title, price,
         location, and image as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.marketplace(lat="30.2677", lng="-97.7475", priceMax=500, priceMin=100, query="bike")
@@ -2835,7 +2835,7 @@ class AsyncFacebookNamespace:
         Fetch full details for a single Facebook Marketplace listing by ID or URL
         (title, price, location, photos, and attributes) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.marketplace_item(url="https://www.facebook.com/marketplace/item/1656586118821988/")
@@ -2856,7 +2856,7 @@ class AsyncFacebookNamespace:
         Resolve a place name to Facebook Marketplace locations with coordinates and
         metadata as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.marketplace_location_search(query="Austin")
@@ -2877,7 +2877,7 @@ class AsyncFacebookNamespace:
         Look up a Facebook Page's public contact details (email, phone, website, and
         address) by page URL or ID.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.page_contact(page="https://www.facebook.com/joesstonecrab")
@@ -2898,7 +2898,7 @@ class AsyncFacebookNamespace:
         Fetch recent photos posted by any public Facebook page or profile (image
         URLs, captions, and dimensions) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.photos(url="https://www.facebook.com/Spurs")
@@ -2942,7 +2942,7 @@ class AsyncFacebookNamespace:
         Fetch a single Facebook post by URL with its text and engagement counts
         (likes, comments, shares, views).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.post(url="https://www.facebook.com/reel/2166091230582141/")
@@ -2963,7 +2963,7 @@ class AsyncFacebookNamespace:
         List the comments on a Facebook post by URL with cursor pagination (text,
         author, reactions, reply count).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.post_comments(url="https://www.facebook.com/reel/2166091230582141/")
@@ -3007,7 +3007,7 @@ class AsyncFacebookNamespace:
         Get the spoken-word transcript of any public Facebook video post by URL as
         normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.post_transcript(url="https://www.facebook.com/reel/2166091230582141/")
@@ -3028,7 +3028,7 @@ class AsyncFacebookNamespace:
         Fetch a Facebook page's public profile (likes, followers, category, about)
         by URL or handle.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile(url="https://www.facebook.com/nike")
@@ -3049,7 +3049,7 @@ class AsyncFacebookNamespace:
         List upcoming and past events hosted by any public Facebook page by URL
         (name, schedule, venue, and host) as normalized JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile_events(url="https://www.facebook.com/brickyardoldtown")
@@ -3093,7 +3093,7 @@ class AsyncFacebookNamespace:
         List a Facebook page's recent posts by URL or page id with cursor pagination
         (text, author, publication time, permalink).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile_posts(url="https://www.facebook.com/nike")
@@ -3137,7 +3137,7 @@ class AsyncFacebookNamespace:
         List a Facebook page's reels by URL with cursor pagination (caption, view
         count, permalink, thumbnail).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile_reels(url="https://www.facebook.com/nike")
@@ -3159,7 +3159,7 @@ class AsyncFacebookNamespace:
         pages: page ID, category, verification, follower counts, and linked
         Instagram.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.search_companies(query="nike")

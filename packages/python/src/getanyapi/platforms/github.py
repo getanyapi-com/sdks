@@ -515,7 +515,7 @@ class GithubNamespace:
         Fetch a GitHub repository's metadata by URL (stars, forks, language, topics,
         license, and timestamps).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.repository(url="https://github.com/facebook/react")
@@ -537,7 +537,7 @@ class GithubNamespace:
         most popular repository), optionally filtered by programming language and
         time range.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.trending_developers(language="go", since="weekly")
@@ -558,7 +558,7 @@ class GithubNamespace:
         List GitHub Trending repositories (rank, stars, stars gained today,
         language, and description), filterable by language and time window.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.trending_repositories(language="python", since="daily")
@@ -576,7 +576,7 @@ class GithubNamespace:
         Fetch a GitHub user's public profile by handle (name, bio, company,
         location, followers, and repo counts).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user(handle="torvalds")
@@ -598,7 +598,7 @@ class GithubNamespace:
         summaries of commits, pull requests, and issues with repository links) for a
         given year.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_activity(handle="kentcdodds")
@@ -642,7 +642,7 @@ class GithubNamespace:
         Fetch a GitHub user's contribution graph for a year (total contributions
         plus per-day counts and heatmap intensity).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_contributions(handle="torvalds", year=2024)
@@ -663,7 +663,7 @@ class GithubNamespace:
         List a GitHub user's followers by handle (each follower's login, type,
         avatar, and profile URL) with pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_followers(handle="torvalds")
@@ -707,7 +707,7 @@ class GithubNamespace:
         List the GitHub users a given user follows by handle (each account's login,
         type, avatar, and profile URL) with pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_following(handle="kentcdodds")
@@ -751,7 +751,7 @@ class GithubNamespace:
         List a GitHub user's public pull requests by handle (title, repository,
         state, creation date, and URL) with optional date filtering and pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_pull_requests(handle="torvalds")
@@ -795,7 +795,7 @@ class GithubNamespace:
         List a GitHub user's public repositories (name, description, language,
         stars, and forks) with sorting and cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_repositories(handle="torvalds")
@@ -846,7 +846,7 @@ class AsyncGithubNamespace:
         Fetch a GitHub repository's metadata by URL (stars, forks, language, topics,
         license, and timestamps).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.repository(url="https://github.com/facebook/react")
@@ -868,7 +868,7 @@ class AsyncGithubNamespace:
         most popular repository), optionally filtered by programming language and
         time range.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.trending_developers(language="go", since="weekly")
@@ -889,7 +889,7 @@ class AsyncGithubNamespace:
         List GitHub Trending repositories (rank, stars, stars gained today,
         language, and description), filterable by language and time window.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.trending_repositories(language="python", since="daily")
@@ -907,7 +907,7 @@ class AsyncGithubNamespace:
         Fetch a GitHub user's public profile by handle (name, bio, company,
         location, followers, and repo counts).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user(handle="torvalds")
@@ -929,7 +929,7 @@ class AsyncGithubNamespace:
         summaries of commits, pull requests, and issues with repository links) for a
         given year.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_activity(handle="kentcdodds")
@@ -973,7 +973,7 @@ class AsyncGithubNamespace:
         Fetch a GitHub user's contribution graph for a year (total contributions
         plus per-day counts and heatmap intensity).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_contributions(handle="torvalds", year=2024)
@@ -994,7 +994,7 @@ class AsyncGithubNamespace:
         List a GitHub user's followers by handle (each follower's login, type,
         avatar, and profile URL) with pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_followers(handle="torvalds")
@@ -1038,7 +1038,7 @@ class AsyncGithubNamespace:
         List the GitHub users a given user follows by handle (each account's login,
         type, avatar, and profile URL) with pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_following(handle="kentcdodds")
@@ -1082,7 +1082,7 @@ class AsyncGithubNamespace:
         List a GitHub user's public pull requests by handle (title, repository,
         state, creation date, and URL) with optional date filtering and pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_pull_requests(handle="torvalds")
@@ -1126,7 +1126,7 @@ class AsyncGithubNamespace:
         List a GitHub user's public repositories (name, description, language,
         stars, and forks) with sorting and cursor pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.github.user_repositories(handle="torvalds")

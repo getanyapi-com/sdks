@@ -2856,7 +2856,7 @@ class LinkedinNamespace:
         headline, creative text, format, CTA, targeting, run dates, and impressions
         as clean JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.ad(url="https://www.linkedin.com/ad-library/detail/1487405616")
@@ -2899,7 +2899,7 @@ class LinkedinNamespace:
         (advertiser, headline, creative text, format, CTA, and run dates) with
         pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.ads_search(company="microsoft")
@@ -3006,7 +3006,7 @@ class LinkedinNamespace:
         Post text and link only. No engagement counts, author details, media, or
         reaction breakdown - for those use linkedin.company_posts.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.company_posts_thin(url="https://www.linkedin.com/company/stripe")
@@ -3028,7 +3028,7 @@ class LinkedinNamespace:
         tagline. No follower count, founded year, office locations, or funding data
         - for those use linkedin.company.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
@@ -3093,7 +3093,7 @@ class LinkedinNamespace:
         Cheap job index: title, company, location, posted date, URL. No description,
         salary, applicant counts, or seniority - for those use linkedin.jobs.
 
-        Price: $0.00045 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.linkedin.jobs_thin(limit=3, location="United States", query="software engineer", workplaceType="remote")
@@ -3114,7 +3114,7 @@ class LinkedinNamespace:
         Fetch a single LinkedIn post or article by URL (title, text, author, like
         and comment counts, publish date).
 
-        Price: $0.00045 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.linkedin.post(url="https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs")
@@ -3176,7 +3176,7 @@ class LinkedinNamespace:
 
         Get the spoken transcript of a LinkedIn video post by URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.post_transcript(url="https://www.linkedin.com/posts/artificial-analysis_gemini-35-flash-is-a-step-forward-for-google-activity-7465082408409870337-4Pm-")
@@ -3267,7 +3267,7 @@ class LinkedinNamespace:
         experience detail, skills, certifications, connections, and verified flags
         use linkedin.profile.
 
-        Price: $0.00072 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
@@ -3308,7 +3308,7 @@ class LinkedinNamespace:
 
         Search public LinkedIn posts by keyword (text, link, publish date).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.search_posts(datePosted="last-week", query="hiring")
@@ -3458,7 +3458,7 @@ class AsyncLinkedinNamespace:
         headline, creative text, format, CTA, targeting, run dates, and impressions
         as clean JSON.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.ad(url="https://www.linkedin.com/ad-library/detail/1487405616")
@@ -3501,7 +3501,7 @@ class AsyncLinkedinNamespace:
         (advertiser, headline, creative text, format, CTA, and run dates) with
         pagination.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.ads_search(company="microsoft")
@@ -3608,7 +3608,7 @@ class AsyncLinkedinNamespace:
         Post text and link only. No engagement counts, author details, media, or
         reaction breakdown - for those use linkedin.company_posts.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.company_posts_thin(url="https://www.linkedin.com/company/stripe")
@@ -3630,7 +3630,7 @@ class AsyncLinkedinNamespace:
         tagline. No follower count, founded year, office locations, or funding data
         - for those use linkedin.company.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
@@ -3695,7 +3695,7 @@ class AsyncLinkedinNamespace:
         Cheap job index: title, company, location, posted date, URL. No description,
         salary, applicant counts, or seniority - for those use linkedin.jobs.
 
-        Price: $0.00045 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.linkedin.jobs_thin(limit=3, location="United States", query="software engineer", workplaceType="remote")
@@ -3716,7 +3716,7 @@ class AsyncLinkedinNamespace:
         Fetch a single LinkedIn post or article by URL (title, text, author, like
         and comment counts, publish date).
 
-        Price: $0.00045 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.linkedin.post(url="https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs")
@@ -3778,7 +3778,7 @@ class AsyncLinkedinNamespace:
 
         Get the spoken transcript of a LinkedIn video post by URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.post_transcript(url="https://www.linkedin.com/posts/artificial-analysis_gemini-35-flash-is-a-step-forward-for-google-activity-7465082408409870337-4Pm-")
@@ -3869,7 +3869,7 @@ class AsyncLinkedinNamespace:
         experience detail, skills, certifications, connections, and verified flags
         use linkedin.profile.
 
-        Price: $0.00072 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
@@ -3910,7 +3910,7 @@ class AsyncLinkedinNamespace:
 
         Search public LinkedIn posts by keyword (text, link, publish date).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.search_posts(datePosted="last-week", query="hiring")

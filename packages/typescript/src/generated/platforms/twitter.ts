@@ -316,7 +316,7 @@ export interface TwitterFollowersInput {
    */
   cursor?: string;
   /**
-   * Per-page maximum number of followers to return (1-100000, default 200). A provider may return a smaller native page; follow nextCursor for more.
+   * Per-page maximum number of followers to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more.
    * Range: minimum 1, maximum 100000.
    * Default: 200.
    */
@@ -326,10 +326,6 @@ export interface TwitterFollowersInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
-  /**
-   * Set true to get up to limit followers in one response instead of provider-native pages, served by a bulk provider when needed.
-   */
-  requireSinglePage?: boolean;
   /**
    * The X (Twitter) username to fetch followers for, without the @ prefix (e.g. elonmusk).
    */
@@ -395,7 +391,7 @@ export interface TwitterFollowingInput {
    */
   cursor?: string;
   /**
-   * Per-page maximum number of followed accounts to return (1-100000, default 200). A provider may return a smaller native page; follow nextCursor for more.
+   * Per-page maximum number of followed accounts to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more.
    * Range: minimum 1, maximum 100000.
    * Default: 200.
    */
@@ -405,10 +401,6 @@ export interface TwitterFollowingInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
-  /**
-   * Set true to get up to limit accounts in one response instead of provider-native pages, served by a bulk provider when needed.
-   */
-  requireSinglePage?: boolean;
   /**
    * The X (Twitter) username to fetch the following list for, without the @ prefix (e.g. elonmusk).
    */
@@ -1402,7 +1394,7 @@ export class TwitterNamespace {
    *
    * Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL.
    *
-   * Price: $0.00009 per request.
+   * Price: $0.0001 per request.
    *
    * @example
    * const res = await client.twitter.community({ url: "https://x.com/i/communities/1926186499399139650" });
@@ -1434,7 +1426,7 @@ export class TwitterNamespace {
   /**
    * X / Twitter Followers
    *
-   * Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum; native pages contain up to 200 accounts unless requireSinglePage selects a bulk lane.
+   * Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.
    *
    * Price: $0.00075 per request.
    *
@@ -1471,7 +1463,7 @@ export class TwitterNamespace {
   /**
    * X / Twitter Following
    *
-   * List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum; native pages contain up to 200 accounts unless requireSinglePage selects a bulk lane.
+   * List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.
    *
    * Price: $0.00075 per request.
    *
@@ -1581,7 +1573,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) communities by keyword and get their id, name, topic, and member count with cursor pagination. This is how you find a community URL to pass to twitter.community or twitter.community_tweets.
    *
-   * Price: $0.00009 per request plus $0.00009 per result (maximum $0.00099).
+   * Price: $0.0001 per request plus $0.0001 per result (maximum $0.0011).
    *
    * @example
    * const res = await client.twitter.searchCommunities({ query: "artificial intelligence" });
@@ -1678,7 +1670,7 @@ export class TwitterNamespace {
    *
    * Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.
    *
-   * Price: $0.00009 per request.
+   * Price: $0.0001 per request.
    *
    * @example
    * const res = await client.twitter.trends({ limit: 10, location: "US" });
@@ -1712,7 +1704,7 @@ export class TwitterNamespace {
    *
    * Extract the spoken transcript from a Twitter/X video tweet by URL.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.twitter.tweetTranscript({ url: "https://x.com/TheoVon/status/1916982720317821050" });

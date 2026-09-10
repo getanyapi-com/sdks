@@ -832,7 +832,7 @@ class TiktokShopNamespace:
         Fetch TikTok Shop product details (title, price, sales, seller, and ratings)
         from a product URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok_shop.product(url="https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799")
@@ -876,7 +876,7 @@ class TiktokShopNamespace:
         Fetch customer reviews for a TikTok Shop product by URL (rating, text,
         reviewer, country, and verified-purchase flag).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok_shop.product_reviews(url="https://www.tiktok.com/shop/pdp/cat-nail-clipper-by-potaroma-adjustable-sizes-built-in-file-safe-for-kittens-cats/1731578642912612516")
@@ -983,7 +983,7 @@ class TiktokShopNamespace:
         List the TikTok Shop products a creator showcases (title, price, rating, and
         sales per product).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok_shop.user_showcase(handle="mrtiktokreviews")
@@ -1098,7 +1098,7 @@ class AsyncTiktokShopNamespace:
         Fetch TikTok Shop product details (title, price, sales, seller, and ratings)
         from a product URL.
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok_shop.product(url="https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799")
@@ -1142,7 +1142,7 @@ class AsyncTiktokShopNamespace:
         Fetch customer reviews for a TikTok Shop product by URL (rating, text,
         reviewer, country, and verified-purchase flag).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok_shop.product_reviews(url="https://www.tiktok.com/shop/pdp/cat-nail-clipper-by-potaroma-adjustable-sizes-built-in-file-safe-for-kittens-cats/1731578642912612516")
@@ -1249,7 +1249,7 @@ class AsyncTiktokShopNamespace:
         List the TikTok Shop products a creator showcases (title, price, rating, and
         sales per product).
 
-        Price: $0.002 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok_shop.user_showcase(handle="mrtiktokreviews")

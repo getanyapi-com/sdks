@@ -2065,7 +2065,7 @@ export class TiktokNamespace {
    *
    * Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.adLibrarySearch({ query: "spotify", limit: 20, objective: "conversions", period: 30 });
@@ -2105,7 +2105,7 @@ export class TiktokNamespace {
    *
    * Search TikTok's EU Commercial Content Library by keyword or advertiser ID.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.tiktok.adTransparencySearch({ days: 30, limit: 20, query: "nike", region: "DE" });
@@ -2165,7 +2165,7 @@ export class TiktokNamespace {
    *
    * List the replies to a TikTok comment with cursor pagination (text, author, likes).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.commentReplies({ commentId: "7623828115408274207", url: "https://www.tiktok.com/@stoolpresidente/video/7623818255903329566" });
@@ -2208,7 +2208,7 @@ export class TiktokNamespace {
    *
    * List the followers of a TikTok account by username, returning each follower's profile basics.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.followers({ handle: "stoolpresidente" });
@@ -2245,7 +2245,7 @@ export class TiktokNamespace {
    *
    * List the accounts a TikTok user follows (handle, display name, follower count, bio) by username.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.following({ handle: "stoolpresidente" });
@@ -2282,7 +2282,7 @@ export class TiktokNamespace {
    *
    * List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).
    *
-   * Price: $0.00072 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.hashtagVideos({ hashtag: "cooking", limit: 3 });
@@ -2299,7 +2299,7 @@ export class TiktokNamespace {
    *
    * Check whether a TikTok creator is live and get the current live room (title, viewers, start time) by handle.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.live({ handle: "thejustalex" });
@@ -2333,7 +2333,7 @@ export class TiktokNamespace {
    *
    * Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.profile({ handle: "zachking" });
@@ -2367,7 +2367,7 @@ export class TiktokNamespace {
    *
    * Resolve the home region (country) of a TikTok creator by handle.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.profileRegion({ handle: "stoolpresidente" });
@@ -2424,7 +2424,7 @@ export class TiktokNamespace {
    *
    * Search TikTok by hashtag and get matching videos (caption, views, likes, comments, shares) as normalized JSON.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.searchHashtag({ query: "recipe" });
@@ -2504,7 +2504,7 @@ export class TiktokNamespace {
    *
    * Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.searchTop({ query: "funny" });
@@ -2578,7 +2578,7 @@ export class TiktokNamespace {
    *
    * Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.song({ clipId: "7439295283975702544" });
@@ -2595,7 +2595,7 @@ export class TiktokNamespace {
    *
    * List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats).
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.songVideos({ clipId: "7439295283975702544" });
@@ -2649,7 +2649,7 @@ export class TiktokNamespace {
    *
    * Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.trendingFeed({ region: "US" });
@@ -2683,7 +2683,7 @@ export class TiktokNamespace {
    *
    * Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.tiktok.video({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m" });
@@ -2700,7 +2700,7 @@ export class TiktokNamespace {
    *
    * List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).
    *
-   * Price: $0.00072 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.videoComments({ url: "https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m" });
@@ -2757,7 +2757,7 @@ export class TiktokNamespace {
    *
    * Fetch the spoken-word transcript of a TikTok video by URL.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.videoTranscript({ url: "https://www.tiktok.com/@washingtonpost/video/7609177768793787679" });
