@@ -1085,17 +1085,25 @@ export interface TiktokSearchKeywordInput {
    */
   requireCursor?: boolean;
   /**
-   * Sort order. Use the canonical JSON integer 0 for relevance or 1 for most liked; legacy numeric strings remain accepted.
+   * Sort order. Use the canonical JSON integer 0 for relevance, 1 for most liked, or 2 for newest first; legacy numeric strings remain accepted.
    */
   sortBy?: unknown;
 }
 
 export interface TiktokSearchKeywordVideo {
   /**
+   * Username (handle) of the account that posted, without the @ prefix.
+   */
+  author?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   caption: string;
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */

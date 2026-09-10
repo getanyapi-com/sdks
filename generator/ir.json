@@ -28071,7 +28071,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0007,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33580,10 +33580,8 @@
         "properties": {
           "datePosted": {
             "kind": "string",
-            "description": "Recency hint, not a hard filter. Reel discovery runs on top of Google search, so this window narrows Google's index by when it discovered or last crawled the reel, which is not the same as when the reel was published to Instagram. Returned reels can have a createdUtc outside the requested window, and narrow windows such as last-hour often return older reels or no results. Check createdUtc yourself if you need exact publication-time precision.",
+            "description": "Recency hint, not a hard filter. Reel discovery runs on top of Google search, so this window narrows Google's index by when it discovered or last crawled the reel, which is not the same as when the reel was published to Instagram. Returned reels can have a createdUtc outside the requested window, and the narrowest window, last-week, often returns older reels or no results. Check createdUtc yourself if you need exact publication-time precision.",
             "enum": [
-              "last-hour",
-              "last-day",
               "last-week",
               "last-month",
               "last-year"
@@ -60887,6 +60885,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "selftext": {
+                    "kind": "string",
+                    "description": "Body text of a self post, as Markdown. Empty on a link post, which has no body.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "subreddit": {
                     "kind": "string",
                     "description": "Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.",
@@ -61234,6 +61239,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "selftext": {
+                    "kind": "string",
+                    "description": "Body text of a self post, as Markdown. Empty on a link post, which has no body.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "subreddit": {
                     "kind": "string",
                     "description": "Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.",
@@ -61441,6 +61453,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "selftext": {
+                    "kind": "string",
+                    "description": "Body text of a self post, as Markdown. Empty on a link post, which has no body.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "subreddit": {
                     "kind": "string",
                     "description": "Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity.",
@@ -61617,6 +61636,13 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "selftext": {
+                    "kind": "string",
+                    "description": "Body text of a self post, as Markdown. Empty on a link post, which has no body.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "subreddit": {
                     "kind": "string",
@@ -62040,6 +62066,13 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "selftext": {
+                    "kind": "string",
+                    "description": "Body text of a self post, as Markdown. Empty on a link post, which has no body.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "subreddit": {
                     "kind": "string",
@@ -72454,7 +72487,7 @@
           },
           "sortBy": {
             "kind": "unknown",
-            "description": "Sort order. Use the canonical JSON integer 0 for relevance or 1 for most liked; legacy numeric strings remain accepted."
+            "description": "Sort order. Use the canonical JSON integer 0 for relevance, 1 for most liked, or 2 for newest first; legacy numeric strings remain accepted."
           }
         },
         "required": [
@@ -72481,6 +72514,13 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "Username (handle) of the account that posted, without the @ prefix.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "caption": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -72490,6 +72530,13 @@
                   },
                   "comments": {
                     "kind": "integer",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
                     "minimum": null,
                     "maximum": null,
                     "default": null

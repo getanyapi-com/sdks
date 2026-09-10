@@ -390,6 +390,10 @@ class RedditSearchPost(BaseModel):
         description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it. Populated whenever the provider has data for the entity.'
     )
     score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
+    selftext: str | None = Field(
+        default=None,
+        description="Body text of a self post, as Markdown. Empty on a link post, which has no body.",
+    )
     subreddit: str = Field(
         description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
     )
@@ -479,6 +483,10 @@ class RedditSubredditPostsPost(BaseModel):
         description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Empty if the upstream omits it. Populated whenever the provider has data for the entity.'
     )
     score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
+    selftext: str | None = Field(
+        default=None,
+        description="Body text of a self post, as Markdown. Empty on a link post, which has no body.",
+    )
     subreddit: str = Field(
         description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
     )
@@ -523,6 +531,10 @@ class RedditSubredditSearchPost(BaseModel):
         description='Canonical reddit.com thread path for the post (e.g. "/r/golang/comments/abc123/..."). Differs from url, which is the destination link. Populated whenever the provider has data for the entity.'
     )
     score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
+    selftext: str | None = Field(
+        default=None,
+        description="Body text of a self post, as Markdown. Empty on a link post, which has no body.",
+    )
     subreddit: str = Field(
         description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
     )
@@ -566,6 +578,10 @@ class RedditTrendingPostsPost(BaseModel):
         description="Canonical reddit.com thread path for the post. Populated whenever the provider has data for the entity."
     )
     score: int = Field(description="Net score (upvotes minus downvotes) at fetch time.")
+    selftext: str | None = Field(
+        default=None,
+        description="Body text of a self post, as Markdown. Empty on a link post, which has no body.",
+    )
     subreddit: str = Field(
         description="Subreddit name, without the r/ prefix. Populated whenever the provider has data for the entity."
     )
@@ -666,6 +682,10 @@ class RedditUserPostsPost(BaseModel):
     )
     score: int | None = Field(
         default=None, description="Net score (upvotes minus downvotes) at fetch time."
+    )
+    selftext: str | None = Field(
+        default=None,
+        description="Body text of a self post, as Markdown. Empty on a link post, which has no body.",
     )
     subreddit: str | None = Field(
         default=None,
