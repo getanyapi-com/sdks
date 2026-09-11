@@ -983,6 +983,7 @@ export interface TiktokProfileVideosVideo {
    */
   image?: string;
   likes: number;
+  saves?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1110,6 +1111,7 @@ export interface TiktokSearchKeywordVideo {
   id: string;
   likes: number;
   region: string;
+  saves?: number;
   shares: number;
   views: number;
   [extra: string]: unknown;
@@ -1172,10 +1174,16 @@ export interface TiktokSearchTopItem {
   comments: number;
   contentType: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
   likes: number;
+  saves?: number;
   shares: number;
   /**
    * Populated whenever the provider has data for the entity.

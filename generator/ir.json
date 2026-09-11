@@ -72213,6 +72213,12 @@
                     "maximum": null,
                     "default": null
                   },
+                  "saves": {
+                    "kind": "integer",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "url": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -72560,6 +72566,12 @@
                     "default": null,
                     "format": null
                   },
+                  "saves": {
+                    "kind": "integer",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "shares": {
                     "kind": "integer",
                     "minimum": null,
@@ -72720,6 +72732,13 @@
                     "default": null,
                     "format": null
                   },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -72728,6 +72747,12 @@
                     "format": null
                   },
                   "likes": {
+                    "kind": "integer",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "saves": {
                     "kind": "integer",
                     "minimum": null,
                     "maximum": null,
@@ -72768,6 +72793,7 @@
                 "mustPopulate": [
                   "author",
                   "caption",
+                  "createdUtc",
                   "id",
                   "url"
                 ]

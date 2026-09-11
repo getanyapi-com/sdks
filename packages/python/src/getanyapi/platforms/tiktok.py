@@ -1055,6 +1055,7 @@ class TiktokProfileVideosVideo(BaseModel):
         description="URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Absent when the upstream provides no cover.",
     )
     likes: int
+    saves: int | None = None
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1129,6 +1130,7 @@ class TiktokSearchKeywordVideo(BaseModel):
     )
     likes: int
     region: str
+    saves: int | None = None
     shares: int
     views: int
 
@@ -1156,10 +1158,16 @@ class TiktokSearchTopItem(BaseModel):
     )
     comments: int
     content_type: str = Field(alias="contentType")
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     likes: int
+    saves: int | None = None
     shares: int
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
