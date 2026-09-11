@@ -1964,7 +1964,7 @@ class TiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.0005 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -2401,7 +2401,7 @@ class TiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")
@@ -2839,7 +2839,7 @@ class AsyncTiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.0005 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -3276,7 +3276,7 @@ class AsyncTiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")

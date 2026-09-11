@@ -57379,7 +57379,7 @@
     },
     "/v1/run/gemini.search": {
       "post": {
-        "description": "Ask Gemini a web-grounded question and receive an answer with source citations.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Gemini Search pricing and uptime](https://getanyapi.com/api/gemini/search) - live USD price, lane routing, and measured 30-day uptime. [Every Gemini endpoint](https://getanyapi.com/api/gemini).",
+        "description": "Ask Gemini a web-grounded question and receive an answer with source citations.\n\n**Price:** \\$4.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Gemini Search pricing and uptime](https://getanyapi.com/api/gemini/search) - live USD price, lane routing, and measured 30-day uptime. [Every Gemini endpoint](https://getanyapi.com/api/gemini).",
         "operationId": "gemini_search",
         "parameters": [
           {
@@ -57785,10 +57785,9 @@
         },
         "x-payment-info": {
           "price": {
+            "amount": "0.004800",
             "currency": "USD",
-            "max": "0.004800",
-            "min": "0.002000",
-            "mode": "dynamic"
+            "mode": "fixed"
           },
           "protocols": [
             {
@@ -57828,11 +57827,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.004800",
                 "currency": "USD",
-                "max": "0.004800",
-                "min": "0.002000",
                 "minimumUsd": "0.001000",
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -57861,11 +57859,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.004800",
                 "currency": "USD",
-                "max": "0.004800",
-                "min": "0.002000",
                 "minimumUsd": null,
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "funded_ceiling"
               },
               "protocol": {
@@ -81820,7 +81817,7 @@
     },
     "/v1/run/instagram.post": {
       "post": {
-        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_post",
         "parameters": [
           {
@@ -82220,7 +82217,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.003600",
+            "max": "0.001500",
             "min": "0.001200",
             "mode": "dynamic"
           },
@@ -82263,7 +82260,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
+                "max": "0.001500",
                 "min": "0.001200",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -82296,7 +82293,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
+                "max": "0.001500",
                 "min": "0.001200",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -82325,7 +82322,7 @@
     },
     "/v1/run/instagram.post_comments": {
       "post": {
-        "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post Comments pricing and uptime](https://getanyapi.com/api/instagram/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post Comments pricing and uptime](https://getanyapi.com/api/instagram/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_post_comments",
         "parameters": [
           {
@@ -82745,7 +82742,7 @@
           "price": {
             "currency": "USD",
             "max": "0.018000",
-            "min": "0.001200",
+            "min": "0.000800",
             "mode": "dynamic"
           },
           "protocols": [
@@ -82788,7 +82785,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.018000",
-                "min": "0.001200",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -82821,7 +82818,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.018000",
-                "min": "0.001200",
+                "min": "0.000800",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -132746,7 +132743,7 @@
     },
     "/v1/run/reddit.post": {
       "post": {
-        "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Post pricing and uptime](https://getanyapi.com/api/reddit/post) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Post pricing and uptime](https://getanyapi.com/api/reddit/post) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_post",
         "parameters": [
           {
@@ -133174,7 +133171,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.003600",
+            "max": "0.002250",
             "min": "0.000500",
             "mode": "dynamic"
           },
@@ -133217,7 +133214,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
+                "max": "0.002250",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -133250,7 +133247,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
+                "max": "0.002250",
                 "min": "0.000500",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -166150,7 +166147,7 @@
     },
     "/v1/run/tiktok.profile": {
       "post": {
-        "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile pricing and uptime](https://getanyapi.com/api/tiktok/profile) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile pricing and uptime](https://getanyapi.com/api/tiktok/profile) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile",
         "parameters": [
           {
@@ -166564,10 +166561,9 @@
         },
         "x-payment-info": {
           "price": {
+            "amount": "0.001200",
             "currency": "USD",
-            "max": "0.001200",
-            "min": "0.000500",
-            "mode": "dynamic"
+            "mode": "fixed"
           },
           "protocols": [
             {
@@ -166607,11 +166603,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.001200",
                 "currency": "USD",
-                "max": "0.001200",
-                "min": "0.001000",
                 "minimumUsd": "0.001000",
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -166640,11 +166635,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.001200",
                 "currency": "USD",
-                "max": "0.001200",
-                "min": "0.000500",
                 "minimumUsd": null,
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "funded_ceiling"
               },
               "protocol": {
@@ -173811,7 +173805,7 @@
     },
     "/v1/run/tiktok.video_comments": {
       "post": {
-        "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Comments pricing and uptime](https://getanyapi.com/api/tiktok/video-comments) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Comments pricing and uptime](https://getanyapi.com/api/tiktok/video-comments) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_video_comments",
         "parameters": [
           {
@@ -174224,7 +174218,7 @@
           "price": {
             "currency": "USD",
             "max": "0.003600",
-            "min": "0.000800",
+            "min": "0.001200",
             "mode": "dynamic"
           },
           "protocols": [
@@ -174267,7 +174261,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.003600",
-                "min": "0.001000",
+                "min": "0.001200",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -174300,7 +174294,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.003600",
-                "min": "0.000800",
+                "min": "0.001200",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
