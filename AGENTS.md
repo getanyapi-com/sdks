@@ -27,3 +27,16 @@ for catalog refreshes.
 The rule is about the COMMIT, not about who is doing the work: never tag a commit that is not
 merged to `main`, because the published artifact would not match the repository's history.
 Tagging a merged commit is the normal release path and an agent may run it.
+
+Accepting a blocked refresh:
+
+When `regen.yml` blocks a batch it still prepares the whole release: the regenerated tree,
+committed as `chore(release): catalog refresh v<X.Y.Z>` with all three version surfaces
+bumped, force-pushed to the fixed `catalog-refresh` branch. Nothing is tagged or published.
+Review it at `https://github.com/getanyapi-com/sdks/compare/main...catalog-refresh` alongside
+the blocked items named in the incident issue. To accept, press "Run workflow" on
+`.github/workflows/accept-catalog-refresh.yml` (or run
+`gh workflow run accept-catalog-refresh.yml -R getanyapi-com/sdks`); it re-checks the version
+surfaces, fast-forwards `main`, pushes the tag, dispatches `release.yml`, and closes the
+incident issue. To reject, do nothing: the next run overwrites the candidate. There is no
+local step, and no PR, because this enterprise forbids Actions from opening one.
