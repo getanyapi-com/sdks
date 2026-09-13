@@ -26883,10 +26883,10 @@
       "category": "search",
       "description": "Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.",
       "pricing": {
-        "priceUsd": 0.0007,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.00336,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.0033,
+        "perItemUnit": "result"
       },
       "tsNamespace": "google",
       "tsMethod": "aiMode",
@@ -28071,7 +28071,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60108,6 +60108,16 @@
               "default": null,
               "format": null
             },
+            "isArchived": {
+              "kind": "boolean",
+              "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+              "default": null
+            },
+            "isLocked": {
+              "kind": "boolean",
+              "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+              "default": null
+            },
             "isNsfw": {
               "kind": "boolean",
               "description": "True when the post is marked NSFW (over 18).",
@@ -60202,7 +60212,7 @@
       "category": "social",
       "description": "List the top-level comments on a Reddit post by URL (author, body, score, timestamp).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60703,7 +60713,7 @@
       "category": "social",
       "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60815,6 +60825,16 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "isArchived": {
+                    "kind": "boolean",
+                    "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
+                  },
+                  "isLocked": {
+                    "kind": "boolean",
+                    "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
                   },
                   "media": {
                     "kind": "array",
@@ -60963,7 +60983,7 @@
       "category": "social",
       "description": "Fetch a subreddit's metadata (weekly active users, description, and category).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61092,7 +61112,7 @@
       "category": "social",
       "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61218,6 +61238,16 @@
                     "default": null,
                     "format": null
                   },
+                  "isArchived": {
+                    "kind": "boolean",
+                    "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
+                  },
+                  "isLocked": {
+                    "kind": "boolean",
+                    "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
+                  },
                   "numComments": {
                     "kind": "integer",
                     "description": "Total number of comments on the post.",
@@ -61319,7 +61349,7 @@
       "category": "social",
       "description": "Search posts within a single subreddit by query, sort, and timeframe.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61426,6 +61456,16 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "isArchived": {
+                    "kind": "boolean",
+                    "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
+                  },
+                  "isLocked": {
+                    "kind": "boolean",
+                    "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
                   },
                   "nsfw": {
                     "kind": "boolean",
@@ -61616,6 +61656,16 @@
                     "default": null,
                     "format": null
                   },
+                  "isArchived": {
+                    "kind": "boolean",
+                    "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
+                  },
+                  "isLocked": {
+                    "kind": "boolean",
+                    "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
+                  },
                   "numComments": {
                     "kind": "integer",
                     "description": "Total number of comments on the post.",
@@ -61717,7 +61767,7 @@
       "category": "social",
       "description": "List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61900,7 +61950,7 @@
       "category": "social",
       "description": "List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61997,6 +62047,16 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "isArchived": {
+                    "kind": "boolean",
+                    "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
+                  },
+                  "isLocked": {
+                    "kind": "boolean",
+                    "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                    "default": null
                   },
                   "media": {
                     "kind": "array",
@@ -68376,11 +68436,11 @@
       "operationId": "substack_posts",
       "name": "Substack Posts",
       "category": "social",
-      "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.",
+      "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the full article body as text, HTML and Markdown, and optional comment threads.",
       "pricing": {
-        "priceUsd": 0.178,
-        "baseUsd": 0.0055,
-        "perItemUsd": 0.00172,
+        "priceUsd": 0.0444,
+        "baseUsd": 0.00039,
+        "perItemUsd": 0.00044,
         "perItemUnit": "result"
       },
       "tsNamespace": "substack",
@@ -68417,9 +68477,14 @@
             "default": null,
             "format": null
           },
+          "includeComments": {
+            "kind": "boolean",
+            "description": "Include public comment threads and their direct replies on each post (e.g. true).",
+            "default": false
+          },
           "includeContent": {
             "kind": "boolean",
-            "description": "Include the full article body as HTML. Set false for metadata only (e.g. false).",
+            "description": "Include the full article body as text, HTML and Markdown. Set false for metadata only, which is faster (e.g. false).",
             "default": true
           },
           "limit": {
@@ -68427,6 +68492,34 @@
             "description": "Maximum number of recent posts to return when given a publication URL (1-100, default 25); ignored for a single post URL, which always returns that one post. You are billed per post returned, so a lower limit costs less.",
             "minimum": 1,
             "maximum": 100,
+            "default": null
+          },
+          "maxComments": {
+            "kind": "integer",
+            "description": "Maximum comments collected per post when 'includeComments' is true (0-500, default 20). Costs nothing extra (e.g. 50).",
+            "minimum": 0,
+            "maximum": 500,
+            "default": null
+          },
+          "minComments": {
+            "kind": "integer",
+            "description": "Only return posts with at least this many comments (e.g. 10).",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minReactions": {
+            "kind": "integer",
+            "description": "Only return posts with at least this many reactions (e.g. 100).",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minWordCount": {
+            "kind": "integer",
+            "description": "Only return posts with at least this many words, which filters out short notes and announcements (e.g. 1000).",
+            "minimum": 0,
+            "maximum": null,
             "default": null
           },
           "onlyFree": {
@@ -68468,16 +68561,30 @@
           "properties": {
             "items": {
               "kind": "array",
-              "description": "Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested. Populated whenever the provider has data for the entity.",
+              "description": "Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the article body as text, HTML and Markdown, and comment threads when requested. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
-                  "authorHandle": {
+                  "authorBio": {
                     "kind": "string",
-                    "description": "Handle of the post author. Populated whenever the provider has data for the entity.",
+                    "description": "Author bio as shown on their Substack profile.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "authorHandle": {
+                    "kind": "string",
+                    "description": "Substack handle of the post author. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Profile photo URL of the post author.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
                   },
                   "authorName": {
                     "kind": "string",
@@ -68486,12 +68593,214 @@
                     "default": null,
                     "format": null
                   },
+                  "authorUrl": {
+                    "kind": "string",
+                    "description": "Substack profile URL of the post author.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
                   "commentCount": {
                     "kind": "integer",
-                    "description": "Number of comments on the post.",
+                    "description": "Number of top-level comments on the post.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "comments": {
+                    "kind": "array",
+                    "description": "Top-level comment threads on the post, each with its direct replies. Empty unless 'includeComments' is true. Replies nested more than one level deep are not returned.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "authorHandle": {
+                          "kind": "string",
+                          "description": "Substack handle of the comment author.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "authorImage": {
+                          "kind": "string",
+                          "description": "Profile photo URL of the comment author.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "authorName": {
+                          "kind": "string",
+                          "description": "Display name of the comment author.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "authorUrl": {
+                          "kind": "string",
+                          "description": "Substack profile URL of the comment author.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "commentId": {
+                          "kind": "string",
+                          "description": "Substack comment identifier.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "createdUtc": {
+                          "kind": "number",
+                          "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "editedUtc": {
+                          "kind": "number",
+                          "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "isAuthor": {
+                          "kind": "boolean",
+                          "description": "Whether the comment was written by the post author.",
+                          "default": null
+                        },
+                        "isPinned": {
+                          "kind": "boolean",
+                          "description": "Whether the comment is pinned by the publication.",
+                          "default": null
+                        },
+                        "reactionCount": {
+                          "kind": "integer",
+                          "description": "Number of reactions on the comment.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "replies": {
+                          "kind": "array",
+                          "description": "Direct replies to this comment.",
+                          "items": {
+                            "kind": "object",
+                            "properties": {
+                              "authorHandle": {
+                                "kind": "string",
+                                "description": "Substack handle of the reply author.",
+                                "enum": null,
+                                "default": null,
+                                "format": null
+                              },
+                              "authorImage": {
+                                "kind": "string",
+                                "description": "Profile photo URL of the reply author.",
+                                "enum": null,
+                                "default": null,
+                                "format": "uri"
+                              },
+                              "authorName": {
+                                "kind": "string",
+                                "description": "Display name of the reply author.",
+                                "enum": null,
+                                "default": null,
+                                "format": null
+                              },
+                              "authorUrl": {
+                                "kind": "string",
+                                "description": "Substack profile URL of the reply author.",
+                                "enum": null,
+                                "default": null,
+                                "format": "uri"
+                              },
+                              "commentId": {
+                                "kind": "string",
+                                "description": "Substack comment identifier.",
+                                "enum": null,
+                                "default": null,
+                                "format": null
+                              },
+                              "createdUtc": {
+                                "kind": "number",
+                                "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                "minimum": null,
+                                "maximum": null,
+                                "default": null
+                              },
+                              "editedUtc": {
+                                "kind": "number",
+                                "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                "minimum": null,
+                                "maximum": null,
+                                "default": null
+                              },
+                              "isAuthor": {
+                                "kind": "boolean",
+                                "description": "Whether the reply was written by the post author.",
+                                "default": null
+                              },
+                              "isPinned": {
+                                "kind": "boolean",
+                                "description": "Whether the reply is pinned by the publication.",
+                                "default": null
+                              },
+                              "reactionCount": {
+                                "kind": "integer",
+                                "description": "Number of reactions on the reply.",
+                                "minimum": null,
+                                "maximum": null,
+                                "default": null
+                              },
+                              "restackCount": {
+                                "kind": "integer",
+                                "description": "Number of times the reply was restacked.",
+                                "minimum": null,
+                                "maximum": null,
+                                "default": null
+                              },
+                              "text": {
+                                "kind": "string",
+                                "description": "Reply body text.",
+                                "enum": null,
+                                "default": null,
+                                "format": null
+                              }
+                            },
+                            "required": [
+                              "commentId"
+                            ],
+                            "open": true
+                          },
+                          "mustPopulate": false
+                        },
+                        "restackCount": {
+                          "kind": "integer",
+                          "description": "Number of times the comment was restacked.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "text": {
+                          "kind": "string",
+                          "description": "Comment body text.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "commentId"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "contentStatus": {
+                    "kind": "string",
+                    "description": "How much of the article body this record carries: 'full' for the whole article, 'preview_only' for the public excerpt of a paywalled post, 'metadata_only' when no body was requested or available, or 'failed' when extraction failed. Read this before trusting 'text', 'html', or 'markdown'. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "createdUtc": {
                     "kind": "number",
@@ -68502,22 +68811,55 @@
                   },
                   "description": {
                     "kind": "string",
-                    "description": "Post description or article HTML/summary. Populated whenever the provider has data for the entity.",
+                    "description": "Short post description, usually the subtitle or an excerpt.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "hasVoiceover": {
+                    "kind": "boolean",
+                    "description": "Whether the post carries a narrated audio version.",
+                    "default": null
+                  },
+                  "html": {
+                    "kind": "string",
+                    "description": "Article body as HTML. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "image": {
                     "kind": "string",
-                    "description": "Cover image URL. Populated whenever the provider has data for the entity.",
+                    "description": "Cover image URL.",
                     "enum": null,
                     "default": null,
-                    "format": null
+                    "format": "uri"
                   },
                   "isPaid": {
                     "kind": "boolean",
                     "description": "Whether the post is behind a paywall.",
                     "default": null
+                  },
+                  "language": {
+                    "kind": "string",
+                    "description": "Two-letter language code of the post.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "markdown": {
+                    "kind": "string",
+                    "description": "Article body as Markdown. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "podcastUrl": {
+                    "kind": "string",
+                    "description": "Audio URL for a podcast post or a narrated voiceover, when the post has one.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
                   },
                   "postId": {
                     "kind": "string",
@@ -68528,21 +68870,125 @@
                   },
                   "postType": {
                     "kind": "string",
-                    "description": "Post type (e.g. newsletter, podcast, thread). Populated whenever the provider has data for the entity.",
+                    "description": "Post type (newsletter, podcast, or thread). Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
+                  "publication": {
+                    "kind": "object",
+                    "description": "The publication the post belongs to.",
+                    "properties": {
+                      "customDomain": {
+                        "kind": "string",
+                        "description": "Custom domain the publication is served on, when it has one.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "description": {
+                        "kind": "string",
+                        "description": "Publication tagline or hero text.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "id": {
+                        "kind": "string",
+                        "description": "Substack publication identifier.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "image": {
+                        "kind": "string",
+                        "description": "Publication logo URL.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "language": {
+                        "kind": "string",
+                        "description": "Two-letter language code of the publication.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "name": {
+                        "kind": "string",
+                        "description": "Publication name.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "paymentsEnabled": {
+                        "kind": "boolean",
+                        "description": "Whether the publication sells paid subscriptions.",
+                        "default": null
+                      },
+                      "subdomain": {
+                        "kind": "string",
+                        "description": "Publication subdomain on substack.com.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "subscriberCount": {
+                        "kind": "integer",
+                        "description": "Subscriber count, when the publication publishes it.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "url": {
+                        "kind": "string",
+                        "description": "Publication home URL.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
                   "reactionCount": {
                     "kind": "integer",
-                    "description": "Number of reactions on the post.",
+                    "description": "Number of reactions (likes) on the post.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
+                  "replyCount": {
+                    "kind": "integer",
+                    "description": "Number of replies to comments on the post.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "restackCount": {
+                    "kind": "integer",
+                    "description": "Number of times the post was restacked.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "slug": {
+                    "kind": "string",
+                    "description": "Post slug, the last path segment of the post URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "subtitle": {
                     "kind": "string",
-                    "description": "Post subtitle or deck. Populated whenever the provider has data for the entity.",
+                    "description": "Post subtitle or deck.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Article body as plain text. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -68554,12 +69000,19 @@
                     "default": null,
                     "format": null
                   },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "url": {
                     "kind": "string",
                     "description": "Canonical post URL. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
-                    "format": null
+                    "format": "uri"
                   },
                   "wordcount": {
                     "kind": "integer",
@@ -68577,12 +69030,11 @@
                 "mustPopulate": [
                   "authorHandle",
                   "authorName",
+                  "contentStatus",
                   "createdUtc",
-                  "description",
-                  "image",
                   "postId",
                   "postType",
-                  "subtitle",
+                  "slug",
                   "title",
                   "url"
                 ]
@@ -71605,7 +72057,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -74217,7 +74669,7 @@
       "category": "social",
       "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -83580,7 +84032,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

@@ -57543,7 +57543,6 @@
                                         ],
                                         "type": "object"
                                       },
-                                      "minItems": 1,
                                       "type": "array",
                                       "x-anyapi-must-populate": true
                                     },
@@ -57572,7 +57571,8 @@
                             "data"
                           ],
                           "title": "Gemini Search output",
-                          "type": "object"
+                          "type": "object",
+                          "x-anyapi-empty-fails-over": true
                         },
                         {
                           "type": "null"
@@ -63792,7 +63792,7 @@
     },
     "/v1/run/google.ai_mode": {
       "post": {
-        "description": "Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Mode pricing and uptime](https://getanyapi.com/api/google/ai-mode) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$3.30 per 1,000 results, capped at \\$3.36 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Mode pricing and uptime](https://getanyapi.com/api/google/ai-mode) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_mode",
         "parameters": [
           {
@@ -64194,7 +64194,7 @@
           "price": {
             "currency": "USD",
             "max": "0.003360",
-            "min": "0.000700",
+            "min": "0.000060",
             "mode": "dynamic"
           },
           "protocols": [
@@ -64270,7 +64270,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.003360",
-                "min": "0.000700",
+                "min": "0.000060",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -67949,7 +67949,7 @@
     },
     "/v1/run/google.search": {
       "post": {
-        "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Search pricing and uptime](https://getanyapi.com/api/google/search) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Search pricing and uptime](https://getanyapi.com/api/google/search) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_search",
         "parameters": [
           {
@@ -68400,9 +68400,10 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000900",
             "currency": "USD",
-            "mode": "fixed"
+            "max": "0.000900",
+            "min": "0.000500",
+            "mode": "dynamic"
           },
           "protocols": [
             {
@@ -68442,10 +68443,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001000",
                 "currency": "USD",
+                "max": "0.001000",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -68474,10 +68476,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000900",
                 "currency": "USD",
+                "max": "0.000900",
+                "min": "0.000500",
                 "minimumUsd": null,
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
               },
               "protocol": {
@@ -132895,6 +132898,14 @@
                                       "description": "Preview image for the post, when Reddit generated one. Reddit signs this URL and it is time-limited, so fetch it promptly rather than storing it; the query string carries the signature and must be kept intact. Empty when the post has no preview image.",
                                       "type": "string"
                                     },
+                                    "isArchived": {
+                                      "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                      "type": "boolean"
+                                    },
+                                    "isLocked": {
+                                      "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                      "type": "boolean"
+                                    },
                                     "isNsfw": {
                                       "description": "True when the post is marked NSFW (over 18).",
                                       "type": "boolean"
@@ -133276,7 +133287,7 @@
     },
     "/v1/run/reddit.post_comments": {
       "post": {
-        "description": "List the top-level comments on a Reddit post by URL (author, body, score, timestamp).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Post Comments pricing and uptime](https://getanyapi.com/api/reddit/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "List the top-level comments on a Reddit post by URL (author, body, score, timestamp).\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Post Comments pricing and uptime](https://getanyapi.com/api/reddit/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_post_comments",
         "parameters": [
           {
@@ -133725,8 +133736,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.018000",
-            "min": "0.001200",
+            "max": "0.001200",
+            "min": "0.000900",
             "mode": "dynamic"
           },
           "protocols": [
@@ -133768,8 +133779,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.018000",
-                "min": "0.001200",
+                "max": "0.001200",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -133801,8 +133812,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.018000",
-                "min": "0.001200",
+                "max": "0.001200",
+                "min": "0.000900",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -134866,7 +134877,7 @@
     },
     "/v1/run/reddit.search": {
       "post": {
-        "description": "Search Reddit posts across all subreddits by query.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Search pricing and uptime](https://getanyapi.com/api/reddit/search) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Search Reddit posts across all subreddits by query.\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Search pricing and uptime](https://getanyapi.com/api/reddit/search) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_search",
         "parameters": [
           {
@@ -135047,6 +135058,14 @@
                                             "description": "Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
+                                          },
+                                          "isArchived": {
+                                            "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
+                                          },
+                                          "isLocked": {
+                                            "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
                                           },
                                           "media": {
                                             "description": "Photo, video, and GIF attachments on the post. Empty when the post has none.",
@@ -135362,8 +135381,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.003600",
-            "min": "0.000500",
+            "max": "0.001200",
+            "min": "0.000450",
             "mode": "dynamic"
           },
           "protocols": [
@@ -135405,7 +135424,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
+                "max": "0.001200",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -135438,8 +135457,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
-                "min": "0.000500",
+                "max": "0.001200",
+                "min": "0.000450",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -135467,7 +135486,7 @@
     },
     "/v1/run/reddit.subreddit_details": {
       "post": {
-        "description": "Fetch a subreddit's metadata (weekly active users, description, and category).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Details pricing and uptime](https://getanyapi.com/api/reddit/subreddit-details) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Fetch a subreddit's metadata (weekly active users, description, and category).\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Details pricing and uptime](https://getanyapi.com/api/reddit/subreddit-details) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_subreddit_details",
         "parameters": [
           {
@@ -135866,8 +135885,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.003600",
-            "min": "0.001200",
+            "max": "0.001200",
+            "min": "0.000450",
             "mode": "dynamic"
           },
           "protocols": [
@@ -135909,8 +135928,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
-                "min": "0.001200",
+                "max": "0.001200",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -135942,8 +135961,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
-                "min": "0.001200",
+                "max": "0.001200",
+                "min": "0.000450",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -135971,7 +135990,7 @@
     },
     "/v1/run/reddit.subreddit_posts": {
       "post": {
-        "description": "Fetch posts from a subreddit listing (hot, new, or top).\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Posts pricing and uptime](https://getanyapi.com/api/reddit/subreddit-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Fetch posts from a subreddit listing (hot, new, or top).\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Posts pricing and uptime](https://getanyapi.com/api/reddit/subreddit-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_subreddit_posts",
         "parameters": [
           {
@@ -136164,6 +136183,14 @@
                                             "description": "Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
+                                          },
+                                          "isArchived": {
+                                            "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
+                                          },
+                                          "isLocked": {
+                                            "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
                                           },
                                           "numComments": {
                                             "description": "Total number of comments on the post.",
@@ -136447,7 +136474,7 @@
           "price": {
             "currency": "USD",
             "max": "0.001200",
-            "min": "0.000500",
+            "min": "0.000450",
             "mode": "dynamic"
           },
           "protocols": [
@@ -136523,7 +136550,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.001200",
-                "min": "0.000500",
+                "min": "0.000450",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -136551,7 +136578,7 @@
     },
     "/v1/run/reddit.subreddit_search": {
       "post": {
-        "description": "Search posts within a single subreddit by query, sort, and timeframe.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Search pricing and uptime](https://getanyapi.com/api/reddit/subreddit-search) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Search posts within a single subreddit by query, sort, and timeframe.\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Search pricing and uptime](https://getanyapi.com/api/reddit/subreddit-search) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_subreddit_search",
         "parameters": [
           {
@@ -136723,6 +136750,14 @@
                                             "description": "Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
+                                          },
+                                          "isArchived": {
+                                            "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
+                                          },
+                                          "isLocked": {
+                                            "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
                                           },
                                           "nsfw": {
                                             "description": "Whether the post is marked NSFW (over 18).",
@@ -137010,8 +137045,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.003600",
-            "min": "0.000500",
+            "max": "0.001200",
+            "min": "0.000450",
             "mode": "dynamic"
           },
           "protocols": [
@@ -137053,7 +137088,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
+                "max": "0.001200",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -137086,8 +137121,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003600",
-                "min": "0.000500",
+                "max": "0.001200",
+                "min": "0.000450",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -137273,6 +137308,14 @@
                                             "description": "Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
+                                          },
+                                          "isArchived": {
+                                            "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
+                                          },
+                                          "isLocked": {
+                                            "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
                                           },
                                           "numComments": {
                                             "description": "Total number of comments on the post.",
@@ -137657,7 +137700,7 @@
     },
     "/v1/run/reddit.user_comments": {
       "post": {
-        "description": "List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Reddit User Comments pricing and uptime](https://getanyapi.com/api/reddit/user-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit User Comments pricing and uptime](https://getanyapi.com/api/reddit/user-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_user_comments",
         "parameters": [
           {
@@ -138102,9 +138145,10 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001200",
             "currency": "USD",
-            "mode": "fixed"
+            "max": "0.001200",
+            "min": "0.000900",
+            "mode": "dynamic"
           },
           "protocols": [
             {
@@ -138144,10 +138188,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
                 "currency": "USD",
+                "max": "0.001200",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -138176,10 +138221,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
                 "currency": "USD",
+                "max": "0.001200",
+                "min": "0.000900",
                 "minimumUsd": null,
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
               },
               "protocol": {
@@ -138205,7 +138251,7 @@
     },
     "/v1/run/reddit.user_posts": {
       "post": {
-        "description": "List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit User Posts pricing and uptime](https://getanyapi.com/api/reddit/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit User Posts pricing and uptime](https://getanyapi.com/api/reddit/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_user_posts",
         "parameters": [
           {
@@ -138377,6 +138423,14 @@
                                             "description": "Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
+                                          },
+                                          "isArchived": {
+                                            "description": "True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
+                                          },
+                                          "isLocked": {
+                                            "description": "True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+                                            "type": "boolean"
                                           },
                                           "media": {
                                             "description": "Photo, video, and GIF attachments on the post. Empty when the post has none.",
@@ -138690,7 +138744,7 @@
           "price": {
             "currency": "USD",
             "max": "0.001200",
-            "min": "0.000500",
+            "min": "0.000450",
             "mode": "dynamic"
           },
           "protocols": [
@@ -138766,7 +138820,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.001200",
-                "min": "0.000500",
+                "min": "0.000450",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -156830,7 +156884,7 @@
     },
     "/v1/run/substack.posts": {
       "post": {
-        "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.\n\n**Price:** billed per result - \\$5.50 per 1,000 requests base + \\$1.72 per 1,000 results, capped at \\$178.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Substack Posts pricing and uptime](https://getanyapi.com/api/substack/posts) - live USD price, lane routing, and measured 30-day uptime. [Every Substack endpoint](https://getanyapi.com/api/substack).",
+        "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the full article body as text, HTML and Markdown, and optional comment threads.\n\n**Price:** billed per result - \\$0.39 per 1,000 requests base + \\$0.44 per 1,000 results, capped at \\$44.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Substack Posts pricing and uptime](https://getanyapi.com/api/substack/posts) - live USD price, lane routing, and measured 30-day uptime. [Every Substack endpoint](https://getanyapi.com/api/substack).",
         "operationId": "substack_posts",
         "parameters": [
           {
@@ -156920,15 +156974,41 @@
                     "description": "Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2024-12-31). Applied within the most recent 'limit' posts scanned.",
                     "type": "string"
                   },
+                  "includeComments": {
+                    "default": false,
+                    "description": "Include public comment threads and their direct replies on each post (e.g. true).",
+                    "type": "boolean"
+                  },
                   "includeContent": {
                     "default": true,
-                    "description": "Include the full article body as HTML. Set false for metadata only (e.g. false).",
+                    "description": "Include the full article body as text, HTML and Markdown. Set false for metadata only, which is faster (e.g. false).",
                     "type": "boolean"
                   },
                   "limit": {
                     "description": "Maximum number of recent posts to return when given a publication URL (1-100, default 25); ignored for a single post URL, which always returns that one post. You are billed per post returned, so a lower limit costs less.",
                     "maximum": 100,
                     "minimum": 1,
+                    "type": "integer"
+                  },
+                  "maxComments": {
+                    "description": "Maximum comments collected per post when 'includeComments' is true (0-500, default 20). Costs nothing extra (e.g. 50).",
+                    "maximum": 500,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "minComments": {
+                    "description": "Only return posts with at least this many comments (e.g. 10).",
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "minReactions": {
+                    "description": "Only return posts with at least this many reactions (e.g. 100).",
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "minWordCount": {
+                    "description": "Only return posts with at least this many words, which filters out short notes and announcements (e.g. 1000).",
+                    "minimum": 0,
                     "type": "integer"
                   },
                   "onlyFree": {
@@ -156997,22 +157077,165 @@
                                   "additionalProperties": false,
                                   "properties": {
                                     "items": {
-                                      "description": "Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested. Populated whenever the provider has data for the entity.",
+                                      "description": "Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the article body as text, HTML and Markdown, and comment threads when requested. Populated whenever the provider has data for the entity.",
                                       "items": {
                                         "properties": {
+                                          "authorBio": {
+                                            "description": "Author bio as shown on their Substack profile.",
+                                            "type": "string"
+                                          },
                                           "authorHandle": {
-                                            "description": "Handle of the post author. Populated whenever the provider has data for the entity.",
+                                            "description": "Substack handle of the post author. Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
+                                          },
+                                          "authorImage": {
+                                            "description": "Profile photo URL of the post author.",
+                                            "format": "uri",
+                                            "type": "string"
                                           },
                                           "authorName": {
                                             "description": "Display name of the post author. Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
                                           },
+                                          "authorUrl": {
+                                            "description": "Substack profile URL of the post author.",
+                                            "format": "uri",
+                                            "type": "string"
+                                          },
                                           "commentCount": {
-                                            "description": "Number of comments on the post.",
+                                            "description": "Number of top-level comments on the post.",
                                             "type": "integer"
+                                          },
+                                          "comments": {
+                                            "description": "Top-level comment threads on the post, each with its direct replies. Empty unless 'includeComments' is true. Replies nested more than one level deep are not returned.",
+                                            "items": {
+                                              "properties": {
+                                                "authorHandle": {
+                                                  "description": "Substack handle of the comment author.",
+                                                  "type": "string"
+                                                },
+                                                "authorImage": {
+                                                  "description": "Profile photo URL of the comment author.",
+                                                  "format": "uri",
+                                                  "type": "string"
+                                                },
+                                                "authorName": {
+                                                  "description": "Display name of the comment author.",
+                                                  "type": "string"
+                                                },
+                                                "authorUrl": {
+                                                  "description": "Substack profile URL of the comment author.",
+                                                  "format": "uri",
+                                                  "type": "string"
+                                                },
+                                                "commentId": {
+                                                  "description": "Substack comment identifier.",
+                                                  "type": "string"
+                                                },
+                                                "createdUtc": {
+                                                  "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                                  "type": "number"
+                                                },
+                                                "editedUtc": {
+                                                  "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                                  "type": "number"
+                                                },
+                                                "isAuthor": {
+                                                  "description": "Whether the comment was written by the post author.",
+                                                  "type": "boolean"
+                                                },
+                                                "isPinned": {
+                                                  "description": "Whether the comment is pinned by the publication.",
+                                                  "type": "boolean"
+                                                },
+                                                "reactionCount": {
+                                                  "description": "Number of reactions on the comment.",
+                                                  "type": "integer"
+                                                },
+                                                "replies": {
+                                                  "description": "Direct replies to this comment.",
+                                                  "items": {
+                                                    "properties": {
+                                                      "authorHandle": {
+                                                        "description": "Substack handle of the reply author.",
+                                                        "type": "string"
+                                                      },
+                                                      "authorImage": {
+                                                        "description": "Profile photo URL of the reply author.",
+                                                        "format": "uri",
+                                                        "type": "string"
+                                                      },
+                                                      "authorName": {
+                                                        "description": "Display name of the reply author.",
+                                                        "type": "string"
+                                                      },
+                                                      "authorUrl": {
+                                                        "description": "Substack profile URL of the reply author.",
+                                                        "format": "uri",
+                                                        "type": "string"
+                                                      },
+                                                      "commentId": {
+                                                        "description": "Substack comment identifier.",
+                                                        "type": "string"
+                                                      },
+                                                      "createdUtc": {
+                                                        "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                                        "type": "number"
+                                                      },
+                                                      "editedUtc": {
+                                                        "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                                        "type": "number"
+                                                      },
+                                                      "isAuthor": {
+                                                        "description": "Whether the reply was written by the post author.",
+                                                        "type": "boolean"
+                                                      },
+                                                      "isPinned": {
+                                                        "description": "Whether the reply is pinned by the publication.",
+                                                        "type": "boolean"
+                                                      },
+                                                      "reactionCount": {
+                                                        "description": "Number of reactions on the reply.",
+                                                        "type": "integer"
+                                                      },
+                                                      "restackCount": {
+                                                        "description": "Number of times the reply was restacked.",
+                                                        "type": "integer"
+                                                      },
+                                                      "text": {
+                                                        "description": "Reply body text.",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "commentId"
+                                                    ],
+                                                    "type": "object"
+                                                  },
+                                                  "type": "array"
+                                                },
+                                                "restackCount": {
+                                                  "description": "Number of times the comment was restacked.",
+                                                  "type": "integer"
+                                                },
+                                                "text": {
+                                                  "description": "Comment body text.",
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": [
+                                                "commentId"
+                                              ],
+                                              "type": "object"
+                                            },
+                                            "type": "array"
+                                          },
+                                          "contentStatus": {
+                                            "description": "How much of the article body this record carries: 'full' for the whole article, 'preview_only' for the public excerpt of a paywalled post, 'metadata_only' when no body was requested or available, or 'failed' when extraction failed. Read this before trusting 'text', 'html', or 'markdown'. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
                                           },
                                           "createdUtc": {
                                             "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -157020,18 +157243,38 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "description": {
-                                            "description": "Post description or article HTML/summary. Populated whenever the provider has data for the entity.",
-                                            "type": "string",
-                                            "x-anyapi-must-populate": true
+                                            "description": "Short post description, usually the subtitle or an excerpt.",
+                                            "type": "string"
+                                          },
+                                          "hasVoiceover": {
+                                            "description": "Whether the post carries a narrated audio version.",
+                                            "type": "boolean"
+                                          },
+                                          "html": {
+                                            "description": "Article body as HTML. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.",
+                                            "type": "string"
                                           },
                                           "image": {
-                                            "description": "Cover image URL. Populated whenever the provider has data for the entity.",
-                                            "type": "string",
-                                            "x-anyapi-must-populate": true
+                                            "description": "Cover image URL.",
+                                            "format": "uri",
+                                            "type": "string"
                                           },
                                           "isPaid": {
                                             "description": "Whether the post is behind a paywall.",
                                             "type": "boolean"
+                                          },
+                                          "language": {
+                                            "description": "Two-letter language code of the post.",
+                                            "type": "string"
+                                          },
+                                          "markdown": {
+                                            "description": "Article body as Markdown. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.",
+                                            "type": "string"
+                                          },
+                                          "podcastUrl": {
+                                            "description": "Audio URL for a podcast post or a narrated voiceover, when the post has one.",
+                                            "format": "uri",
+                                            "type": "string"
                                           },
                                           "postId": {
                                             "description": "Substack post identifier. Populated whenever the provider has data for the entity.",
@@ -157039,26 +157282,95 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "postType": {
-                                            "description": "Post type (e.g. newsletter, podcast, thread). Populated whenever the provider has data for the entity.",
+                                            "description": "Post type (newsletter, podcast, or thread). Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
+                                          },
+                                          "publication": {
+                                            "description": "The publication the post belongs to.",
+                                            "properties": {
+                                              "customDomain": {
+                                                "description": "Custom domain the publication is served on, when it has one.",
+                                                "type": "string"
+                                              },
+                                              "description": {
+                                                "description": "Publication tagline or hero text.",
+                                                "type": "string"
+                                              },
+                                              "id": {
+                                                "description": "Substack publication identifier.",
+                                                "type": "string"
+                                              },
+                                              "image": {
+                                                "description": "Publication logo URL.",
+                                                "format": "uri",
+                                                "type": "string"
+                                              },
+                                              "language": {
+                                                "description": "Two-letter language code of the publication.",
+                                                "type": "string"
+                                              },
+                                              "name": {
+                                                "description": "Publication name.",
+                                                "type": "string"
+                                              },
+                                              "paymentsEnabled": {
+                                                "description": "Whether the publication sells paid subscriptions.",
+                                                "type": "boolean"
+                                              },
+                                              "subdomain": {
+                                                "description": "Publication subdomain on substack.com.",
+                                                "type": "string"
+                                              },
+                                              "subscriberCount": {
+                                                "description": "Subscriber count, when the publication publishes it.",
+                                                "type": "integer"
+                                              },
+                                              "url": {
+                                                "description": "Publication home URL.",
+                                                "format": "uri",
+                                                "type": "string"
+                                              }
+                                            },
+                                            "type": "object"
                                           },
                                           "reactionCount": {
-                                            "description": "Number of reactions on the post.",
+                                            "description": "Number of reactions (likes) on the post.",
                                             "type": "integer"
                                           },
-                                          "subtitle": {
-                                            "description": "Post subtitle or deck. Populated whenever the provider has data for the entity.",
+                                          "replyCount": {
+                                            "description": "Number of replies to comments on the post.",
+                                            "type": "integer"
+                                          },
+                                          "restackCount": {
+                                            "description": "Number of times the post was restacked.",
+                                            "type": "integer"
+                                          },
+                                          "slug": {
+                                            "description": "Post slug, the last path segment of the post URL. Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
+                                          },
+                                          "subtitle": {
+                                            "description": "Post subtitle or deck.",
+                                            "type": "string"
+                                          },
+                                          "text": {
+                                            "description": "Article body as plain text. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.",
+                                            "type": "string"
                                           },
                                           "title": {
                                             "description": "Post title. Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
                                           },
+                                          "updatedUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": "number"
+                                          },
                                           "url": {
                                             "description": "Canonical post URL. Populated whenever the provider has data for the entity.",
+                                            "format": "uri",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
                                           },
@@ -157094,7 +157406,8 @@
                             "data"
                           ],
                           "title": "Substack posts output",
-                          "type": "object"
+                          "type": "object",
+                          "x-anyapi-heavy": true
                         },
                         {
                           "type": "null"
@@ -157308,8 +157621,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.178000",
-            "min": "0.005500",
+            "max": "0.044400",
+            "min": "0.000390",
             "mode": "dynamic"
           },
           "protocols": [
@@ -157351,8 +157664,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.178000",
-                "min": "0.005500",
+                "max": "0.044400",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -157384,8 +157697,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.178000",
-                "min": "0.005500",
+                "max": "0.044400",
+                "min": "0.000390",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -166147,7 +166460,7 @@
     },
     "/v1/run/tiktok.profile": {
       "post": {
-        "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile pricing and uptime](https://getanyapi.com/api/tiktok/profile) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile pricing and uptime](https://getanyapi.com/api/tiktok/profile) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile",
         "parameters": [
           {
@@ -166561,9 +166874,10 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001200",
             "currency": "USD",
-            "mode": "fixed"
+            "max": "0.001200",
+            "min": "0.000500",
+            "mode": "dynamic"
           },
           "protocols": [
             {
@@ -166603,10 +166917,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
                 "currency": "USD",
+                "max": "0.001200",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -166635,10 +166950,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
                 "currency": "USD",
+                "max": "0.001200",
+                "min": "0.000500",
                 "minimumUsd": null,
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
               },
               "protocol": {
@@ -173805,7 +174121,7 @@
     },
     "/v1/run/tiktok.video_comments": {
       "post": {
-        "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Comments pricing and uptime](https://getanyapi.com/api/tiktok/video-comments) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Comments pricing and uptime](https://getanyapi.com/api/tiktok/video-comments) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_video_comments",
         "parameters": [
           {
@@ -174218,7 +174534,7 @@
           "price": {
             "currency": "USD",
             "max": "0.003600",
-            "min": "0.001200",
+            "min": "0.000800",
             "mode": "dynamic"
           },
           "protocols": [
@@ -174261,7 +174577,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.003600",
-                "min": "0.001200",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -174294,7 +174610,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.003600",
-                "min": "0.001200",
+                "min": "0.000800",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"
@@ -201048,7 +201364,7 @@
     },
     "/v1/run/youtube.channel": {
       "post": {
-        "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Channel pricing and uptime](https://getanyapi.com/api/youtube/channel) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Channel pricing and uptime](https://getanyapi.com/api/youtube/channel) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_channel",
         "parameters": [
           {
@@ -201453,7 +201769,7 @@
           "price": {
             "currency": "USD",
             "max": "0.003600",
-            "min": "0.000500",
+            "min": "0.001200",
             "mode": "dynamic"
           },
           "protocols": [
@@ -201496,7 +201812,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.003600",
-                "min": "0.001000",
+                "min": "0.001200",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -201529,7 +201845,7 @@
               "pricing": {
                 "currency": "USD",
                 "max": "0.003600",
-                "min": "0.000500",
+                "min": "0.001200",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "funded_ceiling"

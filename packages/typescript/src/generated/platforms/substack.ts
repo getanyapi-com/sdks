@@ -21,7 +21,12 @@ export interface SubstackPostsInput {
    */
   endDate?: string;
   /**
-   * Include the full article body as HTML. Set false for metadata only (e.g. false).
+   * Include public comment threads and their direct replies on each post (e.g. true).
+   * Default: false.
+   */
+  includeComments?: boolean;
+  /**
+   * Include the full article body as text, HTML and Markdown. Set false for metadata only, which is faster (e.g. false).
    * Default: true.
    */
   includeContent?: boolean;
@@ -30,6 +35,26 @@ export interface SubstackPostsInput {
    * Range: minimum 1, maximum 100.
    */
   limit?: number;
+  /**
+   * Maximum comments collected per post when 'includeComments' is true (0-500, default 20). Costs nothing extra (e.g. 50).
+   * Range: minimum 0, maximum 500.
+   */
+  maxComments?: number;
+  /**
+   * Only return posts with at least this many comments (e.g. 10).
+   * Range: minimum 0.
+   */
+  minComments?: number;
+  /**
+   * Only return posts with at least this many reactions (e.g. 100).
+   * Range: minimum 0.
+   */
+  minReactions?: number;
+  /**
+   * Only return posts with at least this many words, which filters out short notes and announcements (e.g. 1000).
+   * Range: minimum 0.
+   */
+  minWordCount?: number;
   /**
    * Return only free (non-paywalled) posts (e.g. true).
    * Default: false.
@@ -52,32 +77,62 @@ export interface SubstackPostsInput {
 
 export interface SubstackPostsItem {
   /**
-   * Handle of the post author. Populated whenever the provider has data for the entity.
+   * Author bio as shown on their Substack profile.
+   */
+  authorBio?: string;
+  /**
+   * Substack handle of the post author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorHandle?: string;
+  /**
+   * Profile photo URL of the post author.
+   * Format: uri.
+   */
+  authorImage?: string;
   /**
    * Display name of the post author. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   authorName?: string;
   /**
-   * Number of comments on the post.
+   * Substack profile URL of the post author.
+   * Format: uri.
+   */
+  authorUrl?: string;
+  /**
+   * Number of top-level comments on the post.
    */
   commentCount?: number;
+  /**
+   * Top-level comment threads on the post, each with its direct replies. Empty unless 'includeComments' is true. Replies nested more than one level deep are not returned.
+   */
+  comments?: SubstackPostsComment[];
+  /**
+   * How much of the article body this record carries: 'full' for the whole article, 'preview_only' for the public excerpt of a paywalled post, 'metadata_only' when no body was requested or available, or 'failed' when extraction failed. Read this before trusting 'text', 'html', or 'markdown'. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  contentStatus?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
   /**
-   * Post description or article HTML/summary. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
+   * Short post description, usually the subtitle or an excerpt.
    */
   description?: string;
   /**
-   * Cover image URL. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
+   * Whether the post carries a narrated audio version.
+   */
+  hasVoiceover?: boolean;
+  /**
+   * Article body as HTML. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.
+   */
+  html?: string;
+  /**
+   * Cover image URL.
+   * Format: uri.
    */
   image?: string;
   /**
@@ -85,30 +140,111 @@ export interface SubstackPostsItem {
    */
   isPaid?: boolean;
   /**
+   * Two-letter language code of the post.
+   */
+  language?: string;
+  /**
+   * Article body as Markdown. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.
+   */
+  markdown?: string;
+  /**
+   * Audio URL for a podcast post or a narrated voiceover, when the post has one.
+   * Format: uri.
+   */
+  podcastUrl?: string;
+  /**
    * Substack post identifier. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   postId?: string;
   /**
-   * Post type (e.g. newsletter, podcast, thread). Populated whenever the provider has data for the entity.
+   * Post type (newsletter, podcast, or thread). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   postType?: string;
   /**
-   * Number of reactions on the post.
+   * The publication the post belongs to.
+   */
+  publication?: {
+    /**
+     * Custom domain the publication is served on, when it has one.
+     */
+    customDomain?: string;
+    /**
+     * Publication tagline or hero text.
+     */
+    description?: string;
+    /**
+     * Substack publication identifier.
+     */
+    id?: string;
+    /**
+     * Publication logo URL.
+     * Format: uri.
+     */
+    image?: string;
+    /**
+     * Two-letter language code of the publication.
+     */
+    language?: string;
+    /**
+     * Publication name.
+     */
+    name?: string;
+    /**
+     * Whether the publication sells paid subscriptions.
+     */
+    paymentsEnabled?: boolean;
+    /**
+     * Publication subdomain on substack.com.
+     */
+    subdomain?: string;
+    /**
+     * Subscriber count, when the publication publishes it.
+     */
+    subscriberCount?: number;
+    /**
+     * Publication home URL.
+     * Format: uri.
+     */
+    url?: string;
+  };
+  /**
+   * Number of reactions (likes) on the post.
    */
   reactionCount?: number;
   /**
-   * Post subtitle or deck. Populated whenever the provider has data for the entity.
+   * Number of replies to comments on the post.
+   */
+  replyCount?: number;
+  /**
+   * Number of times the post was restacked.
+   */
+  restackCount?: number;
+  /**
+   * Post slug, the last path segment of the post URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
+  slug?: string;
+  /**
+   * Post subtitle or deck.
+   */
   subtitle?: string;
+  /**
+   * Article body as plain text. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.
+   */
+  text?: string;
   /**
    * Post title. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  updatedUtc?: number;
+  /**
    * Canonical post URL. Populated whenever the provider has data for the entity.
+   * Format: uri.
    */
   url: string;
   /**
@@ -118,12 +254,124 @@ export interface SubstackPostsItem {
   [extra: string]: unknown;
 }
 
+export interface SubstackPostsComment {
+  /**
+   * Substack handle of the comment author.
+   */
+  authorHandle?: string;
+  /**
+   * Profile photo URL of the comment author.
+   * Format: uri.
+   */
+  authorImage?: string;
+  /**
+   * Display name of the comment author.
+   */
+  authorName?: string;
+  /**
+   * Substack profile URL of the comment author.
+   * Format: uri.
+   */
+  authorUrl?: string;
+  /**
+   * Substack comment identifier.
+   */
+  commentId: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  editedUtc?: number;
+  /**
+   * Whether the comment was written by the post author.
+   */
+  isAuthor?: boolean;
+  /**
+   * Whether the comment is pinned by the publication.
+   */
+  isPinned?: boolean;
+  /**
+   * Number of reactions on the comment.
+   */
+  reactionCount?: number;
+  /**
+   * Direct replies to this comment.
+   */
+  replies?: SubstackPostsReplie[];
+  /**
+   * Number of times the comment was restacked.
+   */
+  restackCount?: number;
+  /**
+   * Comment body text.
+   */
+  text?: string;
+  [extra: string]: unknown;
+}
+
+export interface SubstackPostsReplie {
+  /**
+   * Substack handle of the reply author.
+   */
+  authorHandle?: string;
+  /**
+   * Profile photo URL of the reply author.
+   * Format: uri.
+   */
+  authorImage?: string;
+  /**
+   * Display name of the reply author.
+   */
+  authorName?: string;
+  /**
+   * Substack profile URL of the reply author.
+   * Format: uri.
+   */
+  authorUrl?: string;
+  /**
+   * Substack comment identifier.
+   */
+  commentId: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  editedUtc?: number;
+  /**
+   * Whether the reply was written by the post author.
+   */
+  isAuthor?: boolean;
+  /**
+   * Whether the reply is pinned by the publication.
+   */
+  isPinned?: boolean;
+  /**
+   * Number of reactions on the reply.
+   */
+  reactionCount?: number;
+  /**
+   * Number of times the reply was restacked.
+   */
+  restackCount?: number;
+  /**
+   * Reply body text.
+   */
+  text?: string;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Substack Posts (substack.posts).
  */
 export interface SubstackPostsData {
   /**
-   * Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested. Populated whenever the provider has data for the entity.
+   * Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the article body as text, HTML and Markdown, and comment threads when requested. Populated whenever the provider has data for the entity.
    */
   items: SubstackPostsItem[];
 }
@@ -138,9 +386,9 @@ export class SubstackNamespace {
   /**
    * Substack Posts
    *
-   * Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, and full article HTML.
+   * Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the full article body as text, HTML and Markdown, and optional comment threads.
    *
-   * Price: $0.0055 per request plus $0.00172 per result (maximum $0.178).
+   * Price: $0.00039 per request plus $0.00044 per result (maximum $0.0444).
    *
    * @example
    * const res = await client.substack.posts({ url: "https://www.astralcodexten.com", limit: 3 });

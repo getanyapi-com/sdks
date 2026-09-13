@@ -22,10 +22,20 @@ class SubstackPostsInput(TypedDict, total=False):
     """Restrict to a single post type, or 'all' (e.g. newsletter). Default: all."""
     endDate: NotRequired[str]
     """Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2024-12-31). Applied within the most recent 'limit' posts scanned."""
+    includeComments: NotRequired[bool]
+    """Include public comment threads and their direct replies on each post (e.g. true). Default: false."""
     includeContent: NotRequired[bool]
-    """Include the full article body as HTML. Set false for metadata only (e.g. false). Default: true."""
+    """Include the full article body as text, HTML and Markdown. Set false for metadata only, which is faster (e.g. false). Default: true."""
     limit: NotRequired[int]
     """Maximum number of recent posts to return when given a publication URL (1-100, default 25); ignored for a single post URL, which always returns that one post. You are billed per post returned, so a lower limit costs less. Range: 1 to 100."""
+    maxComments: NotRequired[int]
+    """Maximum comments collected per post when 'includeComments' is true (0-500, default 20). Costs nothing extra (e.g. 50). Range: 0 to 500."""
+    minComments: NotRequired[int]
+    """Only return posts with at least this many comments (e.g. 10). Minimum: 0."""
+    minReactions: NotRequired[int]
+    """Only return posts with at least this many reactions (e.g. 100). Minimum: 0."""
+    minWordCount: NotRequired[int]
+    """Only return posts with at least this many words, which filters out short notes and announcements (e.g. 1000). Minimum: 0."""
     onlyFree: NotRequired[bool]
     """Return only free (non-paywalled) posts (e.g. true). Default: false."""
     preferLatencyUnderMs: NotRequired[int]
@@ -38,27 +48,51 @@ class SubstackPostsInput(TypedDict, total=False):
 
 class SubstackPostsData(BaseModel):
     items: list[SubstackPostsItem] = Field(
-        description="Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication info, and full article HTML when requested. Populated whenever the provider has data for the entity."
+        description="Post records: title, subtitle, URL, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the article body as text, HTML and Markdown, and comment threads when requested. Populated whenever the provider has data for the entity."
     )
 
 
 class SubstackPostsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_bio: str | None = Field(
+        default=None,
+        alias="authorBio",
+        description="Author bio as shown on their Substack profile.",
+    )
     author_handle: str | None = Field(
         default=None,
         alias="authorHandle",
-        description="Handle of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="Substack handle of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Profile photo URL of the post author.",
     )
     author_name: str | None = Field(
         default=None,
         alias="authorName",
         description="Display name of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Substack profile URL of the post author.",
+    )
     comment_count: int | None = Field(
         default=None,
         alias="commentCount",
-        description="Number of comments on the post.",
+        description="Number of top-level comments on the post.",
+    )
+    comments: list[SubstackPostsComment] | None = Field(
+        default=None,
+        description="Top-level comment threads on the post, each with its direct replies. Empty unless 'includeComments' is true. Replies nested more than one level deep are not returned.",
+    )
+    content_status: str | None = Field(
+        default=None,
+        alias="contentStatus",
+        description="How much of the article body this record carries: 'full' for the whole article, 'preview_only' for the public excerpt of a paywalled post, 'metadata_only' when no body was requested or available, or 'failed' when extraction failed. Read this before trusting 'text', 'html', or 'markdown'. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     created_utc: float | None = Field(
         default=None,
@@ -67,16 +101,34 @@ class SubstackPostsItem(BaseModel):
     )
     description: str | None = Field(
         default=None,
-        description="Post description or article HTML/summary. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="Short post description, usually the subtitle or an excerpt.",
     )
-    image: str | None = Field(
+    has_voiceover: bool | None = Field(
         default=None,
-        description="Cover image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        alias="hasVoiceover",
+        description="Whether the post carries a narrated audio version.",
     )
+    html: str | None = Field(
+        default=None,
+        description="Article body as HTML. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.",
+    )
+    image: str | None = Field(default=None, description="Cover image URL.")
     is_paid: bool | None = Field(
         default=None,
         alias="isPaid",
         description="Whether the post is behind a paywall.",
+    )
+    language: str | None = Field(
+        default=None, description="Two-letter language code of the post."
+    )
+    markdown: str | None = Field(
+        default=None,
+        description="Article body as Markdown. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.",
+    )
+    podcast_url: str | None = Field(
+        default=None,
+        alias="podcastUrl",
+        description="Audio URL for a podcast post or a narrated voiceover, when the post has one.",
     )
     post_id: str | None = Field(
         default=None,
@@ -86,19 +138,42 @@ class SubstackPostsItem(BaseModel):
     post_type: str | None = Field(
         default=None,
         alias="postType",
-        description="Post type (e.g. newsletter, podcast, thread). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="Post type (newsletter, podcast, or thread). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    publication: SubstackPostsPublication | None = Field(
+        default=None, description="The publication the post belongs to."
     )
     reaction_count: int | None = Field(
         default=None,
         alias="reactionCount",
-        description="Number of reactions on the post.",
+        description="Number of reactions (likes) on the post.",
     )
-    subtitle: str | None = Field(
+    reply_count: int | None = Field(
         default=None,
-        description="Post subtitle or deck. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        alias="replyCount",
+        description="Number of replies to comments on the post.",
+    )
+    restack_count: int | None = Field(
+        default=None,
+        alias="restackCount",
+        description="Number of times the post was restacked.",
+    )
+    slug: str | None = Field(
+        default=None,
+        description="Post slug, the last path segment of the post URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    subtitle: str | None = Field(default=None, description="Post subtitle or deck.")
+    text: str | None = Field(
+        default=None,
+        description="Article body as plain text. Present when 'includeContent' is true and 'contentStatus' is 'full' or 'preview_only'.",
     )
     title: str = Field(
         description="Post title. Populated whenever the provider has data for the entity."
+    )
+    updated_utc: float | None = Field(
+        default=None,
+        alias="updatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     url: str = Field(
         description="Canonical post URL. Populated whenever the provider has data for the entity."
@@ -106,6 +181,160 @@ class SubstackPostsItem(BaseModel):
     wordcount: int | None = Field(
         default=None, description="Approximate word count of the article."
     )
+
+
+class SubstackPostsComment(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="Substack handle of the comment author.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Profile photo URL of the comment author.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the comment author.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Substack profile URL of the comment author.",
+    )
+    comment_id: str = Field(
+        alias="commentId", description="Substack comment identifier."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    edited_utc: float | None = Field(
+        default=None,
+        alias="editedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    is_author: bool | None = Field(
+        default=None,
+        alias="isAuthor",
+        description="Whether the comment was written by the post author.",
+    )
+    is_pinned: bool | None = Field(
+        default=None,
+        alias="isPinned",
+        description="Whether the comment is pinned by the publication.",
+    )
+    reaction_count: int | None = Field(
+        default=None,
+        alias="reactionCount",
+        description="Number of reactions on the comment.",
+    )
+    replies: list[SubstackPostsReplie] | None = Field(
+        default=None, description="Direct replies to this comment."
+    )
+    restack_count: int | None = Field(
+        default=None,
+        alias="restackCount",
+        description="Number of times the comment was restacked.",
+    )
+    text: str | None = Field(default=None, description="Comment body text.")
+
+
+class SubstackPostsReplie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="Substack handle of the reply author.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Profile photo URL of the reply author.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the reply author.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Substack profile URL of the reply author.",
+    )
+    comment_id: str = Field(
+        alias="commentId", description="Substack comment identifier."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    edited_utc: float | None = Field(
+        default=None,
+        alias="editedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    is_author: bool | None = Field(
+        default=None,
+        alias="isAuthor",
+        description="Whether the reply was written by the post author.",
+    )
+    is_pinned: bool | None = Field(
+        default=None,
+        alias="isPinned",
+        description="Whether the reply is pinned by the publication.",
+    )
+    reaction_count: int | None = Field(
+        default=None,
+        alias="reactionCount",
+        description="Number of reactions on the reply.",
+    )
+    restack_count: int | None = Field(
+        default=None,
+        alias="restackCount",
+        description="Number of times the reply was restacked.",
+    )
+    text: str | None = Field(default=None, description="Reply body text.")
+
+
+class SubstackPostsPublication(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    custom_domain: str | None = Field(
+        default=None,
+        alias="customDomain",
+        description="Custom domain the publication is served on, when it has one.",
+    )
+    description: str | None = Field(
+        default=None, description="Publication tagline or hero text."
+    )
+    id: str | None = Field(default=None, description="Substack publication identifier.")
+    image: str | None = Field(default=None, description="Publication logo URL.")
+    language: str | None = Field(
+        default=None, description="Two-letter language code of the publication."
+    )
+    name: str | None = Field(default=None, description="Publication name.")
+    payments_enabled: bool | None = Field(
+        default=None,
+        alias="paymentsEnabled",
+        description="Whether the publication sells paid subscriptions.",
+    )
+    subdomain: str | None = Field(
+        default=None, description="Publication subdomain on substack.com."
+    )
+    subscriber_count: int | None = Field(
+        default=None,
+        alias="subscriberCount",
+        description="Subscriber count, when the publication publishes it.",
+    )
+    url: str | None = Field(default=None, description="Publication home URL.")
 
 
 class SubstackNamespace:
@@ -125,9 +354,10 @@ class SubstackNamespace:
         Pull posts from any Substack publication by its URL, or pass a single post
         URL (…/p/slug) to fetch just that one article. Returns title, subtitle,
         publish date, paywall status, word count, engagement (reactions, comments,
-        restacks), author profile, and full article HTML.
+        restacks), author profile, publication details, the full article body as
+        text, HTML and Markdown, and optional comment threads.
 
-        Price: $0.0055 per request plus $0.00172 per result (maximum $0.178).
+        Price: $0.00039 per request plus $0.00044 per result (maximum $0.0444).
 
         Example:
             res = client.substack.posts(limit=3, url="https://www.astralcodexten.com")
@@ -155,9 +385,10 @@ class AsyncSubstackNamespace:
         Pull posts from any Substack publication by its URL, or pass a single post
         URL (…/p/slug) to fetch just that one article. Returns title, subtitle,
         publish date, paywall status, word count, engagement (reactions, comments,
-        restacks), author profile, and full article HTML.
+        restacks), author profile, publication details, the full article body as
+        text, HTML and Markdown, and optional comment threads.
 
-        Price: $0.0055 per request plus $0.00172 per result (maximum $0.178).
+        Price: $0.00039 per request plus $0.00044 per result (maximum $0.0444).
 
         Example:
             res = client.substack.posts(limit=3, url="https://www.astralcodexten.com")

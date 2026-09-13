@@ -181,6 +181,16 @@ class RedditPostData(BaseModel):
         default=None,
         description="Preview image for the post, when Reddit generated one. Reddit signs this URL and it is time-limited, so fetch it promptly rather than storing it; the query string carries the signature and must be kept intact. Empty when the post has no preview image.",
     )
+    is_archived: bool | None = Field(
+        default=None,
+        alias="isArchived",
+        description="True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
+    is_locked: bool | None = Field(
+        default=None,
+        alias="isLocked",
+        description="True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
     is_nsfw: bool | None = Field(
         default=None,
         alias="isNsfw",
@@ -379,6 +389,16 @@ class RedditSearchPost(BaseModel):
     id: str = Field(
         description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
     )
+    is_archived: bool | None = Field(
+        default=None,
+        alias="isArchived",
+        description="True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
+    is_locked: bool | None = Field(
+        default=None,
+        alias="isLocked",
+        description="True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
     media: list[RedditSearchMedia] | None = Field(
         default=None,
         description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
@@ -476,6 +496,16 @@ class RedditSubredditPostsPost(BaseModel):
     id: str = Field(
         description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
     )
+    is_archived: bool | None = Field(
+        default=None,
+        alias="isArchived",
+        description="True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
+    is_locked: bool | None = Field(
+        default=None,
+        alias="isLocked",
+        description="True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
     num_comments: int = Field(
         alias="numComments", description="Total number of comments on the post."
     )
@@ -522,6 +552,16 @@ class RedditSubredditSearchPost(BaseModel):
     )
     id: str = Field(
         description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
+    )
+    is_archived: bool | None = Field(
+        default=None,
+        alias="isArchived",
+        description="True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
+    is_locked: bool | None = Field(
+        default=None,
+        alias="isLocked",
+        description="True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
     )
     nsfw: bool = Field(description="Whether the post is marked NSFW (over 18).")
     num_comments: int = Field(
@@ -570,6 +610,16 @@ class RedditTrendingPostsPost(BaseModel):
     )
     id: str = Field(
         description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
+    )
+    is_archived: bool | None = Field(
+        default=None,
+        alias="isArchived",
+        description="True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
+    is_locked: bool | None = Field(
+        default=None,
+        alias="isLocked",
+        description="True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
     )
     num_comments: int = Field(
         alias="numComments", description="Total number of comments on the post."
@@ -668,6 +718,16 @@ class RedditUserPostsPost(BaseModel):
     id: str = Field(
         description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
     )
+    is_archived: bool | None = Field(
+        default=None,
+        alias="isArchived",
+        description="True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
+    is_locked: bool | None = Field(
+        default=None,
+        alias="isLocked",
+        description="True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
     media: list[RedditUserPostsMedia] | None = Field(
         default=None,
         description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
@@ -751,7 +811,7 @@ class RedditNamespace:
         List the top-level comments on a Reddit post by URL (author, body, score,
         timestamp).
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.reddit.post_comments(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
@@ -835,7 +895,7 @@ class RedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -879,7 +939,7 @@ class RedditNamespace:
         Fetch a subreddit's metadata (weekly active users, description, and
         category).
 
-        Price: $0.0012 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_details(subreddit="programming")
@@ -899,7 +959,7 @@ class RedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -942,7 +1002,7 @@ class RedditNamespace:
 
         Search posts within a single subreddit by query, sort, and timeframe.
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_search(query="push ups", subreddit="Fitness")
@@ -1011,7 +1071,7 @@ class RedditNamespace:
         permalink; use reddit.post_comments for full comment bodies and comment URLs
         on a given post.
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")
@@ -1055,7 +1115,7 @@ class RedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")
@@ -1124,7 +1184,7 @@ class AsyncRedditNamespace:
         List the top-level comments on a Reddit post by URL (author, body, score,
         timestamp).
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.reddit.post_comments(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
@@ -1208,7 +1268,7 @@ class AsyncRedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -1252,7 +1312,7 @@ class AsyncRedditNamespace:
         Fetch a subreddit's metadata (weekly active users, description, and
         category).
 
-        Price: $0.0012 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_details(subreddit="programming")
@@ -1272,7 +1332,7 @@ class AsyncRedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -1315,7 +1375,7 @@ class AsyncRedditNamespace:
 
         Search posts within a single subreddit by query, sort, and timeframe.
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.subreddit_search(query="push ups", subreddit="Fitness")
@@ -1384,7 +1444,7 @@ class AsyncRedditNamespace:
         permalink; use reddit.post_comments for full comment bodies and comment URLs
         on a given post.
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")
@@ -1428,7 +1488,7 @@ class AsyncRedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")
