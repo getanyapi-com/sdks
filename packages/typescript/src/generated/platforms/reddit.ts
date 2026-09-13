@@ -49,6 +49,14 @@ export interface RedditPostData {
    */
   image?: string;
   /**
+   * True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isArchived?: boolean;
+  /**
+   * True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isLocked?: boolean;
+  /**
    * True when the post is marked NSFW (over 18).
    */
   isNsfw?: boolean;
@@ -350,6 +358,14 @@ export interface RedditSearchPost {
    */
   id: string;
   /**
+   * True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isArchived?: boolean;
+  /**
+   * True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isLocked?: boolean;
+  /**
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
    */
   media?: RedditSearchMedia[];
@@ -522,6 +538,14 @@ export interface RedditSubredditPostsPost {
    */
   id: string;
   /**
+   * True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isArchived?: boolean;
+  /**
+   * True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isLocked?: boolean;
+  /**
    * Total number of comments on the post.
    */
   numComments: number;
@@ -611,6 +635,14 @@ export interface RedditSubredditSearchPost {
    */
   id: string;
   /**
+   * True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isArchived?: boolean;
+  /**
+   * True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isLocked?: boolean;
+  /**
    * Whether the post is marked NSFW (over 18).
    */
   nsfw: boolean;
@@ -693,6 +725,14 @@ export interface RedditTrendingPostsPost {
    * Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isArchived?: boolean;
+  /**
+   * True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isLocked?: boolean;
   /**
    * Total number of comments on the post.
    */
@@ -858,6 +898,14 @@ export interface RedditUserPostsPost {
    */
   id: string;
   /**
+   * True when Reddit has archived the thread, which blocks new comments and votes. Archiving is a per-community setting, so an old thread is not necessarily archived. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isArchived?: boolean;
+  /**
+   * True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.
+   */
+  isLocked?: boolean;
+  /**
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
    */
   media?: RedditUserPostsMedia[];
@@ -957,7 +1005,7 @@ export class RedditNamespace {
    *
    * List the top-level comments on a Reddit post by URL (author, body, score, timestamp).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.reddit.postComments({ url: "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/" });
@@ -1031,7 +1079,7 @@ export class RedditNamespace {
    *
    * Search Reddit posts across all subreddits by query.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.reddit.search({ query: "mechanical keyboard" });
@@ -1068,7 +1116,7 @@ export class RedditNamespace {
    *
    * Fetch a subreddit's metadata (weekly active users, description, and category).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.reddit.subredditDetails({ subreddit: "programming" });
@@ -1085,7 +1133,7 @@ export class RedditNamespace {
    *
    * Fetch posts from a subreddit listing (hot, new, or top).
    *
-   * Price: $0.0005 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.reddit.subredditPosts({ subreddit: "programming", limit: 5 });
@@ -1125,7 +1173,7 @@ export class RedditNamespace {
    *
    * Search posts within a single subreddit by query, sort, and timeframe.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.reddit.subredditSearch({ subreddit: "Fitness", query: "push ups" });
@@ -1185,7 +1233,7 @@ export class RedditNamespace {
    *
    * List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.reddit.userComments({ username: "spez" });
@@ -1225,7 +1273,7 @@ export class RedditNamespace {
    *
    * List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.reddit.userPosts({ username: "spez" });
