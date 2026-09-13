@@ -80633,7 +80633,7 @@
       "category": "social",
       "description": "Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -80673,6 +80673,24 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `bio`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bio",
+                "followers",
+                "following",
+                "location",
+                "nextCursor",
+                "verified"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "username": {
             "kind": "string",
@@ -80756,9 +80774,7 @@
                 "required": [
                   "username",
                   "name",
-                  "bio",
                   "followers",
-                  "following",
                   "verified",
                   "location",
                   "avatarUrl"
@@ -80847,6 +80863,23 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `location`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bio",
+                "followers",
+                "following",
+                "location",
+                "nextCursor"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "username": {
             "kind": "string",
             "description": "The X (Twitter) username to fetch the following list for, without the @ prefix (e.g. elonmusk).",
@@ -80919,11 +80952,6 @@
                     "enum": null,
                     "default": null,
                     "format": null
-                  },
-                  "verified": {
-                    "kind": "boolean",
-                    "description": "Whether the account is verified.",
-                    "default": null
                   }
                 },
                 "required": [

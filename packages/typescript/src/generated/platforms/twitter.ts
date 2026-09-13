@@ -327,6 +327,12 @@ export interface TwitterFollowersInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `bio`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    "bio" | "followers" | "following" | "location" | "nextCursor" | "verified"
+  )[];
+  /**
    * The X (Twitter) username to fetch followers for, without the @ prefix (e.g. elonmusk).
    */
   username: string;
@@ -340,7 +346,7 @@ export interface TwitterFollowersItem {
   /**
    * The account's profile bio/description.
    */
-  bio: string;
+  bio?: string;
   /**
    * How many followers this account has.
    */
@@ -348,7 +354,7 @@ export interface TwitterFollowersItem {
   /**
    * How many accounts this account follows.
    */
-  following: number;
+  following?: number;
   /**
    * The account's self-reported location (may be empty).
    */
@@ -402,6 +408,12 @@ export interface TwitterFollowingInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `location`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    "bio" | "followers" | "following" | "location" | "nextCursor"
+  )[];
+  /**
    * The X (Twitter) username to fetch the following list for, without the @ prefix (e.g. elonmusk).
    */
   username: string;
@@ -436,10 +448,6 @@ export interface TwitterFollowingItem {
    * The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity.
    */
   username: string;
-  /**
-   * Whether the account is verified.
-   */
-  verified?: boolean;
   [extra: string]: unknown;
 }
 
@@ -1498,7 +1506,7 @@ export class TwitterNamespace {
    *
    * Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.twitter.followers({ username: "nasa", limit: 200 });

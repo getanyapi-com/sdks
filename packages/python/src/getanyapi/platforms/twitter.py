@@ -57,6 +57,14 @@ class TwitterFollowersInput(TypedDict, total=False):
     """Per-page maximum number of followers to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more. Range: 1 to 100000. Default: 200."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "bio", "followers", "following", "location", "nextCursor", "verified"
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `bio`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     username: Required[str]
     """The X (Twitter) username to fetch followers for, without the @ prefix (e.g. elonmusk)."""
 
@@ -70,6 +78,10 @@ class TwitterFollowingInput(TypedDict, total=False):
     """Per-page maximum number of followed accounts to return (default 200). A limit larger than the native page still returns at most one native page; follow the response's nextCursor for more. Range: 1 to 100000. Default: 200."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[Literal["bio", "followers", "following", "location", "nextCursor"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `location`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     username: Required[str]
     """The X (Twitter) username to fetch the following list for, without the @ prefix (e.g. elonmusk)."""
 
@@ -488,9 +500,13 @@ class TwitterFollowersItem(BaseModel):
         alias="avatarUrl",
         description="URL of the account's profile image (may be empty). Populated whenever the provider has data for the entity.",
     )
-    bio: str = Field(description="The account's profile bio/description.")
+    bio: str | None = Field(
+        default=None, description="The account's profile bio/description."
+    )
     followers: int = Field(description="How many followers this account has.")
-    following: int = Field(description="How many accounts this account follows.")
+    following: int | None = Field(
+        default=None, description="How many accounts this account follows."
+    )
     location: str = Field(
         description="The account's self-reported location (may be empty)."
     )
@@ -534,9 +550,6 @@ class TwitterFollowingItem(BaseModel):
     )
     username: str = Field(
         description="The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity."
-    )
-    verified: bool | None = Field(
-        default=None, description="Whether the account is verified."
     )
 
 
@@ -1202,7 +1215,7 @@ class TwitterNamespace:
         cursor pagination. Limit is a per-page maximum and a native page holds up to
         200 accounts; follow the response's nextCursor for more.
 
-        Price: $0.00075 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.twitter.followers(limit=200, username="nasa")
@@ -1717,7 +1730,7 @@ class AsyncTwitterNamespace:
         cursor pagination. Limit is a per-page maximum and a native page holds up to
         200 accounts; follow the response's nextCursor for more.
 
-        Price: $0.00075 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.twitter.followers(limit=200, username="nasa")
