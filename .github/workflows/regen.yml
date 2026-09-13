@@ -20,6 +20,16 @@ name: regen
 # next real failure into another silent comment on a thread nobody watches. Between
 # 2026-09-01 and 2026-09-05 this job failed every night with no signal but GitHub's default
 # Actions email, and the published SDKs sat five days stale.
+#
+# A blocked run also leaves the batch REVIEWABLE instead of leaving homework. Before it
+# fails, it version-bumps and commits the tree it already regenerated and force-pushes it to
+# the fixed `catalog-refresh` branch, then points the incident issue at the compare view and
+# at accept-catalog-refresh.yml, the one dispatch that publishes it. Accepting used to mean
+# an hour of local work (clone, install, fetch, regenerate, bump three version surfaces,
+# commit, PR, merge, tag); that happened four times in two weeks (#33, #35, #37, #39) and
+# the published SDKs went stale for days each time. Nothing here weakens the block: the
+# classifier's verdict, the fail-closed exit, and the evidence artifact are unchanged, and
+# no tag is created until a human dispatches the accept workflow.
 
 on:
   repository_dispatch:
@@ -107,6 +117,45 @@ jobs:
           path: blocked-release
           if-no-files-found: error
 
+      - name: prepare the release candidate on the catalog-refresh branch
+        id: candidate
+        if: steps.classify.outputs.bump == 'blocked'
+        run: |
+          # This run already holds the fetched snapshots and the regenerated tree. Reproducing
+          # them locally is the hour of work that made accepting a blocked batch expensive
+          # enough to defer for days (#33, #35, #37, #39), so leave a ready artifact instead.
+          #
+          # The level is always `minor`, never patch: the packages are 0.x, where semver
+          # expresses a breaking change as a minor bump, and every blocked kind (a removal, a
+          # requiredness change, an enum narrowing, a nullability change) is either breaking
+          # or safely covered by a minor.
+          NEXT="$(pnpm --silent --filter @anyapi/generator run version:next minor)"
+          pnpm --silent --filter @anyapi/generator run version:apply "$NEXT"
+          git config user.name "anyapi-bot"
+          git config user.email "support@getanyapi.com"
+          # Same identity, same path list, and same clean-tree abort as the success path, so
+          # the candidate commit is byte-for-byte the shape a patch/minor run would push.
+          git add openapi.json catalog.json generator/ir.json generator/fixtures.json \
+            packages/typescript/src/generated packages/python/src/getanyapi/platforms \
+            packages/typescript/package.json packages/python/pyproject.toml \
+            packages/python/src/getanyapi/__init__.py
+          if git diff --cached --quiet; then
+            echo "Classifier reported blocked but the tree is clean; aborting (no-op guard)."
+            exit 0
+          fi
+          git commit -F - <<EOF
+          chore(release): catalog refresh v$NEXT
+
+          $(cat release-notes.md)
+          EOF
+          # One fixed branch, force-pushed. regen fires on every gateway deploy, so a
+          # persisting outage would otherwise accumulate a branch per run and leave the
+          # reviewer guessing which one is current; there is only ever one candidate.
+          git push --force origin HEAD:refs/heads/catalog-refresh
+          echo "next=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "branch=catalog-refresh" >> "$GITHUB_OUTPUT"
+          echo "Prepared v$NEXT on catalog-refresh; publishing it needs a human dispatch."
+
       - name: stop blocked release before versioning
         if: ${{ always() && steps.classify.outputs.bump == 'blocked' }}
         run: |
@@ -185,6 +234,11 @@ jobs:
           BUMP: ${{ steps.classify.outputs.bump }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           ARTIFACT_URL: ${{ steps.evidence.outputs.artifact-url }}
+          # Empty unless the candidate step ran and committed something. A failure before or
+          # outside classification leaves nothing to accept, so the body falls back to the
+          # manual instructions rather than linking a stale or absent branch.
+          CANDIDATE_NEXT: ${{ steps.candidate.outputs.next }}
+          CANDIDATE_BRANCH: ${{ steps.candidate.outputs.branch }}
         run: |
           # The blocked and removed items ARE the block, and their slugs are what the
           # reviewer decides from, so they are both the issue body and the fingerprint.
@@ -210,7 +264,18 @@ jobs:
               cat release-notes.md
               printf '```\n'
             fi
-            printf '\nAccepting this batch is a human decision: review each blocked item against its upstream catalog change, then land a reviewed catalog-refresh PR with the version applied in lockstep. Do not relax the classifier to make it pass.\n'
+            if [ -n "$CANDIDATE_NEXT" ]; then
+              printf '\n## How to accept\n\n'
+              printf 'Review: %s/%s/compare/main...%s - the regenerated tree with the version already applied in lockstep.\n\n' \
+                "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$CANDIDATE_BRANCH"
+              printf 'Accepting publishes `v%s` to npm and PyPI.\n\n' "$CANDIDATE_NEXT"
+              printf 'To publish it, press "Run workflow" on [accept-catalog-refresh.yml](%s/%s/actions/workflows/accept-catalog-refresh.yml), or run:\n\n' \
+                "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY"
+              printf '```\ngh workflow run accept-catalog-refresh.yml -R getanyapi-com/sdks\n```\n'
+              printf '\nAccepting this batch is a human decision: review each blocked item against its upstream catalog change before you dispatch. Do not relax the classifier to make it pass.\n'
+            else
+              printf '\nAccepting this batch is a human decision: review each blocked item against its upstream catalog change, then land a reviewed catalog-refresh PR with the version applied in lockstep. Do not relax the classifier to make it pass.\n'
+            fi
           } > regen-issue.md
           node scripts/upsert-regen-issue.mjs \
             --title "$REGEN_ISSUE_TITLE" \

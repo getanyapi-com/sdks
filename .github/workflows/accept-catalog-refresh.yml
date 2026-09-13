@@ -1,0 +1,162 @@
+name: Accept catalog refresh (publish)
+
+# The human decision the fail-closed classifier holds out for.
+#
+# When regen.yml classifies a batch as `blocked` it publishes nothing, but it does leave the
+# fully prepared release on the `catalog-refresh` branch: the regenerated tree, committed by
+# anyapi-bot with all three version surfaces bumped in lockstep. Dispatching this workflow is
+# the accept: it fast-forwards main to that commit, pushes the matching tag, and hands the tag
+# to release.yml. Rejecting it is doing nothing.
+#
+# This is a dispatch rather than a pull request only because the enterprise forbids Actions
+# from creating or approving pull requests (`can_approve_pull_request_reviews` is false, and
+# enabling it returns 409 "The enterprise does not allow GitHub Actions to create or approve
+# pull requests"). The compare view linked from the incident issue is the review surface.
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The prepared release branch to accept."
+        required: true
+        default: catalog-refresh
+        type: string
+
+permissions:
+  contents: write
+  actions: write # to trigger release.yml via workflow_dispatch after tagging
+  issues: write # to close the blocked-regen incident this accept resolves
+
+concurrency:
+  group: accept-catalog-refresh
+  cancel-in-progress: false
+
+env:
+  # Byte-identical to regen.yml's REGEN_ISSUE_TITLE. The upsert deduplicates by exact title,
+  # so if these two ever drift apart this workflow closes nothing and the incident regen
+  # opened stays open forever, turning the next real failure into a silent comment.
+  REGEN_ISSUE_TITLE: "regen is blocked: the SDKs are not being published"
+
+jobs:
+  accept:
+    name: fast-forward main + tag + publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0 # need the commit subject and main's history for the ancestry check
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: assert the branch head is a prepared catalog-refresh commit
+        id: subject
+        env:
+          # Read the dispatch input through the environment, never interpolated into the
+          # script body, so a branch name can never be shell.
+          BRANCH: ${{ inputs.branch }}
+        run: |
+          # Only regen.yml's candidate step writes this subject. Without the check, dispatching
+          # with any branch name would fast-forward main to whatever that branch happens to be.
+          SUBJECT="$(git log -1 --format=%s HEAD)"
+          case "$SUBJECT" in
+            "chore(release): catalog refresh v"*) ;;
+            *)
+              echo "HEAD of '$BRANCH' is not a prepared release commit."
+              echo "  expected subject: chore(release): catalog refresh v<X.Y.Z>"
+              echo "  actual subject:   $SUBJECT"
+              exit 1
+              ;;
+          esac
+          VERSION="${SUBJECT#chore(release): catalog refresh v}"
+          case "$VERSION" in
+            [0-9]*.[0-9]*.[0-9]*) ;;
+            *) echo "commit subject carries '$VERSION', which is not a plain X.Y.Z semver"; exit 1 ;;
+          esac
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Accepting v$VERSION from '$BRANCH'."
+
+      - name: assert the manifests agree with the version in that subject
+        env:
+          VERSION: ${{ steps.subject.outputs.version }}
+        run: |
+          # `version:current` already fails unless the TypeScript manifest, the Python manifest,
+          # and the importable Python __version__ all carry the same string, so this single
+          # comparison covers both lockstep and tag/manifest agreement. Without it we could tag
+          # v0.42.0 over a tree whose manifests still say 0.41.0, and release.yml would reject
+          # the tag only after main had already moved.
+          MANIFEST="$(pnpm --silent --filter @anyapi/generator run version:current)"
+          if [ "$MANIFEST" != "$VERSION" ]; then
+            echo "commit subject says v$VERSION but the package manifests say $MANIFEST"
+            exit 1
+          fi
+          echo "manifests agree: $VERSION"
+
+      - name: assert main can fast-forward to this commit
+        run: |
+          # The candidate was built on the main of its own run. If anything landed on main
+          # since, a push would silently discard it; refuse and let regen rebuild the candidate
+          # on the newer main (it force-pushes one on every gateway deploy).
+          git fetch origin +refs/heads/main:refs/remotes/origin/main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            echo "main has moved since this candidate was prepared; pushing it would discard commits."
+            echo "Re-run regen (or wait for the next gateway deploy) to rebuild the candidate."
+            exit 1
+          fi
+          echo "fast-forward is safe."
+
+      - name: assert the tag is not already published
+        env:
+          VERSION: ${{ steps.subject.outputs.version }}
+        run: |
+          # A tag is the published artifact's identity. Re-tagging an existing version would
+          # either fail deep inside release.yml or, worse, move a tag npm and PyPI have
+          # already served, so stop here and let regen cut a fresh version instead.
+          if git ls-remote --exit-code --tags origin "refs/tags/v$VERSION" >/dev/null 2>&1; then
+            echo "tag v$VERSION already exists on the remote; that version is spoken for."
+            exit 1
+          fi
+          echo "tag v$VERSION is free."
+
+      - name: fast-forward main and push the tag
+        env:
+          VERSION: ${{ steps.subject.outputs.version }}
+        run: |
+          git config user.name "anyapi-bot"
+          git config user.email "support@getanyapi.com"
+          git push origin HEAD:main
+          # Tag only after main has the commit: the rule is about the COMMIT, and a tag on a
+          # commit that never reached main would publish an artifact the history does not show.
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
+
+      - name: trigger release.yml for the new tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.subject.outputs.version }}
+        # A tag pushed with the default GITHUB_TOKEN does NOT trigger tag-`push` workflows, so
+        # we explicitly dispatch release.yml with the tag as input, exactly as regen.yml does.
+        #
+        # release.yml's `verify` job re-runs the complete gate against the tag (generator
+        # typecheck + vitest, regen drift, TypeScript, Python pyright/mypy/pytest, both live
+        # discovery canaries, dash guard) before anything is published, so the gates are
+        # deliberately NOT duplicated here.
+        run: gh workflow run release.yml --ref "v$VERSION" -f tag="v$VERSION"
+
+      - name: close the blocked-regen issue this accept resolved
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.subject.outputs.version }}
+          BRANCH: ${{ inputs.branch }}
+        run: |
+          node scripts/upsert-regen-issue.mjs \
+            --title "$REGEN_ISSUE_TITLE" \
+            --resolve \
+            --body "blocked batch accepted: published as \`v$VERSION\` from \`$BRANCH\` ([accept run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID))."
