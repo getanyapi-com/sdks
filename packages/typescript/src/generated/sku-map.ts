@@ -405,6 +405,8 @@ import type {
   LinkedinCompanyThinInput,
   LinkedinEmailData,
   LinkedinEmailInput,
+  LinkedinJobData,
+  LinkedinJobInput,
   LinkedinJobsData,
   LinkedinJobsInput,
   LinkedinJobsThinData,
@@ -417,12 +419,16 @@ import type {
   LinkedinPostReactionsInput,
   LinkedinPostTranscriptData,
   LinkedinPostTranscriptInput,
+  LinkedinProfileCommentsData,
+  LinkedinProfileCommentsInput,
   LinkedinProfileData,
   LinkedinProfileInput,
   LinkedinProfilePostsFullData,
   LinkedinProfilePostsFullInput,
   LinkedinProfilePostsThinData,
   LinkedinProfilePostsThinInput,
+  LinkedinProfileReactionsData,
+  LinkedinProfileReactionsInput,
   LinkedinProfileThinData,
   LinkedinProfileThinInput,
   LinkedinSearchCompaniesData,
@@ -1722,6 +1728,11 @@ export interface SkuMap {
     data: LinkedinEmailData;
     result: RunResult<LinkedinEmailData>;
   };
+  "linkedin.job": {
+    input: LinkedinJobInput;
+    data: LinkedinJobData;
+    result: RunResult<LinkedinJobData>;
+  };
   "linkedin.jobs": {
     input: LinkedinJobsInput;
     data: LinkedinJobsData;
@@ -1757,6 +1768,11 @@ export interface SkuMap {
     data: LinkedinProfileData;
     result: RunResult<LinkedinProfileData>;
   };
+  "linkedin.profile_comments": {
+    input: LinkedinProfileCommentsInput;
+    data: LinkedinProfileCommentsData;
+    result: RunResult<LinkedinProfileCommentsData>;
+  };
   "linkedin.profile_posts_full": {
     input: LinkedinProfilePostsFullInput;
     data: LinkedinProfilePostsFullData;
@@ -1766,6 +1782,11 @@ export interface SkuMap {
     input: LinkedinProfilePostsThinInput;
     data: LinkedinProfilePostsThinData;
     result: RunResult<LinkedinProfilePostsThinData>;
+  };
+  "linkedin.profile_reactions": {
+    input: LinkedinProfileReactionsInput;
+    data: LinkedinProfileReactionsData;
+    result: RunResult<LinkedinProfileReactionsData>;
   };
   "linkedin.profile_thin": {
     input: LinkedinProfileThinInput;

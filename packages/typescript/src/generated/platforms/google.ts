@@ -70,6 +70,10 @@ export interface GoogleAiOverviewInput {
    * The question or prompt to answer with a Google AI Overview.
    */
   prompt: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `citations` or `index`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("citations" | "index" | "scrapedAt" | "title" | "url")[];
 }
 
 export interface GoogleAiOverviewCitation {
@@ -572,7 +576,7 @@ export interface GoogleSearchInput {
    */
   query: string;
   /**
-   * Set true if you intend to page through results. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays supported so callers that already send it keep working.
+   * Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working.
    */
   requireCursor?: boolean;
   /**

@@ -518,9 +518,15 @@ export interface TiktokFollowingInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. Not all sources for this list can page, and one that can may cost more per request.
+   * Deprecated; send `requireFields: ["nextCursor"]` instead, which does exactly the same thing. Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Omit it and routing is unchanged, with the cheapest source serving. This can raise your price: when the cheapest source cannot page, a source that can serves, and you are quoted and charged its price. It stays accepted so callers that already send it keep working.
    */
   requireCursor?: boolean;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    "bio" | "followers" | "following" | "nextCursor" | "videos"
+  )[];
 }
 
 export interface TiktokFollowingFollowing {
@@ -798,6 +804,33 @@ export interface TiktokProfileContactInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `socialLinks` or `domain`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "avatarUrl"
+    | "bio"
+    | "displayName"
+    | "domain"
+    | "domainHealth"
+    | "email"
+    | "externalUrl"
+    | "followers"
+    | "following"
+    | "likes"
+    | "platform"
+    | "primaryEmail"
+    | "private"
+    | "profileUrl"
+    | "seller"
+    | "socialLinks"
+    | "sourceType"
+    | "sourceUrl"
+    | "url"
+    | "userId"
+    | "verified"
+    | "videos"
+  )[];
 }
 
 export interface TiktokProfileContactEmail {
@@ -1082,7 +1115,7 @@ export interface TiktokSearchKeywordInput {
    */
   query: string;
   /**
-   * Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Not all sources for this search can page, and one that can may cost more per request.
+   * Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working.
    */
   requireCursor?: boolean;
   /**
@@ -1677,6 +1710,10 @@ export interface TiktokTrendingHashtagsInput {
     | "TR"
     | "AE"
     | "VN";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `industryIds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a hashtag that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("industryIds" | "topCreators")[];
 }
 
 export interface TiktokTrendingHashtagsItem {

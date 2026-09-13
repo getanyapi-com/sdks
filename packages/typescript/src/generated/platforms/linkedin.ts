@@ -293,6 +293,30 @@ export interface LinkedinCompanyInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `postalCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "city"
+    | "companyType"
+    | "country"
+    | "employeeCountRange"
+    | "foundedOn"
+    | "fundingData"
+    | "headquarter"
+    | "industry"
+    | "line1"
+    | "locations"
+    | "logoUrl"
+    | "name"
+    | "pageVerified"
+    | "postalCode"
+    | "similarOrganizations"
+    | "specialities"
+    | "tagline"
+    | "universalName"
+    | "website"
+  )[];
+  /**
    * Full LinkedIn company page URL.
    */
   url: string;
@@ -820,6 +844,176 @@ export interface LinkedinEmailData {
 }
 
 /**
+ * Input for LinkedIn Job (linkedin.job).
+ */
+export interface LinkedinJobInput {
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Full LinkedIn job posting URL, e.g. https://www.linkedin.com/jobs/view/4431721875/.
+   */
+  url: string;
+}
+
+/**
+ * One named hiring contact.
+ */
+export interface LinkedinJobHiringTeam {
+  /**
+   * Canonical LinkedIn profile URL.
+   */
+  linkedinUrl?: string;
+  /**
+   * Member name.
+   */
+  name?: string;
+  /**
+   * Member headline or job title.
+   */
+  position?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Job (linkedin.job).
+ */
+export interface LinkedinJobData {
+  /**
+   * Applicant tracking system behind the posting (e.g. Workday, Lever, Greenhouse), when LinkedIn reports one.
+   */
+  applicantTrackingSystem?: string;
+  /**
+   * Number of applicants reported by LinkedIn. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  applicants?: number;
+  /**
+   * External company apply URL when the job applies off-site.
+   */
+  applyUrl?: string;
+  /**
+   * Listed benefits.
+   */
+  benefits?: string[];
+  /**
+   * Hiring company details.
+   */
+  company?: {
+    /**
+     * Company About text.
+     */
+    description?: string;
+    /**
+     * Number of employees LinkedIn reports for the company.
+     */
+    employeeCount?: number;
+    /**
+     * Number of followers of the company page.
+     */
+    followerCount?: number;
+    /**
+     * Canonical LinkedIn company URL.
+     */
+    linkedinUrl?: string;
+    /**
+     * Company logo image URL.
+     */
+    logo?: string;
+    /**
+     * Company name. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    name?: string;
+    /**
+     * Company LinkedIn universal (vanity) name.
+     */
+    universalName?: string;
+    /**
+     * Company website.
+     */
+    website?: string;
+  };
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the job was posted. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Full job description as plain text. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  descriptionText?: string;
+  /**
+   * LinkedIn Easy Apply URL when available.
+   */
+  easyApplyUrl?: string;
+  /**
+   * Employment type (e.g. full_time, contract, part_time).
+   */
+  employmentType?: string;
+  /**
+   * Seniority / experience level (e.g. Mid-Senior level, Entry level).
+   */
+  experienceLevel?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the posting expires. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  expireUtc?: number;
+  /**
+   * LinkedIn members named on the posting as the hiring contacts.
+   */
+  hiringTeam?: LinkedinJobHiringTeam[];
+  /**
+   * LinkedIn job posting id.
+   */
+  id?: string;
+  /**
+   * Industries associated with the role.
+   */
+  industries?: string[];
+  /**
+   * Posting state reported by LinkedIn (e.g. LISTED, CLOSED).
+   */
+  jobState?: string;
+  /**
+   * Job location (city, region, or country).
+   */
+  location?: string;
+  /**
+   * Salary range when disclosed by the poster.
+   */
+  salary?: {
+    /**
+     * Maximum salary.
+     */
+    max?: number;
+    /**
+     * Minimum salary.
+     */
+    min?: number;
+    /**
+     * Salary as displayed (e.g. '300,000 - 330,000 USD').
+     */
+    text?: string;
+  };
+  /**
+   * Job title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Canonical LinkedIn job posting URL.
+   */
+  url: string;
+  /**
+   * Workplace type (e.g. remote, on_site, hybrid).
+   */
+  workplaceType?: string;
+  [extra: string]: unknown;
+}
+
+/**
  * Input for LinkedIn Jobs (linkedin.jobs).
  */
 export interface LinkedinJobsInput {
@@ -1066,6 +1260,10 @@ export interface LinkedinJobsThinInput {
    * Job title or keywords to search.
    */
   query: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `logoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("companyUrl" | "createdUtc" | "id" | "logoUrl")[];
   /**
    * Filter by workplace type (remote, hybrid, or onsite).
    * One of: remote, hybrid, onsite.
@@ -1648,6 +1846,191 @@ export interface LinkedinProfileData {
    */
   verified?: boolean;
   [extra: string]: unknown;
+}
+
+/**
+ * Input for LinkedIn Profile Comments (linkedin.profile_comments).
+ */
+export interface LinkedinProfileCommentsInput {
+  /**
+   * Maximum number of comments to return.
+   * Range: minimum 1, maximum 100.
+   * Default: 100.
+   */
+  limit?: number;
+  /**
+   * Only return comments posted within this window (default any).
+   * One of: any, 24h, week, month.
+   */
+  postedLimit?: "any" | "24h" | "week" | "month";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Full URL of the LinkedIn member profile whose comments on other people's posts should be listed.
+   */
+  url: string;
+}
+
+export interface LinkedinProfileCommentsItem {
+  /**
+   * The member who left the comment (a profile or a company).
+   */
+  actor?: {
+    /**
+     * Profile picture URL of the commenter. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    image?: string;
+    /**
+     * Canonical LinkedIn URL of the commenter. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    linkedinUrl?: string;
+    /**
+     * Display name of the commenter. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    name?: string;
+    /**
+     * Commenter's headline or job title as displayed. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    position?: string;
+    /**
+     * Commenter kind, e.g. 'profile' or 'company'.
+     */
+    type?: string;
+  };
+  /**
+   * Full text of the comment the member left. Populated whenever the provider has data for the entity.
+   */
+  commentary: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Whether the comment has been edited.
+   */
+  edited?: boolean;
+  /**
+   * Engagement metrics for the comment.
+   */
+  engagement?: {
+    /**
+     * Number of replies to the comment.
+     * Range: minimum 0.
+     */
+    comments?: number;
+    /**
+     * Number of likes on the comment.
+     * Range: minimum 0.
+     */
+    likes?: number;
+  };
+  /**
+   * Unique identifier of the comment. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * The post the comment was left on, so the comment can be read in context. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  post?: {
+    /**
+     * Author of the post that was commented on.
+     */
+    author?: {
+      /**
+       * Public headline or company follower summary for the post author.
+       */
+      headline?: string;
+      /**
+       * Profile or company image URL of the post author. Populated whenever the provider has data for the entity.
+       * Format: uri.
+       * Present whenever the upstream returns this record.
+       */
+      image?: string;
+      /**
+       * Display name of the post author. Populated whenever the provider has data for the entity.
+       * Present whenever the upstream returns this record.
+       */
+      name?: string;
+      /**
+       * Canonical LinkedIn profile or company URL of the post author. Populated whenever the provider has data for the entity.
+       * Format: uri.
+       * Present whenever the upstream returns this record.
+       */
+      profileUrl?: string;
+      /**
+       * LinkedIn public identifier (vanity slug) of the post author, for example "williamhgates". Stable across lanes, unlike the raw id.
+       */
+      publicIdentifier?: string;
+    };
+    /**
+     * Public engagement totals on the post that was commented on.
+     */
+    engagement?: {
+      /**
+       * Total comment count on the post.
+       * Range: minimum 0.
+       */
+      comments?: number;
+      /**
+       * Total reaction count on the post.
+       * Range: minimum 0.
+       */
+      reactions?: number;
+      /**
+       * Total repost or share count on the post.
+       * Range: minimum 0.
+       */
+      reposts?: number;
+    };
+    /**
+     * Unique identifier of the LinkedIn post that was commented on.
+     */
+    id?: string;
+    /**
+     * UTC epoch timestamp in seconds (Unix time) when the post was published. Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    postedUtc?: number;
+    /**
+     * Text content of the post that was commented on. Empty when the post carries no commentary of its own, such as a bare reshare or an image-only post. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    text?: string;
+    /**
+     * Canonical LinkedIn URL of the post that was commented on. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    url?: string;
+  };
+  /**
+   * Canonical permalink URL of the comment. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Profile Comments (linkedin.profile_comments).
+ */
+export interface LinkedinProfileCommentsData {
+  /**
+   * Comments this member left on other people's posts, newest first, each with the post it was left on. Populated whenever the provider has data for the entity.
+   */
+  items: LinkedinProfileCommentsItem[];
 }
 
 /**
@@ -2326,6 +2709,188 @@ export interface LinkedinProfilePostsThinData {
 }
 
 /**
+ * Input for LinkedIn Profile Reactions (linkedin.profile_reactions).
+ */
+export interface LinkedinProfileReactionsInput {
+  /**
+   * Maximum number of reactions to return. One upstream page holds 100.
+   * Range: minimum 1, maximum 100.
+   * Default: 100.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Full URL of the LinkedIn member profile whose reactions to list, for example https://www.linkedin.com/in/williamhgates.
+   */
+  url: string;
+}
+
+export interface LinkedinProfileReactionsItem {
+  /**
+   * LinkedIn's own display sentence for the reaction, for example "Bill Gates likes this" or "Ali Abdaal liked Tobi Odutola's comment on this". It is the only place the reaction kind appears on this endpoint, it names the member and sometimes a third party, and it distinguishes a reaction on the post from a reaction on a comment. It is free English text, not an enum: parse it only if you accept that LinkedIn may reword it. Populated whenever the provider has data for the entity.
+   */
+  action: string;
+  /**
+   * The member who reacted - the profile that was asked about. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  actor?: {
+    /**
+     * LinkedIn member identifier of the reactor.
+     */
+    id?: string;
+    /**
+     * Profile picture URL of the reactor.
+     * Format: uri.
+     */
+    image?: string;
+    /**
+     * Canonical LinkedIn profile URL of the reactor. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    linkedinUrl?: string;
+  };
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * LinkedIn activity identifier of the reaction event itself. This is not the identifier of the post that was reacted to - that is post.id. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * The post the member reacted to. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  post?: {
+    /**
+     * Public author identity attached to the post. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    author?: {
+      /**
+       * Public headline for a person, or the follower summary for a company. Populated whenever the provider has data for the entity.
+       * Present whenever the upstream returns this record.
+       */
+      headline?: string;
+      /**
+       * LinkedIn identifier for the author.
+       */
+      id?: string;
+      /**
+       * Public profile or company image URL for the author.
+       * Format: uri.
+       */
+      image?: string;
+      /**
+       * Display name of the author. Populated whenever the provider has data for the entity.
+       * Present whenever the upstream returns this record.
+       */
+      name?: string;
+      /**
+       * Canonical LinkedIn profile or company URL for the author. Populated whenever the provider has data for the entity.
+       * Format: uri.
+       * Present whenever the upstream returns this record.
+       */
+      profileUrl?: string;
+      /**
+       * LinkedIn public identifier (vanity slug) for the author, for example "williamhgates". Absent for company authors, which carry universalName instead.
+       */
+      publicIdentifier?: string;
+      /**
+       * Author kind, such as profile or company.
+       */
+      type?: string;
+      /**
+       * Universal LinkedIn name used for company authors, when present.
+       */
+      universalName?: string;
+    };
+    /**
+     * Public engagement totals attached to the post. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    engagement?: {
+      /**
+       * Reaction counts on the post grouped by LinkedIn reaction type.
+       */
+      breakdown?: LinkedinProfileReactionsBreakdown[];
+      /**
+       * Total comment count.
+       * Range: minimum 0.
+       */
+      comments?: number;
+      /**
+       * Total reaction count.
+       * Range: minimum 0.
+       */
+      reactions?: number;
+      /**
+       * Total repost or share count.
+       * Range: minimum 0.
+       */
+      reposts?: number;
+    };
+    /**
+     * LinkedIn activity identifier of the post that was reacted to. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    id?: string;
+    /**
+     * Unique identifier of the post this one reshares, when it is a reshare.
+     */
+    repostId?: string;
+    /**
+     * Text content of the post. Empty string when the post carries no commentary of its own, such as a bare reshare or an image-only post. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    text?: string;
+    /**
+     * Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    url?: string;
+  };
+  /**
+   * Canonical LinkedIn feed URL of the reaction event. Use post.url for the post itself. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinProfileReactionsBreakdown {
+  /**
+   * Number of reactions of this type.
+   * Range: minimum 0.
+   */
+  count: number;
+  /**
+   * LinkedIn reaction type.
+   */
+  type: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Profile Reactions (linkedin.profile_reactions).
+ */
+export interface LinkedinProfileReactionsData {
+  /**
+   * Posts the member has reacted to, newest first. One record per reaction, carrying both the reaction itself and the post it was made on. Populated whenever the provider has data for the entity.
+   */
+  items: LinkedinProfileReactionsItem[];
+}
+
+/**
  * Input for LinkedIn Profile (basic) (linkedin.profile_thin).
  */
 export interface LinkedinProfileThinInput {
@@ -2334,6 +2899,31 @@ export interface LinkedinProfileThinInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `headline` or `recentPosts`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "about"
+    | "activityType"
+    | "articles"
+    | "avatarUrl"
+    | "company"
+    | "companyUrl"
+    | "createdUtc"
+    | "education"
+    | "endDate"
+    | "followers"
+    | "headline"
+    | "id"
+    | "location"
+    | "name"
+    | "recentPosts"
+    | "school"
+    | "schoolUrl"
+    | "startDate"
+    | "text"
+    | "url"
+  )[];
   /**
    * Full LinkedIn profile URL.
    */
@@ -2572,7 +3162,7 @@ export interface LinkedinSearchPostsInput {
    */
   query: string;
   /**
-   * Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Not all sources for this search can page, and one that can may cost more per request.
+   * Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working.
    */
   requireCursor?: boolean;
 }
@@ -3752,6 +4342,23 @@ export class LinkedinNamespace {
   }
 
   /**
+   * LinkedIn Job
+   *
+   * Fetch one LinkedIn job posting by URL: title, full description, location, salary when disclosed, applicant count, employment and workplace type, seniority, benefits, industries, apply links, posting and expiry dates, the hiring team, the applicant tracking system behind it, and the hiring company with its size, follower count, website and description.
+   *
+   * Price: $0.0015 per request.
+   *
+   * @example
+   * const res = await client.linkedin.job({ url: "https://www.linkedin.com/jobs/view/4431721875/" });
+   */
+  job(
+    input: LinkedinJobInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinJobData>> {
+    return this._core.run("linkedin.job", input, options);
+  }
+
+  /**
    * LinkedIn Jobs
    *
    * Search LinkedIn job listings by title and location - full records with description, salary, applicant count, seniority, company details, and benefits. Up to 25 jobs per request.
@@ -3871,6 +4478,23 @@ export class LinkedinNamespace {
   }
 
   /**
+   * LinkedIn Profile Comments
+   *
+   * List the comments a LinkedIn member has left on other people's posts - the comment text, its permalink and timestamp, plus the post it was left on and that post's author and engagement.
+   *
+   * Price: $0.005 per request.
+   *
+   * @example
+   * const res = await client.linkedin.profileComments({ url: "https://www.linkedin.com/in/jeffweiner08", limit: 10 });
+   */
+  profileComments(
+    input: LinkedinProfileCommentsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinProfileCommentsData>> {
+    return this._core.run("linkedin.profile_comments", input, options);
+  }
+
+  /**
    * LinkedIn Profile Posts (full)
    *
    * Fetch recent public LinkedIn profile posts with enriched author, engagement, article, newsletter, media, annotation, repost, and social activity details.
@@ -3902,6 +4526,23 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinProfilePostsThinData>> {
     return this._core.run("linkedin.profile_posts_thin", input, options);
+  }
+
+  /**
+   * LinkedIn Profile Reactions
+   *
+   * List the posts a LinkedIn member has reacted to - the reaction, its timestamp, and the full post it was made on with author and engagement.
+   *
+   * Price: $0.005 per request.
+   *
+   * @example
+   * const res = await client.linkedin.profileReactions({ url: "https://www.linkedin.com/in/williamhgates", limit: 10 });
+   */
+  profileReactions(
+    input: LinkedinProfileReactionsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinProfileReactionsData>> {
+    return this._core.run("linkedin.profile_reactions", input, options);
   }
 
   /**

@@ -186,7 +186,11 @@ class TiktokFollowingInput(TypedDict, total=False):
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireCursor: NotRequired[bool]
-    """Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. Not all sources for this list can page, and one that can may cost more per request."""
+    """Deprecated; send `requireFields: ["nextCursor"]` instead, which does exactly the same thing. Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Omit it and routing is unchanged, with the cheapest source serving. This can raise your price: when the cheapest source cannot page, a source that can serves, and you are quoted and charged its price. It stays accepted so callers that already send it keep working."""
+    requireFields: NotRequired[
+        list[Literal["bio", "followers", "following", "nextCursor", "videos"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
 
 
 class TiktokHashtagVideosInput(TypedDict, total=False):
@@ -234,6 +238,35 @@ class TiktokProfileContactInput(TypedDict, total=False):
     """TikTok username without the leading @."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "avatarUrl",
+                "bio",
+                "displayName",
+                "domain",
+                "domainHealth",
+                "email",
+                "externalUrl",
+                "followers",
+                "following",
+                "likes",
+                "platform",
+                "primaryEmail",
+                "private",
+                "profileUrl",
+                "seller",
+                "socialLinks",
+                "sourceType",
+                "sourceUrl",
+                "url",
+                "userId",
+                "verified",
+                "videos",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `socialLinks` or `domain`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
 
 
 class TiktokProfileRegionInput(TypedDict, total=False):
@@ -279,7 +312,7 @@ class TiktokSearchKeywordInput(TypedDict, total=False):
     query: Required[str]
     """The keyword to search TikTok for."""
     requireCursor: NotRequired[bool]
-    """Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Not all sources for this search can page, and one that can may cost more per request."""
+    """Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working."""
     sortBy: NotRequired[Any]
     """Sort order. Use the canonical JSON integer 0 for relevance, 1 for most liked, or 2 for newest first; legacy numeric strings remain accepted."""
 
@@ -460,6 +493,8 @@ class TiktokTrendingHashtagsInput(TypedDict, total=False):
         ]
     ]
     """Two-letter country code of the market whose hashtag ranking to read (default US). Each market is ranked independently, so US and DE return different boards. Default: US."""
+    requireFields: NotRequired[list[Literal["industryIds", "topCreators"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `industryIds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a hashtag that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
 
 
 class TiktokVideoInput(TypedDict, total=False):

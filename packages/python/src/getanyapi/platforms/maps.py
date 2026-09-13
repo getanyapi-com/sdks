@@ -55,6 +55,28 @@ class MapsPlaceInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The business name or search text to look up, as you would type it into the Google Maps search bar (e.g. Blue Bottle Coffee)."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "city",
+                "countryCode",
+                "hours",
+                "image",
+                "neighborhood",
+                "permanentlyClosed",
+                "phone",
+                "plusCode",
+                "postalCode",
+                "priceLevel",
+                "rating",
+                "reviewsCount",
+                "state",
+                "street",
+                "website",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `hours` or `plusCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     website: NotRequired[Literal["allPlaces", "withWebsite", "withoutWebsite"]]
     """Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source."""
 
@@ -72,6 +94,24 @@ class MapsReviewsInput(TypedDict, total=False):
     """Only return reviews posted within this window: 24h (past 24 hours), week (past 7 days), month (past month), or year (past year). Omit for no recency filter."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "isLocalGuide",
+                "likes",
+                "origin",
+                "ownerResponse",
+                "ownerResponseAt",
+                "placeId",
+                "publishedAgo",
+                "rating",
+                "reviewerId",
+                "reviewerReviewsCount",
+                "text",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isLocalGuide` or `placeId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     reviewsFilterString: NotRequired[str]
     """Only return reviews whose text contains this keyword or phrase (case-insensitive). Omit to return all reviews (e.g. parking)."""
     sort: NotRequired[
@@ -99,6 +139,30 @@ class MapsSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """What you would type in the Google Maps search bar (e.g. coffee shop)."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "address",
+                "category",
+                "cid",
+                "city",
+                "countryCode",
+                "image",
+                "latitude",
+                "longitude",
+                "permanentlyClosed",
+                "phone",
+                "postalCode",
+                "priceLevel",
+                "rating",
+                "reviewCount",
+                "state",
+                "street",
+                "website",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `cid` or `street`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     website: NotRequired[Literal["allPlaces", "withWebsite", "withoutWebsite"]]
     """Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source."""
 

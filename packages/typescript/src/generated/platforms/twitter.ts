@@ -391,7 +391,7 @@ export interface TwitterFollowingInput {
    */
   cursor?: string;
   /**
-   * Per-page maximum number of followed accounts to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more.
+   * Per-page maximum number of followed accounts to return (default 200). A limit larger than the native page still returns at most one native page; follow the response's nextCursor for more.
    * Range: minimum 1, maximum 100000.
    * Default: 200.
    */
@@ -427,7 +427,7 @@ export interface TwitterFollowingItem {
   /**
    * The account's self-reported location (may be empty).
    */
-  location: string;
+  location?: string;
   /**
    * The account's display name. Populated whenever the provider has data for the entity.
    */
@@ -439,7 +439,7 @@ export interface TwitterFollowingItem {
   /**
    * Whether the account is verified.
    */
-  verified: boolean;
+  verified?: boolean;
   [extra: string]: unknown;
 }
 
@@ -636,6 +636,23 @@ export interface TwitterSearchInput {
    * Default: Latest.
    */
   queryType?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "authorVerified"
+    | "bookmarkCount"
+    | "conversationId"
+    | "isReply"
+    | "lang"
+    | "likeCount"
+    | "media"
+    | "nextCursor"
+    | "quoteCount"
+    | "replyCount"
+    | "retweetCount"
+    | "viewCount"
+  )[];
   /**
    * Set true to get up to limit results in one response instead of provider-native pages, served by a bulk provider when needed.
    */
@@ -1006,6 +1023,10 @@ export interface TwitterTrendsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `promoted`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a trend that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("isHashtag" | "promoted")[];
 }
 
 export interface TwitterTrendsItem {
@@ -1064,6 +1085,23 @@ export interface TwitterTweetInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `media` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "bookmarks"
+    | "height"
+    | "likes"
+    | "media"
+    | "quotes"
+    | "replies"
+    | "retweets"
+    | "type"
+    | "url"
+    | "videoUrl"
+    | "views"
+    | "width"
+  )[];
   /**
    * Canonical x.com or twitter.com status URL with a numeric tweet ID, including /i/web/status and media-share variants.
    */
@@ -1172,6 +1210,22 @@ export interface TwitterUserPostsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "bookmarks"
+    | "isPinned"
+    | "isReply"
+    | "lang"
+    | "likes"
+    | "media"
+    | "nextCursor"
+    | "quotes"
+    | "replies"
+    | "retweets"
+    | "views"
+  )[];
 }
 
 export interface TwitterUserPostsTweet {
@@ -1292,6 +1346,22 @@ export interface TwitterUserTweetsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "bookmarks"
+    | "isPinned"
+    | "isReply"
+    | "lang"
+    | "likes"
+    | "media"
+    | "nextCursor"
+    | "quotes"
+    | "replies"
+    | "retweets"
+    | "views"
+  )[];
   /**
    * Require a lane that can return the requested limit in one response.
    */
@@ -1463,9 +1533,9 @@ export class TwitterNamespace {
   /**
    * X / Twitter Following
    *
-   * List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.
+   * List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum; follow the response's nextCursor for more.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.twitter.following({ username: "nasa", limit: 200 });

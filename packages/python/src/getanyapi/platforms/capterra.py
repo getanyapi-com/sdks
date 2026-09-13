@@ -24,6 +24,20 @@ class CapterraReviewsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     product: Required[str]
     """Capterra product URL, for example https://www.capterra.com/p/135003/Slack/. Capterra identifies a product by both its numeric id and its slug, so the full URL is required."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "alternativesConsidered",
+                "anonymous",
+                "chosenReasons",
+                "ownerResponse",
+                "reviewSource",
+                "switchedFrom",
+                "switchingReasons",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `ownerResponse`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sortBy: NotRequired[Literal["recent", "complete", "highest", "lowest"]]
     """Sort order for the returned reviews: newest first, most complete first, or highest or lowest rated first. Default: recent."""
 

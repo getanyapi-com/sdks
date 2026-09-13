@@ -3328,6 +3328,20 @@
     "items": 1,
     "replayed": false
   },
+  "linkedin.job": {
+    "output": {
+      "found": true,
+      "data": {
+        "title": "sample",
+        "url": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "linkedin.jobs": {
     "output": {
       "found": true,
@@ -3453,6 +3467,24 @@
     "items": 1,
     "replayed": false
   },
+  "linkedin.profile_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "commentary": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "linkedin.profile_posts_full": {
     "output": {
       "found": true,
@@ -3483,6 +3515,24 @@
             "url": "https://example.com/x",
             "text": "sample",
             "createdUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "linkedin.profile_reactions": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "action": "sample",
             "_extra": "passthrough"
           }
         ]
@@ -6195,8 +6245,6 @@
             "bio": "sample",
             "followers": 1,
             "following": 1,
-            "verified": true,
-            "location": "sample",
             "avatarUrl": "sample",
             "_extra": "passthrough"
           }

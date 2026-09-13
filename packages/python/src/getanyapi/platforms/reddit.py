@@ -70,6 +70,22 @@ class RedditSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Free-text search across all of Reddit. Reddit's field operators are supported inside the string: subreddit:<name> to scope to one subreddit, author:<user>, title:<text>, selftext:<text>, self:yes|no, nsfw:yes|no, and boolean AND/OR/NOT. To restrict to a single subreddit you can use subreddit:<name> here, or use the reddit.subreddit_posts SKU for a plain subreddit listing."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "author",
+                "createdUtc",
+                "isArchived",
+                "isLocked",
+                "media",
+                "nextCursor",
+                "numComments",
+                "score",
+                "selftext",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     sort: NotRequired[Literal["relevance", "hot", "top", "new", "comments"]]
     """Result sort order."""
     timeframe: NotRequired[Literal["hour", "day", "week", "month", "year", "all"]]
@@ -81,6 +97,8 @@ class RedditSubredditDetailsInput(TypedDict, total=False):
 
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["advertiserCategory", "weeklyActiveUsers"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `weeklyActiveUsers` or `advertiserCategory`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a subreddit that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     subreddit: Required[str]
     """Subreddit name without the r/ prefix. Case-sensitive (e.g. "AskReddit", not "askreddit")."""
 
@@ -96,6 +114,19 @@ class RedditSubredditPostsInput(TypedDict, total=False):
     """Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, pass `nextCursor` back as `cursor`. Range: 1 to 100. Default: 25."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "isArchived",
+                "isLocked",
+                "nextCursor",
+                "numComments",
+                "score",
+                "selftext",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     sort: NotRequired[Literal["hot", "new", "top"]]
     """Listing sort order. Default: hot."""
     subreddit: Required[str]
@@ -113,6 +144,22 @@ class RedditSubredditSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: NotRequired[str]
     """Optional search query to match posts (e.g. 'push ups')."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "author",
+                "createdUtc",
+                "isArchived",
+                "isLocked",
+                "nextCursor",
+                "nsfw",
+                "numComments",
+                "score",
+                "selftext",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     sort: NotRequired[str]
     """Optional sort order: relevance, hot, top, new, comments."""
     subreddit: Required[str]
@@ -154,6 +201,21 @@ class RedditUserPostsInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "createdUtc",
+                "isArchived",
+                "isLocked",
+                "media",
+                "nextCursor",
+                "numComments",
+                "score",
+                "selftext",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `isLocked`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     sort: NotRequired[Literal["new", "top", "hot", "controversial"]]
     """Sort order for the user's posts. Defaults to new (most recent first)."""
     username: Required[str]
@@ -444,9 +506,9 @@ class RedditSearchMedia(BaseModel):
 class RedditSubredditDetailsData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    advertiser_category: str = Field(
+    advertiser_category: str | None = Field(
         alias="advertiserCategory",
-        description="Reddit advertiser category for the subreddit.",
+        description="Reddit advertiser category for the subreddit, or null when the serving source does not publish it.",
     )
     created_utc: float = Field(
         alias="createdUtc",
@@ -465,9 +527,9 @@ class RedditSubredditDetailsData(BaseModel):
     name: str = Field(
         description="Subreddit name (without the r/ prefix). Populated whenever the provider has data for the entity."
     )
-    weekly_active_users: int = Field(
+    weekly_active_users: int | None = Field(
         alias="weeklyActiveUsers",
-        description="Number of users active in the past week.",
+        description="Number of users active in the past week, or null when the serving source does not publish it.",
     )
 
 

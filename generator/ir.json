@@ -1520,6 +1520,29 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `category` or `condition`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "category",
+                "condition",
+                "currency",
+                "description",
+                "features",
+                "images",
+                "inStock",
+                "price",
+                "rating",
+                "reviewsCount",
+                "sellerName"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "url": {
             "kind": "string",
             "description": "Full Amazon product URL (e.g. https://www.amazon.com/dp/B0CX23V2ZK).",
@@ -1806,6 +1829,25 @@
             ],
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `url`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "createdUtc",
+                "helpfulVotes",
+                "rating",
+                "reviewer",
+                "title",
+                "url",
+                "verifiedPurchase"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "sort": {
             "kind": "string",
@@ -4382,6 +4424,22 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `helpfulVotes` or `version`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "helpfulVotes",
+                "title",
+                "url",
+                "version"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [
@@ -5174,6 +5232,25 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `ownerResponse`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "alternativesConsidered",
+                "anonymous",
+                "chosenReasons",
+                "ownerResponse",
+                "reviewSource",
+                "switchedFrom",
+                "switchingReasons"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "sortBy": {
             "kind": "string",
             "description": "Sort order for the returned reviews: newest first, most complete first, or highest or lowest rated first.",
@@ -5558,6 +5635,49 @@
             "kind": "boolean",
             "description": "Serve only from a source that can return brands and other named entities recognized in the answer. One source currently qualifies, so the request cannot fall back when it is unavailable.",
             "default": false
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `cited` or `price`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "address",
+                "ads",
+                "advertiserName",
+                "advertiserUrl",
+                "answerPosition",
+                "category",
+                "cited",
+                "createdUtc",
+                "currency",
+                "description",
+                "domain",
+                "entities",
+                "image",
+                "merchants",
+                "model",
+                "name",
+                "phone",
+                "places",
+                "position",
+                "price",
+                "prompt",
+                "rating",
+                "reviewCount",
+                "searchQueries",
+                "searchResults",
+                "shoppingCards",
+                "snippet",
+                "title",
+                "url",
+                "webSearchTriggered",
+                "websiteUrl"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "requirePlaces": {
             "kind": "boolean",
@@ -16965,6 +17085,25 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `reason`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "catchAll",
+                "disposable",
+                "domain",
+                "free",
+                "reason",
+                "role",
+                "score"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [
@@ -24556,6 +24695,25 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `productSlug`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "authorCountry",
+                "helpfulVotes",
+                "productSlug",
+                "ratings",
+                "responseType",
+                "reviewSource",
+                "switchedFrom"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "sortBy": {
             "kind": "string",
             "description": "Sort order for the returned reviews: newest first, most helpful first, highest or lowest rated first, or G2's own default ordering.",
@@ -27040,6 +27198,23 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `citations` or `index`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "citations",
+                "index",
+                "scrapedAt",
+                "title",
+                "url"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [
@@ -28149,7 +28324,7 @@
           },
           "requireCursor": {
             "kind": "boolean",
-            "description": "Set true if you intend to page through results. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays supported so callers that already send it keep working.",
+            "description": "Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working.",
             "default": null
           },
           "timeframe": {
@@ -29636,6 +29811,29 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `listPrice` or `discountPercent`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "brand",
+                "currency",
+                "discountPercent",
+                "listPrice",
+                "listPriceText",
+                "price",
+                "priceText",
+                "productId",
+                "rating",
+                "reviewsCount",
+                "seller"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "sortBy": {
             "kind": "string",
             "description": "Sort order for results (e.g. \"LOWEST_PRICE\"); defaults to relevance.",
@@ -31083,6 +31281,24 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "image",
+                "name",
+                "nextCursor",
+                "private",
+                "url",
+                "verified"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "username": {
             "kind": "string",
             "description": "The Instagram username, user ID, or profile URL whose followers to list (e.g. natgeo).",
@@ -31231,6 +31447,24 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "image",
+                "name",
+                "nextCursor",
+                "private",
+                "url",
+                "verified"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "username": {
             "kind": "string",
@@ -32590,9 +32824,26 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `plays`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "likes",
+                "plays",
+                "shortcode",
+                "type",
+                "videoUrl"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "requirePlayCount": {
             "kind": "boolean",
-            "description": "Set true to be served only by a source that reports a reel's play count. The default cheapest source does not carry play counts, so `plays` is absent from its responses; opting in guarantees the field when Instagram exposes it, at a higher price per request.",
+            "description": "Deprecated; send `requireFields: [\"plays\"]` instead, which does exactly the same thing. Set true to be served only by a source that reports a reel's play count. Omit it and routing is unchanged, with the cheapest source serving, which does not carry play counts, so `plays` is absent from its responses. This can raise your price: opting in routes to a source that reports the count, and you are quoted and charged its price. It stays accepted so callers that already send it keep working.",
             "default": null
           },
           "url": {
@@ -33000,7 +33251,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33992,6 +34243,29 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAd`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "avatarUrl",
+                "caption",
+                "comments",
+                "createdUtc",
+                "durationSeconds",
+                "isAd",
+                "likes",
+                "nextCursor",
+                "type",
+                "verified",
+                "videoUrl"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [
@@ -38763,6 +39037,37 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `postalCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "city",
+                "companyType",
+                "country",
+                "employeeCountRange",
+                "foundedOn",
+                "fundingData",
+                "headquarter",
+                "industry",
+                "line1",
+                "locations",
+                "logoUrl",
+                "name",
+                "pageVerified",
+                "postalCode",
+                "similarOrganizations",
+                "specialities",
+                "tagline",
+                "universalName",
+                "website"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "url": {
             "kind": "string",
             "description": "Full LinkedIn company page URL.",
@@ -39874,6 +40179,337 @@
       }
     },
     {
+      "slug": "linkedin.job",
+      "platform": "linkedin",
+      "action": "job",
+      "operationId": "linkedin_job",
+      "name": "LinkedIn Job",
+      "category": "data",
+      "description": "Fetch one LinkedIn job posting by URL: title, full description, location, salary when disclosed, applicant count, employment and workplace type, seniority, benefits, industries, apply links, posting and expiry dates, the hiring team, the applicant tracking system behind it, and the hiring company with its size, follower count, website and description.",
+      "pricing": {
+        "priceUsd": 0.0015,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "job",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "job",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinJobInput",
+      "outputTypeName": "LinkedinJobData",
+      "example": {
+        "url": "https://www.linkedin.com/jobs/view/4431721875/"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "url": {
+            "kind": "string",
+            "description": "Full LinkedIn job posting URL, e.g. https://www.linkedin.com/jobs/view/4431721875/.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "description": "A single LinkedIn job posting with full detail: title, description, salary, applicant count, seniority, apply links, hiring team, and the hiring company.",
+          "properties": {
+            "applicantTrackingSystem": {
+              "kind": "string",
+              "description": "Applicant tracking system behind the posting (e.g. Workday, Lever, Greenhouse), when LinkedIn reports one.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "applicants": {
+              "kind": "integer",
+              "description": "Number of applicants reported by LinkedIn. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "applyUrl": {
+              "kind": "string",
+              "description": "External company apply URL when the job applies off-site.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "benefits": {
+              "kind": "array",
+              "description": "Listed benefits.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "company": {
+              "kind": "object",
+              "description": "Hiring company details.",
+              "properties": {
+                "description": {
+                  "kind": "string",
+                  "description": "Company About text.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "employeeCount": {
+                  "kind": "integer",
+                  "description": "Number of employees LinkedIn reports for the company.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "followerCount": {
+                  "kind": "integer",
+                  "description": "Number of followers of the company page.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "linkedinUrl": {
+                  "kind": "string",
+                  "description": "Canonical LinkedIn company URL.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "logo": {
+                  "kind": "string",
+                  "description": "Company logo image URL.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "name": {
+                  "kind": "string",
+                  "description": "Company name. Populated whenever the provider has data for the entity.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "universalName": {
+                  "kind": "string",
+                  "description": "Company LinkedIn universal (vanity) name.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "website": {
+                  "kind": "string",
+                  "description": "Company website.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                }
+              },
+              "required": [],
+              "open": true,
+              "mustPopulate": [
+                "name"
+              ]
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time) the job was posted. Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "descriptionText": {
+              "kind": "string",
+              "description": "Full job description as plain text. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "easyApplyUrl": {
+              "kind": "string",
+              "description": "LinkedIn Easy Apply URL when available.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "employmentType": {
+              "kind": "string",
+              "description": "Employment type (e.g. full_time, contract, part_time).",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "experienceLevel": {
+              "kind": "string",
+              "description": "Seniority / experience level (e.g. Mid-Senior level, Entry level).",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "expireUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time) the posting expires. Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "hiringTeam": {
+              "kind": "array",
+              "description": "LinkedIn members named on the posting as the hiring contacts.",
+              "items": {
+                "kind": "object",
+                "description": "One named hiring contact.",
+                "properties": {
+                  "linkedinUrl": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Member name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "position": {
+                    "kind": "string",
+                    "description": "Member headline or job title.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "id": {
+              "kind": "string",
+              "description": "LinkedIn job posting id.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "industries": {
+              "kind": "array",
+              "description": "Industries associated with the role.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "jobState": {
+              "kind": "string",
+              "description": "Posting state reported by LinkedIn (e.g. LISTED, CLOSED).",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "location": {
+              "kind": "string",
+              "description": "Job location (city, region, or country).",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "salary": {
+              "kind": "object",
+              "description": "Salary range when disclosed by the poster.",
+              "properties": {
+                "max": {
+                  "kind": "number",
+                  "description": "Maximum salary.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "min": {
+                  "kind": "number",
+                  "description": "Minimum salary.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "text": {
+                  "kind": "string",
+                  "description": "Salary as displayed (e.g. '300,000 - 330,000 USD').",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "title": {
+              "kind": "string",
+              "description": "Job title. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Canonical LinkedIn job posting URL.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "workplaceType": {
+              "kind": "string",
+              "description": "Workplace type (e.g. remote, on_site, hybrid).",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "title",
+            "url"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "applicants",
+            "descriptionText",
+            "title"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "linkedin.jobs",
       "platform": "linkedin",
       "action": "jobs",
@@ -40355,6 +40991,22 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `logoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "companyUrl",
+                "createdUtc",
+                "id",
+                "logoUrl"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "workplaceType": {
             "kind": "string",
@@ -41567,6 +42219,340 @@
       }
     },
     {
+      "slug": "linkedin.profile_comments",
+      "platform": "linkedin",
+      "action": "profile_comments",
+      "operationId": "linkedin_profile_comments",
+      "name": "LinkedIn Profile Comments",
+      "category": "social",
+      "description": "List the comments a LinkedIn member has left on other people's posts - the comment text, its permalink and timestamp, plus the post it was left on and that post's author and engagement.",
+      "pricing": {
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "profileComments",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "profile_comments",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinProfileCommentsInput",
+      "outputTypeName": "LinkedinProfileCommentsData",
+      "example": {
+        "limit": 10,
+        "url": "https://www.linkedin.com/in/jeffweiner08"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of comments to return.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100
+          },
+          "postedLimit": {
+            "kind": "string",
+            "description": "Only return comments posted within this window (default any).",
+            "enum": [
+              "any",
+              "24h",
+              "week",
+              "month"
+            ],
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "url": {
+            "kind": "string",
+            "description": "Full URL of the LinkedIn member profile whose comments on other people's posts should be listed.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Comments this member left on other people's posts, newest first, each with the post it was left on. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "actor": {
+                    "kind": "object",
+                    "description": "The member who left the comment (a profile or a company).",
+                    "properties": {
+                      "image": {
+                        "kind": "string",
+                        "description": "Profile picture URL of the commenter. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "linkedinUrl": {
+                        "kind": "string",
+                        "description": "Canonical LinkedIn URL of the commenter. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "name": {
+                        "kind": "string",
+                        "description": "Display name of the commenter. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "position": {
+                        "kind": "string",
+                        "description": "Commenter's headline or job title as displayed. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "type": {
+                        "kind": "string",
+                        "description": "Commenter kind, e.g. 'profile' or 'company'.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "image",
+                      "linkedinUrl",
+                      "name",
+                      "position"
+                    ]
+                  },
+                  "commentary": {
+                    "kind": "string",
+                    "description": "Full text of the comment the member left. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "edited": {
+                    "kind": "boolean",
+                    "description": "Whether the comment has been edited.",
+                    "default": null
+                  },
+                  "engagement": {
+                    "kind": "object",
+                    "description": "Engagement metrics for the comment.",
+                    "properties": {
+                      "comments": {
+                        "kind": "integer",
+                        "description": "Number of replies to the comment.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "likes": {
+                        "kind": "integer",
+                        "description": "Number of likes on the comment.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Unique identifier of the comment. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "post": {
+                    "kind": "object",
+                    "description": "The post the comment was left on, so the comment can be read in context. Populated whenever the provider has data for the entity.",
+                    "properties": {
+                      "author": {
+                        "kind": "object",
+                        "description": "Author of the post that was commented on.",
+                        "properties": {
+                          "headline": {
+                            "kind": "string",
+                            "description": "Public headline or company follower summary for the post author.",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "image": {
+                            "kind": "string",
+                            "description": "Profile or company image URL of the post author. Populated whenever the provider has data for the entity.",
+                            "enum": null,
+                            "default": null,
+                            "format": "uri"
+                          },
+                          "name": {
+                            "kind": "string",
+                            "description": "Display name of the post author. Populated whenever the provider has data for the entity.",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "profileUrl": {
+                            "kind": "string",
+                            "description": "Canonical LinkedIn profile or company URL of the post author. Populated whenever the provider has data for the entity.",
+                            "enum": null,
+                            "default": null,
+                            "format": "uri"
+                          },
+                          "publicIdentifier": {
+                            "kind": "string",
+                            "description": "LinkedIn public identifier (vanity slug) of the post author, for example \"williamhgates\". Stable across lanes, unlike the raw id.",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          }
+                        },
+                        "required": [],
+                        "open": true,
+                        "mustPopulate": [
+                          "image",
+                          "name",
+                          "profileUrl"
+                        ]
+                      },
+                      "engagement": {
+                        "kind": "object",
+                        "description": "Public engagement totals on the post that was commented on.",
+                        "properties": {
+                          "comments": {
+                            "kind": "integer",
+                            "description": "Total comment count on the post.",
+                            "minimum": 0,
+                            "maximum": null,
+                            "default": null
+                          },
+                          "reactions": {
+                            "kind": "integer",
+                            "description": "Total reaction count on the post.",
+                            "minimum": 0,
+                            "maximum": null,
+                            "default": null
+                          },
+                          "reposts": {
+                            "kind": "integer",
+                            "description": "Total repost or share count on the post.",
+                            "minimum": 0,
+                            "maximum": null,
+                            "default": null
+                          }
+                        },
+                        "required": [],
+                        "open": true
+                      },
+                      "id": {
+                        "kind": "string",
+                        "description": "Unique identifier of the LinkedIn post that was commented on.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "postedUtc": {
+                        "kind": "number",
+                        "description": "UTC epoch timestamp in seconds (Unix time) when the post was published. Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "text": {
+                        "kind": "string",
+                        "description": "Text content of the post that was commented on. Empty when the post carries no commentary of its own, such as a bare reshare or an image-only post. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "url": {
+                        "kind": "string",
+                        "description": "Canonical LinkedIn URL of the post that was commented on. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "postedUtc",
+                      "text",
+                      "url"
+                    ]
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical permalink URL of the comment. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id",
+                  "commentary"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "commentary",
+                  "createdUtc",
+                  "id",
+                  "post",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "linkedin.profile_posts_full",
       "platform": "linkedin",
       "action": "profile_posts_full",
@@ -42702,6 +43688,337 @@
       }
     },
     {
+      "slug": "linkedin.profile_reactions",
+      "platform": "linkedin",
+      "action": "profile_reactions",
+      "operationId": "linkedin_profile_reactions",
+      "name": "LinkedIn Profile Reactions",
+      "category": "social",
+      "description": "List the posts a LinkedIn member has reacted to - the reaction, its timestamp, and the full post it was made on with author and engagement.",
+      "pricing": {
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "profileReactions",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "profile_reactions",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinProfileReactionsInput",
+      "outputTypeName": "LinkedinProfileReactionsData",
+      "example": {
+        "limit": 10,
+        "url": "https://www.linkedin.com/in/williamhgates"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of reactions to return. One upstream page holds 100.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "url": {
+            "kind": "string",
+            "description": "Full URL of the LinkedIn member profile whose reactions to list, for example https://www.linkedin.com/in/williamhgates.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Posts the member has reacted to, newest first. One record per reaction, carrying both the reaction itself and the post it was made on. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "action": {
+                    "kind": "string",
+                    "description": "LinkedIn's own display sentence for the reaction, for example \"Bill Gates likes this\" or \"Ali Abdaal liked Tobi Odutola's comment on this\". It is the only place the reaction kind appears on this endpoint, it names the member and sometimes a third party, and it distinguishes a reaction on the post from a reaction on a comment. It is free English text, not an enum: parse it only if you accept that LinkedIn may reword it. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "actor": {
+                    "kind": "object",
+                    "description": "The member who reacted - the profile that was asked about. Populated whenever the provider has data for the entity.",
+                    "properties": {
+                      "id": {
+                        "kind": "string",
+                        "description": "LinkedIn member identifier of the reactor.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "image": {
+                        "kind": "string",
+                        "description": "Profile picture URL of the reactor.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "linkedinUrl": {
+                        "kind": "string",
+                        "description": "Canonical LinkedIn profile URL of the reactor. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "linkedinUrl"
+                    ]
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "LinkedIn activity identifier of the reaction event itself. This is not the identifier of the post that was reacted to - that is post.id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "post": {
+                    "kind": "object",
+                    "description": "The post the member reacted to. Populated whenever the provider has data for the entity.",
+                    "properties": {
+                      "author": {
+                        "kind": "object",
+                        "description": "Public author identity attached to the post. Populated whenever the provider has data for the entity.",
+                        "properties": {
+                          "headline": {
+                            "kind": "string",
+                            "description": "Public headline for a person, or the follower summary for a company. Populated whenever the provider has data for the entity.",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "id": {
+                            "kind": "string",
+                            "description": "LinkedIn identifier for the author.",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "image": {
+                            "kind": "string",
+                            "description": "Public profile or company image URL for the author.",
+                            "enum": null,
+                            "default": null,
+                            "format": "uri"
+                          },
+                          "name": {
+                            "kind": "string",
+                            "description": "Display name of the author. Populated whenever the provider has data for the entity.",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "profileUrl": {
+                            "kind": "string",
+                            "description": "Canonical LinkedIn profile or company URL for the author. Populated whenever the provider has data for the entity.",
+                            "enum": null,
+                            "default": null,
+                            "format": "uri"
+                          },
+                          "publicIdentifier": {
+                            "kind": "string",
+                            "description": "LinkedIn public identifier (vanity slug) for the author, for example \"williamhgates\". Absent for company authors, which carry universalName instead.",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "type": {
+                            "kind": "string",
+                            "description": "Author kind, such as profile or company.",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "universalName": {
+                            "kind": "string",
+                            "description": "Universal LinkedIn name used for company authors, when present.",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          }
+                        },
+                        "required": [],
+                        "open": true,
+                        "mustPopulate": [
+                          "headline",
+                          "name",
+                          "profileUrl"
+                        ]
+                      },
+                      "engagement": {
+                        "kind": "object",
+                        "description": "Public engagement totals attached to the post. Populated whenever the provider has data for the entity.",
+                        "properties": {
+                          "breakdown": {
+                            "kind": "array",
+                            "description": "Reaction counts on the post grouped by LinkedIn reaction type.",
+                            "items": {
+                              "kind": "object",
+                              "properties": {
+                                "count": {
+                                  "kind": "integer",
+                                  "description": "Number of reactions of this type.",
+                                  "minimum": 0,
+                                  "maximum": null,
+                                  "default": null
+                                },
+                                "type": {
+                                  "kind": "string",
+                                  "description": "LinkedIn reaction type.",
+                                  "enum": null,
+                                  "default": null,
+                                  "format": null
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "count"
+                              ],
+                              "open": true
+                            },
+                            "mustPopulate": false
+                          },
+                          "comments": {
+                            "kind": "integer",
+                            "description": "Total comment count.",
+                            "minimum": 0,
+                            "maximum": null,
+                            "default": null
+                          },
+                          "reactions": {
+                            "kind": "integer",
+                            "description": "Total reaction count.",
+                            "minimum": 0,
+                            "maximum": null,
+                            "default": null
+                          },
+                          "reposts": {
+                            "kind": "integer",
+                            "description": "Total repost or share count.",
+                            "minimum": 0,
+                            "maximum": null,
+                            "default": null
+                          }
+                        },
+                        "required": [],
+                        "open": true
+                      },
+                      "id": {
+                        "kind": "string",
+                        "description": "LinkedIn activity identifier of the post that was reacted to. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "repostId": {
+                        "kind": "string",
+                        "description": "Unique identifier of the post this one reshares, when it is a reshare.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "text": {
+                        "kind": "string",
+                        "description": "Text content of the post. Empty string when the post carries no commentary of its own, such as a bare reshare or an image-only post. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "url": {
+                        "kind": "string",
+                        "description": "Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "author",
+                      "engagement",
+                      "id",
+                      "text",
+                      "url"
+                    ]
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn feed URL of the reaction event. Use post.url for the post itself. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id",
+                  "action"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "action",
+                  "actor",
+                  "createdUtc",
+                  "id",
+                  "post",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "linkedin.profile_thin",
       "platform": "linkedin",
       "action": "profile_thin",
@@ -42735,6 +44052,38 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `headline` or `recentPosts`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "about",
+                "activityType",
+                "articles",
+                "avatarUrl",
+                "company",
+                "companyUrl",
+                "createdUtc",
+                "education",
+                "endDate",
+                "followers",
+                "headline",
+                "id",
+                "location",
+                "name",
+                "recentPosts",
+                "school",
+                "schoolUrl",
+                "startDate",
+                "text",
+                "url"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "url": {
             "kind": "string",
@@ -43215,7 +44564,7 @@
           },
           "requireCursor": {
             "kind": "boolean",
-            "description": "Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Not all sources for this search can page, and one that can may cost more per request.",
+            "description": "Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working.",
             "default": null
           }
         },
@@ -45586,6 +46935,33 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `hours` or `plusCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "city",
+                "countryCode",
+                "hours",
+                "image",
+                "neighborhood",
+                "permanentlyClosed",
+                "phone",
+                "plusCode",
+                "postalCode",
+                "priceLevel",
+                "rating",
+                "reviewsCount",
+                "state",
+                "street",
+                "website"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "website": {
             "kind": "string",
             "description": "Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.",
@@ -45871,6 +47247,29 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isLocalGuide` or `placeId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "isLocalGuide",
+                "likes",
+                "origin",
+                "ownerResponse",
+                "ownerResponseAt",
+                "placeId",
+                "publishedAgo",
+                "rating",
+                "reviewerId",
+                "reviewerReviewsCount",
+                "text"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "reviewsFilterString": {
             "kind": "string",
             "description": "Only return reviews whose text contains this keyword or phrase (case-insensitive). Omit to return all reviews (e.g. parking).",
@@ -46130,6 +47529,35 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `cid` or `street`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "address",
+                "category",
+                "cid",
+                "city",
+                "countryCode",
+                "image",
+                "latitude",
+                "longitude",
+                "permanentlyClosed",
+                "phone",
+                "postalCode",
+                "priceLevel",
+                "rating",
+                "reviewCount",
+                "state",
+                "street",
+                "website"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "website": {
             "kind": "string",
@@ -59338,6 +60766,21 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `title` or `version`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "helpfulVotes",
+                "title",
+                "version"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "sortBy": {
             "kind": "string",
             "description": "Review ordering: mostRelevant, newest, or rating (e.g. newest).",
@@ -60753,6 +62196,27 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "author",
+                "createdUtc",
+                "isArchived",
+                "isLocked",
+                "media",
+                "nextCursor",
+                "numComments",
+                "score",
+                "selftext"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "sort": {
             "kind": "string",
             "description": "Result sort order.",
@@ -61009,6 +62473,20 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `weeklyActiveUsers` or `advertiserCategory`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a subreddit that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "advertiserCategory",
+                "weeklyActiveUsers"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "subreddit": {
             "kind": "string",
             "description": "Subreddit name without the r/ prefix. Case-sensitive (e.g. \"AskReddit\", not \"askreddit\").",
@@ -61029,7 +62507,8 @@
           "properties": {
             "advertiserCategory": {
               "kind": "string",
-              "description": "Reddit advertiser category for the subreddit.",
+              "description": "Reddit advertiser category for the subreddit, or null when the serving source does not publish it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -61071,7 +62550,8 @@
             },
             "weeklyActiveUsers": {
               "kind": "integer",
-              "description": "Number of users active in the past week.",
+              "description": "Number of users active in the past week, or null when the serving source does not publish it.",
+              "nullable": true,
               "minimum": null,
               "maximum": null,
               "default": null
@@ -61159,6 +62639,24 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "isArchived",
+                "isLocked",
+                "nextCursor",
+                "numComments",
+                "score",
+                "selftext"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "sort": {
             "kind": "string",
@@ -61389,6 +62887,27 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "author",
+                "createdUtc",
+                "isArchived",
+                "isLocked",
+                "nextCursor",
+                "nsfw",
+                "numComments",
+                "score",
+                "selftext"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "sort": {
             "kind": "string",
@@ -61982,6 +63501,26 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `isLocked`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "createdUtc",
+                "isArchived",
+                "isLocked",
+                "media",
+                "nextCursor",
+                "numComments",
+                "score",
+                "selftext"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "sort": {
             "kind": "string",
@@ -71508,8 +73047,25 @@
           },
           "requireCursor": {
             "kind": "boolean",
-            "description": "Set true if you intend to page through the following list, so the request is only served by a source that can return a nextCursor. Not all sources for this list can page, and one that can may cost more per request.",
+            "description": "Deprecated; send `requireFields: [\"nextCursor\"]` instead, which does exactly the same thing. Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Omit it and routing is unchanged, with the cheapest source serving. This can raise your price: when the cheapest source cannot page, a source that can serves, and you are quoted and charged its price. It stays accepted so callers that already send it keep working.",
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bio",
+                "followers",
+                "following",
+                "nextCursor",
+                "videos"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [
@@ -72249,6 +73805,40 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `socialLinks` or `domain`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "avatarUrl",
+                "bio",
+                "displayName",
+                "domain",
+                "domainHealth",
+                "email",
+                "externalUrl",
+                "followers",
+                "following",
+                "likes",
+                "platform",
+                "primaryEmail",
+                "private",
+                "profileUrl",
+                "seller",
+                "socialLinks",
+                "sourceType",
+                "sourceUrl",
+                "url",
+                "userId",
+                "verified",
+                "videos"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [
@@ -72940,7 +74530,7 @@
           },
           "requireCursor": {
             "kind": "boolean",
-            "description": "Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Not all sources for this search can page, and one that can may cost more per request.",
+            "description": "Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working.",
             "default": null
           },
           "sortBy": {
@@ -74333,6 +75923,20 @@
             ],
             "default": "US",
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `industryIds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a hashtag that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "industryIds",
+                "topCreators"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [],
@@ -77491,6 +79095,36 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `phone` or `website`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "address",
+                "category",
+                "city",
+                "country",
+                "email",
+                "hotelClass",
+                "id",
+                "image",
+                "latitude",
+                "longitude",
+                "phone",
+                "postalCode",
+                "priceLevel",
+                "priceRange",
+                "ranking",
+                "reviewCount",
+                "type",
+                "website"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [
@@ -77759,6 +79393,21 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `avatarUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "avatarUrl",
+                "rating",
+                "verified"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "sortBy": {
             "kind": "string",
@@ -79155,9 +80804,9 @@
       "operationId": "twitter_following",
       "name": "X / Twitter Following",
       "category": "social",
-      "description": "List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.",
+      "description": "List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum; follow the response's nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -79186,7 +80835,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Per-page maximum number of followed accounts to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more.",
+            "description": "Per-page maximum number of followed accounts to return (default 200). A limit larger than the native page still returns at most one native page; follow the response's nextCursor for more.",
             "minimum": 1,
             "maximum": 100000,
             "default": 200
@@ -79283,8 +80932,6 @@
                   "bio",
                   "followers",
                   "following",
-                  "verified",
-                  "location",
                   "avatarUrl"
                 ],
                 "open": true,
@@ -79745,6 +81392,30 @@
             "enum": null,
             "default": "Latest",
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "authorVerified",
+                "bookmarkCount",
+                "conversationId",
+                "isReply",
+                "lang",
+                "likeCount",
+                "media",
+                "nextCursor",
+                "quoteCount",
+                "replyCount",
+                "retweetCount",
+                "viewCount"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "requireSinglePage": {
             "kind": "boolean",
@@ -80623,6 +82294,20 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `promoted`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a trend that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "isHashtag",
+                "promoted"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [],
@@ -80763,6 +82448,30 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `media` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bookmarks",
+                "height",
+                "likes",
+                "media",
+                "quotes",
+                "replies",
+                "retweets",
+                "type",
+                "url",
+                "videoUrl",
+                "views",
+                "width"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "url": {
             "kind": "string",
@@ -81048,6 +82757,29 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bookmarks",
+                "isPinned",
+                "isReply",
+                "lang",
+                "likes",
+                "media",
+                "nextCursor",
+                "quotes",
+                "replies",
+                "retweets",
+                "views"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [
@@ -81306,6 +83038,29 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bookmarks",
+                "isPinned",
+                "isReply",
+                "lang",
+                "likes",
+                "media",
+                "nextCursor",
+                "quotes",
+                "replies",
+                "retweets",
+                "views"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "requireSinglePage": {
             "kind": "boolean",
@@ -81797,6 +83552,29 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `availability`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "availability",
+                "brand",
+                "description",
+                "images",
+                "model",
+                "priceText",
+                "productId",
+                "rating",
+                "reviewsCount",
+                "sellerName",
+                "upc"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "url": {
             "kind": "string",
@@ -83768,6 +85546,39 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `is_closed` or `price`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "address1",
+                "address2",
+                "address3",
+                "avg_rating",
+                "categories",
+                "city",
+                "country",
+                "dialable_phone",
+                "is_closed",
+                "latitude",
+                "localized_phone",
+                "localized_price",
+                "longitude",
+                "neighborhoods",
+                "phone",
+                "photo_count",
+                "price",
+                "review_count",
+                "state",
+                "unrounded_avg_rating",
+                "zip"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           }
         },
         "required": [
@@ -85514,8 +87325,23 @@
           },
           "requireCursor": {
             "kind": "boolean",
-            "description": "Set true if you intend to page through results. The cheapest source for this search cannot return a nextCursor, so by default a single call may come back with no way to continue; setting this routes to a source that can page, at a higher price per request.",
+            "description": "Deprecated; send `requireFields: [\"nextCursor\"]` instead, which does exactly the same thing. Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Omit it and routing is unchanged, with the cheapest source serving. This can raise your price: when the cheapest source cannot page, a source that can serves, and you are quoted and charged its price. It stays accepted so callers that already send it keep working.",
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "lengthText",
+                "nextCursor",
+                "views"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "sortBy": {
             "kind": "string",

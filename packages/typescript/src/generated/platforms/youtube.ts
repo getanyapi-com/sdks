@@ -571,9 +571,13 @@ export interface YoutubeSearchInput {
    */
   query: string;
   /**
-   * Set true if you intend to page through results. The cheapest source for this search cannot return a nextCursor, so by default a single call may come back with no way to continue; setting this routes to a source that can page, at a higher price per request.
+   * Deprecated; send `requireFields: ["nextCursor"]` instead, which does exactly the same thing. Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Omit it and routing is unchanged, with the cheapest source serving. This can raise your price: when the cheapest source cannot page, a source that can serves, and you are quoted and charged its price. It stays accepted so callers that already send it keep working.
    */
   requireCursor?: boolean;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: ("lengthText" | "nextCursor" | "views")[];
   /**
    * Sort order: "relevance" (default) or "popular" (most-viewed).
    * One of: relevance, popular.

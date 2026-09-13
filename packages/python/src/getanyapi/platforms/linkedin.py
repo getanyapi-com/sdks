@@ -76,6 +76,32 @@ class LinkedinCompanyInput(TypedDict, total=False):
 
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "city",
+                "companyType",
+                "country",
+                "employeeCountRange",
+                "foundedOn",
+                "fundingData",
+                "headquarter",
+                "industry",
+                "line1",
+                "locations",
+                "logoUrl",
+                "name",
+                "pageVerified",
+                "postalCode",
+                "similarOrganizations",
+                "specialities",
+                "tagline",
+                "universalName",
+                "website",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `postalCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -139,6 +165,15 @@ class LinkedinEmailInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     profileUrl: Required[str]
     """LinkedIn profile URL or public identifier (the last part of the URL) to find the deliverability-validated work email for."""
+
+
+class LinkedinJobInput(TypedDict, total=False):
+    """Input for LinkedIn Job."""
+
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    url: Required[str]
+    """Full LinkedIn job posting URL, e.g. https://www.linkedin.com/jobs/view/4431721875/."""
 
 
 class LinkedinJobsInput(TypedDict, total=False):
@@ -209,6 +244,10 @@ class LinkedinJobsThinInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Job title or keywords to search."""
+    requireFields: NotRequired[
+        list[Literal["companyUrl", "createdUtc", "id", "logoUrl"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `logoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     workplaceType: NotRequired[Literal["remote", "hybrid", "onsite"]]
     """Filter by workplace type (remote, hybrid, or onsite)."""
 
@@ -266,6 +305,19 @@ class LinkedinProfileInput(TypedDict, total=False):
     """Full LinkedIn profile URL."""
 
 
+class LinkedinProfileCommentsInput(TypedDict, total=False):
+    """Input for LinkedIn Profile Comments."""
+
+    limit: NotRequired[int]
+    """Maximum number of comments to return. Range: 1 to 100. Default: 100."""
+    postedLimit: NotRequired[Literal["any", "24h", "week", "month"]]
+    """Only return comments posted within this window (default any)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    url: Required[str]
+    """Full URL of the LinkedIn member profile whose comments on other people's posts should be listed."""
+
+
 class LinkedinProfilePostsFullInput(TypedDict, total=False):
     """Input for LinkedIn Profile Posts (full)."""
 
@@ -300,11 +352,49 @@ class LinkedinProfilePostsThinInput(TypedDict, total=False):
     """Full URL of the public LinkedIn profile whose posts should be returned."""
 
 
+class LinkedinProfileReactionsInput(TypedDict, total=False):
+    """Input for LinkedIn Profile Reactions."""
+
+    limit: NotRequired[int]
+    """Maximum number of reactions to return. One upstream page holds 100. Range: 1 to 100. Default: 100."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    url: Required[str]
+    """Full URL of the LinkedIn member profile whose reactions to list, for example https://www.linkedin.com/in/williamhgates."""
+
+
 class LinkedinProfileThinInput(TypedDict, total=False):
     """Input for LinkedIn Profile (basic)."""
 
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "about",
+                "activityType",
+                "articles",
+                "avatarUrl",
+                "company",
+                "companyUrl",
+                "createdUtc",
+                "education",
+                "endDate",
+                "followers",
+                "headline",
+                "id",
+                "location",
+                "name",
+                "recentPosts",
+                "school",
+                "schoolUrl",
+                "startDate",
+                "text",
+                "url",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `headline` or `recentPosts`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     url: Required[str]
     """Full LinkedIn profile URL."""
 
@@ -336,7 +426,7 @@ class LinkedinSearchPostsInput(TypedDict, total=False):
     query: Required[str]
     """The post search query."""
     requireCursor: NotRequired[bool]
-    """Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Not all sources for this search can page, and one that can may cost more per request."""
+    """Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working."""
 
 
 class LinkedinSearchPostsFullInput(TypedDict, total=False):
@@ -1234,6 +1324,140 @@ class LinkedinEmailEmail(BaseModel):
     )
 
 
+class LinkedinJobData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    applicant_tracking_system: str | None = Field(
+        default=None,
+        alias="applicantTrackingSystem",
+        description="Applicant tracking system behind the posting (e.g. Workday, Lever, Greenhouse), when LinkedIn reports one.",
+    )
+    applicants: int | None = Field(
+        default=None,
+        description="Number of applicants reported by LinkedIn. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    apply_url: str | None = Field(
+        default=None,
+        alias="applyUrl",
+        description="External company apply URL when the job applies off-site.",
+    )
+    benefits: list[str] | None = Field(default=None, description="Listed benefits.")
+    company: LinkedinJobCompany | None = Field(
+        default=None, description="Hiring company details."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the job was posted. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    description_text: str | None = Field(
+        default=None,
+        alias="descriptionText",
+        description="Full job description as plain text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    easy_apply_url: str | None = Field(
+        default=None,
+        alias="easyApplyUrl",
+        description="LinkedIn Easy Apply URL when available.",
+    )
+    employment_type: str | None = Field(
+        default=None,
+        alias="employmentType",
+        description="Employment type (e.g. full_time, contract, part_time).",
+    )
+    experience_level: str | None = Field(
+        default=None,
+        alias="experienceLevel",
+        description="Seniority / experience level (e.g. Mid-Senior level, Entry level).",
+    )
+    expire_utc: float | None = Field(
+        default=None,
+        alias="expireUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the posting expires. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    hiring_team: list[LinkedinJobHiringTeam] | None = Field(
+        default=None,
+        alias="hiringTeam",
+        description="LinkedIn members named on the posting as the hiring contacts.",
+    )
+    id: str | None = Field(default=None, description="LinkedIn job posting id.")
+    industries: list[str] | None = Field(
+        default=None, description="Industries associated with the role."
+    )
+    job_state: str | None = Field(
+        default=None,
+        alias="jobState",
+        description="Posting state reported by LinkedIn (e.g. LISTED, CLOSED).",
+    )
+    location: str | None = Field(
+        default=None, description="Job location (city, region, or country)."
+    )
+    salary: LinkedinJobSalary | None = Field(
+        default=None, description="Salary range when disclosed by the poster."
+    )
+    title: str = Field(
+        description="Job title. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(description="Canonical LinkedIn job posting URL.")
+    workplace_type: str | None = Field(
+        default=None,
+        alias="workplaceType",
+        description="Workplace type (e.g. remote, on_site, hybrid).",
+    )
+
+
+class LinkedinJobCompany(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    description: str | None = Field(default=None, description="Company About text.")
+    employee_count: int | None = Field(
+        default=None,
+        alias="employeeCount",
+        description="Number of employees LinkedIn reports for the company.",
+    )
+    follower_count: int | None = Field(
+        default=None,
+        alias="followerCount",
+        description="Number of followers of the company page.",
+    )
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="Canonical LinkedIn company URL."
+    )
+    logo: str | None = Field(default=None, description="Company logo image URL.")
+    name: str | None = Field(
+        default=None,
+        description="Company name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="Company LinkedIn universal (vanity) name.",
+    )
+    website: str | None = Field(default=None, description="Company website.")
+
+
+class LinkedinJobHiringTeam(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="Canonical LinkedIn profile URL."
+    )
+    name: str | None = Field(default=None, description="Member name.")
+    position: str | None = Field(
+        default=None, description="Member headline or job title."
+    )
+
+
+class LinkedinJobSalary(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    max: float | None = Field(default=None, description="Maximum salary.")
+    min: float | None = Field(default=None, description="Minimum salary.")
+    text: str | None = Field(
+        default=None, description="Salary as displayed (e.g. '300,000 - 330,000 USD')."
+    )
+
+
 class LinkedinJobsData(BaseModel):
     items: list[LinkedinJobsItem] = Field(
         description="Full job listing records for the search. Populated whenever the provider has data for the entity."
@@ -1708,6 +1932,140 @@ class LinkedinProfilePublication(BaseModel):
         description="Publisher and/or date text as shown on LinkedIn.",
     )
     title: str | None = Field(default=None, description="Publication title.")
+
+
+class LinkedinProfileCommentsData(BaseModel):
+    items: list[LinkedinProfileCommentsItem] = Field(
+        description="Comments this member left on other people's posts, newest first, each with the post it was left on. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinProfileCommentsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    actor: LinkedinProfileCommentsActor | None = Field(
+        default=None,
+        description="The member who left the comment (a profile or a company).",
+    )
+    commentary: str = Field(
+        description="Full text of the comment the member left. Populated whenever the provider has data for the entity."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    edited: bool | None = Field(
+        default=None, description="Whether the comment has been edited."
+    )
+    engagement: LinkedinProfileCommentsEngagement | None = Field(
+        default=None, description="Engagement metrics for the comment."
+    )
+    id: str = Field(
+        description="Unique identifier of the comment. Populated whenever the provider has data for the entity."
+    )
+    post: LinkedinProfileCommentsPost | None = Field(
+        default=None,
+        description="The post the comment was left on, so the comment can be read in context. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical permalink URL of the comment. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinProfileCommentsActor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    image: str | None = Field(
+        default=None,
+        description="Profile picture URL of the commenter. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn URL of the commenter. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="Display name of the commenter. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    position: str | None = Field(
+        default=None,
+        description="Commenter's headline or job title as displayed. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Commenter kind, e.g. 'profile' or 'company'.",
+    )
+
+
+class LinkedinProfileCommentsEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    comments: int | None = Field(
+        default=None, description="Number of replies to the comment. Minimum: 0."
+    )
+    likes: int | None = Field(
+        default=None, description="Number of likes on the comment. Minimum: 0."
+    )
+
+
+class LinkedinProfileCommentsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: LinkedinProfileCommentsAuthor | None = Field(
+        default=None, description="Author of the post that was commented on."
+    )
+    engagement: LinkedinProfileCommentsEngagement | None = Field(
+        default=None,
+        description="Public engagement totals on the post that was commented on.",
+    )
+    id: str | None = Field(
+        default=None,
+        description="Unique identifier of the LinkedIn post that was commented on.",
+    )
+    posted_utc: float | None = Field(
+        default=None,
+        alias="postedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) when the post was published. Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    text: str | None = Field(
+        default=None,
+        description="Text content of the post that was commented on. Empty when the post carries no commentary of its own, such as a bare reshare or an image-only post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical LinkedIn URL of the post that was commented on. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinProfileCommentsAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    headline: str | None = Field(
+        default=None,
+        description="Public headline or company follower summary for the post author.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="Profile or company image URL of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="Display name of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical LinkedIn profile or company URL of the post author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    public_identifier: str | None = Field(
+        default=None,
+        alias="publicIdentifier",
+        description='LinkedIn public identifier (vanity slug) of the post author, for example "williamhgates". Stable across lanes, unlike the raw id.',
+    )
 
 
 class LinkedinProfilePostsFullData(BaseModel):
@@ -2306,6 +2664,150 @@ class LinkedinProfilePostsThinImage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     url: str = Field(description="URL of an attached image.")
+
+
+class LinkedinProfileReactionsData(BaseModel):
+    items: list[LinkedinProfileReactionsItem] = Field(
+        description="Posts the member has reacted to, newest first. One record per reaction, carrying both the reaction itself and the post it was made on. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinProfileReactionsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    action: str = Field(
+        description='LinkedIn\'s own display sentence for the reaction, for example "Bill Gates likes this" or "Ali Abdaal liked Tobi Odutola\'s comment on this". It is the only place the reaction kind appears on this endpoint, it names the member and sometimes a third party, and it distinguishes a reaction on the post from a reaction on a comment. It is free English text, not an enum: parse it only if you accept that LinkedIn may reword it. Populated whenever the provider has data for the entity.'
+    )
+    actor: LinkedinProfileReactionsActor | None = Field(
+        default=None,
+        description="The member who reacted - the profile that was asked about. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(
+        description="LinkedIn activity identifier of the reaction event itself. This is not the identifier of the post that was reacted to - that is post.id. Populated whenever the provider has data for the entity."
+    )
+    post: LinkedinProfileReactionsPost | None = Field(
+        default=None,
+        description="The post the member reacted to. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical LinkedIn feed URL of the reaction event. Use post.url for the post itself. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinProfileReactionsActor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str | None = Field(
+        default=None, description="LinkedIn member identifier of the reactor."
+    )
+    image: str | None = Field(
+        default=None, description="Profile picture URL of the reactor."
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn profile URL of the reactor. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinProfileReactionsPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: LinkedinProfileReactionsAuthor | None = Field(
+        default=None,
+        description="Public author identity attached to the post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    engagement: LinkedinProfileReactionsEngagement | None = Field(
+        default=None,
+        description="Public engagement totals attached to the post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str | None = Field(
+        default=None,
+        description="LinkedIn activity identifier of the post that was reacted to. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    repost_id: str | None = Field(
+        default=None,
+        alias="repostId",
+        description="Unique identifier of the post this one reshares, when it is a reshare.",
+    )
+    text: str | None = Field(
+        default=None,
+        description="Text content of the post. Empty string when the post carries no commentary of its own, such as a bare reshare or an image-only post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical LinkedIn URL of the post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinProfileReactionsAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    headline: str | None = Field(
+        default=None,
+        description="Public headline for a person, or the follower summary for a company. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn identifier for the author."
+    )
+    image: str | None = Field(
+        default=None, description="Public profile or company image URL for the author."
+    )
+    name: str | None = Field(
+        default=None,
+        description="Display name of the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical LinkedIn profile or company URL for the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    public_identifier: str | None = Field(
+        default=None,
+        alias="publicIdentifier",
+        description='LinkedIn public identifier (vanity slug) for the author, for example "williamhgates". Absent for company authors, which carry universalName instead.',
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Author kind, such as profile or company.",
+    )
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="Universal LinkedIn name used for company authors, when present.",
+    )
+
+
+class LinkedinProfileReactionsEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    breakdown: list[LinkedinProfileReactionsBreakdown] | None = Field(
+        default=None,
+        description="Reaction counts on the post grouped by LinkedIn reaction type.",
+    )
+    comments: int | None = Field(
+        default=None, description="Total comment count. Minimum: 0."
+    )
+    reactions: int | None = Field(
+        default=None, description="Total reaction count. Minimum: 0."
+    )
+    reposts: int | None = Field(
+        default=None, description="Total repost or share count. Minimum: 0."
+    )
+
+
+class LinkedinProfileReactionsBreakdown(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    count: int = Field(description="Number of reactions of this type. Minimum: 0.")
+    type_: str = Field(alias="type", description="LinkedIn reaction type.")
 
 
 class LinkedinProfileThinData(BaseModel):
@@ -3060,6 +3562,30 @@ class LinkedinNamespace:
         )
         return RunResult[LinkedinEmailData].model_validate(raw)
 
+    def job(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinJobInput],
+    ) -> RunResult[LinkedinJobData]:
+        """LinkedIn Job
+
+        Fetch one LinkedIn job posting by URL: title, full description, location,
+        salary when disclosed, applicant count, employment and workplace type,
+        seniority, benefits, industries, apply links, posting and expiry dates, the
+        hiring team, the applicant tracking system behind it, and the hiring company
+        with its size, follower count, website and description.
+
+        Price: $0.0015 per request.
+
+        Example:
+            res = client.linkedin.job(url="https://www.linkedin.com/jobs/view/4431721875/")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.job", dict(input), options
+        )
+        return RunResult[LinkedinJobData].model_validate(raw)
+
     def jobs(
         self,
         *,
@@ -3211,6 +3737,28 @@ class LinkedinNamespace:
         )
         return RunResult[LinkedinProfileData].model_validate(raw)
 
+    def profile_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfileCommentsInput],
+    ) -> RunResult[LinkedinProfileCommentsData]:
+        """LinkedIn Profile Comments
+
+        List the comments a LinkedIn member has left on other people's posts - the
+        comment text, its permalink and timestamp, plus the post it was left on and
+        that post's author and engagement.
+
+        Price: $0.005 per request.
+
+        Example:
+            res = client.linkedin.profile_comments(limit=10, url="https://www.linkedin.com/in/jeffweiner08")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_comments", dict(input), options
+        )
+        return RunResult[LinkedinProfileCommentsData].model_validate(raw)
+
     def profile_posts_full(
         self,
         *,
@@ -3252,6 +3800,27 @@ class LinkedinNamespace:
             "linkedin.profile_posts_thin", dict(input), options
         )
         return RunResult[LinkedinProfilePostsThinData].model_validate(raw)
+
+    def profile_reactions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfileReactionsInput],
+    ) -> RunResult[LinkedinProfileReactionsData]:
+        """LinkedIn Profile Reactions
+
+        List the posts a LinkedIn member has reacted to - the reaction, its
+        timestamp, and the full post it was made on with author and engagement.
+
+        Price: $0.005 per request.
+
+        Example:
+            res = client.linkedin.profile_reactions(limit=10, url="https://www.linkedin.com/in/williamhgates")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_reactions", dict(input), options
+        )
+        return RunResult[LinkedinProfileReactionsData].model_validate(raw)
 
     def profile_thin(
         self,
@@ -3662,6 +4231,30 @@ class AsyncLinkedinNamespace:
         )
         return RunResult[LinkedinEmailData].model_validate(raw)
 
+    async def job(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinJobInput],
+    ) -> RunResult[LinkedinJobData]:
+        """LinkedIn Job
+
+        Fetch one LinkedIn job posting by URL: title, full description, location,
+        salary when disclosed, applicant count, employment and workplace type,
+        seniority, benefits, industries, apply links, posting and expiry dates, the
+        hiring team, the applicant tracking system behind it, and the hiring company
+        with its size, follower count, website and description.
+
+        Price: $0.0015 per request.
+
+        Example:
+            res = client.linkedin.job(url="https://www.linkedin.com/jobs/view/4431721875/")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.job", dict(input), options
+        )
+        return RunResult[LinkedinJobData].model_validate(raw)
+
     async def jobs(
         self,
         *,
@@ -3813,6 +4406,28 @@ class AsyncLinkedinNamespace:
         )
         return RunResult[LinkedinProfileData].model_validate(raw)
 
+    async def profile_comments(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfileCommentsInput],
+    ) -> RunResult[LinkedinProfileCommentsData]:
+        """LinkedIn Profile Comments
+
+        List the comments a LinkedIn member has left on other people's posts - the
+        comment text, its permalink and timestamp, plus the post it was left on and
+        that post's author and engagement.
+
+        Price: $0.005 per request.
+
+        Example:
+            res = client.linkedin.profile_comments(limit=10, url="https://www.linkedin.com/in/jeffweiner08")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_comments", dict(input), options
+        )
+        return RunResult[LinkedinProfileCommentsData].model_validate(raw)
+
     async def profile_posts_full(
         self,
         *,
@@ -3854,6 +4469,27 @@ class AsyncLinkedinNamespace:
             "linkedin.profile_posts_thin", dict(input), options
         )
         return RunResult[LinkedinProfilePostsThinData].model_validate(raw)
+
+    async def profile_reactions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfileReactionsInput],
+    ) -> RunResult[LinkedinProfileReactionsData]:
+        """LinkedIn Profile Reactions
+
+        List the posts a LinkedIn member has reacted to - the reaction, its
+        timestamp, and the full post it was made on with author and engagement.
+
+        Price: $0.005 per request.
+
+        Example:
+            res = client.linkedin.profile_reactions(limit=10, url="https://www.linkedin.com/in/williamhgates")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.profile_reactions", dict(input), options
+        )
+        return RunResult[LinkedinProfileReactionsData].model_validate(raw)
 
     async def profile_thin(
         self,

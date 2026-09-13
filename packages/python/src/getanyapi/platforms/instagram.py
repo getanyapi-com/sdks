@@ -70,6 +70,10 @@ class InstagramFollowersInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers. A page holds up to 50 followers."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[Literal["image", "name", "nextCursor", "private", "url", "verified"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     username: Required[str]
     """The Instagram username, user ID, or profile URL whose followers to list (e.g. natgeo)."""
 
@@ -81,6 +85,10 @@ class InstagramFollowingInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page. A page holds up to 50 accounts."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[Literal["image", "name", "nextCursor", "private", "url", "verified"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     username: Required[str]
     """The Instagram username, user ID, or profile URL whose following list to fetch (e.g. natgeo)."""
 
@@ -154,8 +162,12 @@ class InstagramPostInput(TypedDict, total=False):
 
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[Literal["likes", "plays", "shortcode", "type", "videoUrl"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `plays`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     requirePlayCount: NotRequired[bool]
-    """Set true to be served only by a source that reports a reel's play count. The default cheapest source does not carry play counts, so `plays` is absent from its responses; opting in guarantees the field when Instagram exposes it, at a higher price per request."""
+    """Deprecated; send `requireFields: ["plays"]` instead, which does exactly the same thing. Set true to be served only by a source that reports a reel's play count. Omit it and routing is unchanged, with the cheapest source serving, which does not carry play counts, so `plays` is absent from its responses. This can raise your price: opting in routes to a source that reports the count, and you are quoted and charged its price. It stays accepted so callers that already send it keep working."""
     url: Required[str]
     """Full Instagram post or reel URL, carrying the media shortcode: /p/, /reel/, /reels/, or /tv/. A profile URL such as https://www.instagram.com/username names no post, so it is rejected instead of charged for an empty result."""
 
@@ -250,6 +262,24 @@ class InstagramSearchHashtagInput(TypedDict, total=False):
     """Filter by media type. One of all, reel."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "avatarUrl",
+                "caption",
+                "comments",
+                "createdUtc",
+                "durationSeconds",
+                "isAd",
+                "likes",
+                "nextCursor",
+                "type",
+                "verified",
+                "videoUrl",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAd`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
 
 
 class InstagramSearchLocationsInput(TypedDict, total=False):
@@ -2479,7 +2509,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0012 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -3497,7 +3527,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0012 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")

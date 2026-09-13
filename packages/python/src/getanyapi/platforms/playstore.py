@@ -38,6 +38,8 @@ class PlaystoreReviewsInput(TypedDict, total=False):
     """Only return reviews with this exact star rating from 1 to 5 (e.g. 1); omit for all ratings."""
     recentDays: NotRequired[int]
     """Only return reviews from the last N days (e.g. 30); omit for no time limit. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["helpfulVotes", "title", "version"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `title` or `version`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sortBy: NotRequired[str]
     """Review ordering: mostRelevant, newest, or rating (e.g. newest)."""
 

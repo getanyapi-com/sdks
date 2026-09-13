@@ -211,6 +211,12 @@ export interface InstagramFollowersInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    "image" | "name" | "nextCursor" | "private" | "url" | "verified"
+  )[];
+  /**
    * The Instagram username, user ID, or profile URL whose followers to list (e.g. natgeo).
    */
   username: string;
@@ -275,6 +281,12 @@ export interface InstagramFollowingInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    "image" | "name" | "nextCursor" | "private" | "url" | "verified"
+  )[];
   /**
    * The Instagram username, user ID, or profile URL whose following list to fetch (e.g. natgeo).
    */
@@ -898,7 +910,11 @@ export interface InstagramPostInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Set true to be served only by a source that reports a reel's play count. The default cheapest source does not carry play counts, so `plays` is absent from its responses; opting in guarantees the field when Instagram exposes it, at a higher price per request.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `plays`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("likes" | "plays" | "shortcode" | "type" | "videoUrl")[];
+  /**
+   * Deprecated; send `requireFields: ["plays"]` instead, which does exactly the same thing. Set true to be served only by a source that reports a reel's play count. Omit it and routing is unchanged, with the cheapest source serving, which does not carry play counts, so `plays` is absent from its responses. This can raise your price: opting in routes to a source that reports the count, and you are quoted and charged its price. It stays accepted so callers that already send it keep working.
    */
   requirePlayCount?: boolean;
   /**
@@ -1507,6 +1523,22 @@ export interface InstagramSearchHashtagInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAd`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "avatarUrl"
+    | "caption"
+    | "comments"
+    | "createdUtc"
+    | "durationSeconds"
+    | "isAd"
+    | "likes"
+    | "nextCursor"
+    | "type"
+    | "verified"
+    | "videoUrl"
+  )[];
 }
 
 export interface InstagramSearchHashtagPost {
@@ -2929,7 +2961,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });

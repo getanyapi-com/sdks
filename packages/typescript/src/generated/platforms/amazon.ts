@@ -169,6 +169,22 @@ export interface AmazonProductInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `category` or `condition`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "category"
+    | "condition"
+    | "currency"
+    | "description"
+    | "features"
+    | "images"
+    | "inStock"
+    | "price"
+    | "rating"
+    | "reviewsCount"
+    | "sellerName"
+  )[];
+  /**
    * Full Amazon product URL (e.g. https://www.amazon.com/dp/B0CX23V2ZK).
    */
   url: string;
@@ -312,6 +328,18 @@ export interface AmazonReviewsInput {
     | "amazon.com.be"
     | "amazon.eg"
     | "amazon.in";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `url`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "createdUtc"
+    | "helpfulVotes"
+    | "rating"
+    | "reviewer"
+    | "title"
+    | "url"
+    | "verifiedPurchase"
+  )[];
   /**
    * Review sort order: most helpful first or most recent first (e.g. recent).
    * One of: helpful, recent.

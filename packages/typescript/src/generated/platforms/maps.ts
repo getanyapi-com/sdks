@@ -197,6 +197,26 @@ export interface MapsPlaceInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `hours` or `plusCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "city"
+    | "countryCode"
+    | "hours"
+    | "image"
+    | "neighborhood"
+    | "permanentlyClosed"
+    | "phone"
+    | "plusCode"
+    | "postalCode"
+    | "priceLevel"
+    | "rating"
+    | "reviewsCount"
+    | "state"
+    | "street"
+    | "website"
+  )[];
+  /**
    * Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.
    * One of: allPlaces, withWebsite, withoutWebsite.
    */
@@ -334,6 +354,22 @@ export interface MapsReviewsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isLocalGuide` or `placeId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "isLocalGuide"
+    | "likes"
+    | "origin"
+    | "ownerResponse"
+    | "ownerResponseAt"
+    | "placeId"
+    | "publishedAgo"
+    | "rating"
+    | "reviewerId"
+    | "reviewerReviewsCount"
+    | "text"
+  )[];
+  /**
    * Only return reviews whose text contains this keyword or phrase (case-insensitive). Omit to return all reviews (e.g. parking).
    */
   reviewsFilterString?: string;
@@ -459,6 +495,28 @@ export interface MapsSearchInput {
    * What you would type in the Google Maps search bar (e.g. coffee shop).
    */
   query: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `cid` or `street`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "address"
+    | "category"
+    | "cid"
+    | "city"
+    | "countryCode"
+    | "image"
+    | "latitude"
+    | "longitude"
+    | "permanentlyClosed"
+    | "phone"
+    | "postalCode"
+    | "priceLevel"
+    | "rating"
+    | "reviewCount"
+    | "state"
+    | "street"
+    | "website"
+  )[];
   /**
    * Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.
    * One of: allPlaces, withWebsite, withoutWebsite.

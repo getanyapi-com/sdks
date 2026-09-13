@@ -24,6 +24,20 @@ class G2ReviewsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     product: Required[str]
     """G2 product slug, for example hubspot-marketing-hub. A full G2 product URL is also accepted and reduced to its slug."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "authorCountry",
+                "helpfulVotes",
+                "productSlug",
+                "ratings",
+                "responseType",
+                "reviewSource",
+                "switchedFrom",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `productSlug`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sortBy: NotRequired[Literal["recent", "helpful", "highest", "lowest", "default"]]
     """Sort order for the returned reviews: newest first, most helpful first, highest or lowest rated first, or G2's own default ordering. Default: recent."""
 

@@ -29,6 +29,32 @@ export interface YelpSearchInput {
    * Search term or category to look for (e.g. sushi).
    */
   query: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `is_closed` or `price`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "address1"
+    | "address2"
+    | "address3"
+    | "avg_rating"
+    | "categories"
+    | "city"
+    | "country"
+    | "dialable_phone"
+    | "is_closed"
+    | "latitude"
+    | "localized_phone"
+    | "localized_price"
+    | "longitude"
+    | "neighborhoods"
+    | "phone"
+    | "photo_count"
+    | "price"
+    | "review_count"
+    | "state"
+    | "unrounded_avg_rating"
+    | "zip"
+  )[];
 }
 
 export interface YelpSearchItem {

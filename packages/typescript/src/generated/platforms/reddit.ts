@@ -333,6 +333,20 @@ export interface RedditSearchInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "author"
+    | "createdUtc"
+    | "isArchived"
+    | "isLocked"
+    | "media"
+    | "nextCursor"
+    | "numComments"
+    | "score"
+    | "selftext"
+  )[];
+  /**
    * Result sort order.
    * One of: relevance, hot, top, new, comments.
    */
@@ -444,6 +458,10 @@ export interface RedditSubredditDetailsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `weeklyActiveUsers` or `advertiserCategory`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a subreddit that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("advertiserCategory" | "weeklyActiveUsers")[];
+  /**
    * Subreddit name without the r/ prefix. Case-sensitive (e.g. "AskReddit", not "askreddit").
    */
   subreddit: string;
@@ -454,9 +472,9 @@ export interface RedditSubredditDetailsInput {
  */
 export interface RedditSubredditDetailsData {
   /**
-   * Reddit advertiser category for the subreddit.
+   * Reddit advertiser category for the subreddit, or null when the serving source does not publish it.
    */
-  advertiserCategory: string;
+  advertiserCategory: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
@@ -478,9 +496,9 @@ export interface RedditSubredditDetailsData {
    */
   name: string;
   /**
-   * Number of users active in the past week.
+   * Number of users active in the past week, or null when the serving source does not publish it.
    */
-  weeklyActiveUsers: number;
+  weeklyActiveUsers: number | null;
   [extra: string]: unknown;
 }
 
@@ -507,6 +525,17 @@ export interface RedditSubredditPostsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "isArchived"
+    | "isLocked"
+    | "nextCursor"
+    | "numComments"
+    | "score"
+    | "selftext"
+  )[];
   /**
    * Listing sort order.
    * One of: hot, new, top.
@@ -607,6 +636,20 @@ export interface RedditSubredditSearchInput {
    * Optional search query to match posts (e.g. 'push ups').
    */
   query?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "author"
+    | "createdUtc"
+    | "isArchived"
+    | "isLocked"
+    | "nextCursor"
+    | "nsfw"
+    | "numComments"
+    | "score"
+    | "selftext"
+  )[];
   /**
    * Optional sort order: relevance, hot, top, new, comments.
    */
@@ -873,6 +916,19 @@ export interface RedditUserPostsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `isLocked`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "createdUtc"
+    | "isArchived"
+    | "isLocked"
+    | "media"
+    | "nextCursor"
+    | "numComments"
+    | "score"
+    | "selftext"
+  )[];
   /**
    * Sort order for the user's posts. Defaults to new (most recent first).
    * One of: new, top, hot, controversial.

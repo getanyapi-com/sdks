@@ -113,6 +113,29 @@ export interface TripadvisorSearchInput {
    * Destination or keyword to search for (e.g. Barcelona).
    */
   query: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `phone` or `website`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "address"
+    | "category"
+    | "city"
+    | "country"
+    | "email"
+    | "hotelClass"
+    | "id"
+    | "image"
+    | "latitude"
+    | "longitude"
+    | "phone"
+    | "postalCode"
+    | "priceLevel"
+    | "priceRange"
+    | "ranking"
+    | "reviewCount"
+    | "type"
+    | "website"
+  )[];
 }
 
 export interface TripadvisorSearchItem {

@@ -28,6 +28,44 @@ class ChatgptSearchInput(TypedDict, total=False):
     """Serve only from a source that can return sponsored placements shown with the answer. One source currently qualifies, so the request cannot fall back when it is unavailable. Default: false."""
     requireEntities: NotRequired[bool]
     """Serve only from a source that can return brands and other named entities recognized in the answer. One source currently qualifies, so the request cannot fall back when it is unavailable. Default: false."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "address",
+                "ads",
+                "advertiserName",
+                "advertiserUrl",
+                "answerPosition",
+                "category",
+                "cited",
+                "createdUtc",
+                "currency",
+                "description",
+                "domain",
+                "entities",
+                "image",
+                "merchants",
+                "model",
+                "name",
+                "phone",
+                "places",
+                "position",
+                "price",
+                "prompt",
+                "rating",
+                "reviewCount",
+                "searchQueries",
+                "searchResults",
+                "shoppingCards",
+                "snippet",
+                "title",
+                "url",
+                "webSearchTriggered",
+                "websiteUrl",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `cited` or `price`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     requirePlaces: NotRequired[bool]
     """Serve only from a source that can return places shown with the answer. Leaving this off still returns places whenever the source that answered can. Turning it on selects the single source that guarantees them, which costs more and has nothing to fall back to if it is unavailable. Default: false."""
     requireShoppingCards: NotRequired[bool]
