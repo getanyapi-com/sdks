@@ -159,4 +159,4 @@ jobs:
           node scripts/upsert-regen-issue.mjs \
             --title "$REGEN_ISSUE_TITLE" \
             --resolve \
-            --body "blocked batch accepted: published as \`v$VERSION\` from \`$BRANCH\` ([accept run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID))."
+            --body "blocked batch accepted: \`main\` fast-forwarded to \`$BRANCH\`, tagged \`v$VERSION\`, and handed to release.yml ([accept run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)). The publish itself is that release run."
