@@ -228,6 +228,60 @@ describe("strict nested discovery pricing", () => {
     });
   });
 
+  // An offer may carry `addons`: optional extras a caller switches on with a
+  // named boolean input, charged flat on top of `maxUsd`. The generator does not
+  // emit them, but it must parse a row that has them, on either offer model, for
+  // the same reason as the per-1k rates: `regen.yml` reads the LIVE catalog and
+  // `pnpm check` only ever sees this repository's older snapshot.
+  it.each([
+    [
+      {
+        model: "flat",
+        unit: "request",
+        maxUsd: 0.00325,
+        maxPer1kUsd: 3.25,
+        addons: [
+          {
+            id: "hosting",
+            label: "hosted MP4 link",
+            field: "hostVideo",
+            usd: 0.0035,
+          },
+        ],
+      },
+      0.00325,
+    ],
+    [
+      {
+        model: "linear",
+        unit: "second",
+        baseUsd: 0.0021,
+        perUnitUsd: 0.00473,
+        maxUsd: 0.0966,
+        addons: [
+          {
+            id: "hosting",
+            label: "hosted MP4 link",
+            field: "hostVideo",
+            usd: 0.0035,
+          },
+        ],
+      },
+      0.0966,
+    ],
+  ])("parses a live-shaped offer carrying add-ons %#", (from, priceUsd) => {
+    expect(
+      extractCatalogPricing(
+        {
+          slug: "fixture.addons",
+          provider: "AnyAPI",
+          pricing: { from, failoverMaxUsd: 0.1 },
+        },
+        "fixture.addons",
+      ).priceUsd,
+    ).toBe(priceUsd);
+  });
+
   // Optional means tolerated, not required: the committed snapshot predates the
   // field and must keep parsing until the next refresh rewrites it.
   it("still parses a snapshot row published before the per-1k rates", () => {

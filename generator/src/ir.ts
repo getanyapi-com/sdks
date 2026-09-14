@@ -356,7 +356,7 @@ export function extractCatalogPricing(value: unknown, slug: string): Pricing {
       ["model", "unit", "maxUsd"],
       "discovery pricing.from",
       slug,
-      ["maxPer1kUsd"],
+      ["maxPer1kUsd", "addons"],
     );
     if (unit !== "request") {
       throw new Error(`SKU ${slug}: malformed flat discovery offer`);
@@ -378,7 +378,7 @@ export function extractCatalogPricing(value: unknown, slug: string): Pricing {
       ["model", "unit", "baseUsd", "perUnitUsd", "maxUsd"],
       "discovery pricing.from",
       slug,
-      ["maxPer1kUsd"],
+      ["maxPer1kUsd", "addons"],
     );
     if (typeof unit !== "string" || unit.length === 0) {
       throw new Error(
