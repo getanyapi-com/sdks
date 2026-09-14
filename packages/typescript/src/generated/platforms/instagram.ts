@@ -3017,7 +3017,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });
