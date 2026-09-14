@@ -27243,23 +27243,6 @@
             "enum": null,
             "default": null,
             "format": null
-          },
-          "requireFields": {
-            "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `citations` or `index`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
-            "items": {
-              "kind": "string",
-              "enum": [
-                "citations",
-                "index",
-                "scrapedAt",
-                "title",
-                "url"
-              ],
-              "default": null,
-              "format": null
-            },
-            "mustPopulate": false
           }
         },
         "required": [
@@ -32841,7 +32824,7 @@
       "operationId": "instagram_post",
       "name": "Instagram Post",
       "category": "social",
-      "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.",
+      "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.",
       "pricing": {
         "priceUsd": 0.0005,
         "baseUsd": null,
@@ -32862,6 +32845,11 @@
       "input": {
         "kind": "object",
         "properties": {
+          "hostVideo": {
+            "kind": "boolean",
+            "description": "Set true to also get the post's video on a hosted MP4 link that plays without an Instagram session. The file is downloaded and stored for you, and the response adds `hostedUrl`, `expiresUtc` and `bytes`. It is charged as an extra on top of the price, and it never changes which source serves you: every source offers it at the same price. A post with no video, or a post that does not exist, is refused with no charge rather than billed for a file that cannot exist. Omit it and nothing is downloaded, nothing is stored, and nothing extra is charged.",
+            "default": false
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -32909,12 +32897,33 @@
         "data": {
           "kind": "object",
           "properties": {
+            "bytes": {
+              "kind": "integer",
+              "description": "Size of the hosted MP4 in bytes. Present only when the request set `hostVideo` to true.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
             "displayUrl": {
               "kind": "string",
               "description": "Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
+            },
+            "expiresUtc": {
+              "kind": "integer",
+              "description": "When `hostedUrl` stops working, as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present only when the request set `hostVideo` to true.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "hostedUrl": {
+              "kind": "string",
+              "description": "AnyAPI-hosted MP4 of this post's video, playable without an Instagram session. Present only when the request set `hostVideo` to true.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
             },
             "id": {
               "kind": "string",
@@ -33296,7 +33305,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33646,10 +33655,10 @@
       "operationId": "instagram_reel_transcript",
       "name": "Instagram Reel Transcript",
       "category": "social",
-      "description": "Download any public Instagram reel or video post to a hosted MP4 link, with an optional full speech transcript, speaker labels, and word-level timestamps. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. If you only want the text and not the video file, instagram.media_transcript is the cheaper transcript-only option.",
+      "description": "Transcribe any public Instagram reel or video post: the full speech transcript, speaker labels, and word-level timestamps, from a reel URL or an Instagram CDN media URL you already hold. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that plays without an Instagram session. If you only want the text, instagram.media_transcript is the cheaper transcript-only option; if you only want the file, instagram.post is where you go.",
       "pricing": {
-        "priceUsd": 0.05,
-        "baseUsd": 0.005,
+        "priceUsd": 0.095,
+        "baseUsd": 0.0015,
         "perItemUsd": 0.006,
         "perItemUnit": "audio minute"
       },
@@ -33662,17 +33671,17 @@
       "inputTypeName": "InstagramReelTranscriptInput",
       "outputTypeName": "InstagramReelTranscriptData",
       "example": {
-        "includeTranscript": true,
+        "hostVideo": true,
         "url": "https://www.instagram.com/reel/CfY6jCIgH-P/",
         "wordTimestamps": false
       },
       "input": {
         "kind": "object",
         "properties": {
-          "includeTranscript": {
+          "hostVideo": {
             "kind": "boolean",
-            "description": "Set false to download and host the video only, without transcribing its speech (e.g. false).",
-            "default": true
+            "description": "Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true).",
+            "default": false
           },
           "preferLatencyUnderMs": {
             "kind": "integer",
@@ -33706,13 +33715,13 @@
           "properties": {
             "items": {
               "kind": "array",
-              "description": "Record for the requested reel (one item), with its hosted video link, the full transcript text, timed segments, and source video metadata. Populated whenever the provider has data for the entity.",
+              "description": "Record for the requested reel (one item), with the full transcript text, timed segments, source video metadata, and the hosted video link when hostVideo was asked for. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
                   "bytes": {
                     "kind": "integer",
-                    "description": "Size of the downloaded MP4 in bytes.",
+                    "description": "Size of the hosted MP4 in bytes. Present only when hostVideo was true.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -33726,14 +33735,14 @@
                   },
                   "expiresUtc": {
                     "kind": "number",
-                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. After this moment the hosted MP4 is deleted.",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. After this moment the hosted MP4 is deleted. Present only when hostVideo was true.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "hostedUrl": {
                     "kind": "string",
-                    "description": "A direct link to the downloaded MP4, hosted by AnyAPI and playable without an Instagram session.",
+                    "description": "A direct link to the downloaded MP4, hosted by AnyAPI and playable without an Instagram session. Present only when hostVideo was true.",
                     "enum": null,
                     "default": null,
                     "format": "uri"
@@ -33775,7 +33784,7 @@
                   },
                   "segments": {
                     "kind": "array",
-                    "description": "Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when includeTranscript was false.",
+                    "description": "Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when the reel has no detectable spoken audio.",
                     "items": {
                       "kind": "object",
                       "properties": {
@@ -33855,7 +33864,7 @@
                   },
                   "text": {
                     "kind": "string",
-                    "description": "The full speech transcript. Empty when the reel has no detectable spoken audio, and when includeTranscript was false. Populated whenever the provider has data for the entity.",
+                    "description": "The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -33873,13 +33882,6 @@
                     "enum": null,
                     "default": null,
                     "format": null
-                  },
-                  "viewCount": {
-                    "kind": "integer",
-                    "description": "Number of video views. Absent when the lane that served the lookup does not carry a view count.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
                   }
                 },
                 "required": [
@@ -85989,7 +85991,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

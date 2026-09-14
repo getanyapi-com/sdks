@@ -160,6 +160,8 @@ class InstagramMediaTranscriptInput(TypedDict, total=False):
 class InstagramPostInput(TypedDict, total=False):
     """Input for Instagram Post."""
 
+    hostVideo: NotRequired[bool]
+    """Set true to also get the post's video on a hosted MP4 link that plays without an Instagram session. The file is downloaded and stored for you, and the response adds `hostedUrl`, `expiresUtc` and `bytes`. It is charged as an extra on top of the price, and it never changes which source serves you: every source offers it at the same price. A post with no video, or a post that does not exist, is refused with no charge rather than billed for a file that cannot exist. Omit it and nothing is downloaded, nothing is stored, and nothing extra is charged. Default: false."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
@@ -213,8 +215,8 @@ class InstagramProfileContactInput(TypedDict, total=False):
 class InstagramReelTranscriptInput(TypedDict, total=False):
     """Input for Instagram Reel Transcript."""
 
-    includeTranscript: NotRequired[bool]
-    """Set false to download and host the video only, without transcribing its speech (e.g. false). Default: true."""
+    hostVideo: NotRequired[bool]
+    """Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true). Default: false."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
@@ -975,9 +977,23 @@ class InstagramMediaTranscriptTranscript(BaseModel):
 class InstagramPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    bytes: int | None = Field(
+        default=None,
+        description="Size of the hosted MP4 in bytes. Present only when the request set `hostVideo` to true.",
+    )
     display_url: str = Field(
         alias="displayUrl",
         description="Populated whenever the provider has data for the entity.",
+    )
+    expires_utc: int | None = Field(
+        default=None,
+        alias="expiresUtc",
+        description="When `hostedUrl` stops working, as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present only when the request set `hostVideo` to true.",
+    )
+    hosted_url: str | None = Field(
+        default=None,
+        alias="hostedUrl",
+        description="AnyAPI-hosted MP4 of this post's video, playable without an Instagram session. Present only when the request set `hostVideo` to true.",
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -1179,7 +1195,7 @@ class InstagramProfileContactData(BaseModel):
 
 class InstagramReelTranscriptData(BaseModel):
     items: list[InstagramReelTranscriptItem] = Field(
-        description="Record for the requested reel (one item), with its hosted video link, the full transcript text, timed segments, and source video metadata. Populated whenever the provider has data for the entity."
+        description="Record for the requested reel (one item), with the full transcript text, timed segments, source video metadata, and the hosted video link when hostVideo was asked for. Populated whenever the provider has data for the entity."
     )
 
 
@@ -1187,7 +1203,8 @@ class InstagramReelTranscriptItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     bytes: int | None = Field(
-        default=None, description="Size of the downloaded MP4 in bytes."
+        default=None,
+        description="Size of the hosted MP4 in bytes. Present only when hostVideo was true.",
     )
     duration_seconds: float | None = Field(
         default=None,
@@ -1197,12 +1214,12 @@ class InstagramReelTranscriptItem(BaseModel):
     expires_utc: float | None = Field(
         default=None,
         alias="expiresUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. After this moment the hosted MP4 is deleted.",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. After this moment the hosted MP4 is deleted. Present only when hostVideo was true.",
     )
     hosted_url: str | None = Field(
         default=None,
         alias="hostedUrl",
-        description="A direct link to the downloaded MP4, hosted by AnyAPI and playable without an Instagram session.",
+        description="A direct link to the downloaded MP4, hosted by AnyAPI and playable without an Instagram session. Present only when hostVideo was true.",
     )
     id: str = Field(
         description="The reel's numeric Instagram media ID, as a string. Empty when the request supplied a CDN media URL, which carries no post record. Populated whenever the provider has data for the entity."
@@ -1228,14 +1245,14 @@ class InstagramReelTranscriptItem(BaseModel):
     )
     segments: list[InstagramReelTranscriptSegment] | None = Field(
         default=None,
-        description="Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when includeTranscript was false.",
+        description="Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when the reel has no detectable spoken audio.",
     )
     shortcode: str | None = Field(
         default=None,
         description="The reel's short code, the part of its instagram.com URL after /reel/. Empty when the request supplied a CDN media URL.",
     )
     text: str = Field(
-        description="The full speech transcript. Empty when the reel has no detectable spoken audio, and when includeTranscript was false. Populated whenever the provider has data for the entity."
+        description="The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity."
     )
     thumbnail_url: str | None = Field(
         default=None,
@@ -1244,11 +1261,6 @@ class InstagramReelTranscriptItem(BaseModel):
     )
     url: str = Field(
         description="The reel URL the request asked for, returned as sent. Populated whenever the provider has data for the entity."
-    )
-    view_count: int | None = Field(
-        default=None,
-        alias="viewCount",
-        description="Number of video views. Absent when the lane that served the lookup does not carry a view count.",
     )
 
 
@@ -2464,7 +2476,10 @@ class InstagramNamespace:
         """Instagram Post
 
         Fetch a single Instagram post or reel by URL (media URLs, like count, owner,
-        type) as normalized JSON.
+        type) as normalized JSON. Turn on hostVideo to also get the post's video on
+        a hosted MP4 link that plays without an Instagram session, charged as an
+        extra on top of the price. If you want the spoken words as well,
+        instagram.reel_transcript transcribes the same reel.
 
         Price: $0.0005 per request.
 
@@ -2552,7 +2567,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0005 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -2592,16 +2607,19 @@ class InstagramNamespace:
     ) -> RunResult[InstagramReelTranscriptData]:
         """Instagram Reel Transcript
 
-        Download any public Instagram reel or video post to a hosted MP4 link, with
-        an optional full speech transcript, speaker labels, and word-level
-        timestamps. Transcription runs on MAI-Transcribe-2, chosen for its accuracy
-        and its speaker labels. If you only want the text and not the video file,
-        instagram.media_transcript is the cheaper transcript-only option.
+        Transcribe any public Instagram reel or video post: the full speech
+        transcript, speaker labels, and word-level timestamps, from a reel URL or an
+        Instagram CDN media URL you already hold. Transcription runs on
+        MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on
+        hostVideo to also get the MP4 on a hosted link that plays without an
+        Instagram session. If you only want the text, instagram.media_transcript is
+        the cheaper transcript-only option; if you only want the file,
+        instagram.post is where you go.
 
-        Price: $0.005 per request plus $0.006 per audio minute (maximum $0.05).
+        Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
 
         Example:
-            res = client.instagram.reel_transcript(includeTranscript=True, url="https://www.instagram.com/reel/CfY6jCIgH-P/", wordTimestamps=False)
+            res = client.instagram.reel_transcript(hostVideo=True, url="https://www.instagram.com/reel/CfY6jCIgH-P/", wordTimestamps=False)
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.reel_transcript", dict(input), options
@@ -3485,7 +3503,10 @@ class AsyncInstagramNamespace:
         """Instagram Post
 
         Fetch a single Instagram post or reel by URL (media URLs, like count, owner,
-        type) as normalized JSON.
+        type) as normalized JSON. Turn on hostVideo to also get the post's video on
+        a hosted MP4 link that plays without an Instagram session, charged as an
+        extra on top of the price. If you want the spoken words as well,
+        instagram.reel_transcript transcribes the same reel.
 
         Price: $0.0005 per request.
 
@@ -3573,7 +3594,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0005 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -3613,16 +3634,19 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramReelTranscriptData]:
         """Instagram Reel Transcript
 
-        Download any public Instagram reel or video post to a hosted MP4 link, with
-        an optional full speech transcript, speaker labels, and word-level
-        timestamps. Transcription runs on MAI-Transcribe-2, chosen for its accuracy
-        and its speaker labels. If you only want the text and not the video file,
-        instagram.media_transcript is the cheaper transcript-only option.
+        Transcribe any public Instagram reel or video post: the full speech
+        transcript, speaker labels, and word-level timestamps, from a reel URL or an
+        Instagram CDN media URL you already hold. Transcription runs on
+        MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on
+        hostVideo to also get the MP4 on a hosted link that plays without an
+        Instagram session. If you only want the text, instagram.media_transcript is
+        the cheaper transcript-only option; if you only want the file,
+        instagram.post is where you go.
 
-        Price: $0.005 per request plus $0.006 per audio minute (maximum $0.05).
+        Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
 
         Example:
-            res = client.instagram.reel_transcript(includeTranscript=True, url="https://www.instagram.com/reel/CfY6jCIgH-P/", wordTimestamps=False)
+            res = client.instagram.reel_transcript(hostVideo=True, url="https://www.instagram.com/reel/CfY6jCIgH-P/", wordTimestamps=False)
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.reel_transcript", dict(input), options

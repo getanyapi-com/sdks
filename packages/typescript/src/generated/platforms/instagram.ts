@@ -905,6 +905,11 @@ export interface InstagramMediaTranscriptData {
  */
 export interface InstagramPostInput {
   /**
+   * Set true to also get the post's video on a hosted MP4 link that plays without an Instagram session. The file is downloaded and stored for you, and the response adds `hostedUrl`, `expiresUtc` and `bytes`. It is charged as an extra on top of the price, and it never changes which source serves you: every source offers it at the same price. A post with no video, or a post that does not exist, is refused with no charge rather than billed for a file that cannot exist. Omit it and nothing is downloaded, nothing is stored, and nothing extra is charged.
+   * Default: false.
+   */
+  hostVideo?: boolean;
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -928,9 +933,22 @@ export interface InstagramPostInput {
  */
 export interface InstagramPostData {
   /**
+   * Size of the hosted MP4 in bytes. Present only when the request set `hostVideo` to true.
+   */
+  bytes?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   displayUrl: string;
+  /**
+   * When `hostedUrl` stops working, as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present only when the request set `hostVideo` to true.
+   */
+  expiresUtc?: number;
+  /**
+   * AnyAPI-hosted MP4 of this post's video, playable without an Instagram session. Present only when the request set `hostVideo` to true.
+   * Format: uri.
+   */
+  hostedUrl?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1238,10 +1256,10 @@ export interface InstagramProfileContactData {
  */
 export interface InstagramReelTranscriptInput {
   /**
-   * Set false to download and host the video only, without transcribing its speech (e.g. false).
-   * Default: true.
+   * Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true).
+   * Default: false.
    */
-  includeTranscript?: boolean;
+  hostVideo?: boolean;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -1260,7 +1278,7 @@ export interface InstagramReelTranscriptInput {
 
 export interface InstagramReelTranscriptItem {
   /**
-   * Size of the downloaded MP4 in bytes.
+   * Size of the hosted MP4 in bytes. Present only when hostVideo was true.
    */
   bytes?: number;
   /**
@@ -1268,11 +1286,11 @@ export interface InstagramReelTranscriptItem {
    */
   durationSeconds?: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. After this moment the hosted MP4 is deleted.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. After this moment the hosted MP4 is deleted. Present only when hostVideo was true.
    */
   expiresUtc?: number;
   /**
-   * A direct link to the downloaded MP4, hosted by AnyAPI and playable without an Instagram session.
+   * A direct link to the downloaded MP4, hosted by AnyAPI and playable without an Instagram session. Present only when hostVideo was true.
    * Format: uri.
    */
   hostedUrl?: string;
@@ -1297,7 +1315,7 @@ export interface InstagramReelTranscriptItem {
    */
   ownerUsername?: string;
   /**
-   * Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when includeTranscript was false.
+   * Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when the reel has no detectable spoken audio.
    */
   segments?: InstagramReelTranscriptSegment[];
   /**
@@ -1305,7 +1323,7 @@ export interface InstagramReelTranscriptItem {
    */
   shortcode?: string;
   /**
-   * The full speech transcript. Empty when the reel has no detectable spoken audio, and when includeTranscript was false. Populated whenever the provider has data for the entity.
+   * The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
@@ -1316,10 +1334,6 @@ export interface InstagramReelTranscriptItem {
    * The reel URL the request asked for, returned as sent. Populated whenever the provider has data for the entity.
    */
   url: string;
-  /**
-   * Number of video views. Absent when the lane that served the lookup does not carry a view count.
-   */
-  viewCount?: number;
   [extra: string]: unknown;
 }
 
@@ -1368,7 +1382,7 @@ export interface InstagramReelTranscriptWord {
  */
 export interface InstagramReelTranscriptData {
   /**
-   * Record for the requested reel (one item), with its hosted video link, the full transcript text, timed segments, and source video metadata. Populated whenever the provider has data for the entity.
+   * Record for the requested reel (one item), with the full transcript text, timed segments, source video metadata, and the hosted video link when hostVideo was asked for. Populated whenever the provider has data for the entity.
    */
   items: InstagramReelTranscriptItem[];
 }
@@ -2924,7 +2938,7 @@ export class InstagramNamespace {
   /**
    * Instagram Post
    *
-   * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.
+   * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.
    *
    * Price: $0.0005 per request.
    *
@@ -3003,7 +3017,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });
@@ -3035,12 +3049,12 @@ export class InstagramNamespace {
   /**
    * Instagram Reel Transcript
    *
-   * Download any public Instagram reel or video post to a hosted MP4 link, with an optional full speech transcript, speaker labels, and word-level timestamps. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. If you only want the text and not the video file, instagram.media_transcript is the cheaper transcript-only option.
+   * Transcribe any public Instagram reel or video post: the full speech transcript, speaker labels, and word-level timestamps, from a reel URL or an Instagram CDN media URL you already hold. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that plays without an Instagram session. If you only want the text, instagram.media_transcript is the cheaper transcript-only option; if you only want the file, instagram.post is where you go.
    *
-   * Price: $0.005 per request plus $0.006 per audio minute (maximum $0.05).
+   * Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
    *
    * @example
-   * const res = await client.instagram.reelTranscript({ url: "https://www.instagram.com/reel/CfY6jCIgH-P/", includeTranscript: true, wordTimestamps: false });
+   * const res = await client.instagram.reelTranscript({ url: "https://www.instagram.com/reel/CfY6jCIgH-P/", hostVideo: true, wordTimestamps: false });
    */
   reelTranscript(
     input: InstagramReelTranscriptInput,
