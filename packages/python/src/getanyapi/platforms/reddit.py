@@ -826,7 +826,10 @@ class RedditUserPostsMedia(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     height: int | None = None
-    type_: str = Field(alias="type", description="One of photo, video, or gif.")
+    type_: str | None = Field(
+        alias="type",
+        description="One of photo, video, or gif, or null when the serving source wraps a thumbnail it cannot classify.",
+    )
     url: str = Field(
         description="Image URL. For a video or GIF this is the poster/thumbnail frame."
     )

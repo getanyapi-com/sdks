@@ -96,6 +96,19 @@ export interface AmazonBestsellersInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `offersCount` or `categoryName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "categoryName"
+    | "currency"
+    | "image"
+    | "offersCount"
+    | "price"
+    | "rank"
+    | "rating"
+    | "reviewsCount"
+  )[];
+  /**
    * Amazon Best Sellers category URL (e.g. https://www.amazon.com/Best-Sellers-Electronics/zgbs/electronics).
    */
   url: string;
@@ -107,9 +120,9 @@ export interface AmazonBestsellersItem {
    */
   asin: string;
   /**
-   * Best Sellers category name the product ranks in.
+   * Best Sellers category name the product ranks in, or null when the serving source does not publish it.
    */
-  categoryName?: string;
+  categoryName?: string | null;
   /**
    * Price currency symbol or code, e.g. "$".
    */
@@ -119,9 +132,9 @@ export interface AmazonBestsellersItem {
    */
   image?: string;
   /**
-   * Number of available offers; 0 when unknown.
+   * Number of available offers, or null when the serving source does not publish it.
    */
-  offersCount?: number;
+  offersCount?: number | null;
   /**
    * Listed price; 0 when no offer is available.
    */
@@ -418,6 +431,20 @@ export interface AmazonSearchInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `offersCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "currency"
+    | "image"
+    | "isSponsored"
+    | "listPrice"
+    | "offersCount"
+    | "position"
+    | "price"
+    | "rating"
+    | "reviewsCount"
+  )[];
+  /**
    * Amazon search or category URL to pull results from (e.g. https://www.amazon.com/s?k=gaming+mouse).
    */
   url: string;
@@ -441,13 +468,13 @@ export interface AmazonSearchItem {
    */
   isSponsored?: boolean;
   /**
-   * Pre-discount list price when on sale; 0 when not discounted.
+   * Pre-discount list price when on sale, 0 when not discounted, or null when the serving source does not publish it.
    */
-  listPrice?: number;
+  listPrice?: number | null;
   /**
-   * Number of available offers; 0 when unknown.
+   * Number of available offers, or null when the serving source does not publish it.
    */
-  offersCount?: number;
+  offersCount?: number | null;
   /**
    * 1-based position of the result on the search page.
    */

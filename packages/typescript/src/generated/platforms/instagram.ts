@@ -1238,12 +1238,17 @@ export interface InstagramProfileContactData {
  */
 export interface InstagramReelTranscriptInput {
   /**
+   * Set false to download and host the video only, without transcribing its speech (e.g. false).
+   * Default: true.
+   */
+  includeTranscript?: boolean;
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
-   * The URL of a public Instagram reel or video post with spoken audio (e.g. https://www.instagram.com/reel/C8yKXdRxKqK/).
+   * The URL of a public Instagram reel or video post (e.g. https://www.instagram.com/reel/C8yKXdRxKqK/), or an Instagram CDN media URL you already hold.
    */
   url: string;
   /**
@@ -1255,51 +1260,64 @@ export interface InstagramReelTranscriptInput {
 
 export interface InstagramReelTranscriptItem {
   /**
-   * The reel's caption text. Empty when the reel has no caption.
+   * Size of the downloaded MP4 in bytes.
    */
-  caption?: string;
+  bytes?: number;
   /**
-   * Number of comments on the reel.
-   */
-  commentCount?: number;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Video duration in seconds.
+   * Video duration in seconds. Absent when there is no transcript, which is what measures it.
    */
   durationSeconds?: number;
   /**
-   * The reel's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. After this moment the hosted MP4 is deleted.
+   */
+  expiresUtc?: number;
+  /**
+   * A direct link to the downloaded MP4, hosted by AnyAPI and playable without an Instagram session.
+   * Format: uri.
+   */
+  hostedUrl?: string;
+  /**
+   * The reel's numeric Instagram media ID, as a string. Empty when the request supplied a CDN media URL, which carries no post record. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
-   * Detected spoken language (ISO 639-1 code, e.g. "en"). Empty when the upstream omits it.
+   * Detected spoken language (ISO 639-1 code, e.g. "en"). Absent when there is no transcript.
    */
   language?: string;
   /**
-   * Number of likes on the reel.
+   * Number of likes on the reel. Absent when the lane that served the lookup does not carry a like count.
    */
   likeCount?: number;
   /**
-   * Username of the reel's owner, without the @ prefix. Empty when the upstream omits it.
+   * What kind of media this is, as Instagram labels it (for example a video or an image post).
+   */
+  mediaType?: string;
+  /**
+   * Username of the reel's owner, without the @ prefix. Empty when the request supplied a CDN media URL.
    */
   ownerUsername?: string;
   /**
-   * Time-aligned transcript segments, each with its text and start/end offsets in seconds.
+   * Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when includeTranscript was false.
    */
   segments?: InstagramReelTranscriptSegment[];
   /**
-   * The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity.
+   * The reel's short code, the part of its instagram.com URL after /reel/. Empty when the request supplied a CDN media URL.
+   */
+  shortcode?: string;
+  /**
+   * The full speech transcript. Empty when the reel has no detectable spoken audio, and when includeTranscript was false. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
-   * Canonical URL of the reel, with tracking query params stripped. Populated whenever the provider has data for the entity.
+   * A link to the reel's cover image on Instagram. This link is signed by Instagram and stops working after a short time.
+   */
+  thumbnailUrl?: string;
+  /**
+   * The reel URL the request asked for, returned as sent. Populated whenever the provider has data for the entity.
    */
   url: string;
   /**
-   * Number of video views.
+   * Number of video views. Absent when the lane that served the lookup does not carry a view count.
    */
   viewCount?: number;
   [extra: string]: unknown;
@@ -1311,11 +1329,35 @@ export interface InstagramReelTranscriptSegment {
    */
   end?: number;
   /**
+   * Which speaker said this segment, as a stable label within this transcript (e.g. "0", "1").
+   */
+  speaker?: string;
+  /**
    * Segment start offset in seconds from the start of the video.
    */
   start?: number;
   /**
    * The segment's transcribed text.
+   */
+  text?: string;
+  /**
+   * Every word in the segment with its own timing. Present only when wordTimestamps was true.
+   */
+  words?: InstagramReelTranscriptWord[];
+  [extra: string]: unknown;
+}
+
+export interface InstagramReelTranscriptWord {
+  /**
+   * Word end offset in seconds from the start of the video.
+   */
+  end?: number;
+  /**
+   * Word start offset in seconds from the start of the video.
+   */
+  start?: number;
+  /**
+   * The word as spoken.
    */
   text?: string;
   [extra: string]: unknown;
@@ -1326,7 +1368,7 @@ export interface InstagramReelTranscriptSegment {
  */
 export interface InstagramReelTranscriptData {
   /**
-   * Transcript record for the requested reel (one item), with the full transcript text, timed segments, and source video metadata. Populated whenever the provider has data for the entity.
+   * Record for the requested reel (one item), with its hosted video link, the full transcript text, timed segments, and source video metadata. Populated whenever the provider has data for the entity.
    */
   items: InstagramReelTranscriptItem[];
 }
@@ -2884,7 +2926,7 @@ export class InstagramNamespace {
    *
    * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.instagram.post({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -2993,12 +3035,12 @@ export class InstagramNamespace {
   /**
    * Instagram Reel Transcript
    *
-   * Turn any public Instagram reel or video post into a full speech transcript, with optional word-level timestamps.
+   * Download any public Instagram reel or video post to a hosted MP4 link, with an optional full speech transcript, speaker labels, and word-level timestamps. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. If you only want the text and not the video file, instagram.media_transcript is the cheaper transcript-only option.
    *
-   * Price: $0.0055 per request plus $0.0253 per result (maximum $0.0308).
+   * Price: $0.005 per request plus $0.006 per audio minute (maximum $0.05).
    *
    * @example
-   * const res = await client.instagram.reelTranscript({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/", wordTimestamps: false });
+   * const res = await client.instagram.reelTranscript({ url: "https://www.instagram.com/reel/CfY6jCIgH-P/", includeTranscript: true, wordTimestamps: false });
    */
   reelTranscript(
     input: InstagramReelTranscriptInput,

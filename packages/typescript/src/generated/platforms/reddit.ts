@@ -1001,9 +1001,9 @@ export interface RedditUserPostsPost {
 export interface RedditUserPostsMedia {
   height?: number;
   /**
-   * One of photo, video, or gif.
+   * One of photo, video, or gif, or null when the serving source wraps a thumbnail it cannot classify.
    */
-  type: string;
+  type: string | null;
   /**
    * Image URL. For a video or GIF this is the poster/thumbnail frame.
    * Format: uri.

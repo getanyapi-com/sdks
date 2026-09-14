@@ -35,6 +35,21 @@ class AmazonBestsellersInput(TypedDict, total=False):
     """Maximum number of results to return (1-20, default 20). Range: 1 to 20. Default: 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "categoryName",
+                "currency",
+                "image",
+                "offersCount",
+                "price",
+                "rank",
+                "rating",
+                "reviewsCount",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `offersCount` or `categoryName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     url: Required[str]
     """Amazon Best Sellers category URL (e.g. https://www.amazon.com/Best-Sellers-Electronics/zgbs/electronics)."""
 
@@ -137,6 +152,22 @@ class AmazonSearchInput(TypedDict, total=False):
     """Maximum number of results to return (1-20, default 20). Range: 1 to 20. Default: 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "currency",
+                "image",
+                "isSponsored",
+                "listPrice",
+                "offersCount",
+                "position",
+                "price",
+                "rating",
+                "reviewsCount",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `offersCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     url: Required[str]
     """Amazon search or category URL to pull results from (e.g. https://www.amazon.com/s?k=gaming+mouse)."""
 
@@ -193,7 +224,7 @@ class AmazonBestsellersItem(BaseModel):
     category_name: str | None = Field(
         default=None,
         alias="categoryName",
-        description="Best Sellers category name the product ranks in.",
+        description="Best Sellers category name the product ranks in, or null when the serving source does not publish it.",
     )
     currency: str | None = Field(
         default=None, description='Price currency symbol or code, e.g. "$".'
@@ -204,7 +235,7 @@ class AmazonBestsellersItem(BaseModel):
     offers_count: int | None = Field(
         default=None,
         alias="offersCount",
-        description="Number of available offers; 0 when unknown.",
+        description="Number of available offers, or null when the serving source does not publish it.",
     )
     price: float | None = Field(
         default=None, description="Listed price; 0 when no offer is available."
@@ -367,12 +398,12 @@ class AmazonSearchItem(BaseModel):
     list_price: float | None = Field(
         default=None,
         alias="listPrice",
-        description="Pre-discount list price when on sale; 0 when not discounted.",
+        description="Pre-discount list price when on sale, 0 when not discounted, or null when the serving source does not publish it.",
     )
     offers_count: int | None = Field(
         default=None,
         alias="offersCount",
-        description="Number of available offers; 0 when unknown.",
+        description="Number of available offers, or null when the serving source does not publish it.",
     )
     position: int | None = Field(
         default=None, description="1-based position of the result on the search page."

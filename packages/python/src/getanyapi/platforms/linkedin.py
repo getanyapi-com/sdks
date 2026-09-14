@@ -2817,7 +2817,8 @@ class LinkedinProfileThinData(BaseModel):
         default=None, description="About/summary text of the profile."
     )
     articles: list[LinkedinProfileThinArticle] | None = Field(
-        default=None, description="The profile's published articles."
+        default=None,
+        description="The profile's published articles, or null when the serving source does not publish them.",
     )
     avatar_url: str | None = Field(
         default=None, alias="avatarUrl", description="URL of the profile avatar image."
@@ -2835,7 +2836,9 @@ class LinkedinProfileThinData(BaseModel):
     )
     name: str = Field(description="Full name of the profile owner.")
     recent_posts: list[LinkedinProfileThinRecentPost] | None = Field(
-        default=None, alias="recentPosts", description="The profile's recent posts."
+        default=None,
+        alias="recentPosts",
+        description="The profile's recent posts, or null when the serving source does not publish them.",
     )
 
 

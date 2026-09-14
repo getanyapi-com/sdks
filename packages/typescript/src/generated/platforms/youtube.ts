@@ -1053,6 +1053,18 @@ export interface YoutubeVideoTranscriptFullInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAiGenerated`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "channel"
+    | "durationSeconds"
+    | "endSeconds"
+    | "isAiGenerated"
+    | "startSeconds"
+    | "text"
+    | "title"
+  )[];
+  /**
    * YouTube video or Short URL (e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ" or "https://www.youtube.com/shorts/Fir1x9cw2vg").
    */
   url: string;
@@ -1090,9 +1102,9 @@ export interface YoutubeVideoTranscriptFullData {
    */
   durationSeconds?: number;
   /**
-   * True when the words were recognized from the audio by the serving lane rather than read from any YouTube caption track.
+   * True when the words were recognized from the audio by the serving lane rather than read from any YouTube caption track, or null when the serving source does not say.
    */
-  isAiGenerated?: boolean;
+  isAiGenerated?: boolean | null;
   /**
    * True when YouTube generated the caption track by speech recognition rather than the creator supplying it. Automatic captions carry recognition errors, especially on names and jargon. Populated whenever the provider has data for the entity.
    */

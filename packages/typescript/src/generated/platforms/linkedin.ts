@@ -3019,9 +3019,9 @@ export interface LinkedinProfileThinData {
    */
   about?: string;
   /**
-   * The profile's published articles.
+   * The profile's published articles, or null when the serving source does not publish them.
    */
-  articles?: LinkedinProfileThinArticle[];
+  articles?: LinkedinProfileThinArticle[] | null;
   /**
    * URL of the profile avatar image.
    */
@@ -3048,9 +3048,9 @@ export interface LinkedinProfileThinData {
    */
   name: string;
   /**
-   * The profile's recent posts.
+   * The profile's recent posts, or null when the serving source does not publish them.
    */
-  recentPosts?: LinkedinProfileThinRecentPost[];
+  recentPosts?: LinkedinProfileThinRecentPost[] | null;
   [extra: string]: unknown;
 }
 

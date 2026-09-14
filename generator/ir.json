@@ -1352,6 +1352,26 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `offersCount` or `categoryName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "categoryName",
+                "currency",
+                "image",
+                "offersCount",
+                "price",
+                "rank",
+                "rating",
+                "reviewsCount"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "url": {
             "kind": "string",
             "description": "Amazon Best Sellers category URL (e.g. https://www.amazon.com/Best-Sellers-Electronics/zgbs/electronics).",
@@ -1385,7 +1405,8 @@
                   },
                   "categoryName": {
                     "kind": "string",
-                    "description": "Best Sellers category name the product ranks in.",
+                    "description": "Best Sellers category name the product ranks in, or null when the serving source does not publish it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -1406,7 +1427,8 @@
                   },
                   "offersCount": {
                     "kind": "integer",
-                    "description": "Number of available offers; 0 when unknown.",
+                    "description": "Number of available offers, or null when the serving source does not publish it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -2014,6 +2036,27 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `offersCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "currency",
+                "image",
+                "isSponsored",
+                "listPrice",
+                "offersCount",
+                "position",
+                "price",
+                "rating",
+                "reviewsCount"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "url": {
             "kind": "string",
             "description": "Amazon search or category URL to pull results from (e.g. https://www.amazon.com/s?k=gaming+mouse).",
@@ -2066,14 +2109,16 @@
                   },
                   "listPrice": {
                     "kind": "number",
-                    "description": "Pre-discount list price when on sale; 0 when not discounted.",
+                    "description": "Pre-discount list price when on sale, 0 when not discounted, or null when the serving source does not publish it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "offersCount": {
                     "kind": "integer",
-                    "description": "Number of available offers; 0 when unknown.",
+                    "description": "Number of available offers, or null when the serving source does not publish it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -32798,7 +32843,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33601,12 +33646,12 @@
       "operationId": "instagram_reel_transcript",
       "name": "Instagram Reel Transcript",
       "category": "social",
-      "description": "Turn any public Instagram reel or video post into a full speech transcript, with optional word-level timestamps.",
+      "description": "Download any public Instagram reel or video post to a hosted MP4 link, with an optional full speech transcript, speaker labels, and word-level timestamps. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. If you only want the text and not the video file, instagram.media_transcript is the cheaper transcript-only option.",
       "pricing": {
-        "priceUsd": 0.0308,
-        "baseUsd": 0.0055,
-        "perItemUsd": 0.0253,
-        "perItemUnit": "result"
+        "priceUsd": 0.05,
+        "baseUsd": 0.005,
+        "perItemUsd": 0.006,
+        "perItemUnit": "audio minute"
       },
       "tsNamespace": "instagram",
       "tsMethod": "reelTranscript",
@@ -33617,12 +33662,18 @@
       "inputTypeName": "InstagramReelTranscriptInput",
       "outputTypeName": "InstagramReelTranscriptData",
       "example": {
-        "url": "https://www.instagram.com/reel/DWzrfE2kaY8/",
+        "includeTranscript": true,
+        "url": "https://www.instagram.com/reel/CfY6jCIgH-P/",
         "wordTimestamps": false
       },
       "input": {
         "kind": "object",
         "properties": {
+          "includeTranscript": {
+            "kind": "boolean",
+            "description": "Set false to download and host the video only, without transcribing its speech (e.g. false).",
+            "default": true
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -33632,7 +33683,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "The URL of a public Instagram reel or video post with spoken audio (e.g. https://www.instagram.com/reel/C8yKXdRxKqK/).",
+            "description": "The URL of a public Instagram reel or video post (e.g. https://www.instagram.com/reel/C8yKXdRxKqK/), or an Instagram CDN media URL you already hold.",
             "enum": null,
             "default": null,
             "format": null
@@ -33655,69 +33706,76 @@
           "properties": {
             "items": {
               "kind": "array",
-              "description": "Transcript record for the requested reel (one item), with the full transcript text, timed segments, and source video metadata. Populated whenever the provider has data for the entity.",
+              "description": "Record for the requested reel (one item), with its hosted video link, the full transcript text, timed segments, and source video metadata. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
-                  "caption": {
-                    "kind": "string",
-                    "description": "The reel's caption text. Empty when the reel has no caption.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "commentCount": {
+                  "bytes": {
                     "kind": "integer",
-                    "description": "Number of comments on the reel.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "createdUtc": {
-                    "kind": "number",
-                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "description": "Size of the downloaded MP4 in bytes.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "durationSeconds": {
                     "kind": "number",
-                    "description": "Video duration in seconds.",
+                    "description": "Video duration in seconds. Absent when there is no transcript, which is what measures it.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
+                  "expiresUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. After this moment the hosted MP4 is deleted.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "hostedUrl": {
+                    "kind": "string",
+                    "description": "A direct link to the downloaded MP4, hosted by AnyAPI and playable without an Instagram session.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
                   "id": {
                     "kind": "string",
-                    "description": "The reel's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity.",
+                    "description": "The reel's numeric Instagram media ID, as a string. Empty when the request supplied a CDN media URL, which carries no post record. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "language": {
                     "kind": "string",
-                    "description": "Detected spoken language (ISO 639-1 code, e.g. \"en\"). Empty when the upstream omits it.",
+                    "description": "Detected spoken language (ISO 639-1 code, e.g. \"en\"). Absent when there is no transcript.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "likeCount": {
                     "kind": "integer",
-                    "description": "Number of likes on the reel.",
+                    "description": "Number of likes on the reel. Absent when the lane that served the lookup does not carry a like count.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
+                  "mediaType": {
+                    "kind": "string",
+                    "description": "What kind of media this is, as Instagram labels it (for example a video or an image post).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "ownerUsername": {
                     "kind": "string",
-                    "description": "Username of the reel's owner, without the @ prefix. Empty when the upstream omits it.",
+                    "description": "Username of the reel's owner, without the @ prefix. Empty when the request supplied a CDN media URL.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "segments": {
                     "kind": "array",
-                    "description": "Time-aligned transcript segments, each with its text and start/end offsets in seconds.",
+                    "description": "Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when includeTranscript was false.",
                     "items": {
                       "kind": "object",
                       "properties": {
@@ -33727,6 +33785,13 @@
                           "minimum": null,
                           "maximum": null,
                           "default": null
+                        },
+                        "speaker": {
+                          "kind": "string",
+                          "description": "Which speaker said this segment, as a stable label within this transcript (e.g. \"0\", \"1\").",
+                          "enum": null,
+                          "default": null,
+                          "format": null
                         },
                         "start": {
                           "kind": "number",
@@ -33741,6 +33806,39 @@
                           "enum": null,
                           "default": null,
                           "format": null
+                        },
+                        "words": {
+                          "kind": "array",
+                          "description": "Every word in the segment with its own timing. Present only when wordTimestamps was true.",
+                          "items": {
+                            "kind": "object",
+                            "properties": {
+                              "end": {
+                                "kind": "number",
+                                "description": "Word end offset in seconds from the start of the video.",
+                                "minimum": null,
+                                "maximum": null,
+                                "default": null
+                              },
+                              "start": {
+                                "kind": "number",
+                                "description": "Word start offset in seconds from the start of the video.",
+                                "minimum": null,
+                                "maximum": null,
+                                "default": null
+                              },
+                              "text": {
+                                "kind": "string",
+                                "description": "The word as spoken.",
+                                "enum": null,
+                                "default": null,
+                                "format": null
+                              }
+                            },
+                            "required": [],
+                            "open": true
+                          },
+                          "mustPopulate": false
                         }
                       },
                       "required": [],
@@ -33748,23 +33846,37 @@
                     },
                     "mustPopulate": false
                   },
+                  "shortcode": {
+                    "kind": "string",
+                    "description": "The reel's short code, the part of its instagram.com URL after /reel/. Empty when the request supplied a CDN media URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "text": {
                     "kind": "string",
-                    "description": "The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity.",
+                    "description": "The full speech transcript. Empty when the reel has no detectable spoken audio, and when includeTranscript was false. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "thumbnailUrl": {
+                    "kind": "string",
+                    "description": "A link to the reel's cover image on Instagram. This link is signed by Instagram and stops working after a short time.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "url": {
                     "kind": "string",
-                    "description": "Canonical URL of the reel, with tracking query params stripped. Populated whenever the provider has data for the entity.",
+                    "description": "The reel URL the request asked for, returned as sent. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "viewCount": {
                     "kind": "integer",
-                    "description": "Number of video views.",
+                    "description": "Number of video views. Absent when the lane that served the lookup does not carry a view count.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -44112,7 +44224,8 @@
             },
             "articles": {
               "kind": "array",
-              "description": "The profile's published articles.",
+              "description": "The profile's published articles, or null when the serving source does not publish them.",
+              "nullable": true,
               "items": {
                 "kind": "object",
                 "properties": {
@@ -44259,7 +44372,8 @@
             },
             "recentPosts": {
               "kind": "array",
-              "description": "The profile's recent posts.",
+              "description": "The profile's recent posts, or null when the serving source does not publish them.",
+              "nullable": true,
               "items": {
                 "kind": "object",
                 "properties": {
@@ -63611,7 +63725,8 @@
                         },
                         "type": {
                           "kind": "string",
-                          "description": "One of photo, video, or gif.",
+                          "description": "One of photo, video, or gif, or null when the serving source wraps a thumbnail it cannot classify.",
+                          "nullable": true,
                           "enum": null,
                           "default": null,
                           "format": null
@@ -82788,7 +82903,7 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
             "items": {
               "kind": "string",
               "enum": [
@@ -82857,7 +82972,8 @@
                   },
                   "isPinned": {
                     "kind": "boolean",
-                    "description": "Whether X marks the post as pinned on the profile.",
+                    "description": "Whether X marks the post as pinned on the profile, or null when the serving source does not publish it.",
+                    "nullable": true,
                     "default": null
                   },
                   "isReply": {
@@ -83055,9 +83171,9 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of authored tweets and replies to return in the current bulk call (1-1000). The provider may return fewer results.",
+            "description": "Maximum number of authored tweets and replies to return in THIS page (1-100). Sources return fewer - most cap at 20 - so read `nextCursor` and pass it back as `cursor` to walk further rather than asking for one large page.",
             "minimum": 1,
-            "maximum": 1000,
+            "maximum": 100,
             "default": 20
           },
           "preferLatencyUnderMs": {
@@ -83069,7 +83185,7 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
             "items": {
               "kind": "string",
               "enum": [
@@ -83142,6 +83258,8 @@
                   },
                   "isPinned": {
                     "kind": "boolean",
+                    "description": "Whether X marks the post as pinned on the profile, or null when the serving source does not publish it.",
+                    "nullable": true,
                     "default": null
                   },
                   "isReply": {
@@ -88597,6 +88715,25 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAiGenerated`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "channel",
+                "durationSeconds",
+                "endSeconds",
+                "isAiGenerated",
+                "startSeconds",
+                "text",
+                "title"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "url": {
             "kind": "string",
             "description": "YouTube video or Short URL (e.g. \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\" or \"https://www.youtube.com/shorts/Fir1x9cw2vg\").",
@@ -88631,7 +88768,8 @@
             },
             "isAiGenerated": {
               "kind": "boolean",
-              "description": "True when the words were recognized from the audio by the serving lane rather than read from any YouTube caption track.",
+              "description": "True when the words were recognized from the audio by the serving lane rather than read from any YouTube caption track, or null when the serving source does not say.",
+              "nullable": true,
               "default": null
             },
             "isAutoGenerated": {
@@ -90111,6 +90249,35 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `yearBuilt`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "baths",
+                "beds",
+                "city",
+                "currency",
+                "daysOnZillow",
+                "latitude",
+                "livingArea",
+                "longitude",
+                "lotSize",
+                "price",
+                "propertyType",
+                "rentZestimate",
+                "state",
+                "status",
+                "yearBuilt",
+                "zestimate",
+                "zipcode"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "showOnlyPriceReductions": {
             "kind": "boolean",
             "description": "Only show listings with a price reduction. Buy searches only; ignored for rentals (e.g. true).",
@@ -90266,6 +90433,8 @@
                   },
                   "yearBuilt": {
                     "kind": "integer",
+                    "description": "Year the home was built, or null when the serving source does not publish it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null

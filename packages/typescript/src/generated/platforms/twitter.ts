@@ -1219,7 +1219,7 @@ export interface TwitterUserPostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
     | "bookmarks"
@@ -1250,9 +1250,9 @@ export interface TwitterUserPostsTweet {
    */
   id: string;
   /**
-   * Whether X marks the post as pinned on the profile.
+   * Whether X marks the post as pinned on the profile, or null when the serving source does not publish it.
    */
-  isPinned: boolean;
+  isPinned: boolean | null;
   /**
    * Whether X marks the record as a reply. Certified Posts-tab captures use this for self-thread continuations.
    */
@@ -1344,8 +1344,8 @@ export interface TwitterUserTweetsInput {
    */
   handle: string;
   /**
-   * Maximum number of authored tweets and replies to return in the current bulk call (1-1000). The provider may return fewer results.
-   * Range: minimum 1, maximum 1000.
+   * Maximum number of authored tweets and replies to return in THIS page (1-100). Sources return fewer - most cap at 20 - so read `nextCursor` and pass it back as `cursor` to walk further rather than asking for one large page.
+   * Range: minimum 1, maximum 100.
    * Default: 20.
    */
   limit?: number;
@@ -1355,7 +1355,7 @@ export interface TwitterUserTweetsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
     | "bookmarks"
@@ -1386,7 +1386,10 @@ export interface TwitterUserTweetsTweet {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
-  isPinned: boolean;
+  /**
+   * Whether X marks the post as pinned on the profile, or null when the serving source does not publish it.
+   */
+  isPinned: boolean | null;
   isReply?: boolean;
   lang?: string;
   likes: number;
