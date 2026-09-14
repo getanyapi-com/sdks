@@ -2,9 +2,11 @@
 
 import type {
   ClientCore,
+  Paginator,
   RequestOptions,
   RunResult,
 } from "../../core/index.js";
+import { paginate } from "../../core/index.js";
 
 /**
  * Input for Google Maps Contacts (maps.contacts).
@@ -619,6 +621,147 @@ export interface MapsSearchData {
 }
 
 /**
+ * Input for Google Maps Nearby Search (maps.search_nearby).
+ */
+export interface MapsSearchNearbyInput {
+  /**
+   * The exact map centre to search around. Use maps.search instead if you only have a place name.
+   */
+  coordinates: {
+    /**
+     * Latitude of the map centre in decimal degrees.
+     * Range: minimum -90, maximum 90.
+     */
+    latitude: number;
+    /**
+     * Longitude of the map centre in decimal degrees.
+     * Range: minimum -180, maximum 180.
+     */
+    longitude: number;
+  };
+  /**
+   * Opaque cursor from a previous response's nextCursor. Pass it back to get the next page of places.
+   */
+  cursor?: string | null;
+  /**
+   * Two-letter language code for the results (e.g. en).
+   * Default: en.
+   */
+  language?: string;
+  /**
+   * Maximum number of places to return in this response (1-20). Google Maps returns one viewport of about 20 places per call; page with cursor for more. Price is flat per request.
+   * Range: minimum 1, maximum 20.
+   * Default: 20.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * What you would type in the Google Maps search bar (e.g. coffee shop).
+   */
+  query: string;
+  /**
+   * Google Maps viewport zoom. Lower covers a wider area, higher focuses more tightly around the coordinates.
+   * Range: minimum 3, maximum 21.
+   * Default: 13.1.
+   */
+  zoom?: number;
+}
+
+export interface MapsSearchNearbyItem {
+  /**
+   * Full formatted street address.
+   */
+  address?: string;
+  /**
+   * Primary place category (e.g. Coffee shop).
+   */
+  category?: string;
+  /**
+   * Google customer/place id (cid).
+   */
+  cid?: string;
+  /**
+   * City the place is in.
+   */
+  city?: string;
+  /**
+   * Two-letter country code.
+   */
+  countryCode?: string;
+  /**
+   * Thumbnail photo URL for the place.
+   */
+  image?: string;
+  /**
+   * Latitude of the place in decimal degrees.
+   */
+  latitude?: number;
+  /**
+   * Longitude of the place in decimal degrees.
+   */
+  longitude?: number;
+  /**
+   * Place name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Business phone number, when listed.
+   */
+  phone?: string;
+  /**
+   * Google Maps place id (stable identifier for the place). Populated whenever the provider has data for the entity.
+   */
+  placeId: string;
+  /**
+   * Postal code of the place.
+   */
+  postalCode?: string;
+  /**
+   * Average Google rating out of 5.
+   */
+  rating?: number;
+  /**
+   * Number of Google reviews the place has.
+   */
+  reviewCount?: number;
+  /**
+   * State or region the place is in, spelled in full (e.g. Texas).
+   */
+  state?: string;
+  /**
+   * Street line of the address.
+   */
+  street?: string;
+  /**
+   * Canonical Google Maps URL for the place. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * The place's own website URL, when listed.
+   */
+  website?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Maps Nearby Search (maps.search_nearby).
+ */
+export interface MapsSearchNearbyData {
+  /**
+   * Matching Google Maps place records, nearest the requested coordinates first. Populated whenever the provider has data for the entity.
+   */
+  items: MapsSearchNearbyItem[];
+  /**
+   * Opaque cursor for the next page of places, or null when this search is complete. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
+}
+
+/**
  * Typed methods for the maps platform. Attached to the AnyAPI client as
  * `client.maps`.
  */
@@ -691,5 +834,42 @@ export class MapsNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<MapsSearchData>> {
     return this._core.run("maps.search", input, options);
+  }
+
+  /**
+   * Google Maps Nearby Search
+   *
+   * Search Google Maps around an exact latitude and longitude and get up to 20 normalized places per call, each with the address broken into street, city, state, postal code and country. Use this when you have coordinates and want the map viewport centred on them; use maps.search when you only have a place name. Pass the returned nextCursor back as cursor for the next 20 places.
+   *
+   * Price: $0.0013 per request.
+   *
+   * @example
+   * const res = await client.maps.searchNearby({ coordinates: { latitude: 30.2672, longitude: -97.7431 }, query: "coffee shop", limit: 20 });
+   */
+  searchNearby(
+    input: MapsSearchNearbyInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<MapsSearchNearbyData>> {
+    return this._core.run("maps.search_nearby", input, options);
+  }
+
+  /**
+   * Iterate every result of Google Maps Nearby Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchNearby(
+    input: MapsSearchNearbyInput,
+    options?: RequestOptions,
+  ): Paginator<MapsSearchNearbyItem, RunResult<MapsSearchNearbyData>> {
+    return paginate<MapsSearchNearbyItem, RunResult<MapsSearchNearbyData>>(
+      this._core,
+      "maps.search_nearby",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 }

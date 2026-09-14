@@ -3,12 +3,18 @@
 
 from __future__ import annotations
 
-from typing import Literal, TYPE_CHECKING
+from typing import Any, Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
 from ..types import RequestOptions, RunResult
+from .._pagination import (
+    AsyncPaginator,
+    Paginator,
+    apaginate,
+    paginate,
+)
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -165,6 +171,25 @@ class MapsSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `cid` or `street`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     website: NotRequired[Literal["allPlaces", "withWebsite", "withoutWebsite"]]
     """Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source."""
+
+
+class MapsSearchNearbyInput(TypedDict, total=False):
+    """Input for Google Maps Nearby Search."""
+
+    coordinates: Required[dict[str, Any]]
+    """The exact map centre to search around. Use maps.search instead if you only have a place name."""
+    cursor: NotRequired[str | None]
+    """Opaque cursor from a previous response's nextCursor. Pass it back to get the next page of places."""
+    language: NotRequired[str]
+    """Two-letter language code for the results (e.g. en). Default: en."""
+    limit: NotRequired[int]
+    """Maximum number of places to return in this response (1-20). Google Maps returns one viewport of about 20 places per call; page with cursor for more. Price is flat per request. Range: 1 to 20. Default: 20."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """What you would type in the Google Maps search bar (e.g. coffee shop)."""
+    zoom: NotRequired[float]
+    """Google Maps viewport zoom. Lower covers a wider area, higher focuses more tightly around the coordinates. Range: 3 to 21. Default: 13.1."""
 
 
 class MapsContactsData(BaseModel):
@@ -474,6 +499,76 @@ class MapsSearchItem(BaseModel):
     )
 
 
+class MapsSearchNearbyData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    items: list[MapsSearchNearbyItem] = Field(
+        description="Matching Google Maps place records, nearest the requested coordinates first. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of places, or null when this search is complete. Pass it back as cursor to continue.",
+    )
+
+
+class MapsSearchNearbyItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    address: str | None = Field(
+        default=None, description="Full formatted street address."
+    )
+    category: str | None = Field(
+        default=None, description="Primary place category (e.g. Coffee shop)."
+    )
+    cid: str | None = Field(default=None, description="Google customer/place id (cid).")
+    city: str | None = Field(default=None, description="City the place is in.")
+    country_code: str | None = Field(
+        default=None, alias="countryCode", description="Two-letter country code."
+    )
+    image: str | None = Field(
+        default=None, description="Thumbnail photo URL for the place."
+    )
+    latitude: float | None = Field(
+        default=None, description="Latitude of the place in decimal degrees."
+    )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the place in decimal degrees."
+    )
+    name: str = Field(
+        description="Place name. Populated whenever the provider has data for the entity."
+    )
+    phone: str | None = Field(
+        default=None, description="Business phone number, when listed."
+    )
+    place_id: str = Field(
+        alias="placeId",
+        description="Google Maps place id (stable identifier for the place). Populated whenever the provider has data for the entity.",
+    )
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal code of the place."
+    )
+    rating: float | None = Field(
+        default=None, description="Average Google rating out of 5."
+    )
+    review_count: int | None = Field(
+        default=None,
+        alias="reviewCount",
+        description="Number of Google reviews the place has.",
+    )
+    state: str | None = Field(
+        default=None,
+        description="State or region the place is in, spelled in full (e.g. Texas).",
+    )
+    street: str | None = Field(default=None, description="Street line of the address.")
+    url: str = Field(
+        description="Canonical Google Maps URL for the place. Populated whenever the provider has data for the entity."
+    )
+    website: str | None = Field(
+        default=None, description="The place's own website URL, when listed."
+    )
+
+
 class MapsNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
@@ -560,6 +655,53 @@ class MapsNamespace:
             "maps.search", dict(input), options
         )
         return RunResult[MapsSearchData].model_validate(raw)
+
+    def search_nearby(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[MapsSearchNearbyInput],
+    ) -> RunResult[MapsSearchNearbyData]:
+        """Google Maps Nearby Search
+
+        Search Google Maps around an exact latitude and longitude and get up to 20
+        normalized places per call, each with the address broken into street, city,
+        state, postal code and country. Use this when you have coordinates and want
+        the map viewport centred on them; use maps.search when you only have a place
+        name. Pass the returned nextCursor back as cursor for the next 20 places.
+
+        Price: $0.0013 per request.
+
+        Example:
+            res = client.maps.search_nearby(coordinates={"latitude": 30.2672, "longitude": -97.7431}, limit=20, query="coffee shop")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "maps.search_nearby", dict(input), options
+        )
+        return RunResult[MapsSearchNearbyData].model_validate(raw)
+
+    def iter_search_nearby(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[MapsSearchNearbyInput],
+    ) -> Paginator[MapsSearchNearbyItem, MapsSearchNearbyData]:
+        """Iterate Google Maps Nearby Search results, following pagination cursors.
+
+        Yields validated `MapsSearchNearbyItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "maps.search_nearby",
+            dict(input),
+            "items",
+            item_model=MapsSearchNearbyItem,
+            data_model=MapsSearchNearbyData,
+            bare=False,
+            options=options,
+        )
 
 
 class AsyncMapsNamespace:
@@ -648,3 +790,50 @@ class AsyncMapsNamespace:
             "maps.search", dict(input), options
         )
         return RunResult[MapsSearchData].model_validate(raw)
+
+    async def search_nearby(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[MapsSearchNearbyInput],
+    ) -> RunResult[MapsSearchNearbyData]:
+        """Google Maps Nearby Search
+
+        Search Google Maps around an exact latitude and longitude and get up to 20
+        normalized places per call, each with the address broken into street, city,
+        state, postal code and country. Use this when you have coordinates and want
+        the map viewport centred on them; use maps.search when you only have a place
+        name. Pass the returned nextCursor back as cursor for the next 20 places.
+
+        Price: $0.0013 per request.
+
+        Example:
+            res = client.maps.search_nearby(coordinates={"latitude": 30.2672, "longitude": -97.7431}, limit=20, query="coffee shop")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "maps.search_nearby", dict(input), options
+        )
+        return RunResult[MapsSearchNearbyData].model_validate(raw)
+
+    def iter_search_nearby(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[MapsSearchNearbyInput],
+    ) -> AsyncPaginator[MapsSearchNearbyItem, MapsSearchNearbyData]:
+        """Iterate Google Maps Nearby Search results, following pagination cursors.
+
+        Yields validated `MapsSearchNearbyItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "maps.search_nearby",
+            dict(input),
+            "items",
+            item_model=MapsSearchNearbyItem,
+            data_model=MapsSearchNearbyData,
+            bare=False,
+            options=options,
+        )

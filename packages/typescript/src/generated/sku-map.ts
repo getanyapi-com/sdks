@@ -453,6 +453,8 @@ import type {
   MapsReviewsInput,
   MapsSearchData,
   MapsSearchInput,
+  MapsSearchNearbyData,
+  MapsSearchNearbyInput,
 } from "./platforms/maps.js";
 import type {
   MobilePhoneAiArkData,
@@ -1842,6 +1844,11 @@ export interface SkuMap {
     input: MapsSearchInput;
     data: MapsSearchData;
     result: RunResult<MapsSearchData>;
+  };
+  "maps.search_nearby": {
+    input: MapsSearchNearbyInput;
+    data: MapsSearchNearbyData;
+    result: RunResult<MapsSearchNearbyData>;
   };
   "mobile_phone.ai_ark": {
     input: MobilePhoneAiArkInput;

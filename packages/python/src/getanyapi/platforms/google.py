@@ -133,7 +133,7 @@ class GoogleSearchInput(TypedDict, total=False):
     limit: NotRequired[int]
     """Maximum number of organic results to return in this response. Google stopped honoring bulk result counts in September 2025, so one page is about 10 results and a limit above 10 is accepted but will not return more than that. To go deeper, either page through with cursor (about 10 results per call, each billed as a request) or use google.search_100, which returns up to 100 ranked results in a single call for one flat charge and is cheaper past roughly 20 results. Price is flat per request. Range: 1 to 100. Default: 10."""
     location: NotRequired[str]
-    """Fine-grained location for result localization, given as a canonical Google location string (e.g. 'New York, United States', 'London, United Kingdom'). More specific than the country-level gl."""
+    """Fine-grained location to localize results to, more specific than the country-level gl. Must exactly match an Active Canonical Name from Google's geo-target list, which uses no space after each comma: 'New York,New York,United States', 'Austin,Texas,United States', 'London,England,United Kingdom'. A value that does not match is rejected rather than quietly searched from somewhere else."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
@@ -705,7 +705,7 @@ class GoogleNamespace:
         as cursor to walk further, or use google.search_100 for up to 100 ranked
         results in one call, which is cheaper past roughly 20 results.
 
-        Price: $0.0005 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")
@@ -970,7 +970,7 @@ class AsyncGoogleNamespace:
         as cursor to walk further, or use google.search_100 for up to 100 ranked
         results in one call, which is cheaper past roughly 20 results.
 
-        Price: $0.0005 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")

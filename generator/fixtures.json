@@ -3747,6 +3747,25 @@
     "items": 1,
     "replayed": false
   },
+  "maps.search_nearby": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "placeId": "sample",
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "mobile_phone.ai_ark": {
     "output": {
       "found": true,
