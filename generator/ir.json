@@ -33305,7 +33305,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33784,7 +33784,7 @@
                   },
                   "segments": {
                     "kind": "array",
-                    "description": "Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when the reel has no detectable spoken audio.",
+                    "description": "Time-aligned transcript segments in playback order, one per sentence, each with its text, speaker label, and start/end offsets in seconds. A segment starts when its first word is spoken and ends when its last one finishes. Empty when the reel has no detectable spoken audio.",
                     "items": {
                       "kind": "object",
                       "properties": {

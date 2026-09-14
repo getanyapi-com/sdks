@@ -1245,7 +1245,7 @@ class InstagramReelTranscriptItem(BaseModel):
     )
     segments: list[InstagramReelTranscriptSegment] | None = Field(
         default=None,
-        description="Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when the reel has no detectable spoken audio.",
+        description="Time-aligned transcript segments in playback order, one per sentence, each with its text, speaker label, and start/end offsets in seconds. A segment starts when its first word is spoken and ends when its last one finishes. Empty when the reel has no detectable spoken audio.",
     )
     shortcode: str | None = Field(
         default=None,
@@ -2567,7 +2567,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0012 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -3594,7 +3594,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.0012 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")

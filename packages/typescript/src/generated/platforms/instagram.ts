@@ -1315,7 +1315,7 @@ export interface InstagramReelTranscriptItem {
    */
   ownerUsername?: string;
   /**
-   * Time-aligned transcript segments, each with its text, speaker label, and start/end offsets in seconds. Empty when the reel has no detectable spoken audio.
+   * Time-aligned transcript segments in playback order, one per sentence, each with its text, speaker label, and start/end offsets in seconds. A segment starts when its first word is spoken and ends when its last one finishes. Empty when the reel has no detectable spoken audio.
    */
   segments?: InstagramReelTranscriptSegment[];
   /**
@@ -3017,7 +3017,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });
