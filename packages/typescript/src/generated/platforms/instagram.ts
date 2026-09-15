@@ -202,7 +202,7 @@ export interface InstagramEmbedData {
  */
 export interface InstagramFollowersInput {
   /**
-   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers. A page holds up to 50 followers.
+   * Opaque pagination cursor from a previous response's nextCursor. Today every source behind this endpoint returns a single page of about 50 followers and no continuation cursor, so nextCursor comes back empty and there is no further page to request; this parameter is accepted but has nothing to resume from.
    */
   cursor?: string;
   /**
@@ -259,11 +259,11 @@ export interface InstagramFollowersItem {
  */
 export interface InstagramFollowersData {
   /**
-   * Follower records for the target account. Populated whenever the provider has data for the entity.
+   * Follower records for the target account. About the first 50, in the order the source returns them, not the account's full follower list - see nextCursor. Populated whenever the provider has data for the entity.
    */
   items: InstagramFollowersItem[];
   /**
-   * Opaque cursor for the next page of followers, or null/empty when this lane has no more. Pass it back as cursor to continue.
+   * Opaque cursor for the next page of followers, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 followers and no continuation. Pass it back as cursor whenever it is non-empty.
    */
   nextCursor?: string | null;
 }
@@ -273,7 +273,7 @@ export interface InstagramFollowersData {
  */
 export interface InstagramFollowingInput {
   /**
-   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page. A page holds up to 50 accounts.
+   * Opaque pagination cursor from a previous response's nextCursor. Today every source behind this endpoint returns a single page of about 50 accounts and no continuation cursor, so nextCursor comes back empty and there is no further page to request; this parameter is accepted but has nothing to resume from.
    */
   cursor?: string;
   /**
@@ -330,11 +330,11 @@ export interface InstagramFollowingItem {
  */
 export interface InstagramFollowingData {
   /**
-   * Records for the accounts the target user follows. Populated whenever the provider has data for the entity.
+   * Records for the accounts the target user follows. About the first 50, in the order the source returns them, not the user's full following list - see nextCursor. Populated whenever the provider has data for the entity.
    */
   items: InstagramFollowingItem[];
   /**
-   * Opaque cursor for the next page of results, or null/empty when this lane has no more. Pass it back as cursor to continue.
+   * Opaque cursor for the next page of results, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 accounts and no continuation. Pass it back as cursor whenever it is non-empty.
    */
   nextCursor?: string | null;
 }
@@ -1256,7 +1256,7 @@ export interface InstagramProfileContactData {
  */
 export interface InstagramReelTranscriptInput {
   /**
-   * Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true).
+   * Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true). A photo post has no file to host, so a request that sets this on one is refused with no charge; send it without hostVideo to get the post record instead.
    * Default: false.
    */
   hostVideo?: boolean;
@@ -1307,7 +1307,7 @@ export interface InstagramReelTranscriptItem {
    */
   likeCount?: number;
   /**
-   * What kind of media this is, as Instagram labels it (for example a video or an image post).
+   * What kind of media this is, as Instagram labels it (for example a video or an image post). On a photo post this is how you tell that the empty transcript is the answer rather than silence.
    */
   mediaType?: string;
   /**
@@ -1323,7 +1323,7 @@ export interface InstagramReelTranscriptItem {
    */
   shortcode?: string;
   /**
-   * The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity.
+   * The full speech transcript. Empty when the reel has no detectable spoken audio, or when the post is a photo with no video to transcribe. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
@@ -2684,7 +2684,7 @@ export class InstagramNamespace {
   /**
    * Instagram Followers
    *
-   * List the followers of any public Instagram account by username: follower usernames, names, and profile details.
+   * List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.
    *
    * Price: $0.0015 per request.
    *
@@ -2721,7 +2721,7 @@ export class InstagramNamespace {
   /**
    * Instagram Following
    *
-   * List the accounts a public Instagram user follows: usernames, names, and profile details.
+   * List about the first 50 accounts a public Instagram user follows: usernames, names, and profile details. Instagram caps these lists, so this returns one page, not the whole list.
    *
    * Price: $0.0015 per request.
    *
@@ -3049,7 +3049,7 @@ export class InstagramNamespace {
   /**
    * Instagram Reel Transcript
    *
-   * Transcribe any public Instagram reel or video post: the full speech transcript, speaker labels, and word-level timestamps, from a reel URL or an Instagram CDN media URL you already hold. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that plays without an Instagram session. If you only want the text, instagram.media_transcript is the cheaper transcript-only option; if you only want the file, instagram.post is where you go.
+   * Transcribe any public Instagram reel or video post: the full speech transcript, speaker labels, and word-level timestamps, from a reel, /p/, or /tv/ URL or an Instagram CDN media URL you already hold. A video post is transcribed exactly like a reel. A photo post comes back found with its record and an empty transcript, charged the request price only. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that plays without an Instagram session. If you only want the text, instagram.media_transcript is the cheaper transcript-only option; if you only want the file, instagram.post is where you go.
    *
    * Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
    *

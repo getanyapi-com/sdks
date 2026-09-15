@@ -27,7 +27,7 @@ export interface TiktokShopCategoriesInput {
 
 export interface TiktokShopCategoriesCategorie {
   /**
-   * TikTok Shop category id. Pass this to tiktok_shop.category_products. Populated whenever the provider has data for the entity.
+   * TikTok Shop category id. Populated whenever the provider has data for the entity.
    */
   categoryId: string;
   /**
@@ -81,97 +81,6 @@ export interface TiktokShopCategoriesData {
    * Top-level TikTok Shop categories for the market, each with its child categories. Populated whenever the provider has data for the entity.
    */
   categories: TiktokShopCategoriesCategorie[];
-}
-
-/**
- * Input for TikTok Shop Category Products (tiktok_shop.category_products).
- */
-export interface TiktokShopCategoryProductsInput {
-  /**
-   * TikTok Shop category id, from tiktok_shop.categories (e.g. 700645 for Health).
-   */
-  categoryId: string;
-  /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
-   * Range: minimum 1.
-   */
-  preferLatencyUnderMs?: number;
-  /**
-   * Two-letter country code of the TikTok Shop market (e.g. US).
-   * Default: US.
-   */
-  region?: string;
-}
-
-export interface TiktokShopCategoryProductsItem {
-  /**
-   * ISO currency name, e.g. USD.
-   */
-  currency?: string;
-  /**
-   * Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.
-   */
-  discountPct?: number;
-  /**
-   * Primary product image URL.
-   */
-  image?: string;
-  /**
-   * Pre-discount list price (0 when not on sale).
-   */
-  originalPrice?: number;
-  /**
-   * Current sale price.
-   */
-  price?: number;
-  /**
-   * TikTok Shop product id. Populated whenever the provider has data for the entity.
-   */
-  productId: string;
-  /**
-   * Average review score.
-   */
-  rating?: number;
-  /**
-   * Number of reviews.
-   */
-  reviewCount?: number;
-  /**
-   * TikTok Shop seller id, for joining to the seller's other products.
-   */
-  sellerId?: string;
-  /**
-   * Seller shop name.
-   */
-  shopName?: string;
-  /**
-   * Units sold.
-   */
-  soldCount?: number;
-  /**
-   * Product title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Canonical product detail page URL. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  url?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Shop Category Products (tiktok_shop.category_products).
- */
-export interface TiktokShopCategoryProductsData {
-  /**
-   * True when the category has further pages upstream.
-   */
-  hasMore?: boolean;
-  /**
-   * Product records in the category: id, title, price, rating, sales count, seller, and product URL. Populated whenever the provider has data for the entity.
-   */
-  items: TiktokShopCategoryProductsItem[];
 }
 
 /**
@@ -939,23 +848,6 @@ export class TiktokShopNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TiktokShopCategoriesData>> {
     return this._core.run("tiktok_shop.categories", input, options);
-  }
-
-  /**
-   * TikTok Shop Category Products
-   *
-   * Browse TikTok Shop products inside a category by category id: price, discount, rating, sales count, seller, and product URL per product.
-   *
-   * Price: $0.0012 per request.
-   *
-   * @example
-   * const res = await client.tiktokShop.categoryProducts({ categoryId: "700645", region: "US" });
-   */
-  categoryProducts(
-    input: TiktokShopCategoryProductsInput,
-    options?: RequestOptions,
-  ): Promise<RunResult<TiktokShopCategoryProductsData>> {
-    return this._core.run("tiktok_shop.category_products", input, options);
   }
 
   /**

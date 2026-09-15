@@ -713,24 +713,6 @@
     "items": 1,
     "replayed": false
   },
-  "dexscreener.tokens": {
-    "output": {
-      "found": true,
-      "data": {
-        "items": [
-          {
-            "symbol": "sample",
-            "price": 1.5,
-            "_extra": "passthrough"
-          }
-        ]
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
   "douyin.profile": {
     "output": {
       "found": true,
@@ -1348,7 +1330,6 @@
             "id": "sample",
             "text": "sample",
             "url": "sample",
-            "permalink": "sample",
             "publishTime": 1,
             "reactionCount": 1,
             "commentCount": 1,
@@ -5275,11 +5256,7 @@
             "adId": "sample",
             "adTitle": "sample",
             "brandName": "sample",
-            "cost": 1.5,
-            "ctr": 1.5,
-            "likes": 1,
-            "industry": "sample",
-            "objective": "sample",
+            "estimatedAudience": "sample",
             "videoUrl": "sample",
             "coverUrl": "sample",
             "_extra": "passthrough"
@@ -5826,7 +5803,7 @@
       "found": true,
       "data": {
         "transcript": "sample",
-        "source": "sample",
+        "source": "audio_asr",
         "_extra": "passthrough"
       }
     },
@@ -5843,24 +5820,6 @@
           {
             "categoryId": "sample",
             "name": "sample",
-            "_extra": "passthrough"
-          }
-        ]
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
-  "tiktok_shop.category_products": {
-    "output": {
-      "found": true,
-      "data": {
-        "items": [
-          {
-            "productId": "sample",
-            "title": "sample",
             "_extra": "passthrough"
           }
         ]

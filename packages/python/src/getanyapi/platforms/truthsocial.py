@@ -169,7 +169,7 @@ class TruthsocialNamespace:
         Price: $0.0036 per request.
 
         Example:
-            res = client.truthsocial.profile(handle="realDonaldTrump")
+            res = client.truthsocial.profile(handle="DevinNunes")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "truthsocial.profile", dict(input), options
@@ -239,7 +239,7 @@ class AsyncTruthsocialNamespace:
         Price: $0.0036 per request.
 
         Example:
-            res = client.truthsocial.profile(handle="realDonaldTrump")
+            res = client.truthsocial.profile(handle="DevinNunes")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "truthsocial.profile", dict(input), options

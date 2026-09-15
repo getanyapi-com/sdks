@@ -22,7 +22,6 @@ export * from "./platforms/company.js";
 export * from "./platforms/company_enrichment.js";
 export * from "./platforms/company_search.js";
 export * from "./platforms/congress.js";
-export * from "./platforms/dexscreener.js";
 export * from "./platforms/douyin.js";
 export * from "./platforms/ebay.js";
 export * from "./platforms/email.js";

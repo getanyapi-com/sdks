@@ -21,7 +21,6 @@ import { CompanyNamespace } from "./platforms/company.js";
 import { CompanyEnrichmentNamespace } from "./platforms/company_enrichment.js";
 import { CompanySearchNamespace } from "./platforms/company_search.js";
 import { CongressNamespace } from "./platforms/congress.js";
-import { DexscreenerNamespace } from "./platforms/dexscreener.js";
 import { DouyinNamespace } from "./platforms/douyin.js";
 import { EbayNamespace } from "./platforms/ebay.js";
 import { EmailNamespace } from "./platforms/email.js";
@@ -245,15 +244,6 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["congress"] ??= new CongressNamespace(
       this._core,
     )) as CongressNamespace;
-  }
-
-  /**
-   * Typed methods for the dexscreener platform.
-   */
-  get dexscreener(): DexscreenerNamespace {
-    return (this._namespaces["dexscreener"] ??= new DexscreenerNamespace(
-      this._core,
-    )) as DexscreenerNamespace;
   }
 
   /**

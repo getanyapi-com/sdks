@@ -145,11 +145,6 @@ export interface RednoteNoteCommentsComment {
    */
   image?: string;
   /**
-   * IP-based location shown for the commenter. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  ipLocation?: string;
-  /**
    * Number of likes on the comment.
    */
   likeCount?: number;

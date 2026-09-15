@@ -30,17 +30,6 @@ class TiktokShopCategoriesInput(TypedDict, total=False):
     """Country code of the TikTok Shop market whose category tree to list. Only US and VN publish a category tree. Default: US."""
 
 
-class TiktokShopCategoryProductsInput(TypedDict, total=False):
-    """Input for TikTok Shop Category Products."""
-
-    categoryId: Required[str]
-    """TikTok Shop category id, from tiktok_shop.categories (e.g. 700645 for Health)."""
-    preferLatencyUnderMs: NotRequired[int]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    region: NotRequired[str]
-    """Two-letter country code of the TikTok Shop market (e.g. US). Default: US."""
-
-
 class TiktokShopCreatorInput(TypedDict, total=False):
     """Input for TikTok Shop Creator."""
 
@@ -168,7 +157,7 @@ class TiktokShopCategoriesCategorie(BaseModel):
 
     category_id: str = Field(
         alias="categoryId",
-        description="TikTok Shop category id. Pass this to tiktok_shop.category_products. Populated whenever the provider has data for the entity.",
+        description="TikTok Shop category id. Populated whenever the provider has data for the entity.",
     )
     children: list[TiktokShopCategoriesChildren] | None = Field(
         default=None, description="Child categories one level down."
@@ -196,65 +185,6 @@ class TiktokShopCategoriesChildren(BaseModel):
     )
     name: str = Field(description="Display name of the category.")
     slug: str | None = Field(default=None, description="URL slug of the category.")
-
-
-class TiktokShopCategoryProductsData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    has_more: bool | None = Field(
-        default=None,
-        alias="hasMore",
-        description="True when the category has further pages upstream.",
-    )
-    items: list[TiktokShopCategoryProductsItem] = Field(
-        description="Product records in the category: id, title, price, rating, sales count, seller, and product URL. Populated whenever the provider has data for the entity."
-    )
-
-
-class TiktokShopCategoryProductsItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    currency: str | None = Field(
-        default=None, description="ISO currency name, e.g. USD."
-    )
-    discount_pct: float | None = Field(
-        default=None,
-        alias="discountPct",
-        description="Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
-    )
-    image: str | None = Field(default=None, description="Primary product image URL.")
-    original_price: float | None = Field(
-        default=None,
-        alias="originalPrice",
-        description="Pre-discount list price (0 when not on sale).",
-    )
-    price: float | None = Field(default=None, description="Current sale price.")
-    product_id: str = Field(
-        alias="productId",
-        description="TikTok Shop product id. Populated whenever the provider has data for the entity.",
-    )
-    rating: float | None = Field(default=None, description="Average review score.")
-    review_count: int | None = Field(
-        default=None, alias="reviewCount", description="Number of reviews."
-    )
-    seller_id: str | None = Field(
-        default=None,
-        alias="sellerId",
-        description="TikTok Shop seller id, for joining to the seller's other products.",
-    )
-    shop_name: str | None = Field(
-        default=None, alias="shopName", description="Seller shop name."
-    )
-    sold_count: int | None = Field(
-        default=None, alias="soldCount", description="Units sold."
-    )
-    title: str = Field(
-        description="Product title. Populated whenever the provider has data for the entity."
-    )
-    url: str | None = Field(
-        default=None,
-        description="Canonical product detail page URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
 
 
 class TiktokShopCreatorData(BaseModel):
@@ -778,27 +708,6 @@ class TiktokShopNamespace:
         )
         return RunResult[TiktokShopCategoriesData].model_validate(raw)
 
-    def category_products(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[TiktokShopCategoryProductsInput],
-    ) -> RunResult[TiktokShopCategoryProductsData]:
-        """TikTok Shop Category Products
-
-        Browse TikTok Shop products inside a category by category id: price,
-        discount, rating, sales count, seller, and product URL per product.
-
-        Price: $0.0012 per request.
-
-        Example:
-            res = client.tiktok_shop.category_products(categoryId="700645", region="US")
-        """
-        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
-            "tiktok_shop.category_products", dict(input), options
-        )
-        return RunResult[TiktokShopCategoryProductsData].model_validate(raw)
-
     def creator(
         self,
         *,
@@ -1043,27 +952,6 @@ class AsyncTiktokShopNamespace:
             "tiktok_shop.categories", dict(input), options
         )
         return RunResult[TiktokShopCategoriesData].model_validate(raw)
-
-    async def category_products(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[TiktokShopCategoryProductsInput],
-    ) -> RunResult[TiktokShopCategoryProductsData]:
-        """TikTok Shop Category Products
-
-        Browse TikTok Shop products inside a category by category id: price,
-        discount, rating, sales count, seller, and product URL per product.
-
-        Price: $0.0012 per request.
-
-        Example:
-            res = client.tiktok_shop.category_products(categoryId="700645", region="US")
-        """
-        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
-            "tiktok_shop.category_products", dict(input), options
-        )
-        return RunResult[TiktokShopCategoryProductsData].model_validate(raw)
 
     async def creator(
         self,

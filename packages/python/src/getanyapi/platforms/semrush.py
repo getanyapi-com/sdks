@@ -282,7 +282,7 @@ class SemrushNamespace:
         competition, keyword difficulty, plus related keywords and question
         keywords.
 
-        Price: $0 per request plus $0.0165 per result (maximum $0.0165).
+        Price: $0 per request plus $0.00495 per result (maximum $0.00495).
 
         Example:
             res = client.semrush.keywords(database="us", keyword="best running shoes")
@@ -304,7 +304,7 @@ class SemrushNamespace:
         traffic, keyword and backlink counts, top country, and the domain's top
         organic keywords.
 
-        Price: $0 per request plus $0.0165 per result (maximum $0.0165).
+        Price: $0 per request plus $0.00495 per result (maximum $0.00495).
 
         Example:
             res = client.semrush.overview(database="us", domain="ahrefs.com")
@@ -333,7 +333,7 @@ class AsyncSemrushNamespace:
         competition, keyword difficulty, plus related keywords and question
         keywords.
 
-        Price: $0 per request plus $0.0165 per result (maximum $0.0165).
+        Price: $0 per request plus $0.00495 per result (maximum $0.00495).
 
         Example:
             res = client.semrush.keywords(database="us", keyword="best running shoes")
@@ -355,7 +355,7 @@ class AsyncSemrushNamespace:
         traffic, keyword and backlink counts, top country, and the domain's top
         organic keywords.
 
-        Price: $0 per request plus $0.0165 per result (maximum $0.0165).
+        Price: $0 per request plus $0.00495 per result (maximum $0.00495).
 
         Example:
             res = client.semrush.overview(database="us", domain="ahrefs.com")

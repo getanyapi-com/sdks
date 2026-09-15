@@ -226,7 +226,7 @@ class AhrefsNamespace:
         Get the referring pages linking to a domain or URL, each with the source
         page, anchor text, linking domain rating, and page title.
 
-        Price: $0.0215 per request plus $0 per result (maximum $0.0215).
+        Price: $0.00501 per request plus $0 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.backlinks(mode="exact", url="ahrefs.com")
@@ -247,7 +247,7 @@ class AhrefsNamespace:
         Get related keyword suggestions for any seed term, each with an Ahrefs
         difficulty and search-volume bucket.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.keyword_ideas(country="us", keyword="coffee")
@@ -269,7 +269,7 @@ class AhrefsNamespace:
         difficulty score (0-100) and the number of referring domains a page needs to
         rank in the top 10 - as normalized JSON.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.keywords(country="us", keyword="seo tools")
@@ -290,7 +290,7 @@ class AhrefsNamespace:
         Get an SEO authority overview for any domain or URL: Domain Rating, total
         backlinks, and referring domains - as normalized JSON.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.overview(mode="subdomains", url="ahrefs.com")
@@ -318,7 +318,7 @@ class AsyncAhrefsNamespace:
         Get the referring pages linking to a domain or URL, each with the source
         page, anchor text, linking domain rating, and page title.
 
-        Price: $0.0215 per request plus $0 per result (maximum $0.0215).
+        Price: $0.00501 per request plus $0 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.backlinks(mode="exact", url="ahrefs.com")
@@ -339,7 +339,7 @@ class AsyncAhrefsNamespace:
         Get related keyword suggestions for any seed term, each with an Ahrefs
         difficulty and search-volume bucket.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.keyword_ideas(country="us", keyword="coffee")
@@ -361,7 +361,7 @@ class AsyncAhrefsNamespace:
         difficulty score (0-100) and the number of referring domains a page needs to
         rank in the top 10 - as normalized JSON.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.keywords(country="us", keyword="seo tools")
@@ -382,7 +382,7 @@ class AsyncAhrefsNamespace:
         Get an SEO authority overview for any domain or URL: Domain Rating, total
         backlinks, and referring domains - as normalized JSON.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.overview(mode="subdomains", url="ahrefs.com")

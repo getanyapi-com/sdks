@@ -67,7 +67,7 @@ class InstagramFollowersInput(TypedDict, total=False):
     """Input for Instagram Followers."""
 
     cursor: NotRequired[str]
-    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers. A page holds up to 50 followers."""
+    """Opaque pagination cursor from a previous response's nextCursor. Today every source behind this endpoint returns a single page of about 50 followers and no continuation cursor, so nextCursor comes back empty and there is no further page to request; this parameter is accepted but has nothing to resume from."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
@@ -82,7 +82,7 @@ class InstagramFollowingInput(TypedDict, total=False):
     """Input for Instagram Following."""
 
     cursor: NotRequired[str]
-    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page. A page holds up to 50 accounts."""
+    """Opaque pagination cursor from a previous response's nextCursor. Today every source behind this endpoint returns a single page of about 50 accounts and no continuation cursor, so nextCursor comes back empty and there is no further page to request; this parameter is accepted but has nothing to resume from."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
@@ -216,7 +216,7 @@ class InstagramReelTranscriptInput(TypedDict, total=False):
     """Input for Instagram Reel Transcript."""
 
     hostVideo: NotRequired[bool]
-    """Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true). Default: false."""
+    """Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true). A photo post has no file to host, so a request that sets this on one is refused with no charge; send it without hostVideo to get the post record instead. Default: false."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     url: Required[str]
@@ -505,12 +505,12 @@ class InstagramFollowersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     items: list[InstagramFollowersItem] = Field(
-        description="Follower records for the target account. Populated whenever the provider has data for the entity."
+        description="Follower records for the target account. About the first 50, in the order the source returns them, not the account's full follower list - see nextCursor. Populated whenever the provider has data for the entity."
     )
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Opaque cursor for the next page of followers, or null/empty when this lane has no more. Pass it back as cursor to continue.",
+        description="Opaque cursor for the next page of followers, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 followers and no continuation. Pass it back as cursor whenever it is non-empty.",
     )
 
 
@@ -547,12 +547,12 @@ class InstagramFollowingData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     items: list[InstagramFollowingItem] = Field(
-        description="Records for the accounts the target user follows. Populated whenever the provider has data for the entity."
+        description="Records for the accounts the target user follows. About the first 50, in the order the source returns them, not the user's full following list - see nextCursor. Populated whenever the provider has data for the entity."
     )
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Opaque cursor for the next page of results, or null/empty when this lane has no more. Pass it back as cursor to continue.",
+        description="Opaque cursor for the next page of results, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 accounts and no continuation. Pass it back as cursor whenever it is non-empty.",
     )
 
 
@@ -1236,7 +1236,7 @@ class InstagramReelTranscriptItem(BaseModel):
     media_type: str | None = Field(
         default=None,
         alias="mediaType",
-        description="What kind of media this is, as Instagram labels it (for example a video or an image post).",
+        description="What kind of media this is, as Instagram labels it (for example a video or an image post). On a photo post this is how you tell that the empty transcript is the answer rather than silence.",
     )
     owner_username: str | None = Field(
         default=None,
@@ -1252,7 +1252,7 @@ class InstagramReelTranscriptItem(BaseModel):
         description="The reel's short code, the part of its instagram.com URL after /reel/. Empty when the request supplied a CDN media URL.",
     )
     text: str = Field(
-        description="The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity."
+        description="The full speech transcript. Empty when the reel has no detectable spoken audio, or when the post is a photo with no video to transcribe. Populated whenever the provider has data for the entity."
     )
     thumbnail_url: str | None = Field(
         default=None,
@@ -2184,8 +2184,9 @@ class InstagramNamespace:
     ) -> RunResult[InstagramFollowersData]:
         """Instagram Followers
 
-        List the followers of any public Instagram account by username: follower
-        usernames, names, and profile details.
+        List about the first 50 followers of any public Instagram account by
+        username: follower usernames, names, and profile details. Instagram caps
+        follower lists, so this returns one page, not the whole list.
 
         Price: $0.0015 per request.
 
@@ -2228,8 +2229,9 @@ class InstagramNamespace:
     ) -> RunResult[InstagramFollowingData]:
         """Instagram Following
 
-        List the accounts a public Instagram user follows: usernames, names, and
-        profile details.
+        List about the first 50 accounts a public Instagram user follows: usernames,
+        names, and profile details. Instagram caps these lists, so this returns one
+        page, not the whole list.
 
         Price: $0.0015 per request.
 
@@ -2608,13 +2610,15 @@ class InstagramNamespace:
         """Instagram Reel Transcript
 
         Transcribe any public Instagram reel or video post: the full speech
-        transcript, speaker labels, and word-level timestamps, from a reel URL or an
-        Instagram CDN media URL you already hold. Transcription runs on
-        MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on
-        hostVideo to also get the MP4 on a hosted link that plays without an
-        Instagram session. If you only want the text, instagram.media_transcript is
-        the cheaper transcript-only option; if you only want the file,
-        instagram.post is where you go.
+        transcript, speaker labels, and word-level timestamps, from a reel, /p/, or
+        /tv/ URL or an Instagram CDN media URL you already hold. A video post is
+        transcribed exactly like a reel. A photo post comes back found with its
+        record and an empty transcript, charged the request price only.
+        Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its
+        speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that
+        plays without an Instagram session. If you only want the text,
+        instagram.media_transcript is the cheaper transcript-only option; if you
+        only want the file, instagram.post is where you go.
 
         Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
 
@@ -3209,8 +3213,9 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramFollowersData]:
         """Instagram Followers
 
-        List the followers of any public Instagram account by username: follower
-        usernames, names, and profile details.
+        List about the first 50 followers of any public Instagram account by
+        username: follower usernames, names, and profile details. Instagram caps
+        follower lists, so this returns one page, not the whole list.
 
         Price: $0.0015 per request.
 
@@ -3253,8 +3258,9 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramFollowingData]:
         """Instagram Following
 
-        List the accounts a public Instagram user follows: usernames, names, and
-        profile details.
+        List about the first 50 accounts a public Instagram user follows: usernames,
+        names, and profile details. Instagram caps these lists, so this returns one
+        page, not the whole list.
 
         Price: $0.0015 per request.
 
@@ -3635,13 +3641,15 @@ class AsyncInstagramNamespace:
         """Instagram Reel Transcript
 
         Transcribe any public Instagram reel or video post: the full speech
-        transcript, speaker labels, and word-level timestamps, from a reel URL or an
-        Instagram CDN media URL you already hold. Transcription runs on
-        MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on
-        hostVideo to also get the MP4 on a hosted link that plays without an
-        Instagram session. If you only want the text, instagram.media_transcript is
-        the cheaper transcript-only option; if you only want the file,
-        instagram.post is where you go.
+        transcript, speaker labels, and word-level timestamps, from a reel, /p/, or
+        /tv/ URL or an Instagram CDN media URL you already hold. A video post is
+        transcribed exactly like a reel. A photo post comes back found with its
+        record and an empty transcript, charged the request price only.
+        Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its
+        speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that
+        plays without an Instagram session. If you only want the text,
+        instagram.media_transcript is the cheaper transcript-only option; if you
+        only want the file, instagram.post is where you go.
 
         Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
 

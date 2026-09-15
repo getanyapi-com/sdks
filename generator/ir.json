@@ -40,8 +40,8 @@
       "category": "search",
       "description": "Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title.",
       "pricing": {
-        "priceUsd": 0.0215,
-        "baseUsd": 0.0215,
+        "priceUsd": 0.00501,
+        "baseUsd": 0.00501,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -187,9 +187,9 @@
       "category": "search",
       "description": "Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket.",
       "pricing": {
-        "priceUsd": 0.0215,
-        "baseUsd": 0.00165,
-        "perItemUsd": 0.0198,
+        "priceUsd": 0.00501,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00495,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -349,9 +349,9 @@
       "category": "search",
       "description": "Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0215,
-        "baseUsd": 0.00165,
-        "perItemUsd": 0.0198,
+        "priceUsd": 0.00501,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00495,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -472,9 +472,9 @@
       "category": "search",
       "description": "Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0215,
-        "baseUsd": 0.00165,
-        "perItemUsd": 0.0198,
+        "priceUsd": 0.00501,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00495,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -14576,337 +14576,6 @@
       }
     },
     {
-      "slug": "dexscreener.tokens",
-      "platform": "dexscreener",
-      "action": "tokens",
-      "operationId": "dexscreener_tokens",
-      "name": "DEX Screener Tokens",
-      "category": "fin",
-      "description": "List trending tokens on any blockchain from DEX Screener (price, liquidity, volume, transactions, and market cap), sorted how you want, as normalized JSON.",
-      "pricing": {
-        "priceUsd": 0.0633,
-        "baseUsd": 0.022,
-        "perItemUsd": 0.00165,
-        "perItemUnit": "result"
-      },
-      "tsNamespace": "dexscreener",
-      "tsMethod": "tokens",
-      "tsIterMethod": null,
-      "pyNamespace": "dexscreener",
-      "pyMethod": "tokens",
-      "pyIterMethod": null,
-      "inputTypeName": "DexscreenerTokensInput",
-      "outputTypeName": "DexscreenerTokensData",
-      "example": {
-        "chain": "solana",
-        "limit": 5,
-        "min24HVol": 100000
-      },
-      "input": {
-        "kind": "object",
-        "properties": {
-          "chain": {
-            "kind": "string",
-            "description": "Blockchain network to list tokens for, optionally scoped to a DEX as chain/dex (e.g. solana or ethereum/uniswap).",
-            "enum": null,
-            "default": null,
-            "format": null
-          },
-          "limit": {
-            "kind": "integer",
-            "description": "Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.",
-            "minimum": 1,
-            "maximum": 25,
-            "default": null
-          },
-          "max24HChg": {
-            "kind": "integer",
-            "description": "Only include tokens whose 24-hour price change is at most this many percent (e.g. -20 means -20%). Negative values allowed. Omit to skip this filter.",
-            "minimum": null,
-            "maximum": null,
-            "default": null
-          },
-          "max24HTxns": {
-            "kind": "integer",
-            "description": "Only include tokens with at most this many 24-hour transactions (buys plus sells). Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "max24HVol": {
-            "kind": "integer",
-            "description": "Only include tokens with at most this much 24-hour trading volume, in USD. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "maxAge": {
-            "kind": "integer",
-            "description": "Only include token pairs at most this old, in hours. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "maxFdv": {
-            "kind": "integer",
-            "description": "Only include tokens with at most this fully diluted valuation (FDV), in USD. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "maxLiq": {
-            "kind": "integer",
-            "description": "Only include tokens with at most this much pool liquidity, in USD. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "maxMarketCap": {
-            "kind": "integer",
-            "description": "Only include tokens with at most this market capitalization, in USD. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "min24HBuys": {
-            "kind": "integer",
-            "description": "Only include tokens with at least this many 24-hour buy transactions. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "min24HChg": {
-            "kind": "integer",
-            "description": "Only include tokens whose 24-hour price change is at least this many percent (e.g. 10 means +10%). Negative values allowed. Omit to skip this filter.",
-            "minimum": null,
-            "maximum": null,
-            "default": null
-          },
-          "min24HSells": {
-            "kind": "integer",
-            "description": "Only include tokens with at least this many 24-hour sell transactions. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "min24HTxns": {
-            "kind": "integer",
-            "description": "Only include tokens with at least this many 24-hour transactions (buys plus sells). Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "min24HVol": {
-            "kind": "integer",
-            "description": "Only include tokens with at least this much 24-hour trading volume, in USD. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "minAge": {
-            "kind": "integer",
-            "description": "Only include token pairs at least this old, in hours. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "minFdv": {
-            "kind": "integer",
-            "description": "Only include tokens with at least this fully diluted valuation (FDV), in USD. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "minLiq": {
-            "kind": "integer",
-            "description": "Only include tokens with at least this much pool liquidity, in USD. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "minMarketCap": {
-            "kind": "integer",
-            "description": "Only include tokens with at least this market capitalization, in USD. Omit to skip this filter.",
-            "minimum": 0,
-            "maximum": null,
-            "default": null
-          },
-          "order": {
-            "kind": "string",
-            "description": "Sort direction: desc or asc (e.g. desc).",
-            "enum": null,
-            "default": null,
-            "format": null
-          },
-          "preferLatencyUnderMs": {
-            "kind": "integer",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
-            "minimum": 1,
-            "maximum": null,
-            "default": null
-          },
-          "rankBy": {
-            "kind": "string",
-            "description": "Field to sort tokens by (e.g. volume, txns, liquidity, marketCap, trendingScoreH24).",
-            "enum": null,
-            "default": null,
-            "format": null
-          },
-          "timeframe": {
-            "kind": "string",
-            "description": "Stats timeframe: 24h, 6h, 1h, or 5m (e.g. 24h).",
-            "enum": null,
-            "default": "24h",
-            "format": null
-          }
-        },
-        "required": [
-          "chain"
-        ],
-        "open": false
-      },
-      "output": {
-        "envelope": "found-data",
-        "data": {
-          "kind": "object",
-          "properties": {
-            "items": {
-              "kind": "array",
-              "description": "Token listing records: token name and symbol, price, liquidity, volume, transaction/maker counts, price change, market cap, and the DEX Screener pair URL. Populated whenever the provider has data for the entity.",
-              "items": {
-                "kind": "object",
-                "properties": {
-                  "ageHours": {
-                    "kind": "integer",
-                    "description": "Age of the token pair in hours.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "image": {
-                    "kind": "string",
-                    "description": "Token logo image URL.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "liquidityUsd": {
-                    "kind": "number",
-                    "description": "Total pool liquidity in USD.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "makerCount": {
-                    "kind": "integer",
-                    "description": "Number of distinct makers over the selected timeframe.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "marketCapUsd": {
-                    "kind": "number",
-                    "description": "Token market capitalization in USD.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "name": {
-                    "kind": "string",
-                    "description": "Token full name. Populated whenever the provider has data for the entity.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "poolAddress": {
-                    "kind": "string",
-                    "description": "On-chain address of the liquidity pool.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "price": {
-                    "kind": "number",
-                    "description": "Current token price in USD. Populated whenever the provider has data for the entity.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "priceChange1h": {
-                    "kind": "number",
-                    "description": "Fractional price change over the past hour.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "priceChange24h": {
-                    "kind": "number",
-                    "description": "Fractional price change over the past 24 hours.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "symbol": {
-                    "kind": "string",
-                    "description": "Token ticker symbol. Populated whenever the provider has data for the entity.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "transactionCount": {
-                    "kind": "integer",
-                    "description": "Number of transactions over the selected timeframe.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "url": {
-                    "kind": "string",
-                    "description": "DEX Screener URL for the trading pair. Populated whenever the provider has data for the entity.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "volumeUsd": {
-                    "kind": "number",
-                    "description": "Trading volume in USD over the selected timeframe.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  }
-                },
-                "required": [
-                  "symbol",
-                  "price"
-                ],
-                "open": true,
-                "mustPopulate": [
-                  "name",
-                  "price",
-                  "symbol",
-                  "url"
-                ]
-              },
-              "mustPopulate": true
-            }
-          },
-          "required": [
-            "items"
-          ],
-          "open": false,
-          "mustPopulate": [
-            "items"
-          ]
-        }
-      },
-      "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
-      }
-    },
-    {
       "slug": "douyin.profile",
       "platform": "douyin",
       "action": "profile",
@@ -19594,7 +19263,7 @@
       "inputTypeName": "FacebookAdDetailsInput",
       "outputTypeName": "FacebookAdDetailsData",
       "example": {
-        "id": "1249043200627555"
+        "id": "962050096457659"
       },
       "input": {
         "kind": "object",
@@ -19849,14 +19518,14 @@
       "inputTypeName": "FacebookAdDetailsFullInput",
       "outputTypeName": "FacebookAdDetailsFullData",
       "example": {
-        "id": "1519158199783790"
+        "id": "962050096457659"
       },
       "input": {
         "kind": "object",
         "properties": {
           "id": {
             "kind": "string",
-            "description": "Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. \"1519158199783790\" from https://www.facebook.com/ads/library/?id=1519158199783790).",
+            "description": "Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. \"962050096457659\" from https://www.facebook.com/ads/library/?id=962050096457659).",
             "enum": null,
             "default": null,
             "format": null
@@ -21879,7 +21548,7 @@
       "inputTypeName": "FacebookGroupPostsInput",
       "outputTypeName": "FacebookGroupPostsData",
       "example": {
-        "url": "https://www.facebook.com/groups/1270525996445602/"
+        "url": "https://www.facebook.com/groups/instantpotcommunity/"
       },
       "input": {
         "kind": "object",
@@ -21912,7 +21581,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/1270525996445602/).",
+            "description": "The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/instantpotcommunity/).",
             "enum": null,
             "default": null,
             "format": null
@@ -21969,12 +21638,6 @@
                     "default": null,
                     "format": null
                   },
-                  "permalink": {
-                    "kind": "string",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
                   "publishTime": {
                     "kind": "integer",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -22007,7 +21670,6 @@
                   "id",
                   "text",
                   "url",
-                  "permalink",
                   "publishTime",
                   "reactionCount",
                   "commentCount",
@@ -28274,7 +27936,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -31274,7 +30936,7 @@
       "operationId": "instagram_followers",
       "name": "Instagram Followers",
       "category": "social",
-      "description": "List the followers of any public Instagram account by username: follower usernames, names, and profile details.",
+      "description": "List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.",
       "pricing": {
         "priceUsd": 0.0015,
         "baseUsd": null,
@@ -31297,7 +30959,7 @@
         "properties": {
           "cursor": {
             "kind": "string",
-            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers. A page holds up to 50 followers.",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Today every source behind this endpoint returns a single page of about 50 followers and no continuation cursor, so nextCursor comes back empty and there is no further page to request; this parameter is accepted but has nothing to resume from.",
             "enum": null,
             "default": null,
             "format": null
@@ -31347,7 +31009,7 @@
           "properties": {
             "items": {
               "kind": "array",
-              "description": "Follower records for the target account. Populated whenever the provider has data for the entity.",
+              "description": "Follower records for the target account. About the first 50, in the order the source returns them, not the account's full follower list - see nextCursor. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
@@ -31411,7 +31073,7 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Opaque cursor for the next page of followers, or null/empty when this lane has no more. Pass it back as cursor to continue.",
+              "description": "Opaque cursor for the next page of followers, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 followers and no continuation. Pass it back as cursor whenever it is non-empty.",
               "nullable": true,
               "enum": null,
               "default": null,
@@ -31441,7 +31103,7 @@
       "operationId": "instagram_following",
       "name": "Instagram Following",
       "category": "social",
-      "description": "List the accounts a public Instagram user follows: usernames, names, and profile details.",
+      "description": "List about the first 50 accounts a public Instagram user follows: usernames, names, and profile details. Instagram caps these lists, so this returns one page, not the whole list.",
       "pricing": {
         "priceUsd": 0.0015,
         "baseUsd": null,
@@ -31464,7 +31126,7 @@
         "properties": {
           "cursor": {
             "kind": "string",
-            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page. A page holds up to 50 accounts.",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Today every source behind this endpoint returns a single page of about 50 accounts and no continuation cursor, so nextCursor comes back empty and there is no further page to request; this parameter is accepted but has nothing to resume from.",
             "enum": null,
             "default": null,
             "format": null
@@ -31514,7 +31176,7 @@
           "properties": {
             "items": {
               "kind": "array",
-              "description": "Records for the accounts the target user follows. Populated whenever the provider has data for the entity.",
+              "description": "Records for the accounts the target user follows. About the first 50, in the order the source returns them, not the user's full following list - see nextCursor. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
@@ -31578,7 +31240,7 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Opaque cursor for the next page of results, or null/empty when this lane has no more. Pass it back as cursor to continue.",
+              "description": "Opaque cursor for the next page of results, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 accounts and no continuation. Pass it back as cursor whenever it is non-empty.",
               "nullable": true,
               "enum": null,
               "default": null,
@@ -33655,7 +33317,7 @@
       "operationId": "instagram_reel_transcript",
       "name": "Instagram Reel Transcript",
       "category": "social",
-      "description": "Transcribe any public Instagram reel or video post: the full speech transcript, speaker labels, and word-level timestamps, from a reel URL or an Instagram CDN media URL you already hold. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that plays without an Instagram session. If you only want the text, instagram.media_transcript is the cheaper transcript-only option; if you only want the file, instagram.post is where you go.",
+      "description": "Transcribe any public Instagram reel or video post: the full speech transcript, speaker labels, and word-level timestamps, from a reel, /p/, or /tv/ URL or an Instagram CDN media URL you already hold. A video post is transcribed exactly like a reel. A photo post comes back found with its record and an empty transcript, charged the request price only. Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that plays without an Instagram session. If you only want the text, instagram.media_transcript is the cheaper transcript-only option; if you only want the file, instagram.post is where you go.",
       "pricing": {
         "priceUsd": 0.095,
         "baseUsd": 0.0015,
@@ -33680,7 +33342,7 @@
         "properties": {
           "hostVideo": {
             "kind": "boolean",
-            "description": "Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true).",
+            "description": "Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true). A photo post has no file to host, so a request that sets this on one is refused with no charge; send it without hostVideo to get the post record instead.",
             "default": false
           },
           "preferLatencyUnderMs": {
@@ -33770,7 +33432,7 @@
                   },
                   "mediaType": {
                     "kind": "string",
-                    "description": "What kind of media this is, as Instagram labels it (for example a video or an image post).",
+                    "description": "What kind of media this is, as Instagram labels it (for example a video or an image post). On a photo post this is how you tell that the empty transcript is the answer rather than silence.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -33864,7 +33526,7 @@
                   },
                   "text": {
                     "kind": "string",
-                    "description": "The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity.",
+                    "description": "The full speech transcript. Empty when the reel has no detectable spoken audio, or when the post is a photo with no video to transcribe. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -64659,13 +64321,6 @@
                     "default": null,
                     "format": null
                   },
-                  "ipLocation": {
-                    "kind": "string",
-                    "description": "IP-based location shown for the commenter. Populated whenever the provider has data for the entity.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
                   "likeCount": {
                     "kind": "integer",
                     "description": "Number of likes on the comment.",
@@ -64724,7 +64379,6 @@
                   "commentId",
                   "createdUtc",
                   "image",
-                  "ipLocation",
                   "nickname",
                   "noteId",
                   "redId",
@@ -65735,9 +65389,9 @@
       "category": "search",
       "description": "Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords.",
       "pricing": {
-        "priceUsd": 0.0165,
+        "priceUsd": 0.00495,
         "baseUsd": 0,
-        "perItemUsd": 0.0165,
+        "perItemUsd": 0.00495,
         "perItemUnit": "result"
       },
       "tsNamespace": "semrush",
@@ -65970,9 +65624,9 @@
       "category": "search",
       "description": "a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.",
       "pricing": {
-        "priceUsd": 0.0165,
+        "priceUsd": 0.00495,
         "baseUsd": 0,
-        "perItemUsd": 0.0165,
+        "perItemUsd": 0.00495,
         "perItemUnit": "result"
       },
       "tsNamespace": "semrush",
@@ -72406,7 +72060,7 @@
       "operationId": "tiktok_ad_library_search",
       "name": "TikTok Ad Library Search",
       "category": "social",
-      "description": "Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info).",
+      "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).",
       "pricing": {
         "priceUsd": 0.0012,
         "baseUsd": null,
@@ -72422,147 +72076,24 @@
       "inputTypeName": "TiktokAdLibrarySearchInput",
       "outputTypeName": "TiktokAdLibrarySearchData",
       "example": {
-        "limit": 20,
-        "objective": "conversions",
-        "period": 30,
         "query": "spotify"
       },
       "input": {
         "kind": "object",
         "properties": {
-          "adFormat": {
-            "kind": "string",
-            "description": "Ad format filter.",
-            "enum": [
-              "spark_ads",
-              "non_spark_ads"
-            ],
-            "default": null,
-            "format": null
-          },
-          "adLanguage": {
-            "kind": "string",
-            "description": "Ad language filter.",
-            "enum": [
-              "en",
-              "es",
-              "ar",
-              "vi",
-              "th",
-              "de",
-              "id",
-              "pt",
-              "fr",
-              "ms",
-              "nl",
-              "ja",
-              "it",
-              "ro",
-              "zh-Hant",
-              "ko"
-            ],
-            "default": null,
-            "format": null
-          },
           "advertiserName": {
             "kind": "string",
-            "description": "Filter to a specific advertiser by name (searches the public TikTok Ads Library by advertiser).",
+            "description": "Advertiser name to list ads for (e.g. Spotify). Provide advertiserName or query, never both.",
             "enum": null,
             "default": null,
             "format": null
           },
           "cursor": {
             "kind": "string",
-            "description": "Page number for pagination (defaults to 1).",
+            "description": "Opaque cursor from a previous response's nextCursor. Omit it for the first page.",
             "enum": null,
             "default": null,
             "format": null
-          },
-          "duration": {
-            "kind": "string",
-            "description": "Video duration bucket filter.",
-            "enum": [
-              "under_10s",
-              "10_20s",
-              "20_30s",
-              "30_40s",
-              "40_50s",
-              "over_50s"
-            ],
-            "default": null,
-            "format": null
-          },
-          "industry": {
-            "kind": "string",
-            "description": "Advertiser industry filter.",
-            "enum": [
-              "apparel_accessories",
-              "appliances",
-              "apps",
-              "baby_kids_maternity",
-              "beauty_personal_care",
-              "business_services",
-              "ecommerce_non_app",
-              "education",
-              "financial_services",
-              "food_beverage",
-              "games",
-              "health",
-              "home_improvement",
-              "household_products",
-              "life_services",
-              "news_entertainment",
-              "pets",
-              "sports_outdoor",
-              "tech_electronics",
-              "travel",
-              "vehicle_transportation"
-            ],
-            "default": null,
-            "format": null
-          },
-          "likes": {
-            "kind": "string",
-            "description": "Likes percentile bucket filter (top_1_20 is the top-performing 20 percent).",
-            "enum": [
-              "top_1_20",
-              "top_21_40",
-              "top_41_60",
-              "top_61_80",
-              "top_81_100"
-            ],
-            "default": null,
-            "format": null
-          },
-          "limit": {
-            "kind": "unknown",
-            "description": "Results per page, with an existing maximum of 50 (default 20). Use a canonical JSON integer; legacy numeric strings remain accepted."
-          },
-          "objective": {
-            "kind": "string",
-            "description": "Campaign objective filter.",
-            "enum": [
-              "app_installs",
-              "conversions",
-              "lead_generation",
-              "product_sales",
-              "reach",
-              "traffic",
-              "video_views"
-            ],
-            "default": null,
-            "format": null
-          },
-          "orderBy": {
-            "kind": "string",
-            "description": "Sort metric: for_you, impression, play_2s_rate, play_6s_rate, cvr, ctr, or like.",
-            "enum": null,
-            "default": null,
-            "format": null
-          },
-          "period": {
-            "kind": "unknown",
-            "description": "Time window for top ads. Use the canonical JSON integer 7, 30, or 180; legacy numeric strings remain accepted."
           },
           "preferLatencyUnderMs": {
             "kind": "integer",
@@ -72573,22 +72104,13 @@
           },
           "query": {
             "kind": "string",
-            "description": "Keyword to search ad titles and content (e.g. spotify).",
-            "enum": null,
-            "default": null,
-            "format": null
-          },
-          "region": {
-            "kind": "string",
-            "description": "Country code (defaults to US).",
+            "description": "Keyword to search ad titles and content (e.g. spotify). Provide query or advertiserName, never both.",
             "enum": null,
             "default": null,
             "format": null
           }
         },
-        "required": [
-          "query"
-        ],
+        "required": [],
         "open": false
       },
       "output": {
@@ -72604,66 +72126,63 @@
                 "properties": {
                   "adId": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "TikTok ad id. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "adTitle": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "Ad title as shown in TikTok's ad library. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "brandName": {
                     "kind": "string",
+                    "description": "Advertiser name on the ad.",
                     "enum": null,
                     "default": null,
                     "format": null
-                  },
-                  "cost": {
-                    "kind": "number",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
                   },
                   "coverUrl": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "Cover image URL of the ad's first video. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
-                  "ctr": {
-                    "kind": "number",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "industry": {
+                  "estimatedAudience": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "Audience size band TikTok publishes for the ad, for example \"100K-200K\".",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
-                  "likes": {
+                  "firstShownUtc": {
                     "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when TikTok first showed the ad. Multiply by 1000 for a JS Date in milliseconds.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
-                  "objective": {
+                  "lastShownUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when TikTok last showed the ad. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "Link to the ad's detail page in TikTok's public Ads Library.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "videoUrl": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "Playable URL of the ad's first video. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -72673,11 +72192,7 @@
                   "adId",
                   "adTitle",
                   "brandName",
-                  "cost",
-                  "ctr",
-                  "likes",
-                  "industry",
-                  "objective",
+                  "estimatedAudience",
                   "videoUrl",
                   "coverUrl"
                 ],
@@ -72686,8 +72201,6 @@
                   "adId",
                   "adTitle",
                   "coverUrl",
-                  "industry",
-                  "objective",
                   "videoUrl"
                 ]
               },
@@ -75739,7 +75252,7 @@
       "operationId": "tiktok_top_ads_search",
       "name": "TikTok Top Ads Search",
       "category": "social",
-      "description": "Search TikTok Creative Center top video ads by keyword with explicit performance, objective, region, language, and time-window filters.",
+      "description": "Search TikTok Creative Center top video ads by keyword, with campaign objective, performance percentile, and time-window filters.",
       "pricing": {
         "priceUsd": 0.0012,
         "baseUsd": null,
@@ -75760,30 +75273,6 @@
       "input": {
         "kind": "object",
         "properties": {
-          "adLanguage": {
-            "kind": "string",
-            "description": "Language code for returned ads (default en).",
-            "enum": [
-              "en",
-              "es",
-              "ar",
-              "vi",
-              "th",
-              "de",
-              "id",
-              "pt",
-              "fr",
-              "ms",
-              "nl",
-              "ja",
-              "it",
-              "ro",
-              "zh-Hant",
-              "ko"
-            ],
-            "default": "en",
-            "format": null
-          },
           "limit": {
             "kind": "integer",
             "description": "Maximum number of ads requested for this page, from 1 through 20 (default 20).",
@@ -75793,7 +75282,7 @@
           },
           "objective": {
             "kind": "string",
-            "description": "Campaign objective filter (default traffic).",
+            "description": "Campaign objective filter. Omit it to search every objective.",
             "enum": [
               "traffic",
               "app_installs",
@@ -75803,17 +75292,7 @@
               "lead_generation",
               "product_sales"
             ],
-            "default": "traffic",
-            "format": null
-          },
-          "orderBy": {
-            "kind": "string",
-            "description": "Result ordering: Creative Center recommendations or like count (default for_you).",
-            "enum": [
-              "for_you",
-              "likes"
-            ],
-            "default": "for_you",
+            "default": null,
             "format": null
           },
           "page": {
@@ -75825,14 +75304,14 @@
           },
           "performanceRank": {
             "kind": "string",
-            "description": "Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent (default top_1_20).",
+            "description": "Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent. Omit it to search every bucket.",
             "enum": [
               "top_1_20",
               "top_21_40",
               "top_41_60",
               "top_61_80"
             ],
-            "default": "top_1_20",
+            "default": null,
             "format": null
           },
           "period": {
@@ -75854,13 +75333,6 @@
             "description": "Keyword to search in TikTok Creative Center top video ads.",
             "enum": null,
             "default": null,
-            "format": null
-          },
-          "region": {
-            "kind": "string",
-            "description": "Country code used to select the Creative Center market (default US).",
-            "enum": null,
-            "default": "US",
             "format": null
           }
         },
@@ -76938,9 +76410,9 @@
       "platform": "tiktok",
       "action": "video_transcript",
       "operationId": "tiktok_video_transcript",
-      "name": "TikTok Video Transcript",
+      "name": "TikTok Video Transcript (native captions)",
       "category": "social",
-      "description": "Fetch the spoken-word transcript of a TikTok video by URL.",
+      "description": "Fetch the caption track TikTok itself published for a video, as TikTok wrote it. It is the cheapest way to get the words, and it is only as good as TikTok's own transcription: it mishears names and uncommon words, and many videos - especially non-English ones - have no caption track at all, which comes back as not found. When you need the words to be right, or there is no track to read, tiktok.video_transcript_full transcribes the audio with AnyAPI's own speech-to-text instead.",
       "pricing": {
         "priceUsd": 0.0012,
         "baseUsd": null,
@@ -77021,14 +76493,14 @@
       "platform": "tiktok",
       "action": "video_transcript_full",
       "operationId": "tiktok_video_transcript_full",
-      "name": "TikTok Video Transcript (Audio)",
+      "name": "TikTok Video Transcript (AnyAPI speech to text)",
       "category": "social",
-      "description": "Transcribe the spoken audio of a TikTok video with timed segments, speaker labels, and per-word confidence - for videos TikTok publishes no subtitle track for.",
+      "description": "Transcribe the spoken audio of a TikTok video with AnyAPI's own speech-to-text: timed sentence-level segments, speaker labels, detected language, and optional per-word timings, for videos TikTok publishes no caption track for and for videos whose caption track gets the words wrong. AnyAPI downloads the video and runs the audio through MAI-Transcribe-2 rather than reading anything TikTok wrote, which is why it handles non-English speech and hears words the native captions mishear. The answer also carries the video's id, URL, creator handle, and cover image. Turn on hostVideo to also get the MP4 on a hosted link that plays without TikTok's signed, short-lived CDN URL expiring on you. If you only want whatever TikTok itself published and you want it for a tenth of the price, tiktok.video_transcript is that.",
       "pricing": {
-        "priceUsd": 0.0176,
-        "baseUsd": 0.0176,
-        "perItemUsd": 0,
-        "perItemUnit": "result"
+        "priceUsd": 0.095,
+        "baseUsd": 0.0015,
+        "perItemUsd": 0.006,
+        "perItemUnit": "audio minute"
       },
       "tsNamespace": "tiktok",
       "tsMethod": "videoTranscriptFull",
@@ -77044,6 +76516,11 @@
       "input": {
         "kind": "object",
         "properties": {
+          "hostVideo": {
+            "kind": "boolean",
+            "description": "Also store the video and return a hosted MP4 link that plays without TikTok's signed CDN URL. Charged as an extra on top of the transcript.",
+            "default": false
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -77057,6 +76534,11 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "wordTimestamps": {
+            "kind": "boolean",
+            "description": "Return per-word timings inside each segment. Words carry timings only; the recognizer scores a phrase rather than a word, so there is no per-word confidence to report.",
+            "default": false
           }
         },
         "required": [
@@ -77069,12 +76551,40 @@
         "data": {
           "kind": "object",
           "properties": {
+            "bytes": {
+              "kind": "integer",
+              "description": "Size of the hosted MP4 in bytes.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
             "durationSeconds": {
               "kind": "number",
               "description": "Video duration in seconds.",
               "minimum": 0,
               "maximum": null,
               "default": null
+            },
+            "expiresUtc": {
+              "kind": "number",
+              "description": "When the hosted link stops working. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "hostedUrl": {
+              "kind": "string",
+              "description": "Hosted MP4 link, returned only when the request set hostVideo. It plays without TikTok's signed CDN URL and without any cookie, and it stops working at expiresUtc.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "id": {
+              "kind": "string",
+              "description": "TikTok video id.",
+              "enum": null,
+              "default": null,
+              "format": null
             },
             "language": {
               "kind": "string",
@@ -77083,15 +76593,22 @@
               "default": null,
               "format": null
             },
+            "ownerUsername": {
+              "kind": "string",
+              "description": "Creator handle, without the leading @.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "segments": {
               "kind": "array",
-              "description": "Timed transcript segments in playback order, each with the recognizer's per-word confidence so low-confidence text can be treated as uncertain rather than quoted. Populated whenever the provider has data for the entity.",
+              "description": "Timed transcript segments in playback order, one per sentence, so a segment locates a specific line in the video rather than a whole speaker turn. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
                   "endSeconds": {
                     "kind": "number",
-                    "description": "Segment end offset in seconds.",
+                    "description": "Segment end offset in seconds, taken from the last word it contains.",
                     "minimum": 0,
                     "maximum": null,
                     "default": null
@@ -77105,14 +76622,14 @@
                   },
                   "speaker": {
                     "kind": "string",
-                    "description": "Recognizer speaker label for this segment (e.g. \"SPEAKER_00\"). Diarization is a guess, not an identification.",
+                    "description": "Speaker label for this segment, stable within one response and meaningless across responses. Telling voices apart is a guess, not an identification, and the label is not a name.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "startSeconds": {
                     "kind": "number",
-                    "description": "Segment start offset in seconds.",
+                    "description": "Segment start offset in seconds, taken from the first word it contains.",
                     "minimum": 0,
                     "maximum": null,
                     "default": null
@@ -77126,30 +76643,16 @@
                   },
                   "words": {
                     "kind": "array",
-                    "description": "Per-word timing and recognizer confidence for this segment.",
+                    "description": "Per-word timings for this segment, returned only when the request set wordTimestamps. Words carry no confidence score: the recognizer scores a phrase rather than a word.",
                     "items": {
                       "kind": "object",
                       "properties": {
-                        "confidence": {
-                          "kind": "number",
-                          "description": "Recognizer score for this word, exactly as the recognizer reported it. It is normally an alignment probability between 0 and 1, but on audio the recognizer could not align it reports a negative log-scale score instead, so read the sign before treating the number as a probability. Either way, lower means less certain, and low values are common on names, jargon, and music.",
-                          "minimum": null,
-                          "maximum": null,
-                          "default": null
-                        },
                         "endSeconds": {
                           "kind": "number",
                           "description": "Word end offset in seconds.",
                           "minimum": 0,
                           "maximum": null,
                           "default": null
-                        },
-                        "speaker": {
-                          "kind": "string",
-                          "description": "Recognizer speaker label for this word.",
-                          "enum": null,
-                          "default": null,
-                          "format": null
                         },
                         "startSeconds": {
                           "kind": "number",
@@ -77158,17 +76661,16 @@
                           "maximum": null,
                           "default": null
                         },
-                        "word": {
+                        "text": {
                           "kind": "string",
-                          "description": "The recognized word.",
+                          "description": "The recognized word, in display form with its own punctuation.",
                           "enum": null,
                           "default": null,
                           "format": null
                         }
                       },
                       "required": [
-                        "word",
-                        "confidence"
+                        "text"
                       ],
                       "open": true
                     },
@@ -77186,17 +76688,34 @@
             },
             "source": {
               "kind": "string",
-              "description": "How the text was produced. Always \"audio_asr\" on this endpoint: the words come from automatic speech recognition over the audio, not from a caption track the platform published. Populated whenever the provider has data for the entity.",
+              "description": "How the text was produced. \"audio_asr\" means the words come from speech recognition over the video's audio, never from a caption track TikTok published - for TikTok's own captions, use tiktok.video_transcript. \"transcript_unavailable\" means recognition did not complete for this video, so the transcript is empty for that reason rather than because the video has no speech in it; the rest of the record is still what we resolved, and no audio time is charged. Populated whenever the provider has data for the entity.",
+              "enum": [
+                "audio_asr",
+                "transcript_unavailable"
+              ],
+              "default": null,
+              "format": null
+            },
+            "thumbnailUrl": {
+              "kind": "string",
+              "description": "Cover image for the video. A signed, short-lived TikTok CDN URL, often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "transcript": {
+              "kind": "string",
+              "description": "Full spoken-word transcript, recognized from the video's audio track. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
             },
-            "transcript": {
+            "url": {
               "kind": "string",
-              "description": "Full spoken-word transcript, machine-transcribed from the video's audio track. Populated whenever the provider has data for the entity.",
+              "description": "Canonical URL of the video this transcript came from.",
               "enum": null,
               "default": null,
-              "format": null
+              "format": "uri"
             }
           },
           "required": [
@@ -77280,7 +76799,7 @@
                 "properties": {
                   "categoryId": {
                     "kind": "string",
-                    "description": "TikTok Shop category id. Pass this to tiktok_shop.category_products. Populated whenever the provider has data for the entity.",
+                    "description": "TikTok Shop category id. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -77372,200 +76891,6 @@
           "open": false,
           "mustPopulate": [
             "categories"
-          ]
-        }
-      },
-      "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
-      }
-    },
-    {
-      "slug": "tiktok_shop.category_products",
-      "platform": "tiktok_shop",
-      "action": "category_products",
-      "operationId": "tiktok_shop_category_products",
-      "name": "TikTok Shop Category Products",
-      "category": "shop",
-      "description": "Browse TikTok Shop products inside a category by category id: price, discount, rating, sales count, seller, and product URL per product.",
-      "pricing": {
-        "priceUsd": 0.0012,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
-      },
-      "tsNamespace": "tiktokShop",
-      "tsMethod": "categoryProducts",
-      "tsIterMethod": null,
-      "pyNamespace": "tiktok_shop",
-      "pyMethod": "category_products",
-      "pyIterMethod": null,
-      "inputTypeName": "TiktokShopCategoryProductsInput",
-      "outputTypeName": "TiktokShopCategoryProductsData",
-      "example": {
-        "categoryId": "700645",
-        "region": "US"
-      },
-      "input": {
-        "kind": "object",
-        "properties": {
-          "categoryId": {
-            "kind": "string",
-            "description": "TikTok Shop category id, from tiktok_shop.categories (e.g. 700645 for Health).",
-            "enum": null,
-            "default": null,
-            "format": null
-          },
-          "preferLatencyUnderMs": {
-            "kind": "integer",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
-            "minimum": 1,
-            "maximum": null,
-            "default": null
-          },
-          "region": {
-            "kind": "string",
-            "description": "Two-letter country code of the TikTok Shop market (e.g. US).",
-            "enum": null,
-            "default": "US",
-            "format": null
-          }
-        },
-        "required": [
-          "categoryId"
-        ],
-        "open": false
-      },
-      "output": {
-        "envelope": "found-data",
-        "data": {
-          "kind": "object",
-          "properties": {
-            "hasMore": {
-              "kind": "boolean",
-              "description": "True when the category has further pages upstream.",
-              "default": null
-            },
-            "items": {
-              "kind": "array",
-              "description": "Product records in the category: id, title, price, rating, sales count, seller, and product URL. Populated whenever the provider has data for the entity.",
-              "items": {
-                "kind": "object",
-                "properties": {
-                  "currency": {
-                    "kind": "string",
-                    "description": "ISO currency name, e.g. USD.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "discountPct": {
-                    "kind": "number",
-                    "description": "Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "image": {
-                    "kind": "string",
-                    "description": "Primary product image URL.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "originalPrice": {
-                    "kind": "number",
-                    "description": "Pre-discount list price (0 when not on sale).",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "price": {
-                    "kind": "number",
-                    "description": "Current sale price.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "productId": {
-                    "kind": "string",
-                    "description": "TikTok Shop product id. Populated whenever the provider has data for the entity.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "rating": {
-                    "kind": "number",
-                    "description": "Average review score.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "reviewCount": {
-                    "kind": "integer",
-                    "description": "Number of reviews.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "sellerId": {
-                    "kind": "string",
-                    "description": "TikTok Shop seller id, for joining to the seller's other products.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "shopName": {
-                    "kind": "string",
-                    "description": "Seller shop name.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "soldCount": {
-                    "kind": "integer",
-                    "description": "Units sold.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "title": {
-                    "kind": "string",
-                    "description": "Product title. Populated whenever the provider has data for the entity.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "url": {
-                    "kind": "string",
-                    "description": "Canonical product detail page URL. Populated whenever the provider has data for the entity.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  }
-                },
-                "required": [
-                  "productId",
-                  "title"
-                ],
-                "open": true,
-                "mustPopulate": [
-                  "productId",
-                  "title",
-                  "url"
-                ]
-              },
-              "mustPopulate": true
-            }
-          },
-          "required": [
-            "items"
-          ],
-          "open": false,
-          "mustPopulate": [
-            "items"
           ]
         }
       },
@@ -80093,7 +79418,7 @@
       "inputTypeName": "TruthsocialProfileInput",
       "outputTypeName": "TruthsocialProfileData",
       "example": {
-        "handle": "realDonaldTrump"
+        "handle": "DevinNunes"
       },
       "input": {
         "kind": "object",

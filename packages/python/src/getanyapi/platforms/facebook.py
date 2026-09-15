@@ -36,7 +36,7 @@ class FacebookAdDetailsFullInput(TypedDict, total=False):
     """Input for Facebook Ad Creative Details."""
 
     id: Required[str]
-    """Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "1519158199783790" from https://www.facebook.com/ads/library/?id=1519158199783790)."""
+    """Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "962050096457659" from https://www.facebook.com/ads/library/?id=962050096457659)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
 
@@ -185,7 +185,7 @@ class FacebookGroupPostsInput(TypedDict, total=False):
     ]
     """Ordering for the returned posts (e.g. TOP_POSTS)."""
     url: Required[str]
-    """The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/1270525996445602/)."""
+    """The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/instantpotcommunity/)."""
 
 
 class FacebookMarketplaceInput(TypedDict, total=False):
@@ -1048,7 +1048,6 @@ class FacebookGroupPostsPost(BaseModel):
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    permalink: str
     publish_time: int = Field(
         alias="publishTime",
         description="Populated whenever the provider has data for the entity.",
@@ -1616,7 +1615,7 @@ class FacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.ad_details(id="1249043200627555")
+            res = client.facebook.ad_details(id="962050096457659")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details", dict(input), options
@@ -1637,7 +1636,7 @@ class FacebookNamespace:
         Price: $0.00462 per request plus $0 per result (maximum $0.00462).
 
         Example:
-            res = client.facebook.ad_details_full(id="1519158199783790")
+            res = client.facebook.ad_details_full(id="962050096457659")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details_full", dict(input), options
@@ -1941,7 +1940,7 @@ class FacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.group_posts(url="https://www.facebook.com/groups/1270525996445602/")
+            res = client.facebook.group_posts(url="https://www.facebook.com/groups/instantpotcommunity/")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.group_posts", dict(input), options
@@ -2424,7 +2423,7 @@ class AsyncFacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.ad_details(id="1249043200627555")
+            res = client.facebook.ad_details(id="962050096457659")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details", dict(input), options
@@ -2445,7 +2444,7 @@ class AsyncFacebookNamespace:
         Price: $0.00462 per request plus $0 per result (maximum $0.00462).
 
         Example:
-            res = client.facebook.ad_details_full(id="1519158199783790")
+            res = client.facebook.ad_details_full(id="962050096457659")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details_full", dict(input), options
@@ -2749,7 +2748,7 @@ class AsyncFacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.group_posts(url="https://www.facebook.com/groups/1270525996445602/")
+            res = client.facebook.group_posts(url="https://www.facebook.com/groups/instantpotcommunity/")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.group_posts", dict(input), options

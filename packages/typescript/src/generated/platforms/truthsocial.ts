@@ -204,7 +204,7 @@ export class TruthsocialNamespace {
    * Price: $0.0036 per request.
    *
    * @example
-   * const res = await client.truthsocial.profile({ handle: "realDonaldTrump" });
+   * const res = await client.truthsocial.profile({ handle: "DevinNunes" });
    */
   profile(
     input: TruthsocialProfileInput,

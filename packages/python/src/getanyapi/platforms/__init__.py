@@ -36,7 +36,6 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
         "AsyncCompanySearchNamespace",
     ),
     "congress": ("congress", "CongressNamespace", "AsyncCongressNamespace"),
-    "dexscreener": ("dexscreener", "DexscreenerNamespace", "AsyncDexscreenerNamespace"),
     "douyin": ("douyin", "DouyinNamespace", "AsyncDouyinNamespace"),
     "ebay": ("ebay", "EbayNamespace", "AsyncEbayNamespace"),
     "email": ("email", "EmailNamespace", "AsyncEmailNamespace"),

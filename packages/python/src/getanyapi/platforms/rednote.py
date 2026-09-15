@@ -195,11 +195,6 @@ class RednoteNoteCommentsComment(BaseModel):
         default=None,
         description="URL of the author's avatar. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    ip_location: str | None = Field(
-        default=None,
-        alias="ipLocation",
-        description="IP-based location shown for the commenter. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
     like_count: int | None = Field(
         default=None, alias="likeCount", description="Number of likes on the comment."
     )

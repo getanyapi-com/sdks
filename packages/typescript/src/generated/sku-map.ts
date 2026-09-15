@@ -113,10 +113,6 @@ import type {
   CongressTradesInput,
 } from "./platforms/congress.js";
 import type {
-  DexscreenerTokensData,
-  DexscreenerTokensInput,
-} from "./platforms/dexscreener.js";
-import type {
   DouyinProfileData,
   DouyinProfileInput,
   DouyinSearchVideosData,
@@ -714,8 +710,6 @@ import type {
 import type {
   TiktokShopCategoriesData,
   TiktokShopCategoriesInput,
-  TiktokShopCategoryProductsData,
-  TiktokShopCategoryProductsInput,
   TiktokShopCreatorData,
   TiktokShopCreatorInput,
   TiktokShopProductData,
@@ -1084,11 +1078,6 @@ export interface SkuMap {
     input: CongressTradesInput;
     data: CongressTradesData;
     result: RunResult<CongressTradesData>;
-  };
-  "dexscreener.tokens": {
-    input: DexscreenerTokensInput;
-    data: DexscreenerTokensData;
-    result: RunResult<DexscreenerTokensData>;
   };
   "douyin.profile": {
     input: DouyinProfileInput;
@@ -2379,11 +2368,6 @@ export interface SkuMap {
     input: TiktokShopCategoriesInput;
     data: TiktokShopCategoriesData;
     result: RunResult<TiktokShopCategoriesData>;
-  };
-  "tiktok_shop.category_products": {
-    input: TiktokShopCategoryProductsInput;
-    data: TiktokShopCategoryProductsData;
-    result: RunResult<TiktokShopCategoryProductsData>;
   };
   "tiktok_shop.creator": {
     input: TiktokShopCreatorInput;

@@ -287,7 +287,7 @@ export class SemrushNamespace {
    *
    * Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords.
    *
-   * Price: $0 per request plus $0.0165 per result (maximum $0.0165).
+   * Price: $0 per request plus $0.00495 per result (maximum $0.00495).
    *
    * @example
    * const res = await client.semrush.keywords({ keyword: "best running shoes", database: "us" });
@@ -304,7 +304,7 @@ export class SemrushNamespace {
    *
    * a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.
    *
-   * Price: $0 per request plus $0.0165 per result (maximum $0.0165).
+   * Price: $0 per request plus $0.00495 per result (maximum $0.00495).
    *
    * @example
    * const res = await client.semrush.overview({ domain: "ahrefs.com", database: "us" });

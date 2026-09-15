@@ -265,7 +265,7 @@ export class AhrefsNamespace {
    *
    * Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title.
    *
-   * Price: $0.0215 per request plus $0 per result (maximum $0.0215).
+   * Price: $0.00501 per request plus $0 per result (maximum $0.00501).
    *
    * @example
    * const res = await client.ahrefs.backlinks({ url: "ahrefs.com", mode: "exact" });
@@ -282,7 +282,7 @@ export class AhrefsNamespace {
    *
    * Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket.
    *
-   * Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
    *
    * @example
    * const res = await client.ahrefs.keywordIdeas({ keyword: "coffee", country: "us" });
@@ -299,7 +299,7 @@ export class AhrefsNamespace {
    *
    * Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON.
    *
-   * Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
    *
    * @example
    * const res = await client.ahrefs.keywords({ keyword: "seo tools", country: "us" });
@@ -316,7 +316,7 @@ export class AhrefsNamespace {
    *
    * Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON.
    *
-   * Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
    *
    * @example
    * const res = await client.ahrefs.overview({ url: "ahrefs.com", mode: "subdomains" });

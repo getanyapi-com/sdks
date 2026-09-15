@@ -69,142 +69,59 @@ export interface TiktokAdLibraryAdData {
  */
 export interface TiktokAdLibrarySearchInput {
   /**
-   * Ad format filter.
-   * One of: spark_ads, non_spark_ads.
-   */
-  adFormat?: "spark_ads" | "non_spark_ads";
-  /**
-   * Ad language filter.
-   * One of: en, es, ar, vi, th, de, id, pt, fr, ms, nl, ja, it, ro, zh-Hant, ko.
-   */
-  adLanguage?:
-    | "en"
-    | "es"
-    | "ar"
-    | "vi"
-    | "th"
-    | "de"
-    | "id"
-    | "pt"
-    | "fr"
-    | "ms"
-    | "nl"
-    | "ja"
-    | "it"
-    | "ro"
-    | "zh-Hant"
-    | "ko";
-  /**
-   * Filter to a specific advertiser by name (searches the public TikTok Ads Library by advertiser).
+   * Advertiser name to list ads for (e.g. Spotify). Provide advertiserName or query, never both.
    */
   advertiserName?: string;
   /**
-   * Page number for pagination (defaults to 1).
+   * Opaque cursor from a previous response's nextCursor. Omit it for the first page.
    */
   cursor?: string;
-  /**
-   * Video duration bucket filter.
-   * One of: under_10s, 10_20s, 20_30s, 30_40s, 40_50s, over_50s.
-   */
-  duration?:
-    "under_10s" | "10_20s" | "20_30s" | "30_40s" | "40_50s" | "over_50s";
-  /**
-   * Advertiser industry filter.
-   * One of: apparel_accessories, appliances, apps, baby_kids_maternity, beauty_personal_care, business_services, ecommerce_non_app, education, financial_services, food_beverage, games, health, home_improvement, household_products, life_services, news_entertainment, pets, sports_outdoor, tech_electronics, travel, vehicle_transportation.
-   */
-  industry?:
-    | "apparel_accessories"
-    | "appliances"
-    | "apps"
-    | "baby_kids_maternity"
-    | "beauty_personal_care"
-    | "business_services"
-    | "ecommerce_non_app"
-    | "education"
-    | "financial_services"
-    | "food_beverage"
-    | "games"
-    | "health"
-    | "home_improvement"
-    | "household_products"
-    | "life_services"
-    | "news_entertainment"
-    | "pets"
-    | "sports_outdoor"
-    | "tech_electronics"
-    | "travel"
-    | "vehicle_transportation";
-  /**
-   * Likes percentile bucket filter (top_1_20 is the top-performing 20 percent).
-   * One of: top_1_20, top_21_40, top_41_60, top_61_80, top_81_100.
-   */
-  likes?: "top_1_20" | "top_21_40" | "top_41_60" | "top_61_80" | "top_81_100";
-  /**
-   * Results per page, with an existing maximum of 50 (default 20). Use a canonical JSON integer; legacy numeric strings remain accepted.
-   */
-  limit?: unknown;
-  /**
-   * Campaign objective filter.
-   * One of: app_installs, conversions, lead_generation, product_sales, reach, traffic, video_views.
-   */
-  objective?:
-    | "app_installs"
-    | "conversions"
-    | "lead_generation"
-    | "product_sales"
-    | "reach"
-    | "traffic"
-    | "video_views";
-  /**
-   * Sort metric: for_you, impression, play_2s_rate, play_6s_rate, cvr, ctr, or like.
-   */
-  orderBy?: string;
-  /**
-   * Time window for top ads. Use the canonical JSON integer 7, 30, or 180; legacy numeric strings remain accepted.
-   */
-  period?: unknown;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
-   * Keyword to search ad titles and content (e.g. spotify).
+   * Keyword to search ad titles and content (e.g. spotify). Provide query or advertiserName, never both.
    */
-  query: string;
-  /**
-   * Country code (defaults to US).
-   */
-  region?: string;
+  query?: string;
 }
 
 export interface TiktokAdLibrarySearchAd {
   /**
-   * Populated whenever the provider has data for the entity.
+   * TikTok ad id. Populated whenever the provider has data for the entity.
    */
   adId: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Ad title as shown in TikTok's ad library. Populated whenever the provider has data for the entity.
    */
   adTitle: string;
-  brandName: string;
-  cost: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Advertiser name on the ad.
+   */
+  brandName: string;
+  /**
+   * Cover image URL of the ad's first video. Populated whenever the provider has data for the entity.
    */
   coverUrl: string;
-  ctr: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Audience size band TikTok publishes for the ad, for example "100K-200K".
    */
-  industry: string;
-  likes: number;
+  estimatedAudience: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * UTC epoch timestamp in seconds (Unix time) when TikTok first showed the ad. Multiply by 1000 for a JS Date in milliseconds.
    */
-  objective: string;
+  firstShownUtc?: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * UTC epoch timestamp in seconds (Unix time) when TikTok last showed the ad. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastShownUtc?: number;
+  /**
+   * Link to the ad's detail page in TikTok's public Ads Library.
+   */
+  url?: string;
+  /**
+   * Playable URL of the ad's first video. Populated whenever the provider has data for the entity.
    */
   videoUrl: string;
   [extra: string]: unknown;
@@ -1404,37 +1321,14 @@ export interface TiktokSongVideosData {
  */
 export interface TiktokTopAdsSearchInput {
   /**
-   * Language code for returned ads (default en).
-   * One of: en, es, ar, vi, th, de, id, pt, fr, ms, nl, ja, it, ro, zh-Hant, ko.
-   * Default: en.
-   */
-  adLanguage?:
-    | "en"
-    | "es"
-    | "ar"
-    | "vi"
-    | "th"
-    | "de"
-    | "id"
-    | "pt"
-    | "fr"
-    | "ms"
-    | "nl"
-    | "ja"
-    | "it"
-    | "ro"
-    | "zh-Hant"
-    | "ko";
-  /**
    * Maximum number of ads requested for this page, from 1 through 20 (default 20).
    * Range: minimum 1, maximum 20.
    * Default: 20.
    */
   limit?: number;
   /**
-   * Campaign objective filter (default traffic).
+   * Campaign objective filter. Omit it to search every objective.
    * One of: traffic, app_installs, conversions, video_views, reach, lead_generation, product_sales.
-   * Default: traffic.
    */
   objective?:
     | "traffic"
@@ -1445,21 +1339,14 @@ export interface TiktokTopAdsSearchInput {
     | "lead_generation"
     | "product_sales";
   /**
-   * Result ordering: Creative Center recommendations or like count (default for_you).
-   * One of: for_you, likes.
-   * Default: for_you.
-   */
-  orderBy?: "for_you" | "likes";
-  /**
    * One-based provider page number (default 1).
    * Range: minimum 1.
    * Default: 1.
    */
   page?: number;
   /**
-   * Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent (default top_1_20).
+   * Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent. Omit it to search every bucket.
    * One of: top_1_20, top_21_40, top_41_60, top_61_80.
-   * Default: top_1_20.
    */
   performanceRank?: "top_1_20" | "top_21_40" | "top_41_60" | "top_61_80";
   /**
@@ -1476,11 +1363,6 @@ export interface TiktokTopAdsSearchInput {
    * Keyword to search in TikTok Creative Center top video ads.
    */
   query: string;
-  /**
-   * Country code used to select the Creative Center market (default US).
-   * Default: US.
-   */
-  region?: string;
 }
 
 export interface TiktokTopAdsSearchAd {
@@ -1963,7 +1845,7 @@ export interface TiktokVideoDownloadData {
 }
 
 /**
- * Input for TikTok Video Transcript (tiktok.video_transcript).
+ * Input for TikTok Video Transcript (native captions) (tiktok.video_transcript).
  */
 export interface TiktokVideoTranscriptInput {
   /**
@@ -1978,7 +1860,7 @@ export interface TiktokVideoTranscriptInput {
 }
 
 /**
- * The `data` payload of TikTok Video Transcript (tiktok.video_transcript).
+ * The `data` payload of TikTok Video Transcript (native captions) (tiktok.video_transcript).
  */
 export interface TiktokVideoTranscriptData {
   language?: string;
@@ -1990,9 +1872,14 @@ export interface TiktokVideoTranscriptData {
 }
 
 /**
- * Input for TikTok Video Transcript (Audio) (tiktok.video_transcript_full).
+ * Input for TikTok Video Transcript (AnyAPI speech to text) (tiktok.video_transcript_full).
  */
 export interface TiktokVideoTranscriptFullInput {
+  /**
+   * Also store the video and return a hosted MP4 link that plays without TikTok's signed CDN URL. Charged as an extra on top of the transcript.
+   * Default: false.
+   */
+  hostVideo?: boolean;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -2002,11 +1889,16 @@ export interface TiktokVideoTranscriptFullInput {
    * TikTok video URL (e.g. "https://www.tiktok.com/@user/video/1234567890").
    */
   url: string;
+  /**
+   * Return per-word timings inside each segment. Words carry timings only; the recognizer scores a phrase rather than a word, so there is no per-word confidence to report.
+   * Default: false.
+   */
+  wordTimestamps?: boolean;
 }
 
 export interface TiktokVideoTranscriptFullSegment {
   /**
-   * Segment end offset in seconds.
+   * Segment end offset in seconds, taken from the last word it contains.
    * Range: minimum 0.
    */
   endSeconds: number;
@@ -2015,11 +1907,11 @@ export interface TiktokVideoTranscriptFullSegment {
    */
   language?: string;
   /**
-   * Recognizer speaker label for this segment (e.g. "SPEAKER_00"). Diarization is a guess, not an identification.
+   * Speaker label for this segment, stable within one response and meaningless across responses. Telling voices apart is a guess, not an identification, and the label is not a name.
    */
   speaker?: string;
   /**
-   * Segment start offset in seconds.
+   * Segment start offset in seconds, taken from the first word it contains.
    * Range: minimum 0.
    */
   startSeconds: number;
@@ -2028,7 +1920,7 @@ export interface TiktokVideoTranscriptFullSegment {
    */
   text: string;
   /**
-   * Per-word timing and recognizer confidence for this segment.
+   * Per-word timings for this segment, returned only when the request set wordTimestamps. Words carry no confidence score: the recognizer scores a phrase rather than a word.
    */
   words?: TiktokVideoTranscriptFullWord[];
   [extra: string]: unknown;
@@ -2036,56 +1928,81 @@ export interface TiktokVideoTranscriptFullSegment {
 
 export interface TiktokVideoTranscriptFullWord {
   /**
-   * Recognizer score for this word, exactly as the recognizer reported it. It is normally an alignment probability between 0 and 1, but on audio the recognizer could not align it reports a negative log-scale score instead, so read the sign before treating the number as a probability. Either way, lower means less certain, and low values are common on names, jargon, and music.
-   */
-  confidence: number;
-  /**
    * Word end offset in seconds.
    * Range: minimum 0.
    */
   endSeconds?: number;
-  /**
-   * Recognizer speaker label for this word.
-   */
-  speaker?: string;
   /**
    * Word start offset in seconds.
    * Range: minimum 0.
    */
   startSeconds?: number;
   /**
-   * The recognized word.
+   * The recognized word, in display form with its own punctuation.
    */
-  word: string;
+  text: string;
   [extra: string]: unknown;
 }
 
 /**
- * The `data` payload of TikTok Video Transcript (Audio) (tiktok.video_transcript_full).
+ * The `data` payload of TikTok Video Transcript (AnyAPI speech to text) (tiktok.video_transcript_full).
  */
 export interface TiktokVideoTranscriptFullData {
+  /**
+   * Size of the hosted MP4 in bytes.
+   * Range: minimum 0.
+   */
+  bytes?: number;
   /**
    * Video duration in seconds.
    * Range: minimum 0.
    */
   durationSeconds?: number;
   /**
+   * When the hosted link stops working. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  expiresUtc?: number;
+  /**
+   * Hosted MP4 link, returned only when the request set hostVideo. It plays without TikTok's signed CDN URL and without any cookie, and it stops working at expiresUtc.
+   * Format: uri.
+   */
+  hostedUrl?: string;
+  /**
+   * TikTok video id.
+   */
+  id?: string;
+  /**
    * Detected spoken language of the audio (BCP-47 style code, e.g. "en").
    */
   language?: string;
   /**
-   * Timed transcript segments in playback order, each with the recognizer's per-word confidence so low-confidence text can be treated as uncertain rather than quoted. Populated whenever the provider has data for the entity.
+   * Creator handle, without the leading @.
+   */
+  ownerUsername?: string;
+  /**
+   * Timed transcript segments in playback order, one per sentence, so a segment locates a specific line in the video rather than a whole speaker turn. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   segments?: TiktokVideoTranscriptFullSegment[];
   /**
-   * How the text was produced. Always "audio_asr" on this endpoint: the words come from automatic speech recognition over the audio, not from a caption track the platform published. Populated whenever the provider has data for the entity.
+   * How the text was produced. "audio_asr" means the words come from speech recognition over the video's audio, never from a caption track TikTok published - for TikTok's own captions, use tiktok.video_transcript. "transcript_unavailable" means recognition did not complete for this video, so the transcript is empty for that reason rather than because the video has no speech in it; the rest of the record is still what we resolved, and no audio time is charged. Populated whenever the provider has data for the entity.
+   * One of: audio_asr, transcript_unavailable.
    */
-  source: string;
+  source: "audio_asr" | "transcript_unavailable";
   /**
-   * Full spoken-word transcript, machine-transcribed from the video's audio track. Populated whenever the provider has data for the entity.
+   * Cover image for the video. A signed, short-lived TikTok CDN URL, often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support.
+   * Format: uri.
+   */
+  thumbnailUrl?: string;
+  /**
+   * Full spoken-word transcript, recognized from the video's audio track. Populated whenever the provider has data for the entity.
    */
   transcript: string;
+  /**
+   * Canonical URL of the video this transcript came from.
+   * Format: uri.
+   */
+  url?: string;
   [extra: string]: unknown;
 }
 
@@ -2116,12 +2033,12 @@ export class TiktokNamespace {
   /**
    * TikTok Ad Library Search
    *
-   * Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info).
+   * Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).
    *
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.tiktok.adLibrarySearch({ query: "spotify", limit: 20, objective: "conversions", period: 30 });
+   * const res = await client.tiktok.adLibrarySearch({ query: "spotify" });
    */
   adLibrarySearch(
     input: TiktokAdLibrarySearchInput,
@@ -2683,7 +2600,7 @@ export class TiktokNamespace {
   /**
    * TikTok Top Ads Search
    *
-   * Search TikTok Creative Center top video ads by keyword with explicit performance, objective, region, language, and time-window filters.
+   * Search TikTok Creative Center top video ads by keyword, with campaign objective, performance percentile, and time-window filters.
    *
    * Price: $0.0012 per request.
    *
@@ -2806,9 +2723,9 @@ export class TiktokNamespace {
   }
 
   /**
-   * TikTok Video Transcript
+   * TikTok Video Transcript (native captions)
    *
-   * Fetch the spoken-word transcript of a TikTok video by URL.
+   * Fetch the caption track TikTok itself published for a video, as TikTok wrote it. It is the cheapest way to get the words, and it is only as good as TikTok's own transcription: it mishears names and uncommon words, and many videos - especially non-English ones - have no caption track at all, which comes back as not found. When you need the words to be right, or there is no track to read, tiktok.video_transcript_full transcribes the audio with AnyAPI's own speech-to-text instead.
    *
    * Price: $0.0012 per request.
    *
@@ -2823,11 +2740,11 @@ export class TiktokNamespace {
   }
 
   /**
-   * TikTok Video Transcript (Audio)
+   * TikTok Video Transcript (AnyAPI speech to text)
    *
-   * Transcribe the spoken audio of a TikTok video with timed segments, speaker labels, and per-word confidence - for videos TikTok publishes no subtitle track for.
+   * Transcribe the spoken audio of a TikTok video with AnyAPI's own speech-to-text: timed sentence-level segments, speaker labels, detected language, and optional per-word timings, for videos TikTok publishes no caption track for and for videos whose caption track gets the words wrong. AnyAPI downloads the video and runs the audio through MAI-Transcribe-2 rather than reading anything TikTok wrote, which is why it handles non-English speech and hears words the native captions mishear. The answer also carries the video's id, URL, creator handle, and cover image. Turn on hostVideo to also get the MP4 on a hosted link that plays without TikTok's signed, short-lived CDN URL expiring on you. If you only want whatever TikTok itself published and you want it for a tenth of the price, tiktok.video_transcript is that.
    *
-   * Price: $0.0176 per request plus $0 per result (maximum $0.0176).
+   * Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
    *
    * @example
    * const res = await client.tiktok.videoTranscriptFull({ url: "https://www.tiktok.com/@thatdudecancook/video/7649086431641521421" });

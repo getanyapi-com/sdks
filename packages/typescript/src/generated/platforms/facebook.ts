@@ -139,7 +139,7 @@ export interface FacebookAdDetailsData {
  */
 export interface FacebookAdDetailsFullInput {
   /**
-   * Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "1519158199783790" from https://www.facebook.com/ads/library/?id=1519158199783790).
+   * Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "962050096457659" from https://www.facebook.com/ads/library/?id=962050096457659).
    */
   id: string;
   /**
@@ -1023,7 +1023,7 @@ export interface FacebookGroupPostsInput {
     | "CHRONOLOGICAL"
     | "CHRONOLOGICAL_LISTINGS";
   /**
-   * The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/1270525996445602/).
+   * The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/instantpotcommunity/).
    */
   url: string;
 }
@@ -1042,7 +1042,6 @@ export interface FacebookGroupPostsPost {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
-  permalink: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -2054,7 +2053,7 @@ export class FacebookNamespace {
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.facebook.adDetails({ id: "1249043200627555" });
+   * const res = await client.facebook.adDetails({ id: "962050096457659" });
    */
   adDetails(
     input: FacebookAdDetailsInput,
@@ -2071,7 +2070,7 @@ export class FacebookNamespace {
    * Price: $0.00462 per request plus $0 per result (maximum $0.00462).
    *
    * @example
-   * const res = await client.facebook.adDetailsFull({ id: "1519158199783790" });
+   * const res = await client.facebook.adDetailsFull({ id: "962050096457659" });
    */
   adDetailsFull(
     input: FacebookAdDetailsFullInput,
@@ -2333,7 +2332,7 @@ export class FacebookNamespace {
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.facebook.groupPosts({ url: "https://www.facebook.com/groups/1270525996445602/" });
+   * const res = await client.facebook.groupPosts({ url: "https://www.facebook.com/groups/instantpotcommunity/" });
    */
   groupPosts(
     input: FacebookGroupPostsInput,
