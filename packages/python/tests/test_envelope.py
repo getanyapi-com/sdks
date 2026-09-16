@@ -7,7 +7,14 @@ from typing import Any
 import pytest
 from pydantic import ValidationError
 
-from getanyapi import AnyAPIError, BareRunResult, NotFoundError, RunResult, unwrap
+from getanyapi import (
+    AnyAPIError,
+    BareRunResult,
+    DiscoverySource,
+    NotFoundError,
+    RunResult,
+    unwrap,
+)
 from getanyapi.types import OutputFound, OutputNotFound
 
 
@@ -200,3 +207,43 @@ def test_items_is_required_on_both_envelopes(model: Any) -> None:
             }
         )
     assert "items" in str(exc.value)
+
+
+def test_served_source_parses_as_a_discovery_source() -> None:
+    result = RunResult[dict[str, Any]].model_validate(
+        {
+            "output": {"found": True, "data": {"x": 1}},
+            "provider": "AnyAPI",
+            "costUsd": 0.1,
+            "items": 1,
+            "replayed": False,
+            "source": {
+                "id": "otter",
+                "name": "Otter",
+                "kind": "anonymous",
+                "artworkKey": "otter",
+            },
+        }
+    )
+    source = result.source
+    assert isinstance(source, DiscoverySource)
+    assert source.id == "otter"
+    assert source.artwork_key == "otter"
+    # The routing provider is never named: the top-level provider stays AnyAPI.
+    assert result.provider == "AnyAPI"
+    # The wire shape round-trips unchanged.
+    dumped = result.model_dump(by_alias=True)
+    assert dumped["source"]["artworkKey"] == "otter"
+
+
+def test_source_defaults_to_none_when_no_lane_is_named() -> None:
+    result = BareRunResult[dict[str, Any]].model_validate(
+        {
+            "output": {"x": 1},
+            "provider": "AnyAPI",
+            "costUsd": 0.1,
+            "items": 1,
+            "replayed": False,
+        }
+    )
+    assert result.source is None

@@ -38,6 +38,13 @@ export interface RunResult<T> {
   jqError?: string;
   /** Optional server nudge when a large result was returned untrimmed. */
   hint?: string;
+  /**
+   * The customer-safe identity of the lane that actually served this run - the same object
+   * discovery publishes under `lanes[].source`, so `source.id` can be fed straight back as
+   * the `source` input (or into `ignoreSources`) on the next call. Absent when the run
+   * names no resolvable lane.
+   */
+  source?: DiscoverySource;
 }
 
 export type RequestStatus =
@@ -99,6 +106,13 @@ export interface BareRunResult<T> {
   jqError?: string;
   /** Optional server nudge when a large result was returned untrimmed. */
   hint?: string;
+  /**
+   * The customer-safe identity of the lane that actually served this run - the same object
+   * discovery publishes under `lanes[].source`, so `source.id` can be fed straight back as
+   * the `source` input (or into `ignoreSources`) on the next call. Absent when the run
+   * names no resolvable lane.
+   */
+  source?: DiscoverySource;
 }
 
 /**

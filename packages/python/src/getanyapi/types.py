@@ -132,6 +132,10 @@ class RunResult(BaseModel, Generic[T]):
     ``items`` is REQUIRED: the gateway sends it on every success envelope (its Go
     struct tag carries no ``omitempty``), including a metadata-only replay and the
     free re-read of a cached result.
+
+    ``source`` is optional and names the lane that actually served the run, reusing
+    the discovery :class:`DiscoverySource` shape, so ``source.id`` can be fed back as
+    the ``source`` input (or into ``ignoreSources``) on the next call.
     """
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
@@ -144,6 +148,10 @@ class RunResult(BaseModel, Generic[T]):
     result_id: str | None = Field(default=None, alias="resultId")
     jq_error: str | None = Field(default=None, alias="jqError")
     hint: str | None = None
+    #: The customer-safe identity of the lane that actually served this run, in the same
+    #: shape discovery publishes under ``lanes[].source``. None when the run names no
+    #: resolvable lane.
+    source: DiscoverySource | None = None
 
     @model_validator(mode="before")
     @classmethod
@@ -172,8 +180,8 @@ class BareRunResult(BaseModel, Generic[T]):
     data payload directly. There is no not-found branch to discriminate, so
     ``unwrap`` returns ``output`` directly unless the payload was not retained.
 
-    ``items``, ``replayed``, ``result_id``, and ``jq_error`` carry the same meaning
-    and the same wire presence as on :class:`RunResult`.
+    ``items``, ``replayed``, ``result_id``, ``jq_error``, and ``source`` carry the same
+    meaning and the same wire presence as on :class:`RunResult`.
     """
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
@@ -186,6 +194,10 @@ class BareRunResult(BaseModel, Generic[T]):
     result_id: str | None = Field(default=None, alias="resultId")
     jq_error: str | None = Field(default=None, alias="jqError")
     hint: str | None = None
+    #: The customer-safe identity of the lane that actually served this run, in the same
+    #: shape discovery publishes under ``lanes[].source``. None when the run names no
+    #: resolvable lane.
+    source: DiscoverySource | None = None
 
     @model_validator(mode="before")
     @classmethod

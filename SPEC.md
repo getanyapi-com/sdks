@@ -415,6 +415,12 @@ export interface RunResult<T> {
   jqError?: string;
   /** Optional server nudge when a large result was returned untrimmed. */
   hint?: string;
+  /**
+   * The customer-safe identity of the lane that actually served this run - the same
+   * object discovery publishes under `lanes[].source`. Absent when the run names no
+   * resolvable lane.
+   */
+  source?: DiscoverySource;
 }
 
 /** Discriminated union on `found`. When found is false, data is null. */
@@ -436,8 +442,8 @@ overload that returns `output` directly.
 **(v1 erratum) Run-envelope field presence.** The gateway's Go struct tags are the
 authoritative statement of what reaches the wire; a field without `omitempty` is ALWAYS sent.
 By that rule `output`, `provider`, `costUsd`, `items`, and `replayed` are REQUIRED, and
-`hint`, `resultId`, and `jqError` are optional (omitted when empty). Both languages declare
-exactly that set, on `RunResult<T>` and `BareRunResult<T>` alike.
+`hint`, `resultId`, `jqError`, and `source` are optional (omitted when empty). Both languages
+declare exactly that set, on `RunResult<T>` and `BareRunResult<T>` alike.
 
 **(v1 erratum) `items` is REQUIRED.** It was declared optional in both SDKs through v0.9.7
 and is now required, for the same reason `replayed` became required: the gateway's field
@@ -458,6 +464,14 @@ served from storage instead of running the SKU again; a replay is not billed twi
 `resultId` is an opaque handle to the full unshaped result, cached about 15 minutes, so the
 caller can re-shape it for free via `GET /v1/results/{id}`. `jqError` reports why a requested
 jq reshape did not apply; the run was still billed and `output` carries the full result.
+
+**(v1 erratum) Served source.** `source` is optional (its Go tag carries `omitempty`) and
+names the lane that actually served the run, in the same customer-safe shape discovery
+already publishes under `lanes[].source`: `{ id, name, kind, artworkKey }`. Both SDKs reuse
+their existing `DiscoverySource` type rather than declaring a second one, so a caller can
+feed `source.id` straight back as the `source` input (or into `ignoreSources`) on the next
+call. It is omitted when the run names no resolvable lane; the internal routing provider
+slug is never part of it, and `provider` stays the literal `"AnyAPI"`.
 
 **(v1 erratum) Unretained replay output.** A replay can outlive the payload it replays: the
 gateway prunes stored payloads on a 24h TTL and never stores one over its size cap, and
@@ -991,13 +1005,14 @@ class RunResult(BaseModel, Generic[T]):
     replayed: bool                      # required; the gateway always sends it
     result_id: str | None = None        # alias "resultId"
     jq_error: str | None = None         # alias "jqError"
+    source: DiscoverySource | None = None   # the lane that served the run
 
 def unwrap(result: "RunResult[T]") -> T:
     """Return data when found, else raise NotFoundError."""
 ```
 
-`items`, `replayed`, `result_id`, and `jq_error` mirror the TypeScript fields of 2.3 exactly,
-including presence and optionality, on both `RunResult[T]` and `BareRunResult[T]`. `unwrap`
+`items`, `replayed`, `result_id`, `jq_error`, and `source` mirror the TypeScript fields of
+2.3 exactly, including presence and optionality, on both `RunResult[T]` and `BareRunResult[T]`. `unwrap`
 applies the same unretained-replay guard: a None `output` raises `AnyAPIError` (status 200)
 with the message described in 2.3, never a `ResultNotFoundError` and never a None typed as
 `T`. Both models additionally carry the `mode="before"` guard described in 2.3, so a null or

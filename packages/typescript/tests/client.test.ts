@@ -3,6 +3,7 @@ import { AnyAPI, unwrap } from "../src/index.js";
 import { AnyAPIError, NotFoundError } from "../src/index.js";
 import type {
   AmazonReviewsData,
+  DiscoverySource,
   RunResult,
 } from "../src/index.js";
 import {
@@ -205,5 +206,53 @@ describe("replay metadata", () => {
     expect(res.replayed).toBe(false);
     expect(res.resultId).toBeUndefined();
     expect(res.jqError).toBeUndefined();
+  });
+});
+
+describe("served source", () => {
+  it("carries the lane that served the run, typed as a discovery source", async () => {
+    const { fetch } = mockFetch([
+      {
+        body: foundEnvelope(
+          { items: [] },
+          {
+            source: {
+              id: "otter",
+              name: "Otter",
+              kind: "anonymous",
+              artworkKey: "otter",
+            },
+          },
+        ),
+      },
+    ]);
+    const client = new AnyAPI({ apiKey: "sk_test", fetch });
+
+    const res: RunResult<AmazonReviewsData> = await client.run(
+      "amazon.reviews",
+      { product: "B07" },
+    );
+
+    const source: DiscoverySource | undefined = res.source;
+    expect(source).toEqual({
+      id: "otter",
+      name: "Otter",
+      kind: "anonymous",
+      artworkKey: "otter",
+    });
+    // The routing provider is never named: the top-level provider stays AnyAPI.
+    expect(res.provider).toBe("AnyAPI");
+  });
+
+  it("leaves source undefined when the run names no resolvable lane", async () => {
+    const { fetch } = mockFetch([{ body: foundEnvelope({ items: [] }) }]);
+    const client = new AnyAPI({ apiKey: "sk_test", fetch });
+
+    const res: RunResult<AmazonReviewsData> = await client.run(
+      "amazon.reviews",
+      { product: "B07" },
+    );
+
+    expect(res.source).toBeUndefined();
   });
 });
