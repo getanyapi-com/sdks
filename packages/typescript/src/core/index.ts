@@ -6,11 +6,12 @@
 export { AnyAPI } from "./client.js";
 export type { ClientCore } from "./client.js";
 
-export { unwrap } from "./types.js";
+export { unwrap, NOT_FOUND_REASONS } from "./types.js";
 export type {
   RunResult,
   BareRunResult,
   Output,
+  NotFoundReason,
   RequestOptions,
   RequestSnapshot,
   RequestStatus,

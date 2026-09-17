@@ -68,11 +68,26 @@ class OutputFound(BaseModel, Generic[T]):
     data: T
 
 
+# Why a call answered ``found: false``. The gateway publishes this list as the
+# ``reason`` enum on every found-data output schema, so the runtime names the same
+# words; ``tests/test_not_found_reason.py`` holds the two together once the live
+# OpenAPI carries the field. ``not_found``: the source states the target does not
+# exist, or returned nothing for it. ``suspended``: the platform has suspended the
+# account.
+NotFoundReason = Literal["not_found", "suspended"]
+NOT_FOUND_REASONS: tuple[str, ...] = ("not_found", "suspended")
+
+
 class OutputNotFound(BaseModel):
-    """The ``found: false`` branch: no matching entity, ``data`` is None."""
+    """The ``found: false`` branch: no matching entity, ``data`` is None.
+
+    ``reason`` says why; it is absent only on a response from a gateway older
+    than the field.
+    """
 
     found: Literal[False]
     data: None = None
+    reason: NotFoundReason | None = None
 
 
 # Output[T] is the discriminated union on `found`.
