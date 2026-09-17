@@ -749,6 +749,7 @@ function emitIndex(skus: SkuEntry[]): string {
   const coreValues = [
     "agentSignup",
     "unwrap",
+    "NOT_FOUND_REASONS",
     "AnyAPIError",
     "BadRequestError",
     "AuthenticationError",
@@ -766,6 +767,7 @@ function emitIndex(skus: SkuEntry[]): string {
     "RunResult",
     "BareRunResult",
     "Output",
+    "NotFoundReason",
     "RequestOptions",
     "RequestSnapshot",
     "RequestStatus",

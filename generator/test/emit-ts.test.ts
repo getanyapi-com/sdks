@@ -337,7 +337,11 @@ export interface RunResult<T> {
   jqError?: string;
   hint?: string;
 }
-export type Output<T> = { found: true; data: T } | { found: false; data: null };
+export declare const NOT_FOUND_REASONS: readonly ["not_found", "suspended"];
+export type NotFoundReason = (typeof NOT_FOUND_REASONS)[number];
+export type Output<T> =
+  | { found: true; data: T }
+  | { found: false; data: null; reason?: NotFoundReason };
 export interface RequestOptions {
   fields?: string[];
   maxItems?: number;

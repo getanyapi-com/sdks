@@ -86,6 +86,7 @@ export * from "./platforms/zillow.js";
 export {
   agentSignup,
   unwrap,
+  NOT_FOUND_REASONS,
   AnyAPIError,
   BadRequestError,
   AuthenticationError,
@@ -104,6 +105,7 @@ export type {
   RunResult,
   BareRunResult,
   Output,
+  NotFoundReason,
   RequestOptions,
   RequestSnapshot,
   RequestStatus,
