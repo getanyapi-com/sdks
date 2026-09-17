@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { AnyAPI, unwrap } from "../src/index.js";
+import { AnyAPI, NOT_FOUND_REASONS, unwrap } from "../src/index.js";
 import { AnyAPIError, NotFoundError } from "../src/index.js";
 import type {
   AmazonReviewsData,
+  Output,
   RunResult,
 } from "../src/index.js";
 import {
@@ -134,6 +135,17 @@ describe("unwrap", () => {
         replayed: false,
       }),
     ).toBe(42);
+  });
+
+  it("narrows the not-found branch to its reason", () => {
+    const output: Output<number> = { found: false, data: null, reason: "suspended" };
+    if (output.found) {
+      expect.unreachable("a miss must not narrow to the found branch");
+    } else {
+      expect(output.data).toBeNull();
+      expect(output.reason).toBe("suspended");
+      expect(NOT_FOUND_REASONS).toContain(output.reason);
+    }
   });
 
   it("throws NotFoundError when not found", () => {

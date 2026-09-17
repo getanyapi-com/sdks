@@ -56,9 +56,22 @@ export interface RequestSnapshot<T = unknown> {
 }
 
 /**
- * Discriminated union on `found`. When found is false, data is null.
+ * Why a call answered `found: false`. The gateway publishes this list as the `reason` enum on
+ * every found-data output schema, so the runtime names the same words; the generator drift
+ * test holds the two together once the live OpenAPI carries the field.
+ * - `not_found`: the source states the target does not exist, or returned nothing for it.
+ * - `suspended`: the platform has suspended the account.
  */
-export type Output<T> = { found: true; data: T } | { found: false; data: null };
+export const NOT_FOUND_REASONS = ["not_found", "suspended"] as const;
+export type NotFoundReason = (typeof NOT_FOUND_REASONS)[number];
+
+/**
+ * Discriminated union on `found`. When found is false, data is null and `reason` says why
+ * (absent only on a response from a gateway older than the field).
+ */
+export type Output<T> =
+  | { found: true; data: T }
+  | { found: false; data: null; reason?: NotFoundReason };
 
 /**
  * The conditional run envelope for an operation whose response has no `{ found, data }`
