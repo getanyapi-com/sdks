@@ -24,8 +24,14 @@ if TYPE_CHECKING:
 class LinkedinAdInput(TypedDict, total=False):
     """Input for LinkedIn Ad Details."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """LinkedIn Ad Library ad URL (e.g. "https://www.linkedin.com/ad-library/detail/666281156")."""
 
@@ -33,10 +39,16 @@ class LinkedinAdInput(TypedDict, total=False):
 class LinkedinAdsInput(TypedDict, total=False):
     """Input for LinkedIn Ads Library."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """LinkedIn Ad Library search URL or a LinkedIn company URL (e.g. https://www.linkedin.com/ad-library/search?companyIds=1035)."""
 
@@ -44,6 +56,8 @@ class LinkedinAdsInput(TypedDict, total=False):
 class LinkedinAdsSearchInput(TypedDict, total=False):
     """Input for LinkedIn Ad Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     company: NotRequired[str]
     """Company name to search (e.g. "microsoft")."""
     companyId: NotRequired[str]
@@ -52,12 +66,16 @@ class LinkedinAdsSearchInput(TypedDict, total=False):
     """Comma-separated two-letter country codes (e.g. "US,CA,MX")."""
     endDate: NotRequired[str]
     """Search end date in YYYY-MM-DD format."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: NotRequired[str]
     """Keyword term for the ad search."""
     paginationToken: NotRequired[str]
     """Opaque pagination token from a previous response's nextCursor."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     startDate: NotRequired[str]
     """Search start date in YYYY-MM-DD format."""
 
@@ -65,8 +83,14 @@ class LinkedinAdsSearchInput(TypedDict, total=False):
 class LinkedinArticleInput(TypedDict, total=False):
     """Input for LinkedIn Article."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Public LinkedIn article or newsletter issue URL, e.g. https://www.linkedin.com/pulse/your-article-slug. Pair it with the attachmentUrl returned by linkedin.search_posts_full to read the article behind a post."""
 
@@ -74,6 +98,10 @@ class LinkedinArticleInput(TypedDict, total=False):
 class LinkedinCompanyInput(TypedDict, total=False):
     """Input for LinkedIn Company."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
@@ -86,8 +114,10 @@ class LinkedinCompanyInput(TypedDict, total=False):
                 "foundedOn",
                 "fundingData",
                 "headquarter",
+                "id",
                 "industry",
                 "line1",
+                "linkedinUrl",
                 "locations",
                 "logoUrl",
                 "name",
@@ -102,6 +132,8 @@ class LinkedinCompanyInput(TypedDict, total=False):
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `postalCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -109,19 +141,29 @@ class LinkedinCompanyInput(TypedDict, total=False):
 class LinkedinCompanyEmployeesInput(TypedDict, total=False):
     """Input for LinkedIn Company Employees."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     company: Required[str]
     """Company name or LinkedIn company URL (e.g. google or https://www.linkedin.com/company/google/)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     jobTitle: NotRequired[str]
     """Optional job-title filter supporting boolean operators (e.g. CEO OR CTO)."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less. Range: 1 to 10."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class LinkedinCompanyPostsInput(TypedDict, total=False):
     """Input for LinkedIn Company Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     includeQuotePosts: NotRequired[bool]
     """Include quote posts (posts shared with an added comment). Defaults to true; set false to exclude them."""
     includeReposts: NotRequired[bool]
@@ -134,6 +176,8 @@ class LinkedinCompanyPostsInput(TypedDict, total=False):
     """Only return posts published within this window (default any)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -141,10 +185,16 @@ class LinkedinCompanyPostsInput(TypedDict, total=False):
 class LinkedinCompanyPostsThinInput(TypedDict, total=False):
     """Input for LinkedIn Company Posts (basic)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     page: NotRequired[int]
     """Page number for pagination. Minimum: 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -152,8 +202,14 @@ class LinkedinCompanyPostsThinInput(TypedDict, total=False):
 class LinkedinCompanyThinInput(TypedDict, total=False):
     """Input for LinkedIn Company (basic)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full LinkedIn company page URL."""
 
@@ -161,17 +217,29 @@ class LinkedinCompanyThinInput(TypedDict, total=False):
 class LinkedinEmailInput(TypedDict, total=False):
     """Input for LinkedIn Email Finder."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     profileUrl: Required[str]
     """LinkedIn profile URL or public identifier (the last part of the URL) to find the deliverability-validated work email for."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class LinkedinJobInput(TypedDict, total=False):
     """Input for LinkedIn Job."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full LinkedIn job posting URL, e.g. https://www.linkedin.com/jobs/view/4431721875/."""
 
@@ -179,6 +247,8 @@ class LinkedinJobInput(TypedDict, total=False):
 class LinkedinJobsInput(TypedDict, total=False):
     """Input for LinkedIn Jobs."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     company: NotRequired[str]
     """Filter to a specific company by name (e.g. Google)."""
     easyApply: NotRequired[bool]
@@ -193,6 +263,8 @@ class LinkedinJobsInput(TypedDict, total=False):
         ]
     ]
     """Filter by required seniority/experience level."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
     location: NotRequired[str]
@@ -211,6 +283,8 @@ class LinkedinJobsInput(TypedDict, total=False):
     """Filter by minimum base salary band (US dollars)."""
     sortBy: NotRequired[Literal["date", "relevance"]]
     """Sort order: most recent (date) or best match (relevance)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     under10Applicants: NotRequired[bool]
     """When true, only return jobs with fewer than 10 applicants (lower competition)."""
     workplaceType: NotRequired[Literal["remote", "hybrid", "onsite"]]
@@ -220,6 +294,8 @@ class LinkedinJobsInput(TypedDict, total=False):
 class LinkedinJobsThinInput(TypedDict, total=False):
     """Input for LinkedIn Jobs (index)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     companyId: NotRequired[str]
     """Filter to a specific company by its LinkedIn numeric company id."""
     employmentType: NotRequired[
@@ -234,6 +310,8 @@ class LinkedinJobsThinInput(TypedDict, total=False):
     """Filter by required seniority/experience level."""
     geoId: NotRequired[str]
     """LinkedIn geo id to target a precise location (e.g. 103644278 for the United States); more exact than the free-text location."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). Range: 1 to 25."""
     location: NotRequired[str]
@@ -248,6 +326,8 @@ class LinkedinJobsThinInput(TypedDict, total=False):
         list[Literal["companyUrl", "createdUtc", "id", "logoUrl"]]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `logoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     workplaceType: NotRequired[Literal["remote", "hybrid", "onsite"]]
     """Filter by workplace type (remote, hybrid, or onsite)."""
 
@@ -255,8 +335,18 @@ class LinkedinJobsThinInput(TypedDict, total=False):
 class LinkedinPostInput(TypedDict, total=False):
     """Input for LinkedIn Post."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[Literal["authorImage", "authorUrl", "comments", "image", "likes", "title"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `image`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full LinkedIn post or article URL."""
 
@@ -264,6 +354,10 @@ class LinkedinPostInput(TypedDict, total=False):
 class LinkedinPostCommentsInput(TypedDict, total=False):
     """Input for LinkedIn Post Comments."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of comments to return. Range: 1 to 100. Default: 100."""
     postedLimit: NotRequired[
@@ -272,6 +366,8 @@ class LinkedinPostCommentsInput(TypedDict, total=False):
     """Only return comments posted within this window (default any)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full URL of the LinkedIn post to list comments for."""
 
@@ -279,10 +375,16 @@ class LinkedinPostCommentsInput(TypedDict, total=False):
 class LinkedinPostReactionsInput(TypedDict, total=False):
     """Input for LinkedIn Post Reactions."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of reactions to return (1-100, default 100). Range: 1 to 100."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """URL of the LinkedIn post to list reactions for (a /posts/...-activity-... or /feed/update/urn:li:activity:... link)."""
 
@@ -290,8 +392,14 @@ class LinkedinPostReactionsInput(TypedDict, total=False):
 class LinkedinPostTranscriptInput(TypedDict, total=False):
     """Input for LinkedIn Post Transcript."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """The full URL of the LinkedIn post to get the video transcript from."""
 
@@ -299,8 +407,14 @@ class LinkedinPostTranscriptInput(TypedDict, total=False):
 class LinkedinProfileInput(TypedDict, total=False):
     """Input for LinkedIn Profile."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full LinkedIn profile URL."""
 
@@ -308,12 +422,18 @@ class LinkedinProfileInput(TypedDict, total=False):
 class LinkedinProfileCommentsInput(TypedDict, total=False):
     """Input for LinkedIn Profile Comments."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of comments to return. Range: 1 to 100. Default: 100."""
     postedLimit: NotRequired[Literal["any", "24h", "week", "month"]]
     """Only return comments posted within this window (default any)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full URL of the LinkedIn member profile whose comments on other people's posts should be listed."""
 
@@ -321,8 +441,12 @@ class LinkedinProfileCommentsInput(TypedDict, total=False):
 class LinkedinProfilePostsFullInput(TypedDict, total=False):
     """Input for LinkedIn Profile Posts (full)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     contextCountry: NotRequired[Literal["any", "US", "GB", "DE", "FR"]]
     """Regional LinkedIn context used when retrieving posts."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     includeQuotePosts: NotRequired[bool]
     """Whether to include quote posts that add commentary to shared content. Default: true."""
     includeReposts: NotRequired[bool]
@@ -337,6 +461,8 @@ class LinkedinProfilePostsFullInput(TypedDict, total=False):
     """Only return posts published on or after this date or timestamp, using a JavaScript-compatible date-time string."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full URL of the public LinkedIn profile whose posts should be returned."""
 
@@ -344,10 +470,16 @@ class LinkedinProfilePostsFullInput(TypedDict, total=False):
 class LinkedinProfilePostsThinInput(TypedDict, total=False):
     """Input for LinkedIn Profile Posts (basic)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of posts to return (10-100, default 10). Range: 10 to 100. Default: 10."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full URL of the public LinkedIn profile whose posts should be returned."""
 
@@ -355,10 +487,16 @@ class LinkedinProfilePostsThinInput(TypedDict, total=False):
 class LinkedinProfileReactionsInput(TypedDict, total=False):
     """Input for LinkedIn Profile Reactions."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of reactions to return. One upstream page holds 100. Range: 1 to 100. Default: 100."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full URL of the LinkedIn member profile whose reactions to list, for example https://www.linkedin.com/in/williamhgates."""
 
@@ -366,6 +504,10 @@ class LinkedinProfileReactionsInput(TypedDict, total=False):
 class LinkedinProfileThinInput(TypedDict, total=False):
     """Input for LinkedIn Profile (basic)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
@@ -395,6 +537,8 @@ class LinkedinProfileThinInput(TypedDict, total=False):
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `headline` or `recentPosts`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full LinkedIn profile URL."""
 
@@ -402,6 +546,10 @@ class LinkedinProfileThinInput(TypedDict, total=False):
 class LinkedinSearchCompaniesInput(TypedDict, total=False):
     """Input for LinkedIn Company Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). Range: 1 to 20. Default: 20."""
     location: NotRequired[str]
@@ -410,28 +558,38 @@ class LinkedinSearchCompaniesInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search LinkedIn companies for (e.g. marketing agency)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class LinkedinSearchPostsInput(TypedDict, total=False):
     """Input for LinkedIn Post Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
     datePosted: NotRequired[
         Literal["last-hour", "last-day", "last-week", "last-month", "last-year"]
     ]
     """Filter by recency. One of last-hour, last-day, last-week, last-month, last-year."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The post search query."""
     requireCursor: NotRequired[bool]
     """Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class LinkedinSearchPostsFullInput(TypedDict, total=False):
     """Input for LinkedIn Post Search (full)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     authorCompanyNames: NotRequired[list[str]]
     """Only return posts by people associated with these company names."""
     authorIndustryIds: NotRequired[list[str]]
@@ -464,6 +622,8 @@ class LinkedinSearchPostsFullInput(TypedDict, total=False):
         ]
     ]
     """Only return posts published within this relative time window. Last-hour and windows beyond one month route to the provider that supports them. Default: last-day."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page. Range: 1 to 100. Default: 10."""
     mentioningMemberUrls: NotRequired[list[str]]
@@ -474,11 +634,15 @@ class LinkedinSearchPostsFullInput(TypedDict, total=False):
     """LinkedIn post search query, including quoted terms or Boolean operators accepted by LinkedIn search."""
     sort: NotRequired[Literal["relevance", "date"]]
     """Order results by search relevance or publication date. Default: relevance."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class LinkedinSearchProfilesInput(TypedDict, total=False):
     """Input for LinkedIn Profile Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     companyHeadcount: NotRequired[
         list[Literal["A", "B", "C", "D", "E", "F", "G", "H", "I"]]
     ]
@@ -577,6 +741,8 @@ class LinkedinSearchProfilesInput(TypedDict, total=False):
         ]
     ]
     """Filter by job function. Codes: 1=Accounting, 2=Administrative, 3=Arts and Design, 4=Business Development, 5=Community and Social Services, 6=Consulting, 7=Education, 8=Engineering, 9=Entrepreneurship, 10=Finance, 11=Healthcare Services, 12=Human Resources, 13=Information Technology, 14=Legal, 15=Marketing, 16=Media and Communication, 17=Military and Protective Services, 18=Operations, 19=Product Management, 20=Program and Project Management, 21=Purchasing, 22=Quality Assurance, 23=Real Estate, 24=Research, 25=Sales, 26=Customer Success and Support."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     jobTitle: NotRequired[str]
     """Optional current job title filter (e.g. 'Software Engineer')."""
     lastNames: NotRequired[list[str]]
@@ -636,6 +802,8 @@ class LinkedinSearchProfilesInput(TypedDict, total=False):
         ]
     ]
     """Filter by seniority level. Codes: 100=In Training, 110=Entry Level, 120=Senior, 130=Strategic, 200=Entry Level Manager, 210=Experienced Manager, 220=Director, 300=Vice President, 310=CXO, 320=Owner/Partner."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     yearsAtCurrentCompanyIds: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
     """Filter by tenure at the current company. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years."""
     yearsOfExperienceIds: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
@@ -645,6 +813,8 @@ class LinkedinSearchProfilesInput(TypedDict, total=False):
 class LinkedinSearchProfilesEmailInput(TypedDict, total=False):
     """Input for LinkedIn Profile Search + Email."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     companyHeadcount: NotRequired[
         list[Literal["A", "B", "C", "D", "E", "F", "G", "H", "I"]]
     ]
@@ -743,6 +913,8 @@ class LinkedinSearchProfilesEmailInput(TypedDict, total=False):
         ]
     ]
     """Filter by job function. Codes: 1=Accounting, 2=Administrative, 3=Arts and Design, 4=Business Development, 5=Community and Social Services, 6=Consulting, 7=Education, 8=Engineering, 9=Entrepreneurship, 10=Finance, 11=Healthcare Services, 12=Human Resources, 13=Information Technology, 14=Legal, 15=Marketing, 16=Media and Communication, 17=Military and Protective Services, 18=Operations, 19=Product Management, 20=Program and Project Management, 21=Purchasing, 22=Quality Assurance, 23=Real Estate, 24=Research, 25=Sales, 26=Customer Success and Support."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     jobTitle: NotRequired[str]
     """Optional current job title filter (e.g. 'Software Engineer')."""
     lastNames: NotRequired[list[str]]
@@ -802,6 +974,8 @@ class LinkedinSearchProfilesEmailInput(TypedDict, total=False):
         ]
     ]
     """Filter by seniority level. Codes: 100=In Training, 110=Entry Level, 120=Senior, 130=Strategic, 200=Entry Level Manager, 210=Experienced Manager, 220=Director, 300=Vice President, 310=CXO, 320=Owner/Partner."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     yearsAtCurrentCompanyIds: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
     """Filter by tenure at the current company. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years."""
     yearsOfExperienceIds: NotRequired[list[Literal["1", "2", "3", "4", "5"]]]
@@ -811,10 +985,40 @@ class LinkedinSearchProfilesEmailInput(TypedDict, total=False):
 class LinkedinSearchProfilesThinInput(TypedDict, total=False):
     """Input for LinkedIn Profile Search (basic)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    currentCompanyId: NotRequired[str]
+    """Filter by current employer, using a numeric LinkedIn company id. Comma-separate for several."""
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; a page holds 10 profiles."""
+    firstName: NotRequired[str]
+    """Filter by first name (e.g. Jane)."""
+    followerOfUrn: NotRequired[str]
+    """Return only people who follow this member, given the member's LinkedIn URN."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    industryId: NotRequired[str]
+    """Filter by industry, using a LinkedIn industry id."""
+    lastName: NotRequired[str]
+    """Filter by last name (e.g. Okafor)."""
+    locationId: NotRequired[str]
+    """Filter by location, using a LinkedIn geocode id."""
+    pastCompanyId: NotRequired[str]
+    """Filter by a previous employer, using a numeric LinkedIn company id."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    profileLanguage: NotRequired[str]
+    """Filter by the language the profile is written in (ISO 2-letter code, e.g. en)."""
     query: Required[str]
     """Search query for LinkedIn profiles - a role, name, or keywords (e.g. 'Marketing Manager')."""
+    schoolId: NotRequired[str]
+    """Filter by school, using a LinkedIn school id."""
+    serviceCategoryId: NotRequired[str]
+    """Filter by service category, using a numeric service-category id."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    title: NotRequired[str]
+    """Filter by job title or headline (e.g. Head of Talent)."""
 
 
 class LinkedinAdData(BaseModel):
@@ -831,6 +1035,11 @@ class LinkedinAdData(BaseModel):
         alias="advertiserLinkedinPage",
         description="Populated whenever the provider has data for the entity.",
     )
+    advertiser_logo: str | None = Field(
+        default=None,
+        alias="advertiserLogo",
+        description="Advertiser logo image URL. The query string is a signed token, so keep the URL intact.",
+    )
     cta: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -846,6 +1055,14 @@ class LinkedinAdData(BaseModel):
     image: str
     start_date: str = Field(alias="startDate", description="ISO 8601 date.")
     total_impressions: str = Field(alias="totalImpressions")
+    url: str | None = Field(
+        default=None, description="Canonical LinkedIn Ad Library URL for this ad."
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video URL for a video ad, or empty string. The query string is a signed token, so keep the URL intact.",
+    )
 
 
 class LinkedinAdsData(BaseModel):
@@ -898,6 +1115,11 @@ class LinkedinAdsSearchAd(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     advertiser_linkedin_page: str = Field(alias="advertiserLinkedinPage")
+    advertiser_logo: str | None = Field(
+        default=None,
+        alias="advertiserLogo",
+        description="Advertiser logo image URL. The query string is a signed token, so keep the URL intact.",
+    )
     cta: str
     description: str
     destination_url: str = Field(alias="destinationUrl")
@@ -908,6 +1130,9 @@ class LinkedinAdsSearchAd(BaseModel):
     )
     start_date: str = Field(alias="startDate")
     total_impressions: str = Field(alias="totalImpressions")
+    url: str | None = Field(
+        default=None, description="Canonical LinkedIn Ad Library URL for this ad."
+    )
 
 
 class LinkedinArticleData(BaseModel):
@@ -950,6 +1175,11 @@ class LinkedinArticleData(BaseModel):
     )
     title: str = Field(
         description="Title of the article. Populated whenever the provider has data for the entity."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Kind of LinkedIn publication, e.g. article or issue (a newsletter edition).",
     )
     updated_utc: float | None = Field(
         default=None,
@@ -995,7 +1225,15 @@ class LinkedinCompanyData(BaseModel):
         alias="fundingData",
         description="Funding summary sourced from Crunchbase, when available.",
     )
+    id: str | None = Field(
+        default=None, description="LinkedIn's numeric company id, as a string."
+    )
     industry: str = Field(description="Primary industry.")
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn company page URL.",
+    )
     locations: list[LinkedinCompanyLocation] | None = Field(
         default=None, description="Company office locations, including headquarters."
     )
@@ -1083,6 +1321,33 @@ class LinkedinCompanyEmployeesData(BaseModel):
 class LinkedinCompanyEmployeesItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    city: str | None = Field(
+        default=None, description="City of the member, as LinkedIn words it."
+    )
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="LinkedIn's numeric id of the member's current company, as a string.",
+    )
+    company_url: str | None = Field(
+        default=None,
+        alias="companyUrl",
+        description="Canonical LinkedIn URL of the member's current company.",
+    )
+    country: str | None = Field(default=None, description="Country name of the member.")
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="Two-letter country code of the member.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) when the profile was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    creator: bool | None = Field(
+        default=None, description="Whether the member is in LinkedIn creator mode."
+    )
     first_name: str | None = Field(
         default=None, alias="firstName", description="First name."
     )
@@ -1091,6 +1356,9 @@ class LinkedinCompanyEmployeesItem(BaseModel):
         description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(default=None, description="Profile picture URL.")
+    influencer: bool | None = Field(
+        default=None, description="Whether LinkedIn marks the member as an influencer."
+    )
     job_title: str | None = Field(
         default=None,
         alias="jobTitle",
@@ -1107,6 +1375,14 @@ class LinkedinCompanyEmployeesItem(BaseModel):
         default=None,
         description="Full name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    open_to_work: bool | None = Field(
+        default=None,
+        alias="openToWork",
+        description="Whether the member shows the Open To Work badge.",
+    )
+    premium: bool | None = Field(
+        default=None, description="Whether the member has LinkedIn Premium."
+    )
     url: str = Field(
         description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
     )
@@ -1121,6 +1397,31 @@ class LinkedinCompanyPostsData(BaseModel):
 class LinkedinCompanyPostsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    article_image: str | None = Field(
+        default=None,
+        alias="articleImage",
+        description="Cover image URL of the attached article. The query string is a signed token, so keep the URL intact.",
+    )
+    article_link_label: str | None = Field(
+        default=None,
+        alias="articleLinkLabel",
+        description="Accessible link label LinkedIn renders for the attached article.",
+    )
+    article_subtitle: str | None = Field(
+        default=None,
+        alias="articleSubtitle",
+        description="Subtitle or source domain of the attached article.",
+    )
+    article_title: str | None = Field(
+        default=None,
+        alias="articleTitle",
+        description="Title of the article attached to the post.",
+    )
+    article_url: str | None = Field(
+        default=None,
+        alias="articleUrl",
+        description="Destination URL of the attached article.",
+    )
     author: LinkedinCompanyPostsAuthor | None = Field(
         default=None, description="The post author (a company or a profile)."
     )
@@ -1147,6 +1448,31 @@ class LinkedinCompanyPostsItem(BaseModel):
         alias="postVideo",
         description="Video attached to the post, or null when absent.",
     )
+    repost_author_name: str | None = Field(
+        default=None,
+        alias="repostAuthorName",
+        description="Display name of the account that reposted this post.",
+    )
+    repost_author_universal_name: str | None = Field(
+        default=None,
+        alias="repostAuthorUniversalName",
+        description="URL-safe handle of the account that reposted this post.",
+    )
+    repost_author_url: str | None = Field(
+        default=None,
+        alias="repostAuthorUrl",
+        description="Canonical LinkedIn URL of the account that reposted this post.",
+    )
+    repost_created_utc: float | None = Field(
+        default=None,
+        alias="repostCreatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) of the repost. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    share_url: str | None = Field(
+        default=None,
+        alias="shareUrl",
+        description="Shareable LinkedIn URL for the post.",
+    )
     text: str = Field(
         description="Full text content of the post. Populated whenever the provider has data for the entity."
     )
@@ -1161,6 +1487,16 @@ class LinkedinCompanyPostsAuthor(BaseModel):
     followers: str | None = Field(
         default=None,
         description="Author follower count as displayed text (e.g. '1,543,793 followers').",
+    )
+    handle: str | None = Field(
+        default=None, description="Public identifier (vanity handle) of the author."
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn identifier of the author."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Author avatar or company logo image URL. The query string is a signed token, so keep the URL intact.",
     )
     linkedin_url: str | None = Field(
         default=None,
@@ -1253,14 +1589,40 @@ class LinkedinCompanyPostsThinItem(BaseModel):
 class LinkedinCompanyThinData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    company_type: str | None = Field(
+        default=None,
+        alias="companyType",
+        description="Company type, e.g. Privately Held, Public Company.",
+    )
+    cover_image: str | None = Field(
+        default=None,
+        alias="coverImage",
+        description="Company page cover image URL. The query string is a signed token, so keep the URL intact.",
+    )
     description: str = Field(
         description="Company about/description text. Populated whenever the provider has data for the entity."
     )
     employee_count: int = Field(
         alias="employeeCount", description="Reported employee count."
     )
+    follower_count: int | None = Field(
+        default=None, alias="followerCount", description="LinkedIn page follower count."
+    )
+    founded_year: int | None = Field(
+        default=None,
+        alias="foundedYear",
+        description="Year the company was founded, or 0 when unknown.",
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn's numeric company id, as a string."
+    )
     industry: str = Field(
         description="Primary industry. Populated whenever the provider has data for the entity."
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn company page URL.",
     )
     logo_url: str = Field(
         alias="logoUrl",
@@ -1270,6 +1632,11 @@ class LinkedinCompanyThinData(BaseModel):
     tagline: str = Field(
         description="Company tagline/slogan. Populated whenever the provider has data for the entity."
     )
+    universal_name: str | None = Field(
+        default=None,
+        alias="universalName",
+        description="LinkedIn universal (vanity) name for the company.",
+    )
     website: str = Field(
         description="Company website URL. Populated whenever the provider has data for the entity."
     )
@@ -1278,8 +1645,33 @@ class LinkedinCompanyThinData(BaseModel):
 class LinkedinEmailData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    about: str | None = Field(
+        default=None, description="About/summary text of the profile."
+    )
     avatar_url: str | None = Field(
         default=None, alias="avatarUrl", description="URL of the profile avatar image."
+    )
+    city: str | None = Field(default=None, description="City of the profile owner.")
+    connections_count: int | None = Field(
+        default=None,
+        alias="connectionsCount",
+        description="Number of connections on the profile.",
+    )
+    country: str | None = Field(
+        default=None, description="Country of the profile owner."
+    )
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="Two-letter country code of the profile owner.",
+    )
+    cover_image: str | None = Field(
+        default=None,
+        alias="coverImage",
+        description="Profile cover (banner) image URL. The query string is a signed token, so keep the URL intact.",
+    )
+    creator: bool | None = Field(
+        default=None, description="Whether the member is in LinkedIn creator mode."
     )
     emails: list[LinkedinEmailEmail] = Field(
         description="Deliverability-validated work emails discovered for the profile. Populated whenever the provider has data for the entity."
@@ -1289,12 +1681,44 @@ class LinkedinEmailData(BaseModel):
         alias="firstName",
         description="First name on the LinkedIn profile.",
     )
+    follower_count: int | None = Field(
+        default=None,
+        alias="followerCount",
+        description="Number of followers of the profile.",
+    )
+    handle: str | None = Field(
+        default=None, description="Public identifier (vanity handle) of the profile."
+    )
     headline: str | None = Field(default=None, description="Profile headline.")
+    hiring: bool | None = Field(
+        default=None, description="Whether the member shows the Hiring badge."
+    )
+    id: str | None = Field(default=None, description="LinkedIn member identifier.")
+    influencer: bool | None = Field(
+        default=None, description="Whether LinkedIn marks the member as an influencer."
+    )
     last_name: str | None = Field(
         default=None, alias="lastName", description="Last name on the LinkedIn profile."
     )
     linkedin_url: str | None = Field(
         default=None, alias="linkedinUrl", description="Canonical LinkedIn profile URL."
+    )
+    location: str | None = Field(
+        default=None, description="Location as LinkedIn displays it."
+    )
+    open_to_work: bool | None = Field(
+        default=None,
+        alias="openToWork",
+        description="Whether the member shows the Open To Work badge.",
+    )
+    premium: bool | None = Field(
+        default=None, description="Whether the member has LinkedIn Premium."
+    )
+    state: str | None = Field(
+        default=None, description="State or region of the profile owner."
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether LinkedIn has verified the member's identity."
     )
 
 
@@ -1342,8 +1766,17 @@ class LinkedinJobData(BaseModel):
         description="External company apply URL when the job applies off-site.",
     )
     benefits: list[str] | None = Field(default=None, description="Listed benefits.")
+    city: str | None = Field(default=None, description="City of the job location.")
     company: LinkedinJobCompany | None = Field(
         default=None, description="Hiring company details."
+    )
+    country: str | None = Field(
+        default=None, description="Country of the job location."
+    )
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="Two-letter country code of the job location.",
     )
     created_utc: float | None = Field(
         default=None,
@@ -1392,13 +1825,22 @@ class LinkedinJobData(BaseModel):
     location: str | None = Field(
         default=None, description="Job location (city, region, or country)."
     )
+    remote: bool | None = Field(
+        default=None, description="Whether LinkedIn flags the role as remote-allowed."
+    )
     salary: LinkedinJobSalary | None = Field(
         default=None, description="Salary range when disclosed by the poster."
+    )
+    state: str | None = Field(
+        default=None, description="State or region of the job location."
     )
     title: str = Field(
         description="Job title. Populated whenever the provider has data for the entity."
     )
     url: str = Field(description="Canonical LinkedIn job posting URL.")
+    views: int | None = Field(
+        default=None, description="Number of views LinkedIn reports for the posting."
+    )
     workplace_type: str | None = Field(
         default=None,
         alias="workplaceType",
@@ -1419,6 +1861,9 @@ class LinkedinJobCompany(BaseModel):
         default=None,
         alias="followerCount",
         description="Number of followers of the company page.",
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn's numeric company id, as a string."
     )
     linkedin_url: str | None = Field(
         default=None, alias="linkedinUrl", description="Canonical LinkedIn company URL."
@@ -1467,6 +1912,11 @@ class LinkedinJobsData(BaseModel):
 class LinkedinJobsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    applicant_tracking_system: str | None = Field(
+        default=None,
+        alias="applicantTrackingSystem",
+        description="Applicant tracking system behind the external apply link (e.g. Greenhouse).",
+    )
     applicants: int | None = Field(
         default=None,
         description="Number of applicants reported by LinkedIn. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -1477,8 +1927,17 @@ class LinkedinJobsItem(BaseModel):
         description="External company apply URL when the job applies off-site.",
     )
     benefits: list[str] | None = Field(default=None, description="Listed benefits.")
+    city: str | None = Field(default=None, description="City of the job location.")
     company: LinkedinJobsCompany | None = Field(
         default=None, description="Hiring company details."
+    )
+    country: str | None = Field(
+        default=None, description="Country of the job location."
+    )
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="Two-letter country code of the job location.",
     )
     created_utc: float | None = Field(
         default=None,
@@ -1505,18 +1964,37 @@ class LinkedinJobsItem(BaseModel):
         alias="experienceLevel",
         description="Seniority / experience level (e.g. Mid-Senior level, Entry level).",
     )
+    expire_utc: float | None = Field(
+        default=None,
+        alias="expireUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the posting expires. Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str | None = Field(default=None, description="LinkedIn job listing id.")
     industries: list[str] | None = Field(
         default=None, description="Industries associated with the role."
     )
+    job_state: str | None = Field(
+        default=None,
+        alias="jobState",
+        description="Posting state reported by LinkedIn (e.g. LISTED, CLOSED).",
+    )
     location: str | None = Field(
         default=None, description="Job location (city, region, or country)."
+    )
+    remote: bool | None = Field(
+        default=None, description="Whether LinkedIn flags the role as remote-allowed."
     )
     salary: LinkedinJobsSalary | None = Field(
         default=None, description="Salary range when disclosed by the poster."
     )
+    state: str | None = Field(
+        default=None, description="State or region of the job location."
+    )
     title: str = Field(description="Job title.")
     url: str = Field(description="Canonical LinkedIn job listing URL.")
+    views: int | None = Field(
+        default=None, description="Number of views LinkedIn reports for the posting."
+    )
     workplace_type: str | None = Field(
         default=None,
         alias="workplaceType",
@@ -1527,6 +2005,20 @@ class LinkedinJobsItem(BaseModel):
 class LinkedinJobsCompany(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    description: str | None = Field(default=None, description="Company About text.")
+    employee_count: int | None = Field(
+        default=None,
+        alias="employeeCount",
+        description="Number of employees LinkedIn reports for the company.",
+    )
+    follower_count: int | None = Field(
+        default=None,
+        alias="followerCount",
+        description="Number of followers of the company page.",
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn's numeric company id, as a string."
+    )
     linkedin_url: str | None = Field(
         default=None, alias="linkedinUrl", description="Canonical LinkedIn company URL."
     )
@@ -1537,6 +2029,7 @@ class LinkedinJobsCompany(BaseModel):
         alias="universalName",
         description="Company LinkedIn universal (vanity) name.",
     )
+    website: str | None = Field(default=None, description="Company website.")
 
 
 class LinkedinJobsSalary(BaseModel):
@@ -1592,10 +2085,22 @@ class LinkedinPostData(BaseModel):
     author: str = Field(
         description="Name of the post author. Populated whenever the provider has data for the entity."
     )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Author avatar or company logo image URL, or null when the serving source does not carry one. The query string is a signed token, so keep the URL intact.",
+    )
+    author_url: str | None = Field(
+        default=None, alias="authorUrl", description="LinkedIn URL of the post author."
+    )
     comments: int = Field(description="Number of comments on the post.")
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="First image attached to the post, or null when the serving source does not carry one. The query string is a signed token, so keep the URL intact.",
     )
     likes: int = Field(description="Number of likes on the post.")
     text: str = Field(
@@ -1648,6 +2153,9 @@ class LinkedinPostCommentsItem(BaseModel):
 class LinkedinPostCommentsActor(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    id: str | None = Field(
+        default=None, description="LinkedIn identifier of the commenter."
+    )
     image: str | None = Field(
         default=None,
         description="Profile picture URL of the commenter. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -1694,6 +2202,9 @@ class LinkedinPostReactionsItem(BaseModel):
 
     actor: LinkedinPostReactionsActor = Field(
         description="The reactor - the person or company that reacted."
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn identifier of the reaction."
     )
     post_id: str | None = Field(
         default=None,
@@ -1751,8 +2262,25 @@ class LinkedinProfileData(BaseModel):
     certifications: list[LinkedinProfileCertification] | None = Field(
         default=None, description="Licenses and certifications."
     )
+    city: str | None = Field(default=None, description="City of the profile owner.")
     connections_count: int | None = Field(
         default=None, alias="connectionsCount", description="Number of connections."
+    )
+    country: str | None = Field(
+        default=None, description="Country of the profile owner."
+    )
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="Two-letter country code of the profile owner.",
+    )
+    cover_image: str | None = Field(
+        default=None,
+        alias="coverImage",
+        description="Profile cover (banner) image URL. The query string is a signed token, so keep the URL intact.",
+    )
+    creator: bool | None = Field(
+        default=None, description="Whether the member is in LinkedIn creator mode."
     )
     current_position: list[LinkedinProfileCurrentPosition] | None = Field(
         default=None,
@@ -1775,8 +2303,15 @@ class LinkedinProfileData(BaseModel):
     headline: str = Field(
         description="Professional headline shown under the name. Populated whenever the provider has data for the entity."
     )
+    hiring: bool | None = Field(
+        default=None, description="Whether the member shows the Hiring badge."
+    )
     honors_and_awards: list[LinkedinProfileHonorsAndAward] | None = Field(
         default=None, alias="honorsAndAwards", description="Honors and awards."
+    )
+    id: str | None = Field(default=None, description="LinkedIn member identifier.")
+    influencer: bool | None = Field(
+        default=None, description="Whether LinkedIn marks the member as an influencer."
     )
     languages: list[Any] | None = Field(
         default=None, description="Languages, as returned by LinkedIn when present."
@@ -1811,6 +2346,9 @@ class LinkedinProfileData(BaseModel):
         default=None,
         description="The member's skills, as free-form strings when present.",
     )
+    state: str | None = Field(
+        default=None, description="State or region of the profile owner."
+    )
     top_skills: list[Any] | None = Field(
         default=None,
         alias="topSkills",
@@ -1837,6 +2375,11 @@ class LinkedinProfileCertification(BaseModel):
 class LinkedinProfileCurrentPosition(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="LinkedIn's numeric company id, as a string.",
+    )
     company_linkedin_url: str | None = Field(
         default=None, alias="companyLinkedinUrl", description="Company LinkedIn URL."
     )
@@ -1861,6 +2404,11 @@ class LinkedinProfileEducation(BaseModel):
         default=None, alias="fieldOfStudy", description="Field of study."
     )
     school: str = Field(description="School name.")
+    school_id: str | None = Field(
+        default=None,
+        alias="schoolId",
+        description="LinkedIn's numeric school id, as a string.",
+    )
     school_url: str | None = Field(
         default=None, alias="schoolUrl", description="School LinkedIn URL."
     )
@@ -1872,6 +2420,11 @@ class LinkedinProfileEducation(BaseModel):
 class LinkedinProfileExperience(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="LinkedIn's numeric company id, as a string.",
+    )
     company_linkedin_url: str | None = Field(
         default=None, alias="companyLinkedinUrl", description="Company LinkedIn URL."
     )
@@ -1964,6 +2517,11 @@ class LinkedinProfileCommentsItem(BaseModel):
     id: str = Field(
         description="Unique identifier of the comment. Populated whenever the provider has data for the entity."
     )
+    is_author: bool | None = Field(
+        default=None,
+        alias="isAuthor",
+        description="Whether the commenter is also the author of the post.",
+    )
     post: LinkedinProfileCommentsPost | None = Field(
         default=None,
         description="The post the comment was left on, so the comment can be read in context. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -1977,6 +2535,9 @@ class LinkedinProfileCommentsItem(BaseModel):
 class LinkedinProfileCommentsActor(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    id: str | None = Field(
+        default=None, description="LinkedIn identifier of the commenter."
+    )
     image: str | None = Field(
         default=None,
         description="Profile picture URL of the commenter. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -2009,6 +2570,9 @@ class LinkedinProfileCommentsEngagement(BaseModel):
     )
     likes: int | None = Field(
         default=None, description="Number of likes on the comment. Minimum: 0."
+    )
+    shares: int | None = Field(
+        default=None, description="Number of shares of the comment. Minimum: 0."
     )
 
 
@@ -2573,6 +3137,16 @@ class LinkedinProfilePostsThinItem(BaseModel):
     images: list[LinkedinProfilePostsThinImage] | None = Field(
         default=None, description="Images attached to the post."
     )
+    repost_article_image: str | None = Field(
+        default=None,
+        alias="repostArticleImage",
+        description="Cover image URL of the article attached to the reposted post. The query string is a signed token, so keep the URL intact.",
+    )
+    repost_article_subtitle: str | None = Field(
+        default=None,
+        alias="repostArticleSubtitle",
+        description="Subtitle or source domain of the article attached to the reposted post.",
+    )
     repost_article_title: str | None = Field(
         default=None,
         alias="repostArticleTitle",
@@ -2582,6 +3156,21 @@ class LinkedinProfilePostsThinItem(BaseModel):
         default=None,
         alias="repostArticleUrl",
         description="Canonical URL of the article attached to the reposted post, when present.",
+    )
+    repost_author_headline: str | None = Field(
+        default=None,
+        alias="repostAuthorHeadline",
+        description="Headline or follower line of the author of the reposted post.",
+    )
+    repost_author_image: str | None = Field(
+        default=None,
+        alias="repostAuthorImage",
+        description="Avatar or logo image URL of the author of the reposted post. The query string is a signed token, so keep the URL intact.",
+    )
+    repost_author_url: str | None = Field(
+        default=None,
+        alias="repostAuthorUrl",
+        description="Canonical LinkedIn URL of the author of the reposted post.",
     )
     repost_created_utc: float | None = Field(
         default=None,
@@ -2731,6 +3320,11 @@ class LinkedinProfileReactionsPost(BaseModel):
         default=None,
         description="LinkedIn activity identifier of the post that was reacted to. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    posted_utc: float | None = Field(
+        default=None,
+        alias="postedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the post was published. Multiply by 1000 for a JS Date in milliseconds.",
+    )
     repost_id: str | None = Field(
         default=None,
         alias="repostId",
@@ -2831,6 +3425,10 @@ class LinkedinProfileThinData(BaseModel):
         description="Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     followers: int | None = Field(default=None, description="Number of followers.")
+    headline: str | None = Field(
+        default=None,
+        description="Profile headline, or null when the serving source does not publish it.",
+    )
     location: str | None = Field(
         default=None, description="Location of the profile owner."
     )
@@ -3156,6 +3754,26 @@ class LinkedinSearchProfilesItem(BaseModel):
         default=None,
         description="Profile about / summary text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    city: str | None = Field(default=None, description="City of the member.")
+    connections_count: int | None = Field(
+        default=None,
+        alias="connectionsCount",
+        description="Number of connections on the profile.",
+    )
+    country: str | None = Field(default=None, description="Country of the member.")
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="Two-letter country code of the member.",
+    )
+    cover_image: str | None = Field(
+        default=None,
+        alias="coverImage",
+        description="Profile cover (banner) image URL. The query string is a signed token, so keep the URL intact.",
+    )
+    creator: bool | None = Field(
+        default=None, description="Whether the member is in LinkedIn creator mode."
+    )
     current_position: list[LinkedinSearchProfilesCurrentPosition] | None = Field(
         default=None,
         alias="currentPosition",
@@ -3174,6 +3792,11 @@ class LinkedinSearchProfilesItem(BaseModel):
         alias="firstName",
         description="Member's first name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    follower_count: int | None = Field(
+        default=None,
+        alias="followerCount",
+        description="Number of followers of the profile.",
+    )
     handle: str | None = Field(
         default=None,
         description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -3182,10 +3805,16 @@ class LinkedinSearchProfilesItem(BaseModel):
         default=None,
         description="Profile headline (the tagline under the name). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    hiring: bool | None = Field(
+        default=None, description="Whether the member shows the Hiring badge."
+    )
     id: str = Field(description="LinkedIn member URN id for the profile.")
     image: str | None = Field(
         default=None,
         description="Profile picture URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    influencer: bool | None = Field(
+        default=None, description="Whether LinkedIn marks the member as an influencer."
     )
     last_name: str | None = Field(
         default=None,
@@ -3208,8 +3837,14 @@ class LinkedinSearchProfilesItem(BaseModel):
     skills: list[Any] | None = Field(
         default=None, description="Listed skills, as free-form strings when present."
     )
+    state: str | None = Field(
+        default=None, description="State or region of the member."
+    )
     url: str = Field(
         description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether LinkedIn has verified the member's identity."
     )
 
 
@@ -3238,6 +3873,26 @@ class LinkedinSearchProfilesEmailItem(BaseModel):
         default=None,
         description="Profile about / summary text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    city: str | None = Field(default=None, description="City of the member.")
+    connections_count: int | None = Field(
+        default=None,
+        alias="connectionsCount",
+        description="Number of connections on the profile.",
+    )
+    country: str | None = Field(default=None, description="Country of the member.")
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="Two-letter country code of the member.",
+    )
+    cover_image: str | None = Field(
+        default=None,
+        alias="coverImage",
+        description="Profile cover (banner) image URL. The query string is a signed token, so keep the URL intact.",
+    )
+    creator: bool | None = Field(
+        default=None, description="Whether the member is in LinkedIn creator mode."
+    )
     current_position: list[LinkedinSearchProfilesEmailCurrentPosition] | None = Field(
         default=None,
         alias="currentPosition",
@@ -3260,6 +3915,11 @@ class LinkedinSearchProfilesEmailItem(BaseModel):
         alias="firstName",
         description="Member's first name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    follower_count: int | None = Field(
+        default=None,
+        alias="followerCount",
+        description="Number of followers of the profile.",
+    )
     handle: str | None = Field(
         default=None,
         description="Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -3268,10 +3928,16 @@ class LinkedinSearchProfilesEmailItem(BaseModel):
         default=None,
         description="Profile headline (the tagline under the name). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    hiring: bool | None = Field(
+        default=None, description="Whether the member shows the Hiring badge."
+    )
     id: str = Field(description="LinkedIn member URN id for the profile.")
     image: str | None = Field(
         default=None,
         description="Profile picture URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    influencer: bool | None = Field(
+        default=None, description="Whether LinkedIn marks the member as an influencer."
     )
     last_name: str | None = Field(
         default=None,
@@ -3294,8 +3960,14 @@ class LinkedinSearchProfilesEmailItem(BaseModel):
     skills: list[Any] | None = Field(
         default=None, description="Listed skills, as free-form strings when present."
     )
+    state: str | None = Field(
+        default=None, description="State or region of the member."
+    )
     url: str = Field(
         description="Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity."
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether LinkedIn has verified the member's identity."
     )
 
 
@@ -3316,8 +3988,15 @@ class LinkedinSearchProfilesEmailExperience(BaseModel):
 
 
 class LinkedinSearchProfilesThinData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[LinkedinSearchProfilesThinItem] = Field(
         description="Matched profile records (basic fields only). Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of profiles, or null/empty when there are no more. Pass it back as cursor to continue.",
     )
 
 
@@ -3341,8 +4020,14 @@ class LinkedinSearchProfilesThinItem(BaseModel):
         description="Member's location as a single string (city, region, country).",
     )
     name: str | None = Field(default=None, description="Member's display name.")
+    premium: bool | None = Field(
+        default=None, description="Whether the member has LinkedIn Premium."
+    )
     url: str = Field(
         description="Canonical LinkedIn vanity profile URL. Populated whenever the provider has data for the entity."
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether LinkedIn has verified the member's identity."
     )
 
 
@@ -3880,7 +4565,7 @@ class LinkedinNamespace:
 
         Search public LinkedIn posts by keyword (text, link, publish date).
 
-        Price: $0.0012 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.linkedin.search_posts(datePosted="last-week", query="hiring")
@@ -4013,6 +4698,29 @@ class LinkedinNamespace:
             "linkedin.search_profiles_thin", dict(input), options
         )
         return RunResult[LinkedinSearchProfilesThinData].model_validate(raw)
+
+    def iter_search_profiles_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchProfilesThinInput],
+    ) -> Paginator[LinkedinSearchProfilesThinItem, LinkedinSearchProfilesThinData]:
+        """Iterate LinkedIn Profile Search (basic) results, following pagination cursors.
+
+        Yields validated `LinkedinSearchProfilesThinItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "linkedin.search_profiles_thin",
+            dict(input),
+            "items",
+            item_model=LinkedinSearchProfilesThinItem,
+            data_model=LinkedinSearchProfilesThinData,
+            bare=False,
+            options=options,
+        )
 
 
 class AsyncLinkedinNamespace:
@@ -4549,7 +5257,7 @@ class AsyncLinkedinNamespace:
 
         Search public LinkedIn posts by keyword (text, link, publish date).
 
-        Price: $0.0012 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.linkedin.search_posts(datePosted="last-week", query="hiring")
@@ -4682,3 +5390,26 @@ class AsyncLinkedinNamespace:
             "linkedin.search_profiles_thin", dict(input), options
         )
         return RunResult[LinkedinSearchProfilesThinData].model_validate(raw)
+
+    def iter_search_profiles_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchProfilesThinInput],
+    ) -> AsyncPaginator[LinkedinSearchProfilesThinItem, LinkedinSearchProfilesThinData]:
+        """Iterate LinkedIn Profile Search (basic) results, following pagination cursors.
+
+        Yields validated `LinkedinSearchProfilesThinItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "linkedin.search_profiles_thin",
+            dict(input),
+            "items",
+            item_model=LinkedinSearchProfilesThinItem,
+            data_model=LinkedinSearchProfilesThinData,
+            bare=False,
+            options=options,
+        )

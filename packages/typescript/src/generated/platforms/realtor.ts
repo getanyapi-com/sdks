@@ -11,6 +11,11 @@ import type {
  */
 export interface RealtorSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Minimum number of bathrooms (e.g. 2).
    * Range: minimum 0.
    */
@@ -20,6 +25,10 @@ export interface RealtorSearchInput {
    * Range: minimum 0.
    */
   bedsMin?: number;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Free-text keyword that must appear in the listing description (e.g. 'pool').
    */
@@ -76,6 +85,10 @@ export interface RealtorSearchInput {
   searchStatuses?: (
     "for_sale" | "ready_to_build" | "pending" | "coming_soon" | "contingent"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface RealtorSearchItem {
@@ -83,6 +96,22 @@ export interface RealtorSearchItem {
    * Street address line of the property.
    */
   addressLine?: string;
+  /**
+   * Contact email for the listing agent.
+   */
+  agentEmail?: string;
+  /**
+   * Name of the listing agent.
+   */
+  agentName?: string;
+  /**
+   * Contact phone number for the listing agent.
+   */
+  agentPhone?: string;
+  /**
+   * Realtor.com profile URL of the listing agent.
+   */
+  agentUrl?: string;
   /**
    * Consolidated bathroom count (e.g. "3.5" for three full and one half bath).
    */
@@ -92,9 +121,21 @@ export interface RealtorSearchItem {
    */
   beds?: number;
   /**
+   * Listing brokerage or office name.
+   */
+  brokerName?: string;
+  /**
    * City the property is in.
    */
   city?: string;
+  /**
+   * Country the property is in.
+   */
+  country?: string;
+  /**
+   * County the property is in.
+   */
+  county?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -104,9 +145,29 @@ export interface RealtorSearchItem {
    */
   daysOnMarket?: number;
   /**
+   * Listing description written by the agent.
+   */
+  description?: string;
+  /**
+   * Number of garage spaces.
+   */
+  garageSpaces?: number;
+  /**
+   * Homeowners association fee, in US dollars, at the frequency Realtor.com reports.
+   */
+  hoaFee?: number;
+  /**
    * Primary listing photo URL.
    */
   image?: string;
+  /**
+   * Listing photo URLs.
+   */
+  images?: string[];
+  /**
+   * True when the listing is new construction.
+   */
+  isNewConstruction?: boolean;
   /**
    * Latitude of the property in decimal degrees.
    */
@@ -123,6 +184,14 @@ export interface RealtorSearchItem {
    * Lot size in square feet.
    */
   lotSqft?: number;
+  /**
+   * MLS number for the listing.
+   */
+  mlsId?: string;
+  /**
+   * Name of the multiple listing service the listing came from.
+   */
+  mlsName?: string;
   /**
    * Postal (ZIP) code of the property.
    */
@@ -163,9 +232,29 @@ export interface RealtorSearchItem {
     | "contingent"
     | "coming_soon";
   /**
+   * Number of storeys in the home.
+   */
+  stories?: number;
+  /**
+   * Realtor.com feature tags for the property (e.g. central_air, garage_1_or_more).
+   */
+  tags?: string[];
+  /**
+   * Most recent annual property tax paid, in US dollars.
+   */
+  taxAmount?: number;
+  /**
+   * Most recent assessed value from the county tax authority, in US dollars.
+   */
+  taxAssessedValue?: number;
+  /**
    * Human-readable street address line used as the listing title.
    */
   title?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the listing was last updated.
+   */
+  updatedUtc?: number;
   /**
    * Canonical Realtor.com listing detail page URL. Populated whenever the provider has data for the entity.
    */

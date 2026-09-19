@@ -18,10 +18,14 @@ if TYPE_CHECKING:
 class RealtorSearchInput(TypedDict, total=False):
     """Input for Realtor.com Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     bathsMin: NotRequired[int]
     """Minimum number of bathrooms (e.g. 2). Minimum: 0."""
     bedsMin: NotRequired[int]
     """Minimum number of bedrooms (e.g. 3). Minimum: 0."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: NotRequired[str]
     """Free-text keyword that must appear in the listing description (e.g. 'pool')."""
     limit: NotRequired[int]
@@ -62,6 +66,8 @@ class RealtorSearchInput(TypedDict, total=False):
         ]
     ]
     """Listing statuses to include in for_sale mode; omit for active For Sale + Ready to Build. Ignored in sold mode (e.g. ["for_sale", "pending"])."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class RealtorSearchData(BaseModel):
@@ -78,12 +84,37 @@ class RealtorSearchItem(BaseModel):
         alias="addressLine",
         description="Street address line of the property.",
     )
+    agent_email: str | None = Field(
+        default=None,
+        alias="agentEmail",
+        description="Contact email for the listing agent.",
+    )
+    agent_name: str | None = Field(
+        default=None, alias="agentName", description="Name of the listing agent."
+    )
+    agent_phone: str | None = Field(
+        default=None,
+        alias="agentPhone",
+        description="Contact phone number for the listing agent.",
+    )
+    agent_url: str | None = Field(
+        default=None,
+        alias="agentUrl",
+        description="Realtor.com profile URL of the listing agent.",
+    )
     baths: str | None = Field(
         default=None,
         description='Consolidated bathroom count (e.g. "3.5" for three full and one half bath).',
     )
     beds: float | None = Field(default=None, description="Number of bedrooms.")
+    broker_name: str | None = Field(
+        default=None,
+        alias="brokerName",
+        description="Listing brokerage or office name.",
+    )
     city: str | None = Field(default=None, description="City the property is in.")
+    country: str | None = Field(default=None, description="Country the property is in.")
+    county: str | None = Field(default=None, description="County the property is in.")
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
@@ -94,7 +125,24 @@ class RealtorSearchItem(BaseModel):
         alias="daysOnMarket",
         description="Number of days the listing has been on the market.",
     )
+    description: str | None = Field(
+        default=None, description="Listing description written by the agent."
+    )
+    garage_spaces: float | None = Field(
+        default=None, alias="garageSpaces", description="Number of garage spaces."
+    )
+    hoa_fee: float | None = Field(
+        default=None,
+        alias="hoaFee",
+        description="Homeowners association fee, in US dollars, at the frequency Realtor.com reports.",
+    )
     image: str | None = Field(default=None, description="Primary listing photo URL.")
+    images: list[str] | None = Field(default=None, description="Listing photo URLs.")
+    is_new_construction: bool | None = Field(
+        default=None,
+        alias="isNewConstruction",
+        description="True when the listing is new construction.",
+    )
     latitude: float | None = Field(
         default=None, description="Latitude of the property in decimal degrees."
     )
@@ -108,6 +156,14 @@ class RealtorSearchItem(BaseModel):
     )
     lot_sqft: float | None = Field(
         default=None, alias="lotSqft", description="Lot size in square feet."
+    )
+    mls_id: str | None = Field(
+        default=None, alias="mlsId", description="MLS number for the listing."
+    )
+    mls_name: str | None = Field(
+        default=None,
+        alias="mlsName",
+        description="Name of the multiple listing service the listing came from.",
     )
     postal_code: str | None = Field(
         default=None,
@@ -146,9 +202,31 @@ class RealtorSearchItem(BaseModel):
         default=None,
         description="Display listing status, including ready-to-build, pending, contingent, and coming-soon sub-statuses when present.",
     )
+    stories: float | None = Field(
+        default=None, description="Number of storeys in the home."
+    )
+    tags: list[str] | None = Field(
+        default=None,
+        description="Realtor.com feature tags for the property (e.g. central_air, garage_1_or_more).",
+    )
+    tax_amount: float | None = Field(
+        default=None,
+        alias="taxAmount",
+        description="Most recent annual property tax paid, in US dollars.",
+    )
+    tax_assessed_value: float | None = Field(
+        default=None,
+        alias="taxAssessedValue",
+        description="Most recent assessed value from the county tax authority, in US dollars.",
+    )
     title: str | None = Field(
         default=None,
         description="Human-readable street address line used as the listing title.",
+    )
+    updated_utc: float | None = Field(
+        default=None,
+        alias="updatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the listing was last updated.",
     )
     url: str = Field(
         description="Canonical Realtor.com listing detail page URL. Populated whenever the provider has data for the entity."

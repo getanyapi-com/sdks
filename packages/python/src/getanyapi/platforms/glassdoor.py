@@ -18,8 +18,12 @@ if TYPE_CHECKING:
 class GlassdoorJobsInput(TypedDict, total=False):
     """Input for Glassdoor Jobs."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     easyApply: NotRequired[bool]
     """When true, only return jobs offering Easy Apply. Keyword mode only."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     location: NotRequired[str]
@@ -32,6 +36,8 @@ class GlassdoorJobsInput(TypedDict, total=False):
     """Job title or keywords to search (keyword mode). Provide this or a url."""
     sortBy: NotRequired[Literal["date", "relevance"]]
     """Sort order: most recent (date) or best match (relevance). Keyword mode only."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Alternatively, a Glassdoor company or job search page URL to scrape (e.g. https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm). The filters below apply in keyword (query) mode."""
     workplaceType: NotRequired[Literal["remote", "hybrid", "onsite"]]
@@ -52,24 +58,78 @@ class GlassdoorJobsItem(BaseModel):
         alias="ageInDays",
         description="Days since the listing was posted.",
     )
+    apply_url: str | None = Field(
+        default=None,
+        alias="applyUrl",
+        description="Absolute Glassdoor URL that starts the application.",
+    )
     company: str | None = Field(
         default=None,
         description="Hiring employer name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="Glassdoor's numeric employer id, as a string.",
+    )
+    company_industry: str | None = Field(
+        default=None,
+        alias="companyIndustry",
+        description="Primary industry of the hiring employer.",
+    )
+    company_revenue: str | None = Field(
+        default=None,
+        alias="companyRevenue",
+        description="Employer revenue band as Glassdoor words it.",
+    )
+    company_size: str | None = Field(
+        default=None,
+        alias="companySize",
+        description='Employer headcount band as Glassdoor words it (e.g. "1001 to 5000 Employees").',
+    )
+    company_type: str | None = Field(
+        default=None,
+        alias="companyType",
+        description='Employer ownership type (e.g. "Company - Private").',
+    )
     description: str | None = Field(
         default=None, description="Full job description (may contain HTML)."
+    )
+    easy_apply: bool | None = Field(
+        default=None,
+        alias="easyApply",
+        description="Whether the listing supports Glassdoor Easy Apply.",
+    )
+    expired: bool | None = Field(
+        default=None, description="Whether Glassdoor reports the listing as expired."
     )
     id: str = Field(
         description="Glassdoor job listing id. Populated whenever the provider has data for the entity."
     )
+    is_sponsored: bool | None = Field(
+        default=None,
+        alias="isSponsored",
+        description="Whether the listing is a paid placement.",
+    )
     location: str | None = Field(
         default=None, description="Job location (city, region)."
+    )
+    logo_url: str | None = Field(
+        default=None, alias="logoUrl", description="Employer square logo image URL."
+    )
+    normalized_title: str | None = Field(
+        default=None,
+        alias="normalizedTitle",
+        description="Glassdoor's normalized occupation title for the listing.",
     )
     rating: float | None = Field(
         default=None, description="Employer Glassdoor star rating (0 when not rated)."
     )
     salary: GlassdoorJobsSalary | None = Field(
         default=None, description="Estimated salary range for the listing."
+    )
+    sector: str | None = Field(
+        default=None, description="Sector of the hiring employer."
     )
     title: str = Field(
         description="Job title. Populated whenever the provider has data for the entity."

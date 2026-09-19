@@ -11,6 +11,15 @@ import type {
  */
 export interface PolymarketMarketsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
    */
@@ -37,6 +46,10 @@ export interface PolymarketMarketsInput {
     | "ending_soon"
     | "competitive";
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Return "active" markets for current prices and volume, or "resolved" markets for historical outcomes.
    * One of: active, resolved.
    * Default: active.
@@ -46,9 +59,37 @@ export interface PolymarketMarketsInput {
 
 export interface PolymarketMarketsItem {
   /**
+   * Best ask currently on the order book (0 to 1).
+   */
+  bestAsk?: number;
+  /**
+   * Best bid currently on the order book (0 to 1).
+   */
+  bestBid?: number;
+  /**
+   * Number of comments on the event.
+   */
+  commentCount?: number;
+  /**
+   * On-chain condition identifier for the market.
+   */
+  conditionId?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the market was created.
+   */
+  createdUtc?: number;
+  /**
+   * Resolution rules for the market.
+   */
+  description?: string;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the market resolves/ends.
    */
   endsUtc?: number;
+  /**
+   * Identifier of the parent event grouping this market.
+   */
+  eventId?: string;
   /**
    * Title of the parent event grouping this market.
    */
@@ -62,25 +103,61 @@ export interface PolymarketMarketsItem {
    */
   image?: string;
   /**
+   * Price of the most recent trade (0 to 1).
+   */
+  lastTradePrice?: number;
+  /**
    * Available liquidity in USD.
    */
   liquidityUsd?: number;
+  /**
+   * Open interest in USD.
+   */
+  openInterestUsd?: number;
   /**
    * Market outcomes with their current implied prices.
    */
   outcomes?: PolymarketMarketsOutcome[];
   /**
+   * URL slug of the market.
+   */
+  slug?: string;
+  /**
+   * Difference between the best ask and the best bid.
+   */
+  spread?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When trading opened.
+   */
+  startsUtc?: number;
+  /**
    * Market status, e.g. active or closed.
    */
   status?: string;
+  /**
+   * Polymarket topic tags for the event.
+   */
+  tags?: PolymarketMarketsTag[];
   /**
    * The market question. Populated whenever the provider has data for the entity.
    */
   title: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the market was last updated.
+   */
+  updatedUtc?: number;
+  /**
    * Polymarket URL for the market event. Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Traded volume in USD over the past month.
+   */
+  volume1mUsd?: number;
+  /**
+   * Traded volume in USD over the past week.
+   */
+  volume1wUsd?: number;
   /**
    * Traded volume in USD over the past 24 hours.
    */
@@ -101,6 +178,18 @@ export interface PolymarketMarketsOutcome {
    * Current implied probability price for the outcome (0 to 1).
    */
   price?: number;
+  [extra: string]: unknown;
+}
+
+export interface PolymarketMarketsTag {
+  /**
+   * Tag label, e.g. Politics.
+   */
+  name?: string;
+  /**
+   * Tag slug.
+   */
+  slug?: string;
   [extra: string]: unknown;
 }
 

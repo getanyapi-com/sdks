@@ -24,32 +24,50 @@ if TYPE_CHECKING:
 class InstagramAudioReelsInput(TypedDict, total=False):
     """Input for Instagram Reels by Audio."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     audioId: Required[str]
     """Audio identifier from the Instagram audio page URL."""
     cursor: NotRequired[str]
     """Pagination cursor returned by a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramBasicProfileInput(TypedDict, total=False):
     """Input for Instagram Basic Profile."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userId: Required[str]
-    """Instagram numeric user id."""
+    """Instagram numeric user id (the account's internal all-digits id, e.g. 314216), NOT the @handle or profile URL. Passing a handle here returns no profile."""
 
 
 class InstagramCommentRepliesInput(TypedDict, total=False):
     """Input for Instagram Comment Replies."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     commentId: Required[str]
     """Instagram comment ID (a comment's id from the Instagram Post Comments endpoint)."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full Instagram post or reel URL the comment belongs to."""
 
@@ -57,23 +75,35 @@ class InstagramCommentRepliesInput(TypedDict, total=False):
 class InstagramEmbedInput(TypedDict, total=False):
     """Input for Instagram Profile Embed."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """Instagram username without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramFollowersInput(TypedDict, total=False):
     """Input for Instagram Followers."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
-    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers. A page holds up to 50 followers."""
+    """Opaque pagination cursor from a previous response's nextCursor. Today every source behind this endpoint returns a single page of about 50 followers and no continuation cursor, so nextCursor comes back empty and there is no further page to request; this parameter is accepted but has nothing to resume from."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
         list[Literal["image", "name", "nextCursor", "private", "url", "verified"]]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
     """The Instagram username, user ID, or profile URL whose followers to list (e.g. natgeo)."""
 
@@ -81,14 +111,20 @@ class InstagramFollowersInput(TypedDict, total=False):
 class InstagramFollowingInput(TypedDict, total=False):
     """Input for Instagram Following."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
-    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page. A page holds up to 50 accounts."""
+    """Opaque pagination cursor from a previous response's nextCursor. Today every source behind this endpoint returns a single page of about 50 accounts and no continuation cursor, so nextCursor comes back empty and there is no further page to request; this parameter is accepted but has nothing to resume from."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
         list[Literal["image", "name", "nextCursor", "private", "url", "verified"]]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
     """The Instagram username, user ID, or profile URL whose following list to fetch (e.g. natgeo)."""
 
@@ -96,63 +132,99 @@ class InstagramFollowingInput(TypedDict, total=False):
 class InstagramHashtagAnalyticsInput(TypedDict, total=False):
     """Input for Instagram Hashtag Analytics."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     hashtag: Required[str]
     """The Instagram hashtag to analyze, with or without the # symbol (e.g. streetphotography)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramHashtagRecentPostsInput(TypedDict, total=False):
     """Input for Instagram Hashtag Recent Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
     hashtag: Required[str]
     """Hashtag to monitor, without the leading #."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramHashtagTopPostsInput(TypedDict, total=False):
     """Input for Instagram Hashtag Top Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
     hashtag: Required[str]
     """Hashtag to fetch, without the leading #."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramHighlightDetailInput(TypedDict, total=False):
     """Input for Instagram Highlight Detail."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: Required[str]
     """The id of the highlight to retrieve details for."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramLocationPostsInput(TypedDict, total=False):
     """Input for Instagram Location Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     locationId: Required[str]
     """Instagram location id, as returned by instagram.search_locations."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["ranked", "recent"]]
     """Order the posts by Instagram's top ranking or by newest first. Defaults to ranked."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramMediaTranscriptInput(TypedDict, total=False):
     """Input for Instagram Media Transcript."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Instagram post or reel URL."""
 
@@ -160,27 +232,58 @@ class InstagramMediaTranscriptInput(TypedDict, total=False):
 class InstagramPostInput(TypedDict, total=False):
     """Input for Instagram Post."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     hostVideo: NotRequired[bool]
     """Set true to also get the post's video on a hosted MP4 link that plays without an Instagram session. The file is downloaded and stored for you, and the response adds `hostedUrl`, `expiresUtc` and `bytes`. It is charged as an extra on top of the price, and it never changes which source serves you: every source offers it at the same price. A post with no video, or a post that does not exist, is refused with no charge rather than billed for a file that cannot exist. Omit it and nothing is downloaded, nothing is stored, and nothing extra is charged. Default: false."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
-        list[Literal["likes", "plays", "shortcode", "type", "videoUrl"]]
+        list[
+            Literal[
+                "avatarUrl",
+                "comments",
+                "createdUtc",
+                "displayName",
+                "hasAudio",
+                "likes",
+                "locationId",
+                "locationName",
+                "paidPartnership",
+                "plays",
+                "productType",
+                "shortcode",
+                "type",
+                "userId",
+                "verified",
+                "videoUrl",
+            ]
+        ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `plays`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     requirePlayCount: NotRequired[bool]
     """Deprecated; send `requireFields: ["plays"]` instead, which does exactly the same thing. Set true to be served only by a source that reports a reel's play count. Omit it and routing is unchanged, with the cheapest source serving, which does not carry play counts, so `plays` is absent from its responses. This can raise your price: opting in routes to a source that reports the count, and you are quoted and charged its price. It stays accepted so callers that already send it keep working."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
-    """Full Instagram post or reel URL, carrying the media shortcode: /p/, /reel/, /reels/, or /tv/. A profile URL such as https://www.instagram.com/username names no post, so it is rejected instead of charged for an empty result."""
+    """Full Instagram post or reel URL, carrying the media shortcode: /p/, /reel/, /reels/, or /tv/. A profile URL such as https://www.instagram.com/username names no post, so it is rejected instead of charged for an empty result - send that account's handle to instagram.profile, or its posts to instagram.user_posts."""
 
 
 class InstagramPostCommentsInput(TypedDict, total=False):
     """Input for Instagram Post Comments."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full Instagram post or reel URL."""
 
@@ -188,8 +291,14 @@ class InstagramPostCommentsInput(TypedDict, total=False):
 class InstagramPostLikersInput(TypedDict, total=False):
     """Input for Instagram Post Likers."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Canonical URL of a public Instagram post or reel."""
 
@@ -197,28 +306,46 @@ class InstagramPostLikersInput(TypedDict, total=False):
 class InstagramProfileInput(TypedDict, total=False):
     """Input for Instagram Profile."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """Instagram username without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramProfileContactInput(TypedDict, total=False):
     """Input for Instagram Profile Contact Info."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """Instagram username without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramReelTranscriptInput(TypedDict, total=False):
     """Input for Instagram Reel Transcript."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     hostVideo: NotRequired[bool]
-    """Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true). Default: false."""
+    """Set true to also get the reel's MP4 on a hosted link you can play without an Instagram session. Charged as an extra on top of the transcript (e.g. true). A photo post has no file to host, so a request that sets this on one is refused with no charge; send it without hostVideo to get the post record instead. Default: false."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """The URL of a public Instagram reel or video post (e.g. https://www.instagram.com/reel/C8yKXdRxKqK/), or an Instagram CDN media URL you already hold."""
     wordTimestamps: NotRequired[bool]
@@ -228,25 +355,35 @@ class InstagramReelTranscriptInput(TypedDict, total=False):
 class InstagramReelsSearchInput(TypedDict, total=False):
     """Input for Instagram Reels Search."""
 
-    datePosted: NotRequired[Literal["last-week", "last-month", "last-year"]]
-    """Recency hint, not a hard filter. Reel discovery runs on top of Google search, so this window narrows Google's index by when it discovered or last crawled the reel, which is not the same as when the reel was published to Instagram. Returned reels can have a createdUtc outside the requested window, and the narrowest window, last-week, often returns older reels or no results. Check createdUtc yourself if you need exact publication-time precision."""
-    page: NotRequired[int]
-    """1-based results page. Minimum: 1. Default: 1."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search keyword (e.g. "crossfit")."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramSearchInput(TypedDict, total=False):
     """Input for Instagram Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). Range: 1 to 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search Instagram for; one or more words without special punctuation (e.g. coffee roastery)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     type: NotRequired[Literal["user", "hashtag", "place"]]
     """What to search for: user profiles, hashtags, or places (e.g. hashtag). Default: user."""
 
@@ -254,6 +391,8 @@ class InstagramSearchInput(TypedDict, total=False):
 class InstagramSearchHashtagInput(TypedDict, total=False):
     """Input for Instagram Hashtag Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
     datePosted: NotRequired[
@@ -262,64 +401,74 @@ class InstagramSearchHashtagInput(TypedDict, total=False):
     """Restrict results to posts published within this window."""
     hashtag: Required[str]
     """Hashtag to search, without the leading #."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     mediaType: NotRequired[Literal["all", "reel"]]
     """Filter by media type. One of all, reel."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[
-        list[
-            Literal[
-                "avatarUrl",
-                "caption",
-                "comments",
-                "createdUtc",
-                "durationSeconds",
-                "isAd",
-                "likes",
-                "nextCursor",
-                "type",
-                "verified",
-                "videoUrl",
-            ]
-        ]
-    ]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAd`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramSearchLocationsInput(TypedDict, total=False):
     """Input for Instagram Location Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Place name, address or city to search for."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramSearchProfilesInput(TypedDict, total=False):
     """Input for Instagram Profile Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor returned by a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Bio or caption keyword/phrase to search for."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramSimilarProfilesInput(TypedDict, total=False):
     """Input for Instagram Similar Profiles."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """Instagram username without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramStoriesFullInput(TypedDict, total=False):
     """Input for Instagram Stories (full)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
     """Instagram username or handle without the @."""
 
@@ -327,8 +476,14 @@ class InstagramStoriesFullInput(TypedDict, total=False):
 class InstagramStoriesThinInput(TypedDict, total=False):
     """Input for Instagram Stories (basic)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
     """Instagram username/handle to fetch currently live stories for (without the @)."""
 
@@ -336,28 +491,46 @@ class InstagramStoriesThinInput(TypedDict, total=False):
 class InstagramTaggedPostsInput(TypedDict, total=False):
     """Input for Instagram Tagged Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
     handle: Required[str]
     """Instagram username without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramTrendingReelsInput(TypedDict, total=False):
     """Input for Instagram Trending Reels."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramUserHighlightsInput(TypedDict, total=False):
     """Input for Instagram User Highlights."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """Instagram username without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userId: NotRequired[str]
     """Instagram numeric user id (optional, faster than handle)."""
 
@@ -365,23 +538,35 @@ class InstagramUserHighlightsInput(TypedDict, total=False):
 class InstagramUserPostsInput(TypedDict, total=False):
     """Input for Instagram User Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
     handle: Required[str]
     """Instagram username without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramUserReelsInput(TypedDict, total=False):
     """Input for Instagram User Reels."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor (max_id) from a previous response's nextCursor."""
     handle: NotRequired[str]
     """Instagram handle."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userId: NotRequired[str]
     """Instagram user id (faster than handle when known)."""
 
@@ -389,12 +574,37 @@ class InstagramUserReelsInput(TypedDict, total=False):
 class InstagramUserRepostsInput(TypedDict, total=False):
     """Input for Instagram User Reposts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userId: Required[str]
     """Instagram's numeric account id, as returned by instagram.profile."""
+
+
+class InstagramWebReelsSearchInput(TypedDict, total=False):
+    """Input for Instagram Reels Web Search."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    datePosted: NotRequired[Literal["last-week", "last-month", "last-year"]]
+    """Recency hint, not a hard filter. Reel discovery runs on top of Google search, so this window narrows Google's index by when it discovered or last crawled the reel, which is not the same as when the reel was published to Instagram. Returned reels can have a createdUtc outside the requested window, and the narrowest window, last-week, often returns older reels or no results. Check createdUtc yourself if you need exact publication-time precision."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    page: NotRequired[int]
+    """1-based results page. Minimum: 1. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Search keyword (e.g. "crossfit")."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class InstagramAudioReelsData(BaseModel):
@@ -411,18 +621,41 @@ class InstagramAudioReelsData(BaseModel):
 
 
 class InstagramAudioReelsReel(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the reel's author.",
+    )
+    caption: str | None = Field(default=None, description="Reel caption text.")
     code: str
     comments: int
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    display_name: str | None = Field(
+        default=None,
+        alias="displayName",
+        description="Display name of the reel's author.",
+    )
     handle: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    image: str | None = Field(
+        default=None, description="Thumbnail image URL for the reel."
+    )
     likes: int
     plays: int
+    verified: bool | None = Field(
+        default=None,
+        description="True when the author's account carries a verified badge.",
+    )
 
 
 class InstagramBasicProfileData(BaseModel):
@@ -488,6 +721,11 @@ class InstagramCommentRepliesComment(BaseModel):
     text: str = Field(
         description="The reply's text content. Populated whenever the provider has data for the entity."
     )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram user id of the replying account.",
+    )
     verified: bool = Field(
         description="Whether the reply's author has a verified badge."
     )
@@ -505,12 +743,12 @@ class InstagramFollowersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     items: list[InstagramFollowersItem] = Field(
-        description="Follower records for the target account. Populated whenever the provider has data for the entity."
+        description="Follower records for the target account. About the first 50, in the order the source returns them, not the account's full follower list - see nextCursor. Populated whenever the provider has data for the entity."
     )
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Opaque cursor for the next page of followers, or null/empty when this lane has no more. Pass it back as cursor to continue.",
+        description="Opaque cursor for the next page of followers, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 followers and no continuation. Pass it back as cursor whenever it is non-empty.",
     )
 
 
@@ -547,12 +785,12 @@ class InstagramFollowingData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     items: list[InstagramFollowingItem] = Field(
-        description="Records for the accounts the target user follows. Populated whenever the provider has data for the entity."
+        description="Records for the accounts the target user follows. About the first 50, in the order the source returns them, not the user's full following list - see nextCursor. Populated whenever the provider has data for the entity."
     )
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Opaque cursor for the next page of results, or null/empty when this lane has no more. Pass it back as cursor to continue.",
+        description="Opaque cursor for the next page of results, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 accounts and no continuation. Pass it back as cursor whenever it is non-empty.",
     )
 
 
@@ -630,6 +868,11 @@ class InstagramHashtagRecentPostsData(BaseModel):
 class InstagramHashtagRecentPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the author.",
+    )
     caption: str = Field(
         description="Post caption text, including its hashtags. Populated whenever the provider has data for the entity."
     )
@@ -646,9 +889,15 @@ class InstagramHashtagRecentPostsPost(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Display name of the author."
+    )
     hashtags: list[str] | None = Field(
         default=None,
         description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    height: int | None = Field(
+        default=None, description="Original pixel height of the media."
     )
     id: str = Field(
         description="Instagram media id. Populated whenever the provider has data for the entity."
@@ -671,14 +920,37 @@ class InstagramHashtagRecentPostsPost(BaseModel):
         default=None,
         description="Cover media for the post. A carousel reports its full size in carouselCount.",
     )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="True when the post is tagged as a paid partnership.",
+    )
+    private: bool | None = Field(
+        default=None, description="True when the author's account is private."
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram product type of the media, for example feed, clips or igtv.",
+    )
     shortcode: str = Field(
         description="Short code in the post permalink. Populated whenever the provider has data for the entity."
     )
     url: str = Field(
         description="Canonical permalink to the post. Populated whenever the provider has data for the entity."
     )
+    user_id: str | None = Field(
+        default=None, alias="userId", description="Instagram user id of the author."
+    )
     username: str = Field(
         description="Username of the account that posted. Populated whenever the provider has data for the entity."
+    )
+    verified: bool | None = Field(
+        default=None,
+        description="True when the author's account carries a verified badge.",
+    )
+    width: int | None = Field(
+        default=None, description="Original pixel width of the media."
     )
 
 
@@ -767,6 +1039,11 @@ class InstagramHashtagTopPostsMedia(BaseModel):
 class InstagramHighlightDetailData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the account that owns the highlight.",
+    )
     cover_url: str = Field(
         alias="coverUrl",
         description="URL of the highlight cover image. Populated whenever the provider has data for the entity.",
@@ -778,6 +1055,10 @@ class InstagramHighlightDetailData(BaseModel):
     id: str = Field(
         description="Highlight identifier. Populated whenever the provider has data for the entity."
     )
+    items: list[InstagramHighlightDetailItem] | None = Field(
+        default=None,
+        description="The media items inside the highlight, in the order the upstream returned them.",
+    )
     media_count: int = Field(
         alias="mediaCount", description="Number of media items in the highlight."
     )
@@ -788,6 +1069,51 @@ class InstagramHighlightDetailData(BaseModel):
     title: str = Field(
         description="Highlight title. Populated whenever the provider has data for the entity."
     )
+
+
+class InstagramHighlightDetailItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    code: str | None = Field(default=None, description="Instagram media shortcode.")
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video duration in seconds, when the item is a video.",
+    )
+    has_audio: bool | None = Field(
+        default=None,
+        alias="hasAudio",
+        description="True when the media carries an audio track.",
+    )
+    height: int | None = Field(default=None, description="Media pixel height.")
+    id: str | None = Field(default=None, description="Media identifier.")
+    image: str | None = Field(
+        default=None, description="Direct URL to the media image (highest resolution)."
+    )
+    media_type: int | None = Field(
+        default=None, alias="mediaType", description="Media type: 1 = image, 2 = video."
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="True when the item is tagged as a paid partnership.",
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram product type of the media, for example story.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Direct URL to the media video, when the item is a video.",
+    )
+    width: int | None = Field(default=None, description="Media pixel width.")
 
 
 class InstagramLocationPostsData(BaseModel):
@@ -977,9 +1303,27 @@ class InstagramMediaTranscriptTranscript(BaseModel):
 class InstagramPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the posting account.",
+    )
     bytes: int | None = Field(
         default=None,
         description="Size of the hosted MP4 in bytes. Present only when the request set `hostVideo` to true.",
+    )
+    comments: int | None = Field(
+        default=None, description="Number of comments on the post."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    display_name: str | None = Field(
+        default=None,
+        alias="displayName",
+        description="Display name of the posting account.",
     )
     display_url: str = Field(
         alias="displayUrl",
@@ -990,6 +1334,11 @@ class InstagramPostData(BaseModel):
         alias="expiresUtc",
         description="When `hostedUrl` stops working, as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present only when the request set `hostVideo` to true.",
     )
+    has_audio: bool | None = Field(
+        default=None,
+        alias="hasAudio",
+        description="True when the media carries an audio track.",
+    )
     hosted_url: str | None = Field(
         default=None,
         alias="hostedUrl",
@@ -999,15 +1348,44 @@ class InstagramPostData(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     likes: int
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram id of the tagged place, when the post tags one.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the tagged place, when the post tags one.",
+    )
     owner: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="True when the post is tagged as a paid partnership.",
     )
     plays: int | None = Field(
         default=None,
         description="Number of plays of the reel or video. Absent when Instagram does not expose a play count for this media, and on lanes that cannot serve it.",
     )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram product type of the media, for example feed, clips or igtv.",
+    )
     shortcode: str
     type_: str = Field(alias="type")
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram user id of the posting account.",
+    )
+    verified: bool | None = Field(
+        default=None,
+        description="True when the posting account carries a verified badge.",
+    )
     video_url: str = Field(alias="videoUrl")
 
 
@@ -1236,7 +1614,7 @@ class InstagramReelTranscriptItem(BaseModel):
     media_type: str | None = Field(
         default=None,
         alias="mediaType",
-        description="What kind of media this is, as Instagram labels it (for example a video or an image post).",
+        description="What kind of media this is, as Instagram labels it (for example a video or an image post). On a photo post this is how you tell that the empty transcript is the answer rather than silence.",
     )
     owner_username: str | None = Field(
         default=None,
@@ -1252,7 +1630,7 @@ class InstagramReelTranscriptItem(BaseModel):
         description="The reel's short code, the part of its instagram.com URL after /reel/. Empty when the request supplied a CDN media URL.",
     )
     text: str = Field(
-        description="The full speech transcript. Empty when the reel has no detectable spoken audio. Populated whenever the provider has data for the entity."
+        description="The full speech transcript. Empty when the reel has no detectable spoken audio, or when the post is a photo with no video to transcribe. Populated whenever the provider has data for the entity."
     )
     thumbnail_url: str | None = Field(
         default=None,
@@ -1303,6 +1681,12 @@ class InstagramReelTranscriptWord(BaseModel):
 
 
 class InstagramReelsSearchData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue. Instagram relevance-ranks reels search, so a later page can repeat reels from an earlier one.",
+    )
     reels: list[InstagramReelsSearchReel] = Field(
         description="Reels matching the search. Populated whenever the provider has data for the entity."
     )
@@ -1311,6 +1695,11 @@ class InstagramReelsSearchData(BaseModel):
 class InstagramReelsSearchReel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the author.",
+    )
     caption: str = Field(
         description="Reel caption text. Populated whenever the provider has data for the entity."
     )
@@ -1319,12 +1708,26 @@ class InstagramReelsSearchReel(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Display name of the author."
+    )
     duration_seconds: float = Field(
         alias="durationSeconds", description="Reel duration in seconds."
     )
+    has_audio: bool | None = Field(
+        default=None,
+        alias="hasAudio",
+        description="True when the reel carries an audio track.",
+    )
+    id: str | None = Field(default=None, description="Reel media identifier.")
     likes: int = Field(description="Number of likes on the reel.")
     paid_partnership: bool = Field(
         alias="paidPartnership", description="True when the reel is a paid partnership."
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram product type of the media, for example clips.",
     )
     shortcode: str = Field(
         description="Instagram media shortcode. Populated whenever the provider has data for the entity."
@@ -1335,10 +1738,17 @@ class InstagramReelsSearchReel(BaseModel):
     url: str = Field(
         description="Canonical URL of the reel. Populated whenever the provider has data for the entity."
     )
+    user_id: str | None = Field(
+        default=None, alias="userId", description="Instagram user id of the author."
+    )
     username: str = Field(
         description="Username of the account that posted the reel. Populated whenever the provider has data for the entity."
     )
     verified: bool = Field(description="True when the posting account is verified.")
+    video_url: str | None = Field(
+        default=None, alias="videoUrl", description="Direct URL to the reel video."
+    )
+    views: int | None = Field(default=None, description="Play count of the reel.")
 
 
 class InstagramSearchData(BaseModel):
@@ -1416,6 +1826,11 @@ class InstagramSearchHashtagPost(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
+    display_name: str | None = Field(
+        default=None,
+        alias="displayName",
+        description="Display name of the posting account.",
+    )
     display_url: str = Field(
         alias="displayUrl",
         description="Poster image URL. For a video this is the cover frame. Populated whenever the provider has data for the entity.",
@@ -1424,6 +1839,11 @@ class InstagramSearchHashtagPost(BaseModel):
         default=None,
         alias="durationSeconds",
         description="Video duration in seconds. Absent on photo posts.",
+    )
+    has_audio: bool | None = Field(
+        default=None,
+        alias="hasAudio",
+        description="True when the media carries an audio track.",
     )
     id: str = Field(
         description="Instagram media id. Populated whenever the provider has data for the entity."
@@ -1436,6 +1856,16 @@ class InstagramSearchHashtagPost(BaseModel):
     likes: int | None = Field(
         default=None, description="Like count. Absent when the account hides it."
     )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="True when the post is tagged as a paid partnership.",
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram product type of the media, for example feed, clips or igtv.",
+    )
     shortcode: str = Field(
         description="Short code in the post permalink. Populated whenever the provider has data for the entity."
     )
@@ -1445,6 +1875,11 @@ class InstagramSearchHashtagPost(BaseModel):
     )
     url: str = Field(
         description="Canonical permalink to the post. Populated whenever the provider has data for the entity."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram user id of the posting account.",
     )
     username: str | None = Field(
         default=None,
@@ -1514,6 +1949,11 @@ class InstagramSearchProfilesProfile(BaseModel):
         alias="displayName",
         description="Populated whenever the provider has data for the entity.",
     )
+    external_url: str | None = Field(
+        default=None,
+        alias="externalUrl",
+        description="External link the account lists in its bio.",
+    )
     followers: int
     following: int
     handle: str = Field(
@@ -1524,6 +1964,7 @@ class InstagramSearchProfilesProfile(BaseModel):
     )
     posts: int
     private: bool
+    url: str | None = Field(default=None, description="Canonical URL of the profile.")
     verified: bool
 
 
@@ -1562,6 +2003,11 @@ class InstagramStoriesFullData(BaseModel):
 class InstagramStoriesFullItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the story owner.",
+    )
     code: str | None = Field(
         default=None,
         description="Instagram media shortcode. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -1570,6 +2016,11 @@ class InstagramStoriesFullItem(BaseModel):
         default=None,
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    display_name: str | None = Field(
+        default=None,
+        alias="displayName",
+        description="Display name of the story owner.",
     )
     expires_utc: float | None = Field(
         default=None,
@@ -1592,9 +2043,31 @@ class InstagramStoriesFullItem(BaseModel):
         alias="mediaType",
         description="Media type: 1 = image, 2 = video. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="True when the story is tagged as a paid partnership.",
+    )
+    private: bool | None = Field(
+        default=None, description="True when the owner's account is private."
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram product type of the media, for example story.",
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram user id of the story owner.",
+    )
     username: str | None = Field(
         default=None,
         description="Owner username. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    verified: bool | None = Field(
+        default=None,
+        description="True when the owner's account carries a verified badge.",
     )
     video_url: str | None = Field(
         default=None,
@@ -1616,8 +2089,18 @@ class InstagramStoriesThinData(BaseModel):
 class InstagramStoriesThinItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the story owner.",
+    )
     created_utc: float | None = Field(
         default=None, alias="createdUtc", description="Posting time (Unix seconds)."
+    )
+    display_name: str | None = Field(
+        default=None,
+        alias="displayName",
+        description="Display name of the story owner.",
     )
     id: str = Field(
         description="Story identifier. Populated whenever the provider has data for the entity."
@@ -1634,6 +2117,10 @@ class InstagramStoriesThinItem(BaseModel):
     username: str | None = Field(
         default=None,
         description="Owner username. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    verified: bool | None = Field(
+        default=None,
+        description="True when the owner's account carries a verified badge.",
     )
 
 
@@ -1675,6 +2162,14 @@ class InstagramTaggedPostsPost(BaseModel):
     url: str = Field(
         description="Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
+    verified: bool | None = Field(
+        default=None,
+        description="True when the posting account carries a verified badge.",
+    )
+    views: int | None = Field(
+        default=None,
+        description="Number of views on the post, when the upstream reports one.",
+    )
 
 
 class InstagramTrendingReelsData(BaseModel):
@@ -1684,22 +2179,59 @@ class InstagramTrendingReelsData(BaseModel):
 
 
 class InstagramTrendingReelsReel(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the author.",
+    )
     caption: str
     comments: int
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     handle: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    has_audio: bool | None = Field(
+        default=None,
+        alias="hasAudio",
+        description="True when the reel carries an audio track.",
+    )
+    height: int | None = Field(
+        default=None, description="Original pixel height of the media."
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    image: str | None = Field(
+        default=None, description="Thumbnail image URL for the reel."
+    )
     likes: int
+    private: bool | None = Field(
+        default=None, description="True when the author's account is private."
+    )
     shortcode: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    user_id: str | None = Field(
+        default=None, alias="userId", description="Instagram user id of the author."
+    )
+    verified: bool | None = Field(
+        default=None,
+        description="True when the author's account carries a verified badge.",
+    )
+    video_url: str | None = Field(
+        default=None, alias="videoUrl", description="Direct URL to the reel video."
+    )
+    width: int | None = Field(
+        default=None, description="Original pixel width of the media."
     )
 
 
@@ -1712,6 +2244,11 @@ class InstagramUserHighlightsData(BaseModel):
 class InstagramUserHighlightsHighlight(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the account that owns the highlight.",
+    )
     cover_url: str = Field(
         alias="coverUrl",
         description="Populated whenever the provider has data for the entity.",
@@ -1725,6 +2262,11 @@ class InstagramUserHighlightsHighlight(BaseModel):
     )
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram user id of the account that owns the highlight.",
     )
 
 
@@ -1743,6 +2285,11 @@ class InstagramUserPostsData(BaseModel):
 class InstagramUserPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the posting account.",
+    )
     caption: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1750,6 +2297,11 @@ class InstagramUserPostsPost(BaseModel):
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    display_name: str | None = Field(
+        default=None,
+        alias="displayName",
+        description="Display name of the posting account.",
     )
     duration_seconds: float | None = Field(
         default=None,
@@ -1766,6 +2318,11 @@ class InstagramUserPostsPost(BaseModel):
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram user id of the posting account.",
     )
     username: str = Field(
         description="Username of the account that posted. A profile feed includes collaborator posts, so this is not always the requested handle. Populated whenever the provider has data for the entity."
@@ -1810,6 +2367,11 @@ class InstagramUserReelsData(BaseModel):
 class InstagramUserReelsReel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Profile picture URL of the posting account.",
+    )
     caption: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1817,6 +2379,11 @@ class InstagramUserReelsReel(BaseModel):
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    display_name: str | None = Field(
+        default=None,
+        alias="displayName",
+        description="Display name of the posting account.",
     )
     duration_seconds: float = Field(
         alias="durationSeconds", description="Reel duration in seconds."
@@ -1831,6 +2398,11 @@ class InstagramUserReelsReel(BaseModel):
     )
     shortcode: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram user id of the posting account.",
     )
     username: str = Field(
         description="Username of the account that posted the reel. A reels tab includes collaborator reels, so this is not always the requested handle. Populated whenever the provider has data for the entity."
@@ -2042,6 +2614,45 @@ class InstagramUserRepostsTaggedUser(BaseModel):
     username: str = Field(description="Instagram username without the leading @.")
 
 
+class InstagramWebReelsSearchData(BaseModel):
+    reels: list[InstagramWebReelsSearchReel] = Field(
+        description="Reels matching the search. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramWebReelsSearchReel(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    caption: str = Field(
+        description="Reel caption text. Populated whenever the provider has data for the entity."
+    )
+    comments: int = Field(description="Number of comments on the reel.")
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    duration_seconds: float = Field(
+        alias="durationSeconds", description="Reel duration in seconds."
+    )
+    likes: int = Field(description="Number of likes on the reel.")
+    paid_partnership: bool = Field(
+        alias="paidPartnership", description="True when the reel is a paid partnership."
+    )
+    shortcode: str = Field(
+        description="Instagram media shortcode. Populated whenever the provider has data for the entity."
+    )
+    thumbnail: str = Field(
+        description="URL of the reel thumbnail image. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the reel. Populated whenever the provider has data for the entity."
+    )
+    username: str = Field(
+        description="Username of the account that posted the reel. Populated whenever the provider has data for the entity."
+    )
+    verified: bool = Field(description="True when the posting account is verified.")
+
+
 class InstagramNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
@@ -2184,8 +2795,9 @@ class InstagramNamespace:
     ) -> RunResult[InstagramFollowersData]:
         """Instagram Followers
 
-        List the followers of any public Instagram account by username: follower
-        usernames, names, and profile details.
+        List about the first 50 followers of any public Instagram account by
+        username: follower usernames, names, and profile details. Instagram caps
+        follower lists, so this returns one page, not the whole list.
 
         Price: $0.0015 per request.
 
@@ -2228,8 +2840,9 @@ class InstagramNamespace:
     ) -> RunResult[InstagramFollowingData]:
         """Instagram Following
 
-        List the accounts a public Instagram user follows: usernames, names, and
-        profile details.
+        List about the first 50 accounts a public Instagram user follows: usernames,
+        names, and profile details. Instagram caps these lists, so this returns one
+        page, not the whole list.
 
         Price: $0.0015 per request.
 
@@ -2589,7 +3202,7 @@ class InstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.00721 per request plus $0 per result (maximum $0.00721).
+        Price: $0.00257 per request plus $0 per result (maximum $0.00257).
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")
@@ -2608,13 +3221,15 @@ class InstagramNamespace:
         """Instagram Reel Transcript
 
         Transcribe any public Instagram reel or video post: the full speech
-        transcript, speaker labels, and word-level timestamps, from a reel URL or an
-        Instagram CDN media URL you already hold. Transcription runs on
-        MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on
-        hostVideo to also get the MP4 on a hosted link that plays without an
-        Instagram session. If you only want the text, instagram.media_transcript is
-        the cheaper transcript-only option; if you only want the file,
-        instagram.post is where you go.
+        transcript, speaker labels, and word-level timestamps, from a reel, /p/, or
+        /tv/ URL or an Instagram CDN media URL you already hold. A video post is
+        transcribed exactly like a reel. A photo post comes back found with its
+        record and an empty transcript, charged the request price only.
+        Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its
+        speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that
+        plays without an Instagram session. If you only want the text,
+        instagram.media_transcript is the cheaper transcript-only option; if you
+        only want the file, instagram.post is where you go.
 
         Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
 
@@ -2634,12 +3249,14 @@ class InstagramNamespace:
     ) -> RunResult[InstagramReelsSearchData]:
         """Instagram Reels Search
 
-        Search Instagram Reels by keyword and get matching reels (caption, likes,
-        comments, creator, and duration). Instagram does not return view or play
-        counts in reels search results. Results are relevance-ranked, not
-        chronological. Paging tops out around 110 reels per query (11 pages of 10).
+        Search Instagram Reels by keyword against Instagram's own reels search and
+        get matching reels with view, like and comment counts, caption, creator and
+        duration. Results are relevance-ranked, not chronological, and a page can
+        repeat reels from the page before it. For a web-search-index view of the
+        same keyword, with a recency filter and numbered pages, use
+        instagram.web_reels_search.
 
-        Price: $0.0012 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.reels_search(query="travel")
@@ -2648,6 +3265,29 @@ class InstagramNamespace:
             "instagram.reels_search", dict(input), options
         )
         return RunResult[InstagramReelsSearchData].model_validate(raw)
+
+    def iter_reels_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramReelsSearchInput],
+    ) -> Paginator[InstagramReelsSearchReel, InstagramReelsSearchData]:
+        """Iterate Instagram Reels Search results, following pagination cursors.
+
+        Yields validated `InstagramReelsSearchReel` items from the `reels` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.reels_search",
+            dict(input),
+            "reels",
+            item_model=InstagramReelsSearchReel,
+            data_model=InstagramReelsSearchData,
+            bare=False,
+            options=options,
+        )
 
     def search(
         self,
@@ -2682,9 +3322,7 @@ class InstagramNamespace:
         than Instagram's own hashtag feed. That is what lets it filter by date and
         media type and return reels whose like counts have settled, and it is also
         why results skew older (median around three months) and stop at roughly 110
-        per hashtag. If that web search index is unavailable, a first-page request
-        that sets no date and no media type is served from Instagram's own live top
-        feed instead. For Instagram's own live ranking of a tag use
+        per hashtag. For Instagram's own live ranking of a tag use
         instagram.hashtag_top_posts, and for the chronological feed use
         instagram.hashtag_recent_posts.
 
@@ -2796,7 +3434,7 @@ class InstagramNamespace:
         List the accounts Instagram recommends as similar to a public profile, with
         each account's handle, display name, verified flag and avatar.
 
-        Price: $0.0024 per request.
+        Price: $0.027 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -2945,7 +3583,7 @@ class InstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -2989,7 +3627,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -3065,6 +3703,33 @@ class InstagramNamespace:
             bare=False,
             options=options,
         )
+
+    def web_reels_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramWebReelsSearchInput],
+    ) -> RunResult[InstagramWebReelsSearchData]:
+        """Instagram Reels Web Search
+
+        Search Instagram Reels through a web search index rather than Instagram's
+        own search, and get matching reels (caption, likes, comments, creator, and
+        duration). That is what lets it filter by a recency window and page by
+        number, and it is also why the results are whatever the index has crawled
+        rather than what Instagram ranks right now, and why paging tops out around
+        110 reels per query (11 pages of 10). Instagram does not return view or play
+        counts here. For Instagram's own live reels search, with view counts, use
+        instagram.reels_search.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.instagram.web_reels_search(query="travel")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.web_reels_search", dict(input), options
+        )
+        return RunResult[InstagramWebReelsSearchData].model_validate(raw)
 
 
 class AsyncInstagramNamespace:
@@ -3209,8 +3874,9 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramFollowersData]:
         """Instagram Followers
 
-        List the followers of any public Instagram account by username: follower
-        usernames, names, and profile details.
+        List about the first 50 followers of any public Instagram account by
+        username: follower usernames, names, and profile details. Instagram caps
+        follower lists, so this returns one page, not the whole list.
 
         Price: $0.0015 per request.
 
@@ -3253,8 +3919,9 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramFollowingData]:
         """Instagram Following
 
-        List the accounts a public Instagram user follows: usernames, names, and
-        profile details.
+        List about the first 50 accounts a public Instagram user follows: usernames,
+        names, and profile details. Instagram caps these lists, so this returns one
+        page, not the whole list.
 
         Price: $0.0015 per request.
 
@@ -3616,7 +4283,7 @@ class AsyncInstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.00721 per request plus $0 per result (maximum $0.00721).
+        Price: $0.00257 per request plus $0 per result (maximum $0.00257).
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")
@@ -3635,13 +4302,15 @@ class AsyncInstagramNamespace:
         """Instagram Reel Transcript
 
         Transcribe any public Instagram reel or video post: the full speech
-        transcript, speaker labels, and word-level timestamps, from a reel URL or an
-        Instagram CDN media URL you already hold. Transcription runs on
-        MAI-Transcribe-2, chosen for its accuracy and its speaker labels. Turn on
-        hostVideo to also get the MP4 on a hosted link that plays without an
-        Instagram session. If you only want the text, instagram.media_transcript is
-        the cheaper transcript-only option; if you only want the file,
-        instagram.post is where you go.
+        transcript, speaker labels, and word-level timestamps, from a reel, /p/, or
+        /tv/ URL or an Instagram CDN media URL you already hold. A video post is
+        transcribed exactly like a reel. A photo post comes back found with its
+        record and an empty transcript, charged the request price only.
+        Transcription runs on MAI-Transcribe-2, chosen for its accuracy and its
+        speaker labels. Turn on hostVideo to also get the MP4 on a hosted link that
+        plays without an Instagram session. If you only want the text,
+        instagram.media_transcript is the cheaper transcript-only option; if you
+        only want the file, instagram.post is where you go.
 
         Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
 
@@ -3661,12 +4330,14 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramReelsSearchData]:
         """Instagram Reels Search
 
-        Search Instagram Reels by keyword and get matching reels (caption, likes,
-        comments, creator, and duration). Instagram does not return view or play
-        counts in reels search results. Results are relevance-ranked, not
-        chronological. Paging tops out around 110 reels per query (11 pages of 10).
+        Search Instagram Reels by keyword against Instagram's own reels search and
+        get matching reels with view, like and comment counts, caption, creator and
+        duration. Results are relevance-ranked, not chronological, and a page can
+        repeat reels from the page before it. For a web-search-index view of the
+        same keyword, with a recency filter and numbered pages, use
+        instagram.web_reels_search.
 
-        Price: $0.0012 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.instagram.reels_search(query="travel")
@@ -3675,6 +4346,29 @@ class AsyncInstagramNamespace:
             "instagram.reels_search", dict(input), options
         )
         return RunResult[InstagramReelsSearchData].model_validate(raw)
+
+    def iter_reels_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramReelsSearchInput],
+    ) -> AsyncPaginator[InstagramReelsSearchReel, InstagramReelsSearchData]:
+        """Iterate Instagram Reels Search results, following pagination cursors.
+
+        Yields validated `InstagramReelsSearchReel` items from the `reels` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.reels_search",
+            dict(input),
+            "reels",
+            item_model=InstagramReelsSearchReel,
+            data_model=InstagramReelsSearchData,
+            bare=False,
+            options=options,
+        )
 
     async def search(
         self,
@@ -3709,9 +4403,7 @@ class AsyncInstagramNamespace:
         than Instagram's own hashtag feed. That is what lets it filter by date and
         media type and return reels whose like counts have settled, and it is also
         why results skew older (median around three months) and stop at roughly 110
-        per hashtag. If that web search index is unavailable, a first-page request
-        that sets no date and no media type is served from Instagram's own live top
-        feed instead. For Instagram's own live ranking of a tag use
+        per hashtag. For Instagram's own live ranking of a tag use
         instagram.hashtag_top_posts, and for the chronological feed use
         instagram.hashtag_recent_posts.
 
@@ -3823,7 +4515,7 @@ class AsyncInstagramNamespace:
         List the accounts Instagram recommends as similar to a public profile, with
         each account's handle, display name, verified flag and avatar.
 
-        Price: $0.0024 per request.
+        Price: $0.027 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -3972,7 +4664,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -4016,7 +4708,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -4092,3 +4784,30 @@ class AsyncInstagramNamespace:
             bare=False,
             options=options,
         )
+
+    async def web_reels_search(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramWebReelsSearchInput],
+    ) -> RunResult[InstagramWebReelsSearchData]:
+        """Instagram Reels Web Search
+
+        Search Instagram Reels through a web search index rather than Instagram's
+        own search, and get matching reels (caption, likes, comments, creator, and
+        duration). That is what lets it filter by a recency window and page by
+        number, and it is also why the results are whatever the index has crawled
+        rather than what Instagram ranks right now, and why paging tops out around
+        110 reels per query (11 pages of 10). Instagram does not return view or play
+        counts here. For Instagram's own live reels search, with view counts, use
+        instagram.reels_search.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.instagram.web_reels_search(query="travel")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.web_reels_search", dict(input), options
+        )
+        return RunResult[InstagramWebReelsSearchData].model_validate(raw)

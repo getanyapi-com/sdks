@@ -13,10 +13,23 @@ import { paginate } from "../../core/index.js";
  */
 export interface LinkedinAdInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * LinkedIn Ad Library ad URL (e.g. "https://www.linkedin.com/ad-library/detail/666281156").
    */
@@ -39,6 +52,10 @@ export interface LinkedinAdData {
    * Populated whenever the provider has data for the entity.
    */
   advertiserLinkedinPage: string;
+  /**
+   * Advertiser logo image URL. The query string is a signed token, so keep the URL intact.
+   */
+  advertiserLogo?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -63,6 +80,14 @@ export interface LinkedinAdData {
    */
   startDate: string;
   totalImpressions: string;
+  /**
+   * Canonical LinkedIn Ad Library URL for this ad.
+   */
+  url?: string;
+  /**
+   * Playable video URL for a video ad, or empty string. The query string is a signed token, so keep the URL intact.
+   */
+  videoUrl?: string;
   [extra: string]: unknown;
 }
 
@@ -70,6 +95,15 @@ export interface LinkedinAdData {
  * Input for LinkedIn Ads Library (linkedin.ads).
  */
 export interface LinkedinAdsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
@@ -80,6 +114,10 @@ export interface LinkedinAdsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * LinkedIn Ad Library search URL or a LinkedIn company URL (e.g. https://www.linkedin.com/ad-library/search?companyIds=1035).
    */
@@ -137,6 +175,11 @@ export interface LinkedinAdsData {
  */
 export interface LinkedinAdsSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Company name to search (e.g. "microsoft").
    */
   company?: string;
@@ -153,6 +196,10 @@ export interface LinkedinAdsSearchInput {
    */
   endDate?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Keyword term for the ad search.
    */
   keyword?: string;
@@ -165,6 +212,10 @@ export interface LinkedinAdsSearchInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Search start date in YYYY-MM-DD format.
    */
@@ -181,6 +232,10 @@ export interface LinkedinAdsSearchAd {
    */
   advertiser: string;
   advertiserLinkedinPage: string;
+  /**
+   * Advertiser logo image URL. The query string is a signed token, so keep the URL intact.
+   */
+  advertiserLogo?: string;
   cta: string;
   description: string;
   destinationUrl: string;
@@ -192,6 +247,10 @@ export interface LinkedinAdsSearchAd {
   id: string;
   startDate: string;
   totalImpressions: string;
+  /**
+   * Canonical LinkedIn Ad Library URL for this ad.
+   */
+  url?: string;
   [extra: string]: unknown;
 }
 
@@ -212,10 +271,23 @@ export interface LinkedinAdsSearchData {
  */
 export interface LinkedinArticleInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Public LinkedIn article or newsletter issue URL, e.g. https://www.linkedin.com/pulse/your-article-slug. Pair it with the attachmentUrl returned by linkedin.search_posts_full to read the article behind a post.
    * Format: uri.
@@ -272,6 +344,10 @@ export interface LinkedinArticleData {
    */
   title: string;
   /**
+   * Kind of LinkedIn publication, e.g. article or issue (a newsletter edition).
+   */
+  type?: string;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   updatedUtc?: number;
@@ -288,6 +364,15 @@ export interface LinkedinArticleData {
  */
 export interface LinkedinCompanyInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -303,8 +388,10 @@ export interface LinkedinCompanyInput {
     | "foundedOn"
     | "fundingData"
     | "headquarter"
+    | "id"
     | "industry"
     | "line1"
+    | "linkedinUrl"
     | "locations"
     | "logoUrl"
     | "name"
@@ -316,6 +403,10 @@ export interface LinkedinCompanyInput {
     | "universalName"
     | "website"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full LinkedIn company page URL.
    */
@@ -406,9 +497,17 @@ export interface LinkedinCompanyData {
     numFundingRounds?: number;
   };
   /**
+   * LinkedIn's numeric company id, as a string.
+   */
+  id?: string;
+  /**
    * Primary industry.
    */
   industry: string;
+  /**
+   * Canonical LinkedIn company page URL.
+   */
+  linkedinUrl?: string;
   /**
    * Company office locations, including headquarters.
    */
@@ -453,9 +552,18 @@ export interface LinkedinCompanyData {
  */
 export interface LinkedinCompanyEmployeesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Company name or LinkedIn company URL (e.g. google or https://www.linkedin.com/company/google/).
    */
   company: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional job-title filter supporting boolean operators (e.g. CEO OR CTO).
    */
@@ -470,12 +578,44 @@ export interface LinkedinCompanyEmployeesInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
  * An employee: name, headline, location, handle, and LinkedIn profile URL.
  */
 export interface LinkedinCompanyEmployeesItem {
+  /**
+   * City of the member, as LinkedIn words it.
+   */
+  city?: string;
+  /**
+   * LinkedIn's numeric id of the member's current company, as a string.
+   */
+  companyId?: string;
+  /**
+   * Canonical LinkedIn URL of the member's current company.
+   */
+  companyUrl?: string;
+  /**
+   * Country name of the member.
+   */
+  country?: string;
+  /**
+   * Two-letter country code of the member.
+   */
+  countryCode?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) when the profile was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Whether the member is in LinkedIn creator mode.
+   */
+  creator?: boolean;
   /**
    * First name.
    */
@@ -489,6 +629,10 @@ export interface LinkedinCompanyEmployeesItem {
    * Profile picture URL.
    */
   image?: string;
+  /**
+   * Whether LinkedIn marks the member as an influencer.
+   */
+  influencer?: boolean;
   /**
    * The employee's current role or headline.
    */
@@ -506,6 +650,14 @@ export interface LinkedinCompanyEmployeesItem {
    * Present whenever the upstream returns this record.
    */
   name?: string;
+  /**
+   * Whether the member shows the Open To Work badge.
+   */
+  openToWork?: boolean;
+  /**
+   * Whether the member has LinkedIn Premium.
+   */
+  premium?: boolean;
   /**
    * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
    */
@@ -527,6 +679,15 @@ export interface LinkedinCompanyEmployeesData {
  * Input for LinkedIn Company Posts (linkedin.company_posts).
  */
 export interface LinkedinCompanyPostsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Include quote posts (posts shared with an added comment). Defaults to true; set false to exclude them.
    */
@@ -553,12 +714,36 @@ export interface LinkedinCompanyPostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Full LinkedIn company page URL.
    */
   url: string;
 }
 
 export interface LinkedinCompanyPostsItem {
+  /**
+   * Cover image URL of the attached article. The query string is a signed token, so keep the URL intact.
+   */
+  articleImage?: string;
+  /**
+   * Accessible link label LinkedIn renders for the attached article.
+   */
+  articleLinkLabel?: string;
+  /**
+   * Subtitle or source domain of the attached article.
+   */
+  articleSubtitle?: string;
+  /**
+   * Title of the article attached to the post.
+   */
+  articleTitle?: string;
+  /**
+   * Destination URL of the attached article.
+   */
+  articleUrl?: string;
   /**
    * The post author (a company or a profile).
    */
@@ -567,6 +752,18 @@ export interface LinkedinCompanyPostsItem {
      * Author follower count as displayed text (e.g. '1,543,793 followers').
      */
     followers?: string;
+    /**
+     * Public identifier (vanity handle) of the author.
+     */
+    handle?: string;
+    /**
+     * LinkedIn identifier of the author.
+     */
+    id?: string;
+    /**
+     * Author avatar or company logo image URL. The query string is a signed token, so keep the URL intact.
+     */
+    image?: string;
     /**
      * Canonical LinkedIn URL of the author. Populated whenever the provider has data for the entity.
      * Present whenever the upstream returns this record.
@@ -630,6 +827,26 @@ export interface LinkedinCompanyPostsItem {
    */
   postVideo?: {} | null;
   /**
+   * Display name of the account that reposted this post.
+   */
+  repostAuthorName?: string;
+  /**
+   * URL-safe handle of the account that reposted this post.
+   */
+  repostAuthorUniversalName?: string;
+  /**
+   * Canonical LinkedIn URL of the account that reposted this post.
+   */
+  repostAuthorUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) of the repost. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  repostCreatedUtc?: number;
+  /**
+   * Shareable LinkedIn URL for the post.
+   */
+  shareUrl?: string;
+  /**
    * Full text content of the post. Populated whenever the provider has data for the entity.
    */
   text: string;
@@ -675,6 +892,15 @@ export interface LinkedinCompanyPostsData {
  */
 export interface LinkedinCompanyPostsThinInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Page number for pagination.
    * Range: minimum 1.
    */
@@ -684,6 +910,10 @@ export interface LinkedinCompanyPostsThinInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full LinkedIn company page URL.
    */
@@ -725,10 +955,23 @@ export interface LinkedinCompanyPostsThinData {
  */
 export interface LinkedinCompanyThinInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full LinkedIn company page URL.
    */
@@ -740,6 +983,14 @@ export interface LinkedinCompanyThinInput {
  */
 export interface LinkedinCompanyThinData {
   /**
+   * Company type, e.g. Privately Held, Public Company.
+   */
+  companyType?: string;
+  /**
+   * Company page cover image URL. The query string is a signed token, so keep the URL intact.
+   */
+  coverImage?: string;
+  /**
    * Company about/description text. Populated whenever the provider has data for the entity.
    */
   description: string;
@@ -748,9 +999,25 @@ export interface LinkedinCompanyThinData {
    */
   employeeCount: number;
   /**
+   * LinkedIn page follower count.
+   */
+  followerCount?: number;
+  /**
+   * Year the company was founded, or 0 when unknown.
+   */
+  foundedYear?: number;
+  /**
+   * LinkedIn's numeric company id, as a string.
+   */
+  id?: string;
+  /**
    * Primary industry. Populated whenever the provider has data for the entity.
    */
   industry: string;
+  /**
+   * Canonical LinkedIn company page URL.
+   */
+  linkedinUrl?: string;
   /**
    * Company logo image URL. Populated whenever the provider has data for the entity.
    */
@@ -764,6 +1031,10 @@ export interface LinkedinCompanyThinData {
    */
   tagline: string;
   /**
+   * LinkedIn universal (vanity) name for the company.
+   */
+  universalName?: string;
+  /**
    * Company website URL. Populated whenever the provider has data for the entity.
    */
   website: string;
@@ -775,6 +1046,15 @@ export interface LinkedinCompanyThinData {
  */
 export interface LinkedinEmailInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -783,6 +1063,10 @@ export interface LinkedinEmailInput {
    * LinkedIn profile URL or public identifier (the last part of the URL) to find the deliverability-validated work email for.
    */
   profileUrl: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -818,9 +1102,37 @@ export interface LinkedinEmailEmail {
  */
 export interface LinkedinEmailData {
   /**
+   * About/summary text of the profile.
+   */
+  about?: string;
+  /**
    * URL of the profile avatar image.
    */
   avatarUrl?: string;
+  /**
+   * City of the profile owner.
+   */
+  city?: string;
+  /**
+   * Number of connections on the profile.
+   */
+  connectionsCount?: number;
+  /**
+   * Country of the profile owner.
+   */
+  country?: string;
+  /**
+   * Two-letter country code of the profile owner.
+   */
+  countryCode?: string;
+  /**
+   * Profile cover (banner) image URL. The query string is a signed token, so keep the URL intact.
+   */
+  coverImage?: string;
+  /**
+   * Whether the member is in LinkedIn creator mode.
+   */
+  creator?: boolean;
   /**
    * Deliverability-validated work emails discovered for the profile. Populated whenever the provider has data for the entity.
    */
@@ -830,9 +1142,29 @@ export interface LinkedinEmailData {
    */
   firstName?: string;
   /**
+   * Number of followers of the profile.
+   */
+  followerCount?: number;
+  /**
+   * Public identifier (vanity handle) of the profile.
+   */
+  handle?: string;
+  /**
    * Profile headline.
    */
   headline?: string;
+  /**
+   * Whether the member shows the Hiring badge.
+   */
+  hiring?: boolean;
+  /**
+   * LinkedIn member identifier.
+   */
+  id?: string;
+  /**
+   * Whether LinkedIn marks the member as an influencer.
+   */
+  influencer?: boolean;
   /**
    * Last name on the LinkedIn profile.
    */
@@ -841,6 +1173,26 @@ export interface LinkedinEmailData {
    * Canonical LinkedIn profile URL.
    */
   linkedinUrl?: string;
+  /**
+   * Location as LinkedIn displays it.
+   */
+  location?: string;
+  /**
+   * Whether the member shows the Open To Work badge.
+   */
+  openToWork?: boolean;
+  /**
+   * Whether the member has LinkedIn Premium.
+   */
+  premium?: boolean;
+  /**
+   * State or region of the profile owner.
+   */
+  state?: string;
+  /**
+   * Whether LinkedIn has verified the member's identity.
+   */
+  verified?: boolean;
 }
 
 /**
@@ -848,10 +1200,23 @@ export interface LinkedinEmailData {
  */
 export interface LinkedinJobInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full LinkedIn job posting URL, e.g. https://www.linkedin.com/jobs/view/4431721875/.
    */
@@ -899,6 +1264,10 @@ export interface LinkedinJobData {
    */
   benefits?: string[];
   /**
+   * City of the job location.
+   */
+  city?: string;
+  /**
    * Hiring company details.
    */
   company?: {
@@ -914,6 +1283,10 @@ export interface LinkedinJobData {
      * Number of followers of the company page.
      */
     followerCount?: number;
+    /**
+     * LinkedIn's numeric company id, as a string.
+     */
+    id?: string;
     /**
      * Canonical LinkedIn company URL.
      */
@@ -936,6 +1309,14 @@ export interface LinkedinJobData {
      */
     website?: string;
   };
+  /**
+   * Country of the job location.
+   */
+  country?: string;
+  /**
+   * Two-letter country code of the job location.
+   */
+  countryCode?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time) the job was posted. Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -982,6 +1363,10 @@ export interface LinkedinJobData {
    */
   location?: string;
   /**
+   * Whether LinkedIn flags the role as remote-allowed.
+   */
+  remote?: boolean;
+  /**
    * Salary range when disclosed by the poster.
    */
   salary?: {
@@ -999,6 +1384,10 @@ export interface LinkedinJobData {
     text?: string;
   };
   /**
+   * State or region of the job location.
+   */
+  state?: string;
+  /**
    * Job title. Populated whenever the provider has data for the entity.
    */
   title: string;
@@ -1006,6 +1395,10 @@ export interface LinkedinJobData {
    * Canonical LinkedIn job posting URL.
    */
   url: string;
+  /**
+   * Number of views LinkedIn reports for the posting.
+   */
+  views?: number;
   /**
    * Workplace type (e.g. remote, on_site, hybrid).
    */
@@ -1017,6 +1410,11 @@ export interface LinkedinJobData {
  * Input for LinkedIn Jobs (linkedin.jobs).
  */
 export interface LinkedinJobsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
   /**
    * Filter to a specific company by name (e.g. Google).
    */
@@ -1042,6 +1440,10 @@ export interface LinkedinJobsInput {
     | "mid-senior"
     | "director"
     | "executive";
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
@@ -1085,6 +1487,10 @@ export interface LinkedinJobsInput {
    */
   sortBy?: "date" | "relevance";
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * When true, only return jobs with fewer than 10 applicants (lower competition).
    */
   under10Applicants?: boolean;
@@ -1100,6 +1506,10 @@ export interface LinkedinJobsInput {
  */
 export interface LinkedinJobsItem {
   /**
+   * Applicant tracking system behind the external apply link (e.g. Greenhouse).
+   */
+  applicantTrackingSystem?: string;
+  /**
    * Number of applicants reported by LinkedIn. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -1113,9 +1523,29 @@ export interface LinkedinJobsItem {
    */
   benefits?: string[];
   /**
+   * City of the job location.
+   */
+  city?: string;
+  /**
    * Hiring company details.
    */
   company?: {
+    /**
+     * Company About text.
+     */
+    description?: string;
+    /**
+     * Number of employees LinkedIn reports for the company.
+     */
+    employeeCount?: number;
+    /**
+     * Number of followers of the company page.
+     */
+    followerCount?: number;
+    /**
+     * LinkedIn's numeric company id, as a string.
+     */
+    id?: string;
     /**
      * Canonical LinkedIn company URL.
      */
@@ -1132,7 +1562,19 @@ export interface LinkedinJobsItem {
      * Company LinkedIn universal (vanity) name.
      */
     universalName?: string;
+    /**
+     * Company website.
+     */
+    website?: string;
   };
+  /**
+   * Country of the job location.
+   */
+  country?: string;
+  /**
+   * Two-letter country code of the job location.
+   */
+  countryCode?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time) the job was posted. Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -1155,6 +1597,10 @@ export interface LinkedinJobsItem {
    */
   experienceLevel?: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time) the posting expires. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  expireUtc?: number;
+  /**
    * LinkedIn job listing id.
    */
   id?: string;
@@ -1163,9 +1609,17 @@ export interface LinkedinJobsItem {
    */
   industries?: string[];
   /**
+   * Posting state reported by LinkedIn (e.g. LISTED, CLOSED).
+   */
+  jobState?: string;
+  /**
    * Job location (city, region, or country).
    */
   location?: string;
+  /**
+   * Whether LinkedIn flags the role as remote-allowed.
+   */
+  remote?: boolean;
   /**
    * Salary range when disclosed by the poster.
    */
@@ -1184,6 +1638,10 @@ export interface LinkedinJobsItem {
     text?: string;
   };
   /**
+   * State or region of the job location.
+   */
+  state?: string;
+  /**
    * Job title.
    */
   title: string;
@@ -1191,6 +1649,10 @@ export interface LinkedinJobsItem {
    * Canonical LinkedIn job listing URL.
    */
   url: string;
+  /**
+   * Number of views LinkedIn reports for the posting.
+   */
+  views?: number;
   /**
    * Workplace type (e.g. remote, on_site, hybrid).
    */
@@ -1212,6 +1674,11 @@ export interface LinkedinJobsData {
  * Input for LinkedIn Jobs (index) (linkedin.jobs_thin).
  */
 export interface LinkedinJobsThinInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
   /**
    * Filter to a specific company by its LinkedIn numeric company id.
    */
@@ -1237,6 +1704,10 @@ export interface LinkedinJobsThinInput {
    * LinkedIn geo id to target a precise location (e.g. 103644278 for the United States); more exact than the free-text location.
    */
   geoId?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1-25, default 25).
    * Range: minimum 1, maximum 25.
@@ -1264,6 +1735,10 @@ export interface LinkedinJobsThinInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `logoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: ("companyUrl" | "createdUtc" | "id" | "logoUrl")[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Filter by workplace type (remote, hybrid, or onsite).
    * One of: remote, hybrid, onsite.
@@ -1327,10 +1802,29 @@ export interface LinkedinJobsThinData {
  */
 export interface LinkedinPostInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `image`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    "authorImage" | "authorUrl" | "comments" | "image" | "likes" | "title"
+  )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full LinkedIn post or article URL.
    */
@@ -1346,6 +1840,14 @@ export interface LinkedinPostData {
    */
   author: string;
   /**
+   * Author avatar or company logo image URL, or null when the serving source does not carry one. The query string is a signed token, so keep the URL intact.
+   */
+  authorImage?: string | null;
+  /**
+   * LinkedIn URL of the post author.
+   */
+  authorUrl?: string;
+  /**
    * Number of comments on the post.
    */
   comments: number;
@@ -1353,6 +1855,10 @@ export interface LinkedinPostData {
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * First image attached to the post, or null when the serving source does not carry one. The query string is a signed token, so keep the URL intact.
+   */
+  image?: string | null;
   /**
    * Number of likes on the post.
    */
@@ -1377,6 +1883,15 @@ export interface LinkedinPostData {
  */
 export interface LinkedinPostCommentsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of comments to return.
    * Range: minimum 1, maximum 100.
    * Default: 100.
@@ -1394,6 +1909,10 @@ export interface LinkedinPostCommentsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Full URL of the LinkedIn post to list comments for.
    */
   url: string;
@@ -1404,6 +1923,10 @@ export interface LinkedinPostCommentsItem {
    * The commenter (a profile or a company).
    */
   actor?: {
+    /**
+     * LinkedIn identifier of the commenter.
+     */
+    id?: string;
     /**
      * Profile picture URL of the commenter. Populated whenever the provider has data for the entity.
      * Present whenever the upstream returns this record.
@@ -1486,6 +2009,15 @@ export interface LinkedinPostCommentsData {
  */
 export interface LinkedinPostReactionsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of reactions to return (1-100, default 100).
    * Range: minimum 1, maximum 100.
    */
@@ -1495,6 +2027,10 @@ export interface LinkedinPostReactionsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * URL of the LinkedIn post to list reactions for (a /posts/...-activity-... or /feed/update/urn:li:activity:... link).
    */
@@ -1532,6 +2068,10 @@ export interface LinkedinPostReactionsItem {
     position?: string;
   };
   /**
+   * LinkedIn identifier of the reaction.
+   */
+  id?: string;
+  /**
    * LinkedIn URN of the post that was reacted to. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -1558,10 +2098,23 @@ export interface LinkedinPostReactionsData {
  */
 export interface LinkedinPostTranscriptInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * The full URL of the LinkedIn post to get the video transcript from.
    */
@@ -1586,10 +2139,23 @@ export interface LinkedinPostTranscriptData {
  */
 export interface LinkedinProfileInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full LinkedIn profile URL.
    */
@@ -1613,6 +2179,10 @@ export interface LinkedinProfileCertification {
 }
 
 export interface LinkedinProfileCurrentPosition {
+  /**
+   * LinkedIn's numeric company id, as a string.
+   */
+  companyId?: string;
   /**
    * Company LinkedIn URL.
    */
@@ -1654,6 +2224,10 @@ export interface LinkedinProfileEducation {
    */
   school: string;
   /**
+   * LinkedIn's numeric school id, as a string.
+   */
+  schoolId?: string;
+  /**
    * School LinkedIn URL.
    */
   schoolUrl?: string;
@@ -1665,6 +2239,10 @@ export interface LinkedinProfileEducation {
 }
 
 export interface LinkedinProfileExperience {
+  /**
+   * LinkedIn's numeric company id, as a string.
+   */
+  companyId?: string;
   /**
    * Company LinkedIn URL.
    */
@@ -1761,9 +2339,29 @@ export interface LinkedinProfileData {
    */
   certifications?: LinkedinProfileCertification[];
   /**
+   * City of the profile owner.
+   */
+  city?: string;
+  /**
    * Number of connections.
    */
   connectionsCount?: number;
+  /**
+   * Country of the profile owner.
+   */
+  country?: string;
+  /**
+   * Two-letter country code of the profile owner.
+   */
+  countryCode?: string;
+  /**
+   * Profile cover (banner) image URL. The query string is a signed token, so keep the URL intact.
+   */
+  coverImage?: string;
+  /**
+   * Whether the member is in LinkedIn creator mode.
+   */
+  creator?: boolean;
   /**
    * The member's current role(s).
    */
@@ -1790,9 +2388,21 @@ export interface LinkedinProfileData {
    */
   headline: string;
   /**
+   * Whether the member shows the Hiring badge.
+   */
+  hiring?: boolean;
+  /**
    * Honors and awards.
    */
   honorsAndAwards?: LinkedinProfileHonorsAndAward[];
+  /**
+   * LinkedIn member identifier.
+   */
+  id?: string;
+  /**
+   * Whether LinkedIn marks the member as an influencer.
+   */
+  influencer?: boolean;
   /**
    * Languages, as returned by LinkedIn when present.
    */
@@ -1834,6 +2444,10 @@ export interface LinkedinProfileData {
    */
   skills?: unknown[];
   /**
+   * State or region of the profile owner.
+   */
+  state?: string;
+  /**
    * The member's top skills, as free-form strings when present.
    */
   topSkills?: unknown[];
@@ -1853,6 +2467,15 @@ export interface LinkedinProfileData {
  */
 export interface LinkedinProfileCommentsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of comments to return.
    * Range: minimum 1, maximum 100.
    * Default: 100.
@@ -1869,6 +2492,10 @@ export interface LinkedinProfileCommentsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Full URL of the LinkedIn member profile whose comments on other people's posts should be listed.
    */
   url: string;
@@ -1879,6 +2506,10 @@ export interface LinkedinProfileCommentsItem {
    * The member who left the comment (a profile or a company).
    */
   actor?: {
+    /**
+     * LinkedIn identifier of the commenter.
+     */
+    id?: string;
     /**
      * Profile picture URL of the commenter. Populated whenever the provider has data for the entity.
      * Format: uri.
@@ -1933,11 +2564,20 @@ export interface LinkedinProfileCommentsItem {
      * Range: minimum 0.
      */
     likes?: number;
+    /**
+     * Number of shares of the comment.
+     * Range: minimum 0.
+     */
+    shares?: number;
   };
   /**
    * Unique identifier of the comment. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Whether the commenter is also the author of the post.
+   */
+  isAuthor?: boolean;
   /**
    * The post the comment was left on, so the comment can be read in context. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -2038,10 +2678,19 @@ export interface LinkedinProfileCommentsData {
  */
 export interface LinkedinProfilePostsFullInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Regional LinkedIn context used when retrieving posts.
    * One of: any, US, GB, DE, FR.
    */
   contextCountry?: "any" | "US" | "GB" | "DE" | "FR";
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Whether to include quote posts that add commentary to shared content.
    * Default: true.
@@ -2073,6 +2722,10 @@ export interface LinkedinProfilePostsFullInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full URL of the public LinkedIn profile whose posts should be returned.
    * Format: uri.
@@ -2541,6 +3194,15 @@ export interface LinkedinProfilePostsFullData {
  */
 export interface LinkedinProfilePostsThinInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of posts to return (10-100, default 10).
    * Range: minimum 10, maximum 100.
    * Default: 10.
@@ -2551,6 +3213,10 @@ export interface LinkedinProfilePostsThinInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full URL of the public LinkedIn profile whose posts should be returned.
    * Format: uri.
@@ -2642,6 +3308,14 @@ export interface LinkedinProfilePostsThinItem {
    */
   images?: LinkedinProfilePostsThinImage[];
   /**
+   * Cover image URL of the article attached to the reposted post. The query string is a signed token, so keep the URL intact.
+   */
+  repostArticleImage?: string;
+  /**
+   * Subtitle or source domain of the article attached to the reposted post.
+   */
+  repostArticleSubtitle?: string;
+  /**
    * Title of the article attached to the reposted post, when present.
    */
   repostArticleTitle?: string;
@@ -2650,6 +3324,19 @@ export interface LinkedinProfilePostsThinItem {
    * Format: uri.
    */
   repostArticleUrl?: string;
+  /**
+   * Headline or follower line of the author of the reposted post.
+   */
+  repostAuthorHeadline?: string;
+  /**
+   * Avatar or logo image URL of the author of the reposted post. The query string is a signed token, so keep the URL intact.
+   */
+  repostAuthorImage?: string;
+  /**
+   * Canonical LinkedIn URL of the author of the reposted post.
+   * Format: uri.
+   */
+  repostAuthorUrl?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -2713,6 +3400,15 @@ export interface LinkedinProfilePostsThinData {
  */
 export interface LinkedinProfileReactionsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of reactions to return. One upstream page holds 100.
    * Range: minimum 1, maximum 100.
    * Default: 100.
@@ -2723,6 +3419,10 @@ export interface LinkedinProfileReactionsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full URL of the LinkedIn member profile whose reactions to list, for example https://www.linkedin.com/in/williamhgates.
    */
@@ -2843,6 +3543,10 @@ export interface LinkedinProfileReactionsItem {
      */
     id?: string;
     /**
+     * UTC epoch timestamp in seconds (Unix time) the post was published. Multiply by 1000 for a JS Date in milliseconds.
+     */
+    postedUtc?: number;
+    /**
      * Unique identifier of the post this one reshares, when it is a reshare.
      */
     repostId?: string;
@@ -2895,6 +3599,15 @@ export interface LinkedinProfileReactionsData {
  */
 export interface LinkedinProfileThinInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -2924,6 +3637,10 @@ export interface LinkedinProfileThinInput {
     | "text"
     | "url"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full LinkedIn profile URL.
    */
@@ -3040,6 +3757,10 @@ export interface LinkedinProfileThinData {
    */
   followers?: number;
   /**
+   * Profile headline, or null when the serving source does not publish it.
+   */
+  headline?: string | null;
+  /**
    * Location of the profile owner.
    */
   location?: string;
@@ -3059,6 +3780,15 @@ export interface LinkedinProfileThinData {
  */
 export interface LinkedinSearchCompaniesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
    * Default: 20.
@@ -3077,6 +3807,10 @@ export interface LinkedinSearchCompaniesInput {
    * Keyword to search LinkedIn companies for (e.g. marketing agency).
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -3143,6 +3877,11 @@ export interface LinkedinSearchCompaniesData {
  */
 export interface LinkedinSearchPostsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
@@ -3152,6 +3891,10 @@ export interface LinkedinSearchPostsInput {
    */
   datePosted?:
     "last-hour" | "last-day" | "last-week" | "last-month" | "last-year";
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -3165,6 +3908,10 @@ export interface LinkedinSearchPostsInput {
    * Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working.
    */
   requireCursor?: boolean;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface LinkedinSearchPostsPost {
@@ -3226,6 +3973,11 @@ export interface LinkedinSearchPostsData {
  */
 export interface LinkedinSearchPostsFullInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Only return posts by people associated with these company names.
    */
   authorCompanyNames?: string[];
@@ -3267,6 +4019,10 @@ export interface LinkedinSearchPostsFullInput {
     | "last-six-months"
     | "last-year";
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of posts to return (1-100, default 10). The upper bound is one LinkedIn search page.
    * Range: minimum 1, maximum 100.
    * Default: 10.
@@ -3291,6 +4047,10 @@ export interface LinkedinSearchPostsFullInput {
    * Default: relevance.
    */
   sort?: "relevance" | "date";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface LinkedinSearchPostsFullPost {
@@ -3458,6 +4218,11 @@ export interface LinkedinSearchPostsFullData {
  */
 export interface LinkedinSearchProfilesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Filter by current company size (employee count). Codes: A=Self-Employed, B=1-10, C=11-50, D=51-200, E=201-500, F=501-1,000, G=1,001-5,000, H=5,001-10,000, I=10,001+.
    */
   companyHeadcount?: ("A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I")[];
@@ -3578,6 +4343,10 @@ export interface LinkedinSearchProfilesInput {
     | "25"
     | "26"
   )[];
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional current job title filter (e.g. 'Software Engineer').
    */
@@ -3667,6 +4436,10 @@ export interface LinkedinSearchProfilesInput {
     | "320"
   )[];
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Filter by tenure at the current company. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years.
    */
   yearsAtCurrentCompanyIds?: ("1" | "2" | "3" | "4" | "5")[];
@@ -3686,6 +4459,30 @@ export interface LinkedinSearchProfilesItem {
    */
   about?: string;
   /**
+   * City of the member.
+   */
+  city?: string;
+  /**
+   * Number of connections on the profile.
+   */
+  connectionsCount?: number;
+  /**
+   * Country of the member.
+   */
+  country?: string;
+  /**
+   * Two-letter country code of the member.
+   */
+  countryCode?: string;
+  /**
+   * Profile cover (banner) image URL. The query string is a signed token, so keep the URL intact.
+   */
+  coverImage?: string;
+  /**
+   * Whether the member is in LinkedIn creator mode.
+   */
+  creator?: boolean;
+  /**
    * Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile.
    */
   currentPosition?: LinkedinSearchProfilesCurrentPosition[];
@@ -3704,6 +4501,10 @@ export interface LinkedinSearchProfilesItem {
    */
   firstName?: string;
   /**
+   * Number of followers of the profile.
+   */
+  followerCount?: number;
+  /**
    * Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -3714,6 +4515,10 @@ export interface LinkedinSearchProfilesItem {
    */
   headline?: string;
   /**
+   * Whether the member shows the Hiring badge.
+   */
+  hiring?: boolean;
+  /**
    * LinkedIn member URN id for the profile.
    */
   id: string;
@@ -3722,6 +4527,10 @@ export interface LinkedinSearchProfilesItem {
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * Whether LinkedIn marks the member as an influencer.
+   */
+  influencer?: boolean;
   /**
    * Member's last name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -3745,9 +4554,17 @@ export interface LinkedinSearchProfilesItem {
    */
   skills?: unknown[];
   /**
+   * State or region of the member.
+   */
+  state?: string;
+  /**
    * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Whether LinkedIn has verified the member's identity.
+   */
+  verified?: boolean;
   [extra: string]: unknown;
 }
 
@@ -3777,6 +4594,11 @@ export interface LinkedinSearchProfilesData {
  * Input for LinkedIn Profile Search + Email (linkedin.search_profiles_email).
  */
 export interface LinkedinSearchProfilesEmailInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
   /**
    * Filter by current company size (employee count). Codes: A=Self-Employed, B=1-10, C=11-50, D=51-200, E=201-500, F=501-1,000, G=1,001-5,000, H=5,001-10,000, I=10,001+.
    */
@@ -3899,6 +4721,10 @@ export interface LinkedinSearchProfilesEmailInput {
     | "26"
   )[];
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional current job title filter (e.g. 'Software Engineer').
    */
   jobTitle?: string;
@@ -3987,6 +4813,10 @@ export interface LinkedinSearchProfilesEmailInput {
     | "320"
   )[];
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Filter by tenure at the current company. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years.
    */
   yearsAtCurrentCompanyIds?: ("1" | "2" | "3" | "4" | "5")[];
@@ -4005,6 +4835,30 @@ export interface LinkedinSearchProfilesEmailItem {
    * Present whenever the upstream returns this record.
    */
   about?: string;
+  /**
+   * City of the member.
+   */
+  city?: string;
+  /**
+   * Number of connections on the profile.
+   */
+  connectionsCount?: number;
+  /**
+   * Country of the member.
+   */
+  country?: string;
+  /**
+   * Two-letter country code of the member.
+   */
+  countryCode?: string;
+  /**
+   * Profile cover (banner) image URL. The query string is a signed token, so keep the URL intact.
+   */
+  coverImage?: string;
+  /**
+   * Whether the member is in LinkedIn creator mode.
+   */
+  creator?: boolean;
   /**
    * Current role(s). Each entry is an open object with the position title, company, dates, and location; shape can vary by profile.
    */
@@ -4029,6 +4883,10 @@ export interface LinkedinSearchProfilesEmailItem {
    */
   firstName?: string;
   /**
+   * Number of followers of the profile.
+   */
+  followerCount?: number;
+  /**
    * Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -4039,6 +4897,10 @@ export interface LinkedinSearchProfilesEmailItem {
    */
   headline?: string;
   /**
+   * Whether the member shows the Hiring badge.
+   */
+  hiring?: boolean;
+  /**
    * LinkedIn member URN id for the profile.
    */
   id: string;
@@ -4047,6 +4909,10 @@ export interface LinkedinSearchProfilesEmailItem {
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * Whether LinkedIn marks the member as an influencer.
+   */
+  influencer?: boolean;
   /**
    * Member's last name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -4070,9 +4936,17 @@ export interface LinkedinSearchProfilesEmailItem {
    */
   skills?: unknown[];
   /**
+   * State or region of the member.
+   */
+  state?: string;
+  /**
    * Canonical LinkedIn profile URL. Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Whether LinkedIn has verified the member's identity.
+   */
+  verified?: boolean;
   [extra: string]: unknown;
 }
 
@@ -4107,14 +4981,75 @@ export interface LinkedinSearchProfilesEmailData {
  */
 export interface LinkedinSearchProfilesThinInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Filter by current employer, using a numeric LinkedIn company id. Comma-separate for several.
+   */
+  currentCompanyId?: string;
+  /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; a page holds 10 profiles.
+   */
+  cursor?: string;
+  /**
+   * Filter by first name (e.g. Jane).
+   */
+  firstName?: string;
+  /**
+   * Return only people who follow this member, given the member's LinkedIn URN.
+   */
+  followerOfUrn?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Filter by industry, using a LinkedIn industry id.
+   */
+  industryId?: string;
+  /**
+   * Filter by last name (e.g. Okafor).
+   */
+  lastName?: string;
+  /**
+   * Filter by location, using a LinkedIn geocode id.
+   */
+  locationId?: string;
+  /**
+   * Filter by a previous employer, using a numeric LinkedIn company id.
+   */
+  pastCompanyId?: string;
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
+   * Filter by the language the profile is written in (ISO 2-letter code, e.g. en).
+   */
+  profileLanguage?: string;
+  /**
    * Search query for LinkedIn profiles - a role, name, or keywords (e.g. 'Marketing Manager').
    */
   query: string;
+  /**
+   * Filter by school, using a LinkedIn school id.
+   */
+  schoolId?: string;
+  /**
+   * Filter by service category, using a numeric service-category id.
+   */
+  serviceCategoryId?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Filter by job title or headline (e.g. Head of Talent).
+   */
+  title?: string;
 }
 
 /**
@@ -4148,9 +5083,17 @@ export interface LinkedinSearchProfilesThinItem {
    */
   name?: string;
   /**
+   * Whether the member has LinkedIn Premium.
+   */
+  premium?: boolean;
+  /**
    * Canonical LinkedIn vanity profile URL. Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Whether LinkedIn has verified the member's identity.
+   */
+  verified?: boolean;
   [extra: string]: unknown;
 }
 
@@ -4162,6 +5105,10 @@ export interface LinkedinSearchProfilesThinData {
    * Matched profile records (basic fields only). Populated whenever the provider has data for the entity.
    */
   items: LinkedinSearchProfilesThinItem[];
+  /**
+   * Opaque cursor for the next page of profiles, or null/empty when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -4584,7 +5531,7 @@ export class LinkedinNamespace {
    *
    * Search public LinkedIn posts by keyword (text, link, publish date).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.018 per request.
    *
    * @example
    * const res = await client.linkedin.searchPosts({ query: "hiring", datePosted: "last-week" });
@@ -4685,5 +5632,31 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinSearchProfilesThinData>> {
     return this._core.run("linkedin.search_profiles_thin", input, options);
+  }
+
+  /**
+   * Iterate every result of LinkedIn Profile Search (basic) across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchProfilesThin(
+    input: LinkedinSearchProfilesThinInput,
+    options?: RequestOptions,
+  ): Paginator<
+    LinkedinSearchProfilesThinItem,
+    RunResult<LinkedinSearchProfilesThinData>
+  > {
+    return paginate<
+      LinkedinSearchProfilesThinItem,
+      RunResult<LinkedinSearchProfilesThinData>
+    >(
+      this._core,
+      "linkedin.search_profiles_thin",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 }

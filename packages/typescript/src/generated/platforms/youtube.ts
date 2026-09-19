@@ -13,6 +13,11 @@ import { paginate } from "../../core/index.js";
  */
 export interface YoutubeChannelInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * YouTube channel ID (UC...).
    */
   channelId?: string;
@@ -21,10 +26,18 @@ export interface YoutubeChannelInput {
    */
   handle?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -40,11 +53,19 @@ export interface YoutubeChannelData {
    * Populated whenever the provider has data for the entity.
    */
   description: string;
+  /**
+   * The channel's @handle, for example "@mkbhd".
+   */
+  handle?: string;
   subscribers: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   title: string;
+  /**
+   * Canonical URL of the channel page, tracking query parameters stripped.
+   */
+  url?: string;
   videos: number;
   views: number;
   [extra: string]: unknown;
@@ -54,6 +75,11 @@ export interface YoutubeChannelData {
  * Input for YouTube Channel Community Posts (youtube.channel_community_posts).
  */
 export interface YoutubeChannelCommunityPostsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
   /**
    * YouTube channel ID.
    */
@@ -67,22 +93,50 @@ export interface YoutubeChannelCommunityPostsInput {
    */
   handle?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface YoutubeChannelCommunityPostsPost {
+  /**
+   * The publishing channel's @handle, without the leading @.
+   */
+  channelHandle?: string;
+  /**
+   * YouTube channel ID of the channel that published the post.
+   */
+  channelId?: string;
+  /**
+   * Display name of the channel that published the post.
+   */
+  channelTitle?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   content: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
   image: string;
+  /**
+   * URLs of every image attached to the post.
+   */
+  images?: string[];
   likeCount: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -114,6 +168,11 @@ export interface YoutubeChannelCommunityPostsData {
  */
 export interface YoutubeChannelContactInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * YouTube channel ID (UC...).
    */
   channelId?: string;
@@ -122,10 +181,18 @@ export interface YoutubeChannelContactInput {
    */
   handle?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -144,6 +211,11 @@ export interface YoutubeChannelContactData {
  */
 export interface YoutubeChannelLivesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * YouTube channel ID.
    */
   channelId?: string;
@@ -156,10 +228,18 @@ export interface YoutubeChannelLivesInput {
    */
   handle?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface YoutubeChannelLivesLive {
@@ -167,6 +247,10 @@ export interface YoutubeChannelLivesLive {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the live stream thumbnail image, tracking query parameters stripped.
+   */
+  image?: string;
   lengthText: string;
   /**
    * Populated whenever the provider has data for the entity.
@@ -203,6 +287,11 @@ export interface YoutubeChannelLivesData {
  */
 export interface YoutubeChannelPlaylistsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * YouTube channel ID.
    */
   channelId?: string;
@@ -215,10 +304,18 @@ export interface YoutubeChannelPlaylistsInput {
    */
   handle?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface YoutubeChannelPlaylistsPlaylist {
@@ -236,6 +333,14 @@ export interface YoutubeChannelPlaylistsPlaylist {
    */
   title: string;
   videoCount: number;
+  /**
+   * Video ID of the playlist's lead video.
+   */
+  videoId?: string;
+  /**
+   * Watch URL of the playlist's lead video.
+   */
+  videoUrl?: string;
   [extra: string]: unknown;
 }
 
@@ -258,6 +363,11 @@ export interface YoutubeChannelPlaylistsData {
  */
 export interface YoutubeChannelShortsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * YouTube channel ID beginning with UC.
    */
   channelId?: string;
@@ -270,6 +380,10 @@ export interface YoutubeChannelShortsInput {
    */
   handle?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -279,6 +393,10 @@ export interface YoutubeChannelShortsInput {
    * One of: latest, newest, popular.
    */
   sort?: "latest" | "newest" | "popular";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface YoutubeChannelShortsShort {
@@ -299,6 +417,10 @@ export interface YoutubeChannelShortsShort {
    * Unique YouTube video identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the short thumbnail image, tracking query parameters stripped.
+   */
+  image?: string;
   /**
    * Public like count when supplied by the upstream response.
    * Range: minimum 0.
@@ -345,6 +467,11 @@ export interface YoutubeChannelShortsData {
  */
 export interface YoutubeChannelVideosInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * YouTube channel ID.
    */
   channelId?: string;
@@ -357,6 +484,10 @@ export interface YoutubeChannelVideosInput {
    */
   handle?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -366,13 +497,25 @@ export interface YoutubeChannelVideosInput {
    * One of: latest, popular.
    */
   sort?: "latest" | "popular";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface YoutubeChannelVideosVideo {
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the video thumbnail image, tracking query parameters stripped.
+   */
+  image?: string;
   lengthText: string;
   /**
    * Populated whenever the provider has data for the entity.
@@ -409,25 +552,58 @@ export interface YoutubeChannelVideosData {
  */
 export interface YoutubeCommentRepliesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Replies continuation token from the comments endpoint, or the continuationToken from a previous replies response for further pagination.
    */
   continuationToken: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface YoutubeCommentRepliesComment {
+  /**
+   * URL of the reply author's avatar image.
+   */
+  authorAvatarUrl?: string;
+  /**
+   * The reply author's YouTube channel ID.
+   */
+  authorId?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   authorName: string;
   /**
+   * Canonical URL of the reply author's channel, tracking query parameters stripped.
+   */
+  authorUrl?: string;
+  /**
+   * Whether the reply author is a verified channel.
+   */
+  authorVerified?: boolean;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   content: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -456,10 +632,23 @@ export interface YoutubeCommentRepliesData {
  */
 export interface YoutubeCommunityPostInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * URL of the YouTube community post.
    */
@@ -475,6 +664,10 @@ export interface YoutubeCommunityPostData {
    */
   channelHandle: string;
   /**
+   * YouTube channel ID of the channel that published the post.
+   */
+  channelId?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   channelTitle: string;
@@ -483,9 +676,25 @@ export interface YoutubeCommunityPostData {
    */
   content: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the post's primary image.
+   */
+  image?: string;
+  /**
+   * URLs of every image attached to the post.
+   */
+  images?: string[];
+  /**
+   * Number of likes on the post.
+   */
+  likeCount?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -498,6 +707,15 @@ export interface YoutubeCommunityPostData {
  */
 export interface YoutubePlaylistInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * The playlist ID: the "list" parameter in a playlist URL (e.g. "PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi").
    */
   playlistId: string;
@@ -506,6 +724,10 @@ export interface YoutubePlaylistInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface YoutubePlaylistVideo {
@@ -539,6 +761,18 @@ export interface YoutubePlaylistVideo {
  */
 export interface YoutubePlaylistData {
   /**
+   * The playlist owner's @handle, without the leading @.
+   */
+  authorHandle?: string;
+  /**
+   * YouTube channel ID of the playlist owner.
+   */
+  authorId?: string;
+  /**
+   * Canonical URL of the playlist owner's channel, tracking query parameters stripped.
+   */
+  authorUrl?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   owner: string;
@@ -558,9 +792,18 @@ export interface YoutubePlaylistData {
  */
 export interface YoutubeSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Continuation token from a previous response for pagination.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -577,13 +820,25 @@ export interface YoutubeSearchInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
-  requireFields?: ("lengthText" | "nextCursor" | "views")[];
+  requireFields?: (
+    | "authorAvatarUrl"
+    | "authorId"
+    | "createdUtc"
+    | "image"
+    | "lengthText"
+    | "nextCursor"
+    | "views"
+  )[];
   /**
    * Sort order: "relevance" (default) or "popular" (most-viewed).
    * One of: relevance, popular.
    * Default: relevance.
    */
   sortBy?: "relevance" | "popular";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Filter by upload recency. Omit for any time.
    * One of: today, this_week, this_month, this_year.
@@ -593,13 +848,29 @@ export interface YoutubeSearchInput {
 
 export interface YoutubeSearchVideo {
   /**
+   * URL of the publishing channel's avatar image.
+   */
+  authorAvatarUrl?: string;
+  /**
+   * YouTube channel ID of the publishing channel.
+   */
+  authorId?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   channel: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the video thumbnail image, tracking query parameters stripped.
+   */
+  image?: string;
   lengthText: string;
   /**
    * Populated whenever the provider has data for the entity.
@@ -636,6 +907,11 @@ export interface YoutubeSearchData {
  */
 export interface YoutubeSearchHashtagInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Continuation token from a previous response for pagination.
    */
   cursor?: string;
@@ -644,10 +920,18 @@ export interface YoutubeSearchHashtagInput {
    */
   hashtag: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Content filter. Only "all" is served: no source we buy returns a Shorts row with the channel and publish time this endpoint requires.
    * One of: all.
@@ -657,13 +941,37 @@ export interface YoutubeSearchHashtagInput {
 
 export interface YoutubeSearchHashtagVideo {
   /**
+   * URL of the publishing channel's avatar image.
+   */
+  authorAvatarUrl?: string;
+  /**
+   * The publishing channel's @handle, without the leading @.
+   */
+  authorHandle?: string;
+  /**
+   * YouTube channel ID of the publishing channel.
+   */
+  authorId?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   channelTitle: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Length of the video in seconds.
+   */
+  durationSeconds?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the video thumbnail image, tracking query parameters stripped.
+   */
+  image?: string;
   lengthText: string;
   /**
    * Populated whenever the provider has data for the entity.
@@ -700,9 +1008,18 @@ export interface YoutubeSearchHashtagData {
  */
 export interface YoutubeSearchShortsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Continuation token from a previous response for pagination.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -718,6 +1035,10 @@ export interface YoutubeSearchShortsInput {
    * Default: relevance.
    */
   sortBy?: "relevance" | "popular";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Filter by upload recency. Omit for any time.
    * One of: today, this_week, this_month, this_year.
@@ -772,25 +1093,70 @@ export interface YoutubeSearchShortsData {
  */
 export interface YoutubeTrendingShortsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface YoutubeTrendingShortsShort {
+  /**
+   * The publishing channel's @handle, without the leading @.
+   */
+  authorHandle?: string;
+  /**
+   * YouTube channel ID of the publishing channel.
+   */
+  authorId?: string;
+  /**
+   * Canonical URL of the publishing channel, tracking query parameters stripped.
+   */
+  authorUrl?: string;
+  /**
+   * YouTube category the short is filed under.
+   */
+  category?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   channelTitle: string;
   /**
+   * Number of comments on the short.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   duration: string;
   /**
+   * Length of the short in milliseconds.
+   */
+  durationMs?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the short thumbnail image, tracking query parameters stripped.
+   */
+  image?: string;
   likes: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -819,14 +1185,27 @@ export interface YoutubeTrendingShortsData {
  */
 export interface YoutubeVideoInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * YouTube video ID. A Short uses the same ID as any other video.
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full YouTube video URL. Shorts (youtube.com/shorts/...), youtu.be, live, and embed URLs all work.
    */
@@ -837,6 +1216,22 @@ export interface YoutubeVideoInput {
  * The `data` payload of YouTube Video (youtube.video).
  */
 export interface YoutubeVideoData {
+  /**
+   * URL of the publishing channel's avatar image.
+   */
+  authorAvatarUrl?: string;
+  /**
+   * YouTube channel ID of the publishing channel.
+   */
+  authorId?: string;
+  /**
+   * Canonical URL of the publishing channel, tracking query parameters stripped.
+   */
+  authorUrl?: string;
+  /**
+   * YouTube category the video is filed under, for example "Music".
+   */
+  category?: string;
   /**
    * Name of the channel that published the video. Populated whenever the provider has data for the entity.
    */
@@ -850,6 +1245,10 @@ export interface YoutubeVideoData {
    */
   createdUtc: number;
   /**
+   * Full video description text.
+   */
+  description?: string;
+  /**
    * Duration of the video in milliseconds.
    */
   durationMs: number;
@@ -857,6 +1256,14 @@ export interface YoutubeVideoData {
    * Unique identifier of the video. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the video thumbnail image.
+   */
+  image?: string;
+  /**
+   * Keywords the uploader tagged the video with.
+   */
+  keywords?: string[];
   /**
    * Number of likes.
    */
@@ -877,9 +1284,18 @@ export interface YoutubeVideoData {
  */
 export interface YoutubeVideoCommentsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Continuation token from a previous response for pagination.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Comment order (e.g. top, newest).
    */
@@ -889,6 +1305,10 @@ export interface YoutubeVideoCommentsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full YouTube video URL. Shorts (youtube.com/shorts/...) and youtu.be URLs also work.
    */
@@ -900,6 +1320,18 @@ export interface YoutubeVideoCommentsComment {
    * Populated whenever the provider has data for the entity.
    */
   author: string;
+  /**
+   * URL of the comment author's avatar image.
+   */
+  authorAvatarUrl?: string;
+  /**
+   * The comment author's YouTube channel ID.
+   */
+  authorId?: string;
+  /**
+   * Canonical URL of the comment author's channel, tracking query parameters stripped.
+   */
+  authorUrl?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -936,6 +1368,15 @@ export interface YoutubeVideoCommentsData {
  */
 export interface YoutubeVideoSponsorsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * 2-letter language code for transcript lookup (e.g. en, es, fr).
    */
   language?: string;
@@ -944,6 +1385,10 @@ export interface YoutubeVideoSponsorsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * YouTube video or Short URL.
    */
@@ -962,6 +1407,26 @@ export interface YoutubeVideoSponsorsSuspectedSponsor {
  */
 export interface YoutubeVideoSponsorsData {
   /**
+   * URL of the publishing channel's avatar image.
+   */
+  authorAvatarUrl?: string;
+  /**
+   * The publishing channel's @handle, without the leading @.
+   */
+  authorHandle?: string;
+  /**
+   * YouTube channel ID of the publishing channel.
+   */
+  authorId?: string;
+  /**
+   * Display name of the publishing channel.
+   */
+  authorName?: string;
+  /**
+   * Canonical URL of the publishing channel, tracking query parameters stripped.
+   */
+  authorUrl?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   detectionStatus: string;
@@ -971,6 +1436,10 @@ export interface YoutubeVideoSponsorsData {
    * Populated whenever the provider has data for the entity.
    */
   title: string;
+  /**
+   * Watch URL of the video.
+   */
+  url?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -982,14 +1451,27 @@ export interface YoutubeVideoSponsorsData {
  */
 export interface YoutubeVideoTranscriptInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * YouTube video ID. A Short uses the same ID as any other video.
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full YouTube video URL. Shorts (youtube.com/shorts/...), youtu.be, live, and embed URLs all work.
    */
@@ -1038,11 +1520,20 @@ export interface YoutubeVideoTranscriptData {
  */
 export interface YoutubeVideoTranscriptFullInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Which caption track to accept: "manual" only creator-written captions, "automatic" only YouTube's speech recognition, "any" whichever exists.
    * One of: manual, automatic, any.
    * Default: any.
    */
   captionKind?: "manual" | "automatic" | "any";
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Preferred caption language code (e.g. "en", "es"). Defaults to English.
    */
@@ -1056,14 +1547,29 @@ export interface YoutubeVideoTranscriptFullInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAiGenerated`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
+    | "authorId"
+    | "authorUrl"
+    | "category"
     | "channel"
+    | "createdUtc"
+    | "description"
     | "durationSeconds"
     | "endSeconds"
+    | "image"
     | "isAiGenerated"
+    | "keywords"
+    | "likes"
     | "startSeconds"
     | "text"
     | "title"
+    | "url"
+    | "videoId"
+    | "views"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * YouTube video or Short URL (e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ" or "https://www.youtube.com/shorts/Fir1x9cw2vg").
    */
@@ -1093,14 +1599,38 @@ export interface YoutubeVideoTranscriptFullSegment {
  */
 export interface YoutubeVideoTranscriptFullData {
   /**
+   * YouTube channel ID of the publishing channel.
+   */
+  authorId?: string;
+  /**
+   * Canonical URL of the publishing channel, tracking query parameters stripped.
+   */
+  authorUrl?: string;
+  /**
+   * YouTube category the video is filed under, for example "Music".
+   */
+  category?: string;
+  /**
    * Channel name that published the video.
    */
   channel?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Full video description text.
+   */
+  description?: string;
   /**
    * Video duration in seconds.
    * Range: minimum 0.
    */
   durationSeconds?: number;
+  /**
+   * URL of the video thumbnail image.
+   */
+  image?: string;
   /**
    * True when the words were recognized from the audio by the serving lane rather than read from any YouTube caption track, or null when the serving source does not say.
    */
@@ -1110,9 +1640,17 @@ export interface YoutubeVideoTranscriptFullData {
    */
   isAutoGenerated: boolean;
   /**
+   * Keywords the uploader tagged the video with.
+   */
+  keywords?: string[];
+  /**
    * Caption language code (e.g. "en"). Populated whenever the provider has data for the entity.
    */
   language: string;
+  /**
+   * Number of likes.
+   */
+  likes?: number;
   /**
    * Timed transcript segments in playback order. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -1126,6 +1664,18 @@ export interface YoutubeVideoTranscriptFullData {
    * Full transcript text, segments joined in playback order. Populated whenever the provider has data for the entity.
    */
   transcript: string;
+  /**
+   * Watch URL of the video.
+   */
+  url?: string;
+  /**
+   * Unique identifier of the video.
+   */
+  videoId?: string;
+  /**
+   * Number of views.
+   */
+  views?: number;
   [extra: string]: unknown;
 }
 
@@ -1583,7 +2133,7 @@ export class YoutubeNamespace {
    *
    * List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.youtube.videoComments({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
@@ -1643,7 +2193,7 @@ export class YoutubeNamespace {
    *
    * Fetch the transcript/captions of a YouTube video or Short by URL or ID.
    *
-   * Price: $0.00125 per request.
+   * Price: $0.011 per request.
    *
    * @example
    * const res = await client.youtube.videoTranscript({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });

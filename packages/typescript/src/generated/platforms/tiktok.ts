@@ -17,10 +17,23 @@ export interface TiktokAdLibraryAdInput {
    */
   adId: string;
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -44,6 +57,14 @@ export interface TiktokAdLibraryAdData {
   coverUrl: string;
   ctr: number;
   /**
+   * Ad creative duration in seconds.
+   */
+  durationSeconds?: number;
+  /**
+   * Pixel height of the ad video.
+   */
+  height?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   industry: string;
@@ -61,6 +82,10 @@ export interface TiktokAdLibraryAdData {
    * Populated whenever the provider has data for the entity.
    */
   videoUrl: string;
+  /**
+   * Pixel width of the ad video.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -69,142 +94,84 @@ export interface TiktokAdLibraryAdData {
  */
 export interface TiktokAdLibrarySearchInput {
   /**
-   * Ad format filter.
-   * One of: spark_ads, non_spark_ads.
-   */
-  adFormat?: "spark_ads" | "non_spark_ads";
-  /**
-   * Ad language filter.
-   * One of: en, es, ar, vi, th, de, id, pt, fr, ms, nl, ja, it, ro, zh-Hant, ko.
-   */
-  adLanguage?:
-    | "en"
-    | "es"
-    | "ar"
-    | "vi"
-    | "th"
-    | "de"
-    | "id"
-    | "pt"
-    | "fr"
-    | "ms"
-    | "nl"
-    | "ja"
-    | "it"
-    | "ro"
-    | "zh-Hant"
-    | "ko";
-  /**
-   * Filter to a specific advertiser by name (searches the public TikTok Ads Library by advertiser).
+   * Advertiser name to list ads for (e.g. Spotify). Provide advertiserName or query, never both.
    */
   advertiserName?: string;
   /**
-   * Page number for pagination (defaults to 1).
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Opaque cursor from a previous response's nextCursor. Omit it for the first page.
    */
   cursor?: string;
   /**
-   * Video duration bucket filter.
-   * One of: under_10s, 10_20s, 20_30s, 30_40s, 40_50s, over_50s.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
-  duration?:
-    "under_10s" | "10_20s" | "20_30s" | "30_40s" | "40_50s" | "over_50s";
-  /**
-   * Advertiser industry filter.
-   * One of: apparel_accessories, appliances, apps, baby_kids_maternity, beauty_personal_care, business_services, ecommerce_non_app, education, financial_services, food_beverage, games, health, home_improvement, household_products, life_services, news_entertainment, pets, sports_outdoor, tech_electronics, travel, vehicle_transportation.
-   */
-  industry?:
-    | "apparel_accessories"
-    | "appliances"
-    | "apps"
-    | "baby_kids_maternity"
-    | "beauty_personal_care"
-    | "business_services"
-    | "ecommerce_non_app"
-    | "education"
-    | "financial_services"
-    | "food_beverage"
-    | "games"
-    | "health"
-    | "home_improvement"
-    | "household_products"
-    | "life_services"
-    | "news_entertainment"
-    | "pets"
-    | "sports_outdoor"
-    | "tech_electronics"
-    | "travel"
-    | "vehicle_transportation";
-  /**
-   * Likes percentile bucket filter (top_1_20 is the top-performing 20 percent).
-   * One of: top_1_20, top_21_40, top_41_60, top_61_80, top_81_100.
-   */
-  likes?: "top_1_20" | "top_21_40" | "top_41_60" | "top_61_80" | "top_81_100";
-  /**
-   * Results per page, with an existing maximum of 50 (default 20). Use a canonical JSON integer; legacy numeric strings remain accepted.
-   */
-  limit?: unknown;
-  /**
-   * Campaign objective filter.
-   * One of: app_installs, conversions, lead_generation, product_sales, reach, traffic, video_views.
-   */
-  objective?:
-    | "app_installs"
-    | "conversions"
-    | "lead_generation"
-    | "product_sales"
-    | "reach"
-    | "traffic"
-    | "video_views";
-  /**
-   * Sort metric: for_you, impression, play_2s_rate, play_6s_rate, cvr, ctr, or like.
-   */
-  orderBy?: string;
-  /**
-   * Time window for top ads. Use the canonical JSON integer 7, 30, or 180; legacy numeric strings remain accepted.
-   */
-  period?: unknown;
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
-   * Keyword to search ad titles and content (e.g. spotify).
+   * Keyword to search ad titles and content (e.g. spotify). Provide query or advertiserName, never both.
    */
-  query: string;
+  query?: string;
   /**
-   * Country code (defaults to US).
+   * Two-letter region code for TikTok's Commercial Content Library, such as DE, FR, GB or IT. Each region holds a different set of ads. Omit it to take the library's own default region, DE. Coverage is the EU and EEA; a non-EU code such as US is not served.
    */
   region?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokAdLibrarySearchAd {
   /**
-   * Populated whenever the provider has data for the entity.
+   * TikTok ad id. Populated whenever the provider has data for the entity.
    */
   adId: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Ad title as shown in TikTok's ad library. Populated whenever the provider has data for the entity.
    */
   adTitle: string;
-  brandName: string;
-  cost: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Advertiser name on the ad.
+   */
+  brandName: string;
+  /**
+   * Cover image URL of the ad's first video. Populated whenever the provider has data for the entity.
    */
   coverUrl: string;
-  ctr: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Audience size band TikTok publishes for the ad, for example "100K-200K".
    */
-  industry: string;
-  likes: number;
+  estimatedAudience: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * UTC epoch timestamp in seconds (Unix time) when TikTok first showed the ad. Multiply by 1000 for a JS Date in milliseconds.
    */
-  objective: string;
+  firstShownUtc?: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * TikTok's creative format code for the ad, as the ad library reports it.
+   */
+  format?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) when TikTok last showed the ad. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastShownUtc?: number;
+  /**
+   * TikTok's audit status code for the ad, as the ad library reports it.
+   */
+  status?: string;
+  /**
+   * Link to the ad's detail page in TikTok's public Ads Library.
+   */
+  url?: string;
+  /**
+   * Playable URL of the ad's first video. Populated whenever the provider has data for the entity.
    */
   videoUrl: string;
   [extra: string]: unknown;
@@ -235,6 +202,11 @@ export interface TiktokAdTransparencySearchInput {
    */
   advertiserId?: string;
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Search cursor from a previous response's nextCursor.
    */
   cursor?: string;
@@ -244,6 +216,10 @@ export interface TiktokAdTransparencySearchInput {
    * Default: 30.
    */
   days?: number;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of ads to return, from 1 to 50. Defaults to 20. Billing is flat per request.
    * Range: minimum 1, maximum 50.
@@ -275,14 +251,26 @@ export interface TiktokAdTransparencySearchInput {
    * Default: last_shown_date,desc.
    */
   sort?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokAdTransparencySearchAd {
+  /**
+   * Ad title as shown in TikTok's ad library.
+   */
+  adTitle?: string;
   /**
    * Advertiser display name associated with the ad. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   advertiserName?: string;
+  /**
+   * Estimated audience size band the ad reached, as a range string.
+   */
+  estimatedAudience?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the ad was first shown. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -357,14 +345,27 @@ export interface TiktokAdTransparencySearchData {
  */
 export interface TiktokAudienceDemographicsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * TikTok username without the leading @ (e.g. "shakira").
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokAudienceDemographicsAudienceLocation {
@@ -396,6 +397,11 @@ export interface TiktokAudienceDemographicsData {
  */
 export interface TiktokCommentRepliesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * TikTok comment ID (the comment's cid from the comments endpoint).
    */
   commentId: string;
@@ -404,10 +410,18 @@ export interface TiktokCommentRepliesInput {
    */
   cursor?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * TikTok video URL the comment belongs to.
    */
@@ -419,6 +433,14 @@ export interface TiktokCommentRepliesComment {
    * Populated whenever the provider has data for the entity.
    */
   author: string;
+  /**
+   * Reply author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
+   * Reply author's display name.
+   */
+  authorName?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -432,6 +454,10 @@ export interface TiktokCommentRepliesComment {
    * Populated whenever the provider has data for the entity.
    */
   text: string;
+  /**
+   * Identifier of the video the reply belongs to.
+   */
+  videoId?: string;
   [extra: string]: unknown;
 }
 
@@ -451,6 +477,11 @@ export interface TiktokCommentRepliesData {
  */
 export interface TiktokFollowersInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response's nextCursor, to fetch the next page of followers.
    */
   cursor?: string;
@@ -459,14 +490,30 @@ export interface TiktokFollowersInput {
    */
   handle: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokFollowersFollower {
   avatarUrl: string;
+  /**
+   * Account bio text.
+   */
+  bio?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
   followerCount: number;
   followingCount: number;
   /**
@@ -505,6 +552,11 @@ export interface TiktokFollowersData {
  */
 export interface TiktokFollowingInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
@@ -512,6 +564,10 @@ export interface TiktokFollowingInput {
    * TikTok username without the leading @ (e.g. "stoolpresidente").
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -525,17 +581,41 @@ export interface TiktokFollowingInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
-    "bio" | "followers" | "following" | "nextCursor" | "videos"
+    | "avatarUrl"
+    | "bio"
+    | "createdUtc"
+    | "followers"
+    | "following"
+    | "likes"
+    | "nextCursor"
+    | "private"
+    | "videos"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokFollowingFollowing {
+  /**
+   * Account avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  avatarUrl?: string;
   bio: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   displayName: string;
   followers: number;
+  /**
+   * Number of accounts this account follows.
+   */
+  following?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -544,6 +624,14 @@ export interface TiktokFollowingFollowing {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Total likes the account has received.
+   */
+  likes?: number;
+  /**
+   * Whether the account is private.
+   */
+  private?: boolean;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -568,9 +656,18 @@ export interface TiktokFollowingData {
  */
 export interface TiktokHashtagVideosInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * TikTok hashtag to fetch videos for, without the # prefix (e.g. booktok).
    */
   hashtag: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
@@ -581,6 +678,10 @@ export interface TiktokHashtagVideosInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokHashtagVideosItem {
@@ -589,6 +690,26 @@ export interface TiktokHashtagVideosItem {
    */
   authorHandle?: string;
   /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
+   * Author's display name.
+   */
+  authorName?: string;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string;
+  /**
+   * Whether the author's account carries a TikTok verification badge.
+   */
+  authorVerified?: boolean;
+  /**
+   * Number of times the video was saved.
+   */
+  collectCount?: number;
+  /**
    * Number of comments on the video.
    */
   commentCount?: number;
@@ -596,6 +717,10 @@ export interface TiktokHashtagVideosItem {
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
+  /**
+   * Video duration in seconds.
+   */
+  durationSeconds?: number;
   /**
    * The video's numeric TikTok ID, as a string. Populated whenever the provider has data for the entity.
    */
@@ -624,6 +749,10 @@ export interface TiktokHashtagVideosItem {
    * Canonical tiktok.com URL of the video, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string;
   [extra: string]: unknown;
 }
 
@@ -642,20 +771,41 @@ export interface TiktokHashtagVideosData {
  */
 export interface TiktokLiveInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * TikTok username without the leading @ (e.g. "thejustalex").
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
  * The `data` payload of TikTok Live (tiktok.live).
  */
 export interface TiktokLiveData {
+  /**
+   * Host's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  avatarUrl?: string;
+  /**
+   * Host's bio text.
+   */
+  bio?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -666,19 +816,43 @@ export interface TiktokLiveData {
   displayName: string;
   enterCount: number;
   /**
+   * Host's follower count.
+   */
+  followers?: number;
+  /**
+   * Number of accounts the host follows.
+   */
+  following?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   handle: string;
   /**
+   * Whether the host's account is private.
+   */
+  private?: boolean;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   roomId: string;
+  /**
+   * Host's opaque secondary TikTok user id.
+   */
+  secUid?: string;
   startTime: number;
   status: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   title: string;
+  /**
+   * Host's numeric TikTok user id.
+   */
+  userId?: string;
+  /**
+   * Whether the host's account carries a TikTok verification badge.
+   */
+  verified?: boolean;
   viewers: number;
   [extra: string]: unknown;
 }
@@ -688,10 +862,23 @@ export interface TiktokLiveData {
  */
 export interface TiktokPhotosInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full TikTok photo-mode post URL. TikTok serves slideshow posts under the same /video/<id> path as videos, so the normal share link works.
    */
@@ -725,6 +912,34 @@ export interface TiktokPhotosImage {
  */
 export interface TiktokPhotosData {
   /**
+   * Author's TikTok handle, without the leading @.
+   */
+  authorHandle?: string;
+  /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
+   * Author's display name.
+   */
+  authorName?: string;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string;
+  /**
+   * Post caption.
+   */
+  caption?: string;
+  /**
+   * Comment count.
+   */
+  comments?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * TikTok post id. Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -732,6 +947,148 @@ export interface TiktokPhotosData {
    * Every image in the post, in the order the creator arranged them. Populated whenever the provider has data for the entity.
    */
   images: TiktokPhotosImage[];
+  /**
+   * Like count.
+   */
+  likes?: number;
+  /**
+   * Two-letter region code the post was published from.
+   */
+  region?: string;
+  /**
+   * Save count.
+   */
+  saves?: number;
+  /**
+   * Share count.
+   */
+  shares?: number;
+  /**
+   * Canonical TikTok URL of the photo post.
+   */
+  url?: string;
+  /**
+   * View count.
+   */
+  views?: number;
+}
+
+/**
+ * Input for TikTok Playlist Videos (tiktok.playlist_videos).
+ */
+export interface TiktokPlaylistVideosInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * TikTok playlist id. Use it when tiktok.profile_playlists handed you the id.
+   */
+  id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Maximum items to return in one page.
+   * Range: minimum 1, maximum 30.
+   * Default: 20.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Full TikTok playlist URL. The playlist id is the numeric run at the end.
+   */
+  url?: string;
+}
+
+export interface TiktokPlaylistVideosVideo {
+  /**
+   * Handle of the account that posted the video, without the leading @. Populated whenever the provider has data for the entity.
+   */
+  author: string;
+  /**
+   * The author's follower count at the time of the request. TikTok rounds this for large accounts.
+   */
+  authorFollowers?: number;
+  /**
+   * The author's display name, which is not the handle and can contain any characters.
+   */
+  authorName?: string;
+  /**
+   * The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.
+   */
+  authorSecUid?: string;
+  authorVerified?: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  caption: string;
+  comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Video length in seconds.
+   */
+  durationSeconds?: number;
+  /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.
+   */
+  hashtags?: string[];
+  /**
+   * TikTok video id. Pass it to tiktok.video as id for the full record. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * URL of the video's cover image. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact. Absent when the upstream provides no cover.
+   */
+  image?: string;
+  likes: number;
+  saves?: number;
+  shares: number;
+  /**
+   * Credited author of the sound.
+   */
+  soundAuthor?: string;
+  /**
+   * Id of the sound the post uses. Pass it to tiktok.song or tiktok.song_videos as clipId.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track.
+   */
+  soundTitle?: string;
+  views: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Playlist Videos (tiktok.playlist_videos).
+ */
+export interface TiktokPlaylistVideosData {
+  /**
+   * Opaque cursor for the next page, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Videos in the playlist, in the order TikTok lists them.
+   */
+  videos: TiktokPlaylistVideosVideo[];
 }
 
 /**
@@ -739,14 +1096,27 @@ export interface TiktokPhotosData {
  */
 export interface TiktokProfileInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * TikTok username without the leading @ (e.g. "stoolpresidente").
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -761,6 +1131,10 @@ export interface TiktokProfileData {
    * Populated whenever the provider has data for the entity.
    */
   bio: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -777,6 +1151,10 @@ export interface TiktokProfileData {
    */
   handle: string;
   likes: number;
+  /**
+   * Whether the account is private.
+   */
+  private?: boolean;
   /**
    * TikTok's sec_uid: the opaque account identifier TikTok's own web and app endpoints key on, and the id most third-party TikTok tools ask for.
    */
@@ -796,9 +1174,18 @@ export interface TiktokProfileData {
  */
 export interface TiktokProfileContactInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * TikTok username without the leading @.
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -831,6 +1218,10 @@ export interface TiktokProfileContactInput {
     | "verified"
     | "videos"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokProfileContactEmail {
@@ -945,18 +1336,104 @@ export interface TiktokProfileContactData {
 }
 
 /**
- * Input for TikTok Profile Region (tiktok.profile_region).
+ * Input for TikTok Profile Playlists (tiktok.profile_playlists).
  */
-export interface TiktokProfileRegionInput {
+export interface TiktokProfilePlaylistsInput {
   /**
-   * TikTok username without the leading @ (e.g. "stoolpresidente").
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
    */
-  handle: string;
+  allowFallbacks?: boolean;
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Maximum items to return in one page.
+   * Range: minimum 1, maximum 30.
+   * Default: 20.
+   */
+  limit?: number;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * TikTok's opaque sec_uid for the account. TikTok's own endpoint keys on it and will not accept a handle; call tiktok.profile with the handle first and read secUid off its response.
+   */
+  secUid: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface TiktokProfilePlaylistsPlaylist {
+  /**
+   * Playlist cover image. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact.
+   */
+  coverUrl?: string;
+  /**
+   * Handle of the account that owns the playlist, without the leading @. Useful because this SKU is keyed by secUid rather than handle.
+   */
+  creatorHandle?: string;
+  /**
+   * Playlist id. Pass it to tiktok.playlist_videos as id to list the videos in it. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Number of videos TikTok reports in the playlist.
+   */
+  videoCount: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Profile Playlists (tiktok.profile_playlists).
+ */
+export interface TiktokProfilePlaylistsData {
+  /**
+   * Opaque cursor for the next page, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  playlists: TiktokProfilePlaylistsPlaylist[];
+}
+
+/**
+ * Input for TikTok Profile Region (tiktok.profile_region).
+ */
+export interface TiktokProfileRegionInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * TikTok username without the leading @ (e.g. "stoolpresidente").
+   */
+  handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -979,25 +1456,61 @@ export interface TiktokProfileRegionData {
 }
 
 /**
- * Input for TikTok Profile Videos (tiktok.profile_videos).
+ * Input for TikTok Profile Reposts (tiktok.profile_reposts).
  */
-export interface TiktokProfileVideosInput {
+export interface TiktokProfileRepostsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
   /**
    * Pagination cursor from a previous response's nextCursor.
    */
   cursor?: string;
   /**
-   * TikTok username without the leading @.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
-  handle: string;
+  ignoreSources?: string[];
+  /**
+   * Maximum items to return in one page.
+   * Range: minimum 1, maximum 30.
+   * Default: 20.
+   */
+  limit?: number;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * TikTok's opaque sec_uid for the account. TikTok's own endpoint keys on it and will not accept a handle; call tiktok.profile with the handle first and read secUid off its response.
+   */
+  secUid: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
-export interface TiktokProfileVideosVideo {
+export interface TiktokProfileRepostsVideo {
+  /**
+   * Handle of the account that posted the video, without the leading @. Populated whenever the provider has data for the entity.
+   */
+  author: string;
+  /**
+   * The author's follower count at the time of the request. TikTok rounds this for large accounts.
+   */
+  authorFollowers?: number;
+  /**
+   * The author's display name, which is not the handle and can contain any characters.
+   */
+  authorName?: string;
+  /**
+   * The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.
+   */
+  authorSecUid?: string;
+  authorVerified?: boolean;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1007,6 +1520,117 @@ export interface TiktokProfileVideosVideo {
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * Video length in seconds.
+   */
+  durationSeconds?: number;
+  /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.
+   */
+  hashtags?: string[];
+  /**
+   * TikTok video id. Pass it to tiktok.video as id for the full record. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * URL of the video's cover image. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact. Absent when the upstream provides no cover.
+   */
+  image?: string;
+  likes: number;
+  saves?: number;
+  shares: number;
+  /**
+   * Credited author of the sound.
+   */
+  soundAuthor?: string;
+  /**
+   * Id of the sound the post uses. Pass it to tiktok.song or tiktok.song_videos as clipId.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track.
+   */
+  soundTitle?: string;
+  views: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Profile Reposts (tiktok.profile_reposts).
+ */
+export interface TiktokProfileRepostsData {
+  /**
+   * Opaque cursor for the next page, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Videos the creator reposted, newest first. Reposts are other accounts' videos, so author is usually not the creator you asked about.
+   */
+  videos: TiktokProfileRepostsVideo[];
+}
+
+/**
+ * Input for TikTok Profile Videos (tiktok.profile_videos).
+ */
+export interface TiktokProfileVideosInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * TikTok username without the leading @.
+   */
+  handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface TiktokProfileVideosVideo {
+  /**
+   * Author's TikTok handle, without the leading @.
+   */
+  authorHandle?: string;
+  /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
+   * Author's display name.
+   */
+  authorName?: string;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  caption: string;
+  comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Video duration in seconds.
+   */
+  durationSeconds?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1018,9 +1642,17 @@ export interface TiktokProfileVideosVideo {
   likes: number;
   saves?: number;
   /**
+   * Share count.
+   */
+  shares?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string;
   views: number;
   [extra: string]: unknown;
 }
@@ -1041,9 +1673,18 @@ export interface TiktokProfileVideosData {
  */
 export interface TiktokSearchHashtagInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -1053,6 +1694,10 @@ export interface TiktokSearchHashtagInput {
    * Hashtag or keyword to search for (without the leading #).
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokSearchHashtagVideo {
@@ -1060,6 +1705,22 @@ export interface TiktokSearchHashtagVideo {
    * Populated whenever the provider has data for the entity.
    */
   author: string;
+  /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
+   * Author's display name.
+   */
+  authorName?: string;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string;
+  /**
+   * Whether the author's account carries a TikTok verification badge.
+   */
+  authorVerified?: boolean;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1070,11 +1731,31 @@ export interface TiktokSearchHashtagVideo {
    */
   createdUtc: number;
   /**
+   * Video duration in seconds.
+   */
+  durationSeconds?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the video's cover image. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  image?: string;
   likes: number;
+  /**
+   * Save count.
+   */
+  saves?: number;
   shares: number;
+  /**
+   * Canonical TikTok URL of the video.
+   */
+  url?: string;
+  /**
+   * Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string;
   views: number;
   [extra: string]: unknown;
 }
@@ -1098,13 +1779,22 @@ export interface TiktokSearchHashtagData {
  */
 export interface TiktokSearchKeywordInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
   /**
-   * Time frame filter. Use a canonical JSON integer that is nonnegative; common values are 0 for any time, 1 for the past 24 hours, 7 for the past week, and 30 for the past month. Legacy numeric strings remain accepted.
+   * Time frame filter, in days back from now. Use a canonical JSON integer that is nonnegative: 0 for any time, 1 for the past 24 hours, 7 for the past week, 30 for the past month, 90 for the past three months, or 180 for the past six months. Any other number is not guaranteed to filter anything. Legacy numeric strings remain accepted.
    */
   datePosted?: unknown;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -1122,6 +1812,10 @@ export interface TiktokSearchKeywordInput {
    * Sort order. Use the canonical JSON integer 0 for relevance, 1 for most liked, or 2 for newest first; legacy numeric strings remain accepted.
    */
   sortBy?: unknown;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokSearchKeywordVideo {
@@ -1165,13 +1859,200 @@ export interface TiktokSearchKeywordData {
 }
 
 /**
+ * Input for TikTok Photo Search (tiktok.search_photos).
+ */
+export interface TiktokSearchPhotosInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Maximum items to return in one page.
+   * Range: minimum 1, maximum 30.
+   * Default: 20.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Search keyword.
+   */
+  query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface TiktokSearchPhotosPost {
+  /**
+   * Handle of the account that posted the video, without the leading @. Populated whenever the provider has data for the entity.
+   */
+  author: string;
+  /**
+   * The author's follower count at the time of the request. TikTok rounds this for large accounts.
+   */
+  authorFollowers?: number;
+  /**
+   * The author's display name, which is not the handle and can contain any characters.
+   */
+  authorName?: string;
+  /**
+   * The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.
+   */
+  authorSecUid?: string;
+  authorVerified?: boolean;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  caption: string;
+  comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.
+   */
+  hashtags?: string[];
+  /**
+   * TikTok video id. Pass it to tiktok.video as id for the full record. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * The slideshow's images in order.
+   */
+  images?: TiktokSearchPhotosImage[];
+  likes: number;
+  saves?: number;
+  shares: number;
+  /**
+   * Credited author of the sound.
+   */
+  soundAuthor?: string;
+  /**
+   * Id of the sound the post uses. Pass it to tiktok.song or tiktok.song_videos as clipId.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track.
+   */
+  soundTitle?: string;
+  /**
+   * The slideshow's own title, which TikTok stores separately from the caption. Absent when the creator set none.
+   */
+  title?: string;
+  views: number;
+  [extra: string]: unknown;
+}
+
+export interface TiktokSearchPhotosImage {
+  height?: number;
+  /**
+   * Image URL. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact. Populated whenever the provider has data for the entity.
+   */
+  image: string;
+  width?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Photo Search (tiktok.search_photos).
+ */
+export interface TiktokSearchPhotosData {
+  /**
+   * Opaque cursor for the next page, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Photo-mode posts matching the keyword.
+   */
+  posts: TiktokSearchPhotosPost[];
+}
+
+/**
+ * Input for TikTok Search Suggestions (tiktok.search_suggestions).
+ */
+export interface TiktokSearchSuggestionsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Seed keyword to expand.
+   */
+  query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface TiktokSearchSuggestionsSuggestion {
+  /**
+   * BCP-47 language code TikTok assigns the suggestion, e.g. en.
+   */
+  language?: string;
+  /**
+   * TikTok's relative weight for the suggestion. Comparable within one response only; it is not a search volume.
+   */
+  score?: number;
+  /**
+   * The suggested search term. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of TikTok Search Suggestions (tiktok.search_suggestions).
+ */
+export interface TiktokSearchSuggestionsData {
+  /**
+   * Suggested searches, most relevant first.
+   */
+  suggestions: TiktokSearchSuggestionsSuggestion[];
+}
+
+/**
  * Input for TikTok Top Search (tiktok.search_top).
  */
 export interface TiktokSearchTopInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -1193,6 +2074,10 @@ export interface TiktokSearchTopInput {
    * Sort order: relevance, most-liked, date-posted.
    */
   sortBy?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokSearchTopItem {
@@ -1200,6 +2085,18 @@ export interface TiktokSearchTopItem {
    * Populated whenever the provider has data for the entity.
    */
   author: string;
+  /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
+   * Author's display name.
+   */
+  authorName?: string;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1212,9 +2109,17 @@ export interface TiktokSearchTopItem {
    */
   createdUtc?: number;
   /**
+   * Media duration in seconds.
+   */
+  durationSeconds?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the item's cover image. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  image?: string;
   likes: number;
   saves?: number;
   shares: number;
@@ -1222,6 +2127,10 @@ export interface TiktokSearchTopItem {
    * Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string;
   views: number;
   [extra: string]: unknown;
 }
@@ -1245,9 +2154,18 @@ export interface TiktokSearchTopData {
  */
 export interface TiktokSearchUsersInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response's nextCursor.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -1257,15 +2175,27 @@ export interface TiktokSearchUsersInput {
    * The keyword to search TikTok accounts for.
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokSearchUsersUser {
+  /**
+   * Account avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  avatarUrl?: string;
   followers: number;
   following: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   handle: string;
+  /**
+   * Total likes the account has received.
+   */
+  likes?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1274,6 +2204,14 @@ export interface TiktokSearchUsersUser {
    * Populated whenever the provider has data for the entity.
    */
   userId: string;
+  /**
+   * Whether the account carries a TikTok verification badge.
+   */
+  verified?: boolean;
+  /**
+   * Number of videos the account has posted.
+   */
+  videos?: number;
   [extra: string]: unknown;
 }
 
@@ -1296,14 +2234,27 @@ export interface TiktokSearchUsersData {
  */
 export interface TiktokSongInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * The clip identifier for the song, found in TikTok music URLs (e.g. 7439295283975702544).
    */
   clipId: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -1348,6 +2299,11 @@ export interface TiktokSongData {
  */
 export interface TiktokSongVideosInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * The song ID found in TikTok music URLs (e.g. 7439295283975702544).
    */
   clipId: string;
@@ -1356,10 +2312,18 @@ export interface TiktokSongVideosInput {
    */
   cursor?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokSongVideosVideo {
@@ -1368,19 +2332,47 @@ export interface TiktokSongVideosVideo {
    */
   authorHandle: string;
   /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   authorName: string;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string;
+  /**
+   * Number of times the video was saved.
+   */
+  collectCount?: number;
   commentCount: number;
   createTime: number;
   description: string;
+  /**
+   * Video duration in seconds.
+   */
+  durationSeconds?: number;
+  /**
+   * URL of the video's cover image. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  image?: string;
   likeCount: number;
   playCount: number;
   shareCount: number;
   /**
+   * Canonical TikTok URL of the video.
+   */
+  url?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   videoId: string;
+  /**
+   * Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string;
   [extra: string]: unknown;
 }
 
@@ -1404,27 +2396,14 @@ export interface TiktokSongVideosData {
  */
 export interface TiktokTopAdsSearchInput {
   /**
-   * Language code for returned ads (default en).
-   * One of: en, es, ar, vi, th, de, id, pt, fr, ms, nl, ja, it, ro, zh-Hant, ko.
-   * Default: en.
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
    */
-  adLanguage?:
-    | "en"
-    | "es"
-    | "ar"
-    | "vi"
-    | "th"
-    | "de"
-    | "id"
-    | "pt"
-    | "fr"
-    | "ms"
-    | "nl"
-    | "ja"
-    | "it"
-    | "ro"
-    | "zh-Hant"
-    | "ko";
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of ads requested for this page, from 1 through 20 (default 20).
    * Range: minimum 1, maximum 20.
@@ -1432,9 +2411,8 @@ export interface TiktokTopAdsSearchInput {
    */
   limit?: number;
   /**
-   * Campaign objective filter (default traffic).
+   * Campaign objective filter. Omit it to search every objective.
    * One of: traffic, app_installs, conversions, video_views, reach, lead_generation, product_sales.
-   * Default: traffic.
    */
   objective?:
     | "traffic"
@@ -1445,21 +2423,14 @@ export interface TiktokTopAdsSearchInput {
     | "lead_generation"
     | "product_sales";
   /**
-   * Result ordering: Creative Center recommendations or like count (default for_you).
-   * One of: for_you, likes.
-   * Default: for_you.
-   */
-  orderBy?: "for_you" | "likes";
-  /**
    * One-based provider page number (default 1).
    * Range: minimum 1.
    * Default: 1.
    */
   page?: number;
   /**
-   * Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent (default top_1_20).
+   * Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent. Omit it to search every bucket.
    * One of: top_1_20, top_21_40, top_41_60, top_61_80.
-   * Default: top_1_20.
    */
   performanceRank?: "top_1_20" | "top_21_40" | "top_41_60" | "top_61_80";
   /**
@@ -1477,10 +2448,9 @@ export interface TiktokTopAdsSearchInput {
    */
   query: string;
   /**
-   * Country code used to select the Creative Center market (default US).
-   * Default: US.
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
-  region?: string;
+  source?: string[];
 }
 
 export interface TiktokTopAdsSearchAd {
@@ -1584,6 +2554,15 @@ export interface TiktokTopAdsSearchData {
  */
 export interface TiktokTrendingFeedInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -1592,6 +2571,10 @@ export interface TiktokTrendingFeedInput {
    * 2-letter country code for the proxy location (e.g. "US").
    */
   region: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Set to true to return a simplified response.
    */
@@ -1603,6 +2586,18 @@ export interface TiktokTrendingFeedVideo {
    * Populated whenever the provider has data for the entity.
    */
   author: string;
+  /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
+   * Author's display name.
+   */
+  authorName?: string;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string;
   caption: string;
   comments: number;
   /**
@@ -1610,19 +2605,35 @@ export interface TiktokTrendingFeedVideo {
    */
   createdUtc: number;
   /**
+   * Video duration in seconds.
+   */
+  durationSeconds?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the video's cover image. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  image?: string;
   likes: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   region: string;
+  /**
+   * Save count.
+   */
+  saves?: number;
   shares: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string;
   views: number;
   [extra: string]: unknown;
 }
@@ -1641,6 +2652,15 @@ export interface TiktokTrendingFeedData {
  * Input for TikTok Trending Hashtags (tiktok.trending_hashtags).
  */
 export interface TiktokTrendingHashtagsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Restrict the ranking to one industry. Omit for the all-industries board.
    * One of: apparel_accessories, baby_kids_maternity, beauty_personal_care, education, food_beverage, games, health, home_improvement, household_products, news_entertainment, pets, sports_outdoor, tech_electronics, travel, vehicle_transportation.
@@ -1714,6 +2734,10 @@ export interface TiktokTrendingHashtagsInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `industryIds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a hashtag that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: ("industryIds" | "topCreators")[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokTrendingHashtagsItem {
@@ -1818,14 +2842,27 @@ export interface TiktokTrendingHashtagsData {
  */
 export interface TiktokVideoInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * TikTok video ID, the numeric run at the end of a video URL. Use it when a listing SKU handed you an id and no URL.
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full TikTok video URL.
    */
@@ -1837,10 +2874,34 @@ export interface TiktokVideoInput {
  */
 export interface TiktokVideoData {
   /**
+   * Author's TikTok handle, without the leading @.
+   */
+  authorHandle?: string;
+  /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
+   * Author's display name.
+   */
+  authorName?: string;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   caption: string;
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Video duration in seconds.
+   */
+  durationSeconds?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1853,6 +2914,14 @@ export interface TiktokVideoData {
   region: string;
   saves: number;
   shares: number;
+  /**
+   * Canonical TikTok URL of the video.
+   */
+  url?: string;
+  /**
+   * Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string;
   views: number;
   [extra: string]: unknown;
 }
@@ -1862,14 +2931,27 @@ export interface TiktokVideoData {
  */
 export interface TiktokVideoCommentsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response's nextCursor.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full TikTok video URL.
    */
@@ -1881,6 +2963,14 @@ export interface TiktokVideoCommentsComment {
    * Populated whenever the provider has data for the entity.
    */
   author: string;
+  /**
+   * Comment author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  authorImage?: string;
+  /**
+   * Comment author's display name.
+   */
+  authorName?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -1895,6 +2985,10 @@ export interface TiktokVideoCommentsComment {
    * Populated whenever the provider has data for the entity.
    */
   text: string;
+  /**
+   * Identifier of the video the comment belongs to.
+   */
+  videoId?: string;
   [extra: string]: unknown;
 }
 
@@ -1914,10 +3008,40 @@ export interface TiktokVideoCommentsData {
  */
 export interface TiktokVideoDownloadInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `height` or `width`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "authorHandle"
+    | "authorName"
+    | "authorUserId"
+    | "caption"
+    | "createdUtc"
+    | "durationSeconds"
+    | "height"
+    | "image"
+    | "region"
+    | "url"
+    | "watermarkedUrl"
+    | "width"
+  )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full TikTok video URL. Share links and tracking query params are fine.
    */
@@ -1928,6 +3052,26 @@ export interface TiktokVideoDownloadInput {
  * The `data` payload of TikTok Video Download (tiktok.video_download).
  */
 export interface TiktokVideoDownloadData {
+  /**
+   * Author's TikTok handle, without the leading @.
+   */
+  authorHandle?: string;
+  /**
+   * Author's display name.
+   */
+  authorName?: string;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string;
+  /**
+   * Post caption.
+   */
+  caption?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
   /**
    * Length of the video in seconds.
    */
@@ -1946,6 +3090,14 @@ export interface TiktokVideoDownloadData {
    */
   image?: string;
   /**
+   * Two-letter region code the video was published from.
+   */
+  region?: string;
+  /**
+   * Canonical TikTok URL of the video.
+   */
+  url?: string;
+  /**
    * Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Populated whenever the provider has data for the entity.
    * Format: uri.
    */
@@ -1963,14 +3115,27 @@ export interface TiktokVideoDownloadData {
 }
 
 /**
- * Input for TikTok Video Transcript (tiktok.video_transcript).
+ * Input for TikTok Video Transcript (native captions) (tiktok.video_transcript).
  */
 export interface TiktokVideoTranscriptInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full TikTok video URL.
    */
@@ -1978,35 +3143,66 @@ export interface TiktokVideoTranscriptInput {
 }
 
 /**
- * The `data` payload of TikTok Video Transcript (tiktok.video_transcript).
+ * The `data` payload of TikTok Video Transcript (native captions) (tiktok.video_transcript).
  */
 export interface TiktokVideoTranscriptData {
+  /**
+   * TikTok video id the transcript belongs to.
+   */
+  id?: string;
   language?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   transcript: string;
+  /**
+   * Canonical TikTok URL of the video.
+   */
+  url?: string;
   [extra: string]: unknown;
 }
 
 /**
- * Input for TikTok Video Transcript (Audio) (tiktok.video_transcript_full).
+ * Input for TikTok Video Transcript (AnyAPI speech to text) (tiktok.video_transcript_full).
  */
 export interface TiktokVideoTranscriptFullInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Also store the video and return a hosted MP4 link that plays without TikTok's signed CDN URL. Charged as an extra on top of the transcript.
+   * Default: false.
+   */
+  hostVideo?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * TikTok video URL (e.g. "https://www.tiktok.com/@user/video/1234567890").
    */
   url: string;
+  /**
+   * Return per-word timings inside each segment. Words carry timings only; the recognizer scores a phrase rather than a word, so there is no per-word confidence to report.
+   * Default: false.
+   */
+  wordTimestamps?: boolean;
 }
 
 export interface TiktokVideoTranscriptFullSegment {
   /**
-   * Segment end offset in seconds.
+   * Segment end offset in seconds, taken from the last word it contains.
    * Range: minimum 0.
    */
   endSeconds: number;
@@ -2015,11 +3211,11 @@ export interface TiktokVideoTranscriptFullSegment {
    */
   language?: string;
   /**
-   * Recognizer speaker label for this segment (e.g. "SPEAKER_00"). Diarization is a guess, not an identification.
+   * Speaker label for this segment, stable within one response and meaningless across responses. Telling voices apart is a guess, not an identification, and the label is not a name.
    */
   speaker?: string;
   /**
-   * Segment start offset in seconds.
+   * Segment start offset in seconds, taken from the first word it contains.
    * Range: minimum 0.
    */
   startSeconds: number;
@@ -2028,7 +3224,7 @@ export interface TiktokVideoTranscriptFullSegment {
    */
   text: string;
   /**
-   * Per-word timing and recognizer confidence for this segment.
+   * Per-word timings for this segment, returned only when the request set wordTimestamps. Words carry no confidence score: the recognizer scores a phrase rather than a word.
    */
   words?: TiktokVideoTranscriptFullWord[];
   [extra: string]: unknown;
@@ -2036,56 +3232,81 @@ export interface TiktokVideoTranscriptFullSegment {
 
 export interface TiktokVideoTranscriptFullWord {
   /**
-   * Recognizer score for this word, exactly as the recognizer reported it. It is normally an alignment probability between 0 and 1, but on audio the recognizer could not align it reports a negative log-scale score instead, so read the sign before treating the number as a probability. Either way, lower means less certain, and low values are common on names, jargon, and music.
-   */
-  confidence: number;
-  /**
    * Word end offset in seconds.
    * Range: minimum 0.
    */
   endSeconds?: number;
-  /**
-   * Recognizer speaker label for this word.
-   */
-  speaker?: string;
   /**
    * Word start offset in seconds.
    * Range: minimum 0.
    */
   startSeconds?: number;
   /**
-   * The recognized word.
+   * The recognized word, in display form with its own punctuation.
    */
-  word: string;
+  text: string;
   [extra: string]: unknown;
 }
 
 /**
- * The `data` payload of TikTok Video Transcript (Audio) (tiktok.video_transcript_full).
+ * The `data` payload of TikTok Video Transcript (AnyAPI speech to text) (tiktok.video_transcript_full).
  */
 export interface TiktokVideoTranscriptFullData {
+  /**
+   * Size of the hosted MP4 in bytes.
+   * Range: minimum 0.
+   */
+  bytes?: number;
   /**
    * Video duration in seconds.
    * Range: minimum 0.
    */
   durationSeconds?: number;
   /**
+   * When the hosted link stops working. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  expiresUtc?: number;
+  /**
+   * Hosted MP4 link, returned only when the request set hostVideo. It plays without TikTok's signed CDN URL and without any cookie, and it stops working at expiresUtc.
+   * Format: uri.
+   */
+  hostedUrl?: string;
+  /**
+   * TikTok video id.
+   */
+  id?: string;
+  /**
    * Detected spoken language of the audio (BCP-47 style code, e.g. "en").
    */
   language?: string;
   /**
-   * Timed transcript segments in playback order, each with the recognizer's per-word confidence so low-confidence text can be treated as uncertain rather than quoted. Populated whenever the provider has data for the entity.
+   * Creator handle, without the leading @.
+   */
+  ownerUsername?: string;
+  /**
+   * Timed transcript segments in playback order, one per sentence, so a segment locates a specific line in the video rather than a whole speaker turn. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   segments?: TiktokVideoTranscriptFullSegment[];
   /**
-   * How the text was produced. Always "audio_asr" on this endpoint: the words come from automatic speech recognition over the audio, not from a caption track the platform published. Populated whenever the provider has data for the entity.
+   * How the text was produced. "audio_asr" means the words come from speech recognition over the video's audio, never from a caption track TikTok published - for TikTok's own captions, use tiktok.video_transcript. "transcript_unavailable" means recognition did not complete for this video, so the transcript is empty for that reason rather than because the video has no speech in it; the rest of the record is still what we resolved, and no audio time is charged. Populated whenever the provider has data for the entity.
+   * One of: audio_asr, transcript_unavailable.
    */
-  source: string;
+  source: "audio_asr" | "transcript_unavailable";
   /**
-   * Full spoken-word transcript, machine-transcribed from the video's audio track. Populated whenever the provider has data for the entity.
+   * Cover image for the video. A signed, short-lived TikTok CDN URL, often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support.
+   * Format: uri.
+   */
+  thumbnailUrl?: string;
+  /**
+   * Full spoken-word transcript, recognized from the video's audio track. Populated whenever the provider has data for the entity.
    */
   transcript: string;
+  /**
+   * Canonical URL of the video this transcript came from.
+   * Format: uri.
+   */
+  url?: string;
   [extra: string]: unknown;
 }
 
@@ -2116,12 +3337,12 @@ export class TiktokNamespace {
   /**
    * TikTok Ad Library Search
    *
-   * Search TikTok's ad library by keyword (top ads with brand, title, spend, CTR, likes, and video info).
+   * Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0005 per request.
    *
    * @example
-   * const res = await client.tiktok.adLibrarySearch({ query: "spotify", limit: 20, objective: "conversions", period: 30 });
+   * const res = await client.tiktok.adLibrarySearch({ query: "spotify" });
    */
   adLibrarySearch(
     input: TiktokAdLibrarySearchInput,
@@ -2218,7 +3439,7 @@ export class TiktokNamespace {
    *
    * List the replies to a TikTok comment with cursor pagination (text, author, likes).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.tiktok.commentReplies({ commentId: "7623828115408274207", url: "https://www.tiktok.com/@stoolpresidente/video/7623818255903329566" });
@@ -2382,11 +3603,51 @@ export class TiktokNamespace {
   }
 
   /**
+   * TikTok Playlist Videos
+   *
+   * List the videos inside one TikTok playlist by playlist URL or id, in playlist order, with view, like and comment counts.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.tiktok.playlistVideos({ url: "https://www.tiktok.com/@mrbeast/playlist/Beast%20Games-7596415294902389534" });
+   */
+  playlistVideos(
+    input: TiktokPlaylistVideosInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokPlaylistVideosData>> {
+    return this._core.run("tiktok.playlist_videos", input, options);
+  }
+
+  /**
+   * Iterate every result of TikTok Playlist Videos across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterPlaylistVideos(
+    input: TiktokPlaylistVideosInput,
+    options?: RequestOptions,
+  ): Paginator<TiktokPlaylistVideosVideo, RunResult<TiktokPlaylistVideosData>> {
+    return paginate<
+      TiktokPlaylistVideosVideo,
+      RunResult<TiktokPlaylistVideosData>
+    >(
+      this._core,
+      "tiktok.playlist_videos",
+      input as unknown as Record<string, unknown>,
+      "videos",
+      false,
+      options,
+    );
+  }
+
+  /**
    * TikTok Profile
    *
    * Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.tiktok.profile({ handle: "zachking" });
@@ -2416,6 +3677,49 @@ export class TiktokNamespace {
   }
 
   /**
+   * TikTok Profile Playlists
+   *
+   * List the playlists a TikTok creator has published on their profile, with each playlist's name, video count and cover image.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.tiktok.profilePlaylists({ secUid: "MS4wLjABAAAABKjQkOz_IIzXXzEAl_9LGsWhvK-gBnlczwRPXK8EmxAp6K3X0qiaP5_OEqmm0XwG" });
+   */
+  profilePlaylists(
+    input: TiktokProfilePlaylistsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokProfilePlaylistsData>> {
+    return this._core.run("tiktok.profile_playlists", input, options);
+  }
+
+  /**
+   * Iterate every result of TikTok Profile Playlists across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterProfilePlaylists(
+    input: TiktokProfilePlaylistsInput,
+    options?: RequestOptions,
+  ): Paginator<
+    TiktokProfilePlaylistsPlaylist,
+    RunResult<TiktokProfilePlaylistsData>
+  > {
+    return paginate<
+      TiktokProfilePlaylistsPlaylist,
+      RunResult<TiktokProfilePlaylistsData>
+    >(
+      this._core,
+      "tiktok.profile_playlists",
+      input as unknown as Record<string, unknown>,
+      "playlists",
+      false,
+      options,
+    );
+  }
+
+  /**
    * TikTok Profile Region
    *
    * Resolve the home region (country) of a TikTok creator by handle.
@@ -2433,11 +3737,51 @@ export class TiktokNamespace {
   }
 
   /**
+   * TikTok Profile Reposts
+   *
+   * List the videos a TikTok creator has reposted to their profile, with view, like and comment counts and cursor pagination.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.tiktok.profileReposts({ secUid: "MS4wLjABAAAABKjQkOz_IIzXXzEAl_9LGsWhvK-gBnlczwRPXK8EmxAp6K3X0qiaP5_OEqmm0XwG" });
+   */
+  profileReposts(
+    input: TiktokProfileRepostsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokProfileRepostsData>> {
+    return this._core.run("tiktok.profile_reposts", input, options);
+  }
+
+  /**
+   * Iterate every result of TikTok Profile Reposts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterProfileReposts(
+    input: TiktokProfileRepostsInput,
+    options?: RequestOptions,
+  ): Paginator<TiktokProfileRepostsVideo, RunResult<TiktokProfileRepostsData>> {
+    return paginate<
+      TiktokProfileRepostsVideo,
+      RunResult<TiktokProfileRepostsData>
+    >(
+      this._core,
+      "tiktok.profile_reposts",
+      input as unknown as Record<string, unknown>,
+      "videos",
+      false,
+      options,
+    );
+  }
+
+  /**
    * TikTok Profile Videos
    *
    * List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0007 per request.
    *
    * @example
    * const res = await client.tiktok.profileVideos({ handle: "zachking" });
@@ -2517,7 +3861,7 @@ export class TiktokNamespace {
    *
    * Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0007 per request.
    *
    * @example
    * const res = await client.tiktok.searchKeyword({ query: "cooking", datePosted: 0, sortBy: 0 });
@@ -2553,11 +3897,65 @@ export class TiktokNamespace {
   }
 
   /**
+   * TikTok Photo Search
+   *
+   * Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.tiktok.searchPhotos({ query: "latte art" });
+   */
+  searchPhotos(
+    input: TiktokSearchPhotosInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokSearchPhotosData>> {
+    return this._core.run("tiktok.search_photos", input, options);
+  }
+
+  /**
+   * Iterate every result of TikTok Photo Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchPhotos(
+    input: TiktokSearchPhotosInput,
+    options?: RequestOptions,
+  ): Paginator<TiktokSearchPhotosPost, RunResult<TiktokSearchPhotosData>> {
+    return paginate<TiktokSearchPhotosPost, RunResult<TiktokSearchPhotosData>>(
+      this._core,
+      "tiktok.search_photos",
+      input as unknown as Record<string, unknown>,
+      "posts",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * TikTok Search Suggestions
+   *
+   * Get the search terms TikTok suggests for a keyword, each with its language and relative weight - the queries real TikTok users type around your topic.
+   *
+   * Price: $0.0012 per request.
+   *
+   * @example
+   * const res = await client.tiktok.searchSuggestions({ query: "protein powder" });
+   */
+  searchSuggestions(
+    input: TiktokSearchSuggestionsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<TiktokSearchSuggestionsData>> {
+    return this._core.run("tiktok.search_suggestions", input, options);
+  }
+
+  /**
    * TikTok Top Search
    *
    * Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.tiktok.searchTop({ query: "funny" });
@@ -2594,7 +3992,7 @@ export class TiktokNamespace {
    *
    * Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0007 per request.
    *
    * @example
    * const res = await client.tiktok.searchUsers({ query: "chef" });
@@ -2631,7 +4029,7 @@ export class TiktokNamespace {
    *
    * Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.tiktok.song({ clipId: "7439295283975702544" });
@@ -2648,7 +4046,7 @@ export class TiktokNamespace {
    *
    * List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.tiktok.songVideos({ clipId: "7439295283975702544" });
@@ -2683,7 +4081,7 @@ export class TiktokNamespace {
   /**
    * TikTok Top Ads Search
    *
-   * Search TikTok Creative Center top video ads by keyword with explicit performance, objective, region, language, and time-window filters.
+   * Search TikTok Creative Center top video ads by keyword, with campaign objective, performance percentile, and time-window filters.
    *
    * Price: $0.0012 per request.
    *
@@ -2702,7 +4100,7 @@ export class TiktokNamespace {
    *
    * Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.trendingFeed({ region: "US" });
@@ -2736,7 +4134,7 @@ export class TiktokNamespace {
    *
    * Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).
    *
-   * Price: $0.0005 per request.
+   * Price: $0.00045 per request.
    *
    * @example
    * const res = await client.tiktok.video({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m" });
@@ -2753,7 +4151,7 @@ export class TiktokNamespace {
    *
    * List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).
    *
-   * Price: $0.0008 per request.
+   * Price: $0.0007 per request.
    *
    * @example
    * const res = await client.tiktok.videoComments({ url: "https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m" });
@@ -2793,7 +4191,7 @@ export class TiktokNamespace {
    *
    * Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.tiktok.videoDownload({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287" });
@@ -2806,9 +4204,9 @@ export class TiktokNamespace {
   }
 
   /**
-   * TikTok Video Transcript
+   * TikTok Video Transcript (native captions)
    *
-   * Fetch the spoken-word transcript of a TikTok video by URL.
+   * Fetch the caption track TikTok itself published for a video, as TikTok wrote it. It is the cheapest way to get the words, and it is only as good as TikTok's own transcription: it mishears names and uncommon words, and many videos - especially non-English ones - have no caption track at all, which comes back as not found. When you need the words to be right, or there is no track to read, tiktok.video_transcript_full transcribes the audio with AnyAPI's own speech-to-text instead.
    *
    * Price: $0.0012 per request.
    *
@@ -2823,11 +4221,11 @@ export class TiktokNamespace {
   }
 
   /**
-   * TikTok Video Transcript (Audio)
+   * TikTok Video Transcript (AnyAPI speech to text)
    *
-   * Transcribe the spoken audio of a TikTok video with timed segments, speaker labels, and per-word confidence - for videos TikTok publishes no subtitle track for.
+   * Transcribe the spoken audio of a TikTok video with AnyAPI's own speech-to-text: timed sentence-level segments, speaker labels, detected language, and optional per-word timings, for videos TikTok publishes no caption track for and for videos whose caption track gets the words wrong. AnyAPI downloads the video and runs the audio through MAI-Transcribe-2 rather than reading anything TikTok wrote, which is why it handles non-English speech and hears words the native captions mishear. The answer also carries the video's id, URL, creator handle, and cover image. Turn on hostVideo to also get the MP4 on a hosted link that plays without TikTok's signed, short-lived CDN URL expiring on you. If you only want whatever TikTok itself published and you want it for a tenth of the price, tiktok.video_transcript is that.
    *
-   * Price: $0.0176 per request plus $0 per result (maximum $0.0176).
+   * Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
    *
    * @example
    * const res = await client.tiktok.videoTranscriptFull({ url: "https://www.tiktok.com/@thatdudecancook/video/7649086431641521421" });

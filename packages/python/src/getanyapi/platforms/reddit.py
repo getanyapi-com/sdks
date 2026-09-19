@@ -21,11 +21,32 @@ if TYPE_CHECKING:
     from .._client import AnyAPI
 
 
+class RedditAvatarInput(TypedDict, total=False):
+    """Input for Reddit Avatar."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    username: Required[str]
+    """Reddit username, without the u/ prefix. Example: "spez"."""
+
+
 class RedditPostInput(TypedDict, total=False):
     """Input for Reddit Post."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full Reddit post URL in the /r/<subreddit>/comments/<id>/<slug>/ form, e.g. "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/". The short "reddit.com/comments/<id>" form is not accepted."""
 
@@ -33,21 +54,33 @@ class RedditPostInput(TypedDict, total=False):
 class RedditPostCommentsInput(TypedDict, total=False):
     """Input for Reddit Post Comments."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Cursor from a previous response for more comments."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
-    """Full Reddit post URL."""
+    """Full Reddit post URL on reddit.com. A gallery link (https://www.reddit.com/gallery/<id>) is read as the post it belongs to."""
 
 
 class RedditPostTranscriptInput(TypedDict, total=False):
     """Input for Reddit Post Transcript."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Optional two-letter language code (defaults to en)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Reddit post URL or direct v.redd.it video URL to transcribe."""
 
@@ -55,8 +88,14 @@ class RedditPostTranscriptInput(TypedDict, total=False):
 class RedditProfileInput(TypedDict, total=False):
     """Input for Reddit Profile."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
     """Reddit username, without the u/ prefix. Example: "spez"."""
 
@@ -64,8 +103,12 @@ class RedditProfileInput(TypedDict, total=False):
 class RedditSearchInput(TypedDict, total=False):
     """Input for Reddit Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of results."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
@@ -74,11 +117,13 @@ class RedditSearchInput(TypedDict, total=False):
         list[
             Literal[
                 "author",
+                "authorId",
                 "createdUtc",
                 "isArchived",
                 "isLocked",
                 "media",
                 "nextCursor",
+                "nsfw",
                 "numComments",
                 "score",
                 "selftext",
@@ -88,6 +133,8 @@ class RedditSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     sort: NotRequired[Literal["relevance", "hot", "top", "new", "comments"]]
     """Result sort order."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     timeframe: NotRequired[Literal["hour", "day", "week", "month", "year", "all"]]
     """Time window for results."""
 
@@ -95,10 +142,16 @@ class RedditSearchInput(TypedDict, total=False):
 class RedditSubredditDetailsInput(TypedDict, total=False):
     """Input for Reddit Subreddit Details."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[list[Literal["advertiserCategory", "weeklyActiveUsers"]]]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `weeklyActiveUsers` or `advertiserCategory`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a subreddit that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     subreddit: Required[str]
     """Subreddit name without the r/ prefix. Case-sensitive (e.g. "AskReddit", not "askreddit")."""
 
@@ -108,8 +161,12 @@ class RedditSubredditPostsInput(TypedDict, total=False):
 
     after: NotRequired[str]
     """Legacy pagination alias. Prefer `cursor`; omit both fields for the first page."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's `nextCursor`; omit for the first page."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, pass `nextCursor` back as `cursor`. Range: 1 to 100. Default: 25."""
     preferLatencyUnderMs: NotRequired[int]
@@ -117,18 +174,23 @@ class RedditSubredditPostsInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
+                "authorId",
                 "isArchived",
                 "isLocked",
                 "nextCursor",
+                "nsfw",
                 "numComments",
                 "score",
                 "selftext",
+                "upvoteRatio",
             ]
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     sort: NotRequired[Literal["hot", "new", "top"]]
     """Listing sort order. Default: hot."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     subreddit: Required[str]
     """Subreddit name without the leading r/ (e.g. "golang")."""
     timeframe: NotRequired[Literal["all", "year", "month", "week", "day", "hour"]]
@@ -138,8 +200,12 @@ class RedditSubredditPostsInput(TypedDict, total=False):
 class RedditSubredditSearchInput(TypedDict, total=False):
     """Input for Reddit Subreddit Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Optional pagination token from a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: NotRequired[str]
@@ -148,6 +214,7 @@ class RedditSubredditSearchInput(TypedDict, total=False):
         list[
             Literal[
                 "author",
+                "authorId",
                 "createdUtc",
                 "isArchived",
                 "isLocked",
@@ -162,6 +229,8 @@ class RedditSubredditSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     sort: NotRequired[str]
     """Optional sort order: relevance, hot, top, new, comments."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     subreddit: Required[str]
     """Subreddit name without the r/ prefix (e.g. 'Fitness')."""
     timeframe: NotRequired[str]
@@ -173,23 +242,35 @@ class RedditTrendingPostsInput(TypedDict, total=False):
 
     after: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor. Omit for the first page."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of trending posts to return (1-100, default 25). Range: 1 to 100. Default: 25."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class RedditUserCommentsInput(TypedDict, total=False):
     """Input for Reddit User Comments."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of comments to return in this response (a page cap, not a total). Defaults to 25. Range: 1 to 100. Default: 25."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["new", "top", "hot", "controversial"]]
     """Sort order for the user's comments. Defaults to new (most recent first)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
     """Reddit username, without the u/ prefix. Example: "spez"."""
 
@@ -197,29 +278,78 @@ class RedditUserCommentsInput(TypedDict, total=False):
 class RedditUserPostsInput(TypedDict, total=False):
     """Input for Reddit User Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
         list[
             Literal[
+                "authorId",
                 "createdUtc",
                 "isArchived",
                 "isLocked",
                 "media",
                 "nextCursor",
+                "nsfw",
                 "numComments",
                 "score",
                 "selftext",
+                "upvoteRatio",
             ]
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `isLocked`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     sort: NotRequired[Literal["new", "top", "hot", "controversial"]]
     """Sort order for the user's posts. Defaults to new (most recent first)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
     """Reddit username without the leading u/ prefix (e.g. "spez")."""
+
+
+class RedditAvatarData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="URL of the profile avatar image, with sizing and signing query params stripped. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    comment_karma: int | None = Field(
+        default=None,
+        alias="commentKarma",
+        description="Karma earned from comments. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(
+        description="Reddit account ID (base-36, without the t2_ prefix). Populated whenever the provider has data for the entity."
+    )
+    karma: int | None = Field(
+        default=None,
+        description="Total karma across the account, as Reddit reports it. The postKarma and commentKarma fields below are the split it is composed of. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    post_karma: int | None = Field(
+        default=None,
+        alias="postKarma",
+        description="Karma earned from posts. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Absolute reddit.com URL of the profile page. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    username: str = Field(
+        description="Account username, without the u/ prefix. Populated whenever the provider has data for the entity."
+    )
 
 
 class RedditPostData(BaseModel):
@@ -228,6 +358,11 @@ class RedditPostData(BaseModel):
     author: str = Field(
         description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
     )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Reddit account ID of the author, without the t2_ prefix.",
+    )
     body: str | None = Field(
         default=None,
         description="The post's own body text (selftext), as Markdown. Empty for link posts, which carry no body. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -235,6 +370,15 @@ class RedditPostData(BaseModel):
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    domain: str | None = Field(
+        default=None,
+        description='Domain the post links to, for example "self.IAmA" for a text post.',
+    )
+    edited_utc: float | None = Field(
+        default=None,
+        alias="editedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) of the last edit. Multiply by 1000 for a JS Date in milliseconds.",
     )
     id: str = Field(
         description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
@@ -350,6 +494,9 @@ class RedditPostTranscriptData(BaseModel):
     )
     transcript: str
     transcript_not_available: bool = Field(alias="transcriptNotAvailable")
+    url: str | None = Field(
+        default=None, description="Canonical URL of the post the transcript belongs to."
+    )
 
 
 class RedditProfileData(BaseModel):
@@ -444,6 +591,11 @@ class RedditSearchPost(BaseModel):
     author: str = Field(
         description="Author username, without the u/ prefix. Empty when the upstream omits it."
     )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Reddit account ID of the author, without the t2_ prefix.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
@@ -464,6 +616,9 @@ class RedditSearchPost(BaseModel):
     media: list[RedditSearchMedia] | None = Field(
         default=None,
         description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
+    nsfw: bool | None = Field(
+        default=None, description="Whether the post is marked not-safe-for-work."
     )
     num_comments: int = Field(
         alias="numComments", description="Total number of comments on the post."
@@ -551,6 +706,11 @@ class RedditSubredditPostsPost(BaseModel):
     author: str = Field(
         description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
     )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Reddit account ID of the author, without the t2_ prefix.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -568,6 +728,9 @@ class RedditSubredditPostsPost(BaseModel):
         alias="isLocked",
         description="True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
     )
+    nsfw: bool | None = Field(
+        default=None, description="Whether the post is marked not-safe-for-work."
+    )
     num_comments: int = Field(
         alias="numComments", description="Total number of comments on the post."
     )
@@ -584,6 +747,11 @@ class RedditSubredditPostsPost(BaseModel):
     )
     title: str = Field(
         description="Post title. Populated whenever the provider has data for the entity."
+    )
+    upvote_ratio: float | None = Field(
+        default=None,
+        alias="upvoteRatio",
+        description="Share of votes on the post that are upvotes, between 0 and 1.",
     )
     url: str = Field(
         description="The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity."
@@ -607,6 +775,11 @@ class RedditSubredditSearchPost(BaseModel):
 
     author: str = Field(
         description="Author username, without the u/ prefix. Empty when the upstream omits it."
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Reddit account ID of the author, without the t2_ prefix.",
     )
     created_utc: float = Field(
         alias="createdUtc",
@@ -666,9 +839,18 @@ class RedditTrendingPostsPost(BaseModel):
     author: str = Field(
         description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
     )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Reddit account ID of the author, without the t2_ prefix.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Populated whenever the provider has data for the entity.",
+    )
+    domain: str | None = Field(
+        default=None,
+        description='Domain the post links to, for example "self.IAmA" for a text post.',
     )
     id: str = Field(
         description="Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity."
@@ -682,6 +864,9 @@ class RedditTrendingPostsPost(BaseModel):
         default=None,
         alias="isLocked",
         description="True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.",
+    )
+    nsfw: bool | None = Field(
+        default=None, description="Whether the post is marked not-safe-for-work."
     )
     num_comments: int = Field(
         alias="numComments", description="Total number of comments on the post."
@@ -699,6 +884,11 @@ class RedditTrendingPostsPost(BaseModel):
     )
     title: str = Field(
         description="Post title. Populated whenever the provider has data for the entity."
+    )
+    upvote_ratio: float | None = Field(
+        default=None,
+        alias="upvoteRatio",
+        description="Share of votes on the post that are upvotes, between 0 and 1.",
     )
     url: str = Field(
         description="The post's destination link. Populated whenever the provider has data for the entity."
@@ -773,6 +963,11 @@ class RedditUserPostsPost(BaseModel):
     author: str = Field(
         description="Author username, without the u/ prefix. Populated whenever the provider has data for the entity."
     )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Reddit account ID of the author, without the t2_ prefix.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
@@ -793,6 +988,9 @@ class RedditUserPostsPost(BaseModel):
     media: list[RedditUserPostsMedia] | None = Field(
         default=None,
         description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
+    nsfw: bool | None = Field(
+        default=None, description="Whether the post is marked not-safe-for-work."
     )
     num_comments: int | None = Field(
         default=None,
@@ -815,6 +1013,11 @@ class RedditUserPostsPost(BaseModel):
     )
     title: str = Field(
         description="Post title. Populated whenever the provider has data for the entity."
+    )
+    upvote_ratio: float | None = Field(
+        default=None,
+        alias="upvoteRatio",
+        description="Share of votes on the post that are upvotes, between 0 and 1.",
     )
     url: str | None = Field(
         default=None,
@@ -847,6 +1050,28 @@ class RedditNamespace:
     def __init__(self, client: "AnyAPI") -> None:
         self._client = client
 
+    def avatar(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RedditAvatarInput],
+    ) -> RunResult[RedditAvatarData]:
+        """Reddit Avatar
+
+        Get a Reddit user's profile picture URL, karma, and account age by username.
+        The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and
+        post and comment counts.
+
+        Price: $0.00038 per request.
+
+        Example:
+            res = client.reddit.avatar(username="spez")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "reddit.avatar", dict(input), options
+        )
+        return RunResult[RedditAvatarData].model_validate(raw)
+
     def post(
         self, *, options: RequestOptions | None = None, **input: Unpack[RedditPostInput]
     ) -> RunResult[RedditPostData]:
@@ -876,7 +1101,7 @@ class RedditNamespace:
         List the top-level comments on a Reddit post by URL (author, body, score,
         timestamp).
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.reddit.post_comments(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
@@ -940,7 +1165,7 @@ class RedditNamespace:
         Fetch a Reddit user's public profile (karma split, post and comment counts,
         bio, avatar, account age) by username.
 
-        Price: $0.0012 per request.
+        Price: $0.00225 per request plus $0 per result (maximum $0.00225).
 
         Example:
             res = client.reddit.profile(username="spez")
@@ -960,7 +1185,7 @@ class RedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -1004,7 +1229,7 @@ class RedditNamespace:
         Fetch a subreddit's metadata (weekly active users, description, and
         category).
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.subreddit_details(subreddit="programming")
@@ -1024,7 +1249,7 @@ class RedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -1067,7 +1292,7 @@ class RedditNamespace:
 
         Search posts within a single subreddit by query, sort, and timeframe.
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.subreddit_search(query="push ups", subreddit="Fitness")
@@ -1136,7 +1361,7 @@ class RedditNamespace:
         permalink; use reddit.post_comments for full comment bodies and comment URLs
         on a given post.
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")
@@ -1180,7 +1405,7 @@ class RedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")
@@ -1220,6 +1445,28 @@ class AsyncRedditNamespace:
     def __init__(self, client: "AsyncAnyAPI") -> None:
         self._client = client
 
+    async def avatar(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[RedditAvatarInput],
+    ) -> RunResult[RedditAvatarData]:
+        """Reddit Avatar
+
+        Get a Reddit user's profile picture URL, karma, and account age by username.
+        The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and
+        post and comment counts.
+
+        Price: $0.00038 per request.
+
+        Example:
+            res = client.reddit.avatar(username="spez")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "reddit.avatar", dict(input), options
+        )
+        return RunResult[RedditAvatarData].model_validate(raw)
+
     async def post(
         self, *, options: RequestOptions | None = None, **input: Unpack[RedditPostInput]
     ) -> RunResult[RedditPostData]:
@@ -1249,7 +1496,7 @@ class AsyncRedditNamespace:
         List the top-level comments on a Reddit post by URL (author, body, score,
         timestamp).
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.reddit.post_comments(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
@@ -1313,7 +1560,7 @@ class AsyncRedditNamespace:
         Fetch a Reddit user's public profile (karma split, post and comment counts,
         bio, avatar, account age) by username.
 
-        Price: $0.0012 per request.
+        Price: $0.00225 per request plus $0 per result (maximum $0.00225).
 
         Example:
             res = client.reddit.profile(username="spez")
@@ -1333,7 +1580,7 @@ class AsyncRedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -1377,7 +1624,7 @@ class AsyncRedditNamespace:
         Fetch a subreddit's metadata (weekly active users, description, and
         category).
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.subreddit_details(subreddit="programming")
@@ -1397,7 +1644,7 @@ class AsyncRedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -1440,7 +1687,7 @@ class AsyncRedditNamespace:
 
         Search posts within a single subreddit by query, sort, and timeframe.
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.subreddit_search(query="push ups", subreddit="Fitness")
@@ -1509,7 +1756,7 @@ class AsyncRedditNamespace:
         permalink; use reddit.post_comments for full comment bodies and comment URLs
         on a given post.
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")
@@ -1553,7 +1800,7 @@ class AsyncRedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.00045 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")

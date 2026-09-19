@@ -13,6 +13,15 @@ import { paginate } from "../../core/index.js";
  */
 export interface SeoCompetitorsDomainInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Language code for SEO competitor metrics.
    * Default: en.
    */
@@ -42,6 +51,10 @@ export interface SeoCompetitorsDomainInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Domain to analyze, without a protocol or leading www.
    */
@@ -93,6 +106,15 @@ export interface SeoCompetitorsDomainData {
  */
 export interface SeoDomainIntersectionInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * When true (the default), return keywords both domains rank for (overlap). When false, return keywords the first domain ranks for that the second domain does NOT (the content-gap query); in that mode secondRank and secondUrl are absent.
    */
   intersections?: boolean;
@@ -128,6 +150,10 @@ export interface SeoDomainIntersectionInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * First domain to compare, without a protocol or leading www.
    */
   target1: string;
@@ -139,6 +165,18 @@ export interface SeoDomainIntersectionInput {
 
 export interface SeoDomainIntersectionKeyword {
   /**
+   * Upper bound of the estimated paid-search top-of-page bid in USD.
+   */
+  bidHigh?: number;
+  /**
+   * Lower bound of the estimated paid-search top-of-page bid in USD.
+   */
+  bidLow?: number;
+  /**
+   * Paid-search competition level for the keyword (LOW, MEDIUM, HIGH).
+   */
+  competition?: string;
+  /**
    * Average paid-search cost per click in USD.
    */
   cpc?: number;
@@ -146,6 +184,10 @@ export interface SeoDomainIntersectionKeyword {
    * Absolute organic ranking position for the first domain. Populated whenever the provider has data for the entity.
    */
   firstRank: number;
+  /**
+   * Search-result title of the first domain's ranking page.
+   */
+  firstTitle?: string;
   /**
    * Ranking URL for the first domain.
    */
@@ -159,6 +201,10 @@ export interface SeoDomainIntersectionKeyword {
    */
   keywordDifficulty?: number;
   /**
+   * Primary SEO search intent for the keyword.
+   */
+  searchIntent?: string;
+  /**
    * Average monthly search volume for the keyword.
    */
   searchVolume?: number;
@@ -166,6 +212,10 @@ export interface SeoDomainIntersectionKeyword {
    * Absolute organic ranking position for the second domain. Absent when intersections is false (the second domain does not rank for this keyword).
    */
   secondRank?: number;
+  /**
+   * Search-result title of the second domain's ranking page. Absent when the second domain does not rank for this keyword.
+   */
+  secondTitle?: string;
   /**
    * Ranking URL for the second domain. Absent when intersections is false.
    */
@@ -192,6 +242,15 @@ export interface SeoDomainIntersectionData {
  */
 export interface SeoDomainRankOverviewInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Language code for SEO domain metrics.
    * Default: en.
    */
@@ -206,6 +265,10 @@ export interface SeoDomainRankOverviewInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Domain to analyze, without a protocol or leading www.
    */
@@ -290,14 +353,27 @@ export interface SeoDomainRankOverviewData {
  */
 export interface SeoDomainTechnologiesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Domain to analyze, without a protocol or leading www. Billing is flat per request.
    */
   domain: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -362,6 +438,11 @@ export interface SeoDomainTechnologiesData {
  */
 export interface SeoDomainsByTechnologyInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Technology category to match, for example marketing_automation. Broader than technology: it returns every domain running anything in that category.
    */
   category?: string;
@@ -373,6 +454,10 @@ export interface SeoDomainsByTechnologyInput {
    * Top-level technology group to match, for example marketing or servers. The broadest selector.
    */
   group?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * On-page term to match in the site's HTML, for example highlevel. Use this to find sites running a product that the technology index does not detect by name.
    */
@@ -393,6 +478,10 @@ export interface SeoDomainsByTechnologyInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Exact technology name to match, for example Nginx or HubSpot. Only technologies present in the detection index are accepted; an unindexed name returns found false, so use keyword instead when a product is not matched by name.
    */
@@ -425,6 +514,10 @@ export interface SeoDomainsByTechnologyDomain {
    * Contact email addresses published on the domain.
    */
   emails?: string[];
+  /**
+   * Meta keywords declared on the domain's home page.
+   */
+  keywords?: string[];
   /**
    * Language code declared by the domain.
    */
@@ -476,6 +569,15 @@ export interface SeoDomainsByTechnologyData {
  */
 export interface SeoKeywordDifficultyInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * SEO keywords to score for organic ranking difficulty.
    */
   keywords: string[];
@@ -494,6 +596,10 @@ export interface SeoKeywordDifficultyInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SeoKeywordDifficultyDifficultie {
@@ -524,9 +630,18 @@ export interface SeoKeywordDifficultyData {
  */
 export interface SeoKeywordIdeasInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * When true, generate only close variants of the seed keywords; when false (the default), generate a broader set of related ideas.
    */
   closelyVariants?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Seed SEO keywords used to generate related keyword ideas.
    */
@@ -562,9 +677,21 @@ export interface SeoKeywordIdeasInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SeoKeywordIdeasIdea {
+  /**
+   * Upper bound of the estimated paid-search top-of-page bid in USD.
+   */
+  bidHigh?: number;
+  /**
+   * Lower bound of the estimated paid-search top-of-page bid in USD.
+   */
+  bidLow?: number;
   /**
    * Paid-search competition level for the keyword idea. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -585,6 +712,10 @@ export interface SeoKeywordIdeasIdea {
    */
   keywordDifficulty?: number;
   /**
+   * Monthly search-volume history for the keyword.
+   */
+  monthlySearches?: SeoKeywordIdeasMonthlySearche[];
+  /**
    * Primary SEO search intent for the keyword idea. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -598,6 +729,22 @@ export interface SeoKeywordIdeasIdea {
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   updatedUtc?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoKeywordIdeasMonthlySearche {
+  /**
+   * Calendar month number for the monthly search-volume record.
+   */
+  month?: number;
+  /**
+   * Search volume for the month.
+   */
+  searchVolume?: number;
+  /**
+   * Calendar year for the monthly search-volume record.
+   */
+  year?: number;
   [extra: string]: unknown;
 }
 
@@ -615,6 +762,15 @@ export interface SeoKeywordIdeasData {
  * Input for SEO Keyword Overview (seo.keyword_overview).
  */
 export interface SeoKeywordOverviewInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * SEO keywords to analyze.
    */
@@ -634,6 +790,10 @@ export interface SeoKeywordOverviewInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SeoKeywordOverviewKeyword {
@@ -716,9 +876,18 @@ export interface SeoKeywordOverviewData {
  */
 export interface SeoKeywordSuggestionsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * When true, only return suggestions that contain the exact seed phrase; when false (the default), allow reordered and partial-match suggestions.
    */
   exactMatch?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Seed SEO keyword used to generate keyword suggestions.
    */
@@ -754,9 +923,21 @@ export interface SeoKeywordSuggestionsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SeoKeywordSuggestionsSuggestion {
+  /**
+   * Upper bound of the estimated paid-search top-of-page bid in USD.
+   */
+  bidHigh?: number;
+  /**
+   * Lower bound of the estimated paid-search top-of-page bid in USD.
+   */
+  bidLow?: number;
   /**
    * Paid-search competition level for the keyword suggestion. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -777,6 +958,10 @@ export interface SeoKeywordSuggestionsSuggestion {
    */
   keywordDifficulty?: number;
   /**
+   * Monthly search-volume history for the keyword.
+   */
+  monthlySearches?: SeoKeywordSuggestionsMonthlySearche[];
+  /**
    * Primary SEO search intent for the keyword suggestion. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -790,6 +975,22 @@ export interface SeoKeywordSuggestionsSuggestion {
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   updatedUtc?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoKeywordSuggestionsMonthlySearche {
+  /**
+   * Calendar month number for the monthly search-volume record.
+   */
+  month?: number;
+  /**
+   * Search volume for the month.
+   */
+  searchVolume?: number;
+  /**
+   * Calendar year for the monthly search-volume record.
+   */
+  year?: number;
   [extra: string]: unknown;
 }
 
@@ -807,6 +1008,15 @@ export interface SeoKeywordSuggestionsData {
  * Input for SEO Local Pack (seo.local_pack).
  */
 export interface SeoLocalPackInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * SEO local pack search keyword.
    */
@@ -835,6 +1045,10 @@ export interface SeoLocalPackInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SeoLocalPackPlace {
@@ -848,9 +1062,25 @@ export interface SeoLocalPackPlace {
    */
   category?: string;
   /**
+   * City the place is in.
+   */
+  city?: string;
+  /**
    * True when the place listing is claimed.
    */
   claimed?: boolean;
+  /**
+   * Two-letter country code.
+   */
+  countryCode?: string;
+  /**
+   * Registrable domain of the place website.
+   */
+  domain?: string;
+  /**
+   * Primary photo URL for the place. The query string carries the image identity, so it is kept.
+   */
+  image?: string;
   /**
    * Latitude of the place in decimal degrees.
    */
@@ -872,14 +1102,30 @@ export interface SeoLocalPackPlace {
    */
   placeId?: string;
   /**
+   * Postal code of the place.
+   */
+  postalCode?: string;
+  /**
+   * Price level indicator Google shows for the place.
+   */
+  priceLevel?: string;
+  /**
    * Absolute ranking position in the local pack results. Populated whenever the provider has data for the entity.
    */
   rankAbsolute: number;
+  /**
+   * Grouped ranking position within the local pack.
+   */
+  rankGroup?: number;
   /**
    * Average star rating out of 5. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   rating?: number;
+  /**
+   * State or region the place is in.
+   */
+  region?: string;
   /**
    * Total number of reviews.
    */
@@ -905,6 +1151,15 @@ export interface SeoLocalPackData {
  * Input for SEO Ranked Keywords (seo.ranked_keywords).
  */
 export interface SeoRankedKeywordsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Language code for SEO ranking metrics.
    * Default: en.
@@ -932,6 +1187,10 @@ export interface SeoRankedKeywordsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Domain to analyze, without a protocol or leading www.
    */
   target: string;
@@ -939,9 +1198,21 @@ export interface SeoRankedKeywordsInput {
 
 export interface SeoRankedKeywordsRankedKeyword {
   /**
+   * Paid-search competition level for the keyword (LOW, MEDIUM, HIGH).
+   */
+  competition?: string;
+  /**
    * Average paid-search cost per click in USD.
    */
   cpc?: number;
+  /**
+   * Search-result snippet of the ranking page.
+   */
+  description?: string;
+  /**
+   * Domain of the ranking page.
+   */
+  domain?: string;
   /**
    * Estimated organic search traffic for the ranking URL.
    */
@@ -973,6 +1244,14 @@ export interface SeoRankedKeywordsRankedKeyword {
    */
   searchVolume?: number;
   /**
+   * Search-result title of the ranking page.
+   */
+  title?: string;
+  /**
+   * SERP element type the ranking appeared as (e.g. organic, featured_snippet).
+   */
+  type?: string;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   updatedUtc?: number;
@@ -998,10 +1277,19 @@ export interface SeoRankedKeywordsData {
  */
 export interface SeoRelatedKeywordsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Depth of the related-keyword expansion (0-4). Higher depth explores a broader keyword tree; the number of returned results, and therefore the price, is still capped by limit.
    * Range: minimum 0, maximum 4.
    */
   depth?: number;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Seed SEO keyword used to find related keywords.
    */
@@ -1037,9 +1325,21 @@ export interface SeoRelatedKeywordsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SeoRelatedKeywordsRelatedKeyword {
+  /**
+   * Upper bound of the estimated paid-search top-of-page bid in USD.
+   */
+  bidHigh?: number;
+  /**
+   * Lower bound of the estimated paid-search top-of-page bid in USD.
+   */
+  bidLow?: number;
   /**
    * Paid-search competition level for the related keyword. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -1065,6 +1365,14 @@ export interface SeoRelatedKeywordsRelatedKeyword {
    */
   keywordDifficulty?: number;
   /**
+   * Further keywords DataForSEO relates to this one.
+   */
+  keywords?: string[];
+  /**
+   * Monthly search-volume history for the keyword.
+   */
+  monthlySearches?: SeoRelatedKeywordsMonthlySearche[];
+  /**
    * Primary SEO search intent for the related keyword. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -1078,6 +1386,22 @@ export interface SeoRelatedKeywordsRelatedKeyword {
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   updatedUtc?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoRelatedKeywordsMonthlySearche {
+  /**
+   * Calendar month number for the monthly search-volume record.
+   */
+  month?: number;
+  /**
+   * Search volume for the month.
+   */
+  searchVolume?: number;
+  /**
+   * Calendar year for the monthly search-volume record.
+   */
+  year?: number;
   [extra: string]: unknown;
 }
 
@@ -1096,6 +1420,15 @@ export interface SeoRelatedKeywordsData {
  */
 export interface SeoSearchIntentInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * SEO keywords to classify by search intent.
    */
   keywords: string[];
@@ -1109,6 +1442,10 @@ export interface SeoSearchIntentInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SeoSearchIntentIntent {
@@ -1138,6 +1475,11 @@ export interface SeoSearchIntentData {
  */
 export interface SeoSearchVolumeInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Start of the historical monthly-searches window, formatted YYYY-MM-DD. Cannot be more than four years before today. Omit for the default trailing window.
    */
   dateFrom?: string;
@@ -1145,6 +1487,10 @@ export interface SeoSearchVolumeInput {
    * End of the historical monthly-searches window, formatted YYYY-MM-DD. Omit for the default trailing window.
    */
   dateTo?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * SEO keyword phrases to retrieve search-volume metrics for.
    */
@@ -1168,6 +1514,10 @@ export interface SeoSearchVolumeInput {
    * When true, include Google search-partner network volume in the reported numbers; when false (the default), count Google search only.
    */
   searchPartners?: boolean;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SeoSearchVolumeKeyword {

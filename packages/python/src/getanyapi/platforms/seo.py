@@ -24,6 +24,10 @@ if TYPE_CHECKING:
 class SeoCompetitorsDomainInput(TypedDict, total=False):
     """Input for SEO Competitor Domains."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Language code for SEO competitor metrics. Default: en."""
     limit: NotRequired[int]
@@ -41,6 +45,8 @@ class SeoCompetitorsDomainInput(TypedDict, total=False):
     """Sort order for the returned competitors: by shared keyword count (intersections), organic keyword count, organic traffic value (etv), or average position. Omit for the default order."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
 
@@ -48,6 +54,10 @@ class SeoCompetitorsDomainInput(TypedDict, total=False):
 class SeoDomainIntersectionInput(TypedDict, total=False):
     """Input for SEO Domain Intersection."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     intersections: NotRequired[bool]
     """When true (the default), return keywords both domains rank for (overlap). When false, return keywords the first domain ranks for that the second domain does NOT (the content-gap query); in that mode secondRank and secondUrl are absent."""
     language: NotRequired[str]
@@ -64,6 +74,8 @@ class SeoDomainIntersectionInput(TypedDict, total=False):
     """Sort order for the returned keywords: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     target1: Required[str]
     """First domain to compare, without a protocol or leading www."""
     target2: Required[str]
@@ -73,12 +85,18 @@ class SeoDomainIntersectionInput(TypedDict, total=False):
 class SeoDomainRankOverviewInput(TypedDict, total=False):
     """Input for SEO Domain Rank Overview."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Language code for SEO domain metrics. Default: en."""
     location: NotRequired[int]
     """Location code for SEO domain metrics. The default is the United States. Default: 2840."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
 
@@ -86,21 +104,31 @@ class SeoDomainRankOverviewInput(TypedDict, total=False):
 class SeoDomainTechnologiesInput(TypedDict, total=False):
     """Input for SEO Domain Technologies."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     domain: Required[str]
     """Domain to analyze, without a protocol or leading www. Billing is flat per request."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SeoDomainsByTechnologyInput(TypedDict, total=False):
     """Input for SEO Domains By Technology."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     category: NotRequired[str]
     """Technology category to match, for example marketing_automation. Broader than technology: it returns every domain running anything in that category."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor. Omit for the first page."""
     group: NotRequired[str]
     """Top-level technology group to match, for example marketing or servers. The broadest selector."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: NotRequired[str]
     """On-page term to match in the site's HTML, for example highlevel. Use this to find sites running a product that the technology index does not detect by name."""
     limit: NotRequired[int]
@@ -111,6 +139,8 @@ class SeoDomainsByTechnologyInput(TypedDict, total=False):
     """Sort order for the returned domains: by domain rank descending or ascending, by most recently crawled, or by country code. Omit for the default order."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     technology: NotRequired[str]
     """Exact technology name to match, for example Nginx or HubSpot. Only technologies present in the detection index are accepted; an unindexed name returns found false, so use keyword instead when a product is not matched by name."""
 
@@ -118,6 +148,10 @@ class SeoDomainsByTechnologyInput(TypedDict, total=False):
 class SeoKeywordDifficultyInput(TypedDict, total=False):
     """Input for SEO Keyword Difficulty."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keywords: Required[list[str]]
     """SEO keywords to score for organic ranking difficulty."""
     language: NotRequired[str]
@@ -126,13 +160,19 @@ class SeoKeywordDifficultyInput(TypedDict, total=False):
     """Location code for SEO keyword difficulty metrics. The default is the United States. Default: 2840."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SeoKeywordIdeasInput(TypedDict, total=False):
     """Input for SEO Keyword Ideas."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     closelyVariants: NotRequired[bool]
     """When true, generate only close variants of the seed keywords; when false (the default), generate a broader set of related ideas."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keywords: Required[list[str]]
     """Seed SEO keywords used to generate related keyword ideas."""
     language: NotRequired[str]
@@ -149,11 +189,17 @@ class SeoKeywordIdeasInput(TypedDict, total=False):
     """Sort order for the returned ideas: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SeoKeywordOverviewInput(TypedDict, total=False):
     """Input for SEO Keyword Overview."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keywords: Required[list[str]]
     """SEO keywords to analyze."""
     language: NotRequired[str]
@@ -162,13 +208,19 @@ class SeoKeywordOverviewInput(TypedDict, total=False):
     """Location code for SEO metrics. The default is the United States. Default: 2840."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SeoKeywordSuggestionsInput(TypedDict, total=False):
     """Input for SEO Keyword Suggestions."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     exactMatch: NotRequired[bool]
     """When true, only return suggestions that contain the exact seed phrase; when false (the default), allow reordered and partial-match suggestions."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: Required[str]
     """Seed SEO keyword used to generate keyword suggestions."""
     language: NotRequired[str]
@@ -185,11 +237,17 @@ class SeoKeywordSuggestionsInput(TypedDict, total=False):
     """Sort order for the returned suggestions: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SeoLocalPackInput(TypedDict, total=False):
     """Input for SEO Local Pack."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: Required[str]
     """SEO local pack search keyword."""
     language: NotRequired[str]
@@ -202,11 +260,17 @@ class SeoLocalPackInput(TypedDict, total=False):
     """Precise geo target as latitude,longitude or latitude,longitude,radius (radius in meters); for example, 40.7580,-73.9855 or 40.7580,-73.9855,1000. Supply either location or locationCoordinate, not both."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SeoRankedKeywordsInput(TypedDict, total=False):
     """Input for SEO Ranked Keywords."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Language code for SEO ranking metrics. Default: en."""
     limit: NotRequired[int]
@@ -219,6 +283,8 @@ class SeoRankedKeywordsInput(TypedDict, total=False):
     """Sort order for the returned ranked keywords: by SERP position (ascending for best rankings first), search volume, or estimated traffic value (etv). Omit for the default order."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
 
@@ -226,8 +292,12 @@ class SeoRankedKeywordsInput(TypedDict, total=False):
 class SeoRelatedKeywordsInput(TypedDict, total=False):
     """Input for SEO Related Keywords."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     depth: NotRequired[int]
     """Depth of the related-keyword expansion (0-4). Higher depth explores a broader keyword tree; the number of returned results, and therefore the price, is still capped by limit. Range: 0 to 4."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: Required[str]
     """Seed SEO keyword used to find related keywords."""
     language: NotRequired[str]
@@ -244,26 +314,38 @@ class SeoRelatedKeywordsInput(TypedDict, total=False):
     """Sort order for the returned related keywords: by search volume, cost per click, or keyword difficulty, ascending or descending. Omit for the default order."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SeoSearchIntentInput(TypedDict, total=False):
     """Input for SEO Search Intent."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keywords: Required[list[str]]
     """SEO keywords to classify by search intent."""
     language: NotRequired[str]
     """Language code for search intent classification. Default: en."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SeoSearchVolumeInput(TypedDict, total=False):
     """Input for SEO Search Volume."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     dateFrom: NotRequired[str]
     """Start of the historical monthly-searches window, formatted YYYY-MM-DD. Cannot be more than four years before today. Omit for the default trailing window."""
     dateTo: NotRequired[str]
     """End of the historical monthly-searches window, formatted YYYY-MM-DD. Omit for the default trailing window."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keywords: Required[list[str]]
     """SEO keyword phrases to retrieve search-volume metrics for."""
     language: NotRequired[str]
@@ -274,6 +356,8 @@ class SeoSearchVolumeInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     searchPartners: NotRequired[bool]
     """When true, include Google search-partner network volume in the reported numbers; when false (the default), count Google search only."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SeoCompetitorsDomainData(BaseModel):
@@ -322,12 +406,31 @@ class SeoDomainIntersectionData(BaseModel):
 class SeoDomainIntersectionKeyword(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    bid_high: float | None = Field(
+        default=None,
+        alias="bidHigh",
+        description="Upper bound of the estimated paid-search top-of-page bid in USD.",
+    )
+    bid_low: float | None = Field(
+        default=None,
+        alias="bidLow",
+        description="Lower bound of the estimated paid-search top-of-page bid in USD.",
+    )
+    competition: str | None = Field(
+        default=None,
+        description="Paid-search competition level for the keyword (LOW, MEDIUM, HIGH).",
+    )
     cpc: float | None = Field(
         default=None, description="Average paid-search cost per click in USD."
     )
     first_rank: int = Field(
         alias="firstRank",
         description="Absolute organic ranking position for the first domain. Populated whenever the provider has data for the entity.",
+    )
+    first_title: str | None = Field(
+        default=None,
+        alias="firstTitle",
+        description="Search-result title of the first domain's ranking page.",
     )
     first_url: str | None = Field(
         default=None, alias="firstUrl", description="Ranking URL for the first domain."
@@ -340,6 +443,11 @@ class SeoDomainIntersectionKeyword(BaseModel):
         alias="keywordDifficulty",
         description="Estimated organic ranking difficulty on a 0-100 scale.",
     )
+    search_intent: str | None = Field(
+        default=None,
+        alias="searchIntent",
+        description="Primary SEO search intent for the keyword.",
+    )
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
@@ -349,6 +457,11 @@ class SeoDomainIntersectionKeyword(BaseModel):
         default=None,
         alias="secondRank",
         description="Absolute organic ranking position for the second domain. Absent when intersections is false (the second domain does not rank for this keyword).",
+    )
+    second_title: str | None = Field(
+        default=None,
+        alias="secondTitle",
+        description="Search-result title of the second domain's ranking page. Absent when the second domain does not rank for this keyword.",
     )
     second_url: str | None = Field(
         default=None,
@@ -541,6 +654,9 @@ class SeoDomainsByTechnologyDomain(BaseModel):
     emails: list[str] | None = Field(
         default=None, description="Contact email addresses published on the domain."
     )
+    keywords: list[str] | None = Field(
+        default=None, description="Meta keywords declared on the domain's home page."
+    )
     language_code: str | None = Field(
         default=None,
         alias="languageCode",
@@ -602,6 +718,16 @@ class SeoKeywordIdeasData(BaseModel):
 class SeoKeywordIdeasIdea(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    bid_high: float | None = Field(
+        default=None,
+        alias="bidHigh",
+        description="Upper bound of the estimated paid-search top-of-page bid in USD.",
+    )
+    bid_low: float | None = Field(
+        default=None,
+        alias="bidLow",
+        description="Lower bound of the estimated paid-search top-of-page bid in USD.",
+    )
     competition: str | None = Field(
         default=None,
         description="Paid-search competition level for the keyword idea. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -618,6 +744,11 @@ class SeoKeywordIdeasIdea(BaseModel):
         alias="keywordDifficulty",
         description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    monthly_searches: list[SeoKeywordIdeasMonthlySearche] | None = Field(
+        default=None,
+        alias="monthlySearches",
+        description="Monthly search-volume history for the keyword.",
+    )
     search_intent: str | None = Field(
         default=None,
         alias="searchIntent",
@@ -632,6 +763,21 @@ class SeoKeywordIdeasIdea(BaseModel):
         default=None,
         alias="updatedUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+
+
+class SeoKeywordIdeasMonthlySearche(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    month: int | None = Field(
+        default=None,
+        description="Calendar month number for the monthly search-volume record.",
+    )
+    search_volume: int | None = Field(
+        default=None, alias="searchVolume", description="Search volume for the month."
+    )
+    year: int | None = Field(
+        default=None, description="Calendar year for the monthly search-volume record."
     )
 
 
@@ -716,6 +862,16 @@ class SeoKeywordSuggestionsData(BaseModel):
 class SeoKeywordSuggestionsSuggestion(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    bid_high: float | None = Field(
+        default=None,
+        alias="bidHigh",
+        description="Upper bound of the estimated paid-search top-of-page bid in USD.",
+    )
+    bid_low: float | None = Field(
+        default=None,
+        alias="bidLow",
+        description="Lower bound of the estimated paid-search top-of-page bid in USD.",
+    )
     competition: str | None = Field(
         default=None,
         description="Paid-search competition level for the keyword suggestion. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -731,6 +887,11 @@ class SeoKeywordSuggestionsSuggestion(BaseModel):
         default=None,
         alias="keywordDifficulty",
         description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    monthly_searches: list[SeoKeywordSuggestionsMonthlySearche] | None = Field(
+        default=None,
+        alias="monthlySearches",
+        description="Monthly search-volume history for the keyword.",
     )
     search_intent: str | None = Field(
         default=None,
@@ -749,6 +910,21 @@ class SeoKeywordSuggestionsSuggestion(BaseModel):
     )
 
 
+class SeoKeywordSuggestionsMonthlySearche(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    month: int | None = Field(
+        default=None,
+        description="Calendar month number for the monthly search-volume record.",
+    )
+    search_volume: int | None = Field(
+        default=None, alias="searchVolume", description="Search volume for the month."
+    )
+    year: int | None = Field(
+        default=None, description="Calendar year for the monthly search-volume record."
+    )
+
+
 class SeoLocalPackData(BaseModel):
     places: list[SeoLocalPackPlace] = Field(
         description="SEO local pack place records. Populated whenever the provider has data for the entity."
@@ -763,8 +939,19 @@ class SeoLocalPackPlace(BaseModel):
         description="Full formatted street address. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     category: str | None = Field(default=None, description="Primary place category.")
+    city: str | None = Field(default=None, description="City the place is in.")
     claimed: bool | None = Field(
         default=None, description="True when the place listing is claimed."
+    )
+    country_code: str | None = Field(
+        default=None, alias="countryCode", description="Two-letter country code."
+    )
+    domain: str | None = Field(
+        default=None, description="Registrable domain of the place website."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Primary photo URL for the place. The query string carries the image identity, so it is kept.",
     )
     latitude: float | None = Field(
         default=None, description="Latitude of the place in decimal degrees."
@@ -781,13 +968,29 @@ class SeoLocalPackPlace(BaseModel):
     place_id: str | None = Field(
         default=None, alias="placeId", description="Place identifier."
     )
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal code of the place."
+    )
+    price_level: str | None = Field(
+        default=None,
+        alias="priceLevel",
+        description="Price level indicator Google shows for the place.",
+    )
     rank_absolute: int = Field(
         alias="rankAbsolute",
         description="Absolute ranking position in the local pack results. Populated whenever the provider has data for the entity.",
     )
+    rank_group: int | None = Field(
+        default=None,
+        alias="rankGroup",
+        description="Grouped ranking position within the local pack.",
+    )
     rating: float | None = Field(
         default=None,
         description="Average star rating out of 5. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    region: str | None = Field(
+        default=None, description="State or region the place is in."
     )
     reviews_count: int | None = Field(
         default=None, alias="reviewsCount", description="Total number of reviews."
@@ -807,9 +1010,17 @@ class SeoRankedKeywordsData(BaseModel):
 class SeoRankedKeywordsRankedKeyword(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    competition: str | None = Field(
+        default=None,
+        description="Paid-search competition level for the keyword (LOW, MEDIUM, HIGH).",
+    )
     cpc: float | None = Field(
         default=None, description="Average paid-search cost per click in USD."
     )
+    description: str | None = Field(
+        default=None, description="Search-result snippet of the ranking page."
+    )
+    domain: str | None = Field(default=None, description="Domain of the ranking page.")
     etv: float | None = Field(
         default=None,
         description="Estimated organic search traffic for the ranking URL.",
@@ -841,6 +1052,14 @@ class SeoRankedKeywordsRankedKeyword(BaseModel):
         alias="searchVolume",
         description="Average monthly search volume for the keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    title: str | None = Field(
+        default=None, description="Search-result title of the ranking page."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="SERP element type the ranking appeared as (e.g. organic, featured_snippet).",
+    )
     updated_utc: float | None = Field(
         default=None,
         alias="updatedUtc",
@@ -861,6 +1080,16 @@ class SeoRelatedKeywordsData(BaseModel):
 class SeoRelatedKeywordsRelatedKeyword(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    bid_high: float | None = Field(
+        default=None,
+        alias="bidHigh",
+        description="Upper bound of the estimated paid-search top-of-page bid in USD.",
+    )
+    bid_low: float | None = Field(
+        default=None,
+        alias="bidLow",
+        description="Lower bound of the estimated paid-search top-of-page bid in USD.",
+    )
     competition: str | None = Field(
         default=None,
         description="Paid-search competition level for the related keyword. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -881,6 +1110,14 @@ class SeoRelatedKeywordsRelatedKeyword(BaseModel):
         alias="keywordDifficulty",
         description="Estimated organic ranking difficulty on a 0-100 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    keywords: list[str] | None = Field(
+        default=None, description="Further keywords DataForSEO relates to this one."
+    )
+    monthly_searches: list[SeoRelatedKeywordsMonthlySearche] | None = Field(
+        default=None,
+        alias="monthlySearches",
+        description="Monthly search-volume history for the keyword.",
+    )
     search_intent: str | None = Field(
         default=None,
         alias="searchIntent",
@@ -895,6 +1132,21 @@ class SeoRelatedKeywordsRelatedKeyword(BaseModel):
         default=None,
         alias="updatedUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+
+
+class SeoRelatedKeywordsMonthlySearche(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    month: int | None = Field(
+        default=None,
+        description="Calendar month number for the monthly search-volume record.",
+    )
+    search_volume: int | None = Field(
+        default=None, alias="searchVolume", description="Search volume for the month."
+    )
+    year: int | None = Field(
+        default=None, description="Calendar year for the monthly search-volume record."
     )
 
 

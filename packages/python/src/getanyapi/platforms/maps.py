@@ -24,8 +24,12 @@ if TYPE_CHECKING:
 class MapsContactsInput(TypedDict, total=False):
     """Input for Google Maps Contacts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     categoryFilterWords: NotRequired[list[str]]
     """Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["dentist", "orthodontist"]). Omit to include all categories."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Two-letter language code for the results (e.g. en). Default: en."""
     limit: NotRequired[int]
@@ -40,6 +44,8 @@ class MapsContactsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """What you would type in the Google Maps search bar (e.g. dentist)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     website: NotRequired[Literal["allPlaces", "withWebsite", "withoutWebsite"]]
     """Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Contact enrichment pulls emails and social profiles from a place's website, so withWebsite targets leads that can be enriched."""
 
@@ -47,8 +53,12 @@ class MapsContactsInput(TypedDict, total=False):
 class MapsPlaceInput(TypedDict, total=False):
     """Input for Google Maps Place Lookup."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     categoryFilterWords: NotRequired[list[str]]
     """Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop"]). Omit to allow any category and stay on the cheapest price; a category filter routes to a dearer source."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Two-letter language code for the result details (e.g. en). Default: en."""
     location: NotRequired[str]
@@ -64,6 +74,7 @@ class MapsPlaceInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
+                "categories",
                 "city",
                 "countryCode",
                 "hours",
@@ -83,6 +94,8 @@ class MapsPlaceInput(TypedDict, total=False):
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `hours` or `plusCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     website: NotRequired[Literal["allPlaces", "withWebsite", "withoutWebsite"]]
     """Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source."""
 
@@ -90,6 +103,10 @@ class MapsPlaceInput(TypedDict, total=False):
 class MapsReviewsInput(TypedDict, total=False):
     """Input for Google Maps Reviews."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Two-letter language code for the review details (e.g. en). Default: en."""
     limit: NotRequired[int]
@@ -103,6 +120,8 @@ class MapsReviewsInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
+                "authorUrl",
+                "avatarUrl",
                 "isLocalGuide",
                 "likes",
                 "origin",
@@ -124,13 +143,19 @@ class MapsReviewsInput(TypedDict, total=False):
         Literal["newest", "mostRelevant", "highestRanking", "lowestRanking"]
     ]
     """Order in which reviews are returned (e.g. newest). Default: newest."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class MapsSearchInput(TypedDict, total=False):
     """Input for Google Maps Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     categoryFilterWords: NotRequired[list[str]]
     """Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop", "restaurant"]). Omit to include all categories and stay on the cheapest price; a category filter routes to a dearer source."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Two-letter language code for the results (e.g. en). Default: en."""
     limit: NotRequired[int]
@@ -149,6 +174,7 @@ class MapsSearchInput(TypedDict, total=False):
         list[
             Literal[
                 "address",
+                "categories",
                 "category",
                 "cid",
                 "city",
@@ -169,6 +195,8 @@ class MapsSearchInput(TypedDict, total=False):
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `cid` or `street`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     website: NotRequired[Literal["allPlaces", "withWebsite", "withoutWebsite"]]
     """Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source."""
 
@@ -176,10 +204,14 @@ class MapsSearchInput(TypedDict, total=False):
 class MapsSearchNearbyInput(TypedDict, total=False):
     """Input for Google Maps Nearby Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     coordinates: Required[dict[str, Any]]
     """The exact map centre to search around. Use maps.search instead if you only have a place name."""
     cursor: NotRequired[str | None]
     """Opaque cursor from a previous response's nextCursor. Pass it back to get the next page of places."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Two-letter language code for the results (e.g. en). Default: en."""
     limit: NotRequired[int]
@@ -188,6 +220,8 @@ class MapsSearchNearbyInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """What you would type in the Google Maps search bar (e.g. coffee shop)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     zoom: NotRequired[float]
     """Google Maps viewport zoom. Lower covers a wider area, higher focuses more tightly around the coordinates. Range: 3 to 21. Default: 13.1."""
 
@@ -204,11 +238,17 @@ class MapsContactsItem(BaseModel):
     address: str | None = Field(
         default=None, description="Full formatted street address."
     )
+    categories: list[str] | None = Field(
+        default=None, description="Every Google Maps category listed for the business."
+    )
     category: str | None = Field(default=None, description="Primary business category.")
     cid: str | None = Field(default=None, description="Google customer/place id (cid).")
     city: str | None = Field(default=None, description="City the business is in.")
     country_code: str | None = Field(
         default=None, alias="countryCode", description="Two-letter country code."
+    )
+    domain: str | None = Field(
+        default=None, description="Registrable domain of the business website."
     )
     emails: list[str] | None = Field(
         default=None, description="Email addresses scraped from the business website."
@@ -220,6 +260,10 @@ class MapsContactsItem(BaseModel):
     instagrams: list[str] | None = Field(
         default=None,
         description="Instagram profile URLs found on the business website.",
+    )
+    language: str | None = Field(
+        default=None,
+        description="Two-letter language code of the listing Google served.",
     )
     latitude: float | None = Field(
         default=None, description="Latitude of the business in decimal degrees."
@@ -234,6 +278,9 @@ class MapsContactsItem(BaseModel):
     )
     name: str = Field(
         description="Business name. Populated whenever the provider has data for the entity."
+    )
+    neighborhood: str | None = Field(
+        default=None, description="Neighborhood the business is in."
     )
     phone: str | None = Field(
         default=None,
@@ -250,6 +297,10 @@ class MapsContactsItem(BaseModel):
     postal_code: str | None = Field(
         default=None, alias="postalCode", description="Postal code of the business."
     )
+    rank: int | None = Field(
+        default=None,
+        description="One-based position of the business in the Google Maps result order.",
+    )
     rating: float | None = Field(
         default=None, description="Average star rating out of 5."
     )
@@ -258,6 +309,9 @@ class MapsContactsItem(BaseModel):
     )
     state: str | None = Field(
         default=None, description="State or region the business is in."
+    )
+    street: str | None = Field(
+        default=None, description="Street portion of the address."
     )
     tiktoks: list[str] | None = Field(
         default=None, description="TikTok profile URLs found on the business website."
@@ -289,6 +343,9 @@ class MapsPlaceItem(BaseModel):
     address: str | None = Field(
         default=None,
         description="Full formatted street address. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    categories: list[str] | None = Field(
+        default=None, description="Every Google Maps category listed for the place."
     )
     category: str | None = Field(
         default=None,
@@ -368,6 +425,14 @@ class MapsReviewsItem(BaseModel):
         default=None,
         description="Reviewer display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Google Maps contributor page URL for the reviewer.",
+    )
+    avatar_url: str | None = Field(
+        default=None, alias="avatarUrl", description="Reviewer profile photo URL."
+    )
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
@@ -442,6 +507,9 @@ class MapsSearchItem(BaseModel):
 
     address: str | None = Field(
         default=None, description="Full formatted street address."
+    )
+    categories: list[str] | None = Field(
+        default=None, description="Every Google Maps category listed for the place."
     )
     category: str | None = Field(
         default=None, description="Primary place category (e.g. Coffee shop)."
@@ -518,6 +586,9 @@ class MapsSearchNearbyItem(BaseModel):
     address: str | None = Field(
         default=None, description="Full formatted street address."
     )
+    categories: list[str] | None = Field(
+        default=None, description="Every Google Maps category listed for the place."
+    )
     category: str | None = Field(
         default=None, description="Primary place category (e.g. Coffee shop)."
     )
@@ -525,6 +596,12 @@ class MapsSearchNearbyItem(BaseModel):
     city: str | None = Field(default=None, description="City the place is in.")
     country_code: str | None = Field(
         default=None, alias="countryCode", description="Two-letter country code."
+    )
+    description: str | None = Field(
+        default=None, description="Google's one-line description of the place."
+    )
+    domain: str | None = Field(
+        default=None, description="Registrable domain of the place website."
     )
     image: str | None = Field(
         default=None, description="Thumbnail photo URL for the place."
@@ -538,6 +615,9 @@ class MapsSearchNearbyItem(BaseModel):
     name: str = Field(
         description="Place name. Populated whenever the provider has data for the entity."
     )
+    neighborhood: str | None = Field(
+        default=None, description="Neighborhood the place is in."
+    )
     phone: str | None = Field(
         default=None, description="Business phone number, when listed."
     )
@@ -547,6 +627,10 @@ class MapsSearchNearbyItem(BaseModel):
     )
     postal_code: str | None = Field(
         default=None, alias="postalCode", description="Postal code of the place."
+    )
+    rank: int | None = Field(
+        default=None,
+        description="One-based position of the place in the Google Maps result order.",
     )
     rating: float | None = Field(
         default=None, description="Average Google rating out of 5."

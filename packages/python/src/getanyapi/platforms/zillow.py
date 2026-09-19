@@ -18,8 +18,14 @@ if TYPE_CHECKING:
 class ZillowPropertyInput(TypedDict, total=False):
     """Input for Zillow Property."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Zillow property details URL (e.g. https://www.zillow.com/homedetails/123-Main-St-Anytown-CA-90210/12345678_zpid/)."""
 
@@ -27,6 +33,8 @@ class ZillowPropertyInput(TypedDict, total=False):
 class ZillowSearchInput(TypedDict, total=False):
     """Input for Zillow Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     daysOnZillow: NotRequired[
         Literal[
             "1_day",
@@ -55,6 +63,8 @@ class ZillowSearchInput(TypedDict, total=False):
         ]
     ]
     """Filter by property type; omit for any. Rentals support only singleFamily, multiFamily, townhome, and condo (e.g. ["singleFamily", "condo"])."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     includeAcceptingBackupOffers: NotRequired[bool]
     """Include listings accepting backup offers, which Zillow excludes by default (e.g. true)."""
     includePendingAndUnderContract: NotRequired[bool]
@@ -101,9 +111,12 @@ class ZillowSearchInput(TypedDict, total=False):
             Literal[
                 "baths",
                 "beds",
+                "brokerName",
                 "city",
                 "currency",
                 "daysOnZillow",
+                "images",
+                "isZillowOwned",
                 "latitude",
                 "livingArea",
                 "longitude",
@@ -113,6 +126,7 @@ class ZillowSearchInput(TypedDict, total=False):
                 "rentZestimate",
                 "state",
                 "status",
+                "taxAssessedValue",
                 "yearBuilt",
                 "zestimate",
                 "zipcode",
@@ -134,6 +148,8 @@ class ZillowSearchInput(TypedDict, total=False):
         ]
     ]
     """Sort order for results; omit for Zillow's default relevance. rentalPriorityScore applies to rent searches only (e.g. newest)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class ZillowPropertyData(BaseModel):
@@ -153,9 +169,15 @@ class ZillowPropertyItem(BaseModel):
     baths: float | None = Field(default=None, description="Number of bathrooms.")
     beds: float | None = Field(default=None, description="Number of bedrooms.")
     city: str | None = Field(default=None, description="City the property is in.")
+    country: str | None = Field(default=None, description="Country the property is in.")
     county: str | None = Field(default=None, description="County the property is in.")
     currency: str | None = Field(
         default=None, description="Currency code for the price (e.g. USD)."
+    )
+    days_on_zillow: int | None = Field(
+        default=None,
+        alias="daysOnZillow",
+        description="Days the listing has been on Zillow.",
     )
     description: str | None = Field(
         default=None, description="Listing description text."
@@ -171,11 +193,19 @@ class ZillowPropertyItem(BaseModel):
         description="Home type (e.g. SINGLE_FAMILY, CONDO, TOWNHOUSE).",
     )
     image: str | None = Field(default=None, description="Primary listing photo URL.")
+    images: list[ZillowPropertyImage] | None = Field(
+        default=None, description="Listing photos."
+    )
     latitude: float | None = Field(
         default=None, description="Latitude of the property in decimal degrees."
     )
     longitude: float | None = Field(
         default=None, description="Longitude of the property in decimal degrees."
+    )
+    mls_name: str | None = Field(
+        default=None,
+        alias="mlsName",
+        description="Name of the multiple listing service the listing came from.",
     )
     postal_code: str | None = Field(
         default=None,
@@ -190,6 +220,11 @@ class ZillowPropertyItem(BaseModel):
         alias="propertyTaxRate",
         description="Annual property tax rate as a percentage.",
     )
+    rent_zestimate: float | None = Field(
+        default=None,
+        alias="rentZestimate",
+        description="Zillow estimated monthly rent.",
+    )
     sqft: float | None = Field(
         default=None, description="Interior living area in square feet."
     )
@@ -202,9 +237,18 @@ class ZillowPropertyItem(BaseModel):
     url: str = Field(
         description="Canonical Zillow property detail page URL. Populated whenever the provider has data for the entity."
     )
+    zestimate: float | None = Field(
+        default=None, description="Zillow estimated market value."
+    )
     zpid: str = Field(
         description="Zillow property id (zpid), the stable identifier for the property. Populated whenever the provider has data for the entity."
     )
+
+
+class ZillowPropertyImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    url: str | None = Field(default=None, description="Photo URL.")
 
 
 class ZillowSearchData(BaseModel):
@@ -218,6 +262,9 @@ class ZillowSearchItem(BaseModel):
 
     baths: float | None = Field(default=None, description="Number of bathrooms.")
     beds: float | None = Field(default=None, description="Number of bedrooms.")
+    broker_name: str | None = Field(
+        default=None, alias="brokerName", description="Listing brokerage name."
+    )
     city: str | None = None
     currency: str | None = Field(
         default=None, description="ISO currency code of the price (e.g. usd)."
@@ -230,6 +277,12 @@ class ZillowSearchItem(BaseModel):
     image: str | None = Field(
         default=None,
         description="URL of the primary listing photo. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    images: list[str] | None = Field(default=None, description="Listing photo URLs.")
+    is_zillow_owned: bool | None = Field(
+        default=None,
+        alias="isZillowOwned",
+        description="True when Zillow itself owns the property.",
     )
     latitude: float | None = None
     living_area: float | None = Field(
@@ -262,6 +315,11 @@ class ZillowSearchItem(BaseModel):
         default=None,
         alias="streetAddress",
         description="Street address of the property. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    tax_assessed_value: float | None = Field(
+        default=None,
+        alias="taxAssessedValue",
+        description="Assessed value the county tax authority carries for the property.",
     )
     url: str = Field(
         description="Absolute Zillow listing URL. Populated whenever the provider has data for the entity."

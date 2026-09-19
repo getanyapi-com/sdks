@@ -24,10 +24,16 @@ if TYPE_CHECKING:
 class SpotifyAlbumInput(TypedDict, total=False):
     """Input for Spotify Album."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """Spotify album ID (alternative to url)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Spotify album URL (e.g. https://open.spotify.com/album/0pgrg7phBbnwGJ2HBEl9EG)."""
 
@@ -35,10 +41,16 @@ class SpotifyAlbumInput(TypedDict, total=False):
 class SpotifyArtistInput(TypedDict, total=False):
     """Input for Spotify Artist."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """Spotify artist ID (alternative to url)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Spotify artist URL (e.g. https://open.spotify.com/artist/3DiDSECUqqY1AuBP8qtaIa)."""
 
@@ -46,8 +58,14 @@ class SpotifyArtistInput(TypedDict, total=False):
 class SpotifyPlayCountInput(TypedDict, total=False):
     """Input for Spotify Play Count."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Spotify track, album, or artist URL to fetch stream counts for (e.g. https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp)."""
 
@@ -55,10 +73,16 @@ class SpotifyPlayCountInput(TypedDict, total=False):
 class SpotifyPodcastInput(TypedDict, total=False):
     """Input for Spotify Podcast."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """Spotify podcast show ID (alternative to url)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Spotify podcast show URL (e.g. https://open.spotify.com/show/3mliji9352UAk3XnWElnDV)."""
 
@@ -66,12 +90,18 @@ class SpotifyPodcastInput(TypedDict, total=False):
 class SpotifyPodcastEpisodesInput(TypedDict, total=False):
     """Input for Spotify Podcast Episodes."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response for subsequent pages."""
     id: NotRequired[str]
     """Spotify podcast show ID (alternative to url)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Spotify podcast show URL (e.g. https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk)."""
 
@@ -79,19 +109,31 @@ class SpotifyPodcastEpisodesInput(TypedDict, total=False):
 class SpotifySearchInput(TypedDict, total=False):
     """Input for Spotify Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search term (e.g. "my first million")."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class SpotifyTrackInput(TypedDict, total=False):
     """Input for Spotify Track."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """Spotify track ID (alternative to url)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Spotify track URL (e.g. https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT)."""
 
@@ -99,9 +141,13 @@ class SpotifyTrackInput(TypedDict, total=False):
 class SpotifyAlbumData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    artist_name: str | None = Field(
+        default=None, alias="artistName", description="Name of the primary artist."
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    image: str | None = Field(default=None, description="URL of the cover art image.")
     label: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -123,14 +169,26 @@ class SpotifyAlbumData(BaseModel):
     uri: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    url: str | None = Field(
+        default=None,
+        description="Canonical Spotify web URL, tracking query parameters stripped.",
+    )
 
 
 class SpotifyAlbumTrack(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    artist_name: str | None = Field(
+        default=None, alias="artistName", description="Name of the primary artist."
+    )
     duration_ms: int = Field(alias="durationMs")
     name: str
     playcount: int
+    track_number: int | None = Field(
+        default=None,
+        alias="trackNumber",
+        description="Position of the track within the album.",
+    )
     uri: str
 
 
@@ -140,9 +198,26 @@ class SpotifyArtistData(BaseModel):
     albums: list[SpotifyArtistAlbum] = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    bio: str | None = Field(default=None, description="Artist biography text.")
+    followers: int | None = Field(
+        default=None, description="Number of Spotify followers the artist has."
+    )
+    id: str | None = Field(default=None, description="Spotify artist ID.")
+    image: str | None = Field(default=None, description="URL of the cover art image.")
+    name: str | None = Field(default=None, description="Artist display name.")
+    popularity: int | None = Field(
+        default=None, description="Spotify popularity score for the artist, 0 to 100."
+    )
     top_tracks: list[SpotifyArtistTopTrack] = Field(
         alias="topTracks",
         description="Populated whenever the provider has data for the entity.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical Spotify web URL, tracking query parameters stripped.",
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether the artist profile is verified on Spotify."
     )
 
 
@@ -151,6 +226,10 @@ class SpotifyArtistAlbum(BaseModel):
 
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(default=None, description="URL of the cover art image.")
+    label: str | None = Field(
+        default=None, description="Record label that released the album."
     )
     name: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -163,17 +242,33 @@ class SpotifyArtistAlbum(BaseModel):
     uri: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    url: str | None = Field(
+        default=None,
+        description="Canonical Spotify web URL, tracking query parameters stripped.",
+    )
     year: int = Field(
         description="Populated whenever the provider has data for the entity."
     )
 
 
 class SpotifyArtistTopTrack(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    artist_name: str | None = Field(
+        default=None, alias="artistName", description="Name of the primary artist."
+    )
+    duration_ms: int | None = Field(
+        default=None,
+        alias="durationMs",
+        description="Length of the track in milliseconds.",
+    )
     id: str
+    image: str | None = Field(default=None, description="URL of the cover art image.")
     name: str
     playcount: int
+    popularity: int | None = Field(
+        default=None, description="Spotify popularity score for the track, 0 to 100."
+    )
     uri: str
 
 
@@ -202,12 +297,28 @@ class SpotifyPlayCountItem(BaseModel):
     id: str = Field(
         description="The Spotify entity ID. Populated whenever the provider has data for the entity."
     )
+    image: str | None = Field(default=None, description="URL of the cover art image.")
     name: str = Field(
         description="The track (or entity) name. Populated whenever the provider has data for the entity."
     )
     play_count: int = Field(
         alias="playCount",
         description="Total number of streams/plays for the track. Populated whenever the provider has data for the entity.",
+    )
+    preview_url: str | None = Field(
+        default=None,
+        alias="previewUrl",
+        description="URL of the 30-second audio preview.",
+    )
+    release_date: str | None = Field(
+        default=None,
+        alias="releaseDate",
+        description="Release date as an ISO 8601 string.",
+    )
+    track_number: int | None = Field(
+        default=None,
+        alias="trackNumber",
+        description="Position of the track within its album.",
     )
     type_: str | None = Field(
         default=None,
@@ -229,6 +340,7 @@ class SpotifyPodcastData(BaseModel):
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    image: str | None = Field(default=None, description="URL of the cover art image.")
     name: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -238,6 +350,10 @@ class SpotifyPodcastData(BaseModel):
     total_ratings: int = Field(alias="totalRatings")
     uri: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical Spotify web URL, tracking query parameters stripped.",
     )
 
 
@@ -292,10 +408,19 @@ class SpotifySearchData(BaseModel):
 
 
 class SpotifySearchAlbum(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    artist_name: str | None = Field(
+        default=None, alias="artistName", description="Name of the primary artist."
+    )
     id: str
+    image: str | None = Field(default=None, description="URL of the cover art image.")
     name: str
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Album type, for example ALBUM, SINGLE or COMPILATION.",
+    )
     uri: str
     year: int
 
@@ -313,16 +438,26 @@ class SpotifySearchPodcast(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     id: str
+    image: str | None = Field(default=None, description="URL of the cover art image.")
     name: str
     publisher: str
+    uri: str | None = Field(
+        default=None, description="Spotify URI of the podcast show."
+    )
 
 
 class SpotifySearchTrack(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    album_name: str | None = Field(
+        default=None,
+        alias="albumName",
+        description="Name of the album the track appears on.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    image: str | None = Field(default=None, description="URL of the cover art image.")
     name: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -334,6 +469,14 @@ class SpotifySearchTrack(BaseModel):
 class SpotifyTrackData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    album_name: str | None = Field(
+        default=None,
+        alias="albumName",
+        description="Name of the album the track appears on.",
+    )
+    artist_name: str | None = Field(
+        default=None, alias="artistName", description="Name of the primary artist."
+    )
     duration_ms: int = Field(
         alias="durationMs",
         description="Populated whenever the provider has data for the entity.",
@@ -341,11 +484,17 @@ class SpotifyTrackData(BaseModel):
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    image: str | None = Field(default=None, description="URL of the cover art image.")
     name: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     playcount: int
     popularity: int
+    release_date: str | None = Field(
+        default=None,
+        alias="releaseDate",
+        description="Album release date as an ISO 8601 string.",
+    )
     share_url: str = Field(
         alias="shareUrl",
         description="Populated whenever the provider has data for the entity.",

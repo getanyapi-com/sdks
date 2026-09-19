@@ -566,6 +566,20 @@
     "items": 1,
     "replayed": false
   },
+  "company_identify.crustdata_v3": {
+    "output": {
+      "found": true,
+      "data": {
+        "companyId": "sample",
+        "domain": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "company_search.ai_ark": {
     "output": {
       "found": true,
@@ -713,17 +727,12 @@
     "items": 1,
     "replayed": false
   },
-  "dexscreener.tokens": {
+  "contact_enrichment.crustdata_v3": {
     "output": {
       "found": true,
       "data": {
-        "items": [
-          {
-            "symbol": "sample",
-            "price": 1.5,
-            "_extra": "passthrough"
-          }
-        ]
+        "personId": "sample",
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",
@@ -1348,7 +1357,6 @@
             "id": "sample",
             "text": "sample",
             "url": "sample",
-            "permalink": "sample",
             "publishTime": 1,
             "reactionCount": 1,
             "commentCount": 1,
@@ -2815,7 +2823,8 @@
             "paidPartnership": true,
             "_extra": "passthrough"
           }
-        ]
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
@@ -3104,6 +3113,33 @@
           }
         ],
         "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "instagram.web_reels_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "reels": [
+          {
+            "shortcode": "sample",
+            "url": "sample",
+            "caption": "sample",
+            "thumbnail": "sample",
+            "likes": 1,
+            "comments": 1,
+            "durationSeconds": 1.5,
+            "createdUtc": 1.5,
+            "username": "sample",
+            "verified": true,
+            "paidPartnership": true,
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -4061,6 +4097,19 @@
     "items": 1,
     "replayed": false
   },
+  "person_enrichment.crustdata_v3": {
+    "output": {
+      "found": true,
+      "data": {
+        "personId": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "person_enrichment.fullenrich_bulk": {
     "output": {
       "found": true,
@@ -4201,6 +4250,23 @@
     "items": 1,
     "replayed": false
   },
+  "property_records.enformion": {
+    "output": {
+      "found": true,
+      "data": {
+        "records": [
+          {
+            "street": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "realtor.search": {
     "output": {
       "found": true,
@@ -4212,6 +4278,20 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "reddit.avatar": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "username": "sample",
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",
@@ -5275,11 +5355,7 @@
             "adId": "sample",
             "adTitle": "sample",
             "brandName": "sample",
-            "cost": 1.5,
-            "ctr": 1.5,
-            "likes": 1,
-            "industry": "sample",
-            "objective": "sample",
+            "estimatedAudience": "sample",
             "videoUrl": "sample",
             "coverUrl": "sample",
             "_extra": "passthrough"
@@ -5462,6 +5538,31 @@
     "items": 1,
     "replayed": false
   },
+  "tiktok.playlist_videos": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "caption": "sample",
+            "author": "sample",
+            "createdUtc": 1.5,
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "shares": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "tiktok.profile": {
     "output": {
       "found": true,
@@ -5502,6 +5603,26 @@
     "items": 1,
     "replayed": false
   },
+  "tiktok.profile_playlists": {
+    "output": {
+      "found": true,
+      "data": {
+        "playlists": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "videoCount": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "tiktok.profile_region": {
     "output": {
       "found": true,
@@ -5510,6 +5631,31 @@
         "profileUrl": "sample",
         "region": "sample",
         "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok.profile_reposts": {
+    "output": {
+      "found": true,
+      "data": {
+        "videos": [
+          {
+            "id": "sample",
+            "caption": "sample",
+            "author": "sample",
+            "createdUtc": 1.5,
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "shares": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
@@ -5579,6 +5725,48 @@
             "likes": 1,
             "comments": 1,
             "shares": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok.search_photos": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "caption": "sample",
+            "author": "sample",
+            "createdUtc": 1.5,
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "shares": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok.search_suggestions": {
+    "output": {
+      "found": true,
+      "data": {
+        "suggestions": [
+          {
+            "text": "sample",
             "_extra": "passthrough"
           }
         ]
@@ -5826,7 +6014,7 @@
       "found": true,
       "data": {
         "transcript": "sample",
-        "source": "sample",
+        "source": "audio_asr",
         "_extra": "passthrough"
       }
     },
@@ -5843,24 +6031,6 @@
           {
             "categoryId": "sample",
             "name": "sample",
-            "_extra": "passthrough"
-          }
-        ]
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
-  "tiktok_shop.category_products": {
-    "output": {
-      "found": true,
-      "data": {
-        "items": [
-          {
-            "productId": "sample",
-            "title": "sample",
             "_extra": "passthrough"
           }
         ]

@@ -18,8 +18,14 @@ if TYPE_CHECKING:
 class EbayProductInput(TypedDict, total=False):
     """Input for eBay Product."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full eBay listing URL (e.g. https://www.ebay.com/itm/133576802017). The marketplace is taken from the host, so an ebay.co.uk or ebay.de URL returns that site's listing and currency. Item ids come back on every row of ebay.search and ebay.sold_listings."""
 
@@ -27,8 +33,14 @@ class EbayProductInput(TypedDict, total=False):
 class EbayProductFullInput(TypedDict, total=False):
     """Input for eBay Product Full."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full eBay listing URL (e.g. https://www.ebay.com/itm/133576802017). Works on ended and sold listings as well as live ones, so it composes with ebay.sold_listings: pull the comps cheaply, then enrich the few you care about."""
 
@@ -36,10 +48,14 @@ class EbayProductFullInput(TypedDict, total=False):
 class EbaySearchInput(TypedDict, total=False):
     """Input for eBay Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     condition: NotRequired[
         list[Literal["new", "open_box", "refurbished", "used", "for_parts"]]
     ]
     """Filter by one or more item conditions; omit for all conditions (e.g. ["new", "open_box"])."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1 to 25, default 25). Range: 1 to 25."""
     listingType: NotRequired[Literal["all", "auction", "buy_it_now"]]
@@ -58,15 +74,21 @@ class EbaySearchInput(TypedDict, total=False):
         ]
     ]
     """Result sort order; omit for eBay's Best Match (e.g. price_low sorts by lowest price plus shipping first)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class EbaySoldListingsInput(TypedDict, total=False):
     """Input for eBay Sold Listings."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     condition: NotRequired[Literal["any", "new", "used"]]
     """Item condition filter (e.g. used). Default: any."""
     freeShipping: NotRequired[bool]
     """Only include listings that sold with free shipping."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
     listingType: NotRequired[Literal["all", "auction", "buy_it_now"]]
@@ -87,6 +109,8 @@ class EbaySoldListingsInput(TypedDict, total=False):
     """eBay country site to search. Sold-listing coverage is currently US only. Default: ebay.com."""
     sort: NotRequired[Literal["ended_recently", "price_low", "price_high"]]
     """Result sort order; omit for eBay's default best-match order (e.g. price_high sorts by highest sold price first)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class EbayProductData(BaseModel):
@@ -102,6 +126,11 @@ class EbayProductItem(BaseModel):
         default=None,
         description="Stock state as eBay reports it (e.g. InStock, OutOfStock).",
     )
+    best_offer_enabled: bool | None = Field(
+        default=None,
+        alias="bestOfferEnabled",
+        description="True when the seller accepts Best Offer on this listing.",
+    )
     bid_count: int | None = Field(
         default=None,
         alias="bidCount",
@@ -109,6 +138,9 @@ class EbayProductItem(BaseModel):
     )
     brand: str | None = Field(
         default=None, description="Brand as listed, when the seller filled it in."
+    )
+    categories: list[str] | None = Field(
+        default=None, description="eBay category path the listing sits in."
     )
     condition: str | None = Field(
         default=None,
@@ -127,9 +159,15 @@ class EbayProductItem(BaseModel):
         alias="freeShipping",
         description="True when the listing ships free.",
     )
+    gtin: str | None = Field(
+        default=None, description="Global Trade Item Number (UPC/EAN) as listed."
+    )
     image: str | None = Field(
         default=None,
         description="Primary listing image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    images: list[EbayProductImage] | None = Field(
+        default=None, description="All listing images, primary first."
     )
     item_id: str = Field(
         alias="itemId",
@@ -155,6 +193,11 @@ class EbayProductItem(BaseModel):
     price: float | None = Field(
         default=None,
         description="Current asking price, or the current bid on a live auction, in the site currency. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    product_id: str | None = Field(
+        default=None,
+        alias="productId",
+        description="eBay catalog product identifier the listing is matched to.",
     )
     quantity_available: int | None = Field(
         default=None,
@@ -196,8 +239,16 @@ class EbayProductItem(BaseModel):
         alias="shippingCost",
         description="Shipping cost to the default destination as a numeric amount; absent when eBay quotes no flat cost.",
     )
+    subtitle: str | None = Field(
+        default=None, description="Seller subtitle shown under the listing title."
+    )
     title: str = Field(
         description="Listing title as it appears on eBay. Populated whenever the provider has data for the entity."
+    )
+    updated_utc: float | None = Field(
+        default=None,
+        alias="updatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the listing was last modified.",
     )
     url: str = Field(
         description="Canonical listing URL (tracking query params stripped). Populated whenever the provider has data for the entity."
@@ -206,6 +257,14 @@ class EbayProductItem(BaseModel):
         default=None,
         description="Number of shoppers watching the listing, when eBay shows it.",
     )
+
+
+class EbayProductImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    height: int | None = Field(default=None, description="Image height in pixels.")
+    url: str | None = Field(default=None, description="Image URL.")
+    width: int | None = Field(default=None, description="Image width in pixels.")
 
 
 class EbayProductFullData(BaseModel):
@@ -221,6 +280,9 @@ class EbayProductFullItem(BaseModel):
         default=None,
         description="Stock state as eBay reports it (e.g. in_stock, out_of_stock).",
     )
+    brand: str | None = Field(
+        default=None, description="Brand as listed, when the seller filled it in."
+    )
     category: str | None = Field(
         default=None,
         description='Full category path, e.g. "Electronics>Cell Phones & Accessories>Cell Phones & Smartphones".',
@@ -229,12 +291,20 @@ class EbayProductFullItem(BaseModel):
         default=None,
         description="Item condition as listed (e.g. New, Used). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="ISO country code of the eBay marketplace the listing is on.",
+    )
     currency: str | None = Field(
         default=None, description="ISO currency code of the price (e.g. USD, GBP)."
     )
     description: str | None = Field(
         default=None,
         description="The seller's own listing description, as plain text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    gtin: str | None = Field(
+        default=None, description="Global Trade Item Number (UPC/EAN) as listed."
     )
     image: str | None = Field(
         default=None,
@@ -330,7 +400,15 @@ class EbaySearchData(BaseModel):
 class EbaySearchItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    bid_count: int | None = Field(
+        default=None,
+        alias="bidCount",
+        description="Bids placed so far, for auction listings.",
+    )
     condition: str | None = None
+    currency: str | None = Field(
+        default=None, description="ISO currency code of the price (e.g. USD)."
+    )
     image: str | None = Field(
         default=None,
         description="Primary listing image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -343,6 +421,11 @@ class EbaySearchItem(BaseModel):
         default=None, alias="listingType", description="Auction, FixedPrice, etc."
     )
     price: float | None = Field(default=None, description="Listing price.")
+    seller_feedback_count: float | None = Field(
+        default=None,
+        alias="sellerFeedbackCount",
+        description="Seller's lifetime feedback count.",
+    )
     seller_feedback_percent: float | None = Field(
         default=None,
         alias="sellerFeedbackPercent",
@@ -378,6 +461,11 @@ class EbaySoldListingsItem(BaseModel):
     )
     condition: str | None = Field(
         default=None, description="Item condition as listed (e.g. Pre-Owned)."
+    )
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="ISO country code of the eBay marketplace the sale happened on.",
     )
     epid: str | None = Field(
         default=None,

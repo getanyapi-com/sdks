@@ -11,10 +11,23 @@ import type {
  */
 export interface EbayProductInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full eBay listing URL (e.g. https://www.ebay.com/itm/133576802017). The marketplace is taken from the host, so an ebay.co.uk or ebay.de URL returns that site's listing and currency. Item ids come back on every row of ebay.search and ebay.sold_listings.
    */
@@ -27,6 +40,10 @@ export interface EbayProductItem {
    */
   availability?: string;
   /**
+   * True when the seller accepts Best Offer on this listing.
+   */
+  bestOfferEnabled?: boolean;
+  /**
    * Bids placed so far, for auction listings.
    */
   bidCount?: number;
@@ -34,6 +51,10 @@ export interface EbayProductItem {
    * Brand as listed, when the seller filled it in.
    */
   brand?: string;
+  /**
+   * eBay category path the listing sits in.
+   */
+  categories?: string[];
   /**
    * Item condition as listed (e.g. New, Used). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -52,10 +73,18 @@ export interface EbayProductItem {
    */
   freeShipping?: boolean;
   /**
+   * Global Trade Item Number (UPC/EAN) as listed.
+   */
+  gtin?: string;
+  /**
    * Primary listing image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * All listing images, primary first.
+   */
+  images?: EbayProductImage[];
   /**
    * eBay item identifier. Populated whenever the provider has data for the entity.
    */
@@ -81,6 +110,10 @@ export interface EbayProductItem {
    * Present whenever the upstream returns this record.
    */
   price?: number;
+  /**
+   * eBay catalog product identifier the listing is matched to.
+   */
+  productId?: string;
   /**
    * Units the seller still has available, when the listing shows a quantity.
    */
@@ -115,9 +148,17 @@ export interface EbayProductItem {
    */
   shippingCost?: number;
   /**
+   * Seller subtitle shown under the listing title.
+   */
+  subtitle?: string;
+  /**
    * Listing title as it appears on eBay. Populated whenever the provider has data for the entity.
    */
   title: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the listing was last modified.
+   */
+  updatedUtc?: number;
   /**
    * Canonical listing URL (tracking query params stripped). Populated whenever the provider has data for the entity.
    */
@@ -126,6 +167,22 @@ export interface EbayProductItem {
    * Number of shoppers watching the listing, when eBay shows it.
    */
   watchers?: number;
+  [extra: string]: unknown;
+}
+
+export interface EbayProductImage {
+  /**
+   * Image height in pixels.
+   */
+  height?: number;
+  /**
+   * Image URL.
+   */
+  url?: string;
+  /**
+   * Image width in pixels.
+   */
+  width?: number;
   [extra: string]: unknown;
 }
 
@@ -144,10 +201,23 @@ export interface EbayProductData {
  */
 export interface EbayProductFullInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full eBay listing URL (e.g. https://www.ebay.com/itm/133576802017). Works on ended and sold listings as well as live ones, so it composes with ebay.sold_listings: pull the comps cheaply, then enrich the few you care about.
    */
@@ -160,6 +230,10 @@ export interface EbayProductFullItem {
    */
   availability?: string;
   /**
+   * Brand as listed, when the seller filled it in.
+   */
+  brand?: string;
+  /**
    * Full category path, e.g. "Electronics>Cell Phones & Accessories>Cell Phones & Smartphones".
    */
   category?: string;
@@ -169,6 +243,10 @@ export interface EbayProductFullItem {
    */
   condition?: string;
   /**
+   * ISO country code of the eBay marketplace the listing is on.
+   */
+  countryCode?: string;
+  /**
    * ISO currency code of the price (e.g. USD, GBP).
    */
   currency?: string;
@@ -177,6 +255,10 @@ export interface EbayProductFullItem {
    * Present whenever the upstream returns this record.
    */
   description?: string;
+  /**
+   * Global Trade Item Number (UPC/EAN) as listed.
+   */
+  gtin?: string;
   /**
    * Primary listing image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -276,9 +358,18 @@ export interface EbayProductFullData {
  */
 export interface EbaySearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Filter by one or more item conditions; omit for all conditions (e.g. ["new", "open_box"]).
    */
   condition?: ("new" | "open_box" | "refurbished" | "used" | "for_parts")[];
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1 to 25, default 25).
    * Range: minimum 1, maximum 25.
@@ -318,10 +409,22 @@ export interface EbaySearchInput {
     | "newly_listed"
     | "price_low"
     | "price_high";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface EbaySearchItem {
+  /**
+   * Bids placed so far, for auction listings.
+   */
+  bidCount?: number;
   condition?: string;
+  /**
+   * ISO currency code of the price (e.g. USD).
+   */
+  currency?: string;
   /**
    * Primary listing image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -339,6 +442,10 @@ export interface EbaySearchItem {
    * Listing price.
    */
   price?: number;
+  /**
+   * Seller's lifetime feedback count.
+   */
+  sellerFeedbackCount?: number;
   /**
    * Seller positive-feedback percentage.
    */
@@ -374,6 +481,11 @@ export interface EbaySearchData {
  */
 export interface EbaySoldListingsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Item condition filter (e.g. used).
    * One of: any, new, used.
    * Default: any.
@@ -383,6 +495,10 @@ export interface EbaySoldListingsInput {
    * Only include listings that sold with free shipping.
    */
   freeShipping?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
@@ -431,6 +547,10 @@ export interface EbaySoldListingsInput {
    * One of: ended_recently, price_low, price_high.
    */
   sort?: "ended_recently" | "price_low" | "price_high";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface EbaySoldListingsItem {
@@ -442,6 +562,10 @@ export interface EbaySoldListingsItem {
    * Item condition as listed (e.g. Pre-Owned).
    */
   condition?: string;
+  /**
+   * ISO country code of the eBay marketplace the sale happened on.
+   */
+  countryCode?: string;
   /**
    * eBay catalog product identifier (ePID), when the listing is matched to a catalog product.
    */

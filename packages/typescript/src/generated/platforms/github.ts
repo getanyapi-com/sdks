@@ -13,10 +13,23 @@ import { paginate } from "../../core/index.js";
  */
 export interface GithubRepositoryInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * GitHub repository URL (e.g. https://github.com/facebook/react).
    */
@@ -31,6 +44,10 @@ export interface GithubRepositoryData {
    * Whether the repository is archived.
    */
   archived?: boolean;
+  /**
+   * Avatar image URL of the repository owner.
+   */
+  avatarUrl?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -62,6 +79,10 @@ export interface GithubRepositoryData {
    */
   homepage?: string | null;
   /**
+   * GitHub's numeric repository id, as a string.
+   */
+  id?: string;
+  /**
    * Primary programming language, or null if undetected.
    */
   language?: string | null;
@@ -83,10 +104,22 @@ export interface GithubRepositoryData {
    */
   owner?: string;
   /**
+   * Whether the repository is private.
+   */
+  private?: boolean;
+  /**
+   * GitHub profile URL of the repository owner.
+   */
+  profileUrl?: string;
+  /**
    * Last push timestamp (ISO 8601). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   pushedAt?: string;
+  /**
+   * Repository size in kilobytes as reported by GitHub.
+   */
+  size?: number;
   /**
    * Number of stargazers.
    */
@@ -116,6 +149,15 @@ export interface GithubRepositoryData {
  */
 export interface GithubTrendingDevelopersInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Programming language to filter trending developers (e.g. javascript, python, go).
    */
   language?: string;
@@ -128,6 +170,10 @@ export interface GithubTrendingDevelopersInput {
    * Trending range: daily, weekly, or monthly (defaults to daily).
    */
   since?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface GithubTrendingDevelopersDeveloper {
@@ -171,6 +217,15 @@ export interface GithubTrendingDevelopersData {
  */
 export interface GithubTrendingRepositoriesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Filter by programming language (e.g. "go", "typescript"). Omit for all languages.
    */
   language?: string;
@@ -185,6 +240,10 @@ export interface GithubTrendingRepositoriesInput {
    * Default: daily.
    */
   since?: "daily" | "weekly" | "monthly";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface GithubTrendingRepositoriesRepo {
@@ -195,6 +254,14 @@ export interface GithubTrendingRepositoriesRepo {
    */
   fullName: string;
   language: string;
+  /**
+   * Repository short name (without owner).
+   */
+  name?: string;
+  /**
+   * Login of the repository owner (user or organization).
+   */
+  owner?: string;
   rank: number;
   stars: number;
   starsToday: number;
@@ -213,6 +280,10 @@ export interface GithubTrendingRepositoriesData {
    * Populated whenever the provider has data for the entity.
    */
   repos: GithubTrendingRepositoriesRepo[];
+  /**
+   * Trending window the listing was read for (daily, weekly, or monthly).
+   */
+  since?: string;
 }
 
 /**
@@ -220,14 +291,27 @@ export interface GithubTrendingRepositoriesData {
  */
 export interface GithubUserInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * GitHub username.
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -264,6 +348,10 @@ export interface GithubUserData {
    */
   following: number;
   /**
+   * GitHub's numeric user id, as a string.
+   */
+  id?: string;
+  /**
    * Location listed on the profile.
    */
   location?: string;
@@ -275,6 +363,10 @@ export interface GithubUserData {
    * Display name, or empty string if unset. Populated whenever the provider has data for the entity.
    */
   name: string;
+  /**
+   * Canonical GitHub profile URL.
+   */
+  profileUrl?: string;
   /**
    * Count of public gists.
    */
@@ -299,6 +391,11 @@ export interface GithubUserData {
  */
 export interface GithubUserActivityInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response (pages backward by month).
    */
   cursor?: string;
@@ -307,10 +404,18 @@ export interface GithubUserActivityInput {
    */
   handle: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Year of contribution activity to return (defaults to the current year).
    */
@@ -319,9 +424,29 @@ export interface GithubUserActivityInput {
 
 export interface GithubUserActivityActivity {
   /**
+   * The individual entries behind this activity summary. Empty when the upstream published no breakdown.
+   */
+  items?: GithubUserActivityItem[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   summary: string;
+  [extra: string]: unknown;
+}
+
+export interface GithubUserActivityItem {
+  /**
+   * Full repository name in owner/name form for this entry.
+   */
+  repo?: string;
+  /**
+   * The entry as GitHub renders it, e.g. "owner/repo 353 commits".
+   */
+  text?: string;
+  /**
+   * Canonical URL of the repository for this entry.
+   */
+  url?: string;
   [extra: string]: unknown;
 }
 
@@ -354,14 +479,27 @@ export interface GithubUserActivityData {
  */
 export interface GithubUserContributionsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * GitHub username.
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Calendar year of the contribution graph. Defaults to the current year.
    */
@@ -411,6 +549,11 @@ export interface GithubUserContributionsData {
  */
 export interface GithubUserFollowersInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response (page number, defaults to 1).
    */
   cursor?: string;
@@ -419,10 +562,18 @@ export interface GithubUserFollowersInput {
    */
   handle: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface GithubUserFollowersFollower {
@@ -466,6 +617,11 @@ export interface GithubUserFollowersData {
  */
 export interface GithubUserFollowingInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response (page number, defaults to 1).
    */
   cursor?: string;
@@ -474,10 +630,18 @@ export interface GithubUserFollowingInput {
    */
   handle: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface GithubUserFollowingFollowing {
@@ -521,6 +685,11 @@ export interface GithubUserFollowingData {
  */
 export interface GithubUserPullRequestsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response (page number, defaults to 1).
    */
   cursor?: string;
@@ -528,6 +697,10 @@ export interface GithubUserPullRequestsInput {
    * GitHub username.
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -537,6 +710,10 @@ export interface GithubUserPullRequestsInput {
    * Only include pull requests created on or after this date (YYYY-MM-DD).
    */
   since?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Only include pull requests created on or before this date (YYYY-MM-DD).
    */
@@ -590,6 +767,11 @@ export interface GithubUserPullRequestsData {
  */
 export interface GithubUserRepositoriesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page.
    */
   cursor?: string;
@@ -603,6 +785,10 @@ export interface GithubUserRepositoriesInput {
    */
   handle: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -613,6 +799,10 @@ export interface GithubUserRepositoriesInput {
    * Default: updated.
    */
   sort?: "created" | "updated" | "pushed" | "full_name";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Which repositories to include: owner (default), all, or member.
    * One of: owner, all, member.
@@ -626,6 +816,14 @@ export interface GithubUserRepositoriesRepo {
    * URL of the repository owner's avatar image.
    */
   avatarUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Name of the default branch.
+   */
+  defaultBranch?: string;
   description: string;
   fork: boolean;
   forks: number;
@@ -633,18 +831,58 @@ export interface GithubUserRepositoriesRepo {
    * Populated whenever the provider has data for the entity.
    */
   fullName: string;
+  /**
+   * Project homepage URL, or empty string if none.
+   */
+  homepage?: string;
+  /**
+   * GitHub's numeric repository id, as a string.
+   */
+  id?: string;
   language: string;
+  /**
+   * License name, or empty string if unlicensed.
+   */
+  license?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   name: string;
+  /**
+   * Count of open issues and pull requests.
+   */
+  openIssues?: number;
+  /**
+   * Login of the repository owner (user or organization).
+   */
+  owner?: string;
+  /**
+   * Whether the repository is private.
+   */
+  private?: boolean;
+  /**
+   * GitHub profile URL of the repository owner.
+   */
+  profileUrl?: string;
   pushedAt: string;
+  /**
+   * Repository size in kilobytes as reported by GitHub.
+   */
+  size?: number;
   stars: number;
+  /**
+   * Repository topic tags.
+   */
+  topics?: string[];
   updatedAt: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Number of watchers.
+   */
+  watchers?: number;
   [extra: string]: unknown;
 }
 

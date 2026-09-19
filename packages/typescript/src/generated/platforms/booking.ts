@@ -16,6 +16,11 @@ export interface BookingSearchInput {
    */
   adults?: number;
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Check-in date in YYYY-MM-DD format (e.g. 2026-07-01). Defaults to tomorrow.
    */
   checkIn?: string;
@@ -33,6 +38,10 @@ export interface BookingSearchInput {
    * Default: USD.
    */
   currency?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of hotels to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
@@ -52,6 +61,10 @@ export interface BookingSearchInput {
    * Range: minimum 1.
    */
   rooms?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface BookingSearchItem {
@@ -63,6 +76,18 @@ export interface BookingSearchItem {
   country?: string;
   currency?: string;
   /**
+   * Promotion label Booking.com shows on the offer (e.g. Getaway Deal).
+   */
+  discountBadge?: string;
+  /**
+   * Distance from the city center as Booking.com phrases it.
+   */
+  distanceFromCenter?: string;
+  /**
+   * Whether the offer can be cancelled free of charge.
+   */
+  freeCancellation?: boolean;
+  /**
    * Booking.com hotel identifier. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -72,6 +97,14 @@ export interface BookingSearchItem {
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * Whether the property is closed.
+   */
+  isClosed?: boolean;
+  /**
+   * Whether the property is sold out for the requested dates.
+   */
+  isSoldOut?: boolean;
   latitude?: number;
   /**
    * Neighborhood or area label.
@@ -82,6 +115,14 @@ export interface BookingSearchItem {
    * Populated whenever the provider has data for the entity.
    */
   name: string;
+  /**
+   * Whether the offer needs no payment up front.
+   */
+  noPrepayment?: boolean;
+  /**
+   * Pre-discount total stay price in the requested currency.
+   */
+  originalPrice?: number;
   /**
    * Total stay price in the requested currency.
    */
@@ -95,11 +136,23 @@ export interface BookingSearchItem {
    * Guest review score (0-10).
    */
   reviewScore?: number;
+  /**
+   * Word Booking.com uses for the review score (e.g. Fabulous).
+   */
+  reviewScoreLabel?: string;
   reviewsCount?: number;
+  /**
+   * Identifier of the room the quoted price is for.
+   */
+  roomId?: string;
   /**
    * Star rating class (1-5).
    */
   stars?: number;
+  /**
+   * Small hotel photo URL.
+   */
+  thumbnail?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */

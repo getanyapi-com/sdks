@@ -13,10 +13,23 @@ import { paginate } from "../../core/index.js";
  */
 export interface WeiboHotSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface WeiboHotSearchTopic {
@@ -62,6 +75,15 @@ export interface WeiboHotSearchData {
  */
 export interface WeiboPostInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Whether to include the full text of long posts.
    * Default: true.
    */
@@ -75,6 +97,10 @@ export interface WeiboPostInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -91,6 +117,10 @@ export interface WeiboPostData {
    * Present whenever the upstream returns this record.
    */
   authorName?: string;
+  /**
+   * Canonical URL of the author's Weibo profile.
+   */
+  authorUrl?: string;
   /**
    * Author user identifier. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -147,9 +177,18 @@ export interface WeiboPostData {
  */
 export interface WeiboPostCommentsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor returned as nextCursor.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Requested comment count.
    * Default: 10.
@@ -164,6 +203,10 @@ export interface WeiboPostCommentsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface WeiboPostCommentsComment {
@@ -177,6 +220,10 @@ export interface WeiboPostCommentsComment {
    * Present whenever the upstream returns this record.
    */
   authorName?: string;
+  /**
+   * Canonical URL of the author's Weibo profile.
+   */
+  authorUrl?: string;
   /**
    * Comment author user identifier. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -196,9 +243,17 @@ export interface WeiboPostCommentsComment {
    */
   id: string;
   /**
+   * Number of images attached to the comment.
+   */
+  imageCount?: number;
+  /**
    * Like count.
    */
   likes?: number;
+  /**
+   * Number of replies to the comment.
+   */
+  replies?: number;
   /**
    * Plain comment text. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -230,10 +285,23 @@ export interface WeiboPostCommentsData {
  */
 export interface WeiboProfileInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Weibo user identifier.
    */
@@ -289,6 +357,10 @@ export interface WeiboProfileData {
    */
   posts?: number;
   /**
+   * Canonical URL of the Weibo profile.
+   */
+  profileUrl?: string;
+  /**
    * User identifier. Populated whenever the provider has data for the entity.
    */
   userId: string;
@@ -307,6 +379,15 @@ export interface WeiboProfileData {
  * Input for Weibo Advanced Search (weibo.search).
  */
 export interface WeiboSearchInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Media filter, such as all, pic, video, music, or link.
    */
@@ -330,6 +411,10 @@ export interface WeiboSearchInput {
    */
   searchType?: string;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Custom time range in the API's custom:start:end format.
    */
   timeScope?: string;
@@ -346,6 +431,10 @@ export interface WeiboSearchPost {
    * Present whenever the upstream returns this record.
    */
   authorName?: string;
+  /**
+   * Canonical URL of the author's Weibo profile.
+   */
+  authorUrl?: string;
   /**
    * Comment count.
    */
@@ -416,6 +505,11 @@ export interface WeiboSearchData {
  */
 export interface WeiboUserPostsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination identifier returned as nextCursor.
    */
   cursor?: string;
@@ -424,6 +518,10 @@ export interface WeiboUserPostsInput {
    * Default: 0.
    */
   feature?: number;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Page number starting at 1.
    * Default: 1.
@@ -434,6 +532,10 @@ export interface WeiboUserPostsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Weibo user identifier.
    */
@@ -451,6 +553,10 @@ export interface WeiboUserPostsPost {
    * Present whenever the upstream returns this record.
    */
   authorName?: string;
+  /**
+   * Canonical URL of the author's Weibo profile.
+   */
+  authorUrl?: string;
   /**
    * Author user identifier. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -479,9 +585,17 @@ export interface WeiboUserPostsPost {
    */
   image?: string;
   /**
+   * Number of images attached to the post.
+   */
+  imageCount?: number;
+  /**
    * Like count.
    */
   likes?: number;
+  /**
+   * Region the post was published from, as Weibo reports it.
+   */
+  region?: string;
   /**
    * Repost count.
    */

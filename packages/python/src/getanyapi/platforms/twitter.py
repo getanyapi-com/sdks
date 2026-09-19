@@ -24,8 +24,14 @@ if TYPE_CHECKING:
 class TwitterArticleInput(TypedDict, total=False):
     """Input for X / Twitter Article."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Canonical x.com or twitter.com URL of the public wrapper post for an X Article."""
 
@@ -33,8 +39,14 @@ class TwitterArticleInput(TypedDict, total=False):
 class TwitterCommunityInput(TypedDict, total=False):
     """Input for Twitter Community."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Community URL (e.g. https://x.com/i/communities/1926186499399139650)."""
 
@@ -42,8 +54,14 @@ class TwitterCommunityInput(TypedDict, total=False):
 class TwitterCommunityTweetsInput(TypedDict, total=False):
     """Input for Twitter Community Tweets."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Community URL (e.g. https://x.com/i/communities/1926186499399139650)."""
 
@@ -51,8 +69,12 @@ class TwitterCommunityTweetsInput(TypedDict, total=False):
 class TwitterFollowersInput(TypedDict, total=False):
     """Input for X / Twitter Followers."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Per-page maximum number of followers to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more. Range: 1 to 100000. Default: 200."""
     preferLatencyUnderMs: NotRequired[int]
@@ -60,11 +82,20 @@ class TwitterFollowersInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
-                "bio", "followers", "following", "location", "nextCursor", "verified"
+                "bio",
+                "createdUtc",
+                "followers",
+                "following",
+                "id",
+                "location",
+                "nextCursor",
+                "verified",
             ]
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `bio`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
     """The X (Twitter) username to fetch followers for, without the @ prefix (e.g. elonmusk)."""
 
@@ -72,16 +103,33 @@ class TwitterFollowersInput(TypedDict, total=False):
 class TwitterFollowingInput(TypedDict, total=False):
     """Input for X / Twitter Following."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followed accounts."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Per-page maximum number of followed accounts to return (default 200). A limit larger than the native page still returns at most one native page; follow the response's nextCursor for more. Range: 1 to 100000. Default: 200."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
-        list[Literal["bio", "followers", "following", "location", "nextCursor"]]
+        list[
+            Literal[
+                "bio",
+                "createdUtc",
+                "followers",
+                "following",
+                "id",
+                "location",
+                "nextCursor",
+                "posts",
+            ]
+        ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `location`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
     """The X (Twitter) username to fetch the following list for, without the @ prefix (e.g. elonmusk)."""
 
@@ -89,19 +137,31 @@ class TwitterFollowingInput(TypedDict, total=False):
 class TwitterProfileInput(TypedDict, total=False):
     """Input for Twitter Profile."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """Twitter/X handle without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TwitterRepliesInput(TypedDict, total=False):
     """Input for X / Twitter Post Replies."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-40, default 40). Per-result lanes cost less at lower limits; a backup that bills its native page may cost up to the advertised request price. Range: 1 to 40."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full URL of the X (Twitter) post to fetch replies for (e.g. https://x.com/nasa/status/1846987139428634858)."""
 
@@ -109,19 +169,26 @@ class TwitterRepliesInput(TypedDict, total=False):
 class TwitterSearchInput(TypedDict, total=False):
     """Input for X / Twitter Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of search results."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Per-page maximum number of results to return (1-50, default 20). A provider may return a smaller native page; follow nextCursor for more. Range: 1 to 50. Default: 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search query using X (Twitter) advanced-search syntax. IMPORTANT: bare terms are ANDed - a tweet must contain EVERY word, so a list of loosely related keywords matches nothing; use one short phrase or OR between alternatives (e.g. 'anyapi OR getanyapi'). You can embed X advanced-search operators directly in the query to filter results: from:username and to:username (author or recipient), since:YYYY-MM-DD and until:YYYY-MM-DD (date range), min_faves:N, min_retweets:N, min_replies:N (engagement floors), "exact phrase", -term to exclude, filter:media and filter:links and -filter:replies (content filters), lang:en, near:city, and geocode:lat,long,radius. Examples: 'from:OpenAI', 'AI agents min_faves:500 -filter:replies', 'nvidia since:2026-01-01 until:2026-03-01'. A query with no matches returns an empty items array; prefer the fewest words that identify the topic."""
-    queryType: NotRequired[str]
+    queryType: NotRequired[Literal["Latest", "Top", "Photos", "Videos"]]
     """Result ranking: 'Latest', 'Top', 'Photos', or 'Videos' (e.g. Latest). Default: Latest."""
     requireFields: NotRequired[
         list[
             Literal[
+                "authorFollowers",
+                "authorId",
+                "authorImage",
                 "authorVerified",
                 "bookmarkCount",
                 "conversationId",
@@ -140,35 +207,55 @@ class TwitterSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     requireSinglePage: NotRequired[bool]
     """Set true to get up to limit results in one response instead of provider-native pages, served by a bulk provider when needed."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TwitterSearchCommunitiesInput(TypedDict, total=False):
     """Input for X / Twitter Community Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of communities."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to match against X (Twitter) community names and topics (e.g. artificial intelligence)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TwitterSearchUsersInput(TypedDict, total=False):
     """Input for X / Twitter User Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of accounts."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to match against X (Twitter) handles, display names, and profile bios. This is the People tab of X search: pass a topic ('ai agents'), a name ('Elon Musk'), or a handle ('openai') and get back accounts, not posts. Use twitter.search for posts."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TwitterThreadInput(TypedDict, total=False):
     """Input for X / Twitter Tweet Thread."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Canonical x.com or twitter.com status URL with a numeric tweet ID. Any tweet in the self-thread can be supplied; the provider resolves the thread root."""
 
@@ -176,26 +263,42 @@ class TwitterThreadInput(TypedDict, total=False):
 class TwitterTrendsInput(TypedDict, total=False):
     """Input for X / Twitter Trends."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of ranked trends to return (1-50, default 50). Range: 1 to 50. Default: 50."""
     location: NotRequired[str]
     """Country name, city name, or ISO country code. Omit for worldwide trends."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["isHashtag", "promoted"]]]
+    requireFields: NotRequired[list[Literal["isHashtag", "promoted", "url"]]]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `promoted`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a trend that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TwitterTweetInput(TypedDict, total=False):
     """Input for Twitter Tweet."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
         list[
             Literal[
+                "authorHandle",
+                "authorImage",
+                "authorName",
+                "authorVerified",
                 "bookmarks",
+                "conversationId",
                 "height",
+                "lang",
                 "likes",
                 "media",
                 "quotes",
@@ -210,6 +313,8 @@ class TwitterTweetInput(TypedDict, total=False):
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `media` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Canonical x.com or twitter.com status URL with a numeric tweet ID, including /i/web/status and media-share variants."""
 
@@ -217,8 +322,14 @@ class TwitterTweetInput(TypedDict, total=False):
 class TwitterTweetTranscriptInput(TypedDict, total=False):
     """Input for Twitter Tweet Transcript."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Tweet URL of the video to transcribe (e.g. https://x.com/TheoVon/status/1916982720317821050)."""
 
@@ -226,16 +337,25 @@ class TwitterTweetTranscriptInput(TypedDict, total=False):
 class TwitterUserPostsInput(TypedDict, total=False):
     """Input for X / Twitter User Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page."""
     handle: Required[str]
     """Twitter/X handle without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
         list[
             Literal[
+                "authorHandle",
+                "authorId",
+                "authorImage",
+                "authorName",
                 "bookmarks",
+                "conversationId",
                 "isPinned",
                 "isReply",
                 "lang",
@@ -245,20 +365,27 @@ class TwitterUserPostsInput(TypedDict, total=False):
                 "quotes",
                 "replies",
                 "retweets",
+                "source",
                 "views",
             ]
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TwitterUserTweetsInput(TypedDict, total=False):
     """Input for X / Twitter User Tweets and Replies."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page."""
     handle: Required[str]
     """Twitter/X handle without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of authored tweets and replies to return in THIS page (1-100). Sources return fewer - most cap at 20 - so read `nextCursor` and pass it back as `cursor` to walk further rather than asking for one large page. Range: 1 to 100. Default: 20."""
     preferLatencyUnderMs: NotRequired[int]
@@ -266,7 +393,12 @@ class TwitterUserTweetsInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
+                "authorHandle",
+                "authorId",
+                "authorImage",
+                "authorName",
                 "bookmarks",
+                "conversationId",
                 "isPinned",
                 "isReply",
                 "lang",
@@ -276,6 +408,7 @@ class TwitterUserTweetsInput(TypedDict, total=False):
                 "quotes",
                 "replies",
                 "retweets",
+                "source",
                 "views",
             ]
         ]
@@ -283,6 +416,8 @@ class TwitterUserTweetsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     requireSinglePage: NotRequired[bool]
     """Require a lane that can return the requested limit in one response."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TwitterArticleData(BaseModel):
@@ -310,6 +445,14 @@ class TwitterArticleData(BaseModel):
     likes: int | None = Field(
         default=None,
         description="Wrapper post like count at retrieval time. Minimum: 0.",
+    )
+    media_count: int | None = Field(
+        default=None,
+        alias="mediaCount",
+        description="Number of media items the author has published.",
+    )
+    posts: int | None = Field(
+        default=None, description="Number of posts the author has published."
     )
     preview_text: str | None = Field(
         default=None, alias="previewText", description="Preview text supplied by X."
@@ -449,6 +592,18 @@ class TwitterCommunityData(BaseModel):
     name: str = Field(
         description="Community name. Populated whenever the provider has data for the entity."
     )
+    nsfw: bool | None = Field(
+        default=None, description="Whether the community is marked not-safe-for-work."
+    )
+    rules: list[TwitterCommunityRule] | None = Field(
+        default=None, description="Rules the community publishes."
+    )
+
+
+class TwitterCommunityRule(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    name: str | None = Field(default=None, description="Name of the rule.")
 
 
 class TwitterCommunityTweetsData(BaseModel):
@@ -464,6 +619,16 @@ class TwitterCommunityTweetsTweet(BaseModel):
         alias="authorHandle",
         description="Populated whenever the provider has data for the entity.",
     )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the account that posted.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the posting account carries an X blue verification badge.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -472,17 +637,29 @@ class TwitterCommunityTweetsTweet(BaseModel):
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    lang: str | None = Field(
+        default=None, description="Two-letter language code X detected for the post."
+    )
     quote_count: int = Field(alias="quoteCount")
     reply_count: int = Field(alias="replyCount")
     retweet_count: int = Field(alias="retweetCount")
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    views: int | None = Field(default=None, description="View count of the post.")
 
 
 class TwitterFollowersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str | None = Field(
+        default=None, description="Numeric X user id of the account, as a string."
+    )
     items: list[TwitterFollowersItem] = Field(
         description="Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity."
     )
@@ -522,6 +699,14 @@ class TwitterFollowersItem(BaseModel):
 class TwitterFollowingData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str | None = Field(
+        default=None, description="Numeric X user id of the account, as a string."
+    )
     items: list[TwitterFollowingItem] = Field(
         description="Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity."
     )
@@ -529,6 +714,9 @@ class TwitterFollowingData(BaseModel):
         default=None,
         alias="nextCursor",
         description="Opaque cursor for the next page of followed accounts, or null when there are no more. Pass it back as cursor to continue.",
+    )
+    posts: int | None = Field(
+        default=None, description="Number of posts the account has published."
     )
 
 
@@ -563,6 +751,16 @@ class TwitterProfileData(BaseModel):
     bio: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    cover_url: str | None = Field(
+        default=None,
+        alias="coverUrl",
+        description="Profile banner image URL of the account.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
     display_name: str = Field(
         alias="displayName",
         description="Populated whenever the provider has data for the entity.",
@@ -572,12 +770,38 @@ class TwitterProfileData(BaseModel):
     handle: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    id: str | None = Field(
+        default=None, description="Numeric X user id of the account, as a string."
+    )
+    location: str | None = Field(
+        default=None, description="Location text on the account's profile."
+    )
+    media_count: int | None = Field(
+        default=None,
+        alias="mediaCount",
+        description="Number of media items the account has posted.",
+    )
+    pinned_post_ids: list[str] | None = Field(
+        default=None,
+        alias="pinnedPostIds",
+        description="Ids of the posts pinned to the account's profile.",
+    )
+    private: bool | None = Field(
+        default=None, description="Whether the account is protected (private)."
+    )
     tweets: int
     verified: bool
     website: str
 
 
 class TwitterRepliesData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    conversation_id: str | None = Field(
+        default=None,
+        alias="conversationId",
+        description="Id of the conversation the reply belongs to, as a string.",
+    )
     items: list[TwitterRepliesItem] = Field(
         description="Reply records for the requested post. Populated whenever the provider has data for the entity."
     )
@@ -659,6 +883,21 @@ class TwitterRepliesMedia(BaseModel):
 class TwitterSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="Follower count of the account that posted.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Numeric X user id of the account that posted, as a string.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Avatar image URL of the account that posted.",
+    )
     items: list[TwitterSearchItem] = Field(
         description="Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity."
     )
@@ -791,6 +1030,16 @@ class TwitterSearchUsersUser(BaseModel):
     bio: str = Field(
         description="The account's profile bio/description (may be empty)."
     )
+    can_dm: bool | None = Field(
+        default=None,
+        alias="canDm",
+        description="Whether the account accepts direct messages.",
+    )
+    cover_url: str | None = Field(
+        default=None,
+        alias="coverUrl",
+        description="Profile banner image URL of the account.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
@@ -799,6 +1048,11 @@ class TwitterSearchUsersUser(BaseModel):
     following: int = Field(description="How many accounts this account follows.")
     id: str = Field(
         description="The account's numeric X user id. Populated whenever the provider has data for the entity."
+    )
+    listed_count: int | None = Field(
+        default=None,
+        alias="listedCount",
+        description="Number of public lists the account appears on.",
     )
     location: str = Field(
         description="The account's self-reported location (may be empty)."
@@ -823,6 +1077,17 @@ class TwitterThreadData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     author: TwitterThreadAuthor
+    avatar_url: str | None = Field(
+        default=None, alias="avatarUrl", description="Avatar image URL of the author."
+    )
+    bio: str | None = Field(
+        default=None, description="Bio text on the author's profile."
+    )
+    blue_verified: bool | None = Field(
+        default=None,
+        alias="blueVerified",
+        description="Whether the author carries an X blue verification badge.",
+    )
     complete: bool = Field(
         description="Whether the provider reached the end of the self-thread without hitting its internal cap."
     )
@@ -830,12 +1095,38 @@ class TwitterThreadData(BaseModel):
         alias="conversationId",
         description="Conversation ID shared by the self-thread tweets. Populated whenever the provider has data for the entity.",
     )
+    cover_url: str | None = Field(
+        default=None,
+        alias="coverUrl",
+        description="Profile banner image URL of the author.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the author's account was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    followers: int | None = Field(
+        default=None, description="Follower count of the author."
+    )
+    following: int | None = Field(
+        default=None, description="Number of accounts the author follows."
+    )
+    location: str | None = Field(
+        default=None, description="Location text on the author's profile."
+    )
     thread_length: int = Field(
         alias="threadLength",
         description="Number of tweets returned in the self-thread.",
     )
     tweets: list[TwitterThreadTweet] = Field(
         description="Ordered self-thread tweets. Replies from other users are excluded. Populated whenever the provider has data for the entity."
+    )
+    url: str | None = Field(
+        default=None, description="Canonical X profile URL of the thread's author."
+    )
+    verified: bool | None = Field(
+        default=None,
+        description="Whether the author carries a legacy X verification badge.",
     )
 
 
@@ -868,20 +1159,55 @@ class TwitterThreadTweet(BaseModel):
         alias="authorName",
         description="Populated whenever the provider has data for the entity.",
     )
+    bookmark_count: int | None = Field(
+        default=None, alias="bookmarkCount", description="Bookmark count of the post."
+    )
     conversation_id: str = Field(alias="conversationId")
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     in_reply_to_id: str | None = Field(alias="inReplyToId")
+    is_reply: bool | None = Field(
+        default=None,
+        alias="isReply",
+        description="Whether the post is a reply to another post.",
+    )
+    lang: str | None = Field(
+        default=None, description="Two-letter language code X detected for the post."
+    )
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Like count of the post."
+    )
     media: list[TwitterThreadMedia] | None = Field(
         default=None,
         description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
+    quote_count: int | None = Field(
+        default=None, alias="quoteCount", description="Quote count of the post."
+    )
+    reply_count: int | None = Field(
+        default=None, alias="replyCount", description="Reply count of the post."
+    )
+    repost_count: int | None = Field(
+        default=None, alias="repostCount", description="Repost count of the post."
+    )
+    source: str | None = Field(
+        default=None,
+        description='Client the post was sent from, e.g. "Twitter Web App".',
     )
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    view_count: int | None = Field(
+        default=None, alias="viewCount", description="View count of the post."
     )
 
 
@@ -924,6 +1250,7 @@ class TwitterTrendsData(BaseModel):
         alias="locationId",
         description="Resolved Yahoo WOEID used by X, exposed as a stable location identifier. Populated whenever the provider has data for the entity.",
     )
+    url: str | None = Field(default=None, description="X search URL for the trend.")
 
 
 class TwitterTrendsItem(BaseModel):
@@ -951,17 +1278,45 @@ class TwitterTrendsItem(BaseModel):
 class TwitterTweetData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="Handle of the account that posted.",
+    )
     author_id: str = Field(
         alias="authorId",
         description="Populated whenever the provider has data for the entity.",
     )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Avatar image URL of the account that posted.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the account that posted.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the posting account carries an X blue verification badge.",
+    )
     bookmarks: int
+    conversation_id: str | None = Field(
+        default=None,
+        alias="conversationId",
+        description="Id of the conversation the post belongs to, as a string.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    lang: str | None = Field(
+        default=None, description="Two-letter language code X detected for the post."
     )
     likes: int
     media: list[TwitterTweetMedia] | None = Field(
@@ -1022,7 +1377,32 @@ class TwitterUserPostsData(BaseModel):
 class TwitterUserPostsTweet(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="Handle of the account that posted.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Numeric X user id of the account that posted, as a string.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Avatar image URL of the account that posted.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the account that posted.",
+    )
     bookmarks: int = Field(description="Number of bookmarks.")
+    conversation_id: str | None = Field(
+        default=None,
+        alias="conversationId",
+        description="Id of the conversation the post belongs to, as a string.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -1050,6 +1430,10 @@ class TwitterUserPostsTweet(BaseModel):
     quotes: int | None = Field(default=None, description="Number of quote posts.")
     replies: int = Field(description="Number of replies.")
     retweets: int = Field(description="Number of reposts or retweets.")
+    source: str | None = Field(
+        default=None,
+        description='Client the post was sent from, e.g. "Twitter Web App".',
+    )
     text: str = Field(
         description="The post text. Empty for media-only posts. Populated whenever the provider has data for the entity."
     )
@@ -1091,7 +1475,32 @@ class TwitterUserTweetsData(BaseModel):
 class TwitterUserTweetsTweet(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="Handle of the account that posted.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Numeric X user id of the account that posted, as a string.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Avatar image URL of the account that posted.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the account that posted.",
+    )
     bookmarks: int
+    conversation_id: str | None = Field(
+        default=None,
+        alias="conversationId",
+        description="Id of the conversation the post belongs to, as a string.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -1113,6 +1522,10 @@ class TwitterUserTweetsTweet(BaseModel):
     quotes: int | None = None
     replies: int
     retweets: int
+    source: str | None = Field(
+        default=None,
+        description='Client the post was sent from, e.g. "Twitter Web App".',
+    )
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1489,7 +1902,7 @@ class TwitterNamespace:
         through the author's linked continuations. This excludes replies from other
         users.
 
-        Price: $0.005 per request.
+        Price: $0.00375 per request.
 
         Example:
             res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")
@@ -2006,7 +2419,7 @@ class AsyncTwitterNamespace:
         through the author's linked continuations. This excludes replies from other
         users.
 
-        Price: $0.005 per request.
+        Price: $0.00375 per request.
 
         Example:
             res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")

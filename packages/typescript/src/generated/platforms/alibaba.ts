@@ -11,6 +11,15 @@ import type {
  */
 export interface AlibabaSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
    */
@@ -24,25 +33,53 @@ export interface AlibabaSearchInput {
    * Keywords to search for on Alibaba (e.g. "bluetooth speaker wholesale").
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface AlibabaSearchItem {
+  /**
+   * Alibaba supplier company identifier.
+   */
+  companyId?: string;
   /**
    * Supplier country ISO code, e.g. "CN".
    */
   countryCode?: string;
   /**
+   * Price currency symbol or code, e.g. "$".
+   */
+  currency?: string;
+  /**
    * Primary product image URL.
    */
   image?: string;
+  /**
+   * Product image URLs.
+   */
+  images?: string[];
+  /**
+   * True when the listing is a paid placement.
+   */
+  isSponsored?: boolean;
   /**
    * Minimum order quantity text, e.g. "Min. order: 1 piece".
    */
   moq?: string;
   /**
+   * Lowest price in the displayed range, as a numeric amount; 0 when Alibaba shows no price.
+   */
+  price?: number;
+  /**
    * Price or price range as displayed, e.g. "$40.80-45.80" (Alibaba lists ranges, not a single numeric value).
    */
   priceText?: string;
+  /**
+   * Alibaba product identifier.
+   */
+  productId?: string;
   /**
    * Discounted promotional price when the listing is on sale; empty otherwise.
    */
@@ -59,6 +96,10 @@ export interface AlibabaSearchItem {
    * Supplier / company name.
    */
   supplierName?: string;
+  /**
+   * Supplier storefront URL on Alibaba.
+   */
+  supplierUrl?: string;
   /**
    * Gold Supplier tenure text, e.g. "3 yrs"; empty when not a Gold Supplier.
    */

@@ -18,8 +18,12 @@ if TYPE_CHECKING:
 class UpworkJobsInput(TypedDict, total=False):
     """Input for Upwork Jobs."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     experienceLevel: NotRequired[Literal["entry", "intermediate", "expert"]]
     """Filter by required experience level."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     jobType: NotRequired[Literal["fixed", "hourly"]]
     """Filter by payment type: fixed-price or hourly jobs."""
     limit: NotRequired[int]
@@ -34,6 +38,8 @@ class UpworkJobsInput(TypedDict, total=False):
     """Keywords to search Upwork jobs for (e.g. react developer)."""
     sort: NotRequired[Literal["newest", "relevance"]]
     """Sort order for listings: newest or relevance (e.g. newest). Default: newest."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class UpworkJobsData(BaseModel):
@@ -55,6 +61,11 @@ class UpworkJobsItem(BaseModel):
     client_rating: float | None = Field(
         default=None, alias="clientRating", description="Client average rating."
     )
+    client_review_count: int | None = Field(
+        default=None,
+        alias="clientReviewCount",
+        description="Number of reviews the client has received from past contracts.",
+    )
     client_total_spent: float | None = Field(
         default=None,
         alias="clientTotalSpent",
@@ -65,9 +76,17 @@ class UpworkJobsItem(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
+    currency: str | None = Field(
+        default=None,
+        description="ISO currency code the budget is quoted in (e.g. USD).",
+    )
     description: str | None = Field(
         default=None,
         description="Full job posting description text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    duration: str | None = Field(
+        default=None,
+        description='Expected engagement length as Upwork words it (e.g. "1 to 3 months").',
     )
     experience_level: str | None = Field(
         default=None,
@@ -96,8 +115,14 @@ class UpworkJobsItem(BaseModel):
         alias="paymentVerified",
         description="Whether the client's payment method is verified; null when Upwork reports it as unknown.",
     )
+    premium: bool | None = Field(
+        default=None, description="Whether Upwork flags the posting as premium."
+    )
     proposals: int | None = Field(
         default=None, description="Number of proposals submitted."
+    )
+    reposted: bool | None = Field(
+        default=None, description="Whether the posting is a repost of an earlier job."
     )
     tags: list[str] | None = Field(default=None, description="Skill tags.")
     title: str = Field(

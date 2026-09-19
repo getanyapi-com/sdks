@@ -13,10 +13,23 @@ import { paginate } from "../../core/index.js";
  */
 export interface TwitterArticleInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Canonical x.com or twitter.com URL of the public wrapper post for an X Article.
    */
@@ -184,6 +197,14 @@ export interface TwitterArticleData {
    */
   likes?: number;
   /**
+   * Number of media items the author has published.
+   */
+  mediaCount?: number;
+  /**
+   * Number of posts the author has published.
+   */
+  posts?: number;
+  /**
    * Preview text supplied by X.
    */
   previewText?: string;
@@ -213,14 +234,35 @@ export interface TwitterArticleData {
  */
 export interface TwitterCommunityInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Community URL (e.g. https://x.com/i/communities/1926186499399139650).
    */
   url: string;
+}
+
+export interface TwitterCommunityRule {
+  /**
+   * Name of the rule.
+   */
+  name?: string;
+  [extra: string]: unknown;
 }
 
 /**
@@ -255,6 +297,14 @@ export interface TwitterCommunityData {
    * Community name. Populated whenever the provider has data for the entity.
    */
   name: string;
+  /**
+   * Whether the community is marked not-safe-for-work.
+   */
+  nsfw?: boolean;
+  /**
+   * Rules the community publishes.
+   */
+  rules?: TwitterCommunityRule[];
   [extra: string]: unknown;
 }
 
@@ -263,10 +313,23 @@ export interface TwitterCommunityData {
  */
 export interface TwitterCommunityTweetsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Community URL (e.g. https://x.com/i/communities/1926186499399139650).
    */
@@ -279,6 +342,14 @@ export interface TwitterCommunityTweetsTweet {
    */
   authorHandle: string;
   /**
+   * Display name of the account that posted.
+   */
+  authorName?: string;
+  /**
+   * Whether the posting account carries an X blue verification badge.
+   */
+  authorVerified?: boolean;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
@@ -287,6 +358,10 @@ export interface TwitterCommunityTweetsTweet {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Two-letter language code X detected for the post.
+   */
+  lang?: string;
   quoteCount: number;
   replyCount: number;
   retweetCount: number;
@@ -294,6 +369,10 @@ export interface TwitterCommunityTweetsTweet {
    * Populated whenever the provider has data for the entity.
    */
   text: string;
+  /**
+   * View count of the post.
+   */
+  views?: number;
   [extra: string]: unknown;
 }
 
@@ -312,9 +391,18 @@ export interface TwitterCommunityTweetsData {
  */
 export interface TwitterFollowersInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followers.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Per-page maximum number of followers to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more.
    * Range: minimum 1, maximum 100000.
@@ -330,8 +418,19 @@ export interface TwitterFollowersInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `bio`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
-    "bio" | "followers" | "following" | "location" | "nextCursor" | "verified"
+    | "bio"
+    | "createdUtc"
+    | "followers"
+    | "following"
+    | "id"
+    | "location"
+    | "nextCursor"
+    | "verified"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * The X (Twitter) username to fetch followers for, without the @ prefix (e.g. elonmusk).
    */
@@ -379,6 +478,14 @@ export interface TwitterFollowersItem {
  */
 export interface TwitterFollowersData {
   /**
+   * UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Numeric X user id of the account, as a string.
+   */
+  id?: string;
+  /**
    * Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity.
    */
   items: TwitterFollowersItem[];
@@ -393,9 +500,18 @@ export interface TwitterFollowersData {
  */
 export interface TwitterFollowingInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of followed accounts.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Per-page maximum number of followed accounts to return (default 200). A limit larger than the native page still returns at most one native page; follow the response's nextCursor for more.
    * Range: minimum 1, maximum 100000.
@@ -411,8 +527,19 @@ export interface TwitterFollowingInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `location`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
-    "bio" | "followers" | "following" | "location" | "nextCursor"
+    | "bio"
+    | "createdUtc"
+    | "followers"
+    | "following"
+    | "id"
+    | "location"
+    | "nextCursor"
+    | "posts"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * The X (Twitter) username to fetch the following list for, without the @ prefix (e.g. elonmusk).
    */
@@ -456,6 +583,14 @@ export interface TwitterFollowingItem {
  */
 export interface TwitterFollowingData {
   /**
+   * UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Numeric X user id of the account, as a string.
+   */
+  id?: string;
+  /**
    * Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity.
    */
   items: TwitterFollowingItem[];
@@ -463,6 +598,10 @@ export interface TwitterFollowingData {
    * Opaque cursor for the next page of followed accounts, or null when there are no more. Pass it back as cursor to continue.
    */
   nextCursor?: string | null;
+  /**
+   * Number of posts the account has published.
+   */
+  posts?: number;
 }
 
 /**
@@ -470,14 +609,27 @@ export interface TwitterFollowingData {
  */
 export interface TwitterProfileInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Twitter/X handle without the leading @.
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -493,6 +645,14 @@ export interface TwitterProfileData {
    */
   bio: string;
   /**
+   * Profile banner image URL of the account.
+   */
+  coverUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   displayName: string;
@@ -502,6 +662,26 @@ export interface TwitterProfileData {
    * Populated whenever the provider has data for the entity.
    */
   handle: string;
+  /**
+   * Numeric X user id of the account, as a string.
+   */
+  id?: string;
+  /**
+   * Location text on the account's profile.
+   */
+  location?: string;
+  /**
+   * Number of media items the account has posted.
+   */
+  mediaCount?: number;
+  /**
+   * Ids of the posts pinned to the account's profile.
+   */
+  pinnedPostIds?: string[];
+  /**
+   * Whether the account is protected (private).
+   */
+  private?: boolean;
   tweets: number;
   verified: boolean;
   website: string;
@@ -513,6 +693,15 @@ export interface TwitterProfileData {
  */
 export interface TwitterRepliesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of results to return (1-40, default 40). Per-result lanes cost less at lower limits; a backup that bills its native page may cost up to the advertised request price.
    * Range: minimum 1, maximum 40.
    */
@@ -522,6 +711,10 @@ export interface TwitterRepliesInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full URL of the X (Twitter) post to fetch replies for (e.g. https://x.com/nasa/status/1846987139428634858).
    */
@@ -611,6 +804,10 @@ export interface TwitterRepliesMedia {
  */
 export interface TwitterRepliesData {
   /**
+   * Id of the conversation the reply belongs to, as a string.
+   */
+  conversationId?: string;
+  /**
    * Reply records for the requested post. Populated whenever the provider has data for the entity.
    */
   items: TwitterRepliesItem[];
@@ -621,9 +818,18 @@ export interface TwitterRepliesData {
  */
 export interface TwitterSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of search results.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Per-page maximum number of results to return (1-50, default 20). A provider may return a smaller native page; follow nextCursor for more.
    * Range: minimum 1, maximum 50.
@@ -641,13 +847,17 @@ export interface TwitterSearchInput {
   query: string;
   /**
    * Result ranking: 'Latest', 'Top', 'Photos', or 'Videos' (e.g. Latest).
+   * One of: Latest, Top, Photos, Videos.
    * Default: Latest.
    */
-  queryType?: string;
+  queryType?: "Latest" | "Top" | "Photos" | "Videos";
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
+    | "authorFollowers"
+    | "authorId"
+    | "authorImage"
     | "authorVerified"
     | "bookmarkCount"
     | "conversationId"
@@ -665,6 +875,10 @@ export interface TwitterSearchInput {
    * Set true to get up to limit results in one response instead of provider-native pages, served by a bulk provider when needed.
    */
   requireSinglePage?: boolean;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TwitterSearchItem {
@@ -743,6 +957,18 @@ export interface TwitterSearchMedia {
  */
 export interface TwitterSearchData {
   /**
+   * Follower count of the account that posted.
+   */
+  authorFollowers?: number;
+  /**
+   * Numeric X user id of the account that posted, as a string.
+   */
+  authorId?: string;
+  /**
+   * Avatar image URL of the account that posted.
+   */
+  authorImage?: string;
+  /**
    * Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity.
    */
   items: TwitterSearchItem[];
@@ -757,9 +983,18 @@ export interface TwitterSearchData {
  */
 export interface TwitterSearchCommunitiesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of communities.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -769,6 +1004,10 @@ export interface TwitterSearchCommunitiesInput {
    * Keyword to match against X (Twitter) community names and topics (e.g. artificial intelligence).
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TwitterSearchCommunitiesCommunitie {
@@ -819,9 +1058,18 @@ export interface TwitterSearchCommunitiesData {
  */
 export interface TwitterSearchUsersInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of accounts.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -831,6 +1079,10 @@ export interface TwitterSearchUsersInput {
    * Keyword to match against X (Twitter) handles, display names, and profile bios. This is the People tab of X search: pass a topic ('ai agents'), a name ('Elon Musk'), or a handle ('openai') and get back accounts, not posts. Use twitter.search for posts.
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TwitterSearchUsersUser {
@@ -842,6 +1094,14 @@ export interface TwitterSearchUsersUser {
    * The account's profile bio/description (may be empty).
    */
   bio: string;
+  /**
+   * Whether the account accepts direct messages.
+   */
+  canDm?: boolean;
+  /**
+   * Profile banner image URL of the account.
+   */
+  coverUrl?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -858,6 +1118,10 @@ export interface TwitterSearchUsersUser {
    * The account's numeric X user id. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Number of public lists the account appears on.
+   */
+  listedCount?: number;
   /**
    * The account's self-reported location (may be empty).
    */
@@ -905,10 +1169,23 @@ export interface TwitterSearchUsersData {
  */
 export interface TwitterThreadInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Canonical x.com or twitter.com status URL with a numeric tweet ID. Any tweet in the self-thread can be supplied; the provider resolves the thread root.
    */
@@ -928,16 +1205,52 @@ export interface TwitterThreadTweet {
    * Populated whenever the provider has data for the entity.
    */
   authorName: string;
+  /**
+   * Bookmark count of the post.
+   */
+  bookmarkCount?: number;
   conversationId: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
   inReplyToId: string | null;
   /**
+   * Whether the post is a reply to another post.
+   */
+  isReply?: boolean;
+  /**
+   * Two-letter language code X detected for the post.
+   */
+  lang?: string;
+  /**
+   * Like count of the post.
+   */
+  likeCount?: number;
+  /**
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
    */
   media?: TwitterThreadMedia[];
+  /**
+   * Quote count of the post.
+   */
+  quoteCount?: number;
+  /**
+   * Reply count of the post.
+   */
+  replyCount?: number;
+  /**
+   * Repost count of the post.
+   */
+  repostCount?: number;
+  /**
+   * Client the post was sent from, e.g. "Twitter Web App".
+   */
+  source?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -947,6 +1260,10 @@ export interface TwitterThreadTweet {
    * Format: uri.
    */
   url: string;
+  /**
+   * View count of the post.
+   */
+  viewCount?: number;
   [extra: string]: unknown;
 }
 
@@ -995,6 +1312,18 @@ export interface TwitterThreadData {
     name: string;
   };
   /**
+   * Avatar image URL of the author.
+   */
+  avatarUrl?: string;
+  /**
+   * Bio text on the author's profile.
+   */
+  bio?: string;
+  /**
+   * Whether the author carries an X blue verification badge.
+   */
+  blueVerified?: boolean;
+  /**
    * Whether the provider reached the end of the self-thread without hitting its internal cap.
    */
   complete: boolean;
@@ -1003,6 +1332,26 @@ export interface TwitterThreadData {
    */
   conversationId: string;
   /**
+   * Profile banner image URL of the author.
+   */
+  coverUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the author's account was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Follower count of the author.
+   */
+  followers?: number;
+  /**
+   * Number of accounts the author follows.
+   */
+  following?: number;
+  /**
+   * Location text on the author's profile.
+   */
+  location?: string;
+  /**
    * Number of tweets returned in the self-thread.
    */
   threadLength: number;
@@ -1010,12 +1359,29 @@ export interface TwitterThreadData {
    * Ordered self-thread tweets. Replies from other users are excluded. Populated whenever the provider has data for the entity.
    */
   tweets: TwitterThreadTweet[];
+  /**
+   * Canonical X profile URL of the thread's author.
+   */
+  url?: string;
+  /**
+   * Whether the author carries a legacy X verification badge.
+   */
+  verified?: boolean;
 }
 
 /**
  * Input for X / Twitter Trends (twitter.trends).
  */
 export interface TwitterTrendsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of ranked trends to return (1-50, default 50).
    * Range: minimum 1, maximum 50.
@@ -1034,7 +1400,11 @@ export interface TwitterTrendsInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `promoted`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a trend that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("isHashtag" | "promoted")[];
+  requireFields?: ("isHashtag" | "promoted" | "url")[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TwitterTrendsItem {
@@ -1082,12 +1452,25 @@ export interface TwitterTrendsData {
    * Resolved Yahoo WOEID used by X, exposed as a stable location identifier. Populated whenever the provider has data for the entity.
    */
   locationId: string;
+  /**
+   * X search URL for the trend.
+   */
+  url?: string;
 }
 
 /**
  * Input for Twitter Tweet (twitter.tweet).
  */
 export interface TwitterTweetInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -1097,8 +1480,14 @@ export interface TwitterTweetInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `media` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
+    | "authorHandle"
+    | "authorImage"
+    | "authorName"
+    | "authorVerified"
     | "bookmarks"
+    | "conversationId"
     | "height"
+    | "lang"
     | "likes"
     | "media"
     | "quotes"
@@ -1110,6 +1499,10 @@ export interface TwitterTweetInput {
     | "views"
     | "width"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Canonical x.com or twitter.com status URL with a numeric tweet ID, including /i/web/status and media-share variants.
    */
@@ -1147,10 +1540,30 @@ export interface TwitterTweetMedia {
  */
 export interface TwitterTweetData {
   /**
+   * Handle of the account that posted.
+   */
+  authorHandle?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   authorId: string;
+  /**
+   * Avatar image URL of the account that posted.
+   */
+  authorImage?: string;
+  /**
+   * Display name of the account that posted.
+   */
+  authorName?: string;
+  /**
+   * Whether the posting account carries an X blue verification badge.
+   */
+  authorVerified?: boolean;
   bookmarks: number;
+  /**
+   * Id of the conversation the post belongs to, as a string.
+   */
+  conversationId?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
@@ -1159,6 +1572,10 @@ export interface TwitterTweetData {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Two-letter language code X detected for the post.
+   */
+  lang?: string;
   likes: number;
   /**
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
@@ -1183,10 +1600,23 @@ export interface TwitterTweetData {
  */
 export interface TwitterTweetTranscriptInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Tweet URL of the video to transcribe (e.g. https://x.com/TheoVon/status/1916982720317821050).
    */
@@ -1206,6 +1636,11 @@ export interface TwitterTweetTranscriptData {
  */
 export interface TwitterUserPostsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page.
    */
   cursor?: string;
@@ -1213,6 +1648,10 @@ export interface TwitterUserPostsInput {
    * Twitter/X handle without the leading @.
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -1222,7 +1661,12 @@ export interface TwitterUserPostsInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
+    | "authorHandle"
+    | "authorId"
+    | "authorImage"
+    | "authorName"
     | "bookmarks"
+    | "conversationId"
     | "isPinned"
     | "isReply"
     | "lang"
@@ -1232,15 +1676,40 @@ export interface TwitterUserPostsInput {
     | "quotes"
     | "replies"
     | "retweets"
+    | "source"
     | "views"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TwitterUserPostsTweet {
   /**
+   * Handle of the account that posted.
+   */
+  authorHandle?: string;
+  /**
+   * Numeric X user id of the account that posted, as a string.
+   */
+  authorId?: string;
+  /**
+   * Avatar image URL of the account that posted.
+   */
+  authorImage?: string;
+  /**
+   * Display name of the account that posted.
+   */
+  authorName?: string;
+  /**
    * Number of bookmarks.
    */
   bookmarks: number;
+  /**
+   * Id of the conversation the post belongs to, as a string.
+   */
+  conversationId?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
@@ -1281,6 +1750,10 @@ export interface TwitterUserPostsTweet {
    * Number of reposts or retweets.
    */
   retweets: number;
+  /**
+   * Client the post was sent from, e.g. "Twitter Web App".
+   */
+  source?: string;
   /**
    * The post text. Empty for media-only posts. Populated whenever the provider has data for the entity.
    */
@@ -1336,6 +1809,11 @@ export interface TwitterUserPostsData {
  */
 export interface TwitterUserTweetsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page.
    */
   cursor?: string;
@@ -1343,6 +1821,10 @@ export interface TwitterUserTweetsInput {
    * Twitter/X handle without the leading @.
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of authored tweets and replies to return in THIS page (1-100). Sources return fewer - most cap at 20 - so read `nextCursor` and pass it back as `cursor` to walk further rather than asking for one large page.
    * Range: minimum 1, maximum 100.
@@ -1358,7 +1840,12 @@ export interface TwitterUserTweetsInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
+    | "authorHandle"
+    | "authorId"
+    | "authorImage"
+    | "authorName"
     | "bookmarks"
+    | "conversationId"
     | "isPinned"
     | "isReply"
     | "lang"
@@ -1368,16 +1855,41 @@ export interface TwitterUserTweetsInput {
     | "quotes"
     | "replies"
     | "retweets"
+    | "source"
     | "views"
   )[];
   /**
    * Require a lane that can return the requested limit in one response.
    */
   requireSinglePage?: boolean;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TwitterUserTweetsTweet {
+  /**
+   * Handle of the account that posted.
+   */
+  authorHandle?: string;
+  /**
+   * Numeric X user id of the account that posted, as a string.
+   */
+  authorId?: string;
+  /**
+   * Avatar image URL of the account that posted.
+   */
+  authorImage?: string;
+  /**
+   * Display name of the account that posted.
+   */
+  authorName?: string;
   bookmarks: number;
+  /**
+   * Id of the conversation the post belongs to, as a string.
+   */
+  conversationId?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
@@ -1400,6 +1912,10 @@ export interface TwitterUserTweetsTweet {
   quotes?: number;
   replies: number;
   retweets: number;
+  /**
+   * Client the post was sent from, e.g. "Twitter Web App".
+   */
+  source?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1734,7 +2250,7 @@ export class TwitterNamespace {
    *
    * Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.
    *
-   * Price: $0.005 per request.
+   * Price: $0.00375 per request.
    *
    * @example
    * const res = await client.twitter.thread({ url: "https://x.com/SpaceX/status/1732824684683784516" });

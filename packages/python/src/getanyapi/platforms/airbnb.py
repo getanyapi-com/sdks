@@ -20,6 +20,8 @@ class AirbnbSearchInput(TypedDict, total=False):
 
     adults: NotRequired[int]
     """Number of adult guests (e.g. 2). Minimum: 1."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     checkIn: NotRequired[str]
     """Check-in date in YYYY-MM-DD format (e.g. 2026-07-01)."""
     checkOut: NotRequired[str]
@@ -79,6 +81,8 @@ class AirbnbSearchInput(TypedDict, total=False):
         ]
     ]
     """Currency code for prices (e.g. EUR). Default: USD."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     infants: NotRequired[int]
     """Number of infant guests (e.g. 1). Minimum: 0."""
     limit: NotRequired[int]
@@ -99,6 +103,8 @@ class AirbnbSearchInput(TypedDict, total=False):
     """Maximum search price in the selected currency (e.g. 300). Minimum: 0."""
     priceMin: NotRequired[int]
     """Minimum search price in the selected currency (e.g. 50). Minimum: 0."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class AirbnbSearchData(BaseModel):
@@ -110,13 +116,40 @@ class AirbnbSearchData(BaseModel):
 class AirbnbSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    description: str | None = Field(
+        default=None, description="Listing description written by the host."
+    )
+    host_avatar_url: str | None = Field(
+        default=None, alias="hostAvatarUrl", description="Host profile photo URL."
+    )
+    host_id: str | None = Field(
+        default=None, alias="hostId", description="Airbnb host identifier."
+    )
     host_name: str | None = Field(default=None, alias="hostName")
+    host_rating: float | None = Field(
+        default=None,
+        alias="hostRating",
+        description="Average rating across the host other listings (0-5).",
+    )
+    host_reviews_count: int | None = Field(
+        default=None,
+        alias="hostReviewsCount",
+        description="Number of reviews across the host other listings.",
+    )
+    host_verified: bool | None = Field(
+        default=None,
+        alias="hostVerified",
+        description="Whether Airbnb has verified the host identity.",
+    )
     id: str = Field(
         description="Airbnb listing identifier. Populated whenever the provider has data for the entity."
     )
     image: str | None = Field(
         default=None,
         description="Primary listing image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    images: list[AirbnbSearchImage] | None = Field(
+        default=None, description="Listing photos."
     )
     is_available: bool | None = Field(default=None, alias="isAvailable")
     is_superhost: bool | None = Field(default=None, alias="isSuperhost")
@@ -132,6 +165,28 @@ class AirbnbSearchItem(BaseModel):
     rating: float | None = Field(
         default=None, description="Guest satisfaction rating (0-5)."
     )
+    rating_accuracy: float | None = Field(
+        default=None, alias="ratingAccuracy", description="Accuracy sub-rating (0-5)."
+    )
+    rating_checkin: float | None = Field(
+        default=None, alias="ratingCheckin", description="Check-in sub-rating (0-5)."
+    )
+    rating_cleanliness: float | None = Field(
+        default=None,
+        alias="ratingCleanliness",
+        description="Cleanliness sub-rating (0-5).",
+    )
+    rating_communication: float | None = Field(
+        default=None,
+        alias="ratingCommunication",
+        description="Communication sub-rating (0-5).",
+    )
+    rating_location: float | None = Field(
+        default=None, alias="ratingLocation", description="Location sub-rating (0-5)."
+    )
+    rating_value: float | None = Field(
+        default=None, alias="ratingValue", description="Value sub-rating (0-5)."
+    )
     reviews_count: int | None = Field(default=None, alias="reviewsCount")
     room_type: str | None = Field(default=None, alias="roomType")
     title: str = Field(
@@ -140,6 +195,13 @@ class AirbnbSearchItem(BaseModel):
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+
+
+class AirbnbSearchImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    caption: str | None = Field(default=None, description="Photo caption.")
+    url: str | None = Field(default=None, description="Photo URL.")
 
 
 class AirbnbNamespace:

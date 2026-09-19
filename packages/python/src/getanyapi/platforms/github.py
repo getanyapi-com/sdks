@@ -24,8 +24,14 @@ if TYPE_CHECKING:
 class GithubRepositoryInput(TypedDict, total=False):
     """Input for GitHub Repository."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """GitHub repository URL (e.g. https://github.com/facebook/react)."""
 
@@ -33,43 +39,67 @@ class GithubRepositoryInput(TypedDict, total=False):
 class GithubTrendingDevelopersInput(TypedDict, total=False):
     """Input for GitHub Trending Developers."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Programming language to filter trending developers (e.g. javascript, python, go)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     since: NotRequired[str]
     """Trending range: daily, weekly, or monthly (defaults to daily)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class GithubTrendingRepositoriesInput(TypedDict, total=False):
     """Input for GitHub Trending Repositories."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Filter by programming language (e.g. "go", "typescript"). Omit for all languages."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     since: NotRequired[Literal["daily", "weekly", "monthly"]]
     """Trending window. Default: daily."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class GithubUserInput(TypedDict, total=False):
     """Input for GitHub User."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """GitHub username."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class GithubUserActivityInput(TypedDict, total=False):
     """Input for GitHub User Activity."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response (pages backward by month)."""
     handle: Required[str]
     """GitHub username."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     year: NotRequired[str]
     """Year of contribution activity to return (defaults to the current year)."""
 
@@ -77,10 +107,16 @@ class GithubUserActivityInput(TypedDict, total=False):
 class GithubUserContributionsInput(TypedDict, total=False):
     """Input for GitHub User Contributions."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """GitHub username."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     year: NotRequired[int]
     """Calendar year of the contribution graph. Defaults to the current year."""
 
@@ -88,36 +124,54 @@ class GithubUserContributionsInput(TypedDict, total=False):
 class GithubUserFollowersInput(TypedDict, total=False):
     """Input for GitHub User Followers."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response (page number, defaults to 1)."""
     handle: Required[str]
     """GitHub username."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class GithubUserFollowingInput(TypedDict, total=False):
     """Input for GitHub User Following."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response (page number, defaults to 1)."""
     handle: Required[str]
     """GitHub username."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class GithubUserPullRequestsInput(TypedDict, total=False):
     """Input for GitHub User Pull Requests."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response (page number, defaults to 1)."""
     handle: Required[str]
     """GitHub username."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     since: NotRequired[str]
     """Only include pull requests created on or after this date (YYYY-MM-DD)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     until: NotRequired[str]
     """Only include pull requests created on or before this date (YYYY-MM-DD)."""
 
@@ -125,16 +179,22 @@ class GithubUserPullRequestsInput(TypedDict, total=False):
 class GithubUserRepositoriesInput(TypedDict, total=False):
     """Input for GitHub User Repositories."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page."""
     direction: NotRequired[Literal["asc", "desc"]]
     """Sort direction, ascending or descending, paired with sort."""
     handle: Required[str]
     """GitHub username."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["created", "updated", "pushed", "full_name"]]
     """Repository ordering. Default: updated."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     type: NotRequired[Literal["owner", "all", "member"]]
     """Which repositories to include: owner (default), all, or member."""
 
@@ -144,6 +204,11 @@ class GithubRepositoryData(BaseModel):
 
     archived: bool | None = Field(
         default=None, description="Whether the repository is archived."
+    )
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Avatar image URL of the repository owner.",
     )
     created_utc: float | None = Field(
         default=None,
@@ -169,6 +234,9 @@ class GithubRepositoryData(BaseModel):
     homepage: str | None = Field(
         default=None, description="Project homepage URL, or null if none."
     )
+    id: str | None = Field(
+        default=None, description="GitHub's numeric repository id, as a string."
+    )
     language: str | None = Field(
         default=None, description="Primary programming language, or null if undetected."
     )
@@ -187,10 +255,21 @@ class GithubRepositoryData(BaseModel):
         default=None,
         description="Login of the repository owner (user or organization). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    private: bool | None = Field(
+        default=None, description="Whether the repository is private."
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="GitHub profile URL of the repository owner.",
+    )
     pushed_at: str | None = Field(
         default=None,
         alias="pushedAt",
         description="Last push timestamp (ISO 8601). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    size: int | None = Field(
+        default=None, description="Repository size in kilobytes as reported by GitHub."
     )
     stars: int | None = Field(default=None, description="Number of stargazers.")
     topics: list[str] | None = Field(default=None, description="Repository topic tags.")
@@ -239,6 +318,10 @@ class GithubTrendingRepositoriesData(BaseModel):
     repos: list[GithubTrendingRepositoriesRepo] = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    since: str | None = Field(
+        default=None,
+        description="Trending window the listing was read for (daily, weekly, or monthly).",
+    )
 
 
 class GithubTrendingRepositoriesRepo(BaseModel):
@@ -251,6 +334,13 @@ class GithubTrendingRepositoriesRepo(BaseModel):
         description="Populated whenever the provider has data for the entity.",
     )
     language: str
+    name: str | None = Field(
+        default=None, description="Repository short name (without owner)."
+    )
+    owner: str | None = Field(
+        default=None,
+        description="Login of the repository owner (user or organization).",
+    )
     rank: int
     stars: int
     stars_today: int = Field(alias="starsToday")
@@ -280,6 +370,9 @@ class GithubUserData(BaseModel):
     )
     followers: int = Field(description="Number of followers.")
     following: int = Field(description="Number of accounts the user follows.")
+    id: str | None = Field(
+        default=None, description="GitHub's numeric user id, as a string."
+    )
     location: str | None = Field(
         default=None, description="Location listed on the profile."
     )
@@ -288,6 +381,9 @@ class GithubUserData(BaseModel):
     )
     name: str = Field(
         description="Display name, or empty string if unset. Populated whenever the provider has data for the entity."
+    )
+    profile_url: str | None = Field(
+        default=None, alias="profileUrl", description="Canonical GitHub profile URL."
     )
     public_gists: int | None = Field(
         default=None, alias="publicGists", description="Count of public gists."
@@ -326,8 +422,28 @@ class GithubUserActivityData(BaseModel):
 class GithubUserActivityActivity(BaseModel):
     model_config = ConfigDict(extra="allow")
 
+    items: list[GithubUserActivityItem] | None = Field(
+        default=None,
+        description="The individual entries behind this activity summary. Empty when the upstream published no breakdown.",
+    )
     summary: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+
+
+class GithubUserActivityItem(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    repo: str | None = Field(
+        default=None,
+        description="Full repository name in owner/name form for this entry.",
+    )
+    text: str | None = Field(
+        default=None,
+        description='The entry as GitHub renders it, e.g. "owner/repo 353 commits".',
+    )
+    url: str | None = Field(
+        default=None, description="Canonical URL of the repository for this entry."
     )
 
 
@@ -479,6 +595,14 @@ class GithubUserRepositoriesRepo(BaseModel):
         alias="avatarUrl",
         description="URL of the repository owner's avatar image.",
     )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    default_branch: str | None = Field(
+        default=None, alias="defaultBranch", description="Name of the default branch."
+    )
     description: str
     fork: bool
     forks: int
@@ -486,16 +610,47 @@ class GithubUserRepositoriesRepo(BaseModel):
         alias="fullName",
         description="Populated whenever the provider has data for the entity.",
     )
+    homepage: str | None = Field(
+        default=None, description="Project homepage URL, or empty string if none."
+    )
+    id: str | None = Field(
+        default=None, description="GitHub's numeric repository id, as a string."
+    )
     language: str
+    license: str | None = Field(
+        default=None, description="License name, or empty string if unlicensed."
+    )
     name: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    open_issues: int | None = Field(
+        default=None,
+        alias="openIssues",
+        description="Count of open issues and pull requests.",
+    )
+    owner: str | None = Field(
+        default=None,
+        description="Login of the repository owner (user or organization).",
+    )
+    private: bool | None = Field(
+        default=None, description="Whether the repository is private."
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="GitHub profile URL of the repository owner.",
+    )
     pushed_at: str = Field(alias="pushedAt")
+    size: int | None = Field(
+        default=None, description="Repository size in kilobytes as reported by GitHub."
+    )
     stars: int
+    topics: list[str] | None = Field(default=None, description="Repository topic tags.")
     updated_at: str = Field(alias="updatedAt")
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    watchers: int | None = Field(default=None, description="Number of watchers.")
 
 
 class GithubNamespace:

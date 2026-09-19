@@ -13,9 +13,18 @@ import { paginate } from "../../core/index.js";
  */
 export interface MapsContactsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["dentist", "orthodontist"]). Omit to include all categories.
    */
   categoryFilterWords?: string[];
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Two-letter language code for the results (e.g. en).
    * Default: en.
@@ -46,6 +55,10 @@ export interface MapsContactsInput {
    */
   query: string;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Contact enrichment pulls emails and social profiles from a place's website, so withWebsite targets leads that can be enriched.
    * One of: allPlaces, withWebsite, withoutWebsite.
    */
@@ -57,6 +70,10 @@ export interface MapsContactsItem {
    * Full formatted street address.
    */
   address?: string;
+  /**
+   * Every Google Maps category listed for the business.
+   */
+  categories?: string[];
   /**
    * Primary business category.
    */
@@ -74,6 +91,10 @@ export interface MapsContactsItem {
    */
   countryCode?: string;
   /**
+   * Registrable domain of the business website.
+   */
+  domain?: string;
+  /**
    * Email addresses scraped from the business website.
    */
   emails?: string[];
@@ -89,6 +110,10 @@ export interface MapsContactsItem {
    * Instagram profile URLs found on the business website.
    */
   instagrams?: string[];
+  /**
+   * Two-letter language code of the listing Google served.
+   */
+  language?: string;
   /**
    * Latitude of the business in decimal degrees.
    */
@@ -106,6 +131,10 @@ export interface MapsContactsItem {
    */
   name: string;
   /**
+   * Neighborhood the business is in.
+   */
+  neighborhood?: string;
+  /**
    * Business phone number in E.164 format, when listed on Google Maps.
    */
   phone?: string;
@@ -122,6 +151,10 @@ export interface MapsContactsItem {
    */
   postalCode?: string;
   /**
+   * One-based position of the business in the Google Maps result order.
+   */
+  rank?: number;
+  /**
    * Average star rating out of 5.
    */
   rating?: number;
@@ -133,6 +166,10 @@ export interface MapsContactsItem {
    * State or region the business is in.
    */
   state?: string;
+  /**
+   * Street portion of the address.
+   */
+  street?: string;
   /**
    * TikTok profile URLs found on the business website.
    */
@@ -171,9 +208,18 @@ export interface MapsContactsData {
  */
 export interface MapsPlaceInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Optional list of Google Maps place-category names to keep; the match is limited to a place whose category is one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop"]). Omit to allow any category and stay on the cheapest price; a category filter routes to a dearer source.
    */
   categoryFilterWords?: string[];
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Two-letter language code for the result details (e.g. en).
    * Default: en.
@@ -202,6 +248,7 @@ export interface MapsPlaceInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `hours` or `plusCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
+    | "categories"
     | "city"
     | "countryCode"
     | "hours"
@@ -219,6 +266,10 @@ export interface MapsPlaceInput {
     | "website"
   )[];
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Filter by whether the place lists a website: allPlaces (default), withWebsite (only if it has a website), or withoutWebsite (only if it has none). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.
    * One of: allPlaces, withWebsite, withoutWebsite.
    */
@@ -231,6 +282,10 @@ export interface MapsPlaceItem {
    * Present whenever the upstream returns this record.
    */
   address?: string;
+  /**
+   * Every Google Maps category listed for the place.
+   */
+  categories?: string[];
   /**
    * Primary Google Maps category (e.g. Coffee shop). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -332,6 +387,15 @@ export interface MapsPlaceData {
  */
 export interface MapsReviewsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Two-letter language code for the review details (e.g. en).
    * Default: en.
    */
@@ -359,6 +423,8 @@ export interface MapsReviewsInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isLocalGuide` or `placeId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
+    | "authorUrl"
+    | "avatarUrl"
     | "isLocalGuide"
     | "likes"
     | "origin"
@@ -381,6 +447,10 @@ export interface MapsReviewsInput {
    * Default: newest.
    */
   sort?: "newest" | "mostRelevant" | "highestRanking" | "lowestRanking";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface MapsReviewsItem {
@@ -389,6 +459,14 @@ export interface MapsReviewsItem {
    * Present whenever the upstream returns this record.
    */
   author?: string;
+  /**
+   * Google Maps contributor page URL for the reviewer.
+   */
+  authorUrl?: string;
+  /**
+   * Reviewer profile photo URL.
+   */
+  avatarUrl?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -465,9 +543,18 @@ export interface MapsReviewsData {
  */
 export interface MapsSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Optional list of Google Maps place-category names to keep; results are limited to places whose category matches one of these. Use lowercase category names as shown on Google Maps (e.g. ["coffee shop", "restaurant"]). Omit to include all categories and stay on the cheapest price; a category filter routes to a dearer source.
    */
   categoryFilterWords?: string[];
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Two-letter language code for the results (e.g. en).
    * Default: en.
@@ -502,6 +589,7 @@ export interface MapsSearchInput {
    */
   requireFields?: (
     | "address"
+    | "categories"
     | "category"
     | "cid"
     | "city"
@@ -520,6 +608,10 @@ export interface MapsSearchInput {
     | "website"
   )[];
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Filter places by whether they list a website: allPlaces (default), withWebsite (only places that have a website), or withoutWebsite (only places without one). Omit this field, or send allPlaces, to stay on the cheapest price; withWebsite and withoutWebsite route to a dearer source.
    * One of: allPlaces, withWebsite, withoutWebsite.
    */
@@ -531,6 +623,10 @@ export interface MapsSearchItem {
    * Full formatted street address.
    */
   address?: string;
+  /**
+   * Every Google Maps category listed for the place.
+   */
+  categories?: string[];
   /**
    * Primary place category (e.g. Coffee shop).
    */
@@ -625,6 +721,11 @@ export interface MapsSearchData {
  */
 export interface MapsSearchNearbyInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * The exact map centre to search around. Use maps.search instead if you only have a place name.
    */
   coordinates: {
@@ -643,6 +744,10 @@ export interface MapsSearchNearbyInput {
    * Opaque cursor from a previous response's nextCursor. Pass it back to get the next page of places.
    */
   cursor?: string | null;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Two-letter language code for the results (e.g. en).
    * Default: en.
@@ -664,6 +769,10 @@ export interface MapsSearchNearbyInput {
    */
   query: string;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Google Maps viewport zoom. Lower covers a wider area, higher focuses more tightly around the coordinates.
    * Range: minimum 3, maximum 21.
    * Default: 13.1.
@@ -676,6 +785,10 @@ export interface MapsSearchNearbyItem {
    * Full formatted street address.
    */
   address?: string;
+  /**
+   * Every Google Maps category listed for the place.
+   */
+  categories?: string[];
   /**
    * Primary place category (e.g. Coffee shop).
    */
@@ -693,6 +806,14 @@ export interface MapsSearchNearbyItem {
    */
   countryCode?: string;
   /**
+   * Google's one-line description of the place.
+   */
+  description?: string;
+  /**
+   * Registrable domain of the place website.
+   */
+  domain?: string;
+  /**
    * Thumbnail photo URL for the place.
    */
   image?: string;
@@ -709,6 +830,10 @@ export interface MapsSearchNearbyItem {
    */
   name: string;
   /**
+   * Neighborhood the place is in.
+   */
+  neighborhood?: string;
+  /**
    * Business phone number, when listed.
    */
   phone?: string;
@@ -720,6 +845,10 @@ export interface MapsSearchNearbyItem {
    * Postal code of the place.
    */
   postalCode?: string;
+  /**
+   * One-based position of the place in the Google Maps result order.
+   */
+  rank?: number;
   /**
    * Average Google rating out of 5.
    */

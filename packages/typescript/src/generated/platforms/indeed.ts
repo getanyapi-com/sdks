@@ -11,10 +11,19 @@ import type {
  */
 export interface IndeedJobsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Two-letter country site code (e.g. us, uk, de).
    * Default: us.
    */
   country?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
@@ -38,15 +47,47 @@ export interface IndeedJobsInput {
    * Job search keywords (e.g. software engineer).
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface IndeedJobsItem {
+  /**
+   * Second-level administrative division code (county) for the job location.
+   */
+  admin2Code?: string;
+  /**
+   * External URL that starts the application, usually the employer's own tracking system.
+   */
+  applyUrl?: string;
   city?: string;
   /**
    * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   company?: string;
+  /**
+   * Short employer description as Indeed publishes it.
+   */
+  companyDescription?: string;
+  /**
+   * Employer revenue band as Indeed words it.
+   */
+  companyRevenue?: string;
+  /**
+   * Employer headcount band as Indeed words it (e.g. "501 to 1,000").
+   */
+  companySize?: string;
+  /**
+   * Indeed company page URL for the employer.
+   */
+  companyUrl?: string;
+  /**
+   * Employer's own website.
+   */
+  companyWebsite?: string;
   country?: string;
   /**
    * ISO 8601 publish date.
@@ -56,12 +97,40 @@ export interface IndeedJobsItem {
    * Plain-text job description.
    */
   description?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) when the listing appeared on Indeed. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  discoveredUtc?: number;
   expired?: boolean;
   /**
    * Indeed job key. Populated whenever the provider has data for the entity.
    */
   jobId: string;
+  /**
+   * Language code of the posting, e.g. en.
+   */
+  language?: string;
+  /**
+   * Latitude of the job location.
+   */
+  latitude?: number;
+  /**
+   * Employer logo image URL.
+   */
+  logoUrl?: string;
+  /**
+   * Longitude of the job location.
+   */
+  longitude?: number;
   postalCode?: string;
+  /**
+   * Employer star rating on Indeed.
+   */
+  rating?: number;
+  /**
+   * Number of employer reviews on Indeed.
+   */
+  reviewCount?: number;
   salaryCurrency?: string;
   salaryMax?: number;
   salaryMin?: number;
@@ -70,6 +139,10 @@ export interface IndeedJobsItem {
    */
   salaryUnit?: string;
   state?: string;
+  /**
+   * Street address of the job location.
+   */
+  streetAddress?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */

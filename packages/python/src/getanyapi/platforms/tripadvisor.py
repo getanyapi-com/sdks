@@ -18,6 +18,10 @@ if TYPE_CHECKING:
 class TripadvisorReviewsInput(TypedDict, total=False):
     """Input for Tripadvisor Reviews."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     languages: NotRequired[list[str]]
     """Only return reviews in these ISO 639-1 languages (e.g. ["en", "es"]); omit for all languages."""
     limit: NotRequired[int]
@@ -28,6 +32,8 @@ class TripadvisorReviewsInput(TypedDict, total=False):
     """Only return reviews whose bubble rating is in this set (e.g. ["5", "4"] for 4 and 5 star reviews); omit for all ratings."""
     since: NotRequired[str]
     """Only return reviews newer than this date, YYYY-MM-DD or a relative window like '3 months' (e.g. 2026-01-01)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Tripadvisor page URL of the hotel, restaurant, or attraction."""
 
@@ -35,8 +41,12 @@ class TripadvisorReviewsInput(TypedDict, total=False):
 class TripadvisorSearchInput(TypedDict, total=False):
     """Input for Tripadvisor Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     currency: NotRequired[str]
     """ISO currency code for prices (e.g. USD, EUR). Default: USD."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     includeAttractions: NotRequired[bool]
     """Include attractions and things to do in the results; set false to exclude them (e.g. false). Defaults to true. Default: true."""
     includeHotels: NotRequired[bool]
@@ -74,6 +84,8 @@ class TripadvisorSearchInput(TypedDict, total=False):
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `phone` or `website`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TripadvisorReviewsData(BaseModel):
@@ -85,18 +97,74 @@ class TripadvisorReviewsData(BaseModel):
 class TripadvisorReviewsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author: str | None = Field(default=None, description="Reviewer display name.")
+    author_avatar_url: str | None = Field(
+        default=None, alias="authorAvatarUrl", description="Reviewer profile photo URL."
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Tripadvisor member identifier of the reviewer.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Tripadvisor profile URL of the reviewer.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether Tripadvisor marks the reviewer as verified.",
+    )
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    helpful_votes: int | None = Field(
+        default=None,
+        alias="helpfulVotes",
+        description="Number of helpful votes the review received.",
+    )
+    id: str | None = Field(default=None, description="Tripadvisor review identifier.")
+    language: str | None = Field(
+        default=None, description="Language code the review was written in."
+    )
+    owner_response_text: str | None = Field(
+        default=None,
+        alias="ownerResponseText",
+        description="Reply the place owner posted to this review.",
+    )
+    owner_response_utc: float | None = Field(
+        default=None,
+        alias="ownerResponseUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the owner replied.",
+    )
+    place_id: str | None = Field(
+        default=None,
+        alias="placeId",
+        description="Tripadvisor location identifier of the reviewed place.",
+    )
+    place_name: str | None = Field(
+        default=None, alias="placeName", description="Name of the reviewed place."
+    )
     rating: float = Field(description="Star rating (typically 1-5).")
+    stay_utc: float | None = Field(
+        default=None,
+        alias="stayUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the reviewer stayed or visited.",
+    )
     text: str = Field(
         description="Review body text. Populated whenever the provider has data for the entity."
     )
     title: str | None = Field(
         default=None,
         description="Review title or headline. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    trip_type: str | None = Field(
+        default=None,
+        alias="tripType",
+        description="Trip type the reviewer selected (e.g. FAMILY, BUSINESS, COUPLES, NONE).",
     )
     url: str | None = Field(
         default=None,

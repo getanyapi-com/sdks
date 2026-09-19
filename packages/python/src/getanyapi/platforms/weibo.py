@@ -24,39 +24,63 @@ if TYPE_CHECKING:
 class WeiboHotSearchInput(TypedDict, total=False):
     """Input for Weibo Hot Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class WeiboPostInput(TypedDict, total=False):
     """Input for Weibo Post."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     includeLongText: NotRequired[str]
     """Whether to include the full text of long posts. Default: true."""
     postId: Required[str]
     """Weibo post identifier."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class WeiboPostCommentsInput(TypedDict, total=False):
     """Input for Weibo Post Comments."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor returned as nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Requested comment count. Default: 10."""
     postId: Required[str]
     """Weibo post identifier."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class WeiboProfileInput(TypedDict, total=False):
     """Input for Weibo Profile."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userId: Required[str]
     """Weibo user identifier."""
 
@@ -64,6 +88,10 @@ class WeiboProfileInput(TypedDict, total=False):
 class WeiboSearchInput(TypedDict, total=False):
     """Input for Weibo Advanced Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     includeType: NotRequired[str]
     """Media filter, such as all, pic, video, music, or link."""
     page: NotRequired[int]
@@ -74,6 +102,8 @@ class WeiboSearchInput(TypedDict, total=False):
     """Search keyword."""
     searchType: NotRequired[str]
     """Search type, such as all, hot, original, verified, media, or viewpoint."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     timeScope: NotRequired[str]
     """Custom time range in the API's custom:start:end format."""
 
@@ -81,14 +111,20 @@ class WeiboSearchInput(TypedDict, total=False):
 class WeiboUserPostsInput(TypedDict, total=False):
     """Input for Weibo User Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination identifier returned as nextCursor."""
     feature: NotRequired[int]
     """Response detail feature: 0 basic, 1 extended, 2 image-oriented, or 3 video-oriented. Default: 0."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     page: NotRequired[int]
     """Page number starting at 1. Default: 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userId: Required[str]
     """Weibo user identifier."""
 
@@ -126,6 +162,11 @@ class WeiboPostData(BaseModel):
         default=None,
         alias="authorName",
         description="Author display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the author's Weibo profile.",
     )
     author_user_id: str | None = Field(
         default=None,
@@ -189,6 +230,11 @@ class WeiboPostCommentsComment(BaseModel):
         alias="authorName",
         description="Comment author display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the author's Weibo profile.",
+    )
     author_user_id: str | None = Field(
         default=None,
         alias="authorUserId",
@@ -207,7 +253,15 @@ class WeiboPostCommentsComment(BaseModel):
     id: str = Field(
         description="Comment identifier. Populated whenever the provider has data for the entity."
     )
+    image_count: int | None = Field(
+        default=None,
+        alias="imageCount",
+        description="Number of images attached to the comment.",
+    )
     likes: int | None = Field(default=None, description="Like count.")
+    replies: int | None = Field(
+        default=None, description="Number of replies to the comment."
+    )
     text: str | None = Field(
         default=None,
         description="Plain comment text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -241,6 +295,11 @@ class WeiboProfileData(BaseModel):
         description="Display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     posts: int | None = Field(default=None, description="Published post count.")
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical URL of the Weibo profile.",
+    )
     user_id: str = Field(
         alias="userId",
         description="User identifier. Populated whenever the provider has data for the entity.",
@@ -277,6 +336,11 @@ class WeiboSearchPost(BaseModel):
         default=None,
         alias="authorName",
         description="Author display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the author's Weibo profile.",
     )
     comments: int | None = Field(default=None, description="Comment count.")
     created_utc: float | None = Field(
@@ -333,6 +397,11 @@ class WeiboUserPostsPost(BaseModel):
         alias="authorName",
         description="Author display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the author's Weibo profile.",
+    )
     author_user_id: str | None = Field(
         default=None,
         alias="authorUserId",
@@ -353,7 +422,16 @@ class WeiboUserPostsPost(BaseModel):
         description="Post identifier. Populated whenever the provider has data for the entity."
     )
     image: str | None = Field(default=None, description="Post preview image URL.")
+    image_count: int | None = Field(
+        default=None,
+        alias="imageCount",
+        description="Number of images attached to the post.",
+    )
     likes: int | None = Field(default=None, description="Like count.")
+    region: str | None = Field(
+        default=None,
+        description="Region the post was published from, as Weibo reports it.",
+    )
     reposts: int | None = Field(default=None, description="Repost count.")
     short_id: str | None = Field(
         default=None,

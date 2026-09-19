@@ -9,14 +9,102 @@ import type {
 import { paginate } from "../../core/index.js";
 
 /**
- * Input for Reddit Post (reddit.post).
+ * Input for Reddit Avatar (reddit.avatar).
  */
-export interface RedditPostInput {
+export interface RedditAvatarInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Reddit username, without the u/ prefix. Example: "spez".
+   */
+  username: string;
+}
+
+/**
+ * The `data` payload of Reddit Avatar (reddit.avatar).
+ */
+export interface RedditAvatarData {
+  /**
+   * URL of the profile avatar image, with sizing and signing query params stripped. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  avatarUrl?: string;
+  /**
+   * Karma earned from comments. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  commentKarma?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Reddit account ID (base-36, without the t2_ prefix). Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Total karma across the account, as Reddit reports it. The postKarma and commentKarma fields below are the split it is composed of. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  karma?: number;
+  /**
+   * Karma earned from posts. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  postKarma?: number;
+  /**
+   * Absolute reddit.com URL of the profile page. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   * Present whenever the upstream returns this record.
+   */
+  profileUrl?: string;
+  /**
+   * Account username, without the u/ prefix. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Reddit Post (reddit.post).
+ */
+export interface RedditPostInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full Reddit post URL in the /r/<subreddit>/comments/<id>/<slug>/ form, e.g. "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/". The short "reddit.com/comments/<id>" form is not accepted.
    */
@@ -32,6 +120,10 @@ export interface RedditPostData {
    */
   author: string;
   /**
+   * Reddit account ID of the author, without the t2_ prefix.
+   */
+  authorId?: string;
+  /**
    * The post's own body text (selftext), as Markdown. Empty for link posts, which carry no body. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -40,6 +132,14 @@ export interface RedditPostData {
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
+  /**
+   * Domain the post links to, for example "self.IAmA" for a text post.
+   */
+  domain?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) of the last edit. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  editedUtc?: number;
   /**
    * Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.
    */
@@ -96,16 +196,29 @@ export interface RedditPostData {
  */
 export interface RedditPostCommentsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Cursor from a previous response for more comments.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
-   * Full Reddit post URL.
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Full Reddit post URL on reddit.com. A gallery link (https://www.reddit.com/gallery/<id>) is read as the post it belongs to.
    */
   url: string;
 }
@@ -181,6 +294,15 @@ export interface RedditPostCommentsData {
  */
 export interface RedditPostTranscriptInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional two-letter language code (defaults to en).
    */
   language?: string;
@@ -189,6 +311,10 @@ export interface RedditPostTranscriptInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Reddit post URL or direct v.redd.it video URL to transcribe.
    */
@@ -209,6 +335,10 @@ export interface RedditPostTranscriptData {
   postId: string;
   transcript: string;
   transcriptNotAvailable: boolean;
+  /**
+   * Canonical URL of the post the transcript belongs to.
+   */
+  url?: string;
   [extra: string]: unknown;
 }
 
@@ -217,10 +347,23 @@ export interface RedditPostTranscriptData {
  */
 export interface RedditProfileInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Reddit username, without the u/ prefix. Example: "spez".
    */
@@ -320,9 +463,18 @@ export interface RedditProfileData {
  */
 export interface RedditSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of results.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -337,11 +489,13 @@ export interface RedditSearchInput {
    */
   requireFields?: (
     | "author"
+    | "authorId"
     | "createdUtc"
     | "isArchived"
     | "isLocked"
     | "media"
     | "nextCursor"
+    | "nsfw"
     | "numComments"
     | "score"
     | "selftext"
@@ -351,6 +505,10 @@ export interface RedditSearchInput {
    * One of: relevance, hot, top, new, comments.
    */
   sort?: "relevance" | "hot" | "top" | "new" | "comments";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Time window for results.
    * One of: hour, day, week, month, year, all.
@@ -363,6 +521,10 @@ export interface RedditSearchPost {
    * Author username, without the u/ prefix. Empty when the upstream omits it.
    */
   author: string;
+  /**
+   * Reddit account ID of the author, without the t2_ prefix.
+   */
+  authorId?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -383,6 +545,10 @@ export interface RedditSearchPost {
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
    */
   media?: RedditSearchMedia[];
+  /**
+   * Whether the post is marked not-safe-for-work.
+   */
+  nsfw?: boolean;
   /**
    * Total number of comments on the post.
    */
@@ -453,6 +619,15 @@ export interface RedditSearchData {
  */
 export interface RedditSubredditDetailsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -461,6 +636,10 @@ export interface RedditSubredditDetailsInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `weeklyActiveUsers` or `advertiserCategory`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a subreddit that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: ("advertiserCategory" | "weeklyActiveUsers")[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Subreddit name without the r/ prefix. Case-sensitive (e.g. "AskReddit", not "askreddit").
    */
@@ -511,9 +690,18 @@ export interface RedditSubredditPostsInput {
    */
   after?: string;
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's `nextCursor`; omit for the first page.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, pass `nextCursor` back as `cursor`.
    * Range: minimum 1, maximum 100.
@@ -529,12 +717,15 @@ export interface RedditSubredditPostsInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
+    | "authorId"
     | "isArchived"
     | "isLocked"
     | "nextCursor"
+    | "nsfw"
     | "numComments"
     | "score"
     | "selftext"
+    | "upvoteRatio"
   )[];
   /**
    * Listing sort order.
@@ -542,6 +733,10 @@ export interface RedditSubredditPostsInput {
    * Default: hot.
    */
   sort?: "hot" | "new" | "top";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Subreddit name without the leading r/ (e.g. "golang").
    */
@@ -559,6 +754,10 @@ export interface RedditSubredditPostsPost {
    */
   author: string;
   /**
+   * Reddit account ID of the author, without the t2_ prefix.
+   */
+  authorId?: string;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
@@ -574,6 +773,10 @@ export interface RedditSubredditPostsPost {
    * True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.
    */
   isLocked?: boolean;
+  /**
+   * Whether the post is marked not-safe-for-work.
+   */
+  nsfw?: boolean;
   /**
    * Total number of comments on the post.
    */
@@ -598,6 +801,10 @@ export interface RedditSubredditPostsPost {
    * Post title. Populated whenever the provider has data for the entity.
    */
   title: string;
+  /**
+   * Share of votes on the post that are upvotes, between 0 and 1.
+   */
+  upvoteRatio?: number;
   /**
    * The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity.
    */
@@ -624,9 +831,18 @@ export interface RedditSubredditPostsData {
  */
 export interface RedditSubredditSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Optional pagination token from a previous response.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -641,6 +857,7 @@ export interface RedditSubredditSearchInput {
    */
   requireFields?: (
     | "author"
+    | "authorId"
     | "createdUtc"
     | "isArchived"
     | "isLocked"
@@ -654,6 +871,10 @@ export interface RedditSubredditSearchInput {
    * Optional sort order: relevance, hot, top, new, comments.
    */
   sort?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Subreddit name without the r/ prefix (e.g. 'Fitness').
    */
@@ -669,6 +890,10 @@ export interface RedditSubredditSearchPost {
    * Author username, without the u/ prefix. Empty when the upstream omits it.
    */
   author: string;
+  /**
+   * Reddit account ID of the author, without the t2_ prefix.
+   */
+  authorId?: string;
   /**
    * Post creation time as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -743,6 +968,15 @@ export interface RedditTrendingPostsInput {
    */
   after?: string;
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of trending posts to return (1-100, default 25).
    * Range: minimum 1, maximum 100.
    * Default: 25.
@@ -753,6 +987,10 @@ export interface RedditTrendingPostsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface RedditTrendingPostsPost {
@@ -761,9 +999,17 @@ export interface RedditTrendingPostsPost {
    */
   author: string;
   /**
+   * Reddit account ID of the author, without the t2_ prefix.
+   */
+  authorId?: string;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * Domain the post links to, for example "self.IAmA" for a text post.
+   */
+  domain?: string;
   /**
    * Reddit post ID (base-36, without the t3_ prefix). Populated whenever the provider has data for the entity.
    */
@@ -776,6 +1022,10 @@ export interface RedditTrendingPostsPost {
    * True when a moderator has locked the thread, which blocks new comments. Absent when the source that served this request does not report it, which means unknown rather than false.
    */
   isLocked?: boolean;
+  /**
+   * Whether the post is marked not-safe-for-work.
+   */
+  nsfw?: boolean;
   /**
    * Total number of comments on the post.
    */
@@ -800,6 +1050,10 @@ export interface RedditTrendingPostsPost {
    * Post title. Populated whenever the provider has data for the entity.
    */
   title: string;
+  /**
+   * Share of votes on the post that are upvotes, between 0 and 1.
+   */
+  upvoteRatio?: number;
   /**
    * The post's destination link. Populated whenever the provider has data for the entity.
    */
@@ -826,9 +1080,18 @@ export interface RedditTrendingPostsData {
  */
 export interface RedditUserCommentsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of comments to return in this response (a page cap, not a total). Defaults to 25.
    * Range: minimum 1, maximum 100.
@@ -845,6 +1108,10 @@ export interface RedditUserCommentsInput {
    * One of: new, top, hot, controversial.
    */
   sort?: "new" | "top" | "hot" | "controversial";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Reddit username, without the u/ prefix. Example: "spez".
    */
@@ -908,9 +1175,18 @@ export interface RedditUserCommentsData {
  */
 export interface RedditUserPostsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it back to fetch the next page.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -920,20 +1196,27 @@ export interface RedditUserPostsInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `isLocked`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
+    | "authorId"
     | "createdUtc"
     | "isArchived"
     | "isLocked"
     | "media"
     | "nextCursor"
+    | "nsfw"
     | "numComments"
     | "score"
     | "selftext"
+    | "upvoteRatio"
   )[];
   /**
    * Sort order for the user's posts. Defaults to new (most recent first).
    * One of: new, top, hot, controversial.
    */
   sort?: "new" | "top" | "hot" | "controversial";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Reddit username without the leading u/ prefix (e.g. "spez").
    */
@@ -945,6 +1228,10 @@ export interface RedditUserPostsPost {
    * Author username, without the u/ prefix. Populated whenever the provider has data for the entity.
    */
   author: string;
+  /**
+   * Reddit account ID of the author, without the t2_ prefix.
+   */
+  authorId?: string;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -965,6 +1252,10 @@ export interface RedditUserPostsPost {
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
    */
   media?: RedditUserPostsMedia[];
+  /**
+   * Whether the post is marked not-safe-for-work.
+   */
+  nsfw?: boolean;
   /**
    * Total number of comments on the post.
    */
@@ -990,6 +1281,10 @@ export interface RedditUserPostsPost {
    * Post title. Populated whenever the provider has data for the entity.
    */
   title: string;
+  /**
+   * Share of votes on the post that are upvotes, between 0 and 1.
+   */
+  upvoteRatio?: number;
   /**
    * The post's destination link (the external URL for link posts, or the thread URL for self posts). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -1040,6 +1335,23 @@ export class RedditNamespace {
   constructor(private readonly _core: ClientCore) {}
 
   /**
+   * Reddit Avatar
+   *
+   * Get a Reddit user's profile picture URL, karma, and account age by username. The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and post and comment counts.
+   *
+   * Price: $0.00038 per request.
+   *
+   * @example
+   * const res = await client.reddit.avatar({ username: "spez" });
+   */
+  avatar(
+    input: RedditAvatarInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<RedditAvatarData>> {
+    return this._core.run("reddit.avatar", input, options);
+  }
+
+  /**
    * Reddit Post
    *
    * Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.
@@ -1061,7 +1373,7 @@ export class RedditNamespace {
    *
    * List the top-level comments on a Reddit post by URL (author, body, score, timestamp).
    *
-   * Price: $0.0009 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.reddit.postComments({ url: "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/" });
@@ -1118,7 +1430,7 @@ export class RedditNamespace {
    *
    * Fetch a Reddit user's public profile (karma split, post and comment counts, bio, avatar, account age) by username.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00225 per request plus $0 per result (maximum $0.00225).
    *
    * @example
    * const res = await client.reddit.profile({ username: "spez" });
@@ -1135,7 +1447,7 @@ export class RedditNamespace {
    *
    * Search Reddit posts across all subreddits by query.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00038 per request.
    *
    * @example
    * const res = await client.reddit.search({ query: "mechanical keyboard" });
@@ -1172,7 +1484,7 @@ export class RedditNamespace {
    *
    * Fetch a subreddit's metadata (weekly active users, description, and category).
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00038 per request.
    *
    * @example
    * const res = await client.reddit.subredditDetails({ subreddit: "programming" });
@@ -1189,7 +1501,7 @@ export class RedditNamespace {
    *
    * Fetch posts from a subreddit listing (hot, new, or top).
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00038 per request.
    *
    * @example
    * const res = await client.reddit.subredditPosts({ subreddit: "programming", limit: 5 });
@@ -1229,7 +1541,7 @@ export class RedditNamespace {
    *
    * Search posts within a single subreddit by query, sort, and timeframe.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00038 per request.
    *
    * @example
    * const res = await client.reddit.subredditSearch({ subreddit: "Fitness", query: "push ups" });
@@ -1289,7 +1601,7 @@ export class RedditNamespace {
    *
    * List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.reddit.userComments({ username: "spez" });
@@ -1329,7 +1641,7 @@ export class RedditNamespace {
    *
    * List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00038 per request.
    *
    * @example
    * const res = await client.reddit.userPosts({ username: "spez" });

@@ -13,14 +13,27 @@ import { paginate } from "../../core/index.js";
  */
 export interface SpotifyAlbumInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Spotify album ID (alternative to url).
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Spotify album URL (e.g. https://open.spotify.com/album/0pgrg7phBbnwGJ2HBEl9EG).
    */
@@ -28,9 +41,17 @@ export interface SpotifyAlbumInput {
 }
 
 export interface SpotifyAlbumTrack {
+  /**
+   * Name of the primary artist.
+   */
+  artistName?: string;
   durationMs: number;
   name: string;
   playcount: number;
+  /**
+   * Position of the track within the album.
+   */
+  trackNumber?: number;
   uri: string;
   [extra: string]: unknown;
 }
@@ -40,9 +61,17 @@ export interface SpotifyAlbumTrack {
  */
 export interface SpotifyAlbumData {
   /**
+   * Name of the primary artist.
+   */
+  artistName?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the cover art image.
+   */
+  image?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -68,6 +97,10 @@ export interface SpotifyAlbumData {
    * Populated whenever the provider has data for the entity.
    */
   uri: string;
+  /**
+   * Canonical Spotify web URL, tracking query parameters stripped.
+   */
+  url?: string;
 }
 
 /**
@@ -75,14 +108,27 @@ export interface SpotifyAlbumData {
  */
 export interface SpotifyArtistInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Spotify artist ID (alternative to url).
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Spotify artist URL (e.g. https://open.spotify.com/artist/3DiDSECUqqY1AuBP8qtaIa).
    */
@@ -94,6 +140,14 @@ export interface SpotifyArtistAlbum {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the cover art image.
+   */
+  image?: string;
+  /**
+   * Record label that released the album.
+   */
+  label?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -108,6 +162,10 @@ export interface SpotifyArtistAlbum {
    */
   uri: string;
   /**
+   * Canonical Spotify web URL, tracking query parameters stripped.
+   */
+  url?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   year: number;
@@ -115,9 +173,25 @@ export interface SpotifyArtistAlbum {
 }
 
 export interface SpotifyArtistTopTrack {
+  /**
+   * Name of the primary artist.
+   */
+  artistName?: string;
+  /**
+   * Length of the track in milliseconds.
+   */
+  durationMs?: number;
   id: string;
+  /**
+   * URL of the cover art image.
+   */
+  image?: string;
   name: string;
   playcount: number;
+  /**
+   * Spotify popularity score for the track, 0 to 100.
+   */
+  popularity?: number;
   uri: string;
   [extra: string]: unknown;
 }
@@ -131,9 +205,41 @@ export interface SpotifyArtistData {
    */
   albums: SpotifyArtistAlbum[];
   /**
+   * Artist biography text.
+   */
+  bio?: string;
+  /**
+   * Number of Spotify followers the artist has.
+   */
+  followers?: number;
+  /**
+   * Spotify artist ID.
+   */
+  id?: string;
+  /**
+   * URL of the cover art image.
+   */
+  image?: string;
+  /**
+   * Artist display name.
+   */
+  name?: string;
+  /**
+   * Spotify popularity score for the artist, 0 to 100.
+   */
+  popularity?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   topTracks: SpotifyArtistTopTrack[];
+  /**
+   * Canonical Spotify web URL, tracking query parameters stripped.
+   */
+  url?: string;
+  /**
+   * Whether the artist profile is verified on Spotify.
+   */
+  verified?: boolean;
 }
 
 /**
@@ -141,10 +247,23 @@ export interface SpotifyArtistData {
  */
 export interface SpotifyPlayCountInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Spotify track, album, or artist URL to fetch stream counts for (e.g. https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp).
    */
@@ -169,6 +288,10 @@ export interface SpotifyPlayCountItem {
    */
   id: string;
   /**
+   * URL of the cover art image.
+   */
+  image?: string;
+  /**
    * The track (or entity) name. Populated whenever the provider has data for the entity.
    */
   name: string;
@@ -176,6 +299,18 @@ export interface SpotifyPlayCountItem {
    * Total number of streams/plays for the track. Populated whenever the provider has data for the entity.
    */
   playCount: number;
+  /**
+   * URL of the 30-second audio preview.
+   */
+  previewUrl?: string;
+  /**
+   * Release date as an ISO 8601 string.
+   */
+  releaseDate?: string;
+  /**
+   * Position of the track within its album.
+   */
+  trackNumber?: number;
   /**
    * The Spotify entity type (e.g. "track").
    */
@@ -202,14 +337,27 @@ export interface SpotifyPlayCountData {
  */
 export interface SpotifyPodcastInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Spotify podcast show ID (alternative to url).
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Spotify podcast show URL (e.g. https://open.spotify.com/show/3mliji9352UAk3XnWElnDV).
    */
@@ -230,6 +378,10 @@ export interface SpotifyPodcastData {
    */
   id: string;
   /**
+   * URL of the cover art image.
+   */
+  image?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   name: string;
@@ -242,6 +394,10 @@ export interface SpotifyPodcastData {
    * Populated whenever the provider has data for the entity.
    */
   uri: string;
+  /**
+   * Canonical Spotify web URL, tracking query parameters stripped.
+   */
+  url?: string;
   [extra: string]: unknown;
 }
 
@@ -249,6 +405,11 @@ export interface SpotifyPodcastData {
  * Input for Spotify Podcast Episodes (spotify.podcast_episodes).
  */
 export interface SpotifyPodcastEpisodesInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
   /**
    * Pagination cursor from a previous response for subsequent pages.
    */
@@ -258,10 +419,18 @@ export interface SpotifyPodcastEpisodesInput {
    */
   id?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Spotify podcast show URL (e.g. https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk).
    */
@@ -313,6 +482,15 @@ export interface SpotifyPodcastEpisodesData {
  */
 export interface SpotifySearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -321,11 +499,27 @@ export interface SpotifySearchInput {
    * Search term (e.g. "my first million").
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SpotifySearchAlbum {
+  /**
+   * Name of the primary artist.
+   */
+  artistName?: string;
   id: string;
+  /**
+   * URL of the cover art image.
+   */
+  image?: string;
   name: string;
+  /**
+   * Album type, for example ALBUM, SINGLE or COMPILATION.
+   */
+  type?: string;
   uri: string;
   year: number;
   [extra: string]: unknown;
@@ -341,16 +535,32 @@ export interface SpotifySearchArtist {
 
 export interface SpotifySearchPodcast {
   id: string;
+  /**
+   * URL of the cover art image.
+   */
+  image?: string;
   name: string;
   publisher: string;
+  /**
+   * Spotify URI of the podcast show.
+   */
+  uri?: string;
   [extra: string]: unknown;
 }
 
 export interface SpotifySearchTrack {
   /**
+   * Name of the album the track appears on.
+   */
+  albumName?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the cover art image.
+   */
+  image?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -389,14 +599,27 @@ export interface SpotifySearchData {
  */
 export interface SpotifyTrackInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Spotify track ID (alternative to url).
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Spotify track URL (e.g. https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT).
    */
@@ -408,6 +631,14 @@ export interface SpotifyTrackInput {
  */
 export interface SpotifyTrackData {
   /**
+   * Name of the album the track appears on.
+   */
+  albumName?: string;
+  /**
+   * Name of the primary artist.
+   */
+  artistName?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   durationMs: number;
@@ -416,11 +647,19 @@ export interface SpotifyTrackData {
    */
   id: string;
   /**
+   * URL of the cover art image.
+   */
+  image?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   name: string;
   playcount: number;
   popularity: number;
+  /**
+   * Album release date as an ISO 8601 string.
+   */
+  releaseDate?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */

@@ -13,6 +13,15 @@ import { paginate } from "../../core/index.js";
  */
 export interface TiktokShopCategoriesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -23,11 +32,15 @@ export interface TiktokShopCategoriesInput {
    * Default: US.
    */
   region?: "US" | "VN";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokShopCategoriesCategorie {
   /**
-   * TikTok Shop category id. Pass this to tiktok_shop.category_products. Populated whenever the provider has data for the entity.
+   * TikTok Shop category id. Populated whenever the provider has data for the entity.
    */
   categoryId: string;
   /**
@@ -59,6 +72,10 @@ export interface TiktokShopCategoriesChildren {
    */
   categoryId: string;
   /**
+   * Category image URL.
+   */
+  image?: string;
+  /**
    * True when the category has no children.
    */
   isLeaf?: boolean;
@@ -84,104 +101,22 @@ export interface TiktokShopCategoriesData {
 }
 
 /**
- * Input for TikTok Shop Category Products (tiktok_shop.category_products).
- */
-export interface TiktokShopCategoryProductsInput {
-  /**
-   * TikTok Shop category id, from tiktok_shop.categories (e.g. 700645 for Health).
-   */
-  categoryId: string;
-  /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
-   * Range: minimum 1.
-   */
-  preferLatencyUnderMs?: number;
-  /**
-   * Two-letter country code of the TikTok Shop market (e.g. US).
-   * Default: US.
-   */
-  region?: string;
-}
-
-export interface TiktokShopCategoryProductsItem {
-  /**
-   * ISO currency name, e.g. USD.
-   */
-  currency?: string;
-  /**
-   * Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.
-   */
-  discountPct?: number;
-  /**
-   * Primary product image URL.
-   */
-  image?: string;
-  /**
-   * Pre-discount list price (0 when not on sale).
-   */
-  originalPrice?: number;
-  /**
-   * Current sale price.
-   */
-  price?: number;
-  /**
-   * TikTok Shop product id. Populated whenever the provider has data for the entity.
-   */
-  productId: string;
-  /**
-   * Average review score.
-   */
-  rating?: number;
-  /**
-   * Number of reviews.
-   */
-  reviewCount?: number;
-  /**
-   * TikTok Shop seller id, for joining to the seller's other products.
-   */
-  sellerId?: string;
-  /**
-   * Seller shop name.
-   */
-  shopName?: string;
-  /**
-   * Units sold.
-   */
-  soldCount?: number;
-  /**
-   * Product title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Canonical product detail page URL. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  url?: string;
-  [extra: string]: unknown;
-}
-
-/**
- * The `data` payload of TikTok Shop Category Products (tiktok_shop.category_products).
- */
-export interface TiktokShopCategoryProductsData {
-  /**
-   * True when the category has further pages upstream.
-   */
-  hasMore?: boolean;
-  /**
-   * Product records in the category: id, title, price, rating, sales count, seller, and product URL. Populated whenever the provider has data for the entity.
-   */
-  items: TiktokShopCategoryProductsItem[];
-}
-
-/**
  * Input for TikTok Shop Creator (tiktok_shop.creator).
  */
 export interface TiktokShopCreatorInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * TikTok handle of the creator or shop account, without the @ (e.g. golinutrition).
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -192,6 +127,10 @@ export interface TiktokShopCreatorInput {
    * Default: us.
    */
   region?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokShopCreatorAudienceAge {
@@ -359,6 +298,15 @@ export interface TiktokShopCreatorData {
  */
 export interface TiktokShopProductInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -367,6 +315,10 @@ export interface TiktokShopProductInput {
    * Two-letter country code for the proxy location used to access region-specific products (e.g. US, GB, FR). Defaults to US.
    */
   region?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * TikTok Shop product detail page URL (e.g. https://www.tiktok.com/shop/pdp/.../1729587769570529799).
    */
@@ -413,10 +365,23 @@ export interface TiktokShopProductData {
  */
 export interface TiktokShopProductFullInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * TikTok Shop product URL. Any of the public forms works (https://www.tiktok.com/shop/pdp/<id>, https://shop.tiktok.com/<region>/pdp/<slug>/<id>, or https://shop.tiktok.com/view/product/<id>); the product id is read out of it.
    */
@@ -563,6 +528,15 @@ export interface TiktokShopProductFullData {
  */
 export interface TiktokShopProductReviewsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * 1-based results page. Use with hasMore in the output to paginate.
    * Range: minimum 1.
    * Default: 1.
@@ -578,12 +552,20 @@ export interface TiktokShopProductReviewsInput {
    */
   region?: string;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * TikTok Shop product URL (e.g. https://www.tiktok.com/shop/pdp/.../1729385633899532161).
    */
   url: string;
 }
 
 export interface TiktokShopProductReviewsReview {
+  /**
+   * Reviewer's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  avatarUrl?: string;
   /**
    * Reviewer's country code.
    */
@@ -596,6 +578,10 @@ export interface TiktokShopProductReviewsReview {
    * Review identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Identifier of the reviewed product.
+   */
+  productId?: string;
   /**
    * Star rating for this review (1-5).
    */
@@ -646,6 +632,11 @@ export interface TiktokShopProductReviewsData {
  */
 export interface TiktokShopSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Country code of the TikTok Shop market to search (e.g. US).
    * One of: US, VN, TH, PH, MY, ID, GB, SG, ES, MX, DE, IT, FR, BR, JP.
    * Default: US.
@@ -667,6 +658,10 @@ export interface TiktokShopSearchInput {
     | "BR"
     | "JP";
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of results to return (1-10, default 10).
    * Range: minimum 1, maximum 10.
    */
@@ -680,6 +675,10 @@ export interface TiktokShopSearchInput {
    * Search keyword for TikTok Shop products (e.g. wireless earbuds).
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokShopSearchItem {
@@ -691,6 +690,10 @@ export interface TiktokShopSearchItem {
    * Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.
    */
   discountPct?: number;
+  /**
+   * Product image URL.
+   */
+  image?: string;
   /**
    * Pre-discount list price (0 when not on sale).
    */
@@ -750,10 +753,19 @@ export interface TiktokShopSearchData {
  */
 export interface TiktokShopSearchSuggestionsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Two-letter country code of the TikTok Shop market (e.g. US).
    * Default: US.
    */
   country?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Language tag for the suggestions (e.g. en-US).
    * Default: en-US.
@@ -768,6 +780,10 @@ export interface TiktokShopSearchSuggestionsInput {
    * Seed keyword to expand (e.g. ashwagandha gummies).
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -786,9 +802,18 @@ export interface TiktokShopSearchSuggestionsData {
  */
 export interface TiktokShopShopProductsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Opaque pagination cursor from a previous response's nextCursor.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -805,6 +830,10 @@ export interface TiktokShopShopProductsInput {
    */
   sortBy?: "top" | "new_releases";
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * TikTok Shop store URL (e.g. https://www.tiktok.com/shop/store/...).
    */
   url: string;
@@ -812,6 +841,10 @@ export interface TiktokShopShopProductsInput {
 
 export interface TiktokShopShopProductsProduct {
   currency: string;
+  /**
+   * Product image URL.
+   */
+  image?: string;
   originalPrice: number;
   price: number;
   /**
@@ -859,6 +892,11 @@ export interface TiktokShopShopProductsData {
  */
 export interface TiktokShopUserShowcaseInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination token for retrieving subsequent product pages.
    */
   cursor?: string;
@@ -866,6 +904,10 @@ export interface TiktokShopUserShowcaseInput {
    * The handle of the TikTok user (e.g. mrtiktokreviews).
    */
   handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -875,6 +917,10 @@ export interface TiktokShopUserShowcaseInput {
    * Geographical region for proxy placement (defaults to US).
    */
   region?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TiktokShopUserShowcaseProduct {
@@ -891,6 +937,10 @@ export interface TiktokShopUserShowcaseProduct {
   productId: string;
   rating: number;
   reviewCount: number;
+  /**
+   * Identifier of the seller listing the product.
+   */
+  sellerId?: string;
   soldCount: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -939,23 +989,6 @@ export class TiktokShopNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TiktokShopCategoriesData>> {
     return this._core.run("tiktok_shop.categories", input, options);
-  }
-
-  /**
-   * TikTok Shop Category Products
-   *
-   * Browse TikTok Shop products inside a category by category id: price, discount, rating, sales count, seller, and product URL per product.
-   *
-   * Price: $0.0012 per request.
-   *
-   * @example
-   * const res = await client.tiktokShop.categoryProducts({ categoryId: "700645", region: "US" });
-   */
-  categoryProducts(
-    input: TiktokShopCategoryProductsInput,
-    options?: RequestOptions,
-  ): Promise<RunResult<TiktokShopCategoryProductsData>> {
-    return this._core.run("tiktok_shop.category_products", input, options);
   }
 
   /**

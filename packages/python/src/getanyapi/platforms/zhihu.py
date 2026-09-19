@@ -18,17 +18,29 @@ if TYPE_CHECKING:
 class ZhihuAnswerInput(TypedDict, total=False):
     """Input for Zhihu Answer."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     answerId: Required[str]
     """Zhihu answer identifier."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class ZhihuProfileInput(TypedDict, total=False):
     """Input for Zhihu Profile."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userToken: Required[str]
     """Zhihu user URL token."""
 
@@ -36,17 +48,27 @@ class ZhihuProfileInput(TypedDict, total=False):
 class ZhihuQuestionInput(TypedDict, total=False):
     """Input for Zhihu Question."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     questionId: Required[str]
     """Zhihu question identifier."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class ZhihuQuestionAnswersInput(TypedDict, total=False):
     """Input for Zhihu Question Answers."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from an answer item in the previous response. Default: ."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Number of answers requested per page. Default: 5."""
     offset: NotRequired[int]
@@ -59,11 +81,17 @@ class ZhihuQuestionAnswersInput(TypedDict, total=False):
     """Zhihu question identifier."""
     sessionId: NotRequired[str]
     """Pagination session identifier returned in the previous response. Default: ."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class ZhihuSearchArticlesInput(TypedDict, total=False):
     """Input for Zhihu Article Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[str]
     """Number of articles requested per page. Default: 20."""
     offset: NotRequired[str]
@@ -78,6 +106,8 @@ class ZhihuSearchArticlesInput(TypedDict, total=False):
     """Whether to include all topics: 0 excludes them and 1 includes them. Default: 0."""
     sort: NotRequired[Literal["", "upvoted_count", "created_time"]]
     """Article ordering: comprehensive, most upvoted, or newest. Default: ."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     timeInterval: NotRequired[
         Literal[
             "", "a_day", "a_week", "a_month", "three_months", "half_a_year", "a_year"
@@ -105,6 +135,11 @@ class ZhihuAnswerData(BaseModel):
     author_token: str | None = Field(
         default=None, alias="authorToken", description="Author URL token."
     )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the author's Zhihu profile.",
+    )
     author_user_id: str | None = Field(
         default=None, alias="authorUserId", description="Author identifier."
     )
@@ -129,6 +164,10 @@ class ZhihuAnswerData(BaseModel):
         default=None,
         alias="questionTitle",
         description="Parent question title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    text: str | None = Field(
+        default=None,
+        description="Full body text of the answer, with HTML markup stripped.",
     )
     updated_utc: float | None = Field(
         default=None,
@@ -233,6 +272,11 @@ class ZhihuQuestionAnswersData(BaseModel):
 class ZhihuQuestionAnswersAnswer(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_headline: str | None = Field(
+        default=None,
+        alias="authorHeadline",
+        description="One-line headline the author shows on their Zhihu profile.",
+    )
     author_image: str | None = Field(
         default=None, alias="authorImage", description="Author avatar URL."
     )
@@ -243,6 +287,11 @@ class ZhihuQuestionAnswersAnswer(BaseModel):
     )
     author_token: str | None = Field(
         default=None, alias="authorToken", description="Author URL token."
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the author's Zhihu profile.",
     )
     author_user_id: str | None = Field(
         default=None, alias="authorUserId", description="Author identifier."
@@ -264,7 +313,21 @@ class ZhihuQuestionAnswersAnswer(BaseModel):
     id: str = Field(
         description="Answer identifier. Populated whenever the provider has data for the entity."
     )
+    question_id: str | None = Field(
+        default=None,
+        alias="questionId",
+        description="Zhihu ID of the question the answer belongs to.",
+    )
+    question_title: str | None = Field(
+        default=None,
+        alias="questionTitle",
+        description="Title of the question the answer belongs to.",
+    )
     saves: int | None = Field(default=None, description="Save count.")
+    text: str | None = Field(
+        default=None,
+        description="Full body text of the answer, with HTML markup stripped.",
+    )
     thanks: int | None = Field(default=None, description="Thanks count.")
     updated_utc: float | None = Field(
         default=None,
@@ -314,6 +377,11 @@ class ZhihuSearchArticlesArticle(BaseModel):
     author_token: str | None = Field(
         default=None, alias="authorToken", description="Author URL token."
     )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the author's Zhihu profile.",
+    )
     author_user_id: str | None = Field(
         default=None, alias="authorUserId", description="Author identifier."
     )
@@ -329,6 +397,14 @@ class ZhihuSearchArticlesArticle(BaseModel):
     )
     id: str = Field(
         description="Article identifier. Populated whenever the provider has data for the entity."
+    )
+    saves: int | None = Field(
+        default=None,
+        description="Number of times the article was saved to a collection.",
+    )
+    text: str | None = Field(
+        default=None,
+        description="Full body text of the article, with HTML markup stripped.",
     )
     title: str | None = Field(
         default=None,

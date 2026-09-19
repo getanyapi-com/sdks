@@ -11,6 +11,15 @@ import type {
  */
 export interface TripadvisorReviewsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Only return reviews in these ISO 639-1 languages (e.g. ["en", "es"]); omit for all languages.
    */
   languages?: string[];
@@ -33,6 +42,10 @@ export interface TripadvisorReviewsInput {
    */
   since?: string;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Tripadvisor page URL of the hotel, restaurant, or attraction.
    */
   url: string;
@@ -40,14 +53,66 @@ export interface TripadvisorReviewsInput {
 
 export interface TripadvisorReviewsItem {
   /**
+   * Reviewer display name.
+   */
+  author?: string;
+  /**
+   * Reviewer profile photo URL.
+   */
+  authorAvatarUrl?: string;
+  /**
+   * Tripadvisor member identifier of the reviewer.
+   */
+  authorId?: string;
+  /**
+   * Tripadvisor profile URL of the reviewer.
+   */
+  authorUrl?: string;
+  /**
+   * Whether Tripadvisor marks the reviewer as verified.
+   */
+  authorVerified?: boolean;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
   /**
+   * Number of helpful votes the review received.
+   */
+  helpfulVotes?: number;
+  /**
+   * Tripadvisor review identifier.
+   */
+  id?: string;
+  /**
+   * Language code the review was written in.
+   */
+  language?: string;
+  /**
+   * Reply the place owner posted to this review.
+   */
+  ownerResponseText?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the owner replied.
+   */
+  ownerResponseUtc?: number;
+  /**
+   * Tripadvisor location identifier of the reviewed place.
+   */
+  placeId?: string;
+  /**
+   * Name of the reviewed place.
+   */
+  placeName?: string;
+  /**
    * Star rating (typically 1-5).
    */
   rating: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the reviewer stayed or visited.
+   */
+  stayUtc?: number;
   /**
    * Review body text. Populated whenever the provider has data for the entity.
    */
@@ -57,6 +122,10 @@ export interface TripadvisorReviewsItem {
    * Present whenever the upstream returns this record.
    */
   title?: string;
+  /**
+   * Trip type the reviewer selected (e.g. FAMILY, BUSINESS, COUPLES, NONE).
+   */
+  tripType?: string;
   /**
    * Canonical review URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -80,10 +149,19 @@ export interface TripadvisorReviewsData {
  */
 export interface TripadvisorSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * ISO currency code for prices (e.g. USD, EUR).
    * Default: USD.
    */
   currency?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Include attractions and things to do in the results; set false to exclude them (e.g. false). Defaults to true.
    * Default: true.
@@ -136,6 +214,10 @@ export interface TripadvisorSearchInput {
     | "type"
     | "website"
   )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface TripadvisorSearchItem {

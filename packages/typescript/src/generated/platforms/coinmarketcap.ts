@@ -11,6 +11,15 @@ import type {
  */
 export interface CoinmarketcapListingsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 25.
    */
@@ -20,9 +29,17 @@ export interface CoinmarketcapListingsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface CoinmarketcapListingsItem {
+  /**
+   * Whether CoinMarketCap still tracks the coin as active.
+   */
+  active?: boolean;
   /**
    * All-time high price in USD.
    */
@@ -35,6 +52,18 @@ export interface CoinmarketcapListingsItem {
    * Circulating supply (coin count).
    */
   circulatingSupply?: number;
+  /**
+   * When CoinMarketCap first listed the coin. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Share of total crypto market capitalization, in percent.
+   */
+  dominance?: number;
+  /**
+   * Fully diluted market capitalization in USD (total supply at the current price).
+   */
+  fullyDilutedMarketCap?: number;
   /**
    * 24h high price in USD.
    */
@@ -57,13 +86,53 @@ export interface CoinmarketcapListingsItem {
    */
   marketCap?: number;
   /**
+   * Number of exchange market pairs trading this coin.
+   */
+  marketPairCount?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
+   * Price change over the last hour, in percent.
+   */
+  percentChange1h?: number;
+  /**
+   * Price change over the last year, in percent.
+   */
+  percentChange1y?: number;
+  /**
+   * Price change over the last 24 hours, in percent.
+   */
+  percentChange24h?: number;
+  /**
+   * Price change over the last 30 days, in percent.
+   */
+  percentChange30d?: number;
+  /**
+   * Price change over the last 60 days, in percent.
+   */
+  percentChange60d?: number;
+  /**
+   * Price change over the last 7 days, in percent.
+   */
+  percentChange7d?: number;
+  /**
+   * Price change over the last 90 days, in percent.
+   */
+  percentChange90d?: number;
+  /**
+   * Price change year to date, in percent.
+   */
+  percentChangeYtd?: number;
+  /**
    * Latest price in USD.
    */
   price?: number;
+  /**
+   * Circulating supply as reported by the project itself (coin count).
+   */
+  selfReportedCirculatingSupply?: number;
   /**
    * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -78,9 +147,21 @@ export interface CoinmarketcapListingsItem {
    */
   totalSupply?: number;
   /**
+   * 24h trading volume divided by market capitalization.
+   */
+  turnover?: number;
+  /**
    * 24h trading volume in USD.
    */
   volume24h?: number;
+  /**
+   * 30-day trading volume in USD.
+   */
+  volume30d?: number;
+  /**
+   * 7-day trading volume in USD.
+   */
+  volume7d?: number;
   [extra: string]: unknown;
 }
 

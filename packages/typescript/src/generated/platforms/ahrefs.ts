@@ -11,6 +11,15 @@ import type {
  */
 export interface AhrefsBacklinksInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Match scope: "exact" for the given URL only, or "subdomains" to include the domain and its subdomains.
    * One of: exact, subdomains.
    * Default: subdomains.
@@ -21,6 +30,10 @@ export interface AhrefsBacklinksInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * The domain or page URL to find backlinks for (e.g. "ahrefs.com").
    */
@@ -74,10 +87,19 @@ export interface AhrefsBacklinksData {
  */
 export interface AhrefsKeywordIdeasInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Two-letter country code that scopes the suggestions (e.g. us, gb, de).
    * Default: us.
    */
   country?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * The seed keyword to expand into related suggestions (e.g. "coffee").
    */
@@ -87,6 +109,10 @@ export interface AhrefsKeywordIdeasInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface AhrefsKeywordIdeasItem {
@@ -99,6 +125,10 @@ export interface AhrefsKeywordIdeasItem {
    * Present whenever the upstream returns this record.
    */
   ideas?: AhrefsKeywordIdeasIdea[];
+  /**
+   * Question-shaped keyword suggestions for the seed term.
+   */
+  questions?: AhrefsKeywordIdeasQuestion[];
   /**
    * Search engine the suggestions are drawn from (e.g. Google).
    */
@@ -130,6 +160,26 @@ export interface AhrefsKeywordIdeasIdea {
   [extra: string]: unknown;
 }
 
+export interface AhrefsKeywordIdeasQuestion {
+  /**
+   * Relative Ahrefs difficulty bucket (a letter such as E, M, or H), not an exact number.
+   */
+  difficulty?: string;
+  /**
+   * The suggested question keyword.
+   */
+  keyword?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  updatedUtc?: number;
+  /**
+   * Relative search-volume bucket (a letter grade), not an exact number.
+   */
+  volume?: string;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Ahrefs Keyword Ideas (ahrefs.keyword_ideas).
  */
@@ -145,10 +195,19 @@ export interface AhrefsKeywordIdeasData {
  */
 export interface AhrefsKeywordsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Two-letter country code that scopes volume and difficulty (e.g. us, gb, de).
    * Default: us.
    */
   country?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * The search term to analyze (e.g. "seo tools").
    */
@@ -158,6 +217,10 @@ export interface AhrefsKeywordsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface AhrefsKeywordsItem {
@@ -165,6 +228,10 @@ export interface AhrefsKeywordsItem {
    * Two-letter country code the metrics are scoped to.
    */
   country?: string;
+  /**
+   * Ahrefs' estimated paid-search cost per click in USD.
+   */
+  cpcUsd?: number;
   /**
    * Ahrefs Keyword Difficulty, 0-100.
    */
@@ -177,6 +244,14 @@ export interface AhrefsKeywordsItem {
    * Estimated number of referring domains a page needs to rank in the top 10 for this keyword.
    */
   referringDomainsToRank?: number;
+  /**
+   * Average monthly search volume for the keyword in the requested country.
+   */
+  searchVolume?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  updatedUtc?: number;
   [extra: string]: unknown;
 }
 
@@ -195,6 +270,15 @@ export interface AhrefsKeywordsData {
  */
 export interface AhrefsOverviewInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Analysis scope: subdomains covers the whole domain, exact matches only the given URL.
    * One of: exact, subdomains.
    * Default: subdomains.
@@ -205,6 +289,10 @@ export interface AhrefsOverviewInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * The domain or page URL to analyze (e.g. ahrefs.com).
    */
@@ -265,7 +353,7 @@ export class AhrefsNamespace {
    *
    * Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title.
    *
-   * Price: $0.0215 per request plus $0 per result (maximum $0.0215).
+   * Price: $0.00501 per request plus $0 per result (maximum $0.00501).
    *
    * @example
    * const res = await client.ahrefs.backlinks({ url: "ahrefs.com", mode: "exact" });
@@ -282,7 +370,7 @@ export class AhrefsNamespace {
    *
    * Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket.
    *
-   * Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
    *
    * @example
    * const res = await client.ahrefs.keywordIdeas({ keyword: "coffee", country: "us" });
@@ -299,7 +387,7 @@ export class AhrefsNamespace {
    *
    * Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON.
    *
-   * Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
    *
    * @example
    * const res = await client.ahrefs.keywords({ keyword: "seo tools", country: "us" });
@@ -316,7 +404,7 @@ export class AhrefsNamespace {
    *
    * Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON.
    *
-   * Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
    *
    * @example
    * const res = await client.ahrefs.overview({ url: "ahrefs.com", mode: "subdomains" });

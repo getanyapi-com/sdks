@@ -17,6 +17,15 @@ export interface CompanySearchAiArkInput {
    */
   account?: {};
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * AI Ark saved-list filter expression.
    */
   lists?: {};
@@ -45,6 +54,10 @@ export interface CompanySearchAiArkInput {
    * Default: 10.
    */
   size?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface CompanySearchAiArkCompanie {
@@ -440,12 +453,21 @@ export interface CompanySearchCrustdataV3Sort {
  * Input for Company Search - Crustdata v3 (company_search.crustdata_v3).
  */
 export interface CompanySearchCrustdataV3Input {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
   cursor?: string;
   fields?: unknown;
   /**
    * Crustdata company-database filter expression. A leaf condition is {"filter_type": <column>, "type": <operator>, "value": <match>}; a group is {"op": "and"|"or", "conditions": [<leaf>, ...]}. Pass a single leaf, an array of leaves, or a group. See the example for a domain lookup.
    */
   filters: unknown;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum companies to return on this page. Every company returned is billed; the page is capped at 250 to bound the cost of a single call.
    * Range: minimum 1, maximum 250.
@@ -458,6 +480,10 @@ export interface CompanySearchCrustdataV3Input {
    */
   preferLatencyUnderMs?: number;
   sorts?: CompanySearchCrustdataV3Sort[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface CompanySearchCrustdataV3Companie {
@@ -931,6 +957,11 @@ export interface CompanySearchFullenrichType {
  */
 export interface CompanySearchFullenrichInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Filter by FullEnrich company id. Each entry is an object taking a `value` string and an optional `exact_match` boolean, e.g. [{"value": "stripe.com", "exact_match": true}]. A bare string is rejected.
    */
   companyIds?: CompanySearchFullenrichCompanyId[];
@@ -954,6 +985,10 @@ export interface CompanySearchFullenrichInput {
    * Filter by headquarters city, region or country. Each entry is an object taking a `value` string and an optional `exact_match` boolean, e.g. [{"value": "stripe.com", "exact_match": true}]. A bare string is rejected.
    */
   headquartersLocations?: CompanySearchFullenrichHeadquartersLocation[];
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Filter by company industry, e.g. Software Development. Each entry is an object taking a `value` string and an optional `exact_match` boolean, e.g. [{"value": "stripe.com", "exact_match": true}]. A bare string is rejected.
    */
@@ -987,6 +1022,10 @@ export interface CompanySearchFullenrichInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Filter by company specialty. Each entry is an object taking a `value` string and an optional `exact_match` boolean, e.g. [{"value": "stripe.com", "exact_match": true}]. A bare string is rejected.
    */
@@ -1140,9 +1179,18 @@ export interface CompanySearchFullenrichData {
  */
 export interface CompanySearchPeopledatalabsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Comma-separated People Data Labs fields to include, or a leading - list to exclude. Projection changes the payload only; billing still follows companies returned.
    */
   dataInclude?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum companies to return. Every company returned is billed, so start at 1 to check a query and read total before asking for more.
    * Range: minimum 1, maximum 83.
@@ -1158,6 +1206,10 @@ export interface CompanySearchPeopledatalabsInput {
    * Elasticsearch-style query over the People Data Labs company dataset, e.g. {"bool": {"must": [{"term": {"website": "posthog.com"}}]}}. Send this or sql, never both.
    */
   query?: {};
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * People Data Labs SQL, in the form SELECT * FROM company WHERE ... . String literals take single quotes, only SELECT * is supported, and field names must be real People Data Labs company fields including nested subfields such as location.country. Do not include a LIMIT clause; People Data Labs rejects it. Use limit instead. Send this or query, never both.
    */
@@ -1519,6 +1571,11 @@ export interface CompanySearchPeopledatalabsData {
  */
 export interface CompanySearchProspeoInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Filter by company names or websites, e.g. {"names": {"include": ["Stripe"]}, "websites": {"include": ["stripe.com"]}}.
    */
   company?: {};
@@ -1596,6 +1653,10 @@ export interface CompanySearchProspeoInput {
    */
   companyType?: "Private" | "Public" | "Non Profit" | "Other";
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Page number, one-based. Prospeo returns 25 results per page and charges one flat price per page.
    * Range: minimum 1.
    * Default: 1.
@@ -1606,6 +1667,10 @@ export interface CompanySearchProspeoInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface CompanySearchProspeoCompanie {
@@ -1935,6 +2000,11 @@ export interface CompanySearchProspeoData {
  */
 export interface CompanySearchQuickenrichInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Filter on city name.
    */
   city?: {
@@ -2030,6 +2100,10 @@ export interface CompanySearchQuickenrichInput {
      */
     include?: string[];
   };
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Return the full home page text on each company instead of a snippet.
    */
@@ -2129,6 +2203,10 @@ export interface CompanySearchQuickenrichInput {
      */
     include?: string[];
   };
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface CompanySearchQuickenrichCompanie {
@@ -2237,6 +2315,11 @@ export interface CompanySearchQuickenrichData {
  * Input for Company Search - TheirStack (company_search.theirstack).
  */
 export interface CompanySearchTheirstackInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
   /**
    * Return companies whose HQ country code is not any of the ones passed here, case sensitive. Pass ISO2 country codes.
    */
@@ -2358,6 +2441,10 @@ export interface CompanySearchTheirstackInput {
    */
   fundingStageOr?: string[];
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * When enabled, calculates and returns `total_results` and `total_companies` fields in the response. WARNING: This significantly slows down responses as it requires reading the entire dataset. Recommended usage: enable only for the initial request to get totals, then disable for subsequent pagination requests.
    */
   includeTotalResults?: boolean;
@@ -2465,6 +2552,10 @@ export interface CompanySearchTheirstackInput {
    * Return companies that have any of these fields not null. For example, if you pass ['domain', 'linkedin_url'], it will return companies that have a domain OR a linkedin_url set.
    */
   propertyExistsOr?: string[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Filter by technologies and buying intent topics detected for the company
    */

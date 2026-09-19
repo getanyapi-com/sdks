@@ -11,9 +11,18 @@ import type {
  */
 export interface GlassdoorJobsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * When true, only return jobs offering Easy Apply. Keyword mode only.
    */
   easyApply?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
@@ -43,6 +52,10 @@ export interface GlassdoorJobsInput {
    */
   sortBy?: "date" | "relevance";
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Alternatively, a Glassdoor company or job search page URL to scrape (e.g. https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm). The filters below apply in keyword (query) mode.
    */
   url?: string;
@@ -62,22 +75,66 @@ export interface GlassdoorJobsItem {
    */
   ageInDays?: number;
   /**
+   * Absolute Glassdoor URL that starts the application.
+   */
+  applyUrl?: string;
+  /**
    * Hiring employer name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   company?: string;
   /**
+   * Glassdoor's numeric employer id, as a string.
+   */
+  companyId?: string;
+  /**
+   * Primary industry of the hiring employer.
+   */
+  companyIndustry?: string;
+  /**
+   * Employer revenue band as Glassdoor words it.
+   */
+  companyRevenue?: string;
+  /**
+   * Employer headcount band as Glassdoor words it (e.g. "1001 to 5000 Employees").
+   */
+  companySize?: string;
+  /**
+   * Employer ownership type (e.g. "Company - Private").
+   */
+  companyType?: string;
+  /**
    * Full job description (may contain HTML).
    */
   description?: string;
+  /**
+   * Whether the listing supports Glassdoor Easy Apply.
+   */
+  easyApply?: boolean;
+  /**
+   * Whether Glassdoor reports the listing as expired.
+   */
+  expired?: boolean;
   /**
    * Glassdoor job listing id. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
+   * Whether the listing is a paid placement.
+   */
+  isSponsored?: boolean;
+  /**
    * Job location (city, region).
    */
   location?: string;
+  /**
+   * Employer square logo image URL.
+   */
+  logoUrl?: string;
+  /**
+   * Glassdoor's normalized occupation title for the listing.
+   */
+  normalizedTitle?: string;
   /**
    * Employer Glassdoor star rating (0 when not rated).
    */
@@ -107,6 +164,10 @@ export interface GlassdoorJobsItem {
      */
     period?: string;
   };
+  /**
+   * Sector of the hiring employer.
+   */
+  sector?: string;
   /**
    * Job title. Populated whenever the provider has data for the entity.
    */

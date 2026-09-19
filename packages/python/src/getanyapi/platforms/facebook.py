@@ -24,10 +24,16 @@ if TYPE_CHECKING:
 class FacebookAdDetailsInput(TypedDict, total=False):
     """Input for Facebook Ad Details."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """Meta Ad Library ad ID (e.g. "702369045530963"). Provide either id or url."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=1185617869915074"). Provide either id or url."""
 
@@ -35,19 +41,31 @@ class FacebookAdDetailsInput(TypedDict, total=False):
 class FacebookAdDetailsFullInput(TypedDict, total=False):
     """Input for Facebook Ad Creative Details."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: Required[str]
-    """Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "1519158199783790" from https://www.facebook.com/ads/library/?id=1519158199783790)."""
+    """Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "962050096457659" from https://www.facebook.com/ads/library/?id=962050096457659)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class FacebookAdTranscriptInput(TypedDict, total=False):
     """Input for Facebook Ad Transcript."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """Meta Ad Library ad ID (e.g. "1020359190509080"). Provide either id or url."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=1020359190509080"). Provide either id or url."""
 
@@ -57,12 +75,16 @@ class FacebookAdsSearchInput(TypedDict, total=False):
 
     adType: NotRequired[Literal["all", "political_and_issue_ads"]]
     """Restrict to all ads (default) or only political and issue ads."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     country: NotRequired[str]
     """Two-letter country code to scope results. Omit for all countries."""
     cursor: NotRequired[str]
     """Opaque pagination cursor from a previous response's nextCursor."""
     endDate: NotRequired[str]
     """Filter to ads with impressions on or before this date, in YYYY-MM-DD format."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     mediaType: NotRequired[
         Literal["ALL", "IMAGE", "VIDEO", "MEME", "IMAGE_AND_MEME", "NONE"]
     ]
@@ -75,6 +97,8 @@ class FacebookAdsSearchInput(TypedDict, total=False):
     """Match mode for the query: loose keyword match (keyword_unordered, the default) or exact phrase (keyword_exact_phrase)."""
     sortBy: NotRequired[Literal["impressions", "recent"]]
     """Sort order: impressions (highest first, the default) or recent (most recent)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     startDate: NotRequired[str]
     """Filter to ads with impressions on or after this date, in YYYY-MM-DD format."""
     status: NotRequired[Literal["ALL", "ACTIVE", "INACTIVE"]]
@@ -84,19 +108,27 @@ class FacebookAdsSearchInput(TypedDict, total=False):
 class FacebookCommentRepliesInput(TypedDict, total=False):
     """Input for Facebook Comment Replies."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
     expansionToken: Required[str]
     """The expansion_token of the comment, from the post comments endpoint."""
     feedbackId: Required[str]
     """The feedback_id of the comment (not the comment id)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class FacebookCompanyAdsInput(TypedDict, total=False):
     """Input for Facebook Company Ads."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     companyName: NotRequired[str]
     """Company name to search (e.g. "nike"). Exact-match and case-sensitive against the Meta Ad Library index; an advertiser with no indexed page returns found:false."""
     country: NotRequired[str]
@@ -105,6 +137,8 @@ class FacebookCompanyAdsInput(TypedDict, total=False):
     """Opaque pagination cursor from a previous response's nextCursor."""
     endDate: NotRequired[str]
     """Filter to ads with impressions on or before this date, in YYYY-MM-DD format."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Two-letter language code to filter ads (e.g. "EN", "ES", "FR")."""
     mediaType: NotRequired[
@@ -117,6 +151,8 @@ class FacebookCompanyAdsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sortBy: NotRequired[Literal["impressions", "recent"]]
     """Sort order: impressions (highest first, the default) or recent (most recent)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     startDate: NotRequired[str]
     """Filter to ads with impressions on or after this date, in YYYY-MM-DD format."""
     status: NotRequired[Literal["ALL", "ACTIVE", "INACTIVE"]]
@@ -126,10 +162,16 @@ class FacebookCompanyAdsInput(TypedDict, total=False):
 class FacebookEventDetailsInput(TypedDict, total=False):
     """Input for Facebook Event Details."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """The event's numeric identifier."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """The event's Facebook URL."""
 
@@ -137,10 +179,16 @@ class FacebookEventDetailsInput(TypedDict, total=False):
 class FacebookEventsInput(TypedDict, total=False):
     """Input for Facebook Events."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response to fetch the next page."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     time: NotRequired[Literal["today", "this_week", "next_week"]]
     """Timeframe filter for the returned events. Defaults to all time."""
     url: Required[str]
@@ -150,23 +198,35 @@ class FacebookEventsInput(TypedDict, total=False):
 class FacebookEventsSearchInput(TypedDict, total=False):
     """Input for Facebook Events Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The query to search events for."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class FacebookFollowersInput(TypedDict, total=False):
     """Input for Facebook Followers."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     followType: NotRequired[str]
     """Which relation to fetch: 'follower' or 'following' (e.g. follower). Default: follower."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Facebook page or profile URL to list follows for (e.g. https://www.facebook.com/nasa)."""
 
@@ -174,8 +234,12 @@ class FacebookFollowersInput(TypedDict, total=False):
 class FacebookGroupPostsInput(TypedDict, total=False):
     """Input for Facebook Group Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response to fetch the next page."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[
@@ -184,13 +248,17 @@ class FacebookGroupPostsInput(TypedDict, total=False):
         ]
     ]
     """Ordering for the returned posts (e.g. TOP_POSTS)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
-    """The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/1270525996445602/)."""
+    """The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/instantpotcommunity/)."""
 
 
 class FacebookMarketplaceInput(TypedDict, total=False):
     """Input for Facebook Marketplace."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     availability: NotRequired[Literal["available", "sold", "all"]]
     """Filter by availability: available (default), sold, or all (e.g. sold)."""
     condition: NotRequired[Literal["new", "used_like_new", "used_good", "used_fair"]]
@@ -203,6 +271,8 @@ class FacebookMarketplaceInput(TypedDict, total=False):
     """Only return listings posted within this window (e.g. last_7_days)."""
     deliveryMethod: NotRequired[Literal["all", "local_pickup", "shipping"]]
     """Only return listings offering this delivery method (e.g. shipping)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     lat: Required[str]
     """Latitude of the search location (e.g. '30.2677')."""
     lng: Required[str]
@@ -225,15 +295,23 @@ class FacebookMarketplaceInput(TypedDict, total=False):
         ]
     ]
     """Sort order for the returned listings (e.g. price_ascend)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class FacebookMarketplaceItemInput(TypedDict, total=False):
     """Input for Facebook Marketplace Item."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """Facebook Marketplace item ID."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Facebook Marketplace item URL."""
 
@@ -241,30 +319,48 @@ class FacebookMarketplaceItemInput(TypedDict, total=False):
 class FacebookMarketplaceLocationSearchInput(TypedDict, total=False):
     """Input for Facebook Marketplace Location Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Location search query (e.g. a city name)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class FacebookPageContactInput(TypedDict, total=False):
     """Input for Facebook Page Contact Info."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Locale code for the returned data (e.g. en-US). Default: en-US."""
     page: Required[str]
     """Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class FacebookPhotosInput(TypedDict, total=False):
     """Input for Facebook Page Photos."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response to fetch the next page."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """URL of the public Facebook page or profile to fetch photos from (e.g. https://www.facebook.com/Spurs)."""
 
@@ -272,8 +368,14 @@ class FacebookPhotosInput(TypedDict, total=False):
 class FacebookPostInput(TypedDict, total=False):
     """Input for Facebook Post."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full Facebook post URL."""
 
@@ -281,12 +383,18 @@ class FacebookPostInput(TypedDict, total=False):
 class FacebookPostCommentsInput(TypedDict, total=False):
     """Input for Facebook Post Comments."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
     feedbackId: NotRequired[str]
     """Facebook feedback id for the post (alternative to url)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Full Facebook post URL."""
 
@@ -294,8 +402,14 @@ class FacebookPostCommentsInput(TypedDict, total=False):
 class FacebookPostTranscriptInput(TypedDict, total=False):
     """Input for Facebook Post Transcript."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """The Facebook post or video URL."""
 
@@ -303,10 +417,16 @@ class FacebookPostTranscriptInput(TypedDict, total=False):
 class FacebookProfileInput(TypedDict, total=False):
     """Input for Facebook Profile."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: NotRequired[str]
     """Facebook page handle/username."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Full Facebook page URL."""
 
@@ -314,10 +434,16 @@ class FacebookProfileInput(TypedDict, total=False):
 class FacebookProfileEventsInput(TypedDict, total=False):
     """Input for Facebook Page Events."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """The Facebook page URL."""
 
@@ -325,12 +451,18 @@ class FacebookProfileEventsInput(TypedDict, total=False):
 class FacebookProfilePostsInput(TypedDict, total=False):
     """Input for Facebook Profile Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     pageId: NotRequired[str]
     """Facebook page id."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Full Facebook page/profile URL."""
 
@@ -338,10 +470,16 @@ class FacebookProfilePostsInput(TypedDict, total=False):
 class FacebookProfileReelsInput(TypedDict, total=False):
     """Input for Facebook Profile Reels."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full Facebook page/profile URL."""
 
@@ -349,15 +487,25 @@ class FacebookProfileReelsInput(TypedDict, total=False):
 class FacebookSearchCompaniesInput(TypedDict, total=False):
     """Input for Facebook Company Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search advertiser pages for (e.g. "nike")."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class FacebookSearchPagesInput(TypedDict, total=False):
     """Input for Facebook Page Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less. Range: 1 to 10."""
     location: NotRequired[str]
@@ -366,13 +514,19 @@ class FacebookSearchPagesInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search Facebook Pages for (e.g. 'coffee roasters')."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class FacebookSearchPostsInput(TypedDict, total=False):
     """Input for Facebook Post Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     endDate: NotRequired[str]
     """Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2024-12-31)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
     location: NotRequired[str]
@@ -381,6 +535,8 @@ class FacebookSearchPostsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword or phrase to search Facebook posts for (e.g. 'product launch')."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     startDate: NotRequired[str]
     """Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2024-01-01)."""
 
@@ -394,6 +550,13 @@ class FacebookAdDetailsData(BaseModel):
     ad_archive_id: str = Field(
         alias="adArchiveId",
         description="Ad Library archive ID (stable identity). Populated whenever the provider has data for the entity.",
+    )
+    caption: str | None = Field(
+        default=None,
+        description="Caption line of the ad creative, usually the advertiser's display domain.",
+    )
+    categories: list[str] | None = Field(
+        default=None, description="Ad Library categories the ad is filed under."
     )
     cta_text: str | None = Field(
         default=None,
@@ -411,6 +574,16 @@ class FacebookAdDetailsData(BaseModel):
     end_date: int | None = Field(
         default=None, alias="endDate", description="Run end, epoch seconds."
     )
+    is_reshared: bool | None = Field(
+        default=None,
+        alias="isReshared",
+        description="Whether the ad creative is a reshare of another post.",
+    )
+    link_description: str | None = Field(
+        default=None,
+        alias="linkDescription",
+        description="Description text shown under the ad's link.",
+    )
     link_url: str | None = Field(
         default=None,
         alias="linkUrl",
@@ -420,9 +593,24 @@ class FacebookAdDetailsData(BaseModel):
         default=None,
         description="Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.",
     )
+    page_categories: list[str] | None = Field(
+        default=None,
+        alias="pageCategories",
+        description="Categories Facebook lists the advertising page under.",
+    )
+    page_deleted: bool | None = Field(
+        default=None,
+        alias="pageDeleted",
+        description="Whether the advertising page has been deleted.",
+    )
     page_id: str = Field(
         alias="pageId",
         description="Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.",
+    )
+    page_likes: int | None = Field(
+        default=None,
+        alias="pageLikes",
+        description="Like count of the advertising page.",
     )
     page_name: str | None = Field(
         default=None,
@@ -433,6 +621,11 @@ class FacebookAdDetailsData(BaseModel):
         default=None,
         alias="pageProfilePicture",
         description="Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.",
+    )
+    page_url: str | None = Field(
+        default=None,
+        alias="pageUrl",
+        description="Canonical Facebook URL of the advertising page.",
     )
     platforms: list[str] | None = Field(
         default=None,
@@ -496,6 +689,9 @@ class FacebookAdDetailsFullData(BaseModel):
     caption: str | None = Field(
         default=None, description="Display caption, usually the destination domain."
     )
+    categories: list[str] | None = Field(
+        default=None, description="Ad Library categories the ad is filed under."
+    )
     creatives: list[FacebookAdDetailsFullCreative] | None = Field(
         default=None,
         description="One entry per creative variant of a carousel or dynamic ad, in the order Meta returns them. Single-creative ads return an empty array and carry their media in images/videos. Meta CDN media URLs are signed and expire, so fetch what you need at read time.",
@@ -524,6 +720,11 @@ class FacebookAdDetailsFullData(BaseModel):
         default=None,
         description="Standalone creative images for a single-image ad. Meta CDN media URLs are signed and expire.",
     )
+    is_reshared: bool | None = Field(
+        default=None,
+        alias="isReshared",
+        description="Whether the ad creative is a reshare of another post.",
+    )
     link_description: str | None = Field(
         default=None,
         alias="linkDescription",
@@ -531,6 +732,16 @@ class FacebookAdDetailsFullData(BaseModel):
     )
     link_url: str | None = Field(
         default=None, alias="linkUrl", description="Creative destination URL."
+    )
+    page_categories: list[str] | None = Field(
+        default=None,
+        alias="pageCategories",
+        description="Categories Facebook lists the advertising page under.",
+    )
+    page_deleted: bool | None = Field(
+        default=None,
+        alias="pageDeleted",
+        description="Whether the advertising page has been deleted.",
     )
     page_id: str = Field(
         alias="pageId",
@@ -540,6 +751,11 @@ class FacebookAdDetailsFullData(BaseModel):
         default=None,
         alias="pageImage",
         description="Advertiser page profile picture URL. Meta CDN URLs are signed and expire.",
+    )
+    page_likes: int | None = Field(
+        default=None,
+        alias="pageLikes",
+        description="Like count of the advertising page.",
     )
     page_name: str | None = Field(
         default=None,
@@ -663,6 +879,13 @@ class FacebookAdsSearchAd(BaseModel):
     ad_count: int = Field(
         alias="adCount", description="Number of ads in this campaign (collation count)."
     )
+    caption: str | None = Field(
+        default=None,
+        description="Caption line of the ad creative, usually the advertiser's display domain.",
+    )
+    categories: list[str] | None = Field(
+        default=None, description="Ad Library categories the ad is filed under."
+    )
     cta_text: str = Field(
         alias="ctaText",
         description="Populated whenever the provider has data for the entity.",
@@ -679,6 +902,16 @@ class FacebookAdsSearchAd(BaseModel):
     id: str = Field(
         description="Ad Library archive ID. Populated whenever the provider has data for the entity."
     )
+    is_reshared: bool | None = Field(
+        default=None,
+        alias="isReshared",
+        description="Whether the ad creative is a reshare of another post.",
+    )
+    link_description: str | None = Field(
+        default=None,
+        alias="linkDescription",
+        description="Description text shown under the ad's link.",
+    )
     link_url: str = Field(
         alias="linkUrl",
         description="Populated whenever the provider has data for the entity.",
@@ -687,9 +920,24 @@ class FacebookAdsSearchAd(BaseModel):
         default=None,
         description="Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.",
     )
+    page_categories: list[str] | None = Field(
+        default=None,
+        alias="pageCategories",
+        description="Categories Facebook lists the advertising page under.",
+    )
+    page_deleted: bool | None = Field(
+        default=None,
+        alias="pageDeleted",
+        description="Whether the advertising page has been deleted.",
+    )
     page_id: str = Field(
         alias="pageId",
         description="Populated whenever the provider has data for the entity.",
+    )
+    page_likes: int | None = Field(
+        default=None,
+        alias="pageLikes",
+        description="Like count of the advertising page.",
     )
     page_name: str = Field(
         alias="pageName",
@@ -699,6 +947,11 @@ class FacebookAdsSearchAd(BaseModel):
         default=None,
         alias="pageProfilePicture",
         description="Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.",
+    )
+    page_url: str | None = Field(
+        default=None,
+        alias="pageUrl",
+        description="Canonical Facebook URL of the advertising page.",
     )
     platforms: list[str] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -806,6 +1059,11 @@ class FacebookCompanyAdsData(BaseModel):
         alias="nextCursor",
         description="Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.",
     )
+    total_results: int | None = Field(
+        default=None,
+        alias="totalResults",
+        description="Total number of ads Facebook reports for the page.",
+    )
 
 
 class FacebookCompanyAdsAd(BaseModel):
@@ -814,6 +1072,23 @@ class FacebookCompanyAdsAd(BaseModel):
     active: bool
     ad_count: int = Field(
         alias="adCount", description="Number of ads in this campaign (collation count)."
+    )
+    caption: str | None = Field(
+        default=None,
+        description="Caption line of the ad creative, usually the advertiser's display domain.",
+    )
+    categories: list[str] | None = Field(
+        default=None, description="Ad Library categories the ad is filed under."
+    )
+    cta_text: str | None = Field(
+        default=None,
+        alias="ctaText",
+        description="Call-to-action button label on the ad.",
+    )
+    cta_type: str | None = Field(
+        default=None,
+        alias="ctaType",
+        description='Call-to-action button type on the ad, e.g. "SHOP_NOW".',
     )
     currency: str
     display_format: str = Field(
@@ -824,13 +1099,41 @@ class FacebookCompanyAdsAd(BaseModel):
     id: str = Field(
         description="Ad Library archive ID. Populated whenever the provider has data for the entity."
     )
+    is_reshared: bool | None = Field(
+        default=None,
+        alias="isReshared",
+        description="Whether the ad creative is a reshare of another post.",
+    )
+    link_description: str | None = Field(
+        default=None,
+        alias="linkDescription",
+        description="Description text shown under the ad's link.",
+    )
+    link_url: str | None = Field(
+        default=None, alias="linkUrl", description="Destination URL the ad links to."
+    )
     media: list[FacebookCompanyAdsMedia] | None = Field(
         default=None,
         description="Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.",
     )
+    page_categories: list[str] | None = Field(
+        default=None,
+        alias="pageCategories",
+        description="Categories Facebook lists the advertising page under.",
+    )
+    page_deleted: bool | None = Field(
+        default=None,
+        alias="pageDeleted",
+        description="Whether the advertising page has been deleted.",
+    )
     page_id: str = Field(
         alias="pageId",
         description="Populated whenever the provider has data for the entity.",
+    )
+    page_likes: int | None = Field(
+        default=None,
+        alias="pageLikes",
+        description="Like count of the advertising page.",
     )
     page_name: str = Field(
         alias="pageName",
@@ -840,6 +1143,11 @@ class FacebookCompanyAdsAd(BaseModel):
         default=None,
         alias="pageProfilePicture",
         description="Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.",
+    )
+    page_url: str | None = Field(
+        default=None,
+        alias="pageUrl",
+        description="Canonical Facebook URL of the advertising page.",
     )
     platforms: list[str] = Field(
         description="Populated whenever the provider has data for the entity."
@@ -851,6 +1159,7 @@ class FacebookCompanyAdsAd(BaseModel):
     text: str = Field(
         description="Ad body text. Populated whenever the provider has data for the entity."
     )
+    title: str | None = Field(default=None, description="Headline of the ad creative.")
 
 
 class FacebookCompanyAdsMedia(BaseModel):
@@ -878,12 +1187,40 @@ class FacebookCompanyAdsMedia(BaseModel):
 class FacebookEventDetailsData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    address: str | None = Field(
+        default=None, description="Street address of the event venue."
+    )
+    attendance_count: int | None = Field(
+        default=None,
+        alias="attendanceCount",
+        description="Number of people Facebook reports as attending.",
+    )
+    can_view_members: bool | None = Field(
+        default=None,
+        alias="canViewMembers",
+        description="Whether the event's member list is publicly viewable.",
+    )
     city: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    city_id: str | None = Field(
+        default=None,
+        alias="cityId",
+        description="Numeric Facebook id of the event's city page, as a string.",
     )
     cover_photo_url: str = Field(
         alias="coverPhotoUrl",
         description="Populated whenever the provider has data for the entity.",
+    )
+    creator_id: str | None = Field(
+        default=None,
+        alias="creatorId",
+        description="Numeric Facebook id of the event's creator, as a string.",
+    )
+    creator_name: str | None = Field(
+        default=None,
+        alias="creatorName",
+        description="Display name of the event's creator.",
     )
     day_time_sentence: str = Field(
         alias="dayTimeSentence",
@@ -892,24 +1229,101 @@ class FacebookEventDetailsData(BaseModel):
     description: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    duration: str | None = Field(
+        default=None, description='Human-readable event duration, e.g. "2 days".'
+    )
     end_time: str = Field(alias="endTime")
+    event_kind: str | None = Field(
+        default=None,
+        alias="eventKind",
+        description='Event kind Facebook reports, e.g. "PUBLIC_TYPE".',
+    )
     going_count: int = Field(alias="goingCount")
+    host_context_text: str | None = Field(
+        default=None,
+        alias="hostContextText",
+        description='Host line Facebook shows for the event, e.g. "Event by Kansas Comic Con".',
+    )
+    host_names: list[str] | None = Field(
+        default=None, alias="hostNames", description="Names of the event's hosts."
+    )
+    hosts: list[FacebookEventDetailsHost] | None = Field(
+        default=None, description="Pages or profiles hosting the event."
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     interested_count: int = Field(alias="interestedCount")
     is_canceled: bool = Field(alias="isCanceled")
     is_online: bool = Field(alias="isOnline")
+    is_past: bool | None = Field(
+        default=None,
+        alias="isPast",
+        description="Whether the event has already finished.",
+    )
+    latitude: float | None = Field(
+        default=None, description="Latitude of the event venue."
+    )
     location_name: str = Field(
         alias="locationName",
         description="Populated whenever the provider has data for the entity.",
     )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the event venue."
+    )
     name: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    place_id: str | None = Field(
+        default=None,
+        alias="placeId",
+        description="Numeric Facebook id of the event's place, as a string.",
+    )
+    privacy: str | None = Field(
+        default=None, description='Privacy setting of the event, e.g. "public".'
+    )
+    rsvp_style: str | None = Field(
+        default=None,
+        alias="rsvpStyle",
+        description='RSVP style of the event, e.g. "PUBLIC_RSVP_STYLE".',
+    )
     start_time: str = Field(alias="startTime")
+    start_time_formatted: str | None = Field(
+        default=None,
+        alias="startTimeFormatted",
+        description='Human-readable start time Facebook shows, e.g. "Sat, Oct 31 - Nov 1".',
+    )
+    start_timestamp: int | None = Field(
+        default=None,
+        alias="startTimestamp",
+        description="UTC epoch timestamp in seconds (Unix time) the event starts. Multiply by 1000 for a JS Date in milliseconds.",
+    )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookEventDetailsHost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str | None = Field(
+        default=None, description="Numeric Facebook id of the host, as a string."
+    )
+    image: str | None = Field(
+        default=None, description="Profile picture URL of the host."
+    )
+    name: str | None = Field(default=None, description="Display name of the host.")
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description='Kind of Facebook entity the host is, e.g. "User" or "Page".',
+    )
+    url: str | None = Field(
+        default=None, description="Canonical Facebook URL of the host."
+    )
+    verified: bool | None = Field(
+        default=None,
+        description="Whether the host carries a Facebook verification badge.",
     )
 
 
@@ -926,18 +1340,43 @@ class FacebookEventsData(BaseModel):
 class FacebookEventsEvent(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    cover_image: str | None = Field(
+        default=None,
+        alias="coverImage",
+        description="Cover photo image URL of the event.",
+    )
     day_time_sentence: str = Field(
         alias="dayTimeSentence",
         description="Populated whenever the provider has data for the entity.",
+    )
+    event_kind: str | None = Field(
+        default=None,
+        alias="eventKind",
+        description='Event kind Facebook reports, e.g. "PUBLIC_TYPE".',
     )
     going_count: int = Field(alias="goingCount")
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     interested_count: int = Field(alias="interestedCount")
+    is_happening_now: bool | None = Field(
+        default=None,
+        alias="isHappeningNow",
+        description="Whether the event is happening right now.",
+    )
     is_online: bool = Field(alias="isOnline")
+    is_past: bool | None = Field(
+        default=None,
+        alias="isPast",
+        description="Whether the event has already finished.",
+    )
     name: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    place_id: str | None = Field(
+        default=None,
+        alias="placeId",
+        description="Numeric Facebook id of the event's place, as a string.",
     )
     place_name: str = Field(
         alias="placeName",
@@ -973,6 +1412,11 @@ class FacebookEventsSearchEvent(BaseModel):
         alias="dayTimeSentence",
         description="Populated whenever the provider has data for the entity.",
     )
+    event_kind: str | None = Field(
+        default=None,
+        alias="eventKind",
+        description='Event kind Facebook reports, e.g. "PUBLIC_TYPE".',
+    )
     going_count: int = Field(alias="goingCount")
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -983,6 +1427,11 @@ class FacebookEventsSearchEvent(BaseModel):
     name: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    place_id: str | None = Field(
+        default=None,
+        alias="placeId",
+        description="Numeric Facebook id of the event's place, as a string.",
+    )
     place_name: str = Field(
         alias="placeName",
         description="Populated whenever the provider has data for the entity.",
@@ -991,6 +1440,11 @@ class FacebookEventsSearchEvent(BaseModel):
     start_timestamp: int = Field(
         alias="startTimestamp",
         description="Populated whenever the provider has data for the entity.",
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description='Entity type of the record, e.g. "Event".',
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -1004,7 +1458,7 @@ class FacebookFollowersData(BaseModel):
 
 
 class FacebookFollowersItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     id: str = Field(
         description="The account's numeric Facebook ID, as a string. Populated whenever the provider has data for the entity."
@@ -1015,6 +1469,11 @@ class FacebookFollowersItem(BaseModel):
     )
     name: str = Field(
         description="The account's public display name. Populated whenever the provider has data for the entity."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description='Kind of Facebook entity the record is, e.g. "User" or "Page".',
     )
     url: str = Field(
         description="Canonical URL of the account's Facebook profile, with tracking query params stripped. Populated whenever the provider has data for the entity."
@@ -1048,7 +1507,6 @@ class FacebookGroupPostsPost(BaseModel):
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    permalink: str
     publish_time: int = Field(
         alias="publishTime",
         description="Populated whenever the provider has data for the entity.",
@@ -1076,13 +1534,59 @@ class FacebookMarketplaceData(BaseModel):
 class FacebookMarketplaceListing(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    category_id: str | None = Field(
+        default=None,
+        alias="categoryId",
+        description="Numeric Facebook Marketplace category id, as a string.",
+    )
+    city: str | None = Field(
+        default=None, description="City the listing is located in."
+    )
+    city_page_id: str | None = Field(
+        default=None,
+        alias="cityPageId",
+        description="Numeric Facebook id of the city page, as a string.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the listing was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    delivery_types: list[str] | None = Field(
+        default=None,
+        alias="deliveryTypes",
+        description='Delivery options the seller offers, e.g. "IN_PERSON" or "SHIPPING".',
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    is_hidden: bool | None = Field(
+        default=None, alias="isHidden", description="Whether the listing is hidden."
+    )
+    is_live: bool | None = Field(
+        default=None,
+        alias="isLive",
+        description="Whether the listing is currently live.",
+    )
+    is_pending: bool | None = Field(
+        default=None,
+        alias="isPending",
+        description="Whether the listing is marked pending.",
+    )
     is_sold: bool = Field(alias="isSold")
+    listing_date_text: str | None = Field(
+        default=None,
+        alias="listingDateText",
+        description='Human-readable listing age Facebook shows, e.g. "Listed 2 weeks ago".',
+    )
     location_name: str = Field(
         alias="locationName",
         description="Populated whenever the provider has data for the entity.",
+    )
+    photo_id: str | None = Field(
+        default=None,
+        alias="photoId",
+        description="Numeric Facebook id of the listing's primary photo, as a string.",
     )
     photo_url: str = Field(
         alias="photoUrl",
@@ -1096,6 +1600,9 @@ class FacebookMarketplaceListing(BaseModel):
         alias="priceFormatted",
         description="Populated whenever the provider has data for the entity.",
     )
+    state: str | None = Field(
+        default=None, description="State or region the listing is located in."
+    )
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1107,6 +1614,9 @@ class FacebookMarketplaceListing(BaseModel):
 class FacebookMarketplaceItemData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    attributes: list[FacebookMarketplaceItemAttribute] | None = Field(
+        default=None, description="Item specifics Facebook publishes for the listing."
+    )
     category_id: str = Field(
         alias="categoryId",
         description="Populated whenever the provider has data for the entity.",
@@ -1118,17 +1628,59 @@ class FacebookMarketplaceItemData(BaseModel):
     currency: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    delivery_types: list[str] | None = Field(
+        default=None,
+        alias="deliveryTypes",
+        description='Delivery options the seller offers, e.g. "IN_PERSON" or "SHIPPING".',
+    )
     description: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    is_buy_now_enabled: bool | None = Field(
+        default=None,
+        alias="isBuyNowEnabled",
+        description="Whether buy-now checkout is enabled on the listing.",
+    )
+    is_hidden: bool | None = Field(
+        default=None, alias="isHidden", description="Whether the listing is hidden."
+    )
     is_live: bool = Field(alias="isLive")
+    is_pending: bool | None = Field(
+        default=None,
+        alias="isPending",
+        description="Whether the listing is marked pending.",
+    )
+    is_shipping_offered: bool | None = Field(
+        default=None,
+        alias="isShippingOffered",
+        description="Whether the seller offers shipping.",
+    )
     is_sold: bool = Field(alias="isSold")
+    latitude: float | None = Field(
+        default=None, description="Latitude of the listing's location."
+    )
+    listing_date_text: str | None = Field(
+        default=None,
+        alias="listingDateText",
+        description='Human-readable listing age Facebook shows, e.g. "Listed 4 months ago".',
+    )
     location_text: str = Field(
         alias="locationText",
         description="Populated whenever the provider has data for the entity.",
+    )
+    longitude: float | None = Field(
+        default=None, description="Longitude of the listing's location."
+    )
+    messaging_enabled: bool | None = Field(
+        default=None,
+        alias="messagingEnabled",
+        description="Whether buyers can message the seller about the listing.",
+    )
+    photos: list[FacebookMarketplaceItemPhoto] | None = Field(
+        default=None, description="Photos attached to the listing."
     )
     price_amount: float = Field(
         alias="priceAmount",
@@ -1138,12 +1690,51 @@ class FacebookMarketplaceItemData(BaseModel):
         alias="priceFormatted",
         description="Populated whenever the provider has data for the entity.",
     )
+    share_url: str | None = Field(
+        default=None,
+        alias="shareUrl",
+        description="Canonical shareable Marketplace URL of the listing.",
+    )
+    strikethrough_price_formatted: str | None = Field(
+        default=None,
+        alias="strikethroughPriceFormatted",
+        description="Previous price shown struck through, formatted for display.",
+    )
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+
+
+class FacebookMarketplaceItemAttribute(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    label: str | None = Field(
+        default=None, description='Display label for the value, e.g. "Used - Good".'
+    )
+    name: str | None = Field(
+        default=None, description='Attribute name, e.g. "Condition".'
+    )
+    value: str | None = Field(
+        default=None, description='Raw attribute value, e.g. "used_good".'
+    )
+
+
+class FacebookMarketplaceItemPhoto(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    caption: str | None = Field(
+        default=None,
+        description="Accessibility caption Facebook generated for the photo.",
+    )
+    height: int | None = Field(default=None, description="Pixel height of the photo.")
+    id: str | None = Field(
+        default=None, description="Numeric Facebook id of the photo, as a string."
+    )
+    url: str | None = Field(default=None, description="Image URL of the photo.")
+    width: int | None = Field(default=None, description="Pixel width of the photo.")
 
 
 class FacebookMarketplaceLocationSearchData(BaseModel):
@@ -1179,8 +1770,42 @@ class FacebookMarketplaceLocationSearchLocation(BaseModel):
 
 
 class FacebookPageContactData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    about: str | None = Field(default=None, description="The page's intro text.")
+    ad_status: str | None = Field(
+        default=None,
+        alias="adStatus",
+        description="Facebook Ad Library status sentence for the page.",
+    )
+    cover_photo_url: str | None = Field(
+        default=None,
+        alias="coverPhotoUrl",
+        description="Cover photo image URL of the page.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str | None = Field(
+        default=None, description="Numeric Facebook id of the page, as a string."
+    )
     items: list[FacebookPageContactItem] = Field(
         description="Contact record for the requested Facebook Page (one item). Populated whenever the provider has data for the entity."
+    )
+    price_range: str | None = Field(
+        default=None,
+        alias="priceRange",
+        description='Price range the page advertises, e.g. "$$".',
+    )
+    rating: str | None = Field(
+        default=None,
+        description='Recommendation summary Facebook shows for the page, e.g. "94% recommend (14,553 reviews)".',
+    )
+    services: str | None = Field(
+        default=None,
+        description="Services the page lists, e.g. dine-in or online booking.",
     )
 
 
@@ -1263,16 +1888,52 @@ class FacebookPhotosPhoto(BaseModel):
 
 
 class FacebookPostData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Numeric Facebook id of the page or profile that posted.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Profile picture URL of the page or profile that posted.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the page or profile that posted.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the posting page or profile carries a Facebook verification badge.",
+    )
     comments: int
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Length of the post's video in seconds, 0 when the post carries no video.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None, description="Preview image or video thumbnail URL for the post."
     )
     likes: int
     shares: int
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    url: str | None = Field(
+        default=None, description="Canonical Facebook URL of the post."
     )
     views: int
 
@@ -1282,6 +1943,11 @@ class FacebookPostCommentsData(BaseModel):
 
     comments: list[FacebookPostCommentsComment] = Field(
         description="Comments on the post. Populated whenever the provider has data for the entity."
+    )
+    has_next_page: bool | None = Field(
+        default=None,
+        alias="hasNextPage",
+        description="Whether more comments are available after this page.",
     )
     next_cursor: str | None = Field(
         alias="nextCursor",
@@ -1295,9 +1961,29 @@ class FacebookPostCommentsComment(BaseModel):
     author: str = Field(
         description="Display name of the comment author. Populated whenever the provider has data for the entity."
     )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Facebook id of the commenter, as a string.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Profile picture URL of the commenter.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    expansion_token: str | None = Field(
+        default=None,
+        alias="expansionToken",
+        description="Facebook expansion token for paging the comment's replies.",
+    )
+    feedback_id: str | None = Field(
+        default=None,
+        alias="feedbackId",
+        description="Facebook feedback id of the comment, used to fetch its replies.",
     )
     id: str = Field(
         description="Comment identifier. Populated whenever the provider has data for the entity."
@@ -1310,8 +1996,13 @@ class FacebookPostCommentsComment(BaseModel):
 
 
 class FacebookPostTranscriptData(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    post_id: str | None = Field(
+        default=None,
+        alias="postId",
+        description="Numeric Facebook id of the transcribed post, as a string.",
+    )
     transcript: str
 
 
@@ -1326,11 +2017,41 @@ class FacebookProfileData(BaseModel):
     category: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    cover_photo_url: str | None = Field(
+        default=None,
+        alias="coverPhotoUrl",
+        description="Cover photo image URL of the page or profile.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
     followers: int
+    id: str | None = Field(
+        default=None, description="Numeric Facebook id of the page or profile."
+    )
     likes: int
     name: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    page_active: bool | None = Field(
+        default=None,
+        alias="pageActive",
+        description="Whether the page is an active business page.",
+    )
+    phone: str | None = Field(
+        default=None, description="Public phone number listed on the page."
+    )
+    talking_about_count: int | None = Field(
+        default=None,
+        alias="talkingAboutCount",
+        description="Number of people talking about the page.",
+    )
+    url: str | None = Field(
+        default=None, description="Canonical Facebook URL of the page or profile."
+    )
+    website: str | None = Field(default=None, description="Website listed on the page.")
 
 
 class FacebookProfileEventsData(BaseModel):
@@ -1390,12 +2111,24 @@ class FacebookProfilePostsPost(BaseModel):
     author: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Numeric Facebook id of the page or profile that posted, as a string.",
+    )
+    comments: int | None = Field(default=None, description="Comment count on the post.")
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None, description="Preview image or video thumbnail URL for the post."
+    )
+    likes: int | None = Field(
+        default=None, description="Total reaction count on the post."
     )
     media: list[FacebookProfilePostsMedia] | None = Field(
         default=None,
@@ -1440,12 +2173,42 @@ class FacebookProfileReelsData(BaseModel):
 class FacebookProfileReelsReel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Numeric Facebook id of the page or profile that posted the reel, as a string.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Profile picture URL of the page or profile that posted the reel.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the page or profile that posted the reel.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the posting page or profile carries a Facebook verification badge.",
+    )
     caption: str = Field(
         description="Reel caption text. Populated whenever the provider has data for the entity."
     )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Length of the reel in seconds.",
+    )
+    feedback_id: str | None = Field(
+        default=None,
+        alias="feedbackId",
+        description="Facebook feedback id of the reel, used to fetch its comments.",
     )
     id: str = Field(
         description="Reel identifier. Populated whenever the provider has data for the entity."
@@ -1482,6 +2245,11 @@ class FacebookSearchCompaniesCompanie(BaseModel):
         alias="igUsername",
         description="Populated whenever the provider has data for the entity.",
     )
+    ig_verified: bool | None = Field(
+        default=None,
+        alias="igVerified",
+        description="Whether the page's linked Instagram account is verified.",
+    )
     image_url: str = Field(
         alias="imageUrl",
         description="Populated whenever the provider has data for the entity.",
@@ -1493,6 +2261,11 @@ class FacebookSearchCompaniesCompanie(BaseModel):
     page_alias: str = Field(
         alias="pageAlias",
         description="Populated whenever the provider has data for the entity.",
+    )
+    page_deleted: bool | None = Field(
+        default=None,
+        alias="pageDeleted",
+        description="Whether the Facebook Page has been deleted.",
     )
     page_id: str = Field(
         alias="pageId",
@@ -1510,11 +2283,30 @@ class FacebookSearchPagesData(BaseModel):
 
 
 class FacebookSearchPagesItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    about: str | None = Field(default=None, description="The page's intro text.")
+    ad_status: str | None = Field(
+        default=None,
+        alias="adStatus",
+        description="Facebook Ad Library status sentence for the page, e.g. whether it is currently running ads.",
+    )
+    categories: list[str] | None = Field(
+        default=None, description="Categories Facebook lists the page under."
+    )
     category: str | None = Field(
         default=None,
         description='The page\'s primary category (e.g. "Sportswear Store"). Empty when the upstream omits it.',
+    )
+    cover_photo_url: str | None = Field(
+        default=None,
+        alias="coverPhotoUrl",
+        description="Cover photo image URL of the page.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.",
     )
     followers: int | None = Field(
         default=None, description="The page's follower count."
@@ -1527,6 +2319,15 @@ class FacebookSearchPagesItem(BaseModel):
         description="URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
     )
     likes: int | None = Field(default=None, description="The page's like count.")
+    owner: str | None = Field(
+        default=None,
+        description="Confirmed owner of the page, when Facebook publishes one.",
+    )
+    page_alias: str | None = Field(
+        default=None,
+        alias="pageAlias",
+        description='The page\'s vanity URL alias, e.g. "nikesportswear".',
+    )
     phone: str | None = Field(
         default=None,
         description="The page's public phone number. Empty when the upstream omits it.",
@@ -1544,8 +2345,54 @@ class FacebookSearchPagesItem(BaseModel):
 
 
 class FacebookSearchPostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    album_preview: list[FacebookSearchPostsAlbumPreview] | None = Field(
+        default=None,
+        alias="albumPreview",
+        description="Preview of the photos attached to the post.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="Numeric Facebook id of the page or profile that posted, as a string.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Profile picture URL of the page or profile that posted.",
+    )
+    images_count: int | None = Field(
+        default=None,
+        alias="imagesCount",
+        description="Number of images attached to the post.",
+    )
     items: list[FacebookSearchPostsItem] = Field(
         description="Matching public Facebook post records for the query. Populated whenever the provider has data for the entity."
+    )
+    reactions: FacebookSearchPostsReaction | None = Field(
+        default=None,
+        description="Reaction counts on the post, broken down by reaction type.",
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description='Kind of record Facebook returned, e.g. "post".',
+    )
+
+
+class FacebookSearchPostsAlbumPreview(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str | None = Field(
+        default=None, description="Numeric Facebook id of the photo, as a string."
+    )
+    image: str | None = Field(default=None, description="Image URL of the photo.")
+    type_: str | None = Field(
+        default=None, alias="type", description='Kind of attachment, e.g. "photo".'
+    )
+    url: str | None = Field(
+        default=None, description="Canonical Facebook URL of the photo."
     )
 
 
@@ -1596,6 +2443,18 @@ class FacebookSearchPostsItem(BaseModel):
     )
 
 
+class FacebookSearchPostsReaction(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    angry: int | None = Field(default=None, description="Angry reactions.")
+    care: int | None = Field(default=None, description="Care reactions.")
+    haha: int | None = Field(default=None, description="Haha reactions.")
+    like: int | None = Field(default=None, description="Like reactions.")
+    love: int | None = Field(default=None, description="Love reactions.")
+    sad: int | None = Field(default=None, description="Sad reactions.")
+    wow: int | None = Field(default=None, description="Wow reactions.")
+
+
 class FacebookNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
@@ -1616,7 +2475,7 @@ class FacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.ad_details(id="1249043200627555")
+            res = client.facebook.ad_details(id="962050096457659")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details", dict(input), options
@@ -1637,7 +2496,7 @@ class FacebookNamespace:
         Price: $0.00462 per request plus $0 per result (maximum $0.00462).
 
         Example:
-            res = client.facebook.ad_details_full(id="1519158199783790")
+            res = client.facebook.ad_details_full(id="962050096457659")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details_full", dict(input), options
@@ -1941,7 +2800,7 @@ class FacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.group_posts(url="https://www.facebook.com/groups/1270525996445602/")
+            res = client.facebook.group_posts(url="https://www.facebook.com/groups/instantpotcommunity/")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.group_posts", dict(input), options
@@ -2424,7 +3283,7 @@ class AsyncFacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.ad_details(id="1249043200627555")
+            res = client.facebook.ad_details(id="962050096457659")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details", dict(input), options
@@ -2445,7 +3304,7 @@ class AsyncFacebookNamespace:
         Price: $0.00462 per request plus $0 per result (maximum $0.00462).
 
         Example:
-            res = client.facebook.ad_details_full(id="1519158199783790")
+            res = client.facebook.ad_details_full(id="962050096457659")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_details_full", dict(input), options
@@ -2749,7 +3608,7 @@ class AsyncFacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.group_posts(url="https://www.facebook.com/groups/1270525996445602/")
+            res = client.facebook.group_posts(url="https://www.facebook.com/groups/instantpotcommunity/")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.group_posts", dict(input), options

@@ -13,14 +13,27 @@ import { paginate } from "../../core/index.js";
  */
 export interface FacebookAdDetailsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Meta Ad Library ad ID (e.g. "702369045530963"). Provide either id or url.
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=1185617869915074"). Provide either id or url.
    */
@@ -66,6 +79,14 @@ export interface FacebookAdDetailsData {
    */
   adArchiveId: string;
   /**
+   * Caption line of the ad creative, usually the advertiser's display domain.
+   */
+  caption?: string;
+  /**
+   * Ad Library categories the ad is filed under.
+   */
+  categories?: string[];
+  /**
    * Call-to-action label. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -84,6 +105,14 @@ export interface FacebookAdDetailsData {
    */
   endDate?: number | null;
   /**
+   * Whether the ad creative is a reshare of another post.
+   */
+  isReshared?: boolean;
+  /**
+   * Description text shown under the ad's link.
+   */
+  linkDescription?: string;
+  /**
    * Creative destination URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -93,9 +122,21 @@ export interface FacebookAdDetailsData {
    */
   media?: FacebookAdDetailsMedia[];
   /**
+   * Categories Facebook lists the advertising page under.
+   */
+  pageCategories?: string[];
+  /**
+   * Whether the advertising page has been deleted.
+   */
+  pageDeleted?: boolean;
+  /**
    * Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.
    */
   pageId: string;
+  /**
+   * Like count of the advertising page.
+   */
+  pageLikes?: number;
   /**
    * Advertiser page name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -106,6 +147,10 @@ export interface FacebookAdDetailsData {
    * Format: uri.
    */
   pageProfilePicture?: string;
+  /**
+   * Canonical Facebook URL of the advertising page.
+   */
+  pageUrl?: string;
   /**
    * Publisher platforms the ad runs on. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -139,14 +184,27 @@ export interface FacebookAdDetailsData {
  */
 export interface FacebookAdDetailsFullInput {
   /**
-   * Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "1519158199783790" from https://www.facebook.com/ads/library/?id=1519158199783790).
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Meta Ad Library ad ID - the numeric id in an Ad Library URL (e.g. "962050096457659" from https://www.facebook.com/ads/library/?id=962050096457659).
    */
   id: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface FacebookAdDetailsFullCreative {
@@ -243,6 +301,10 @@ export interface FacebookAdDetailsFullData {
    */
   caption?: string;
   /**
+   * Ad Library categories the ad is filed under.
+   */
+  categories?: string[];
+  /**
    * One entry per creative variant of a carousel or dynamic ad, in the order Meta returns them. Single-creative ads return an empty array and carry their media in images/videos. Meta CDN media URLs are signed and expire, so fetch what you need at read time.
    */
   creatives?: FacebookAdDetailsFullCreative[];
@@ -268,6 +330,10 @@ export interface FacebookAdDetailsFullData {
    */
   images?: FacebookAdDetailsFullImage[];
   /**
+   * Whether the ad creative is a reshare of another post.
+   */
+  isReshared?: boolean;
+  /**
    * Secondary link description line.
    */
   linkDescription?: string;
@@ -276,6 +342,14 @@ export interface FacebookAdDetailsFullData {
    */
   linkUrl?: string;
   /**
+   * Categories Facebook lists the advertising page under.
+   */
+  pageCategories?: string[];
+  /**
+   * Whether the advertising page has been deleted.
+   */
+  pageDeleted?: boolean;
+  /**
    * Advertiser page ID (stable identity). Populated whenever the provider has data for the entity.
    */
   pageId: string;
@@ -283,6 +357,10 @@ export interface FacebookAdDetailsFullData {
    * Advertiser page profile picture URL. Meta CDN URLs are signed and expire.
    */
   pageImage?: string;
+  /**
+   * Like count of the advertising page.
+   */
+  pageLikes?: number;
   /**
    * Advertiser page name. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -321,14 +399,27 @@ export interface FacebookAdDetailsFullData {
  */
 export interface FacebookAdTranscriptInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Meta Ad Library ad ID (e.g. "1020359190509080"). Provide either id or url.
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=1020359190509080"). Provide either id or url.
    */
@@ -365,6 +456,11 @@ export interface FacebookAdsSearchInput {
    */
   adType?: "all" | "political_and_issue_ads";
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Two-letter country code to scope results. Omit for all countries.
    */
   country?: string;
@@ -376,6 +472,10 @@ export interface FacebookAdsSearchInput {
    * Filter to ads with impressions on or before this date, in YYYY-MM-DD format.
    */
   endDate?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Creative media type filter.
    * One of: ALL, IMAGE, VIDEO, MEME, IMAGE_AND_MEME, NONE.
@@ -401,6 +501,10 @@ export interface FacebookAdsSearchInput {
    */
   sortBy?: "impressions" | "recent";
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Filter to ads with impressions on or after this date, in YYYY-MM-DD format.
    */
   startDate?: string;
@@ -418,6 +522,14 @@ export interface FacebookAdsSearchAd {
    * Number of ads in this campaign (collation count).
    */
   adCount: number;
+  /**
+   * Caption line of the ad creative, usually the advertiser's display domain.
+   */
+  caption?: string;
+  /**
+   * Ad Library categories the ad is filed under.
+   */
+  categories?: string[];
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -439,6 +551,14 @@ export interface FacebookAdsSearchAd {
    */
   id: string;
   /**
+   * Whether the ad creative is a reshare of another post.
+   */
+  isReshared?: boolean;
+  /**
+   * Description text shown under the ad's link.
+   */
+  linkDescription?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   linkUrl: string;
@@ -447,9 +567,21 @@ export interface FacebookAdsSearchAd {
    */
   media?: FacebookAdsSearchMedia[];
   /**
+   * Categories Facebook lists the advertising page under.
+   */
+  pageCategories?: string[];
+  /**
+   * Whether the advertising page has been deleted.
+   */
+  pageDeleted?: boolean;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   pageId: string;
+  /**
+   * Like count of the advertising page.
+   */
+  pageLikes?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -459,6 +591,10 @@ export interface FacebookAdsSearchAd {
    * Format: uri.
    */
   pageProfilePicture?: string;
+  /**
+   * Canonical Facebook URL of the advertising page.
+   */
+  pageUrl?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -526,6 +662,11 @@ export interface FacebookAdsSearchData {
  */
 export interface FacebookCommentRepliesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
@@ -538,10 +679,18 @@ export interface FacebookCommentRepliesInput {
    */
   feedbackId: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface FacebookCommentRepliesReplie {
@@ -611,6 +760,11 @@ export interface FacebookCommentRepliesData {
  */
 export interface FacebookCompanyAdsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Company name to search (e.g. "nike"). Exact-match and case-sensitive against the Meta Ad Library index; an advertiser with no indexed page returns found:false.
    */
   companyName?: string;
@@ -626,6 +780,10 @@ export interface FacebookCompanyAdsInput {
    * Filter to ads with impressions on or before this date, in YYYY-MM-DD format.
    */
   endDate?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Two-letter language code to filter ads (e.g. "EN", "ES", "FR").
    */
@@ -650,6 +808,10 @@ export interface FacebookCompanyAdsInput {
    */
   sortBy?: "impressions" | "recent";
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Filter to ads with impressions on or after this date, in YYYY-MM-DD format.
    */
   startDate?: string;
@@ -666,6 +828,22 @@ export interface FacebookCompanyAdsAd {
    * Number of ads in this campaign (collation count).
    */
   adCount: number;
+  /**
+   * Caption line of the ad creative, usually the advertiser's display domain.
+   */
+  caption?: string;
+  /**
+   * Ad Library categories the ad is filed under.
+   */
+  categories?: string[];
+  /**
+   * Call-to-action button label on the ad.
+   */
+  ctaText?: string;
+  /**
+   * Call-to-action button type on the ad, e.g. "SHOP_NOW".
+   */
+  ctaType?: string;
   currency: string;
   /**
    * Populated whenever the provider has data for the entity.
@@ -680,13 +858,37 @@ export interface FacebookCompanyAdsAd {
    */
   id: string;
   /**
+   * Whether the ad creative is a reshare of another post.
+   */
+  isReshared?: boolean;
+  /**
+   * Description text shown under the ad's link.
+   */
+  linkDescription?: string;
+  /**
+   * Destination URL the ad links to.
+   */
+  linkUrl?: string;
+  /**
    * Creative attached to the ad: one element per image, video, or carousel card, in the order the ad presents them. Empty when the ad has none.
    */
   media?: FacebookCompanyAdsMedia[];
   /**
+   * Categories Facebook lists the advertising page under.
+   */
+  pageCategories?: string[];
+  /**
+   * Whether the advertising page has been deleted.
+   */
+  pageDeleted?: boolean;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   pageId: string;
+  /**
+   * Like count of the advertising page.
+   */
+  pageLikes?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -696,6 +898,10 @@ export interface FacebookCompanyAdsAd {
    * Format: uri.
    */
   pageProfilePicture?: string;
+  /**
+   * Canonical Facebook URL of the advertising page.
+   */
+  pageUrl?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -708,6 +914,10 @@ export interface FacebookCompanyAdsAd {
    * Ad body text. Populated whenever the provider has data for the entity.
    */
   text: string;
+  /**
+   * Headline of the ad creative.
+   */
+  title?: string;
   [extra: string]: unknown;
 }
 
@@ -746,6 +956,10 @@ export interface FacebookCompanyAdsData {
    * Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor: string | null;
+  /**
+   * Total number of ads Facebook reports for the page.
+   */
+  totalResults?: number;
 }
 
 /**
@@ -753,18 +967,59 @@ export interface FacebookCompanyAdsData {
  */
 export interface FacebookEventDetailsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * The event's numeric identifier.
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * The event's Facebook URL.
    */
   url?: string;
+}
+
+export interface FacebookEventDetailsHost {
+  /**
+   * Numeric Facebook id of the host, as a string.
+   */
+  id?: string;
+  /**
+   * Profile picture URL of the host.
+   */
+  image?: string;
+  /**
+   * Display name of the host.
+   */
+  name?: string;
+  /**
+   * Kind of Facebook entity the host is, e.g. "User" or "Page".
+   */
+  type?: string;
+  /**
+   * Canonical Facebook URL of the host.
+   */
+  url?: string;
+  /**
+   * Whether the host carries a Facebook verification badge.
+   */
+  verified?: boolean;
+  [extra: string]: unknown;
 }
 
 /**
@@ -772,13 +1027,37 @@ export interface FacebookEventDetailsInput {
  */
 export interface FacebookEventDetailsData {
   /**
+   * Street address of the event venue.
+   */
+  address?: string;
+  /**
+   * Number of people Facebook reports as attending.
+   */
+  attendanceCount?: number;
+  /**
+   * Whether the event's member list is publicly viewable.
+   */
+  canViewMembers?: boolean;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   city: string;
   /**
+   * Numeric Facebook id of the event's city page, as a string.
+   */
+  cityId?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   coverPhotoUrl: string;
+  /**
+   * Numeric Facebook id of the event's creator, as a string.
+   */
+  creatorId?: string;
+  /**
+   * Display name of the event's creator.
+   */
+  creatorName?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -787,8 +1066,28 @@ export interface FacebookEventDetailsData {
    * Populated whenever the provider has data for the entity.
    */
   description: string;
+  /**
+   * Human-readable event duration, e.g. "2 days".
+   */
+  duration?: string;
   endTime: string;
+  /**
+   * Event kind Facebook reports, e.g. "PUBLIC_TYPE".
+   */
+  eventKind?: string;
   goingCount: number;
+  /**
+   * Host line Facebook shows for the event, e.g. "Event by Kansas Comic Con".
+   */
+  hostContextText?: string;
+  /**
+   * Names of the event's hosts.
+   */
+  hostNames?: string[];
+  /**
+   * Pages or profiles hosting the event.
+   */
+  hosts?: FacebookEventDetailsHost[];
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -797,14 +1096,46 @@ export interface FacebookEventDetailsData {
   isCanceled: boolean;
   isOnline: boolean;
   /**
+   * Whether the event has already finished.
+   */
+  isPast?: boolean;
+  /**
+   * Latitude of the event venue.
+   */
+  latitude?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   locationName: string;
   /**
+   * Longitude of the event venue.
+   */
+  longitude?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   name: string;
+  /**
+   * Numeric Facebook id of the event's place, as a string.
+   */
+  placeId?: string;
+  /**
+   * Privacy setting of the event, e.g. "public".
+   */
+  privacy?: string;
+  /**
+   * RSVP style of the event, e.g. "PUBLIC_RSVP_STYLE".
+   */
+  rsvpStyle?: string;
   startTime: string;
+  /**
+   * Human-readable start time Facebook shows, e.g. "Sat, Oct 31 - Nov 1".
+   */
+  startTimeFormatted?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the event starts. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  startTimestamp?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -817,14 +1148,27 @@ export interface FacebookEventDetailsData {
  */
 export interface FacebookEventsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response to fetch the next page.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Timeframe filter for the returned events. Defaults to all time.
    * One of: today, this_week, next_week.
@@ -838,20 +1182,40 @@ export interface FacebookEventsInput {
 
 export interface FacebookEventsEvent {
   /**
+   * Cover photo image URL of the event.
+   */
+  coverImage?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   dayTimeSentence: string;
+  /**
+   * Event kind Facebook reports, e.g. "PUBLIC_TYPE".
+   */
+  eventKind?: string;
   goingCount: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
   interestedCount: number;
+  /**
+   * Whether the event is happening right now.
+   */
+  isHappeningNow?: boolean;
   isOnline: boolean;
+  /**
+   * Whether the event has already finished.
+   */
+  isPast?: boolean;
   /**
    * Populated whenever the provider has data for the entity.
    */
   name: string;
+  /**
+   * Numeric Facebook id of the event's place, as a string.
+   */
+  placeId?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -883,9 +1247,18 @@ export interface FacebookEventsData {
  */
 export interface FacebookEventsSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -895,6 +1268,10 @@ export interface FacebookEventsSearchInput {
    * The query to search events for.
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface FacebookEventsSearchEvent {
@@ -906,6 +1283,10 @@ export interface FacebookEventsSearchEvent {
    * Populated whenever the provider has data for the entity.
    */
   dayTimeSentence: string;
+  /**
+   * Event kind Facebook reports, e.g. "PUBLIC_TYPE".
+   */
+  eventKind?: string;
   goingCount: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -919,6 +1300,10 @@ export interface FacebookEventsSearchEvent {
    */
   name: string;
   /**
+   * Numeric Facebook id of the event's place, as a string.
+   */
+  placeId?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   placeName: string;
@@ -927,6 +1312,10 @@ export interface FacebookEventsSearchEvent {
    * Populated whenever the provider has data for the entity.
    */
   startTimestamp: number;
+  /**
+   * Entity type of the record, e.g. "Event".
+   */
+  type?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -950,10 +1339,19 @@ export interface FacebookEventsSearchData {
  */
 export interface FacebookFollowersInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Which relation to fetch: 'follower' or 'following' (e.g. follower).
    * Default: follower.
    */
   followType?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
@@ -964,6 +1362,10 @@ export interface FacebookFollowersInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Facebook page or profile URL to list follows for (e.g. https://www.facebook.com/nasa).
    */
@@ -983,6 +1385,10 @@ export interface FacebookFollowersItem {
    * The account's public display name. Populated whenever the provider has data for the entity.
    */
   name: string;
+  /**
+   * Kind of Facebook entity the record is, e.g. "User" or "Page".
+   */
+  type?: string;
   /**
    * Canonical URL of the account's Facebook profile, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
@@ -1005,9 +1411,18 @@ export interface FacebookFollowersData {
  */
 export interface FacebookGroupPostsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response to fetch the next page.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -1023,7 +1438,11 @@ export interface FacebookGroupPostsInput {
     | "CHRONOLOGICAL"
     | "CHRONOLOGICAL_LISTINGS";
   /**
-   * The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/1270525996445602/).
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/instantpotcommunity/).
    */
   url: string;
 }
@@ -1042,7 +1461,6 @@ export interface FacebookGroupPostsPost {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
-  permalink: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1078,6 +1496,11 @@ export interface FacebookGroupPostsData {
  */
 export interface FacebookMarketplaceInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Filter by availability: available (default), sold, or all (e.g. sold).
    * One of: available, sold, all.
    */
@@ -1101,6 +1524,10 @@ export interface FacebookMarketplaceInput {
    * One of: all, local_pickup, shipping.
    */
   deliveryMethod?: "all" | "local_pickup" | "shipping";
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Latitude of the search location (e.g. '30.2677').
    */
@@ -1138,18 +1565,62 @@ export interface FacebookMarketplaceInput {
     | "creation_time_descend"
     | "price_ascend"
     | "price_descend";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface FacebookMarketplaceListing {
   /**
+   * Numeric Facebook Marketplace category id, as a string.
+   */
+  categoryId?: string;
+  /**
+   * City the listing is located in.
+   */
+  city?: string;
+  /**
+   * Numeric Facebook id of the city page, as a string.
+   */
+  cityPageId?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the listing was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Delivery options the seller offers, e.g. "IN_PERSON" or "SHIPPING".
+   */
+  deliveryTypes?: string[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Whether the listing is hidden.
+   */
+  isHidden?: boolean;
+  /**
+   * Whether the listing is currently live.
+   */
+  isLive?: boolean;
+  /**
+   * Whether the listing is marked pending.
+   */
+  isPending?: boolean;
   isSold: boolean;
+  /**
+   * Human-readable listing age Facebook shows, e.g. "Listed 2 weeks ago".
+   */
+  listingDateText?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   locationName: string;
+  /**
+   * Numeric Facebook id of the listing's primary photo, as a string.
+   */
+  photoId?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1162,6 +1633,10 @@ export interface FacebookMarketplaceListing {
    * Populated whenever the provider has data for the entity.
    */
   priceFormatted: string;
+  /**
+   * State or region the listing is located in.
+   */
+  state?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1190,24 +1665,81 @@ export interface FacebookMarketplaceData {
  */
 export interface FacebookMarketplaceItemInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Facebook Marketplace item ID.
    */
   id?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Facebook Marketplace item URL.
    */
   url?: string;
+}
+
+export interface FacebookMarketplaceItemAttribute {
+  /**
+   * Display label for the value, e.g. "Used - Good".
+   */
+  label?: string;
+  /**
+   * Attribute name, e.g. "Condition".
+   */
+  name?: string;
+  /**
+   * Raw attribute value, e.g. "used_good".
+   */
+  value?: string;
+  [extra: string]: unknown;
+}
+
+export interface FacebookMarketplaceItemPhoto {
+  /**
+   * Accessibility caption Facebook generated for the photo.
+   */
+  caption?: string;
+  /**
+   * Pixel height of the photo.
+   */
+  height?: number;
+  /**
+   * Numeric Facebook id of the photo, as a string.
+   */
+  id?: string;
+  /**
+   * Image URL of the photo.
+   */
+  url?: string;
+  /**
+   * Pixel width of the photo.
+   */
+  width?: number;
+  [extra: string]: unknown;
 }
 
 /**
  * The `data` payload of Facebook Marketplace Item (facebook.marketplace_item).
  */
 export interface FacebookMarketplaceItemData {
+  /**
+   * Item specifics Facebook publishes for the listing.
+   */
+  attributes?: FacebookMarketplaceItemAttribute[];
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1221,6 +1753,10 @@ export interface FacebookMarketplaceItemData {
    */
   currency: string;
   /**
+   * Delivery options the seller offers, e.g. "IN_PERSON" or "SHIPPING".
+   */
+  deliveryTypes?: string[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   description: string;
@@ -1228,12 +1764,48 @@ export interface FacebookMarketplaceItemData {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Whether buy-now checkout is enabled on the listing.
+   */
+  isBuyNowEnabled?: boolean;
+  /**
+   * Whether the listing is hidden.
+   */
+  isHidden?: boolean;
   isLive: boolean;
+  /**
+   * Whether the listing is marked pending.
+   */
+  isPending?: boolean;
+  /**
+   * Whether the seller offers shipping.
+   */
+  isShippingOffered?: boolean;
   isSold: boolean;
+  /**
+   * Latitude of the listing's location.
+   */
+  latitude?: number;
+  /**
+   * Human-readable listing age Facebook shows, e.g. "Listed 4 months ago".
+   */
+  listingDateText?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   locationText: string;
+  /**
+   * Longitude of the listing's location.
+   */
+  longitude?: number;
+  /**
+   * Whether buyers can message the seller about the listing.
+   */
+  messagingEnabled?: boolean;
+  /**
+   * Photos attached to the listing.
+   */
+  photos?: FacebookMarketplaceItemPhoto[];
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1242,6 +1814,14 @@ export interface FacebookMarketplaceItemData {
    * Populated whenever the provider has data for the entity.
    */
   priceFormatted: string;
+  /**
+   * Canonical shareable Marketplace URL of the listing.
+   */
+  shareUrl?: string;
+  /**
+   * Previous price shown struck through, formatted for display.
+   */
+  strikethroughPriceFormatted?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1258,6 +1838,15 @@ export interface FacebookMarketplaceItemData {
  */
 export interface FacebookMarketplaceLocationSearchInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -1266,6 +1855,10 @@ export interface FacebookMarketplaceLocationSearchInput {
    * Location search query (e.g. a city name).
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface FacebookMarketplaceLocationSearchLocation {
@@ -1312,6 +1905,15 @@ export interface FacebookMarketplaceLocationSearchData {
  */
 export interface FacebookPageContactInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Locale code for the returned data (e.g. en-US).
    * Default: en-US.
    */
@@ -1325,6 +1927,10 @@ export interface FacebookPageContactInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface FacebookPageContactItem {
@@ -1373,9 +1979,41 @@ export interface FacebookPageContactItem {
  */
 export interface FacebookPageContactData {
   /**
+   * The page's intro text.
+   */
+  about?: string;
+  /**
+   * Facebook Ad Library status sentence for the page.
+   */
+  adStatus?: string;
+  /**
+   * Cover photo image URL of the page.
+   */
+  coverPhotoUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Numeric Facebook id of the page, as a string.
+   */
+  id?: string;
+  /**
    * Contact record for the requested Facebook Page (one item). Populated whenever the provider has data for the entity.
    */
   items: FacebookPageContactItem[];
+  /**
+   * Price range the page advertises, e.g. "$$".
+   */
+  priceRange?: string;
+  /**
+   * Recommendation summary Facebook shows for the page, e.g. "94% recommend (14,553 reviews)".
+   */
+  rating?: string;
+  /**
+   * Services the page lists, e.g. dine-in or online booking.
+   */
+  services?: string;
 }
 
 /**
@@ -1383,14 +2021,27 @@ export interface FacebookPageContactData {
  */
 export interface FacebookPhotosInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response to fetch the next page.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * URL of the public Facebook page or profile to fetch photos from (e.g. https://www.facebook.com/Spurs).
    */
@@ -1447,10 +2098,23 @@ export interface FacebookPhotosData {
  */
 export interface FacebookPostInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full Facebook post URL.
    */
@@ -1461,17 +2125,49 @@ export interface FacebookPostInput {
  * The `data` payload of Facebook Post (facebook.post).
  */
 export interface FacebookPostData {
+  /**
+   * Numeric Facebook id of the page or profile that posted.
+   */
+  authorId?: string;
+  /**
+   * Profile picture URL of the page or profile that posted.
+   */
+  authorImage?: string;
+  /**
+   * Display name of the page or profile that posted.
+   */
+  authorName?: string;
+  /**
+   * Whether the posting page or profile carries a Facebook verification badge.
+   */
+  authorVerified?: boolean;
   comments: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Length of the post's video in seconds, 0 when the post carries no video.
+   */
+  durationSeconds?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Preview image or video thumbnail URL for the post.
+   */
+  image?: string;
   likes: number;
   shares: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   text: string;
+  /**
+   * Canonical Facebook URL of the post.
+   */
+  url?: string;
   views: number;
   [extra: string]: unknown;
 }
@@ -1481,6 +2177,11 @@ export interface FacebookPostData {
  */
 export interface FacebookPostCommentsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response's nextCursor.
    */
   cursor?: string;
@@ -1489,10 +2190,18 @@ export interface FacebookPostCommentsInput {
    */
   feedbackId?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full Facebook post URL.
    */
@@ -1505,9 +2214,25 @@ export interface FacebookPostCommentsComment {
    */
   author: string;
   /**
+   * Facebook id of the commenter, as a string.
+   */
+  authorId?: string;
+  /**
+   * Profile picture URL of the commenter.
+   */
+  authorImage?: string;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * Facebook expansion token for paging the comment's replies.
+   */
+  expansionToken?: string;
+  /**
+   * Facebook feedback id of the comment, used to fetch its replies.
+   */
+  feedbackId?: string;
   /**
    * Comment identifier. Populated whenever the provider has data for the entity.
    */
@@ -1536,6 +2261,10 @@ export interface FacebookPostCommentsData {
    */
   comments: FacebookPostCommentsComment[];
   /**
+   * Whether more comments are available after this page.
+   */
+  hasNextPage?: boolean;
+  /**
    * Opaque cursor for the next page of comments, or null when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor: string | null;
@@ -1546,10 +2275,23 @@ export interface FacebookPostCommentsData {
  */
 export interface FacebookPostTranscriptInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * The Facebook post or video URL.
    */
@@ -1560,6 +2302,10 @@ export interface FacebookPostTranscriptInput {
  * The `data` payload of Facebook Post Transcript (facebook.post_transcript).
  */
 export interface FacebookPostTranscriptData {
+  /**
+   * Numeric Facebook id of the transcribed post, as a string.
+   */
+  postId?: string;
   transcript: string;
   [extra: string]: unknown;
 }
@@ -1569,14 +2315,27 @@ export interface FacebookPostTranscriptData {
  */
 export interface FacebookProfileInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Facebook page handle/username.
    */
   handle?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full Facebook page URL.
    */
@@ -1596,12 +2355,44 @@ export interface FacebookProfileData {
    * Populated whenever the provider has data for the entity.
    */
   category: string;
+  /**
+   * Cover photo image URL of the page or profile.
+   */
+  coverPhotoUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
   followers: number;
+  /**
+   * Numeric Facebook id of the page or profile.
+   */
+  id?: string;
   likes: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   name: string;
+  /**
+   * Whether the page is an active business page.
+   */
+  pageActive?: boolean;
+  /**
+   * Public phone number listed on the page.
+   */
+  phone?: string;
+  /**
+   * Number of people talking about the page.
+   */
+  talkingAboutCount?: number;
+  /**
+   * Canonical Facebook URL of the page or profile.
+   */
+  url?: string;
+  /**
+   * Website listed on the page.
+   */
+  website?: string;
   [extra: string]: unknown;
 }
 
@@ -1610,14 +2401,27 @@ export interface FacebookProfileData {
  */
 export interface FacebookProfileEventsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * The Facebook page URL.
    */
@@ -1672,9 +2476,18 @@ export interface FacebookProfileEventsData {
  */
 export interface FacebookProfilePostsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Facebook page id.
    */
@@ -1684,6 +2497,10 @@ export interface FacebookProfilePostsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full Facebook page/profile URL.
    */
@@ -1696,6 +2513,14 @@ export interface FacebookProfilePostsPost {
    */
   author: string;
   /**
+   * Numeric Facebook id of the page or profile that posted, as a string.
+   */
+  authorId?: string;
+  /**
+   * Comment count on the post.
+   */
+  comments?: number;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
@@ -1703,6 +2528,14 @@ export interface FacebookProfilePostsPost {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Preview image or video thumbnail URL for the post.
+   */
+  image?: string;
+  /**
+   * Total reaction count on the post.
+   */
+  likes?: number;
   /**
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
    */
@@ -1763,14 +2596,27 @@ export interface FacebookProfilePostsData {
  */
 export interface FacebookProfileReelsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Pagination cursor from a previous response.
    */
   cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Full Facebook page/profile URL.
    */
@@ -1779,6 +2625,22 @@ export interface FacebookProfileReelsInput {
 
 export interface FacebookProfileReelsReel {
   /**
+   * Numeric Facebook id of the page or profile that posted the reel, as a string.
+   */
+  authorId?: string;
+  /**
+   * Profile picture URL of the page or profile that posted the reel.
+   */
+  authorImage?: string;
+  /**
+   * Display name of the page or profile that posted the reel.
+   */
+  authorName?: string;
+  /**
+   * Whether the posting page or profile carries a Facebook verification badge.
+   */
+  authorVerified?: boolean;
+  /**
    * Reel caption text. Populated whenever the provider has data for the entity.
    */
   caption: string;
@@ -1786,6 +2648,14 @@ export interface FacebookProfileReelsReel {
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
+  /**
+   * Length of the reel in seconds.
+   */
+  durationSeconds?: number;
+  /**
+   * Facebook feedback id of the reel, used to fetch its comments.
+   */
+  feedbackId?: string;
   /**
    * Reel identifier. Populated whenever the provider has data for the entity.
    */
@@ -1820,6 +2690,15 @@ export interface FacebookProfileReelsData {
  */
 export interface FacebookSearchCompaniesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -1828,6 +2707,10 @@ export interface FacebookSearchCompaniesInput {
    * Keyword to search advertiser pages for (e.g. "nike").
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface FacebookSearchCompaniesCompanie {
@@ -1849,6 +2732,10 @@ export interface FacebookSearchCompaniesCompanie {
    */
   igUsername: string;
   /**
+   * Whether the page's linked Instagram account is verified.
+   */
+  igVerified?: boolean;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   imageUrl: string;
@@ -1861,6 +2748,10 @@ export interface FacebookSearchCompaniesCompanie {
    * Populated whenever the provider has data for the entity.
    */
   pageAlias: string;
+  /**
+   * Whether the Facebook Page has been deleted.
+   */
+  pageDeleted?: boolean;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1884,6 +2775,15 @@ export interface FacebookSearchCompaniesData {
  */
 export interface FacebookSearchPagesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 10.
    */
@@ -1901,13 +2801,37 @@ export interface FacebookSearchPagesInput {
    * Keyword to search Facebook Pages for (e.g. 'coffee roasters').
    */
   query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface FacebookSearchPagesItem {
   /**
+   * The page's intro text.
+   */
+  about?: string;
+  /**
+   * Facebook Ad Library status sentence for the page, e.g. whether it is currently running ads.
+   */
+  adStatus?: string;
+  /**
+   * Categories Facebook lists the page under.
+   */
+  categories?: string[];
+  /**
    * The page's primary category (e.g. "Sportswear Store"). Empty when the upstream omits it.
    */
   category?: string;
+  /**
+   * Cover photo image URL of the page.
+   */
+  coverPhotoUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
   /**
    * The page's follower count.
    */
@@ -1924,6 +2848,14 @@ export interface FacebookSearchPagesItem {
    * The page's like count.
    */
   likes?: number;
+  /**
+   * Confirmed owner of the page, when Facebook publishes one.
+   */
+  owner?: string;
+  /**
+   * The page's vanity URL alias, e.g. "nikesportswear".
+   */
+  pageAlias?: string;
   /**
    * The page's public phone number. Empty when the upstream omits it.
    */
@@ -1958,9 +2890,18 @@ export interface FacebookSearchPagesData {
  */
 export interface FacebookSearchPostsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2024-12-31).
    */
   endDate?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
    * Range: minimum 1, maximum 20.
@@ -1980,9 +2921,33 @@ export interface FacebookSearchPostsInput {
    */
   query: string;
   /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
    * Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2024-01-01).
    */
   startDate?: string;
+}
+
+export interface FacebookSearchPostsAlbumPreview {
+  /**
+   * Numeric Facebook id of the photo, as a string.
+   */
+  id?: string;
+  /**
+   * Image URL of the photo.
+   */
+  image?: string;
+  /**
+   * Kind of attachment, e.g. "photo".
+   */
+  type?: string;
+  /**
+   * Canonical Facebook URL of the photo.
+   */
+  url?: string;
+  [extra: string]: unknown;
 }
 
 export interface FacebookSearchPostsItem {
@@ -2034,9 +2999,62 @@ export interface FacebookSearchPostsItem {
  */
 export interface FacebookSearchPostsData {
   /**
+   * Preview of the photos attached to the post.
+   */
+  albumPreview?: FacebookSearchPostsAlbumPreview[];
+  /**
+   * Numeric Facebook id of the page or profile that posted, as a string.
+   */
+  authorId?: string;
+  /**
+   * Profile picture URL of the page or profile that posted.
+   */
+  authorImage?: string;
+  /**
+   * Number of images attached to the post.
+   */
+  imagesCount?: number;
+  /**
    * Matching public Facebook post records for the query. Populated whenever the provider has data for the entity.
    */
   items: FacebookSearchPostsItem[];
+  /**
+   * Reaction counts on the post, broken down by reaction type.
+   */
+  reactions?: {
+    /**
+     * Angry reactions.
+     */
+    angry?: number;
+    /**
+     * Care reactions.
+     */
+    care?: number;
+    /**
+     * Haha reactions.
+     */
+    haha?: number;
+    /**
+     * Like reactions.
+     */
+    like?: number;
+    /**
+     * Love reactions.
+     */
+    love?: number;
+    /**
+     * Sad reactions.
+     */
+    sad?: number;
+    /**
+     * Wow reactions.
+     */
+    wow?: number;
+  };
+  /**
+   * Kind of record Facebook returned, e.g. "post".
+   */
+  type?: string;
 }
 
 /**
@@ -2054,7 +3072,7 @@ export class FacebookNamespace {
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.facebook.adDetails({ id: "1249043200627555" });
+   * const res = await client.facebook.adDetails({ id: "962050096457659" });
    */
   adDetails(
     input: FacebookAdDetailsInput,
@@ -2071,7 +3089,7 @@ export class FacebookNamespace {
    * Price: $0.00462 per request plus $0 per result (maximum $0.00462).
    *
    * @example
-   * const res = await client.facebook.adDetailsFull({ id: "1519158199783790" });
+   * const res = await client.facebook.adDetailsFull({ id: "962050096457659" });
    */
   adDetailsFull(
     input: FacebookAdDetailsFullInput,
@@ -2333,7 +3351,7 @@ export class FacebookNamespace {
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.facebook.groupPosts({ url: "https://www.facebook.com/groups/1270525996445602/" });
+   * const res = await client.facebook.groupPosts({ url: "https://www.facebook.com/groups/instantpotcommunity/" });
    */
   groupPosts(
     input: FacebookGroupPostsInput,

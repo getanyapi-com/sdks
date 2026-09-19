@@ -93,6 +93,10 @@ import type {
   CompanyEnrichmentProspeoInput,
 } from "./platforms/company_enrichment.js";
 import type {
+  CompanyIdentifyCrustdataV3Data,
+  CompanyIdentifyCrustdataV3Input,
+} from "./platforms/company_identify.js";
+import type {
   CompanySearchAiArkData,
   CompanySearchAiArkInput,
   CompanySearchCrustdataV3Data,
@@ -113,9 +117,9 @@ import type {
   CongressTradesInput,
 } from "./platforms/congress.js";
 import type {
-  DexscreenerTokensData,
-  DexscreenerTokensInput,
-} from "./platforms/dexscreener.js";
+  ContactEnrichmentCrustdataV3Data,
+  ContactEnrichmentCrustdataV3Input,
+} from "./platforms/contact_enrichment.js";
 import type {
   DouyinProfileData,
   DouyinProfileInput,
@@ -379,6 +383,8 @@ import type {
   InstagramUserReelsInput,
   InstagramUserRepostsData,
   InstagramUserRepostsInput,
+  InstagramWebReelsSearchData,
+  InstagramWebReelsSearchInput,
 } from "./platforms/instagram.js";
 import type {
   JobSearchTheirstackData,
@@ -501,6 +507,8 @@ import type {
 import type {
   PersonEnrichmentBettercontactData,
   PersonEnrichmentBettercontactInput,
+  PersonEnrichmentCrustdataV3Data,
+  PersonEnrichmentCrustdataV3Input,
   PersonEnrichmentFullenrichBulkData,
   PersonEnrichmentFullenrichBulkInput,
   PersonEnrichmentFullenrichReverseEmailData,
@@ -527,10 +535,16 @@ import type {
   PolymarketMarketsInput,
 } from "./platforms/polymarket.js";
 import type {
+  PropertyRecordsEnformionData,
+  PropertyRecordsEnformionInput,
+} from "./platforms/property_records.js";
+import type {
   RealtorSearchData,
   RealtorSearchInput,
 } from "./platforms/realtor.js";
 import type {
+  RedditAvatarData,
+  RedditAvatarInput,
   RedditPostCommentsData,
   RedditPostCommentsInput,
   RedditPostData,
@@ -674,18 +688,28 @@ import type {
   TiktokLiveInput,
   TiktokPhotosData,
   TiktokPhotosInput,
+  TiktokPlaylistVideosData,
+  TiktokPlaylistVideosInput,
   TiktokProfileContactData,
   TiktokProfileContactInput,
   TiktokProfileData,
   TiktokProfileInput,
+  TiktokProfilePlaylistsData,
+  TiktokProfilePlaylistsInput,
   TiktokProfileRegionData,
   TiktokProfileRegionInput,
+  TiktokProfileRepostsData,
+  TiktokProfileRepostsInput,
   TiktokProfileVideosData,
   TiktokProfileVideosInput,
   TiktokSearchHashtagData,
   TiktokSearchHashtagInput,
   TiktokSearchKeywordData,
   TiktokSearchKeywordInput,
+  TiktokSearchPhotosData,
+  TiktokSearchPhotosInput,
+  TiktokSearchSuggestionsData,
+  TiktokSearchSuggestionsInput,
   TiktokSearchTopData,
   TiktokSearchTopInput,
   TiktokSearchUsersData,
@@ -714,8 +738,6 @@ import type {
 import type {
   TiktokShopCategoriesData,
   TiktokShopCategoriesInput,
-  TiktokShopCategoryProductsData,
-  TiktokShopCategoryProductsInput,
   TiktokShopCreatorData,
   TiktokShopCreatorInput,
   TiktokShopProductData,
@@ -1045,6 +1067,11 @@ export interface SkuMap {
     data: CompanyEnrichmentProspeoData;
     result: RunResult<CompanyEnrichmentProspeoData>;
   };
+  "company_identify.crustdata_v3": {
+    input: CompanyIdentifyCrustdataV3Input;
+    data: CompanyIdentifyCrustdataV3Data;
+    result: RunResult<CompanyIdentifyCrustdataV3Data>;
+  };
   "company_search.ai_ark": {
     input: CompanySearchAiArkInput;
     data: CompanySearchAiArkData;
@@ -1085,10 +1112,10 @@ export interface SkuMap {
     data: CongressTradesData;
     result: RunResult<CongressTradesData>;
   };
-  "dexscreener.tokens": {
-    input: DexscreenerTokensInput;
-    data: DexscreenerTokensData;
-    result: RunResult<DexscreenerTokensData>;
+  "contact_enrichment.crustdata_v3": {
+    input: ContactEnrichmentCrustdataV3Input;
+    data: ContactEnrichmentCrustdataV3Data;
+    result: RunResult<ContactEnrichmentCrustdataV3Data>;
   };
   "douyin.profile": {
     input: DouyinProfileInput;
@@ -1675,6 +1702,11 @@ export interface SkuMap {
     data: InstagramUserRepostsData;
     result: RunResult<InstagramUserRepostsData>;
   };
+  "instagram.web_reels_search": {
+    input: InstagramWebReelsSearchInput;
+    data: InstagramWebReelsSearchData;
+    result: RunResult<InstagramWebReelsSearchData>;
+  };
   "job_search.theirstack": {
     input: JobSearchTheirstackInput;
     data: JobSearchTheirstackData;
@@ -1930,6 +1962,11 @@ export interface SkuMap {
     data: PersonEnrichmentBettercontactData;
     result: RunResult<PersonEnrichmentBettercontactData>;
   };
+  "person_enrichment.crustdata_v3": {
+    input: PersonEnrichmentCrustdataV3Input;
+    data: PersonEnrichmentCrustdataV3Data;
+    result: RunResult<PersonEnrichmentCrustdataV3Data>;
+  };
   "person_enrichment.fullenrich_bulk": {
     input: PersonEnrichmentFullenrichBulkInput;
     data: PersonEnrichmentFullenrichBulkData;
@@ -1975,10 +2012,20 @@ export interface SkuMap {
     data: PolymarketMarketsData;
     result: RunResult<PolymarketMarketsData>;
   };
+  "property_records.enformion": {
+    input: PropertyRecordsEnformionInput;
+    data: PropertyRecordsEnformionData;
+    result: RunResult<PropertyRecordsEnformionData>;
+  };
   "realtor.search": {
     input: RealtorSearchInput;
     data: RealtorSearchData;
     result: RunResult<RealtorSearchData>;
+  };
+  "reddit.avatar": {
+    input: RedditAvatarInput;
+    data: RedditAvatarData;
+    result: RunResult<RedditAvatarData>;
   };
   "reddit.post": {
     input: RedditPostInput;
@@ -2285,6 +2332,11 @@ export interface SkuMap {
     data: TiktokPhotosData;
     result: RunResult<TiktokPhotosData>;
   };
+  "tiktok.playlist_videos": {
+    input: TiktokPlaylistVideosInput;
+    data: TiktokPlaylistVideosData;
+    result: RunResult<TiktokPlaylistVideosData>;
+  };
   "tiktok.profile": {
     input: TiktokProfileInput;
     data: TiktokProfileData;
@@ -2295,10 +2347,20 @@ export interface SkuMap {
     data: TiktokProfileContactData;
     result: RunResult<TiktokProfileContactData>;
   };
+  "tiktok.profile_playlists": {
+    input: TiktokProfilePlaylistsInput;
+    data: TiktokProfilePlaylistsData;
+    result: RunResult<TiktokProfilePlaylistsData>;
+  };
   "tiktok.profile_region": {
     input: TiktokProfileRegionInput;
     data: TiktokProfileRegionData;
     result: RunResult<TiktokProfileRegionData>;
+  };
+  "tiktok.profile_reposts": {
+    input: TiktokProfileRepostsInput;
+    data: TiktokProfileRepostsData;
+    result: RunResult<TiktokProfileRepostsData>;
   };
   "tiktok.profile_videos": {
     input: TiktokProfileVideosInput;
@@ -2314,6 +2376,16 @@ export interface SkuMap {
     input: TiktokSearchKeywordInput;
     data: TiktokSearchKeywordData;
     result: RunResult<TiktokSearchKeywordData>;
+  };
+  "tiktok.search_photos": {
+    input: TiktokSearchPhotosInput;
+    data: TiktokSearchPhotosData;
+    result: RunResult<TiktokSearchPhotosData>;
+  };
+  "tiktok.search_suggestions": {
+    input: TiktokSearchSuggestionsInput;
+    data: TiktokSearchSuggestionsData;
+    result: RunResult<TiktokSearchSuggestionsData>;
   };
   "tiktok.search_top": {
     input: TiktokSearchTopInput;
@@ -2379,11 +2451,6 @@ export interface SkuMap {
     input: TiktokShopCategoriesInput;
     data: TiktokShopCategoriesData;
     result: RunResult<TiktokShopCategoriesData>;
-  };
-  "tiktok_shop.category_products": {
-    input: TiktokShopCategoryProductsInput;
-    data: TiktokShopCategoryProductsData;
-    result: RunResult<TiktokShopCategoryProductsData>;
   };
   "tiktok_shop.creator": {
     input: TiktokShopCreatorInput;

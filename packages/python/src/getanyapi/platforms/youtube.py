@@ -24,108 +24,162 @@ if TYPE_CHECKING:
 class YoutubeChannelInput(TypedDict, total=False):
     """Input for YouTube Channel."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     channelId: NotRequired[str]
     """YouTube channel ID (UC...)."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeChannelCommunityPostsInput(TypedDict, total=False):
     """Input for YouTube Channel Community Posts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     channelId: NotRequired[str]
     """YouTube channel ID."""
     cursor: NotRequired[str]
     """Continuation token from a previous response for pagination."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeChannelContactInput(TypedDict, total=False):
     """Input for YouTube Channel Contact Email."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     channelId: NotRequired[str]
     """YouTube channel ID (UC...)."""
     handle: NotRequired[str]
     """YouTube channel handle, with or without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeChannelLivesInput(TypedDict, total=False):
     """Input for YouTube Channel Live Streams."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     channelId: NotRequired[str]
     """YouTube channel ID."""
     cursor: NotRequired[str]
     """Continuation token from a previous response for pagination."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeChannelPlaylistsInput(TypedDict, total=False):
     """Input for YouTube Channel Playlists."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     channelId: NotRequired[str]
     """YouTube channel ID."""
     cursor: NotRequired[str]
     """Continuation token from a previous response for pagination."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeChannelShortsInput(TypedDict, total=False):
     """Input for YouTube Channel Shorts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     channelId: NotRequired[str]
     """YouTube channel ID beginning with UC."""
     cursor: NotRequired[str]
     """Continuation token from a previous response."""
     handle: NotRequired[str]
     """YouTube channel handle, including or omitting the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["latest", "newest", "popular"]]
     """Sort order for the Shorts feed. latest and newest are equivalent."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeChannelVideosInput(TypedDict, total=False):
     """Input for YouTube Channel Videos."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     channelId: NotRequired[str]
     """YouTube channel ID."""
     cursor: NotRequired[str]
     """Continuation token from a previous response for pagination."""
     handle: NotRequired[str]
     """YouTube channel handle."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     sort: NotRequired[Literal["latest", "popular"]]
     """Sort order."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeCommentRepliesInput(TypedDict, total=False):
     """Input for YouTube Comment Replies."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     continuationToken: Required[str]
     """Replies continuation token from the comments endpoint, or the continuationToken from a previous replies response for further pagination."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeCommunityPostInput(TypedDict, total=False):
     """Input for YouTube Community Post."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """URL of the YouTube community post."""
 
@@ -133,27 +187,51 @@ class YoutubeCommunityPostInput(TypedDict, total=False):
 class YoutubePlaylistInput(TypedDict, total=False):
     """Input for YouTube Playlist."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     playlistId: Required[str]
     """The playlist ID: the "list" parameter in a playlist URL (e.g. "PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi")."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeSearchInput(TypedDict, total=False):
     """Input for YouTube Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Continuation token from a previous response for pagination."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The YouTube search query."""
     requireCursor: NotRequired[bool]
     """Deprecated; send `requireFields: ["nextCursor"]` instead, which does exactly the same thing. Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Omit it and routing is unchanged, with the cheapest source serving. This can raise your price: when the cheapest source cannot page, a source that can serves, and you are quoted and charged its price. It stays accepted so callers that already send it keep working."""
-    requireFields: NotRequired[list[Literal["lengthText", "nextCursor", "views"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "authorAvatarUrl",
+                "authorId",
+                "createdUtc",
+                "image",
+                "lengthText",
+                "nextCursor",
+                "views",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     sortBy: NotRequired[Literal["relevance", "popular"]]
     """Sort order: "relevance" (default) or "popular" (most-viewed). Default: relevance."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     uploadDate: NotRequired[Literal["today", "this_week", "this_month", "this_year"]]
     """Filter by upload recency. Omit for any time."""
 
@@ -161,12 +239,18 @@ class YoutubeSearchInput(TypedDict, total=False):
 class YoutubeSearchHashtagInput(TypedDict, total=False):
     """Input for YouTube Hashtag Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Continuation token from a previous response for pagination."""
     hashtag: Required[str]
     """Hashtag to search for (without the leading #)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     type: NotRequired[Literal["all"]]
     """Content filter. Only "all" is served: no source we buy returns a Shorts row with the channel and publish time this endpoint requires."""
 
@@ -174,14 +258,20 @@ class YoutubeSearchHashtagInput(TypedDict, total=False):
 class YoutubeSearchShortsInput(TypedDict, total=False):
     """Input for YouTube Shorts Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Continuation token from a previous response for pagination."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The keyword to search Shorts for."""
     sortBy: NotRequired[Literal["relevance", "popular"]]
     """Sort order: "relevance" (default) or "popular" (most-viewed). Default: relevance."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     uploadDate: NotRequired[Literal["today", "this_week", "this_month", "this_year"]]
     """Filter by upload recency. Omit for any time."""
 
@@ -189,17 +279,29 @@ class YoutubeSearchShortsInput(TypedDict, total=False):
 class YoutubeTrendingShortsInput(TypedDict, total=False):
     """Input for YouTube Trending Shorts."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class YoutubeVideoInput(TypedDict, total=False):
     """Input for YouTube Video."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """YouTube video ID. A Short uses the same ID as any other video."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Full YouTube video URL. Shorts (youtube.com/shorts/...), youtu.be, live, and embed URLs all work."""
 
@@ -207,12 +309,18 @@ class YoutubeVideoInput(TypedDict, total=False):
 class YoutubeVideoCommentsInput(TypedDict, total=False):
     """Input for YouTube Video Comments."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Continuation token from a previous response for pagination."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     order: NotRequired[str]
     """Comment order (e.g. top, newest)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full YouTube video URL. Shorts (youtube.com/shorts/...) and youtu.be URLs also work."""
 
@@ -220,10 +328,16 @@ class YoutubeVideoCommentsInput(TypedDict, total=False):
 class YoutubeVideoSponsorsInput(TypedDict, total=False):
     """Input for YouTube Video Sponsors."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """2-letter language code for transcript lookup (e.g. en, es, fr)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """YouTube video or Short URL."""
 
@@ -231,10 +345,16 @@ class YoutubeVideoSponsorsInput(TypedDict, total=False):
 class YoutubeVideoTranscriptInput(TypedDict, total=False):
     """Input for YouTube Video Transcript."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """YouTube video ID. A Short uses the same ID as any other video."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Full YouTube video URL. Shorts (youtube.com/shorts/...), youtu.be, live, and embed URLs all work."""
 
@@ -242,8 +362,12 @@ class YoutubeVideoTranscriptInput(TypedDict, total=False):
 class YoutubeVideoTranscriptFullInput(TypedDict, total=False):
     """Input for YouTube Video Transcript (Provenance)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     captionKind: NotRequired[Literal["manual", "automatic", "any"]]
     """Which caption track to accept: "manual" only creator-written captions, "automatic" only YouTube's speech recognition, "any" whichever exists. Default: any."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     language: NotRequired[str]
     """Preferred caption language code (e.g. "en", "es"). Defaults to English."""
     preferLatencyUnderMs: NotRequired[int]
@@ -251,17 +375,30 @@ class YoutubeVideoTranscriptFullInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
+                "authorId",
+                "authorUrl",
+                "category",
                 "channel",
+                "createdUtc",
+                "description",
                 "durationSeconds",
                 "endSeconds",
+                "image",
                 "isAiGenerated",
+                "keywords",
+                "likes",
                 "startSeconds",
                 "text",
                 "title",
+                "url",
+                "videoId",
+                "views",
             ]
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAiGenerated`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """YouTube video or Short URL (e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ" or "https://www.youtube.com/shorts/Fir1x9cw2vg")."""
 
@@ -277,9 +414,16 @@ class YoutubeChannelData(BaseModel):
     description: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    handle: str | None = Field(
+        default=None, description='The channel\'s @handle, for example "@mkbhd".'
+    )
     subscribers: int
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical URL of the channel page, tracking query parameters stripped.",
     )
     videos: int
     views: int
@@ -300,13 +444,36 @@ class YoutubeChannelCommunityPostsData(BaseModel):
 class YoutubeChannelCommunityPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    channel_handle: str | None = Field(
+        default=None,
+        alias="channelHandle",
+        description="The publishing channel's @handle, without the leading @.",
+    )
+    channel_id: str | None = Field(
+        default=None,
+        alias="channelId",
+        description="YouTube channel ID of the channel that published the post.",
+    )
+    channel_title: str | None = Field(
+        default=None,
+        alias="channelTitle",
+        description="Display name of the channel that published the post.",
+    )
     content: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     image: str
+    images: list[str] | None = Field(
+        default=None, description="URLs of every image attached to the post."
+    )
     like_count: int = Field(alias="likeCount")
     published_time: str = Field(
         alias="publishedTime",
@@ -342,6 +509,10 @@ class YoutubeChannelLivesLive(BaseModel):
 
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the live stream thumbnail image, tracking query parameters stripped.",
     )
     length_text: str = Field(alias="lengthText")
     published_time: str = Field(
@@ -384,6 +555,16 @@ class YoutubeChannelPlaylistsPlaylist(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     video_count: int = Field(alias="videoCount")
+    video_id: str | None = Field(
+        default=None,
+        alias="videoId",
+        description="Video ID of the playlist's lead video.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Watch URL of the playlist's lead video.",
+    )
 
 
 class YoutubeChannelShortsData(BaseModel):
@@ -415,6 +596,10 @@ class YoutubeChannelShortsShort(BaseModel):
     )
     id: str = Field(
         description="Unique YouTube video identifier. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the short thumbnail image, tracking query parameters stripped.",
     )
     likes: int = Field(
         description="Public like count when supplied by the upstream response. Minimum: 0."
@@ -450,8 +635,17 @@ class YoutubeChannelVideosData(BaseModel):
 class YoutubeChannelVideosVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the video thumbnail image, tracking query parameters stripped.",
     )
     length_text: str = Field(alias="lengthText")
     published_time: str = Field(
@@ -479,12 +673,37 @@ class YoutubeCommentRepliesData(BaseModel):
 class YoutubeCommentRepliesComment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_avatar_url: str | None = Field(
+        default=None,
+        alias="authorAvatarUrl",
+        description="URL of the reply author's avatar image.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="The reply author's YouTube channel ID.",
+    )
     author_name: str = Field(
         alias="authorName",
         description="Populated whenever the provider has data for the entity.",
     )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the reply author's channel, tracking query parameters stripped.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the reply author is a verified channel.",
+    )
     content: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -503,6 +722,11 @@ class YoutubeCommunityPostData(BaseModel):
         alias="channelHandle",
         description="Populated whenever the provider has data for the entity.",
     )
+    channel_id: str | None = Field(
+        default=None,
+        alias="channelId",
+        description="YouTube channel ID of the channel that published the post.",
+    )
     channel_title: str = Field(
         alias="channelTitle",
         description="Populated whenever the provider has data for the entity.",
@@ -510,8 +734,22 @@ class YoutubeCommunityPostData(BaseModel):
     content: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None, description="URL of the post's primary image."
+    )
+    images: list[str] | None = Field(
+        default=None, description="URLs of every image attached to the post."
+    )
+    like_count: int | None = Field(
+        default=None, alias="likeCount", description="Number of likes on the post."
     )
     published_time: str = Field(
         alias="publishedTime",
@@ -522,6 +760,21 @@ class YoutubeCommunityPostData(BaseModel):
 class YoutubePlaylistData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="The playlist owner's @handle, without the leading @.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="YouTube channel ID of the playlist owner.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the playlist owner's channel, tracking query parameters stripped.",
+    )
     owner: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -573,11 +826,30 @@ class YoutubeSearchData(BaseModel):
 class YoutubeSearchVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_avatar_url: str | None = Field(
+        default=None,
+        alias="authorAvatarUrl",
+        description="URL of the publishing channel's avatar image.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="YouTube channel ID of the publishing channel.",
+    )
     channel: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the video thumbnail image, tracking query parameters stripped.",
     )
     length_text: str = Field(alias="lengthText")
     published_time: str = Field(
@@ -608,12 +880,41 @@ class YoutubeSearchHashtagData(BaseModel):
 class YoutubeSearchHashtagVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_avatar_url: str | None = Field(
+        default=None,
+        alias="authorAvatarUrl",
+        description="URL of the publishing channel's avatar image.",
+    )
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="The publishing channel's @handle, without the leading @.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="YouTube channel ID of the publishing channel.",
+    )
     channel_title: str = Field(
         alias="channelTitle",
         description="Populated whenever the provider has data for the entity.",
     )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    duration_seconds: int | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Length of the video in seconds.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the video thumbnail image, tracking query parameters stripped.",
     )
     length_text: str = Field(alias="lengthText")
     published_time: str = Field(
@@ -676,15 +977,50 @@ class YoutubeTrendingShortsData(BaseModel):
 class YoutubeTrendingShortsShort(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="The publishing channel's @handle, without the leading @.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="YouTube channel ID of the publishing channel.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the publishing channel, tracking query parameters stripped.",
+    )
+    category: str | None = Field(
+        default=None, description="YouTube category the short is filed under."
+    )
     channel_title: str = Field(
         alias="channelTitle",
         description="Populated whenever the provider has data for the entity.",
     )
+    comments: int | None = Field(
+        default=None, description="Number of comments on the short."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
     duration: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    duration_ms: int | None = Field(
+        default=None,
+        alias="durationMs",
+        description="Length of the short in milliseconds.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the short thumbnail image, tracking query parameters stripped.",
     )
     likes: int
     title: str = Field(
@@ -699,6 +1035,25 @@ class YoutubeTrendingShortsShort(BaseModel):
 class YoutubeVideoData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_avatar_url: str | None = Field(
+        default=None,
+        alias="authorAvatarUrl",
+        description="URL of the publishing channel's avatar image.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="YouTube channel ID of the publishing channel.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the publishing channel, tracking query parameters stripped.",
+    )
+    category: str | None = Field(
+        default=None,
+        description='YouTube category the video is filed under, for example "Music".',
+    )
     channel: str = Field(
         description="Name of the channel that published the video. Populated whenever the provider has data for the entity."
     )
@@ -707,11 +1062,20 @@ class YoutubeVideoData(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
     )
+    description: str | None = Field(
+        default=None, description="Full video description text."
+    )
     duration_ms: int = Field(
         alias="durationMs", description="Duration of the video in milliseconds."
     )
     id: str = Field(
         description="Unique identifier of the video. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None, description="URL of the video thumbnail image."
+    )
+    keywords: list[str] | None = Field(
+        default=None, description="Keywords the uploader tagged the video with."
     )
     likes: int = Field(description="Number of likes.")
     title: str = Field(
@@ -738,6 +1102,21 @@ class YoutubeVideoCommentsComment(BaseModel):
     author: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    author_avatar_url: str | None = Field(
+        default=None,
+        alias="authorAvatarUrl",
+        description="URL of the comment author's avatar image.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="The comment author's YouTube channel ID.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the comment author's channel, tracking query parameters stripped.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -755,6 +1134,31 @@ class YoutubeVideoCommentsComment(BaseModel):
 class YoutubeVideoSponsorsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    author_avatar_url: str | None = Field(
+        default=None,
+        alias="authorAvatarUrl",
+        description="URL of the publishing channel's avatar image.",
+    )
+    author_handle: str | None = Field(
+        default=None,
+        alias="authorHandle",
+        description="The publishing channel's @handle, without the leading @.",
+    )
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="YouTube channel ID of the publishing channel.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Display name of the publishing channel.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the publishing channel, tracking query parameters stripped.",
+    )
     detection_status: str = Field(
         alias="detectionStatus",
         description="Populated whenever the provider has data for the entity.",
@@ -766,6 +1170,7 @@ class YoutubeVideoSponsorsData(BaseModel):
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    url: str | None = Field(default=None, description="Watch URL of the video.")
     video_id: str = Field(
         alias="videoId",
         description="Populated whenever the provider has data for the entity.",
@@ -810,13 +1215,38 @@ class YoutubeVideoTranscriptSegment(BaseModel):
 class YoutubeVideoTranscriptFullData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_id: str | None = Field(
+        default=None,
+        alias="authorId",
+        description="YouTube channel ID of the publishing channel.",
+    )
+    author_url: str | None = Field(
+        default=None,
+        alias="authorUrl",
+        description="Canonical URL of the publishing channel, tracking query parameters stripped.",
+    )
+    category: str | None = Field(
+        default=None,
+        description='YouTube category the video is filed under, for example "Music".',
+    )
     channel: str | None = Field(
         default=None, description="Channel name that published the video."
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    description: str | None = Field(
+        default=None, description="Full video description text."
     )
     duration_seconds: float | None = Field(
         default=None,
         alias="durationSeconds",
         description="Video duration in seconds. Minimum: 0.",
+    )
+    image: str | None = Field(
+        default=None, description="URL of the video thumbnail image."
     )
     is_ai_generated: bool | None = Field(
         default=None,
@@ -827,9 +1257,13 @@ class YoutubeVideoTranscriptFullData(BaseModel):
         alias="isAutoGenerated",
         description="True when YouTube generated the caption track by speech recognition rather than the creator supplying it. Automatic captions carry recognition errors, especially on names and jargon. Populated whenever the provider has data for the entity.",
     )
+    keywords: list[str] | None = Field(
+        default=None, description="Keywords the uploader tagged the video with."
+    )
     language: str = Field(
         description='Caption language code (e.g. "en"). Populated whenever the provider has data for the entity.'
     )
+    likes: int | None = Field(default=None, description="Number of likes.")
     segments: list[YoutubeVideoTranscriptFullSegment] | None = Field(
         default=None,
         description="Timed transcript segments in playback order. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -838,6 +1272,11 @@ class YoutubeVideoTranscriptFullData(BaseModel):
     transcript: str = Field(
         description="Full transcript text, segments joined in playback order. Populated whenever the provider has data for the entity."
     )
+    url: str | None = Field(default=None, description="Watch URL of the video.")
+    video_id: str | None = Field(
+        default=None, alias="videoId", description="Unique identifier of the video."
+    )
+    views: int | None = Field(default=None, description="Number of views.")
 
 
 class YoutubeVideoTranscriptFullSegment(BaseModel):
@@ -1370,7 +1809,7 @@ class YoutubeNamespace:
         List the comments on a YouTube video or Short by URL with cursor pagination
         (text, author, likes, reply count).
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.youtube.video_comments(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -1434,7 +1873,7 @@ class YoutubeNamespace:
 
         Fetch the transcript/captions of a YouTube video or Short by URL or ID.
 
-        Price: $0.00125 per request.
+        Price: $0.011 per request.
 
         Example:
             res = client.youtube.video_transcript(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -1987,7 +2426,7 @@ class AsyncYoutubeNamespace:
         List the comments on a YouTube video or Short by URL with cursor pagination
         (text, author, likes, reply count).
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.youtube.video_comments(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2051,7 +2490,7 @@ class AsyncYoutubeNamespace:
 
         Fetch the transcript/captions of a YouTube video or Short by URL or ID.
 
-        Price: $0.00125 per request.
+        Price: $0.011 per request.
 
         Example:
             res = client.youtube.video_transcript(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")

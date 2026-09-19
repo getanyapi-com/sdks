@@ -18,6 +18,10 @@ if TYPE_CHECKING:
 class PolymarketMarketsInput(TypedDict, total=False):
     """Input for Polymarket Markets."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
     preferLatencyUnderMs: NotRequired[int]
@@ -35,6 +39,8 @@ class PolymarketMarketsInput(TypedDict, total=False):
         ]
     ]
     """How discovered markets are ordered before results are returned (e.g. volume_24hr for recent momentum). Default: volume_24hr."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     status: NotRequired[Literal["active", "resolved"]]
     """Return "active" markets for current prices and volume, or "resolved" markets for historical outcomes. Default: active."""
 
@@ -48,10 +54,43 @@ class PolymarketMarketsData(BaseModel):
 class PolymarketMarketsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    best_ask: float | None = Field(
+        default=None,
+        alias="bestAsk",
+        description="Best ask currently on the order book (0 to 1).",
+    )
+    best_bid: float | None = Field(
+        default=None,
+        alias="bestBid",
+        description="Best bid currently on the order book (0 to 1).",
+    )
+    comment_count: int | None = Field(
+        default=None,
+        alias="commentCount",
+        description="Number of comments on the event.",
+    )
+    condition_id: str | None = Field(
+        default=None,
+        alias="conditionId",
+        description="On-chain condition identifier for the market.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the market was created.",
+    )
+    description: str | None = Field(
+        default=None, description="Resolution rules for the market."
+    )
     ends_utc: float | None = Field(
         default=None,
         alias="endsUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the market resolves/ends.",
+    )
+    event_id: str | None = Field(
+        default=None,
+        alias="eventId",
+        description="Identifier of the parent event grouping this market.",
     )
     event_title: str | None = Field(
         default=None,
@@ -62,20 +101,55 @@ class PolymarketMarketsItem(BaseModel):
         description="Polymarket market identifier. Populated whenever the provider has data for the entity."
     )
     image: str | None = Field(default=None, description="Event image URL.")
+    last_trade_price: float | None = Field(
+        default=None,
+        alias="lastTradePrice",
+        description="Price of the most recent trade (0 to 1).",
+    )
     liquidity_usd: float | None = Field(
         default=None, alias="liquidityUsd", description="Available liquidity in USD."
+    )
+    open_interest_usd: float | None = Field(
+        default=None, alias="openInterestUsd", description="Open interest in USD."
     )
     outcomes: list[PolymarketMarketsOutcome] | None = Field(
         default=None, description="Market outcomes with their current implied prices."
     )
+    slug: str | None = Field(default=None, description="URL slug of the market.")
+    spread: float | None = Field(
+        default=None, description="Difference between the best ask and the best bid."
+    )
+    starts_utc: float | None = Field(
+        default=None,
+        alias="startsUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When trading opened.",
+    )
     status: str | None = Field(
         default=None, description="Market status, e.g. active or closed."
+    )
+    tags: list[PolymarketMarketsTag] | None = Field(
+        default=None, description="Polymarket topic tags for the event."
     )
     title: str = Field(
         description="The market question. Populated whenever the provider has data for the entity."
     )
+    updated_utc: float | None = Field(
+        default=None,
+        alias="updatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the market was last updated.",
+    )
     url: str = Field(
         description="Polymarket URL for the market event. Populated whenever the provider has data for the entity."
+    )
+    volume1m_usd: float | None = Field(
+        default=None,
+        alias="volume1mUsd",
+        description="Traded volume in USD over the past month.",
+    )
+    volume1w_usd: float | None = Field(
+        default=None,
+        alias="volume1wUsd",
+        description="Traded volume in USD over the past week.",
     )
     volume24h_usd: float | None = Field(
         default=None,
@@ -95,6 +169,13 @@ class PolymarketMarketsOutcome(BaseModel):
         default=None,
         description="Current implied probability price for the outcome (0 to 1).",
     )
+
+
+class PolymarketMarketsTag(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    name: str | None = Field(default=None, description="Tag label, e.g. Politics.")
+    slug: str | None = Field(default=None, description="Tag slug.")
 
 
 class PolymarketNamespace:
